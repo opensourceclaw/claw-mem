@@ -1,0 +1,68 @@
+# Friday Memory Backup - Git Ignore
+
+# === 排除敏感文件 ===
+*.log
+*.tmp
+*.swp
+*.swo
+*~
+**/.env
+**/secrets/
+**/tokens/
+**/*.pem
+**/*.key
+
+# === 排除系统文件 ===
+.DS_Store
+.AppleDouble
+.LSOverride
+._*
+
+# === 排除编辑器和 IDE ===
+.vscode/
+.idea/
+*.sublime-*
+
+# === 排除 Node/Python 缓存 ===
+**/node_modules/
+**/__pycache__/
+**/.cache/
+**/*.pyc
+**/*.pyo
+
+# === 排除 OpenClaw 内部状态文件 ===
+.openclaw/
+.clawhub/
+.workspace-state.json
+
+# === 排除 Skills 目录（技能会单独管理） ===
+skills/
+
+# === 排除临时和测试文件 ===
+friday_agent/
+friday_memory/
+friday_voice_test.mp3
+*.mp3
+*.wav
+
+# === 排除记忆系统的内部索引文件（只保留 Markdown） ===
+memory/stm/
+memory/vectors/
+memory/reflections/
+**/vector_index.json
+**/ngram_index.json
+**/pattern_index.json
+
+# === 排除脚本 ===
+scripts/
+
+# === 保留的核心文件 ===
+# ✅ AGENTS.md
+# ✅ SOUL.md
+# ✅ USER.md
+# ✅ IDENTITY.md
+# ✅ TOOLS.md
+# ✅ HEARTBEAT.md
+# ✅ README.md
+# ✅ memory/*.md (每日记忆日志)
+# ✅ MEMORY.md (长期记忆)
