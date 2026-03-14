@@ -2,6 +2,17 @@
 
 Skills define _how_ tools work. This file is for _your_ specifics — the stuff that's unique to your setup.
 
+---
+
+## 📚 经验教训（从 Agent-Memory 迁移）
+
+### 技能安装
+- ⚠️ **ClawHub 速率限制**：安装技能有速率限制，失败后等待 5-10 分钟再试
+- ✅ **最佳实践**：Friday 负责任务指挥，Claude Code 负责编码执行，组合使用效果最佳
+
+### 系统兼容
+- ⚠️ **macOS 版本**：macOS 11 (Big Sur) 太旧，gh CLI 依赖的 go 需要 macOS 12+
+
 ## What Goes Here
 
 Things like:
