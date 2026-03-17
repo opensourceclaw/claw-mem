@@ -1,0 +1,10 @@
+claw-mem - Professional AI Memory System
+Copyright 2026 The claw-mem Authors
+
+This product includes software developed at
+The claw-mem Project (https://github.com/yourusername/claw-mem).
+
+Portions of this software were developed using research from:
+- Engram: Conditional Memory via Scalable Lookup (DeepSeek-AI)
+- Context Engineering 2.0 (GAIR Lab, SJTU)
+- Fundamentals of Building Autonomous LLM Agents
