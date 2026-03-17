@@ -67,7 +67,7 @@ class KeywordRetriever:
         content = memory.get("content", "").lower()
         tags = [tag.lower() for tag in memory.get("tags", [])]
         
-        # Check if content contains query
+        # Check if content contains query (support both English and Chinese)
         if query_lower in content:
             return True
         
@@ -75,5 +75,10 @@ class KeywordRetriever:
         for tag in tags:
             if query_lower in tag:
                 return True
+        
+        # Check individual characters for Chinese queries
+        # This helps match "语言" in "用户偏好使用中文交流"
+        if any(char in content for char in query_lower if '\u4e00' <= char <= '\u9fff'):
+            return True
         
         return False

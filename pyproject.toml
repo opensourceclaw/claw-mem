@@ -4,8 +4,8 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "claw-mem"
-version = "0.1.0"
-description = "Professional AI Memory System for LLM Agents"
+version = "0.5.0"
+description = "Make OpenClaw Truly Remember - Advanced Memory System for LLM Agents"
 readme = "README.md"
 license = {text = "Apache-2.0"}
 authors = [

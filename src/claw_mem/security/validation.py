@@ -15,15 +15,20 @@ class WriteValidator:
     MVP version uses rule-based matching. Semantic analysis will be added in future iterations.
     """
     
-    # Unsafe patterns list
+    # Unsafe patterns list (English + Chinese)
     UNSAFE_PATTERNS = [
         r"ignore.*instruction",  # Ignore instructions
+        r"忽略.*指令",           # Ignore instructions (Chinese)
         r"override.*memory",     # Override memory
+        r"覆盖.*记忆",           # Override memory (Chinese)
         r"delete.*file",         # Delete files
+        r"删除.*文件",           # Delete files (Chinese)
         r"execute.*code",        # Execute code
+        r"执行.*代码",           # Execute code (Chinese)
         r"system:",              # System prompt injection
         r"<\|startoftext\|>",   # Special tokens
         r"act as.*system",       # Role-playing attacks
+        r"扮演.*系统",           # Role-playing attacks (Chinese)
     ]
     
     def __init__(self):
