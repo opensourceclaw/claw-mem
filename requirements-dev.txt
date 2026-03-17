@@ -1,0 +1,18 @@
+# Development dependencies
+pytest>=7.0.0
+pytest-cov>=3.0.0
+black>=22.0.0
+flake8>=4.0.0
+mypy>=0.950
+pre-commit>=2.0.0
+build>=0.7.0
+twine>=3.8.0
+
+# Optional: Vector search
+# faiss-cpu>=1.7.0
+# sentence-transformers>=2.0.0
+
+# Optional: Documentation
+# sphinx>=4.0.0
+# sphinx-rtd-theme>=1.0.0
+# myst-parser>=0.17.0
