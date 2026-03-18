@@ -180,7 +180,6 @@ python tests/compare_v050_v060.py
 
 ## Documentation
 
-- [Architecture Design](docs/ARCHITECTURE.md) - Three-layer memory architecture
 - [Chinese Support](docs/CHINESE_SUPPORT.md) - Hybrid tokenization guide
 - [Release Notes](docs/RELEASE_v060.md) - This document
 - [Test Report](tests/TEST_REPORT_v060.md) - Comprehensive testing results
