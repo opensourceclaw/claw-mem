@@ -96,7 +96,7 @@ pip install claw-mem
 pip install claw-mem jieba
 
 # Development installation
-git clone https://github.com/opensourceclaw/claw-mem.git
+git clone https://github.com/opensourceclaw/claw-mem/claw-mem.git
 cd claw-mem
 pip install -e ".[dev]"
 ```
