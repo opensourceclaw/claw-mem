@@ -11,10 +11,13 @@ from .memory_manager import MemoryManager
 from .storage.episodic import EpisodicStorage
 from .storage.semantic import SemanticStorage
 from .storage.procedural import ProceduralStorage
+from .storage.index import InMemoryIndex, WorkingMemoryCache
 
 __all__ = [
     "MemoryManager",
     "EpisodicStorage",
     "SemanticStorage",
     "ProceduralStorage",
+    "InMemoryIndex",
+    "WorkingMemoryCache",
 ]

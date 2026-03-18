@@ -55,6 +55,15 @@ class EpisodicStorage:
         with open(file_path, "a", encoding="utf-8") as f:
             f.write(content + "\n")
     
+    def get_all(self) -> List[Dict]:
+        """
+        Get all Episodic memories
+        
+        Returns:
+            List[Dict]: Memory records
+        """
+        return self._read_all_files()
+    
     def get_recent(self, limit: int = 20) -> List[Dict]:
         """
         Get recent memories
@@ -149,6 +158,20 @@ class EpisodicStorage:
         lines.append(f"[{timestamp}] {content}")
         
         return "\n".join(lines)
+    
+    def _read_all_files(self) -> List[Dict]:
+        """
+        Read all memory files
+        
+        Returns:
+            List[Dict]: All memory records
+        """
+        memories = []
+        
+        for file_path in sorted(self.memory_dir.glob("*.md"), reverse=True):
+            memories.extend(self._read_file(file_path))
+        
+        return memories
     
     def _read_file(self, file_path: Path) -> List[Dict]:
         """

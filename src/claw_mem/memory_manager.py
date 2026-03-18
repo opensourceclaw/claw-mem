@@ -12,6 +12,7 @@ from pathlib import Path
 from .storage.episodic import EpisodicStorage
 from .storage.semantic import SemanticStorage
 from .storage.procedural import ProceduralStorage
+from .storage.index import InMemoryIndex, WorkingMemoryCache
 from .retrieval.keyword import KeywordRetriever
 from .security.validation import WriteValidator
 from .security.checkpoint import CheckpointManager
@@ -51,7 +52,9 @@ class MemoryManager:
         self.checkpoint = CheckpointManager(self.workspace)
         self.audit = AuditLogger(self.workspace)
         
-        # Working memory (L1)
+        # L1: Working Memory (In-Memory Index + Cache)
+        self.index = InMemoryIndex(ngram_size=3)
+        self.working_cache = WorkingMemoryCache(max_size=100, ttl_seconds=300)
         self.working_memory: List[Dict] = []
         
         print(f"🧠 claw-mem initialized, workspace: {self.workspace}")
@@ -66,8 +69,12 @@ class MemoryManager:
         self.session_id = session_id
         self.session_start = datetime.now()
         self.working_memory = []
+        self.working_cache.clear()
         
-        # Load relevant memories
+        # Load all memories and build index
+        self._load_and_build_index()
+        
+        # Load relevant memories to working memory (L1 cache)
         self._load_relevant_memories()
         
         # Create checkpoint
@@ -76,7 +83,7 @@ class MemoryManager:
         # Log audit
         self.audit.log("session_start", {"session_id": session_id})
         
-        print(f"✅ Session {session_id} started, loaded {len(self.working_memory)} memories")
+        print(f"✅ Session {session_id} started, indexed {len(self.working_memory)} memories")
     
     def end_session(self) -> None:
         """
@@ -102,6 +109,7 @@ class MemoryManager:
         self.session_id = None
         self.session_start = None
         self.working_memory = []
+        self.working_cache.clear()
     
     def store(self, content: str, memory_type: str = "episodic", 
               tags: Optional[List[str]] = None) -> bool:
@@ -148,6 +156,11 @@ class MemoryManager:
         # Add to working memory
         self.working_memory.append(memory_record)
         
+        # Add to L1 cache
+        memory_id = memory_record.get("id")
+        if memory_id:
+            self.working_cache.put(memory_id, memory_record)
+        
         # Log audit
         self.audit.log("memory_stored", {
             "type": memory_type,
@@ -160,7 +173,7 @@ class MemoryManager:
     def search(self, query: str, memory_type: Optional[str] = None, 
                limit: int = 10) -> List[Dict]:
         """
-        Retrieve memories
+        Retrieve memories using hybrid search (N-gram + BM25)
         
         Args:
             query: Search query
@@ -170,38 +183,84 @@ class MemoryManager:
         Returns:
             List[Dict]: Memory records
         """
-        # Search using retriever
-        results = self.retriever.search(
-            query=query,
-            episodic=self.episodic,
-            semantic=self.semantic,
-            procedural=self.procedural,
-            memory_type=memory_type,
-            limit=limit
-        )
+        # Use in-memory index for fast search
+        if self.index.built:
+            hybrid_results = self.index.hybrid_search(query, limit=limit)
+            
+            # Convert memory_ids to memory records
+            results = []
+            for memory_id, score in hybrid_results:
+                # Check L1 cache first
+                cached = self.working_cache.get(memory_id)
+                if cached:
+                    results.append(cached)
+                else:
+                    # Find from working memory
+                    for memory in self.working_memory:
+                        if memory.get("id") == memory_id:
+                            results.append(memory)
+                            # Add to cache
+                            self.working_cache.put(memory_id, memory)
+                            break
+            
+            # Log audit
+            self.audit.log("memory_search", {
+                "query": query,
+                "type": memory_type,
+                "results_count": len(results),
+                "method": "hybrid_index"
+            })
+            
+            print(f"🔍 Retrieved {len(results)} memories (hybrid): {query}")
+            return results
+        else:
+            # Fallback to keyword search
+            results = self.retriever.search(
+                query=query,
+                episodic=self.episodic,
+                semantic=self.semantic,
+                procedural=self.procedural,
+                memory_type=memory_type,
+                limit=limit
+            )
+            
+            print(f"🔍 Retrieved {len(results)} memories (keyword): {query}")
+            return results
+    
+    def _load_and_build_index(self) -> None:
+        """
+        Load all memories and build in-memory index
+        """
+        # Load all memories
+        all_episodic = self.episodic.get_all()
+        all_semantic = self.semantic.get_all()
+        all_procedural = self.procedural.get_all()
         
-        # Log audit
-        self.audit.log("memory_search", {
-            "query": query,
-            "type": memory_type,
-            "results_count": len(results)
-        })
+        # Combine all memories
+        all_memories = all_episodic + all_semantic + all_procedural
         
-        print(f"🔍 Retrieved {len(results)} memories: {query}")
-        return results
+        # Build in-memory index
+        self.index.build(all_memories)
+        
+        # Add to working memory
+        self.working_memory = all_memories
+        
+        print(f"📥 Indexed {len(all_episodic)} Episodic, {len(all_semantic)} Semantic, {len(all_procedural)} Procedural")
     
     def _load_relevant_memories(self) -> None:
         """
-        Load relevant memories to working memory
+        Load relevant memories to working memory (L1 cache)
         """
-        # MVP version: Load recent Episodic and all Semantic memories
+        # Cache recent Episodic and all Semantic memories
         recent_episodic = self.episodic.get_recent(limit=20)
         all_semantic = self.semantic.get_all()
         
-        self.working_memory.extend(recent_episodic)
-        self.working_memory.extend(all_semantic)
+        for memory in recent_episodic + all_semantic:
+            memory_id = memory.get("id")
+            if memory_id:
+                self.working_cache.put(memory_id, memory)
         
-        print(f"📥 Loaded {len(recent_episodic)} Episodic memories, {len(all_semantic)} Semantic memories")
+        print(f"💾 Cached {len(recent_episodic) + len(all_semantic)} memories in L1")
     
     def _save_working_memory(self) -> None:
         """
@@ -223,6 +282,8 @@ class MemoryManager:
             "workspace": str(self.workspace),
             "session_id": self.session_id,
             "working_memory_count": len(self.working_memory),
+            "working_cache_size": self.working_cache.size(),
+            "index_built": self.index.built,
             "episodic_count": self.episodic.count(),
             "semantic_count": self.semantic.count(),
             "procedural_count": self.procedural.count(),
