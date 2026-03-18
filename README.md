@@ -156,7 +156,7 @@ claw-mem follows evolutionary design principles. Community contributions are wel
 
 ```bash
 # Clone the repository
-git clone https://github.com/opensourceclaw/claw-mem.git
+git clone https://github.com/opensourceclaw/claw-mem/claw-mem.git
 cd claw-mem
 
 # Install development dependencies
