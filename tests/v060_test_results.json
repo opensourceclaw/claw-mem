@@ -1,0 +1,120 @@
+{
+  "version": "0.6.0",
+  "timestamp": "2026-03-18T13:20:25.816266",
+  "summary": {
+    "total": 14,
+    "passed": 13,
+    "failed": 1,
+    "pass_rate": 0.9285714285714286
+  },
+  "results": {
+    "index_build": {
+      "passed": true,
+      "metrics": {
+        "build_time_ms": 137.04872131347656,
+        "ngram_count": 12
+      },
+      "timestamp": "2026-03-18T13:20:24.478650"
+    },
+    "ngram_search": {
+      "passed": false,
+      "metrics": {
+        "search_time_ms": 0.0400543212890625,
+        "results_count": 0
+      },
+      "timestamp": "2026-03-18T13:20:24.478723"
+    },
+    "bm25_search": {
+      "passed": true,
+      "metrics": {
+        "search_time_ms": 0.13017654418945312,
+        "results_count": 2
+      },
+      "timestamp": "2026-03-18T13:20:24.478871"
+    },
+    "hybrid_search": {
+      "passed": true,
+      "metrics": {
+        "search_time_ms": 0.11396408081054688,
+        "results_count": 2
+      },
+      "timestamp": "2026-03-18T13:20:24.479002"
+    },
+    "cache_put_get": {
+      "passed": true,
+      "metrics": {
+        "cache_size": 1
+      },
+      "timestamp": "2026-03-18T13:20:24.479049"
+    },
+    "cache_lru": {
+      "passed": true,
+      "metrics": {
+        "final_size": 100
+      },
+      "timestamp": "2026-03-18T13:20:24.479546"
+    },
+    "mm_init": {
+      "passed": true,
+      "metrics": {},
+      "timestamp": "2026-03-18T13:20:24.480901"
+    },
+    "session_start": {
+      "passed": true,
+      "metrics": {
+        "startup_time_ms": 1264.0371322631836,
+        "memory_count": 16
+      },
+      "timestamp": "2026-03-18T13:20:25.744972"
+    },
+    "search_performance": {
+      "passed": true,
+      "metrics": {
+        "avg_search_ms": 0.9018182754516602,
+        "p95_search_ms": 1.2390613555908203,
+        "queries_tested": 4
+      },
+      "timestamp": "2026-03-18T13:20:25.748943"
+    },
+    "cache_hit": {
+      "passed": true,
+      "metrics": {
+        "cache_hit_time_ms": 0.5202293395996094
+      },
+      "timestamp": "2026-03-18T13:20:25.750057"
+    },
+    "store_memory": {
+      "passed": true,
+      "metrics": {
+        "store_time_ms": 46.009063720703125
+      },
+      "timestamp": "2026-03-18T13:20:25.811262"
+    },
+    "search_memory": {
+      "passed": true,
+      "metrics": {
+        "search_time_ms": 1.0492801666259766,
+        "results_count": 2
+      },
+      "timestamp": "2026-03-18T13:20:25.812394"
+    },
+    "cache_speedup": {
+      "passed": true,
+      "metrics": {
+        "speedup_factor": 1.515495867768595
+      },
+      "timestamp": "2026-03-18T13:20:25.813124"
+    },
+    "performance_comparison": {
+      "passed": true,
+      "metrics": {
+        "improvements": {
+          "startup_time_ms": -1164.0371322631836,
+          "avg_search_ms": 99.09818172454834,
+          "cache_hit_time_ms": 99.47977066040039
+        }
+      },
+      "timestamp": "2026-03-18T13:20:25.815574"
+    }
+  }
+}
