@@ -53,7 +53,8 @@ class MemoryManager:
         self.audit = AuditLogger(self.workspace)
         
         # L1: Working Memory (In-Memory Index + Cache)
-        self.index = InMemoryIndex(ngram_size=3)
+        # Enable index persistence for fast startup
+        self.index = InMemoryIndex(ngram_size=3, enable_persistence=True)
         self.working_cache = WorkingMemoryCache(max_size=100, ttl_seconds=300)
         self.working_memory: List[Dict] = []
         
@@ -112,7 +113,7 @@ class MemoryManager:
         self.working_cache.clear()
     
     def store(self, content: str, memory_type: str = "episodic", 
-              tags: Optional[List[str]] = None) -> bool:
+              tags: Optional[List[str]] = None, update_index: bool = True) -> bool:
         """
         Store memory
         
@@ -120,6 +121,7 @@ class MemoryManager:
             content: Memory content
             memory_type: Memory type (episodic/semantic/procedural)
             tags: Tag list
+            update_index: Update search index incrementally (default: True)
             
         Returns:
             bool: Success status
@@ -160,6 +162,10 @@ class MemoryManager:
         memory_id = memory_record.get("id")
         if memory_id:
             self.working_cache.put(memory_id, memory_record)
+            
+            # Incrementally update index
+            if update_index and self.index.built:
+                self.index.add_memory(content, memory_id, save_async=True)
         
         # Log audit
         self.audit.log("memory_stored", {
@@ -230,6 +236,7 @@ class MemoryManager:
     def _load_and_build_index(self) -> None:
         """
         Load all memories and build in-memory index
+        Uses persisted index if available for fast startup
         """
         # Load all memories
         all_episodic = self.episodic.get_all()
@@ -239,13 +246,16 @@ class MemoryManager:
         # Combine all memories
         all_memories = all_episodic + all_semantic + all_procedural
         
-        # Build in-memory index
-        self.index.build(all_memories)
+        # Load or build in-memory index (with persistence support)
+        loaded_from_disk = self.index.load_or_build(all_memories)
         
         # Add to working memory
         self.working_memory = all_memories
         
-        print(f"📥 Indexed {len(all_episodic)} Episodic, {len(all_semantic)} Semantic, {len(all_procedural)} Procedural")
+        if loaded_from_disk:
+            print(f"📥 Index loaded from disk: {len(all_episodic)} Episodic, {len(all_semantic)} Semantic, {len(all_procedural)} Procedural")
+        else:
+            print(f"📥 Indexed {len(all_episodic)} Episodic, {len(all_semantic)} Semantic, {len(all_procedural)} Procedural")
     
     def _load_relevant_memories(self) -> None:
         """
