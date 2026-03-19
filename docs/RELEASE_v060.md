@@ -1,9 +1,5 @@
 # claw-mem v0.6.0 Release Notes
 
-**Apache-Style Release Document**
-
----
-
 ## Release Overview
 
 **Project**: claw-mem  
