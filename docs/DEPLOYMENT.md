@@ -182,7 +182,7 @@ mm.end_session()
 ### Step 1: Clone Repository
 
 ```bash
-git clone https://github.com/opensourceclaw/claw-mem.git
+git clone https://github.com/opensourceclaw/claw-mem/claw-mem.git
 cd claw-mem
 ```
 

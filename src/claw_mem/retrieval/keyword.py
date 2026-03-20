@@ -1,10 +1,11 @@
 """
 Keyword Retriever (MVP Version)
 
-Provides basic keyword search functionality.
+Provides basic keyword search functionality with importance ranking.
 """
 
 from typing import List, Dict, Optional
+from ..importance import ImportanceScorer
 
 
 class KeywordRetriever:
@@ -14,8 +15,13 @@ class KeywordRetriever:
     MVP version supports keyword matching only. Semantic search will be added in future iterations.
     """
     
+    def __init__(self):
+        """Initialize retriever with importance scorer"""
+        self.scorer = ImportanceScorer()
+    
     def search(self, query: str, episodic, semantic, procedural,
-               memory_type: Optional[str] = None, limit: int = 10) -> List[Dict]:
+               memory_type: Optional[str] = None, limit: int = 10,
+               rank_by_importance: bool = True) -> List[Dict]:
         """
         Retrieve memories
         
@@ -26,9 +32,10 @@ class KeywordRetriever:
             procedural: Procedural storage
             memory_type: Memory type filter
             limit: Number of results
+            rank_by_importance: Sort by importance score (default: True)
             
         Returns:
-            List[Dict]: Memory records
+            List[Dict]: Memory records (sorted by importance if enabled)
         """
         results = []
         query_lower = query.lower()
@@ -48,6 +55,13 @@ class KeywordRetriever:
             for memory in procedural.get_all():
                 if self._match(query_lower, memory):
                     results.append(memory)
+        
+        # Sort by importance if enabled
+        if rank_by_importance and results:
+            results = self.scorer.rank_memories(results)
+        
+        # Limit results
+        return results[:limit]
         
         # Sort and return
         results.sort(key=lambda x: x.get("timestamp", ""), reverse=True)
