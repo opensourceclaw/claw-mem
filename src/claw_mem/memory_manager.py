@@ -17,6 +17,11 @@ from .retrieval.keyword import KeywordRetriever
 from .security.validation import WriteValidator
 from .security.checkpoint import CheckpointManager
 from .security.audit import AuditLogger
+from .config import ConfigDetector
+from .importance import ImportanceScorer
+from .memory_fix_plugin import MemoryFixPlugin
+from .memory_decay import MemoryDecay
+from .rule_extractor import RuleExtractor
 
 
 class MemoryManager:
@@ -30,13 +35,21 @@ class MemoryManager:
     4. Security validation and auditing
     """
     
-    def __init__(self, workspace: str = "~/.openclaw/workspace"):
+    def __init__(self, workspace: Optional[str] = None, auto_detect: bool = True):
         """
         Initialize Memory Manager
         
         Args:
-            workspace: OpenClaw workspace path
+            workspace: OpenClaw workspace path (optional, auto-detect if None)
+            auto_detect: Enable auto-detection (default: True)
         """
+        # Auto-detect workspace if not provided
+        if workspace is None and auto_detect:
+            workspace = ConfigDetector.detect_workspace()
+        elif workspace is None:
+            # Fallback to default if auto-detect disabled
+            workspace = "~/.openclaw/workspace"
+        
         self.workspace = Path(workspace).expanduser()
         self.session_id: Optional[str] = None
         self.session_start: Optional[datetime] = None
@@ -51,6 +64,32 @@ class MemoryManager:
         self.validator = WriteValidator()
         self.checkpoint = CheckpointManager(self.workspace)
         self.audit = AuditLogger(self.workspace)
+        self.importance_scorer = ImportanceScorer()
+        
+        # Initialize memory fix plugin (F000)
+        self.memory_fix = MemoryFixPlugin(self.workspace)
+        
+        # Initialize memory decay (F102)
+        self.memory_decay = MemoryDecay(self.workspace)
+        
+        # Initialize rule extractor (F101)
+        self.rule_extractor = RuleExtractor(self.workspace)
+        
+        # Validate session memory on startup
+        self._validate_session_memory()
+    
+    def _validate_session_memory(self):
+        """验证会话启动时的记忆（F000 修复）"""
+        validation = self.memory_fix.validate_session_memory()
+        
+        if not validation['valid']:
+            # 记录错误但不阻止启动
+            self.audit.log("MEMORY_VALIDATION_FAILED", str(validation['errors']))
+        
+        if validation['warnings']:
+            # 记录警告
+            for warning in validation['warnings']:
+                self.audit.log("MEMORY_WARNING", warning)
         
         # L1: Working Memory (In-Memory Index + Cache)
         # Enable index persistence for fast startup

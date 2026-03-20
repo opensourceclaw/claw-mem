@@ -15,7 +15,7 @@ metadata: {"clawdbot":{"emoji":"🧠","requires":{"bins":["python3"]},"primaryEn
 ### Installation
 
 ```bash
-git clone https://github.com/opensourceclaw/claw-mem.git ~/.openclaw/workspace/skills/claw-mem
+git clone https://github.com/opensourceclaw/claw-mem/claw-mem.git ~/.openclaw/workspace/skills/claw-mem
 cd ~/.openclaw/workspace/skills/claw-mem
 pip install -e .
 ```
@@ -174,7 +174,7 @@ Community contributions are welcome!
 ### Development Environment
 
 ```bash
-git clone https://github.com/opensourceclaw/claw-mem.git
+git clone https://github.com/opensourceclaw/claw-mem/claw-mem.git
 cd claw-mem
 pip install -e ".[dev]"
 pytest
