@@ -13,41 +13,41 @@ from .errors import WorkspaceNotFoundError
 
 
 class ConfigDetector:
-    """自动检测 OpenClaw 配置"""
+    """Auto-detect OpenClaw configuration"""
     
-    # 默认搜索路径（按优先级排序）
+    # Default search paths (sorted by priority)
     DEFAULT_PATHS = [
-        # 标准 OpenClaw 路径
+        # Standard OpenClaw paths
         os.path.expanduser("~/.openclaw/workspace"),
         os.path.expanduser("~/.config/openclaw/workspace"),
         
-        # 当前目录（如果是工作区）
+        # Current directory (if workspace)
         os.getcwd(),
         
-        # 其他常见路径
+        # Other common paths
         os.path.expanduser("~/workspace"),
         os.path.expanduser("~/projects"),
     ]
     
-    # 工作区特征文件/目录
+    # Workspace marker files/directories
     WORKSPACE_MARKERS = [
-        "MEMORY.md",           # 核心记忆文件
-        "memory/",             # 记忆目录
-        "AGENTS.md",           # Agent 配置
-        "SOUL.md",             # 人格配置
-        "USER.md",             # 用户配置
+        "MEMORY.md",           # Core memory file
+        "memory/",             # Memory directory
+        "AGENTS.md",           # Agent configuration
+        "SOUL.md",             # Personality configuration
+        "USER.md",             # User configuration
     ]
     
     @classmethod
     def detect_workspace(cls, custom_paths: Optional[List[str]] = None) -> str:
         """
-        检测 OpenClaw workspace 路径
+        Detect OpenClaw workspace path
         
         Args:
-            custom_paths: 自定义搜索路径列表（可选）
+            custom_paths: Custom search paths list (optional)
         
         Returns:
-            str: 检测到的 workspace 路径
+            str: Detected workspace path
         
         Raises:
             WorkspaceNotFoundError: 如果未找到有效的工作区
@@ -55,49 +55,49 @@ class ConfigDetector:
         # 合并路径列表
         search_paths = custom_paths if custom_paths else cls.DEFAULT_PATHS
         
-        # 记录已搜索的路径
+        # Record searched paths
         searched_paths = []
         
-        # 遍历所有路径
+        # Iterate through all paths
         for path_str in search_paths:
             path = Path(path_str).expanduser().resolve()
             searched_paths.append(str(path))
             
-            # 检查路径是否存在
+            # Check if path exists
             if not path.exists():
                 continue
             
-            # 检查是否是有效的工作区
+            # Check if valid workspace
             if cls._is_valid_workspace(path):
                 return str(path)
         
-        # 未找到，抛出友好错误
+        # Not found, raise friendly error
         raise WorkspaceNotFoundError(searched_paths)
     
     @classmethod
     def _is_valid_workspace(cls, path: Path) -> bool:
         """
-        验证路径是否是有效的 OpenClaw workspace
+        Validate if path is valid OpenClaw workspace
         
         Args:
-            path: 待验证的路径
+            path: Path to validate
         
         Returns:
-            bool: 是否是有效的工作区
+            bool: Whether valid workspace
         """
-        # 至少需要一个特征文件或目录
+        # At least one marker file/directory needed
         for marker in cls.WORKSPACE_MARKERS:
             marker_path = path / marker
             
-            # 检查文件或目录是否存在
+            # Check if file/directory exists
             if marker_path.exists():
-                # 额外验证：如果是目录，检查是否为空
+                # Extra validation: if directory, check if not empty
                 if marker_path.is_dir():
-                    # 目录不为空才有效
+                    # Directory must not be empty to be valid
                     if any(marker_path.iterdir()):
                         return True
                 else:
-                    # 文件存在即有效
+                    # File existence is sufficient
                     return True
         
         # 没有找到任何特征

@@ -1,34 +1,34 @@
 ---
-name: 🐛 Bug Report
+name: Bug Report - Display Inconsistency
 about: Create a report to help us improve
-title: '[BUG] Display inconsistency: "100%" sometimes shown as "10%"'
+title: '[BUG] Display inconsistency: 100 percent sometimes shown as 10 percent'
 labels: bug, display, priority-medium
 ---
 
 ## Describe the Bug
 
-The release process rule "Release Notes 100% English" sometimes displays as "10% English" in assistant responses, even though the source file is correct.
+The release process rule "Release Notes 100 percent English" sometimes displays as "10 percent English" in assistant responses, even though the source file is correct.
 
 ## Source File Content
 
 The file `memory/releases/claw-mem-release-process.md` correctly contains:
 ```markdown
-3. **Release Notes**: 
-   - 100% 英文，不提及 AI 贡献者
+3. Release Notes: 
+   - 100 percent English, no mention of AI contributors
 ```
 
 ## Expected Behavior
 
-Always display "100% 英文" (100% English)
+Always display "100 percent English"
 
 ## Actual Behavior
 
-Sometimes displays as "10% 英文" in assistant responses
+Sometimes displays as "10 percent English" in assistant responses
 
 ## Possible Causes
 
-1. Tokenization issue with "100%"
-2. Display/rendering bug
+1. Tokenization issue with percentage values
+2. Display or rendering bug
 3. Memory retrieval issue
 
 ## Impact
@@ -49,6 +49,6 @@ Manually verify the source file content when in doubt.
 
 ## Environment
 
-- Version: v0.6.0
+- Version: 0.6.0
 - OS: macOS
 - Python: 3.14

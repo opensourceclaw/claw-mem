@@ -9,7 +9,7 @@ from typing import Optional
 
 
 class FriendlyError(Exception):
-    """友好的错误提示基类"""
+    """Friendly error message base class"""
     
     def __init__(
         self,
@@ -25,7 +25,7 @@ class FriendlyError(Exception):
         super().__init__(self.format())
     
     def format(self) -> str:
-        """格式化错误信息"""
+        """Format error message"""
         output = f"[错误] {self.message}\n"
         
         if self.suggestion:
@@ -44,11 +44,11 @@ class FriendlyError(Exception):
 
 
 # ============================================================================
-# 预定义错误类型
+# Pre-defined error types
 # ============================================================================
 
 class IndexNotFoundError(FriendlyError):
-    """索引未找到错误"""
+    """Index not found error"""
     
     def __init__(self, index_path: str, suggestion: Optional[str] = None):
         super().__init__(
@@ -60,7 +60,7 @@ class IndexNotFoundError(FriendlyError):
 
 
 class WorkspaceNotFoundError(FriendlyError):
-    """工作区未找到错误"""
+    """Workspace not found error"""
     
     def __init__(self, searched_paths: list, suggestion: Optional[str] = None):
         paths_str = "\n  - ".join(searched_paths)
@@ -73,7 +73,7 @@ class WorkspaceNotFoundError(FriendlyError):
 
 
 class MemoryCorruptedError(FriendlyError):
-    """记忆文件损坏错误"""
+    """Memory file corrupted error"""
     
     def __init__(self, file_path: str, suggestion: Optional[str] = None):
         super().__init__(
@@ -85,7 +85,7 @@ class MemoryCorruptedError(FriendlyError):
 
 
 class PermissionDeniedError(FriendlyError):
-    """权限不足错误"""
+    """Permission denied error"""
     
     def __init__(self, path: str, suggestion: Optional[str] = None):
         super().__init__(
@@ -97,7 +97,7 @@ class PermissionDeniedError(FriendlyError):
 
 
 class ConfigurationError(FriendlyError):
-    """配置错误"""
+    """Configuration error"""
     
     def __init__(self, config_key: str, current_value: str, suggestion: Optional[str] = None):
         super().__init__(
@@ -168,7 +168,7 @@ ERROR_CODE_DOCUMENTATION = {
     },
     "WORKSPACE_NOT_FOUND": {
         "description": "未找到 OpenClaw 工作区",
-        "cause": "OpenClaw 未安装或工作区路径配置错误",
+        "cause": "OpenClaw 未安装或工作区路径Configuration error",
         "solution": "安装 OpenClaw 或手动指定工作区路径"
     },
     "MEMORY_CORRUPTED": {
