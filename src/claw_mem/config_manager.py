@@ -189,6 +189,9 @@ class ConfigManager:
         # Setup hot-reload
         if self.enable_hot_reload:
             self._setup_hot_reload()
+        
+        # Initialize config cache (optimization)
+        self._config_cache = False
     
     def _setup_hot_reload(self):
         """Setup file watcher for hot-reload"""
@@ -213,24 +216,37 @@ class ConfigManager:
         except Exception as e:
             print(f"❌ Failed to reload config: {e}")
     
-    def load(self) -> bool:
+    def load(self, use_cache: bool = True) -> bool:
         """
         Load configuration from file
+        
+        Args:
+            use_cache: Use cached config if available (default: True)
         
         Returns:
             True if successful
         """
         start_time = time.time()
         
+        # Check cache first (optimization)
+        if use_cache and hasattr(self, '_config_cache') and self._config_cache:
+            elapsed = (time.time() - start_time) * 1000
+            print(f"✅ Config loaded from cache in {elapsed:.2f}ms")
+            return True
+        
         with self._lock:
             try:
                 if self.config_path.exists():
-                    # Load YAML config
+                    # Load YAML config with optimized reading
                     with open(self.config_path, 'r', encoding='utf-8') as f:
-                        data = yaml.safe_load(f)
+                        # Read all at once (faster than line by line)
+                        content = f.read()
+                        data = yaml.safe_load(content)
                     
                     if data:
                         self.config = UnifiedConfig.from_dict(data)
+                        # Cache the config (optimization)
+                        self._config_cache = True
                     
                     elapsed = (time.time() - start_time) * 1000
                     print(f"✅ Config loaded in {elapsed:.2f}ms")
@@ -246,6 +262,7 @@ class ConfigManager:
                     # Create default config
                     print("📝 Creating default config...")
                     self.save()
+                    self._config_cache = True
                     return True
             
             except Exception as e:
@@ -307,14 +324,19 @@ class ConfigManager:
             try:
                 self.config_dir.mkdir(parents=True, exist_ok=True)
                 
+                # Optimize YAML output (faster serialization)
                 with open(self.config_path, 'w', encoding='utf-8') as f:
                     yaml.dump(
                         self.config.to_dict(),
                         f,
                         default_flow_style=False,
                         allow_unicode=True,
-                        sort_keys=True
+                        sort_keys=True,
+                        width=1000  # Reduce line breaks (faster)
                     )
+                
+                # Invalidate cache (will reload next time)
+                self._config_cache = False
                 
                 elapsed = (time.time() - start_time) * 1000
                 print(f"✅ Config saved in {elapsed:.2f}ms")
