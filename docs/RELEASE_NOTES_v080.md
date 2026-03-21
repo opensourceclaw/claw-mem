@@ -289,7 +289,7 @@ No migration required. v0.8.0 automatically works with existing memory files.
 ## 👥 Contributors
 
 **Project Lead**: Peter Cheng  
-**Core Development**: Friday (OpenClaw AI Assistant)  
+**Development Team**: OpenClaw Contributors  
 
 **Special Thanks**:
 - OpenClaw community for feedback
