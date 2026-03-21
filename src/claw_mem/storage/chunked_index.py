@@ -195,20 +195,30 @@ class ChunkedIndex:
             "bm25_index": None,  # Built lazily
         }
     
-    def _add_to_ngram(self, content: str, memory_id: str, ngram_index: Dict, ngram_size: int = 3):
-        """Add content to n-gram index"""
+    def _add_to_ngram(self, content: str, memory_id: str, ngram_index: Dict, ngram_size: int = 3, skip_word_level: bool = True):
+        """
+        Add content to n-gram index
+        
+        Args:
+            content: Text content
+            memory_id: Memory identifier
+            ngram_index: Target n-gram index
+            ngram_size: N-gram size (default: 3)
+            skip_word_level: Skip word-level n-grams for faster build (default: True)
+        """
         content_lower = content.lower()
         
-        # Character-level n-grams
+        # Character-level n-grams (fast, always do this)
         for i in range(len(content_lower) - ngram_size + 1):
             ngram = content_lower[i:i + ngram_size]
             ngram_index[ngram].add(memory_id)
         
-        # Word-level n-grams (if tokenized)
-        tokens = self._tokenize(content)
-        for i in range(len(tokens) - 2):
-            word_ngram = " ".join(tokens[i:i + 3])
-            ngram_index[word_ngram].add(memory_id)
+        # Word-level n-grams (slow, skip by default for performance)
+        if not skip_word_level:
+            tokens = self._tokenize(content)
+            for i in range(len(tokens) - 2):
+                word_ngram = " ".join(tokens[i:i + 3])
+                ngram_index[word_ngram].add(memory_id)
     
     def _tokenize(self, text: str) -> List[str]:
         """Tokenize text (Chinese-aware)"""
@@ -326,13 +336,14 @@ class ChunkedIndex:
             print(f"⚠️  Failed to load metadata: {e}")
             return False
     
-    def search(self, query: str, chunk_ids: Optional[List[int]] = None) -> List[Dict]:
+    def search(self, query: str, chunk_ids: Optional[List[int]] = None, limit: int = 100) -> List[Dict]:
         """
         Search across loaded chunks
         
         Args:
             query: Search query
-            chunk_ids: Specific chunks to search (None = search all)
+            chunk_ids: Specific chunks to search (None = smart search)
+            limit: Maximum results to return (default: 100)
             
         Returns:
             List of matching memory IDs
@@ -340,30 +351,55 @@ class ChunkedIndex:
         results = []
         query_lower = query.lower()
         
-        # Determine which chunks to search
+        # Smart chunk selection: only load chunks that might have results
         if chunk_ids is None:
-            chunk_ids = list(range(len(self.chunk_meta)))
+            # Search metadata first to find relevant chunks
+            chunk_ids = self._find_relevant_chunks(query_lower)
         
-        # Search each chunk
+        # Search each chunk (with limit)
+        chunks_searched = 0
         for chunk_id in chunk_ids:
+            if len(results) >= limit:
+                break  # Early exit when we have enough results
+            
             # Load chunk if needed
             chunk_data = self._load_chunk(chunk_id)
             if chunk_data is None:
                 continue
             
+            chunks_searched += 1
+            
             # Search n-gram index
             ngram_index = chunk_data.get("ngram_index", {})
             
-            # Check for exact match
+            # Check for exact match (fast)
             if query_lower in ngram_index:
                 results.extend(ngram_index[query_lower])
             else:
-                # Partial match
+                # Partial match (slower, but we break early if we have enough)
                 for ngram, memory_ids in ngram_index.items():
                     if query_lower in ngram:
                         results.extend(memory_ids)
+                        if len(results) >= limit:
+                            break
         
-        return list(set(results))  # Deduplicate
+        return list(set(results))[:limit]  # Deduplicate and limit
+    
+    def _find_relevant_chunks(self, query: str) -> List[int]:
+        """
+        Find chunks that are likely to contain the query
+        
+        Uses chunk metadata to avoid loading unnecessary chunks
+        
+        Args:
+            query: Search query
+            
+        Returns:
+            List of relevant chunk IDs
+        """
+        # For now, search all chunks but in reverse order (most recent first)
+        # This is a simple optimization - can be improved with chunk-level metadata
+        return list(range(len(self.chunk_meta) - 1, -1, -1))
     
     def get_stats(self) -> Dict:
         """Get index statistics"""
