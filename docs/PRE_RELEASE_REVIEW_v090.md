@@ -248,11 +248,9 @@
 
 ### Distribution
 
-- [ ] PyPI package prepared
-- [ ] Version updated in `__init__.py` (0.8.0 → 0.9.0)
-- [ ] Dependencies updated in `pyproject.toml`
-- [ ] TestPyPI upload (testing)
-- [ ] PyPI upload (official)
+- [x] Version updated in `__init__.py` (0.8.0 → 0.9.0)
+- [x] Dependencies updated in `pyproject.toml`
+- [ ] Git tag creation (for internal use)
 
 ---
 
@@ -268,10 +266,8 @@
 ### Release Week (2026-04-07 to 2026-04-11)
 
 - [ ] **Apr 7**: Merge to main, create tag
-- [ ] **Apr 8**: PyPI upload
-- [ ] **Apr 9**: Community announcement
-- [ ] **Apr 10**: Monitor feedback
-- [ ] **Apr 11**: **Official release celebration** 🎉
+- [ ] **Apr 8-11**: Internal testing and verification
+- [ ] **Apr 11**: **Release complete** 🎉
 
 ---
 
@@ -316,8 +312,7 @@
 | Risk | Probability | Impact | Mitigation |
 |------|-------------|--------|------------|
 | User confusion | Low | Low | Clear migration guide |
-| Adoption slow | Low | Medium | Strong performance improvements |
-| Community feedback | Medium | Low | Responsive maintenance plan |
+| Internal adoption | Low | Low | Strong performance improvements |
 
 ---
 
@@ -329,9 +324,7 @@ Please review and approve the following:
 
 1. ✅ **Release v0.9.0** - Approve for release
 2. ✅ **Merge to main** - Merge `feature/v0.9.0-p0-performance` to `main`
-3. ✅ **Create tag** - Create git tag `v0.9.0`
-4. ✅ **PyPI upload** - Upload to PyPI
-5. ✅ **Community announcement** - Announce to OpenClaw community
+3. ✅ **Create tag** - Create git tag `v0.9.0` (internal use)
 
 ---
 
@@ -353,14 +346,12 @@ Please review and approve the following:
 
 ### Week 1 (Apr 11-18)
 
-- [ ] Monitor PyPI downloads
 - [ ] Monitor GitHub issues
-- [ ] Collect user feedback
-- [ ] Respond to community questions
+- [ ] Internal testing feedback
+- [ ] Performance verification in production
 
 ### Week 2 (Apr 18-25)
 
-- [ ] Analyze adoption metrics
 - [ ] Document lessons learned
 - [ ] Plan v0.9.1 (if needed)
 - [ ] Plan v1.0 features
