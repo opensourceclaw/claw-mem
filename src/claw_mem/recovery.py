@@ -158,21 +158,21 @@ class RecoveryManager:
             problem_type = "index_corrupted"
             severity = "high"
             description = "索引文件损坏或无法加载"
-            root_cause = "可能是意外关闭、磁盘错误或版本不兼容"
+            root_cause = "May be caused by unexpected shutdown, disk errors, or version incompatibility"
             affected = ["index", "retrieval"]
         
         elif "config" in error_msg.lower() or "Config" in error_type:
             problem_type = "config_corrupted"
             severity = "medium"
-            description = "配置文件损坏或格式错误"
-            root_cause = "可能是手动编辑错误或写入中断"
+            description = "Configuration file corrupted or format error"
+            root_cause = "May be caused by manual editing errors or interrupted write"
             affected = ["configuration"]
         
         elif "memory" in error_msg.lower() or "Memory" in error_type:
             problem_type = "memory_corrupted"
             severity = "high"
             description = "记忆文件损坏或无法读取"
-            root_cause = "可能是磁盘错误、权限问题或写入中断"
+            root_cause = "May be caused by disk errors, permission issues, or interrupted write"
             affected = ["memory", "storage"]
         
         elif "permission" in error_msg.lower() or "Permission" in error_type:
@@ -192,7 +192,7 @@ class RecoveryManager:
         else:
             problem_type = "generic_error"
             severity = "medium"
-            description = f"发生错误：{error_msg}"
+            description = f"Error occurred: {error_msg}"
             root_cause = "未知原因"
             affected = ["unknown"]
         
@@ -463,7 +463,7 @@ class RecoveryManager:
                 success=True,
                 strategy_used=RecoveryStrategy.DEGRADE,
                 time_taken_ms=0,
-                description="已降级运行，错误已记录",
+                description="Degraded operation, error logged",
                 data_recovered=False,
                 user_action_needed=False,
             )
