@@ -48,6 +48,30 @@ All P0 features completed (100%):
 - [x] All source code comments: 100% English
 - [x] All test files: 100% English
 - [x] All P0 documentation: 100% English
+
+---
+
+## 🚀 Post-Release Deployment
+
+### Deploy to Local OpenClaw Environment
+
+- [ ] **Run deployment script**
+  ```bash
+  ./scripts/deploy_to_local.sh v0.9.0
+  ```
+- [ ] **Verify uninstall** - Old version removed successfully
+- [ ] **Verify install** - New version installed without errors
+- [ ] **Verify version** - `python3 -c "import claw_mem; print(claw_mem.__version__)"` shows `0.9.0`
+- [ ] **Test functionality** - Basic add/search test passed
+- [ ] **Document deployment** - Update DEPLOYMENT_TO_LOCAL.md if issues encountered
+
+### Deployment Checklist
+
+- [ ] Uninstall old version completed
+- [ ] Install new version completed
+- [ ] Version verification passed
+- [ ] Basic functionality test passed
+- [ ] No errors in deployment log
 - [x] Error messages: 100% English
 - [x] Commit messages: 100% English
 
