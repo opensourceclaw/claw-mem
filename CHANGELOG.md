@@ -40,6 +40,30 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## [0.9.0] - 2026-03-22
+
+### Changed
+- **100% English Documentation Policy** - All documentation and code comments are now 100% English
+- Maintains Apache 2.0 professional open source style
+- Improves accessibility for international contributors
+
+### Added
+- Chinese content audit report (`CHINESE_CONTENT_AUDIT_REPORT.md`)
+- Batch translation script (`scripts/translate_docs.py`)
+- Release title naming guidelines (`docs/RELEASE_TITLE_GUIDELINES.md`)
+
+### Documentation
+- Translated all documentation files to English
+- Translated all code comments and docstrings to English
+- Error messages remain user-friendly with English suggestions
+
+### Notes
+- No functional changes - code behavior is identical to previous version
+- This is a documentation-only release for Apache 2.0 compliance
+- Previous versions (v0.5.0 - v0.8.0) may contain mixed Chinese/English documentation
+
+---
+
 ## [0.8.0] - 2026-03-21
 
 ### Added

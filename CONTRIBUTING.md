@@ -9,6 +9,7 @@ This guide will help you understand how to participate in this project.
 ## 📋 Table of Contents
 
 - [Code of Conduct](#code-of-conduct)
+- [Documentation Language Policy](#documentation-language-policy)
 - [What Can I Contribute?](#what-can-i-contribute)
 - [Getting Started](#getting-started)
 - [Development Environment Setup](#development-environment-setup)
@@ -23,6 +24,47 @@ This guide will help you understand how to participate in this project.
 This project adopts the [Contributor Covenant 2.1](CODE_OF_CONDUCT.md) as its code of conduct.
 
 Please read and follow it to maintain an open and friendly community environment.
+
+---
+
+## Documentation Language Policy
+
+**Starting from v0.9.0, all documentation and code comments must be in English.**
+
+### Why English?
+
+This policy ensures:
+- **Consistency** with Apache 2.0 open source standards
+- **Accessibility** for international contributors and users
+- **Professional** project maintenance and long-term sustainability
+- **Clarity** in technical communication across global community
+
+### What Needs to Be in English?
+
+- ✅ All Markdown documentation files (`.md`)
+- ✅ All code comments and docstrings (`.py`)
+- ✅ All error messages and user-facing text
+- ✅ All test files and scripts
+- ✅ All configuration examples
+
+### What About Non-English Content?
+
+- **User data** (memories) - Any language is fine
+- **Test data** - Can include non-English examples for testing
+- **Translations** - Community translations are welcome as separate files
+
+### Migration from Previous Versions
+
+- **v0.5.0 - v0.8.0**: May contain mixed Chinese/English documentation
+- **v0.9.0+**: 100% English documentation policy enforced
+- **No breaking changes**: Code behavior remains identical
+
+### Questions?
+
+If you have questions about this policy, please:
+1. Open an issue for discussion
+2. Check existing issues for similar questions
+3. Contact maintainers directly
 
 ---
 
