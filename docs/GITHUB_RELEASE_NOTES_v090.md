@@ -170,6 +170,40 @@ This release is a result of **human-AI collaboration**:
 - Improved error handling
 - Better recovery mechanisms
 
+### Documentation
+
+- **100% English Policy** - All documentation and code comments are now in English
+- Apache 2.0 professional open source style
+- Chinese content audit report added
+- Translation tools for future maintenance
+
+---
+
+## 📢 Important Notice
+
+### Documentation Language Policy Change
+
+Starting from **v0.9.0**, all documentation and code comments are **100% English**.
+
+**Why?**
+- Consistency with Apache 2.0 open source standards
+- Accessibility for international contributors
+- Professional project maintenance
+
+**What Changed?**
+- All `.md` documentation files translated to English
+- All Python code comments and docstrings translated to English
+- Error messages remain user-friendly with English suggestions
+
+**What Didn't Change?**
+- No functional changes - code behavior is identical
+- No API changes - fully backward compatible
+- No breaking changes - upgrade is seamless
+
+**Previous Versions (v0.5.0 - v0.8.0):**
+- May contain mixed Chinese/English documentation
+- No re-release planned - documentation-only change
+
 ---
 
 ## 🔗 Links
