@@ -285,9 +285,14 @@ None at this time.
 
 ## 🙏 Acknowledgments
 
-**v0.9.0 Contributors**:
-- **Peter Cheng** - Vision and strategic guidance
-- **Friday** - Lead developer and AI partner
+### Contributors
+
+This release is a result of **human-AI collaboration**:
+
+- **Peter Cheng** - Project Lead, Vision, Architecture Design, Decision Making, Code Review
+- **Friday** - AI Partner, Code Generation, Documentation, Testing, Implementation
+
+> In the AI era, we ship code together — humans define the "what" and "why", AI handles the "how".
 
 **Special Thanks**:
 - OpenClaw community for feedback

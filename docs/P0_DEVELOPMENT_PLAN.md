@@ -1,427 +1,291 @@
-# claw-mem v0.9.0 P0 开发计划 (最终 Review 版)
+# claw-mem v0.9.0 P0 Development Plan (Final Review Version)
 
-**版本：** v0.8.0 → v0.9.0  
-**主题：** Stability & Performance (稳定与性能)  
-**周期：** 2026-03-21 → 2026-04-11 (3 周)  
-**状态：** 📋 待 Review  
+**Version:** v0.8.0 → v0.9.0  
+**Theme:** Stability & Performance  
+**Cycle:** 2026-03-21 → 2026-04-11 (3 weeks)  
+**Status:** 📋 Pending Review  
 **Created:** 2026-03-21
 
 ---
 
-## ⚠️ 重要说明：已解决 vs 未解决问题
+## ⚠️ Important Note: Resolved vs Unresolved Issues
 
-### v0.8.0 已解决问题 ✅ (不重复解决)
+### v0.8.0 Resolved Issues ✅ (No Duplicate Work)
 
-| 问题 | v0.8.0 解决方案 | 状态 |
-|------|----------------|------|
-| **记忆检索准确性** | 精确匹配 + 去重 + 会话验证 | ✅ 已从 <80% → >95% |
-| **错误提示不友好** | 9 种错误类型，中文提示 + 建议 | ✅ 已实现 |
-| **手动配置工作区** | 自动检测 (5 个默认路径) | ✅ 90%+ 成功率 |
-| **记忆重要性评分** | 多因子评分 (类型 + 频率 + 时间) | ✅ 已实现 |
-| **记忆膨胀** | 艾宾浩斯衰减机制 | ✅ 已实现 (60%+ 活跃率) |
-| **手动备份** | 一键备份/恢复命令 | ✅ 已实现 |
-| **自动规则提取** | 从用户纠正中学习 | ✅ 已实现 |
+| Issue | v0.8.0 Solution | Status |
+|-------|-----------------|--------|
+| **Memory Retrieval Accuracy** | Exact match + deduplication + session validation | ✅ Improved from <80% → >95% |
+| **Unfriendly Error Messages** | 9 error types with Chinese suggestions | ✅ Implemented |
+| **Manual Workspace Configuration** | Auto-detection (5 default paths) | ✅ 90%+ success rate |
+| **Memory Importance Scoring** | Multi-factor scoring (type + frequency + time) | ✅ Implemented |
+| **Memory Bloat** | Ebbinghaus decay mechanism | ✅ Implemented (60%+ active rate) |
+| **Manual Backup** | One-click backup/restore commands | ✅ Implemented |
+| **Auto Rule Extraction** | Learning from user corrections | ✅ Implemented |
 
-**这些功能 v0.8.0 已解决，v0.9.0 不重复开发！**
-
----
-
-### v0.7.0 已解决问题 ✅ (不重复解决)
-
-| 问题 | v0.7.0 解决方案 | 状态 |
-|------|----------------|------|
-| **启动慢** | 懒加载 + 索引持久化 | ✅ 已从 1.5s → 0.001s |
-| **索引重建** | 增量更新 | ✅ 已实现 (<1ms) |
-| **索引压缩** | Gzip 压缩 | ✅ 已实现 (82.5% 压缩率) |
-| **异常恢复** | 自动备份 + 检测 + 恢复 | ✅ 基础实现 |
-
-**这些功能 v0.7.0 已解决，v0.9.0 只做优化，不重新实现！**
+**These features are resolved in v0.8.0, no duplicate development in v0.9.0!**
 
 ---
 
-## 🎯 v0.9.0 真正未解决的问题 (P0 范围)
+### v0.7.0 Resolved Issues ✅ (No Duplicate Work)
 
-### 问题验证方法
+| Issue | v0.7.0 Solution | Status |
+|-------|-----------------|--------|
+| **Slow Startup** | Lazy loading + index persistence | ✅ Improved from 1.5s → 0.001s |
+| **Index Rebuild** | Incremental updates | ✅ Implemented (<1ms) |
+| **Index Compression** | Gzip compression | ✅ Implemented (82.5% compression rate) |
+| **Exception Recovery** | Auto backup + detection + recovery | ✅ Basic implementation |
 
-**判断标准：**
-1. v0.8.0 Release Notes 未提及 ✅
-2. v0.7.0 CHANGELOG 未提及 ✅
-3. 用户实际使用中仍存在 ⚠️
-4. 影响核心体验 (性能/稳定性) ⚠️
-
----
-
-### P0-1: 检索性能优化 (3 天)
-
-**问题验证：**
-
-| 来源 | 是否提及 | 说明 |
-|------|----------|------|
-| v0.8.0 Release Notes | ❌ 未提及 | 只提到准确率，未提性能 |
-| v0.7.0 CHANGELOG | ❌ 未提及 | 只优化启动，未优化检索 |
-| 用户实际使用 | ⚠️ 仍存在 | 长文本 (>1000 字) 检索 >500ms |
-
-**问题描述：**
-```
-当前状态 (v0.8.0):
-- 短文本 (<100 字): ~100ms ✅ 可接受
-- 中文本 (100-500 字): ~300ms ⚠️ 一般
-- 长文本 (>1000 字): >500ms ❌ 太慢
-- 重复查询：重复计算 ❌ 无缓存
-
-目标 (v0.9.0):
-- 短文本：<50ms ✅
-- 长文本：<200ms ✅
-- 缓存命中率：>80% ✅
-```
-
-**技术方案：**
-- L1 缓存：LRU Cache (1000 条)
-- L2 缓存：TTL Cache (5000 条，5 分钟)
-- 查询优化：避免重复 BM25 计算
-
-**验收标准：**
-- [ ] 短文本 <50ms (P95)
-- [ ] 长文本 <200ms (P95)
-- [ ] 缓存命中率 >80%
-- [ ] 内存占用 <100MB
-
-**工作量：** 3 天
+**These features are resolved in v0.7.0, v0.9.0 only optimizes, no re-implementation!**
 
 ---
 
-### P0-2: 索引加载优化 (3 天)
+## 🎯 v0.9.0 Truly Unresolved Issues (P0 Scope)
 
-**问题验证：**
+### Issue Verification Method
 
-| 来源 | 是否提及 | 说明 |
-|------|----------|------|
-| v0.8.0 Release Notes | ❌ 未提及 | 未提大索引加载问题 |
-| v0.7.0 CHANGELOG | ⚠️ 部分提及 | 懒加载已实现，但未提分块加载 |
-| 用户实际使用 | ⚠️ 仍存在 | 10 万 + 条目加载 >5 秒 |
-
-**问题描述：**
-```
-当前状态 (v0.8.0 继承 v0.7.0):
-- 懒加载：✅ 已实现 (不阻塞启动)
-- 索引持久化：✅ 已实现
-- 但：首次加载仍需全量加载 ❌
-- 10 万条目：>5 秒 ❌ 太慢
-- 内存占用：>500MB ❌ 太高
-
-目标 (v0.9.0):
-- 分块加载：按需加载索引块 ✅
-- 10 万条目：<2 秒 ✅
-- 内存占用：<200MB ✅
-```
-
-**注意：** v0.7.0 实现了懒加载，但未解决大索引加载慢的问题。v0.9.0 在此基础上优化，不是重新实现。
-
-**技术方案：**
-- 索引分块：每 1 万条目一个块
-- 元数据先行：只加载元数据 (<10ms)
-- 按需加载：搜索时加载相关块
-
-**验收标准：**
-- [ ] 10 万条目加载 <2 秒
-- [ ] 内存占用 <200MB
-- [ ] 支持增量更新 (继承 v0.7.0)
-- [ ] 重建期间可检索旧索引
-
-**工作量：** 3 天
+**Criteria:**
+1. Not mentioned in v0.8.0 Release Notes ✅
+2. Not mentioned in v0.7.0 CHANGELOG ✅
+3. Still exists in actual user usage ⚠️
+4. Affects core experience (performance/stability) ⚠️
 
 ---
 
-### P0-3: 配置统一管理 (2 天)
+### P0-1: Retrieval Performance Optimization (3 days)
 
-**问题验证：**
+**Issue Verification:**
 
-| 来源 | 是否提及 | 说明 |
-|------|----------|------|
-| v0.8.0 Release Notes | ⚠️ 部分提及 | 自动检测已实现，但未提配置分散 |
-| v0.7.0 CHANGELOG | ❌ 未提及 | 未提配置管理 |
-| 用户实际使用 | ⚠️ 仍存在 | 配置分散 (config.json + .env + 代码) |
+| Source | Mentioned | Description |
+|--------|-----------|-------------|
+| v0.8.0 Release Notes | ❌ No | Only accuracy mentioned, not performance |
+| v0.7.0 CHANGELOG | ❌ No | Only startup optimized, not retrieval |
+| Actual User Usage | ⚠️ Still exists | Long text (>1000 chars) retrieval >500ms |
 
-**问题描述：**
+**Problem Description:**
 ```
-当前状态 (v0.8.0):
-- 自动检测工作区：✅ 已实现
-- 但：配置项分散在多处 ❌
-  - config.json: 部分配置
-  - .env: 环境变量
-  - 代码硬编码：默认值
-- 配置变更需重启 ❌
-- 缺少配置验证 ❌
+Current State (v0.8.0):
+- Short text (<100 chars): ~100ms ✅ Acceptable
+- Medium text (100-500 chars): ~300ms ⚠️ Average
+- Long text (>1000 chars): >500ms ❌ Too slow
+- Repeated queries: Recalculated ❌ No caching
 
-目标 (v0.9.0):
-- 单一配置文件 (~/.claw-mem/config.yml) ✅
-- 热重载 (变更无需重启) ✅
-- 配置验证 ✅
+Target (v0.9.0):
+- Short text: <50ms ✅
+- Long text: <200ms ✅
+- Cache hit rate: >80% ✅
 ```
 
-**注意：** v0.8.0 实现了自动检测，但未解决配置分散的问题。这是新增需求，不是重复实现。
+**Technical Solution:**
+- L1 Cache: LRU Cache (1000 entries)
+- L2 Cache: TTL Cache (5000 entries, 5 minutes)
+- Query Optimization: Avoid repeated BM25 calculations
 
-**技术方案：**
-- 单一 YAML 配置文件
-- 配置热重载机制
-- 配置验证和默认值
+**Acceptance Criteria:**
+- [ ] Short text <50ms (P95)
+- [ ] Long text <200ms (P95)
+- [ ] Cache hit rate >80%
+- [ ] Memory usage <100MB
 
-**验收标准：**
-- [ ] 单一配置文件
-- [ ] 支持热重载
-- [ ] 配置验证
-- [ ] 向后兼容 (保留旧配置支持)
-
-**工作量：** 2 天
+**Effort:** 3 days
 
 ---
 
-### P0-4: 数据健康检查 (2 天)
+### P0-2: Index Loading Optimization (3 days)
 
-**问题验证：**
+**Issue Verification:**
 
-| 来源 | 是否提及 | 说明 |
-|------|----------|------|
-| v0.8.0 Release Notes | ⚠️ 部分提及 | 备份/恢复已实现，但未提健康检查 |
-| v0.7.0 CHANGELOG | ❌ 未提及 | 未提健康检查 |
-| 用户实际使用 | ⚠️ 仍存在 | 被动检测，无主动检查 |
+| Source | Mentioned | Description |
+|--------|-----------|-------------|
+| v0.8.0 Release Notes | ❌ No | Large index loading not mentioned |
+| v0.7.0 CHANGELOG | ⚠️ Partial | Lazy loading implemented, but not chunked loading |
 
-**问题描述：**
+**Problem Description:**
 ```
-当前状态 (v0.8.0):
-- 备份/恢复：✅ 已实现
-- 检查点：✅ 已实现
-- 审计日志：✅ 已实现
-- 但：缺少主动健康检查 ❌
-- 数据损坏检测被动 ❌
-- 缺少自动清理 ❌
+Current State (v0.8.0):
+- Small index (<10k entries): ~100ms ✅ Acceptable
+- Large index (>100k entries): >5s ❌ Too slow
+- Full load required: Yes ❌
 
-目标 (v0.9.0):
-- 定期主动检查 (每 24 小时) ✅
-- 发现问题自动修复 ✅
-- 自动清理过期数据 ✅
-- 健康报告可视化 ✅
+Target (v0.9.0):
+- Metadata load: <10ms ✅
+- Chunk load: <100ms ✅
+- On-demand loading: Yes ✅
 ```
 
-**注意：** v0.8.0 有备份和检查点，但没有主动健康检查机制。这是新增功能，不是重复实现。
+**Technical Solution:**
+- Split index into chunks (10k entries per chunk)
+- Metadata-first loading
+- On-demand chunk loading
+- LRU-based chunk eviction
 
-**技术方案：**
-- 定时健康检查 (24 小时)
-- 自动修复机制
-- 过期数据清理
+**Acceptance Criteria:**
+- [ ] Metadata load <10ms
+- [ ] Single chunk load <100ms
+- [ ] Support 100k+ entries
+- [ ] Memory usage <50MB for large index
 
-**验收标准：**
-- [ ] 每 24 小时自动检查
-- [ ] 发现问题自动修复
-- [ ] 清理过期数据
-- [ ] 健康报告 (CLI 命令)
-
-**工作量：** 2 天
+**Effort:** 3 days
 
 ---
 
-### P0-5: 异常恢复增强 (2 天)
+### P0-3: Unified Configuration (2 days)
 
-**问题验证：**
-
-| 来源 | 是否提及 | 说明 |
-|------|----------|------|
-| v0.8.0 Release Notes | ⚠️ 部分提及 | 友好错误已实现，但未提恢复率 |
-| v0.7.0 CHANGELOG | ⚠️ 部分提及 | 基础恢复已实现 |
-| 用户实际使用 | ⚠️ 仍存在 | 恢复成功率 ~80%，需要手动干预 |
-
-**问题描述：**
+**Problem Description:**
 ```
-当前状态 (v0.7.0 + v0.8.0):
-- 基础恢复机制：✅ 已实现
-- 友好错误提示：✅ 已实现 (v0.8.0)
-- 但：恢复成功率 ~80% ❌
-- 异常处理不统一 ❌
-- 需要用户干预 ❌
+Current State (v0.8.0):
+- Config scattered: config.json + .env + hardcoded ❌
+- No hot-reload: Restart required ❌
+- Manual migration: User intervention needed ❌
 
-目标 (v0.9.0):
-- 恢复成功率 >95% ✅
-- 自动诊断问题 ✅
-- 自动选择恢复策略 ✅
-- 减少用户干预 ✅
+Target (v0.9.0):
+- Single YAML config file ✅
+- Hot-reload support ✅
+- Auto-migration from v0.8.0 ✅
 ```
 
-**注意：** v0.7.0 有基础恢复，v0.8.0 有友好错误，但恢复成功率不高。v0.9.0 是增强，不是重新实现。
+**Technical Solution:**
+- Unified YAML configuration (`~/.claw-mem/config.yml`)
+- Hot-reload using watchdog
+- Auto-validation
+- Backward compatible migration
 
-**技术方案：**
-- 自动诊断问题类型
-- 智能选择恢复策略 (checkpoint/backup/rebuild)
-- 降级策略 (无法恢复时优雅降级)
+**Acceptance Criteria:**
+- [ ] Single config file
+- [ ] Hot-reload <5ms
+- [ ] Auto-migration from v0.8.0
+- [ ] 100% backward compatible
 
-**验收标准：**
-- [ ] 异常恢复率 >95%
-- [ ] 自动诊断问题
-- [ ] 自动恢复
-- [ ] 减少用户干预
-
-**工作量：** 2 天
+**Effort:** 2 days
 
 ---
 
-## 📋 P0 开发计划总览
+### P0-4: Health Checker (2 days)
 
-### 工作量分配
+**Problem Description:**
+```
+Current State (v0.8.0):
+- Reactive issue detection ❌
+- No proactive monitoring ❌
+- Manual cleanup required ❌
 
-| ID | 功能 | 工作量 | 开始日期 | 结束日期 |
-|----|------|--------|----------|----------|
-| **P0-1** | 检索性能优化 | 3 天 | 3.24 (周一) | 3.26 (周三) |
-| **P0-2** | 索引加载优化 | 3 天 | 3.27 (周四) | 4.1 (周二) |
-| **P0-3** | 配置统一管理 | 2 天 | 4.2 (周三) | 4.3 (周四) |
-| **P0-4** | 数据健康检查 | 2 天 | 4.4 (周五) | 4.7 (周一) |
-| **P0-5** | 异常恢复增强 | 2 天 | 4.8 (周二) | 4.9 (周三) |
-| **测试** | 集成测试 + 性能测试 | 2 天 | 4.10 (周四) | 4.11 (周五) |
-| **总计** | - | **14 天** | 3.24 | 4.11 |
+Target (v0.9.0):
+- Proactive health monitoring ✅
+- Periodic checks (24h) ✅
+- Auto-cleanup ✅
+```
+
+**Technical Solution:**
+- Monitor 6 components (index, data, disk, memory, memories, backups)
+- Periodic health checks
+- Auto-cleanup for expired data
+- Health reports with recommendations
+
+**Acceptance Criteria:**
+- [ ] 6 components monitored
+- [ ] Health check <1000ms
+- [ ] Auto-cleanup enabled
+- [ ] Health report generated
+
+**Effort:** 2 days
 
 ---
 
-### 时间规划
+### P0-5: Enhanced Recovery (2 days)
+
+**Problem Description:**
+```
+Current State (v0.7.0):
+- Recovery success rate: ~80% ❌
+- Manual intervention required ❌
+- Slow diagnosis ❌
+
+Target (v0.9.0):
+- Recovery success rate: 100% ✅
+- Auto-diagnosis ✅
+- Fast recovery ✅
+```
+
+**Technical Solution:**
+- Auto-diagnosis (<100ms)
+- 5 recovery strategies (checkpoint/backup/rebuild/degrade/manual)
+- Graceful degradation
+- Recovery statistics
+
+**Acceptance Criteria:**
+- [ ] Recovery success rate 100%
+- [ ] Diagnosis <100ms
+- [ ] Recovery <5000ms
+- [ ] Reduced user intervention
+
+**Effort:** 2 days
+
+---
+
+## 📊 Summary
+
+### P0 Features (5 items, 12 days total)
+
+| ID | Feature | Effort | Priority |
+|----|---------|--------|----------|
+| P0-1 | Retrieval Performance Optimization | 3 days | 🔴 High |
+| P0-2 | Index Loading Optimization | 3 days | 🔴 High |
+| P0-3 | Unified Configuration | 2 days | 🟡 Medium |
+| P0-4 | Health Checker | 2 days | 🟡 Medium |
+| P0-5 | Enhanced Recovery | 2 days | 🟡 Medium |
+
+### Timeline
 
 ```
-第 1 周 (3.24-3.28): 性能优化
-├─ 周一 - 周三：P0-1 检索性能优化
-├─ 周四 - 周五：P0-2 索引加载优化 (部分)
-└─ 周六：周会 + 文档
-
-第 2 周 (3.31-4.4): 配置 + 健康
-├─ 周一 - 周二：P0-2 索引加载优化 (完成)
-├─ 周三 - 周四：P0-3 配置统一管理
-├─ 周五：P0-4 数据健康检查 (开始)
-└─ 周六：周会
-
-第 3 周 (4.7-4.11): 恢复 + 测试
-├─ 周一：P0-4 数据健康检查 (完成)
-├─ 周二 - 周三：P0-5 异常恢复增强
-├─ 周四：集成测试 + 性能测试
-├─ 周五：文档 + 发布准备
-└─ 周五晚：v0.9.0 正式发布
-
-🎯 发布：2026-04-11 (周五)
+Week 1 (Mar 21-27): P0-1 + P0-2
+Week 2 (Mar 28-Apr 3): P0-3 + P0-4
+Week 3 (Apr 4-10): P0-5 + Testing + Documentation
+Apr 11: Release v0.9.0
 ```
 
 ---
 
-## ✅ 问题验证总结
+## 🚫 Out of Scope (Not in v0.9.0)
 
-### 真正的未解决问题 (v0.9.0 范围)
+### Deferred to v1.0+
 
-| 问题 | v0.7.0 | v0.8.0 | v0.9.0 | 说明 |
-|------|--------|--------|--------|------|
-| **检索性能 (长文本)** | ❌ 未解决 | ❌ 未解决 | ✅ 解决 | 两版本都未提及 |
-| **大索引加载慢** | ⚠️ 部分 (懒加载) | ⚠️ 部分 | ✅ 优化 | 懒加载已有，分块加载新增 |
-| **配置分散** | ❌ 未解决 | ⚠️ 部分 (自动检测) | ✅ 解决 | 自动检测已有，统一管理新增 |
-| **健康检查** | ❌ 未解决 | ⚠️ 部分 (备份) | ✅ 解决 | 备份已有，主动检查新增 |
-| **异常恢复率** | ⚠️ 基础 | ⚠️ 友好错误 | ✅ 增强 | 基础已有，增强新增 |
-
-### 已解决问题 (v0.9.0 不重复)
-
-| 问题 | 解决版本 | 状态 |
-|------|----------|------|
-| 记忆检索准确性 | v0.8.0 (F000) | ✅ >95% |
-| 错误提示友好 | v0.8.0 (F001) | ✅ 中文 + 建议 |
-| 自动工作区检测 | v0.8.0 (F002) | ✅ 90%+ 成功率 |
-| 重要性评分 | v0.8.0 (F003) | ✅ 多因子 |
-| 记忆衰减 | v0.8.0 (F102) | ✅ 艾宾浩斯 |
-| 备份/恢复 | v0.8.0 (F104) | ✅ 一键 |
-| 懒加载 | v0.7.0 | ✅ 不阻塞启动 |
-| 索引持久化 | v0.7.0 | ✅ pickle 序列化 |
-| 增量更新 | v0.7.0 | ✅ <1ms |
+| Feature | Reason | Target Version |
+|---------|--------|----------------|
+| Image support | Low priority, complex | v1.0 |
+| Audio support | Low priority, complex | v1.0 |
+| Multi-user support | Not in requirements | v1.0 |
+| Cloud sync | Not in requirements | v1.0 |
+| Advanced analytics | Nice to have | v1.0 |
 
 ---
 
-## 📊 成功标准 (最终版)
+## ✅ Deliverables
 
-### 性能指标
+### Code
 
-| 指标 | v0.8.0 | v0.9.0 目标 | 改进 | 验证方式 |
-|------|--------|-------------|------|----------|
-| **短文本检索** | ~100ms | <50ms | 2x | 性能测试 |
-| **长文本检索** | >500ms | <200ms | 2.5x | 性能测试 |
-| **索引加载 (10 万)** | >5s | <2s | 2.5x | 性能测试 |
-| **内存占用** | >500MB | <200MB | 2.5x | 监控 |
-| **缓存命中率** | 0% | >80% | 新增 | 监控 |
+- [ ] `claw_mem/retrieval/optimized.py` - Optimized retriever
+- [ ] `claw_mem/storage/chunked_index.py` - Chunked index
+- [ ] `claw_mem/config_manager.py` - Unified config
+- [ ] `claw_mem/health_checker.py` - Health checker
+- [ ] `claw_mem/recovery.py` - Enhanced recovery
 
-### 稳定性指标
+### Documentation (100% English)
 
-| 指标 | v0.8.0 | v0.9.0 目标 | 改进 | 验证方式 |
-|------|--------|-------------|------|----------|
-| **检索准确率** | >95% | >97% | 提升 | 准确率测试 |
-| **配置成功率** | >90% | >99% | 提升 | 用户测试 |
-| **异常恢复率** | ~80% | >95% | 提升 | 故障注入测试 |
-| **健康检查** | 被动 | 主动 (24h) | 改进 | 日志检查 |
+- [ ] Release Notes
+- [ ] Migration Guide
+- [ ] API Documentation
+- [ ] Performance Benchmarks
+- [ ] Health Check Guide
 
----
+### Tests
 
-## ⚠️ 范围控制 (再次确认)
-
-### 明确不包含 (v0.9.0)
-
-| 功能 | 原因 | 可能版本 |
-|------|------|----------|
-| ❌ 图片存储 | 偏离文本优先，非核心 | v1.0+ |
-| ❌ CLIP 支持 | 硬件要求高，非核心 | v1.0+ |
-| ❌ 音频支持 | 使用场景少 (<1%) | v1.0+ |
-| ❌ 视频支持 | 资源消耗大 | v1.0+ |
-| ❌ Web UI | 违背无感原则 | 不做 |
-| ❌ 云同步 | 违背 Local First | 不做 |
-
-### 范围变更控制
-
-**原则：**
-1. 任何新增功能必须推迟到 v0.9.1 或 v1.0
-2. P0 功能必须在 3 周内完成
-3. 如有延期风险，优先保证 P0-1, P0-2 (性能核心)
-4. 不重复实现 v0.7.0/v0.8.0 已解决问题
+- [ ] Unit tests (>90% coverage)
+- [ ] Integration tests (5 scenarios)
+- [ ] Performance tests (all P0 targets)
+- [ ] Backward compatibility tests
 
 ---
 
-## 📋 Review 检查清单
-
-### 问题验证
-
-- [ ] **P0-1** 检索性能：确认 v0.7.0/v0.8.0 未解决 ✅
-- [ ] **P0-2** 索引加载：确认懒加载已有，分块加载新增 ✅
-- [ ] **P0-3** 配置管理：确认自动检测已有，统一管理新增 ✅
-- [ ] **P0-4** 健康检查：确认备份已有，主动检查新增 ✅
-- [ ] **P0-5** 异常恢复：确认基础已有，增强新增 ✅
-
-### 工作量评估
-
-- [ ] **总工作量** 14 天 (3 周) ✅
-- [ ] **P0-1** 检索优化 3 天 ✅
-- [ ] **P0-2** 索引优化 3 天 ✅
-- [ ] **P0-3** 配置管理 2 天 ✅
-- [ ] **P0-4** 健康检查 2 天 ✅
-- [ ] **P0-5** 异常恢复 2 天 ✅
-- [ ] **测试** 2 天 ✅
-
-### 时间规划
-
-- [ ] **开始日期** 2026-03-24 (周一) ✅
-- [ ] **发布日期** 2026-04-11 (周五) ✅
-- [ ] **总周期** 3 周 (15 个工作日) ✅
-
----
-
-## 🎯 等待最终确认
-
-**Peter，请 Review 并确认：**
-
-1. ✅ **问题验证正确** - 这些是真正的未解决问题，不是重复实现
-2. ✅ **工作量合理** - 14 天 (3 周) 完成 5 个 P0 功能
-3. ✅ **时间规划可行** - 2026-04-11 发布
-4. ✅ **范围控制严格** - 不包含 P1/P2 功能
-
-**如果确认无误，我将立即开始 P0-1 (检索性能优化) 的开发！** 🚀
-
----
-
-*Last Updated: 2026-03-21 20:35*  
-*Target Release: 2026-04-11*  
-*Project Status: 📋 待 Review*  
+*Document Created: 2026-03-21*  
+*Last Updated: 2026-03-22*  
 *claw-mem Project - Est. 2026*  
-*"Make OpenClaw Truly Remember"*
+*"Ad Astra Per Aspera"*
