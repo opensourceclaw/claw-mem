@@ -1,59 +1,59 @@
 # claw-mem Error Codes
 
-**Version**: 0.8.0  
-**Language**: Chinese (中文)  
-**Last Updated**: 2026-03-20
+**Version**: 0.9.0  
+**Language**: English  
+**Last Updated**: 2026-03-22
 
 ---
 
-## 📖 错误码列表
+## 📖 Error Code Reference
 
 ### INDEX_NOT_FOUND
 
-**说明**: 记忆索引文件未找到
+**Description**: Memory index file not found
 
-**原因**:
-- 首次启动，索引尚未构建
-- 索引文件被意外删除
-- 索引路径配置错误
+**Causes**:
+- First startup, index not yet built
+- Index file accidentally deleted
+- Index path configuration error
 
-**解决方案**:
+**Solution**:
 ```
-系统会自动重建索引，等待即可完成（约 1 秒）
+System will automatically rebuild index, please wait (~1 second)
 ```
 
-**示例输出**:
+**Example Output**:
 ```
-[错误] 记忆索引未找到，正在重建...
-[建议] 首次启动需要重建索引，请稍候（约 1 秒）
-[错误码] INDEX_NOT_FOUND
-[详情] 索引路径：~/.claw-mem/index/index_v0.8.0.pkl.gz
+[Error] Memory index not found, rebuilding...
+[Suggestion] First startup requires index rebuild, please wait (~1 second)
+[Error Code] INDEX_NOT_FOUND
+[Details] Index path: ~/.claw-mem/index/index_v0.9.0.pkl.gz
 ```
 
 ---
 
 ### WORKSPACE_NOT_FOUND
 
-**说明**: 未找到 OpenClaw 工作区
+**Description**: OpenClaw workspace not found
 
-**原因**:
-- OpenClaw 未安装
-- 工作区路径配置错误
-- 使用了非标准工作区路径
+**Causes**:
+- OpenClaw not installed
+- Workspace path configuration error
+- Using non-standard workspace path
 
-**解决方案**:
+**Solution**:
 ```
-1. 确认已正确安装 OpenClaw
-2. 检查默认路径：~/.openclaw/workspace
-3. 或手动指定工作区路径：memory = MemoryManager(workspace="/your/path")
+1. Confirm OpenClaw is correctly installed
+2. Check default path: ~/.openclaw/workspace
+3. Or manually specify workspace: memory = MemoryManager(workspace="/your/path")
 ```
 
-**示例输出**:
+**Example Output**:
 ```
-[错误] 未找到 OpenClaw 工作区
-[建议] 请确认已正确安装 OpenClaw，或手动指定工作区路径
-[错误码] WORKSPACE_NOT_FOUND
-[详情] 已搜索以下路径:
+[Error] OpenClaw workspace not found
+[Suggestion] Please confirm OpenClaw is installed or manually specify workspace path
+[Error Code] WORKSPACE_NOT_FOUND
+[Details] Searched paths:
   - ~/.openclaw/workspace
   - ~/.config/openclaw/workspace
   - /current/dir
@@ -63,282 +63,282 @@
 
 ### MEMORY_CORRUPTED
 
-**说明**: 记忆文件损坏
+**Description**: Memory file corrupted
 
-**原因**:
-- 磁盘错误
-- 意外断电
-- 文件被意外修改
+**Causes**:
+- Disk errors
+- Unexpected power loss
+- File accidentally modified
 
-**解决方案**:
+**Solution**:
 ```
-系统会自动从最近的备份恢复
-如反复出现此问题，请检查磁盘健康状态
-```
-
-**示例输出**:
-```
-[错误] 记忆文件已损坏，尝试从备份恢复...
-[建议] 系统会自动从最近的备份恢复，如反复出现此问题请检查磁盘
-[错误码] MEMORY_CORRUPTED
-[详情] 损坏文件：~/.openclaw/workspace/memory/2026-03-20.md
+System will automatically restore from recent backup
+If this issue persists, please check disk health
 ```
 
----
-
-### PERMISSION_DENIED
-
-**说明**: 权限不足，无法访问文件
-
-**原因**:
-- 文件权限设置阻止访问
-- 使用了错误的用户运行
-
-**解决方案**:
+**Example Output**:
 ```
-1. 检查文件权限：ls -l <file>
-2. 修改权限：chmod 644 <file>
-3. 或以正确用户身份运行
-```
-
-**示例输出**:
-```
-[错误] 权限不足，无法访问文件
-[建议] 请检查文件权限或使用 chmod 命令修改权限
-[错误码] PERMISSION_DENIED
-[详情] 无法访问：~/.openclaw/workspace/MEMORY.md
+[Error] Memory file corrupted
+[Suggestion] Restoring from backup, please wait
+[Error Code] MEMORY_CORRUPTED
+[Details] File: ~/.claw-mem/memories/MEMORY.md
 ```
 
 ---
 
-### CONFIGURATION_ERROR
+### CONFIG_INVALID
 
-**说明**: 配置项设置错误
+**Description**: Configuration file invalid
 
-**原因**:
-- 配置文件格式错误
-- 配置值不合法
-- 缺少必需的配置项
+**Causes**:
+- Syntax errors in config file
+- Missing required fields
+- Invalid values
 
-**解决方案**:
+**Solution**:
 ```
-1. 检查配置文件格式
-2. 参考文档确认配置值范围
-3. 或运行 claw-mem --help 查看可用选项
-```
-
-**示例输出**:
-```
-[错误] 配置项 'workspace' 设置错误
-[建议] 请检查配置文件或运行 claw-mem --help 查看可用选项
-[错误码] CONFIGURATION_ERROR
-[详情] 当前值：/invalid/path
+1. Check config file syntax
+2. Verify required fields are present
+3. Use default config as reference
 ```
 
----
-
-### MEMORY_RETRIEVAL_ERROR
-
-**说明**: 记忆检索失败
-
-**原因**:
-- 搜索词过于复杂
-- 记忆文件不存在
-- 索引损坏
-
-**解决方案**:
+**Example Output**:
 ```
-1. 简化搜索关键词
-2. 检查记忆文件是否存在
-3. 重建索引：删除 ~/.claw-mem/index/ 后重启
-```
-
-**示例输出**:
-```
-[错误] 记忆检索失败
-[建议] 请尝试简化搜索关键词或检查记忆文件是否存在
-[错误码] MEMORY_RETRIEVAL_ERROR
-[详情] 搜索词：复杂的搜索查询语句
+[Error] Configuration file invalid
+[Suggestion] Please check config syntax and required fields
+[Error Code] CONFIG_INVALID
+[Details] ~/.claw-mem/config.yml: line 15, column 3
 ```
 
 ---
 
-### VALIDATION_ERROR
+### RETRIEVAL_TIMEOUT
 
-**说明**: 数据验证失败
+**Description**: Retrieval operation timed out
 
-**原因**:
-- 输入数据格式不正确
-- 数据类型不匹配
-- 值超出允许范围
+**Causes**:
+- Very large index
+- System resource constraints
+- Complex query
 
-**解决方案**:
+**Solution**:
 ```
-检查输入格式并修正
-参考文档确认正确的数据格式
-```
-
-**示例输出**:
-```
-[错误] 验证失败：memory_type
-[建议] 请检查输入格式是否正确
-[错误码] VALIDATION_ERROR
-[详情] 值：invalid_type
-原因：必须是 'episodic', 'semantic', 或 'procedural'
+1. Wait for operation to complete
+2. Consider splitting large queries
+3. Check system resources
 ```
 
----
-
-### NETWORK_ERROR
-
-**说明**: 网络连接失败
-
-**原因**:
-- 网络不可用
-- 目标服务器不可达
-- 防火墙阻止
-
-**解决方案**:
+**Example Output**:
 ```
-1. 检查网络连接
-2. 确认目标服务可用
-3. 检查防火墙设置
-4. 稍后重试
-```
-
-**示例输出**:
-```
-[错误] 网络连接失败
-[建议] 请检查网络连接或稍后重试
-[错误码] NETWORK_ERROR
-[详情] 目标 URL: https://example.com/api
+[Error] Retrieval operation timed out
+[Suggestion] Query is taking longer than expected, please wait
+[Error Code] RETRIEVAL_TIMEOUT
+[Details] Timeout: 30 seconds, Query length: 5000 chars
 ```
 
 ---
 
-### DEPENDENCY_ERROR
+### BACKUP_FAILED
 
-**说明**: 缺少 Python 依赖包
+**Description**: Backup operation failed
 
-**原因**:
-- 依赖包未安装
-- 版本不兼容
-- 安装失败
+**Causes**:
+- Insufficient disk space
+- Permission errors
+- File locked by another process
 
-**解决方案**:
+**Solution**:
 ```
-1. 运行 pip install <dependency>
-2. 检查 requirements.txt
-3. 使用 pip install -e . 重新安装
-```
-
-**示例输出**:
-```
-[错误] 缺少依赖：rank-bm25
-[建议] 请运行 'pip install rank-bm25' 安装
-[错误码] DEPENDENCY_ERROR
-[详情] 缺失的依赖：rank-bm25
+1. Check available disk space
+2. Verify file permissions
+3. Close other applications using the file
 ```
 
----
-
-## 🛠️ 使用友好错误系统
-
-### 在代码中抛出错误
-
-```python
-from claw_mem import IndexNotFoundError, WorkspaceNotFoundError
-
-# 索引未找到
-raise IndexNotFoundError("~/.claw-mem/index/index.pkl")
-
-# 工作区未找到
-raise WorkspaceNotFoundError([
-    "~/.openclaw/workspace",
-    "~/.config/openclaw/workspace"
-])
+**Example Output**:
 ```
-
-### 捕获并显示错误
-
-```python
-from claw_mem import FriendlyError
-
-try:
-    # 可能出错的操作
-    memory = MemoryManager()
-except FriendlyError as e:
-    # 自动显示友好的中文错误信息
-    print(e)
-```
-
-### 查询错误码文档
-
-```python
-from claw_mem import get_error_documentation
-
-# 获取错误码详细说明
-print(get_error_documentation("INDEX_NOT_FOUND"))
+[Error] Backup operation failed
+[Suggestion] Please check disk space and file permissions
+[Error Code] BACKUP_FAILED
+[Details] Target: ~/.claw-mem/backups/memory_20260322_120000.bak
 ```
 
 ---
 
-## 📊 错误统计
+### RECOVERY_FAILED
 
-| 错误码 | 出现频率 | 严重程度 |
-|--------|---------|---------|
-| INDEX_NOT_FOUND | 高（首次启动） | 低（自动恢复） |
-| WORKSPACE_NOT_FOUND | 中 | 中 |
-| MEMORY_CORRUPTED | 低 | 中（自动恢复） |
-| PERMISSION_DENIED | 低 | 中 |
-| CONFIGURATION_ERROR | 中 | 低 |
-| MEMORY_RETRIEVAL_ERROR | 中 | 低 |
-| VALIDATION_ERROR | 低 | 低 |
-| NETWORK_ERROR | 低 | 中 |
-| DEPENDENCY_ERROR | 低（首次安装） | 低 |
+**Description**: Recovery operation failed
 
----
+**Causes**:
+- No valid backup found
+- Backup file corrupted
+- Recovery process interrupted
 
-## 🎯 最佳实践
-
-### 1. 使用预定义错误类型
-
-```python
-# ✅ 好的做法：使用预定义错误
-raise IndexNotFoundError(path)
-
-# ❌ 不好的做法：使用通用异常
-raise Exception("Index not found")
+**Solution**:
+```
+1. Check backup files exist
+2. Manually restore from backup if needed
+3. Contact support if issue persists
 ```
 
-### 2. 提供有用的建议
-
-```python
-# ✅ 好的做法：提供具体建议
-raise WorkspaceNotFoundError(
-    searched_paths,
-    suggestion="请确认已正确安装 OpenClaw"
-)
-
-# ❌ 不好的做法：没有建议
-raise WorkspaceNotFoundError(searched_paths)
+**Example Output**:
 ```
-
-### 3. 包含详细信息
-
-```python
-# ✅ 好的做法：包含详细信息
-raise PermissionDeniedError(
-    path,
-    details=f"文件所有者：{owner}, 权限：{perms}"
-)
-
-# ❌ 不好的做法：信息不足
-raise PermissionDeniedError(path)
+[Error] Recovery operation failed
+[Suggestion] No valid backup found, manual intervention required
+[Error Code] RECOVERY_FAILED
+[Details] Searched 3 backup files, all invalid
 ```
 
 ---
 
-**文档版本**: 0.8.0  
-**最后更新**: 2026-03-20  
-**维护者**: Peter Cheng
+### INDEX_LOAD_FAILED
+
+**Description**: Index loading failed
+
+**Causes**:
+- Index file corrupted
+- Version mismatch
+- Memory constraints
+
+**Solution**:
+```
+System will attempt to rebuild index automatically
+If rebuild fails, manual intervention required
+```
+
+**Example Output**:
+```
+[Error] Index loading failed
+[Suggestion] Attempting automatic rebuild...
+[Error Code] INDEX_LOAD_FAILED
+[Details] Index version: 0.8.0, Expected: 0.9.0
+```
+
+---
+
+### HEALTH_CHECK_FAILED
+
+**Description**: Health check detected issues
+
+**Causes**:
+- Disk space low
+- Memory usage high
+- Expired memories not cleaned
+
+**Solution**:
+```
+Review health report and follow recommendations
+Auto-cleanup will run if enabled
+```
+
+**Example Output**:
+```
+[Warning] Health check detected issues
+[Suggestion] Review health report for details
+[Error Code] HEALTH_CHECK_FAILED
+[Details] 3 issues found: disk space, memory usage, expired memories
+```
+
+---
+
+### CACHE_ERROR
+
+**Description**: Cache operation failed
+
+**Causes**:
+- Cache corrupted
+- Memory limits exceeded
+- Cache eviction failed
+
+**Solution**:
+```
+Cache will be automatically cleared and rebuilt
+Performance may be temporarily degraded
+```
+
+**Example Output**:
+```
+[Warning] Cache operation failed
+[Suggestion] Clearing and rebuilding cache
+[Error Code] CACHE_ERROR
+[Details] L1 cache corrupted, L2 cache cleared
+```
+
+---
+
+## 🔧 Error Handling Best Practices
+
+### For Users
+
+1. **Read Error Messages Carefully**
+   - Error code identifies the issue
+   - Suggestion provides next steps
+   - Details give technical context
+
+2. **Follow Suggested Solutions**
+   - Most errors have automatic recovery
+   - Manual intervention rarely needed
+   - Contact support if issues persist
+
+3. **Keep Backups**
+   - Regular backups prevent data loss
+   - Multiple backup versions retained
+   - Easy to restore from backup
+
+### For Developers
+
+1. **Use Specific Error Codes**
+   - Each error type has unique code
+   - Consistent naming convention
+   - Clear error hierarchy
+
+2. **Provide Actionable Suggestions**
+   - Tell users what to do next
+   - Include example commands
+   - Link to documentation
+
+3. **Log Detailed Context**
+   - Include file paths
+   - Show relevant values
+   - Capture stack traces
+
+---
+
+## 📊 Error Code Categories
+
+| Category | Prefix | Count | Severity |
+|----------|--------|-------|----------|
+| **Index Errors** | INDEX_* | 3 | High |
+| **Workspace Errors** | WORKSPACE_* | 1 | High |
+| **Memory Errors** | MEMORY_* | 2 | High |
+| **Config Errors** | CONFIG_* | 1 | Medium |
+| **Retrieval Errors** | RETRIEVAL_* | 1 | Medium |
+| **Backup Errors** | BACKUP_* | 1 | Medium |
+| **Recovery Errors** | RECOVERY_* | 1 | High |
+| **Health Errors** | HEALTH_* | 1 | Low |
+| **Cache Errors** | CACHE_* | 1 | Low |
+
+---
+
+## 🆕 New in v0.9.0
+
+### Added Error Codes
+
+- `HEALTH_CHECK_FAILED` - Health check detected issues
+- `CACHE_ERROR` - Cache operation failed
+- `INDEX_LOAD_FAILED` - Index loading failed
+- `CONFIG_INVALID` - Configuration file invalid
+
+### Improved Error Messages
+
+- More specific suggestions
+- Better technical details
+- Consistent formatting
+- 100% English
+
+---
+
+*Document Version: 0.9.0*  
+*Language: English*  
+*Last Updated: 2026-03-22*  
+*claw-mem Project - Est. 2026*  
+*"Ad Astra Per Aspera"*

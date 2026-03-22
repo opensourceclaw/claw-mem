@@ -25,6 +25,14 @@
 
 ---
 
+### GitHub Release Status
+
+- [x] Release created: https://github.com/opensourceclaw/claw-mem/releases/tag/v0.9.0
+- [x] Release notes published
+- [x] Tag pushed to remote
+
+---
+
 ### Testing Status
 
 - [x] Unit tests: All passing (>90% coverage)
@@ -125,8 +133,12 @@
 
 ### Contributors
 
-- **Peter Cheng** - Project Lead, Vision, Strategic Guidance
-- **Friday** - AI Partner, Lead Developer, All P0 Features
+This release is a result of **human-AI collaboration**:
+
+- **Peter Cheng** - Project Lead, Vision, Architecture Design, Decision Making, Code Review
+- **Friday** - AI Partner, Code Generation, Documentation, Testing, Implementation
+
+> In the AI era, we ship code together — humans define the "what" and "why", AI handles the "how".
 
 ### Thanks
 

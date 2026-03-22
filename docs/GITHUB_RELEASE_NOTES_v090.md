@@ -138,8 +138,12 @@ pip install -e .
 
 ## 🙏 Contributors
 
-- **Peter Cheng** - Project Lead
-- **Friday** - AI Partner & Lead Developer
+This release is a result of **human-AI collaboration**:
+
+- **Peter Cheng** - Project Lead, Vision, Architecture Design, Decision Making, Code Review
+- **Friday** - AI Partner, Code Generation, Documentation, Testing, Implementation
+
+> In the AI era, we ship code together — humans define the "what" and "why", AI handles the "how".
 
 ---
 

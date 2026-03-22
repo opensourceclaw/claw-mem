@@ -1,531 +1,414 @@
-# claw-mem v0.9.0 P0 最终计划
+# claw-mem v0.9.0 P0 Final Plan
 
-**版本：** v0.8.0 → v0.9.0  
-**主题：** Stability & Performance (稳定与性能)  
-**周期：** 2026-03-21 → 2026-04-11 (3 周)  
-**状态：** ✅ 最终确认  
+**Version:** v0.8.0 → v0.9.0  
+**Theme:** Stability & Performance  
+**Cycle:** 2026-03-21 → 2026-04-11 (3 weeks)  
+**Status:** ✅ Final Confirmed  
 **Created:** 2026-03-21  
-**Updated:** 2026-03-21 (聚焦 P0，搁置 P1/P2)
+**Updated:** 2026-03-21 (Focus on P0, Defer P1/P2)
 
 ---
 
-## 🎯 战略决策
+## 🎯 Strategic Decisions
 
-### 聚焦 P0 原则
+### Focus on P0 Principles
 
-> **"文本优先，稳定第一，解决 v0.8.0 遗留问题，不引入新功能"**
+> **"Text First, Stability First, Resolve v0.8.0 Legacy Issues, No New Features"**
 
-**搁置功能：**
-- ❌ P1: 图片基础支持 (推迟到 v0.9.1 或 v1.0)
-- ❌ P2: CLIP/音频等 (推迟到 v1.0+)
+**Deferred Features:**
+- ❌ P1: Basic Image Support (Deferred to v0.9.1 or v1.0)
+- ❌ P2: CLIP/Audio etc. (Deferred to v1.0+)
 
-**聚焦功能：**
-- ✅ P0: 文本记忆性能优化
-- ✅ P0: 稳定性和可靠性
-- ✅ P0: 解决 v0.8.0 遗留问题
-
----
-
-## 📊 v0.8.0 问题汇总 (基于用户反馈和文档分析)
-
-### 问题分类
-
-根据 v0.8.0 Release Notes 和 F000 修复计划，汇总以下核心问题：
-
-#### 1. 记忆检索准确性 (F000 已部分解决)
-
-**v0.8.0 改进：**
-- ✅ 准确率从 <80% → >95%
-- ✅ 精确匹配优先级
-- ✅ 自动去重
-
-**遗留问题 (v0.9.0 解决)：**
-- [ ] **长文本检索性能差** - >1000 字时 >500ms
-- [ ] **多条目冲突处理不够智能** - 仍可能返回次优结果
-- [ ] **上下文相关检索不准确** - 缺少查询理解
-- [ ] **缓存缺失** - 重复查询重复计算
-
-**用户场景：**
-```
-用户问："我上次说的 claw-mem 仓库地址是什么？"
-当前：检索慢 (500ms+)，可能返回旧地址
-期望：快速 (<100ms)，准确返回最新地址
-```
+**Focused Features:**
+- ✅ P0: Text Memory Performance Optimization
+- ✅ P0: Stability and Reliability
+- ✅ P0: Resolve v0.8.0 Legacy Issues
 
 ---
 
-#### 2. 索引性能 (v0.7.0 遗留)
+## 📊 v0.8.0 Issues Summary (Based on User Feedback and Documentation Analysis)
 
-**v0.7.0 改进：**
-- ✅ 懒加载实现
-- ✅ 索引持久化
-- ✅ 增量更新
+### Issue Categories
 
-**遗留问题：**
-- [ ] **大索引加载慢** - 10 万 + 条目 >5 秒
-- [ ] **内存占用高** - >500MB
-- [ ] **重建期间无法检索** - 影响使用
-- [ ] **分块加载未实现** - 全量加载
+Based on v0.8.0 Release Notes and F000 Fix Plan, summarize the following core issues:
 
-**用户场景：**
+#### 1. Memory Retrieval Accuracy (F000 Partially Resolved)
+
+**v0.8.0 Improvements:**
+- ✅ Accuracy improved from <80% → >95%
+- ✅ Exact match priority
+- ✅ Auto deduplication
+
+**Legacy Issues (v0.9.0 to Resolve):**
+- [ ] **Poor Long Text Retrieval Performance** - >500ms for >1000 chars
+- [ ] **Multi-Entry Conflict Handling Not Smart Enough** - May still return suboptimal results
+- [ ] **Context-Aware Retrieval Inaccurate** - Lacks query understanding
+- [ ] **No Caching** - Repeated queries recalculated
+
+**User Scenario:**
 ```
-用户使用 6 个月后，记忆条目达到 10 万 +
-当前：启动慢 (>5 秒)，内存占用高
-期望：启动快 (<2 秒)，内存 <200MB
+User asks: "What was the claw-mem repo URL I mentioned last time?"
+
+Current (v0.8.0):
+- Searches all memories
+- Takes >500ms for long conversations
+- May return multiple results
+
+Target (v0.9.0):
+- L1/L2 cache for recent queries
+- <50ms for cached queries
+- Smart ranking for multiple results
 ```
 
 ---
 
-#### 3. 配置管理 (v0.8.0 新增问题)
+#### 2. Index Performance (v0.7.0 Partially Resolved)
 
-**v0.8.0 改进：**
-- ✅ 自动工作区检测
-- ✅ 友好错误提示
+**v0.7.0 Improvements:**
+- ✅ Lazy loading implemented
+- ✅ Index persistence implemented
+- ✅ Gzip compression (82.5% compression rate)
 
-**新增问题：**
-- [ ] **配置分散** - config.json + .env + 代码硬编码
-- [ ] **配置验证缺失** - 错误配置导致启动失败
-- [ ] **配置变更需重启** - 不方便
-- [ ] **缺少统一文档** - 用户不知道有哪些配置项
+**Legacy Issues (v0.9.0 to Optimize):**
+- [ ] **Large Index Loading Slow** - >5s for 100k+ entries
+- [ ] **Full Load Required** - Cannot load on-demand
+- [ ] **Memory Usage High** - >500MB for large index
 
-**用户场景：**
+**User Scenario:**
 ```
-用户想修改检索结果数量
-当前：需要找多个配置文件，修改后重启
-期望：单一配置文件，热重载
-```
+User has 100k+ memories (1 year of usage)
 
----
+Current (v0.8.0):
+- Startup: >5s waiting for index load
+- Memory: >500MB RAM usage
+- Cannot use during rebuild
 
-#### 4. 数据完整性 (v0.8.0 部分解决)
-
-**v0.8.0 改进：**
-- ✅ 备份/恢复功能
-- ✅ 检查点机制
-- ✅ 审计日志
-
-**遗留问题：**
-- [ ] **缺少主动健康检查** - 被动等待问题发生
-- [ ] **数据损坏检测滞后** - 用户发现问题时已晚
-- [ ] **缺少自动清理** - 过期数据占用空间
-- [ ] **缺少健康报告** - 用户不知道数据状态
-
-**用户场景：**
-```
-用户使用 3 个月后，发现记忆库变大，但不知道是否健康
-当前：无主动检查，用户手动发现
-期望：定期自动检查，提供健康报告
+Target (v0.9.0):
+- Startup: <10ms metadata load
+- Memory: <50MB with chunked loading
+- Can use during rebuild
 ```
 
 ---
 
-#### 5. 异常恢复 (v0.8.0 基础实现)
+#### 3. Configuration Management (v0.8.0 Partially Resolved)
 
-**v0.8.0 改进：**
-- ✅ 友好错误提示
-- ✅ 基础恢复机制
+**v0.8.0 Improvements:**
+- ✅ Auto workspace detection (5 default paths)
+- ✅ 90%+ success rate
+- ✅ Clear error messages
 
-**遗留问题：**
-- [ ] **恢复成功率不高** - ~80%
-- [ ] **错误处理不统一** - 部分异常未捕获
-- [ ] **缺少降级策略** - 异常时直接失败
-- [ ] **缺少自愈能力** - 需要用户干预
+**Legacy Issues (v0.9.0 to Resolve):**
+- [ ] **Scattered Configuration** - config.json + .env + hardcoded
+- [ ] **No Hot-Reload** - Restart required for changes
+- [ ] **Manual Migration** - User intervention needed for upgrades
 
-**用户场景：**
+**User Scenario:**
 ```
-索引文件损坏
-当前：报错，需要用户手动修复
-期望：自动检测，自动从备份恢复
-```
+User wants to change workspace path
 
----
+Current (v0.8.0):
+- Edit config.json manually
+- Restart OpenClaw
+- Risk of config errors
 
-## 🎯 v0.9.0 P0 功能规划 (最终版)
-
-### P0-1: 检索性能优化 (3 天)
-
-**问题：** 长文本检索慢，缺少缓存
-
-**方案：**
-```python
-class OptimizedRetriever:
-    def __init__(self):
-        # L1 缓存：最近查询 (LRU, 1000 条)
-        self.query_cache = LRUCache(max_size=1000)
-        
-        # L2 缓存：常用结果 (TTL 5 分钟)
-        self.result_cache = TTLCache(max_size=5000, ttl=300)
-    
-    def search(self, query: str, filters: dict) -> List[Memory]:
-        # 1. 检查缓存
-        cache_key = f"{query}:{filters}"
-        if cache_key in self.query_cache:
-            return self.query_cache[cache_key]
-        
-        # 2. BM25 检索 (优化版)
-        results = self.bm25_search(query, filters)
-        
-        # 3. 缓存结果
-        self.query_cache[cache_key] = results
-        
-        return results
-```
-
-**验收标准：**
-- [ ] 短文本检索 <50ms (P95)
-- [ ] 长文本检索 <200ms (P95)
-- [ ] 缓存命中率 >80%
-- [ ] 内存占用 <100MB (缓存)
-
-**工作量：** 3 天
-
----
-
-### P0-2: 索引优化 (3 天)
-
-**问题：** 大索引加载慢，内存占用高
-
-**方案：**
-```python
-class OptimizedIndex:
-    def __init__(self, index_dir: str):
-        self.index_dir = index_dir
-        self.index_meta = self._load_metadata()  # 只加载元数据
-        self.index_data = None  # 延迟加载
-    
-    def _load_metadata(self):
-        """只加载元数据 (大小、版本、条目数) - <10ms"""
-        meta_path = os.path.join(self.index_dir, "meta.json")
-        with open(meta_path, 'r') as f:
-            return json.load(f)
-    
-    def search(self, query: str):
-        """按需分块加载索引"""
-        if self.index_data is None:
-            self._load_index_blocks()  # 分块加载
-        
-        return self._search_index(query)
-    
-    def _load_index_blocks(self):
-        """分块加载索引，避免一次性加载"""
-        # 只加载需要的块
-        pass
-```
-
-**验收标准：**
-- [ ] 10 万条目加载 <2 秒
-- [ ] 内存占用 <200MB
-- [ ] 支持增量更新
-- [ ] 重建期间可检索旧索引
-
-**工作量：** 3 天
-
----
-
-### P0-3: 配置统一管理 (2 天)
-
-**问题：** 配置分散，变更需重启
-
-**方案：**
-```yaml
-# ~/.claw-mem/config.yml (单一配置文件)
-
-version: "0.9.0"
-
-# 存储配置
-storage:
-  workspace: "~/.openclaw/workspace"
-  backup_dir: "~/.claw-mem/backups"
-  max_memory_size_mb: 100
-  
-# 检索配置
-retrieval:
-  max_results: 10
-  cache_size: 1000
-  cache_ttl_seconds: 300
-  
-# 性能配置
-performance:
-  enable_lazy_loading: true
-  index_chunk_size: 10000
-  max_memory_mb: 500
-  
-# 健康检查
-health:
-  enabled: true
-  check_interval_hours: 24
-  auto_cleanup: true
-```
-
-**验收标准：**
-- [ ] 单一配置文件
-- [ ] 支持热重载
-- [ ] 配置验证
-- [ ] 向后兼容
-
-**工作量：** 2 天
-
----
-
-### P0-4: 数据健康检查 (2 天)
-
-**问题：** 被动检测，缺少主动检查
-
-**方案：**
-```python
-class HealthChecker:
-    def __init__(self, config: Config):
-        self.config = config
-        self.last_check = None
-    
-    def check_all(self) -> HealthReport:
-        """全面健康检查"""
-        report = HealthReport()
-        
-        # 1. 索引健康
-        report.index_health = self._check_index()
-        
-        # 2. 数据完整性
-        report.data_integrity = self._check_data_integrity()
-        
-        # 3. 磁盘空间
-        report.disk_space = self._check_disk_space()
-        
-        # 4. 记忆过期
-        report.expired_memories = self._check_expired()
-        
-        return report
-    
-    def auto_cleanup(self):
-        """自动清理过期数据"""
-        if not self.config.health.auto_cleanup:
-            return
-        
-        # 清理过期记忆
-        cleaned = self._cleanup_expired_memories()
-        
-        # 清理旧备份
-        self._cleanup_old_backups()
-        
-        return cleaned
-```
-
-**验收标准：**
-- [ ] 每 24 小时自动检查
-- [ ] 发现问题自动修复
-- [ ] 清理过期数据
-- [ ] 健康报告可视化
-
-**工作量：** 2 天
-
----
-
-### P0-5: 异常恢复增强 (2 天)
-
-**问题：** 恢复成功率不高，缺少自愈
-
-**方案：**
-```python
-class EnhancedRecovery:
-    def __init__(self, config: Config):
-        self.config = config
-        self.checkpoint = CheckpointManager()
-        self.backup = BackupManager()
-    
-    def recover_from_error(self, error: Exception):
-        """自动恢复"""
-        # 1. 诊断问题
-        diagnosis = self._diagnose(error)
-        
-        # 2. 选择恢复策略
-        strategy = self._select_strategy(diagnosis)
-        
-        # 3. 执行恢复
-        if strategy == "checkpoint":
-            return self._recover_from_checkpoint()
-        elif strategy == "backup":
-            return self._recover_from_backup()
-        elif strategy == "rebuild":
-            return self._rebuild_index()
-        
-        return False
-    
-    def _diagnose(self, error: Exception) -> str:
-        """诊断问题类型"""
-        if isinstance(error, IndexCorruptedError):
-            return "index_corrupted"
-        elif isinstance(error, ConfigError):
-            return "config_error"
-        # ...
-```
-
-**验收标准：**
-- [ ] 异常恢复率 >95%
-- [ ] 自动诊断问题
-- [ ] 自动选择恢复策略
-- [ ] 减少用户干预
-
-**工作量：** 2 天
-
----
-
-## 📅 时间规划 (最终版)
-
-### 3 周迭代 (15 个工作日)
-
-```
-第 1 周 (3.24-3.28): 检索 + 索引优化
-├─ 周一 - 周三：P0-1 检索性能优化
-├─ 周四 - 周五：P0-2 索引优化
-└─ 周六：周会 + 文档
-
-第 2 周 (3.31-4.4): 配置 + 健康检查
-├─ 周一：P0-3 配置统一管理
-├─ 周二 - 周三：P0-4 数据健康检查
-├─ 周四 - 周五：P0-5 异常恢复增强
-└─ 周六：P0 功能集成测试
-
-第 3 周 (4.7-4.11): 测试 + 发布
-├─ 周一 - 周二：性能测试
-├─ 周三 - 周四：稳定性测试
-├─ 周五：文档 + 发布准备
-└─ 周六：v0.9.0 正式发布
-
-🎯 发布：2026-04-11 (周五)
+Target (v0.9.0):
+- Single YAML config file
+- Hot-reload (no restart)
+- Auto-validation
 ```
 
 ---
 
-## 📊 成功标准 (最终版)
+## 🎯 v0.9.0 P0 Features
 
-### 性能指标
+### P0-1: Optimized Retriever (3 days)
 
-| 指标 | v0.8.0 | v0.9.0 目标 | 改进 |
-|------|--------|-------------|------|
-| **短文本检索** | 100ms | <50ms | **2x** |
-| **长文本检索** | 500ms | <200ms | **2.5x** |
-| **索引加载 (10 万)** | 5s | <2s | **2.5x** |
-| **内存占用** | 500MB | <200MB | **2.5x** |
-| **缓存命中率** | 0% | >80% | **新增** |
+**Problem:** Slow retrieval for long text, no caching
 
-### 稳定性指标
+**Solution:**
+- L1 Cache: LRU (1000 entries, recent queries)
+- L2 Cache: TTL (5000 entries, 5min TTL, frequent queries)
+- Query Optimization: Avoid repeated BM25 calculations
 
-| 指标 | v0.8.0 | v0.9.0 目标 | 改进 |
-|------|--------|-------------|------|
-| **检索准确率** | >95% | >97% | **提升** |
-| **配置成功率** | >90% | >99% | **提升** |
-| **异常恢复率** | 80% | >95% | **提升** |
-| **数据完整性** | 被动检测 | 主动检查 | **改进** |
+**Acceptance Criteria:**
+- [ ] Short text (<100 chars): <50ms (P95)
+- [ ] Long text (>1000 chars): <200ms (P95)
+- [ ] Cache hit rate: >80%
+- [ ] Memory usage: <100MB
 
-### 用户体验指标
-
-| 指标 | v0.8.0 | v0.9.0 目标 |
-|------|--------|-------------|
-| **启动时间** | <1s | <0.5s |
-| **配置复杂度** | 中等 | 简单 (单一文件) |
-| **健康感知** | 无 | 定期报告 |
-| **故障恢复** | 需要干预 | 自动恢复 |
+**Module:** `claw_mem/retrieval/optimized.py`
 
 ---
 
-## ⚠️ 范围控制
+### P0-2: Chunked Index (3 days)
 
-### 明确不包含 (v0.9.0)
+**Problem:** Slow loading for large datasets
 
-| 功能 | 原因 | 可能版本 |
-|------|------|----------|
-| ❌ 图片存储 | 偏离文本优先原则 | v1.0+ |
-| ❌ CLIP 支持 | 硬件要求高，非核心 | v1.0+ |
-| ❌ 音频支持 | 使用场景少 | v1.0+ |
-| ❌ 视频支持 | 资源消耗大 | v1.0+ |
-| ❌ Web UI | 违背无感原则 | v1.0+ |
-| ❌ 云同步 | 违背 Local First | 不做 |
+**Solution:**
+- Split index into chunks (10k entries per chunk)
+- Metadata-first loading (<1ms)
+- On-demand chunk loading
+- LRU-based chunk eviction
 
-### 范围变更控制
+**Acceptance Criteria:**
+- [ ] Metadata load: <10ms
+- [ ] Single chunk load: <100ms
+- [ ] Support 100k+ entries
+- [ ] Memory usage: <50MB
 
-**原则：**
-- 任何新增功能必须推迟到 v0.9.1 或 v1.0
-- P0 功能必须在 3 周内完成
-- 如有延期风险，优先保证核心功能 (P0-1, P0-2)
+**Module:** `claw_mem/storage/chunked_index.py`
 
 ---
 
-## 🎯 与 OpenClaw 社区的关联
+### P0-3: Unified Configuration (2 days)
 
-### 基于 v0.8.0 用户反馈的核心问题
+**Problem:** Scattered configuration, no hot-reload
 
-根据 Release Notes 和 F000 文档，汇总用户反馈：
+**Solution:**
+- Single YAML config file (`~/.claw-mem/config.yml`)
+- Hot-reload support using watchdog (<5ms)
+- Auto-validation
+- Backward compatible migration from v0.8.0
 
-**高频问题：**
-1. **检索慢** - 尤其是长文本
-2. **启动慢** - 索引大的时候
-3. **配置复杂** - 多个配置文件
-4. **数据担忧** - 不知道是否健康
-5. **异常恢复** - 需要手动干预
+**Acceptance Criteria:**
+- [ ] Single config file
+- [ ] Hot-reload: <5ms
+- [ ] Auto-migration from v0.8.0
+- [ ] 100% backward compatible
 
-**v0.9.0 针对性解决：**
-- ✅ P0-1: 检索性能优化 → 解决检索慢
-- ✅ P0-2: 索引优化 → 解决启动慢
-- ✅ P0-3: 配置统一 → 解决配置复杂
-- ✅ P0-4: 健康检查 → 解决数据担忧
-- ✅ P0-5: 异常恢复 → 解决手动干预
+**Module:** `claw_mem/config_manager.py`
 
 ---
 
-## 📋 验收清单 (最终版)
+### P0-4: Health Checker (2 days)
 
-### P0 核心功能 (必须全部完成)
+**Problem:** Reactive issue detection, no proactive monitoring
 
-- [ ] **P0-1** 检索性能优化完成
-  - [ ] 短文本 <50ms
-  - [ ] 长文本 <200ms
-  - [ ] 缓存命中率 >80%
-  
-- [ ] **P0-2** 索引优化完成
-  - [ ] 10 万条目加载 <2s
-  - [ ] 内存 <200MB
-  - [ ] 分块加载可用
-  
-- [ ] **P0-3** 配置统一管理完成
-  - [ ] 单一配置文件
-  - [ ] 热重载可用
-  - [ ] 配置验证通过
-  
-- [ ] **P0-4** 数据健康检查完成
-  - [ ] 自动检查 (24h)
-  - [ ] 自动清理
-  - [ ] 健康报告
-  
-- [ ] **P0-5** 异常恢复增强完成
-  - [ ] 恢复率 >95%
-  - [ ] 自动诊断
-  - [ ] 自动恢复
+**Solution:**
+- Monitor 6 components (index, data, disk, memory, memories, backups)
+- Periodic checks (every 24 hours)
+- Auto-cleanup for expired data
+- Health reports with recommendations
 
-### 测试和文档
+**Acceptance Criteria:**
+- [ ] 6 components monitored
+- [ ] Health check: <1000ms
+- [ ] Auto-cleanup enabled
+- [ ] Health report generated
 
-- [ ] 单元测试 >90% 覆盖
-- [ ] 集成测试通过
-- [ ] 性能测试达标
-- [ ] 用户文档更新
-- [ ] 开发文档更新
-- [ ] CHANGELOG 更新
+**Module:** `claw_mem/health_checker.py`
 
 ---
 
-## 🎯 承诺
+### P0-5: Enhanced Recovery (2 days)
 
-**作为 claw-mem 开发团队，我们承诺：**
+**Problem:** Low recovery success rate (~80%), manual intervention
 
-1. **聚焦 P0** - 不引入 P1/P2 功能
-2. **保证质量** - 所有性能指标必须达标
-3. **按时发布** - 2026-04-11 发布
-4. **向后兼容** - 不影响现有用户
-5. **Local First** - 所有数据本地存储
+**Solution:**
+- Auto-diagnosis (<100ms)
+- 5 recovery strategies (checkpoint/backup/rebuild/degrade/manual)
+- Graceful degradation when recovery fails
+- Recovery statistics and history
+
+**Acceptance Criteria:**
+- [ ] Recovery success rate: 100%
+- [ ] Diagnosis: <100ms
+- [ ] Recovery: <5000ms
+- [ ] Reduced user intervention
+
+**Module:** `claw_mem/recovery.py`
 
 ---
 
-*Last Updated: 2026-03-21 20:30*  
-*Target Release: 2026-04-11*  
-*Project Status: ✅ 最终确认*  
+## 📅 Timeline
+
+### Week 1 (Mar 21-27): Performance Foundation
+
+```
+Mar 21-23: P0-1 Optimized Retriever (3 days)
+Mar 24-26: P0-2 Chunked Index (3 days)
+Mar 27: Unit tests & integration (1 day)
+```
+
+**Deliverables:**
+- [ ] `optimized.py` implemented and tested
+- [ ] `chunked_index.py` implemented and tested
+- [ ] Unit tests (>90% coverage)
+- [ ] Performance benchmarks
+
+### Week 2 (Mar 28-Apr 3): Stability Features
+
+```
+Mar 28-29: P0-3 Unified Configuration (2 days)
+Mar 30-31: P0-4 Health Checker (2 days)
+Apr 1-2: Integration testing (2 days)
+Apr 3: Bug fixes (1 day)
+```
+
+**Deliverables:**
+- [ ] `config_manager.py` implemented and tested
+- [ ] `health_checker.py` implemented and tested
+- [ ] Integration tests (5 scenarios)
+- [ ] Documentation updated
+
+### Week 3 (Apr 4-10): Polish & Release
+
+```
+Apr 4-5: P0-5 Enhanced Recovery (2 days)
+Apr 6-7: Performance testing (2 days)
+Apr 8-9: Documentation (2 days)
+Apr 10: Release preparation (1 day)
+```
+
+**Deliverables:**
+- [ ] `recovery.py` implemented and tested
+- [ ] Performance test report
+- [ ] Release notes (100% English)
+- [ ] Migration guide
+
+### Apr 11: Release v0.9.0 🎉
+
+---
+
+## 📊 Success Metrics
+
+| Metric | v0.8.0 Baseline | v0.9.0 Target | Improvement |
+|--------|-----------------|---------------|-------------|
+| **Short text retrieval** | ~100ms | <50ms | 2x faster |
+| **Long text retrieval** | >500ms | <200ms | 2.5x faster |
+| **Index metadata load** | >5s | <10ms | 500x faster |
+| **Index chunk load** | N/A | <100ms | New |
+| **Config load** | Manual | <5ms | Automated |
+| **Hot-reload** | N/A | <5ms | New |
+| **Health check** | N/A | <1000ms | New |
+| **Recovery diagnosis** | Manual | <100ms | Automated |
+| **Recovery execution** | ~80% success | 100% success | 25% better |
+| **Recovery time** | Manual | <5000ms | Automated |
+| **Memory usage** | >500MB | <100MB | 5x less |
+| **Documentation** | Mixed | 100% English | Standardized |
+
+**All targets must be met before release!**
+
+---
+
+## 🚫 Out of Scope
+
+### Deferred Features
+
+| Feature | Original Plan | New Plan | Reason |
+|---------|---------------|----------|--------|
+| **Basic Image Support** | v0.9.0 P1 | v0.9.1 or v1.0 | Low priority, focus on text |
+| **CLIP Integration** | v0.9.0 P2 | v1.0+ | Complex, not core |
+| **Audio Support** | v0.9.0 P2 | v1.0+ | Low usage, complex |
+| **Multi-user Support** | Future | v1.0+ | Not in requirements |
+| **Cloud Sync** | Future | v1.0+ | Not in requirements |
+
+### Rationale
+
+1. **User Feedback:** 90%+ usage is text-based
+2. **Focus:** Performance and stability first
+3. **Resources:** Limited development capacity
+4. **Quality:** Better to do fewer things well
+
+---
+
+## ✅ Deliverables Checklist
+
+### Code
+
+- [ ] `claw_mem/retrieval/optimized.py` - OptimizedRetriever with L1/L2 caching
+- [ ] `claw_mem/storage/chunked_index.py` - ChunkedIndex for large datasets
+- [ ] `claw_mem/config_manager.py` - UnifiedConfig and ConfigManager
+- [ ] `claw_mem/health_checker.py` - HealthChecker with proactive monitoring
+- [ ] `claw_mem/recovery.py` - RecoveryManager with auto-diagnosis
+- [ ] `claw_mem/config.py` - Update to support YAML
+- [ ] `claw_mem/errors.py` - Add new error types
+
+### Tests
+
+- [ ] Unit tests (>90% coverage)
+- [ ] Integration tests (5 scenarios):
+  - Retrieval performance
+  - Index loading
+  - Config hot-reload
+  - Health check
+  - Recovery
+- [ ] Performance tests (all P0 targets)
+- [ ] Backward compatibility tests
+
+### Documentation (100% English)
+
+- [ ] `RELEASE_NOTES_v090.md` - Release notes
+- [ ] `MIGRATION_GUIDE_v090.md` - Migration from v0.8.0
+- [ ] `PERFORMANCE_BENCHMARKS.md` - Performance comparison
+- [ ] `HEALTH_CHECK_GUIDE.md` - Health check documentation
+- [ ] `ERROR_CODES_v090.md` - Error codes reference
+- [ ] `API_REFERENCE.md` - API documentation
+
+### Release
+
+- [ ] Version bump to 0.9.0
+- [ ] Git tag v0.9.0
+- [ ] GitHub Release
+- [ ] PyPI package (optional)
+- [ ] Community announcement (optional)
+
+---
+
+## ⚠️ Risks and Mitigation
+
+### Technical Risks
+
+| Risk | Impact | Probability | Mitigation |
+|------|--------|-------------|------------|
+| **Cache inconsistency** | High | Medium | Add cache invalidation tests |
+| **Chunked index bugs** | High | Medium | Extensive integration testing |
+| **Config migration failures** | Medium | Low | Backup old config, rollback support |
+| **Performance regression** | High | Low | Continuous performance testing |
+
+### Schedule Risks
+
+| Risk | Impact | Probability | Mitigation |
+|------|--------|-------------|------------|
+| **P0 features take longer** | High | Medium | Buffer time in Week 3 |
+| **Testing reveals major bugs** | High | Medium | Early testing, daily builds |
+| **Documentation takes longer** | Medium | High | Start documentation early |
+
+---
+
+## 📞 Communication Plan
+
+### During Development
+
+- **Daily:** Progress updates in project log
+- **Weekly:** Status review every Friday
+- **Milestones:** P0 completion announcements
+
+### Before Release
+
+- **Apr 4:** Feature freeze
+- **Apr 7:** Code freeze
+- **Apr 10:** Release candidate
+- **Apr 11:** Official release
+
+---
+
+## 🎊 Success Criteria
+
+**v0.9.0 is considered successful if:**
+
+1. ✅ All P0 features implemented and tested
+2. ✅ All performance targets met
+3. ✅ 100% backward compatible
+4. ✅ 100% English documentation
+5. ✅ Zero critical bugs
+6. ✅ Positive user feedback
+
+---
+
+*Document Created: 2026-03-21*  
+*Last Updated: 2026-03-22*  
+*Status: ✅ Final Confirmed*  
 *claw-mem Project - Est. 2026*  
-*"Make OpenClaw Truly Remember"*
+*"Ad Astra Per Aspera"*
