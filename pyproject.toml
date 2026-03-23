@@ -4,8 +4,8 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "claw-mem"
-version = "0.8.0"
-description = "AI Harness Engineering Memory System for OpenClaw"
+version = "1.0.0"
+description = "Three-Tier Memory Retrieval System for OpenClaw"
 readme = "README.md"
 license = "Apache-2.0"
 authors = [
@@ -21,7 +21,7 @@ keywords = [
     "context-engineering",
 ]
 classifiers = [
-    "Development Status :: 4 - Beta",
+    "Development Status :: 5 - Production/Stable",
     "Intended Audience :: Developers",
     "Operating System :: OS Independent",
     "Programming Language :: Python :: 3",

@@ -1,3 +1,17 @@
+# Copyright 2026 Peter Cheng
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
 """
 claw-mem Core Memory Manager
 
@@ -14,6 +28,7 @@ from .storage.semantic import SemanticStorage
 from .storage.procedural import ProceduralStorage
 from .storage.index import InMemoryIndex, WorkingMemoryCache
 from .retrieval.keyword import KeywordRetriever
+from .retrieval.three_tier import ThreeTierRetriever, SessionStartupHook
 from .security.validation import WriteValidator
 from .security.checkpoint import CheckpointManager
 from .security.audit import AuditLogger
@@ -61,6 +76,8 @@ class MemoryManager:
         
         # Initialize utilities
         self.retriever = KeywordRetriever()
+        self.three_tier_retriever = ThreeTierRetriever(self.workspace)
+        self.session_startup_hook = SessionStartupHook(self.three_tier_retriever)
         self.validator = WriteValidator()
         self.checkpoint = CheckpointManager(self.workspace)
         self.audit = AuditLogger(self.workspace)
@@ -99,31 +116,68 @@ class MemoryManager:
         
         print(f"🧠 claw-mem initialized, workspace: {self.workspace}")
     
-    def start_session(self, session_id: str) -> None:
+    def start_session(self, session_id: str, initial_context: Optional[str] = None) -> None:
         """
         Start new session
-        
+
         Args:
             session_id: Session ID
+            initial_context: Optional initial context for memory retrieval
         """
         self.session_id = session_id
         self.session_start = datetime.now()
         self.working_memory = []
         self.working_cache.clear()
-        
+
         # Load all memories and build index
         self._load_and_build_index()
-        
+
+        # Use three-tier retrieval to find relevant memories based on context
+        if initial_context:
+            self._retrieve_contextual_memories(initial_context)
+
         # Load relevant memories to working memory (L1 cache)
         self._load_relevant_memories()
-        
+
         # Create checkpoint
         self.checkpoint.create(session_id)
-        
+
         # Log audit
         self.audit.log("session_start", {"session_id": session_id})
-        
+
         print(f"✅ Session {session_id} started, indexed {len(self.working_memory)} memories")
+
+    def _retrieve_contextual_memories(self, context: str) -> None:
+        """
+        Retrieve contextual memories using three-tier retrieval
+
+        Args:
+            context: Session context or topic
+        """
+        results = self.cross_session_search(
+            query=context,
+            layers=["l2", "l3"],  # Search short-term and long-term memory
+            limit=5,
+        )
+
+        if results:
+            print(f"🔍 Retrieved {len(results)} contextual memories for: {context[:50]}")
+
+            # Add retrieved memories to working cache for quick access
+            for result in results:
+                memory_record = {
+                    "id": result.get("memory_id"),
+                    "content": result.get("content"),
+                    "type": result.get("memory_type", "episodic"),
+                    "tags": result.get("tags", []),
+                    "timestamp": result.get("timestamp"),
+                    "source": result.get("source"),
+                    "layer": result.get("layer"),
+                }
+                if memory_record["id"]:
+                    self.working_cache.put(memory_record["id"], memory_record)
+        else:
+            print(f"ℹ️  No contextual memories found for: {context[:50]}")
     
     def end_session(self) -> None:
         """
@@ -215,23 +269,23 @@ class MemoryManager:
         print(f"✅ Memory stored ({memory_type}): {content[:50]}...")
         return True
     
-    def search(self, query: str, memory_type: Optional[str] = None, 
+    def search(self, query: str, memory_type: Optional[str] = None,
                limit: int = 10) -> List[Dict]:
         """
         Retrieve memories using hybrid search (N-gram + BM25)
-        
+
         Args:
             query: Search query
             memory_type: Memory type filter (optional)
             limit: Number of results
-            
+
         Returns:
             List[Dict]: Memory records
         """
         # Use in-memory index for fast search
         if self.index.built:
             hybrid_results = self.index.hybrid_search(query, limit=limit)
-            
+
             # Convert memory_ids to memory records
             results = []
             for memory_id, score in hybrid_results:
@@ -247,7 +301,7 @@ class MemoryManager:
                             # Add to cache
                             self.working_cache.put(memory_id, memory)
                             break
-            
+
             # Log audit
             self.audit.log("memory_search", {
                 "query": query,
@@ -255,7 +309,7 @@ class MemoryManager:
                 "results_count": len(results),
                 "method": "hybrid_index"
             })
-            
+
             print(f"🔍 Retrieved {len(results)} memories (hybrid): {query}")
             return results
         else:
@@ -268,9 +322,42 @@ class MemoryManager:
                 memory_type=memory_type,
                 limit=limit
             )
-            
+
             print(f"🔍 Retrieved {len(results)} memories (keyword): {query}")
             return results
+
+    def cross_session_search(self, query: str,
+                              layers: Optional[List[str]] = None,
+                              limit: int = 10,
+                              memory_type: Optional[str] = None) -> List[Dict]:
+        """
+        Cross-session memory search using three-tier retrieval
+
+        Args:
+            query: Search query
+            layers: Layers to search ["l1", "l2", "l3"] (default: all)
+            limit: Maximum results
+            memory_type: Memory type filter
+
+        Returns:
+            List[Dict]: Memory result dictionaries
+        """
+        # Prepare session context for L1 search
+        session_context = {
+            "working_memory": self.working_memory,
+            "session_id": self.session_id,
+        }
+
+        results = self.three_tier_retriever.search(
+            query=query,
+            layers=layers,
+            limit=limit,
+            memory_type=memory_type,
+            session_context=session_context,
+        )
+
+        # Convert MemoryResult objects to dicts
+        return [r.to_dict() for r in results]
     
     def _load_and_build_index(self) -> None:
         """
