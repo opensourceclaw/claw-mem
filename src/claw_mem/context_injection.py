@@ -122,8 +122,15 @@ class ContextFormatter:
             formatted = self._truncate(formatted, self.max_length)
             warnings.append(f"Context truncated to {self.max_length} characters")
 
-        # Extract unique layers
-        layers = list(set(m.get("layer", "unknown") for m in memories))
+        # Extract unique layers (handle both dict and MemoryResult)
+        def get_layer(m):
+            if hasattr(m, 'layer'):
+                layer = m.layer
+                return layer.value if hasattr(layer, 'value') else str(layer)
+            else:
+                return m.get("layer", "unknown")
+        
+        layers = list(set(get_layer(m) for m in memories))
 
         return InjectedContext(
             formatted_text=formatted,
@@ -139,9 +146,16 @@ class ContextFormatter:
                         include_scores: bool) -> str:
         """Format memories grouped by layer"""
         # Group memories by layer
-        by_layer: Dict[str, List[Dict]] = {}
+        by_layer: Dict[str, List] = {}
         for memory in memories:
-            layer = memory.get("layer") or "unknown"
+            # Handle both dict and MemoryResult objects
+            if hasattr(memory, 'layer'):
+                layer = memory.layer or "unknown"
+                content = memory.content
+            else:
+                layer = memory.get("layer") or "unknown"
+                content = memory.get("content", "")
+            
             if layer not in by_layer:
                 by_layer[layer] = []
             by_layer[layer].append(memory)
@@ -151,7 +165,9 @@ class ContextFormatter:
         sections.append("--- Retrieved Context ---")
 
         for layer, layer_memories in sorted(by_layer.items()):
-            layer_name = self.LAYER_NAMES.get(layer, layer.upper())
+            # Handle MemoryLayer enum
+            layer_str = layer.value if hasattr(layer, 'value') else str(layer)
+            layer_name = self.LAYER_NAMES.get(layer_str, layer_str.upper())
             sections.append(f"\n## {layer_name}")
 
             for i, memory in enumerate(layer_memories, 1):
@@ -203,13 +219,25 @@ class ContextFormatter:
         Returns:
             Formatted entry string
         """
-        content = memory.get("content", "")
-        layer = (memory.get("layer") or "unknown").upper()
-        memory_id = memory.get("memory_id", "")
-        source = memory.get("source", "")
-        score = memory.get("score")
-        tags = memory.get("tags", [])
-        timestamp = memory.get("timestamp")
+        # Handle both dict and MemoryResult objects
+        if hasattr(memory, 'content'):
+            content = memory.content
+            layer = (memory.layer or "unknown")
+            memory_id = memory.memory_id if hasattr(memory, 'memory_id') else ""
+            source = memory.source if hasattr(memory, 'source') else ""
+            score = memory.score if hasattr(memory, 'score') else None
+            tags = memory.tags if hasattr(memory, 'tags') else []
+            timestamp = memory.timestamp if hasattr(memory, 'timestamp') else None
+        else:
+            content = memory.get("content", "")
+            layer = memory.get("layer") or "unknown"
+            memory_id = memory.get("memory_id", "")
+            source = memory.get("source", "")
+            score = memory.get("score")
+            tags = memory.get("tags", [])
+            timestamp = memory.get("timestamp")
+        
+        layer = layer.value.upper() if hasattr(layer, 'value') else layer.upper()
 
         # Build entry header
         parts = [f"[{layer}-{index}]"]
