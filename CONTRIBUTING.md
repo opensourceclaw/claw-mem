@@ -119,7 +119,7 @@ Click the "Fork" button on GitHub to create your own copy.
 ### Step 2: Clone Locally
 
 ```bash
-git clone https://github.com/YOUR_USERNAME/claw-mem.git
+git clone https://github.com/opensourceclaw/claw-mem.git
 cd claw-mem
 ```
 
@@ -127,7 +127,7 @@ cd claw-mem
 
 ```bash
 # Keep in sync with upstream
-git remote add upstream https://github.com/yourusername/claw-mem.git
+git remote add upstream https://github.com/opensourceclaw/claw-mem.git
 git fetch upstream
 git checkout main
 git merge upstream/main
@@ -369,8 +369,8 @@ A: Please follow the project's code standards. If you have different opinions, y
 
 Thank you to everyone who has contributed to claw-mem!
 
-<a href="https://github.com/yourusername/claw-mem/graphs/contributors">
-  <img src="https://contrib.rocks/image?repo=yourusername/claw-mem" />
+<a href="https://github.com/opensourceclaw/claw-mem/graphs/contributors">
+  <img src="https://contrib.rocks/image?repo=opensourceclaw/claw-mem" />
 </a>
 
 ---
