@@ -71,8 +71,8 @@ try:
     with tempfile.TemporaryDirectory() as tmpdir:
         mem = MemoryManager(workspace=tmpdir)
         
-        # Add test memory
-        mem.add('Deployment test for version $VERSION')
+        # Store test memory
+        mem.store('Deployment test for version $VERSION')
         
         # Search
         results = mem.search('Deployment test')
@@ -86,6 +86,8 @@ try:
             sys.exit(1)
 except Exception as e:
     print(f'❌ Test failed: {e}')
+    import traceback
+    traceback.print_exc()
     sys.exit(1)
 "
 

@@ -1,4 +1,18 @@
 #!/usr/bin/env python3
+# Copyright 2026 Peter Cheng
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
 """
 claw-mem CLI - Command Line Interface for claw-mem
 
@@ -10,6 +24,8 @@ import sys
 from pathlib import Path
 
 from . import __version__
+from .config import ConfigDetector
+from .retrieval.three_tier import ThreeTierRetriever
 
 
 def main():
@@ -43,13 +59,24 @@ def main():
     )
     
     # search command
-    search_parser = subparsers.add_parser("search", help="Search memories")
+    search_parser = subparsers.add_parser("search", help="Search memories (three-tier retrieval)")
     search_parser.add_argument("query", type=str, help="Search query")
     search_parser.add_argument(
         "--limit",
         type=int,
         default=10,
         help="Maximum number of results (default: 10)",
+    )
+    search_parser.add_argument(
+        "--layers",
+        type=str,
+        default="l1,l2,l3",
+        help="Layers to search: l1,l2,l3 (default: all)",
+    )
+    search_parser.add_argument(
+        "--json",
+        action="store_true",
+        help="Output in JSON format",
     )
     
     # backup command
@@ -92,28 +119,82 @@ def main():
 
 def cmd_stats(args):
     """Show memory statistics"""
-    print("claw-mem Memory Statistics")
-    print("=" * 40)
-    print("Note: Full stats implementation coming in v0.8.0")
-    print("=" * 40)
-    
+    from .memory_manager import MemoryManager
+
+    # Detect workspace
+    try:
+        workspace = ConfigDetector.detect_workspace()
+    except Exception as e:
+        print(f"Error: {e}")
+        sys.exit(1)
+
+    # Initialize memory manager
+    mm = MemoryManager(workspace=workspace, auto_detect=False)
+
+    stats = mm.get_stats()
+
     if args.json:
         import json
-        data = {
-            "version": __version__,
-            "status": "ok",
-            "message": "Stats implementation coming in v0.8.0",
-        }
-        print(json.dumps(data, indent=2))
+        print(json.dumps(stats, indent=2, ensure_ascii=False))
+    else:
+        print("claw-mem Memory Statistics")
+        print("=" * 40)
+        print(f"Workspace: {stats['workspace']}")
+        print(f"Session: {stats['session_id'] or 'None'}")
+        print(f"Working memory count: {stats['working_memory_count']}")
+        print(f"L1 cache size: {stats['working_cache_size']}")
+        print(f"Index built: {stats['index_built']}")
+        print(f"Episodic memories: {stats['episodic_count']}")
+        print(f"Semantic memories: {stats['semantic_count']}")
+        print(f"Procedural memories: {stats['procedural_count']}")
+        print("=" * 40)
+        print(f"Total memories: {stats['episodic_count'] + stats['semantic_count'] + stats['procedural_count']}")
 
 
 def cmd_search(args):
-    """Search memories"""
-    print(f"Searching for: {args.query}")
-    print(f"Limit: {args.limit}")
-    print("=" * 40)
-    print("Note: Full search implementation coming in v0.8.0")
-    print("=" * 40)
+    """Search memories using three-tier retrieval"""
+    # Detect workspace
+    try:
+        workspace = ConfigDetector.detect_workspace()
+    except Exception as e:
+        print(f"Error: {e}")
+        sys.exit(1)
+
+    # Parse layers
+    layers = [l.strip() for l in args.layers.split(",")]
+
+    # Initialize retriever
+    retriever = ThreeTierRetriever(Path(workspace))
+
+    # Search
+    results = retriever.search(
+        query=args.query,
+        layers=layers,
+        limit=args.limit,
+    )
+
+    if args.json:
+        import json
+        output = {
+            "query": args.query,
+            "layers": layers,
+            "count": len(results),
+            "results": [r.to_dict() for r in results],
+        }
+        print(json.dumps(output, indent=2, ensure_ascii=False))
+    else:
+        print(f"Search results for: {args.query}")
+        print(f"Layers searched: {', '.join(layers)}")
+        print(f"Found {len(results)} results")
+        print("=" * 60)
+
+        for i, result in enumerate(results, 1):
+            print(f"\n[{i}] [{result.layer.value.upper()}] (score: {result.score:.3f})")
+            print(f"    {result.content[:200]}{'...' if len(result.content) > 200 else ''}")
+            if result.source != "working_memory":
+                print(f"    Source: {Path(result.source).name}")
+            if result.tags:
+                print(f"    Tags: {', '.join(result.tags)}")
 
 
 def cmd_backup(args):
