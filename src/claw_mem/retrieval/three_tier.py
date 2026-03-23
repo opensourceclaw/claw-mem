@@ -214,12 +214,13 @@ class ThreeTierRetriever:
         Args:
             workspace: OpenClaw workspace path
         """
-        self.workspace = workspace
+        from pathlib import Path as PathLib
+        self.workspace = workspace if isinstance(workspace, PathLib) else PathLib(workspace)
         self.intent_classifier = IntentClassifier()
 
         # Storage paths
-        self.memory_file = workspace / "MEMORY.md"  # L3
-        self.memory_dir = workspace / "memory"  # L2
+        self.memory_file = self.workspace / "MEMORY.md"  # L3
+        self.memory_dir = self.workspace / "memory"  # L2
 
         # Performance metrics
         self._search_count = 0
