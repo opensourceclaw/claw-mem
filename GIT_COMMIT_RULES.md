@@ -104,10 +104,30 @@ chore: Remove docs/ directory from Git
 5. [ ] Push to GitHub
 6. [ ] Create GitHub Release
 
+**Create GitHub Release (Correct Process):**
+```bash
+# Step 1: Create annotated tag
+git tag -a v1.0.4 -m "claw-mem v1.0.4 - Release Title"
+
+# Step 2: Push tag
+git push origin v1.0.4
+
+# Step 3: Create GitHub Release (IMPORTANT: --draft=false)
+gh release create v1.0.4 \
+  --title "claw-mem v1.0.4" \
+  --notes-file RELEASE_NOTES_v1.0.4.md \
+  --draft=false  # ← CRITICAL: Make it public!
+```
+
+**⚠️ Common Mistake:**
+- `gh release create` creates **draft** releases by default
+- Must explicitly set `--draft=false` to publish immediately
+
 **After Release:**
 1. [ ] Verify GitHub repository (no `docs/` directory)
-2. [ ] Verify release notes are published
-3. [ ] Monitor for issues (48 hours)
+2. [ ] Verify release is public (not draft)
+3. [ ] Verify release notes are published
+4. [ ] Monitor for issues (48 hours)
 
 ---
 
