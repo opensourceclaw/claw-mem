@@ -82,3 +82,12 @@ dmypy.json
 data/
 *.db
 *.sqlite
+
+# Documentation (DO NOT commit to GitHub)
+docs/
+*.md
+!README.md
+!CHANGELOG.md
+!CODE_OF_CONDUCT.md
+!CONTRIBUTING.md
+!GIT_COMMIT_RULES.md
