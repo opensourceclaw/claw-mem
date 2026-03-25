@@ -206,7 +206,8 @@ class MemoryManager:
         self.working_cache.clear()
     
     def store(self, content: str, memory_type: str = "episodic", 
-              tags: Optional[List[str]] = None, update_index: bool = True) -> bool:
+              tags: Optional[List[str]] = None, metadata: Optional[Dict] = None, 
+              update_index: bool = True) -> bool:
         """
         Store memory
         
@@ -214,6 +215,7 @@ class MemoryManager:
             content: Memory content
             memory_type: Memory type (episodic/semantic/procedural)
             tags: Tag list
+            metadata: Optional metadata dictionary (e.g., {"neo_agent": "Tech", "neo_domain": "Work"})
             update_index: Update search index incrementally (default: True)
             
         Returns:
@@ -233,6 +235,7 @@ class MemoryManager:
             "content": content,
             "type": memory_type,
             "tags": tags or [],
+            "metadata": metadata or {},
             "timestamp": datetime.now().isoformat(),
             "session_id": self.session_id
         }
@@ -270,13 +273,14 @@ class MemoryManager:
         return True
     
     def search(self, query: str, memory_type: Optional[str] = None,
-               limit: int = 10) -> List[Dict]:
+               metadata: Optional[Dict] = None, limit: int = 10) -> List[Dict]:
         """
         Retrieve memories using hybrid search (N-gram + BM25)
 
         Args:
             query: Search query
             memory_type: Memory type filter (optional)
+            metadata: Optional metadata filter (e.g., {"neo_agent": "Tech"})
             limit: Number of results
 
         Returns:
@@ -284,7 +288,7 @@ class MemoryManager:
         """
         # Use in-memory index for fast search
         if self.index.built:
-            hybrid_results = self.index.hybrid_search(query, limit=limit)
+            hybrid_results = self.index.hybrid_search(query, limit=limit * 3)  # Get more for filtering
 
             # Convert memory_ids to memory records
             results = []
@@ -292,20 +296,40 @@ class MemoryManager:
                 # Check L1 cache first
                 cached = self.working_cache.get(memory_id)
                 if cached:
-                    results.append(cached)
+                    memory = cached
                 else:
                     # Find from working memory
-                    for memory in self.working_memory:
-                        if memory.get("id") == memory_id:
-                            results.append(memory)
+                    memory = None
+                    for m in self.working_memory:
+                        if m.get("id") == memory_id:
+                            memory = m
                             # Add to cache
-                            self.working_cache.put(memory_id, memory)
+                            self.working_cache.put(memory_id, m)
                             break
+                
+                if memory:
+                    # Apply memory_type filter
+                    if memory_type and memory.get("type") != memory_type:
+                        continue
+                    
+                    # Apply metadata filter (exact match)
+                    if metadata:
+                        memory_metadata = memory.get("metadata", {})
+                        # Check if all metadata key-value pairs match
+                        if not all(memory_metadata.get(k) == v for k, v in metadata.items()):
+                            continue
+                    
+                    results.append(memory)
+                    
+                    # Stop when we have enough results
+                    if len(results) >= limit:
+                        break
 
             # Log audit
             self.audit.log("memory_search", {
                 "query": query,
                 "type": memory_type,
+                "metadata": metadata,
                 "results_count": len(results),
                 "method": "hybrid_index"
             })
