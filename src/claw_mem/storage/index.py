@@ -859,23 +859,27 @@ class WorkingMemoryCache:
     Provides sub-10ms access to frequently accessed memories.
     
     Features:
-    - LRU eviction (configurable max size)
+    - LFU eviction (configurable max size) - v1.0.6 enhancement
     - TTL-based expiration (optional)
     - Session-scoped (cleared on session end)
+    - Preload support for hot memories - v1.0.6 enhancement
     """
     
-    def __init__(self, max_size: int = 100, ttl_seconds: int = 300):
+    def __init__(self, max_size: int = 200, ttl_seconds: int = 600, enable_lfu: bool = True):
         """
         Initialize Working Memory Cache
         
         Args:
-            max_size: Maximum cache size
-            ttl_seconds: Time-to-live in seconds
+            max_size: Maximum cache size (v1.0.6: increased from 100 to 200)
+            ttl_seconds: Time-to-live in seconds (v1.0.6: increased from 300 to 600)
+            enable_lfu: Enable LFU eviction instead of LRU (v1.0.6: default True)
         """
         self.max_size = max_size
         self.ttl_seconds = ttl_seconds
-        self.cache: Dict[str, Dict] = {}  # memory_id -> {data, timestamp}
+        self.enable_lfu = enable_lfu
+        self.cache: Dict[str, Dict] = {}  # memory_id -> {data, timestamp, access_count}
         self.access_order: List[str] = []  # LRU order
+        self.access_count: Dict[str, int] = {}  # LFU access count - v1.0.6
     
     def get(self, memory_id: str) -> Optional[Dict]:
         """
@@ -896,13 +900,17 @@ class WorkingMemoryCache:
         if self.ttl_seconds > 0:
             age = (datetime.now().timestamp() - entry["timestamp"]) 
             if age > self.ttl_seconds:
-                del self.cache[memory_id]
-                self.access_order.remove(memory_id)
+                self._remove_from_cache(memory_id)
                 return None
         
-        # Update LRU order
-        self.access_order.remove(memory_id)
-        self.access_order.append(memory_id)
+        # Update access tracking (LFU/LRU)
+        if self.enable_lfu:
+            # v1.0.6: LFU - increment access count
+            self.access_count[memory_id] = self.access_count.get(memory_id, 0) + 1
+        else:
+            # LRU - update access order
+            self.access_order.remove(memory_id)
+            self.access_order.append(memory_id)
         
         return entry["data"]
     
@@ -917,19 +925,56 @@ class WorkingMemoryCache:
         # Remove from old position if exists
         if memory_id in self.access_order:
             self.access_order.remove(memory_id)
+        if memory_id in self.access_count:
+            del self.access_count[memory_id]
         
         # Evict if necessary
-        while len(self.cache) >= self.max_size and self.access_order:
-            oldest = self.access_order.pop(0)
-            if oldest in self.cache:
-                del self.cache[oldest]
+        while len(self.cache) >= self.max_size:
+            self._evict_one()
         
         # Add to cache
         self.cache[memory_id] = {
             "data": data,
             "timestamp": datetime.now().timestamp()
         }
-        self.access_order.append(memory_id)
+        self.access_count[memory_id] = 0  # v1.0.6: Initialize access count for LFU
+        self.access_order.append(memory_id)  # v1.0.6 fix: Always add to access_order
+    
+    def _evict_one(self) -> None:
+        """
+        Evict one memory from cache
+        
+        v1.0.6: Uses LFU eviction if enabled, otherwise LRU
+        """
+        if not self.access_order:
+            return
+        
+        if self.enable_lfu:
+            # v1.0.6: LFU - evict least frequently used
+            min_count = min(self.access_count.values())
+            for memory_id in list(self.access_count.keys()):
+                if self.access_count[memory_id] == min_count:
+                    self._remove_from_cache(memory_id)
+                    break
+        else:
+            # LRU - evict least recently used
+            oldest = self.access_order.pop(0)
+            if oldest in self.cache:
+                self._remove_from_cache(oldest)
+    
+    def _remove_from_cache(self, memory_id: str) -> None:
+        """
+        Remove memory from cache
+        
+        Args:
+            memory_id: Memory ID
+        """
+        if memory_id in self.cache:
+            del self.cache[memory_id]
+        if memory_id in self.access_order:
+            self.access_order.remove(memory_id)
+        if memory_id in self.access_count:
+            del self.access_count[memory_id]
     
     def clear(self) -> None:
         """
