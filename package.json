@@ -1,0 +1,11 @@
+{
+  "name": "claw-mem",
+  "version": "1.0.8",
+  "description": "OpenClaw Memory System - Make OpenClaw Truly Remember. Compatible with existing formats, enhanced memory management.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "OpenClaw Community",
+  "license": "Apache-2.0"
+}
