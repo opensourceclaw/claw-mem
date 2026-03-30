@@ -24,10 +24,16 @@ v0.7.0 Features:
 - Incremental updates
 """
 
+import os
 import re
 import pickle
 import hashlib
 import asyncio
+
+def _log(message: str):
+    """Print message unless in silent mode (checks env at runtime)"""
+    if not os.environ.get('CLAW_MEM_SILENT'):
+        print(message)
 import gzip
 from typing import Dict, List, Set, Tuple, Optional
 from collections import defaultdict
@@ -103,11 +109,16 @@ class InMemoryIndex:
         # Jieba for Chinese tokenization (optional)
         self.jieba = jieba if JIEBA_AVAILABLE else None
         
+        # Only print if not in silent mode (e.g., when used as a bridge)
+        silent = os.environ.get('CLAW_MEM_SILENT')
+        
         if JIEBA_AVAILABLE:
-            print("✅ Jieba loaded for Chinese tokenization")
+            if not silent:
+                _log("✅ Jieba loaded for Chinese tokenization")
         else:
-            print("⚠️  Jieba not installed, using character-level Chinese tokenization")
-            print("   Install with: pip install jieba")
+            if not silent:
+                _log("⚠️  Jieba not installed, using character-level Chinese tokenization")
+                print("   Install with: pip install jieba")
         
         # Create index directory if needed
         if self.enable_persistence:
@@ -145,12 +156,12 @@ class InMemoryIndex:
             from rank_bm25 import BM25Okapi
             self.bm25_index = BM25Okapi(self.documents)
         except ImportError:
-            print("⚠️  rank-bm25 not installed, BM25 search disabled")
+            _log("⚠️  rank-bm25 not installed, BM25 search disabled")
             self.bm25_index = None
         
         self.built = True
         self.index_loaded = True
-        print(f"✅ In-Memory Index built: {len(memories)} memories, {len(self.ngram_index)} n-grams")
+        _log(f"✅ In-Memory Index built: {len(memories)} memories, {len(self.ngram_index)} n-grams")
         
         # Save index to disk if enabled
         if save_index and self.enable_persistence:
@@ -175,10 +186,10 @@ class InMemoryIndex:
             try:
                 loaded = self.load_index()
                 if loaded:
-                    print(f"✅ Index loaded from disk: {len(self.memory_ids)} memories")
+                    _log(f"✅ Index loaded from disk: {len(self.memory_ids)} memories")
                     return True
             except Exception as e:
-                print(f"⚠️  Failed to load index: {e}, rebuilding...")
+                _log(f"⚠️  Failed to load index: {e}, rebuilding...")
         
         # Build from scratch
         self.build(memories, save_index=True)
@@ -277,7 +288,7 @@ class InMemoryIndex:
             
             return True
         except Exception as e:
-            print(f"⚠️  Failed to create backup: {e}")
+            _log(f"⚠️  Failed to create backup: {e}")
             return False
     
     def _restore_from_backup(self) -> bool:
@@ -291,7 +302,7 @@ class InMemoryIndex:
             # Find latest backup
             backup_files = sorted(self.index_dir.glob("*.backup_*.gz"))
             if not backup_files:
-                print("⚠️  No backup available for recovery")
+                _log("⚠️  No backup available for recovery")
                 return False
             
             latest_backup = backup_files[-1]
@@ -300,7 +311,7 @@ class InMemoryIndex:
             import shutil
             shutil.copy2(latest_backup, self.index_file)
             
-            print(f"✅ Index restored from backup: {latest_backup.name}")
+            _log(f"✅ Index restored from backup: {latest_backup.name}")
             return True
         except Exception as e:
             print(f"❌ Failed to restore from backup: {e}")
@@ -320,7 +331,7 @@ class InMemoryIndex:
             for old_backup in backup_files[:-keep_count]:
                 old_backup.unlink()
         except Exception as e:
-            print(f"⚠️  Failed to cleanup old backups: {e}")
+            _log(f"⚠️  Failed to cleanup old backups: {e}")
     
     def load_index(self, recovery_mode: bool = False) -> bool:
         """
@@ -347,7 +358,7 @@ class InMemoryIndex:
                 try:
                     serialized = gzip.decompress(compressed_data)
                 except Exception as e:
-                    print(f"⚠️  Decompression failed: {e}")
+                    _log(f"⚠️  Decompression failed: {e}")
                     # Try loading as uncompressed
                     serialized = compressed_data
             else:
@@ -366,7 +377,7 @@ class InMemoryIndex:
             
             # Verify version
             if index_data.get("version") != INDEX_VERSION:
-                print(f"⚠️  Index version mismatch: {index_data.get('version')} != {INDEX_VERSION}")
+                _log(f"⚠️  Index version mismatch: {index_data.get('version')} != {INDEX_VERSION}")
                 # Attempt migration if version differs
                 if not recovery_mode:
                     print("🔄 Attempting version migration...")
@@ -394,7 +405,7 @@ class InMemoryIndex:
                 content_str = str(self.ngram_index)
                 current_checksum = hashlib.md5(content_str.encode()).hexdigest()
                 if current_checksum != index_data["checksum"]:
-                    print(f"⚠️  Index checksum mismatch, data may be corrupted")
+                    _log(f"⚠️  Index checksum mismatch, data may be corrupted")
                     if BACKUP_ENABLED:
                         print("🔄 Attempting recovery from backup...")
                         if self._restore_from_backup():
@@ -834,7 +845,7 @@ class InMemoryIndex:
             loop = asyncio.get_event_loop()
             await loop.run_in_executor(None, self.save_index)
         except Exception as e:
-            print(f"⚠️  Async index save failed: {e}")
+            _log(f"⚠️  Async index save failed: {e}")
     
     def clear(self) -> None:
         """

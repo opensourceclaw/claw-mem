@@ -17,14 +17,20 @@ Architecture:
     claw-mem Core (MemoryManager, ThreeTierRetriever)
 """
 
+import os
 import sys
+
+# CRITICAL: Set silent mode BEFORE any other imports
+# This must be done before importing memory_manager or storage modules
+os.environ['CLAW_MEM_SILENT'] = '1'
+
 import json
 import asyncio
 import time
 from typing import Dict, Any, Optional
 from pathlib import Path
 
-# No need to modify sys.path - we're already in the src/claw_mem package
+# Now import MemoryManager (it will see CLAW_MEM_SILENT=1)
 from .memory_manager import MemoryManager
 
 
