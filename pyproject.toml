@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "claw-mem"
-version = "1.0.8"
+version = "2.0.0"
 description = "Three-Tier Memory Retrieval System for OpenClaw"
 readme = "README.md"
 license = "Apache-2.0"

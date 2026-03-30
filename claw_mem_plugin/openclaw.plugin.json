@@ -1,0 +1,36 @@
+{
+  "id": "claw-mem",
+  "kind": "memory",
+  "name": "Claw Memory System",
+  "description": "Three-tier memory system for OpenClaw (Local-First)",
+  "configSchema": {
+    "type": "object",
+    "properties": {
+      "pythonPath": {
+        "type": "string",
+        "description": "Python executable path (default: python3)"
+      },
+      "bridgePath": {
+        "type": "string",
+        "description": "Bridge module path (default: -m claw_mem.bridge)"
+      },
+      "workspaceDir": {
+        "type": "string",
+        "description": "Workspace directory (default: OpenClaw workspace)"
+      },
+      "autoRecall": {
+        "type": "boolean",
+        "description": "Auto-inject memories before agent starts (default: true)"
+      },
+      "autoCapture": {
+        "type": "boolean",
+        "description": "Auto-store memories after agent ends (default: true)"
+      },
+      "topK": {
+        "type": "number",
+        "description": "Max memories to recall (default: 10)"
+      }
+    },
+    "additionalProperties": false
+  }
+}

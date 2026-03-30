@@ -1,0 +1,33 @@
+# NPM 发布忽略文件
+
+# 源代码
+src/
+*.ts
+!*.d.ts
+
+# 测试
+test/
+tests/
+*.test.js
+*.spec.js
+__tests__/
+
+# 开发文件
+.git/
+.github/
+.gitignore
+.eslintrc*
+.prettierrc*
+tsconfig.json
+tsup.config.ts
+
+# 文档
+docs/
+*.md
+!README.md
+
+# 其他
+.DS_Store
+*.log
+node_modules/
+coverage/
