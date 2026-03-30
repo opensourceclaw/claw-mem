@@ -1,0 +1,47 @@
+{
+  "name": "@opensourceclaw/openclaw-claw-mem",
+  "version": "2.0.0",
+  "description": "Claw Memory System - Local-First OpenClaw Plugin",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "type": "module",
+  "scripts": {
+    "build": "tsc",
+    "test": "node test/test_bridge.js",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@sinclair/typebox": "^0.34.0"
+  },
+  "peerDependencies": {
+    "openclaw": ">=2026.3.28"
+  },
+  "devDependencies": {
+    "@types/node": "^20.0.0",
+    "typescript": "^5.0.0"
+  },
+  "keywords": [
+    "openclaw",
+    "plugin",
+    "memory",
+    "local-first",
+    "claw-mem",
+    "three-tier",
+    "retrieval"
+  ],
+  "author": "Peter Cheng",
+  "license": "Apache-2.0",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/opensourceclaw/claw-mem.git"
+  },
+  "bugs": {
+    "url": "https://github.com/opensourceclaw/claw-mem/issues"
+  },
+  "homepage": "https://github.com/opensourceclaw/claw-mem#readme",
+  "openclaw": {
+    "extensions": [
+      "./dist/index.js"
+    ]
+  }
+}
