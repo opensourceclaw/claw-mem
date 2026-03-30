@@ -170,7 +170,8 @@ class MemoryFixPlugin:
         try:
             timestamp = datetime.fromisoformat(timestamp_str)
             return (datetime.now() - timestamp).days
-        except:
+        except (ValueError, TypeError) as e:
+            # Invalid timestamp format, return a large number to indicate old data
             return 999
     
     # ========================================================================

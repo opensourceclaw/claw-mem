@@ -581,7 +581,8 @@ class HealthChecker:
                 try:
                     f.unlink()
                     removed += 1
-                except:
+                except (OSError, PermissionError) as e:
+                    # Skip files that cannot be removed (locked, permissions, etc.)
                     pass
             
             return removed
