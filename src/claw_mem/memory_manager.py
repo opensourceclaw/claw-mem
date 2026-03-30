@@ -39,6 +39,12 @@ from .memory_decay import MemoryDecay
 from .rule_extractor import RuleExtractor
 
 
+def _log(message: str):
+    """Print message unless in silent mode (checks env at runtime)"""
+    if not os.environ.get('CLAW_MEM_SILENT'):
+        print(message)
+
+
 class MemoryManager:
     """
     Memory Manager
@@ -114,7 +120,9 @@ class MemoryManager:
         self.working_cache = WorkingMemoryCache(max_size=100, ttl_seconds=300)
         self.working_memory: List[Dict] = []
         
-        print(f"🧠 claw-mem initialized, workspace: {self.workspace}")
+        # Only print if not in silent mode (e.g., when used as a bridge)
+        if not os.environ.get('CLAW_MEM_SILENT'):
+            _log(f"🧠 claw-mem initialized, workspace: {self.workspace}")
     
     def start_session(self, session_id: str, initial_context: Optional[str] = None) -> None:
         """
@@ -145,7 +153,7 @@ class MemoryManager:
         # Log audit
         self.audit.log("session_start", {"session_id": session_id})
 
-        print(f"✅ Session {session_id} started, indexed {len(self.working_memory)} memories")
+        _log(f"✅ Session {session_id} started, indexed {len(self.working_memory)} memories")
 
     def _retrieve_contextual_memories(self, context: str) -> None:
         """
@@ -161,7 +169,7 @@ class MemoryManager:
         )
 
         if results:
-            print(f"🔍 Retrieved {len(results)} contextual memories for: {context[:50]}")
+            _log(f"🔍 Retrieved {len(results)} contextual memories for: {context[:50]}")
 
             # Add retrieved memories to working cache for quick access
             for result in results:
@@ -177,7 +185,7 @@ class MemoryManager:
                 if memory_record["id"]:
                     self.working_cache.put(memory_record["id"], memory_record)
         else:
-            print(f"ℹ️  No contextual memories found for: {context[:50]}")
+            _log(f"ℹ️  No contextual memories found for: {context[:50]}")
     
     def end_session(self) -> None:
         """
@@ -198,7 +206,7 @@ class MemoryManager:
             "duration": str(datetime.now() - self.session_start)
         })
         
-        print(f"✅ Session {self.session_id} ended, memories saved")
+        _log(f"✅ Session {self.session_id} ended, memories saved")
         
         self.session_id = None
         self.session_start = None
@@ -223,7 +231,7 @@ class MemoryManager:
         """
         # Security validation
         if not self.validator.validate(content):
-            print(f"❌ Memory write validation failed: {content[:50]}...")
+            _log(f"❌ Memory write validation failed: {content[:50]}...")
             self.audit.log("write_rejected", {
                 "content": content[:100],
                 "reason": "validation_failed"
@@ -248,7 +256,7 @@ class MemoryManager:
         elif memory_type == "procedural":
             self.procedural.store(memory_record)
         else:
-            print(f"❌ Unknown memory type: {memory_type}")
+            _log(f"❌ Unknown memory type: {memory_type}")
             return False
         
         # Add to working memory
@@ -269,7 +277,7 @@ class MemoryManager:
             "content": content[:100]
         })
         
-        print(f"✅ Memory stored ({memory_type}): {content[:50]}...")
+        _log(f"✅ Memory stored ({memory_type}): {content[:50]}...")
         return True
     
     def search(self, query: str, memory_type: Optional[str] = None,
@@ -334,7 +342,7 @@ class MemoryManager:
                 "method": "hybrid_index"
             })
 
-            print(f"🔍 Retrieved {len(results)} memories (hybrid): {query}")
+            _log(f"🔍 Retrieved {len(results)} memories (hybrid): {query}")
             return results
         else:
             # Fallback to keyword search
@@ -347,7 +355,7 @@ class MemoryManager:
                 limit=limit
             )
 
-            print(f"🔍 Retrieved {len(results)} memories (keyword): {query}")
+            _log(f"🔍 Retrieved {len(results)} memories (keyword): {query}")
             return results
 
     def cross_session_search(self, query: str,
@@ -403,9 +411,9 @@ class MemoryManager:
         self.working_memory = all_memories
         
         if loaded_from_disk:
-            print(f"📥 Index loaded from disk: {len(all_episodic)} Episodic, {len(all_semantic)} Semantic, {len(all_procedural)} Procedural")
+            _log(f"📥 Index loaded from disk: {len(all_episodic)} Episodic, {len(all_semantic)} Semantic, {len(all_procedural)} Procedural")
         else:
-            print(f"📥 Indexed {len(all_episodic)} Episodic, {len(all_semantic)} Semantic, {len(all_procedural)} Procedural")
+            _log(f"📥 Indexed {len(all_episodic)} Episodic, {len(all_semantic)} Semantic, {len(all_procedural)} Procedural")
     
     def _load_relevant_memories(self) -> None:
         """
@@ -420,7 +428,7 @@ class MemoryManager:
             if memory_id:
                 self.working_cache.put(memory_id, memory)
         
-        print(f"💾 Cached {len(recent_episodic) + len(all_semantic)} memories in L1")
+        _log(f"💾 Cached {len(recent_episodic) + len(all_semantic)} memories in L1")
     
     def _save_working_memory(self) -> None:
         """
