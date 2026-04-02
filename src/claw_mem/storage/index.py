@@ -785,8 +785,14 @@ class InMemoryIndex:
         
         # Save index asynchronously if requested
         if save_async and self.enable_persistence:
-            # Schedule async save (non-blocking)
-            asyncio.create_task(self._async_save_index())
+            # Schedule async save (non-blocking) - with fallback for no event loop
+            try:
+                loop = asyncio.get_running_loop()
+                asyncio.create_task(self._async_save_index())
+            except RuntimeError:
+                # No running event loop, skip async save
+                # Index will be saved on next manual save or shutdown
+                pass
         elif self.enable_persistence:
             # Synchronous save
             self.save_index()
