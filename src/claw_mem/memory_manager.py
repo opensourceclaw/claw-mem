@@ -238,8 +238,11 @@ class MemoryManager:
             })
             return False
         
-        # Create memory record
+        import uuid
+        
+        # Create memory record with ID generated upfront
         memory_record = {
+            "id": str(uuid.uuid4())[:8],  # Generate ID before storage
             "content": content,
             "type": memory_type,
             "tags": tags or [],

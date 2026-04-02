@@ -21,7 +21,7 @@ from pathlib import Path
 import tempfile
 import shutil
 
-from src.claw_mem.memory_manager import MemoryManager
+from claw_mem.memory_manager import MemoryManager
 
 
 class TestMemoryManager:

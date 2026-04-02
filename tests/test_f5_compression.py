@@ -101,9 +101,9 @@ def test_compression():
     
     # Test compression methods
     print("\nTesting compression methods...")
-    
-    # Load index data
-    with open(index.index_file, 'rb') as f:
+
+    # Load index data (index file is gzip compressed)
+    with gzip.open(index.index_file, 'rb') as f:
         index_data = pickle.load(f)
     
     # Serialize for compression testing
