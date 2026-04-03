@@ -5,6 +5,28 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.0.0-rc.1] - 2026-04-03
+
+### Added
+
+- **RC 候选版本**: 基于 v2.0.0-beta.3 的候选发布
+- **测试完整覆盖**: 94 tests passed, 2 skipped
+- **ID 生成优化**: 在 `MemoryManager.store()` 创建 record 时立即生成 ID
+- **技术债务记录**: 测试覆盖率 49% 记录为技术债务，后续提升
+
+### Fixed
+
+- **ID 生成逻辑**: 修复 ID 在记录创建后才生成的问题
+- **AsyncIO 测试**: 修复异步测试的异步方法调用
+
+### Changed
+
+- **版本升级**: v2.0.0-beta.3 → v2.0.0-rc.1
+
+### Documentation
+
+- 参考[Harness Engineering](https://openai.com/index/harness-engineering/)和[Anthropic Harness Design](https://www.anthropic.com/engineering/harness-design-long-running-apps)最佳实践
+
 ## [2.0.0] - 2026-03-31
 
 ### Added
