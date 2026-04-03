@@ -28,7 +28,7 @@ def benchmark_search():
     print("📊 Test 1: First Search (Cold Start)")
     print("-" * 70)
     start = time.time()
-    results = mem.search('Project Neo')
+    results = mem.search('memory system architecture')
     cold_latency = (time.time() - start) * 1000
     print(f"✅ First search: {cold_latency:.2f}ms")
     print(f"✅ Results: {len(results)} memories")
@@ -39,7 +39,7 @@ def benchmark_search():
     print("-" * 70)
     start = time.time()
     for i in range(10):
-        results = mem.search('Project Neo')
+        results = mem.search('memory system architecture')
     avg_latency = (time.time() - start) * 1000 / 10
     print(f"✅ Average (10x): {avg_latency:.2f}ms")
     print(f"✅ Total time: {(time.time() - start) * 1000:.2f}ms")
@@ -51,9 +51,9 @@ def benchmark_search():
     retriever = ThreeTierRetriever(workspace=workspace)
     
     start = time.time()
-    l1 = retriever.search('Project Neo', layers=['l1'])
-    l2 = retriever.search('Project Neo', layers=['l2'])
-    l3 = retriever.search('Project Neo', layers=['l3'])
+    l1 = retriever.search('memory system architecture', layers=['l1'])
+    l2 = retriever.search('memory system architecture', layers=['l2'])
+    l3 = retriever.search('memory system architecture', layers=['l3'])
     tier_latency = (time.time() - start) * 1000
     print(f"✅ L1: {len(l1)} results")
     print(f"✅ L2: {len(l2)} results")
