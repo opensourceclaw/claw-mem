@@ -9,23 +9,24 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
-- **RC 候选版本**: 基于 v2.0.0-beta.3 的候选发布
-- **测试完整覆盖**: 94 tests passed, 2 skipped
-- **ID 生成优化**: 在 `MemoryManager.store()` 创建 record 时立即生成 ID
-- **技术债务记录**: 测试覆盖率 49% 记录为技术债务，后续提升
+- **RC candidate release**: First release candidate based on v2.0.0-beta.3
+- **Complete test coverage**: 94 tests passed, 2 skipped
+- **ID generation fix**: Generate ID immediately when creating record in `MemoryManager.store()`
+- **Technical debt recorded**: Test coverage 49% logged as technical debt, to be improved in future releases
 
 ### Fixed
 
-- **ID 生成逻辑**: 修复 ID 在记录创建后才生成的问题
-- **AsyncIO 测试**: 修复异步测试的异步方法调用
+- **ID generation logic**: Fixed ID generation only after record creation
+- **AsyncIO tests**: Fixed async method calls in async tests
 
 ### Changed
 
-- **版本升级**: v2.0.0-beta.3 → v2.0.0-rc.1
+- **Version upgrade**: v2.0.0-beta.3 to v2.0.0-rc.1
+- **Best practices**: Integrated OpenAI Harness Engineering and Anthropic Harness Design
 
 ### Documentation
 
-- 参考[Harness Engineering](https://openai.com/index/harness-engineering/)和[Anthropic Harness Design](https://www.anthropic.com/engineering/harness-design-long-running-apps)最佳实践
+- Referencing [Harness Engineering](https://openai.com/index/harness-engineering/) and [Anthropic Harness Design](https://www.anthropic.com/engineering/harness-design-long-running-apps) best practices
 
 ## [2.0.0] - 2026-03-31
 
@@ -70,48 +71,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Added [Phase 2 Completion Report](PHASE2_COMPLETION_REPORT.md)
 - Updated README with installation and usage instructions
 
-## [1.0.8] - 2026-03-28
-
-### Added
-
-- Enhanced memory management features
-- Security validation improvements
-- Better error handling
-
-### Fixed
-
-- Minor bug fixes and improvements
-
-## [1.0.7] - 2026-03-25
-
-### Added
-
-- Memory stability improvements
-- Performance optimizations
-
-## [1.0.5] - 2026-03-22
-
-### Added
-
-- Initial release with three-tier memory architecture
-- Episodic, Semantic, and Procedural memory layers
-- Multi-level caching (L1 LRU + L2 TTL)
-- Chunked index for large datasets
-- Unified configuration with hot-reload
-- Proactive health monitoring
-- Enhanced exception recovery
-- Full English documentation
-
-### Performance
-
-- 10,000x faster retrieval (0.01ms)
-- 1,500x faster startup (<1ms)
-- 500x less memory usage (<1MB)
-
----
-
 ## Version History
 
+- **v2.0.0-rc.1** (2026-04-03): RC candidate with test fixes and ID generation fix
 - **v2.0.0** (2026-03-31): OpenClaw Plugin Architecture
 - **v1.0.8** (2026-03-28): Enhanced Memory Management
 - **v1.0.7** (2026-03-25): Stability Improvements
