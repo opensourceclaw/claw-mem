@@ -65,6 +65,16 @@ from .timeline import (
     FirstEventsDetector,
     FirstEvent,
     FirstEventType,
+    EventImportanceScorer,
+    EventImportanceScore,
+    ImportanceFactor,
+)
+from .knowledge_graph import (
+    KnowledgeGraph,
+    Entity,
+    EntityType,
+    Relation,
+    RelationType,
 )
 from .errors import (
     FriendlyError,
