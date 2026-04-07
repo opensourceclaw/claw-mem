@@ -38,6 +38,9 @@ from claw_mem.timeline import (
     FirstEventsDetector,
     FirstEvent,
     FirstEventType,
+    EventImportanceScorer,
+    EventImportanceScore,
+    ImportanceFactor,
 )
 
 
@@ -493,3 +496,120 @@ class TestTimelineIntegration:
         
         decisions = decision_tracker.get_decisions()
         assert len(decisions) == 1
+
+
+class TestEventImportanceScorer:
+    """Tests for EventImportanceScorer"""
+    
+    @pytest.fixture
+    def scorer(self):
+        """Create EventImportanceScorer instance"""
+        return EventImportanceScorer()
+    
+    def test_score_emotional_event(self, scorer):
+        """Test scoring emotional event"""
+        text = "It was an amazing and unforgettable day!"
+        score = scorer.score(text)
+        
+        assert score.total_score > 0.5
+        assert "emotional_intensity" in score.factors
+        assert score.is_milestone or score.total_score >= 0.5
+    
+    def test_score_decision_event(self, scorer):
+        """Test scoring decision event"""
+        text = "I decided to accept the job offer"
+        score = scorer.score(text)
+        
+        assert score.total_score > 0.3
+        assert "decision_impact" in score.factors
+    
+    def test_score_achievement_event(self, scorer):
+        """Test scoring achievement event"""
+        text = "I graduated with honors and won an award"
+        score = scorer.score(text)
+        
+        assert score.total_score > 0.5
+        assert "achievement" in score.factors
+        assert "achievement" in score.suggested_tags
+    
+    def test_score_loss_event(self, scorer):
+        """Test scoring loss event"""
+        text = "My beloved dog passed away yesterday"
+        score = scorer.score(text)
+        
+        assert score.total_score > 0.5
+        assert "loss" in score.factors
+    
+    def test_score_first_time_event(self, scorer):
+        """Test scoring first time event"""
+        text = "This was my first time traveling abroad"
+        score = scorer.score(text)
+        
+        assert score.total_score > 0.4
+        assert "first_time" in score.factors
+        assert "first" in score.suggested_tags
+    
+    def test_score_life_change_event(self, scorer):
+        """Test scoring life change event"""
+        text = "I moved to a new city and started a new job"
+        score = scorer.score(text)
+        
+        assert score.total_score > 0.4
+        assert "life_change" in score.factors
+    
+    def test_score_milestone_event(self, scorer):
+        """Test scoring milestone event"""
+        text = "We got married today in a beautiful ceremony"
+        score = scorer.score(text)
+        
+        # Marriage should score high due to life_change + emotional
+        assert score.total_score >= 0.5
+        # Check if it has relevant factors
+        assert "life_change" in score.factors or "emotional_intensity" in score.factors
+    
+    def test_score_routine_event(self, scorer):
+        """Test scoring routine event"""
+        text = "I had lunch at noon"
+        score = scorer.score(text)
+        
+        assert score.total_score < 0.5
+        assert not score.is_milestone
+    
+    def test_score_event_with_metadata(self, scorer):
+        """Test scoring event with metadata"""
+        text = "I met with my family for dinner"
+        metadata = {"people": ["mom", "dad", "sister"]}
+        score = scorer.score(text, metadata)
+        
+        assert "relationships" in score.factors
+    
+    def test_get_importance_level(self, scorer):
+        """Test importance level classification"""
+        assert scorer.get_importance_level(0.9) == "critical"
+        assert scorer.get_importance_level(0.7) == "high"
+        assert scorer.get_importance_level(0.5) == "medium"
+        assert scorer.get_importance_level(0.2) == "low"
+    
+    def test_rank_events(self, scorer):
+        """Test ranking events by importance"""
+        events = [
+            {"title": "Routine day", "description": "Nothing special happened"},
+            {"title": "Wedding", "description": "We got married today"},
+            {"title": "Achievement", "description": "I graduated with honors"},
+        ]
+        
+        ranked = scorer.rank_events(events)
+        
+        assert len(ranked) == 3
+        # Wedding should be highest (milestone)
+        assert ranked[0]["is_milestone"] or ranked[0]["importance_score"] > ranked[-1]["importance_score"]
+    
+    def test_score_event_method(self, scorer):
+        """Test score_event method"""
+        title = "Job Promotion"
+        description = "I was promoted to senior engineer"
+        
+        score = scorer.score_event(title, description)
+        
+        assert score.total_score > 0.3
+        assert "achievement" in score.factors or "life_change" in score.factors
