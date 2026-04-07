@@ -23,12 +23,14 @@ Key Features:
 - Decision tracking
 - "First time" events
 - Emotion-based search
+- Event importance scoring
 """
 
 from .timeline import Timeline, TimelineEvent, TimelineQuery, EventType
 from .milestone import MilestoneDetector, MilestoneType
 from .decision import DecisionTracker, Decision, DecisionType, DecisionStatus
 from .firsts import FirstEventsDetector, FirstEvent, FirstEventType
+from .event_importance import EventImportanceScorer, EventImportanceScore, ImportanceFactor
 
 __all__ = [
     # Timeline
@@ -48,4 +50,8 @@ __all__ = [
     "FirstEventsDetector",
     "FirstEvent",
     "FirstEventType",
+    # Event Importance
+    "EventImportanceScorer",
+    "EventImportanceScore",
+    "ImportanceFactor",
 ]
