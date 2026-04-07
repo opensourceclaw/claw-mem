@@ -76,6 +76,13 @@ from .knowledge_graph import (
     Relation,
     RelationType,
 )
+from .data_portability import (
+    DataPortability,
+    ExportOptions,
+    ImportOptions,
+    ExportResult,
+    ImportResult,
+)
 from .errors import (
     FriendlyError,
     IndexNotFoundError,
