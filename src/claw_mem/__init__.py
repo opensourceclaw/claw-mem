@@ -29,7 +29,7 @@ v0.9.0 Features (2026-03-22):
 - 100% English documentation
 """
 
-__version__ = "2.0.0-beta.2"
+__version__ = "2.0.0rc2"
 __author__ = "Peter Cheng"
 
 from .memory_manager import MemoryManager
@@ -50,6 +50,21 @@ from .context_injection import (
     InjectedContext,
     format_memory_context,
     inject_memories_to_prompt,
+)
+from .timeline import (
+    Timeline,
+    TimelineEvent,
+    TimelineQuery,
+    EventType,
+    MilestoneDetector,
+    MilestoneType,
+    DecisionTracker,
+    Decision,
+    DecisionType,
+    DecisionStatus,
+    FirstEventsDetector,
+    FirstEvent,
+    FirstEventType,
 )
 from .errors import (
     FriendlyError,
@@ -88,6 +103,20 @@ __all__ = [
     "InjectedContext",
     "format_memory_context",
     "inject_memories_to_prompt",
+    # Timeline module
+    "Timeline",
+    "TimelineEvent",
+    "TimelineQuery",
+    "EventType",
+    "MilestoneDetector",
+    "MilestoneType",
+    "DecisionTracker",
+    "Decision",
+    "DecisionType",
+    "DecisionStatus",
+    "FirstEventsDetector",
+    "FirstEvent",
+    "FirstEventType",
     # Error classes
     "FriendlyError",
     "IndexNotFoundError",
