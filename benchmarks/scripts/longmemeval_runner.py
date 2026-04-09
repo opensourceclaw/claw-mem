@@ -335,7 +335,7 @@ class LongMemEvalRunner:
 
         return result
 
-    def cross_session_reason(self, question: str, context: Dict) -> str:
+    def cross_session_reason(self, question: str, context: Dict = None, test_id: str = None) -> str:
         """
         Cross-session reasoning task.
         Combine information from multiple sessions.
@@ -411,7 +411,7 @@ class LongMemEvalRunner:
         # If no temporal pattern found, return the content
         return content[:200] if content else "UNKNOWN"
 
-    def update_knowledge(self, question: str, context: Dict) -> str:
+    def update_knowledge(self, question: str, context: Dict = None, test_id: str = None) -> str:
         """
         Knowledge updates task.
         Answer questions about updated information.
@@ -431,7 +431,7 @@ class LongMemEvalRunner:
 
         return content[:200] if content else "UNKNOWN"
 
-    def check_abstention(self, question: str, context: Dict) -> str:
+    def check_abstention(self, question: str, context: Dict = None, test_id: str = None) -> str:
         """
         Abstention task.
         Determine if question should be refused.
