@@ -137,12 +137,15 @@ class EpisodicStorage:
     
     def count(self) -> int:
         """
-        Get number of memory files
+        Get number of memory records
         
         Returns:
-            int: File count
+            int: Record count
         """
-        return len(list(self.memory_dir.glob("*.md")))
+        count = 0
+        for file_path in self.memory_dir.glob("*.md"):
+            count += len(self._read_file(file_path))
+        return count
     
     def _format_memory(self, memory_record: Dict) -> str:
         """
