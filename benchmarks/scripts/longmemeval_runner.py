@@ -291,7 +291,7 @@ class LongMemEvalRunner:
                 return exact_match
 
         # Use smart mode for search
-        results = self.memory_manager.search(question, limit=20, mode="smart")
+        results = self.memory_manager.search(question, limit=20, mode=self.search_mode)
 
         if not results:
             return "UNKNOWN"
@@ -341,7 +341,7 @@ class LongMemEvalRunner:
         Combine information from multiple sessions.
         """
         # Use smart mode for search
-        memories = self.memory_manager.search(question, limit=10, mode="smart")
+        memories = self.memory_manager.search(question, limit=10, mode=self.search_mode)
 
         if len(memories) < 2:
             return "INSUFFICIENT_INFORMATION"
@@ -417,7 +417,7 @@ class LongMemEvalRunner:
         Answer questions about updated information.
         """
         # Use smart mode for search
-        memories = self.memory_manager.search(question, limit=3, mode="smart")
+        memories = self.memory_manager.search(question, limit=3, mode=self.search_mode)
 
         if not memories:
             return "UNKNOWN"
@@ -437,7 +437,7 @@ class LongMemEvalRunner:
         Determine if question should be refused.
         """
         # Use smart mode for search
-        memories = self.memory_manager.search(question, limit=1, mode="smart")
+        memories = self.memory_manager.search(question, limit=1, mode=self.search_mode)
 
         # If we found a memory, we can answer (not a true abstention test)
         # If no memory, this is correct "cannot answer" case
