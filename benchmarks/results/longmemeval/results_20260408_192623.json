@@ -1,0 +1,5013 @@
+{
+  "total": 500,
+  "correct": 125,
+  "by_category": {
+    "information_extraction": 80,
+    "temporal_reasoning": 3,
+    "knowledge_updates": 42
+  },
+  "latencies": [
+    0.02429795265197754,
+    0.016168832778930664,
+    0.014455795288085938,
+    0.014252901077270508,
+    0.015315055847167969,
+    0.01828622817993164,
+    0.01804208755493164,
+    0.01692795753479004,
+    0.018627166748046875,
+    0.016106843948364258,
+    0.01864004135131836,
+    0.017930984497070312,
+    0.016288042068481445,
+    0.015948057174682617,
+    0.03581690788269043,
+    0.018533945083618164,
+    0.016292095184326172,
+    0.016113996505737305,
+    0.015119075775146484,
+    0.017554759979248047,
+    0.01788020133972168,
+    0.016338825225830078,
+    0.01544499397277832,
+    0.01691913604736328,
+    0.014338016510009766,
+    0.017425060272216797,
+    0.013809919357299805,
+    0.014085769653320312,
+    0.015220880508422852,
+    0.013720035552978516,
+    0.014902830123901367,
+    0.01654815673828125,
+    0.014308929443359375,
+    0.014789104461669922,
+    0.013643026351928711,
+    0.01532292366027832,
+    0.01627802848815918,
+    0.01662302017211914,
+    0.01380467414855957,
+    0.013495922088623047,
+    0.014579057693481445,
+    0.01582169532775879,
+    0.01683211326599121,
+    0.014005899429321289,
+    0.013866901397705078,
+    0.013731718063354492,
+    0.013653039932250977,
+    0.016909122467041016,
+    0.015301227569580078,
+    0.01650094985961914,
+    0.014098882675170898,
+    0.015482902526855469,
+    0.015002965927124023,
+    0.018309831619262695,
+    0.01563096046447754,
+    0.014407873153686523,
+    0.01489400863647461,
+    0.014492273330688477,
+    0.01651906967163086,
+    0.014501094818115234,
+    0.01343679428100586,
+    0.014387130737304688,
+    0.013886213302612305,
+    0.015058279037475586,
+    0.015386104583740234,
+    0.014292001724243164,
+    0.014379024505615234,
+    0.01407313346862793,
+    0.015071868896484375,
+    0.01754474639892578,
+    0.018105268478393555,
+    0.01682305335998535,
+    0.016344070434570312,
+    0.02158808708190918,
+    0.01891613006591797,
+    0.016642093658447266,
+    0.019262075424194336,
+    0.01946711540222168,
+    0.025253772735595703,
+    0.0238339900970459,
+    0.02296304702758789,
+    0.04770302772521973,
+    0.022586822509765625,
+    0.022584199905395508,
+    0.019170045852661133,
+    0.01697683334350586,
+    0.013989925384521484,
+    0.013312101364135742,
+    0.013214826583862305,
+    0.015164852142333984,
+    0.015039920806884766,
+    0.013995885848999023,
+    0.014387845993041992,
+    0.015935182571411133,
+    0.014497995376586914,
+    0.016993999481201172,
+    0.021453857421875,
+    0.019833087921142578,
+    0.0182037353515625,
+    0.019767045974731445,
+    0.01743793487548828,
+    0.013034820556640625,
+    0.01277303695678711,
+    0.010879993438720703,
+    0.013391733169555664,
+    0.01789689064025879,
+    0.01459813117980957,
+    0.012296915054321289,
+    0.01125788688659668,
+    0.012331008911132812,
+    0.01459193229675293,
+    0.014444112777709961,
+    0.011931896209716797,
+    0.011347055435180664,
+    0.010745763778686523,
+    0.013460159301757812,
+    0.01235198974609375,
+    0.011783123016357422,
+    0.013684988021850586,
+    0.010972023010253906,
+    0.011978864669799805,
+    0.010859012603759766,
+    0.011812925338745117,
+    0.011110067367553711,
+    0.011002063751220703,
+    0.013539791107177734,
+    0.009933948516845703,
+    0.01102590560913086,
+    0.009038925170898438,
+    0.01022195816040039,
+    0.011118888854980469,
+    0.009489059448242188,
+    0.010454893112182617,
+    0.012009143829345703,
+    0.011636972427368164,
+    0.01048421859741211,
+    0.009562969207763672,
+    0.009365081787109375,
+    0.009282827377319336,
+    0.010082244873046875,
+    0.009519815444946289,
+    0.010875225067138672,
+    0.009850740432739258,
+    0.009379148483276367,
+    0.009320974349975586,
+    0.009124755859375,
+    0.00927114486694336,
+    0.009608268737792969,
+    0.00966191291809082,
+    0.00990605354309082,
+    0.010077238082885742,
+    0.010239124298095703,
+    0.00904393196105957,
+    0.008952140808105469,
+    0.008879899978637695,
+    0.010608911514282227,
+    0.010702848434448242,
+    0.01020193099975586,
+    0.010658025741577148,
+    0.009717226028442383,
+    0.00937795639038086,
+    0.008934259414672852,
+    0.009205818176269531,
+    0.00965118408203125,
+    0.009439945220947266,
+    0.010187864303588867,
+    0.009732723236083984,
+    0.010509967803955078,
+    0.00875091552734375,
+    0.008928060531616211,
+    0.00975799560546875,
+    0.009182929992675781,
+    0.009150981903076172,
+    0.009328126907348633,
+    0.009629964828491211,
+    0.010762929916381836,
+    0.010293960571289062,
+    0.008988380432128906,
+    0.00922703742980957,
+    0.009222984313964844,
+    0.008772134780883789,
+    0.009523868560791016,
+    0.010535955429077148,
+    0.009156942367553711,
+    0.010629892349243164,
+    0.010104179382324219,
+    0.009299278259277344,
+    0.009190082550048828,
+    0.009724855422973633,
+    0.009154796600341797,
+    0.009968042373657227,
+    0.011128902435302734,
+    0.009633064270019531,
+    0.008998870849609375,
+    0.009150981903076172,
+    0.02686905860900879,
+    0.009196996688842773,
+    0.010373830795288086,
+    0.011255025863647461,
+    0.009011983871459961,
+    0.008002042770385742,
+    0.006690025329589844,
+    0.0065081119537353516,
+    0.0066089630126953125,
+    0.006489753723144531,
+    0.006829977035522461,
+    0.006695270538330078,
+    0.008622169494628906,
+    0.008064746856689453,
+    0.007439851760864258,
+    0.006739139556884766,
+    0.0062558650970458984,
+    0.00684809684753418,
+    0.006863832473754883,
+    0.006600141525268555,
+    0.006867885589599609,
+    0.0074160099029541016,
+    0.007207155227661133,
+    0.007964849472045898,
+    0.008023977279663086,
+    0.009037971496582031,
+    0.007930994033813477,
+    0.007056236267089844,
+    0.006136894226074219,
+    0.006747007369995117,
+    0.007747173309326172,
+    0.0068852901458740234,
+    0.006356954574584961,
+    0.0066759586334228516,
+    0.0069599151611328125,
+    0.007102012634277344,
+    0.007447242736816406,
+    0.008913040161132812,
+    0.006652116775512695,
+    0.0068738460540771484,
+    0.006609916687011719,
+    0.006413936614990234,
+    0.006674766540527344,
+    0.006368160247802734,
+    0.006781101226806641,
+    0.007244110107421875,
+    0.006512880325317383,
+    0.006372690200805664,
+    0.00868082046508789,
+    0.007960796356201172,
+    0.007203102111816406,
+    0.006949901580810547,
+    0.007786989212036133,
+    0.00908803939819336,
+    0.008383989334106445,
+    0.007073163986206055,
+    0.0066487789154052734,
+    0.007628202438354492,
+    0.007871150970458984,
+    0.008433818817138672,
+    0.007734060287475586,
+    0.006906747817993164,
+    0.0068149566650390625,
+    0.006963014602661133,
+    0.006478071212768555,
+    0.006844758987426758,
+    0.006842136383056641,
+    0.007100820541381836,
+    0.006476879119873047,
+    0.007039070129394531,
+    0.007668972015380859,
+    0.008142232894897461,
+    0.007482767105102539,
+    0.007439136505126953,
+    0.0067179203033447266,
+    0.0065572261810302734,
+    0.00656580924987793,
+    0.0070378780364990234,
+    0.006550788879394531,
+    0.006932973861694336,
+    0.006321907043457031,
+    0.008183956146240234,
+    0.007117033004760742,
+    0.008179903030395508,
+    0.007385730743408203,
+    0.0072021484375,
+    0.006632089614868164,
+    0.00697016716003418,
+    0.006412982940673828,
+    0.006617307662963867,
+    0.006452083587646484,
+    0.006830930709838867,
+    0.006499052047729492,
+    0.0068340301513671875,
+    0.008257150650024414,
+    0.008387088775634766,
+    0.006606101989746094,
+    0.006879091262817383,
+    0.0062978267669677734,
+    0.006658077239990234,
+    0.006654024124145508,
+    0.0071909427642822266,
+    0.007020711898803711,
+    0.006674289703369141,
+    0.006517887115478516,
+    0.007402181625366211,
+    0.00828695297241211,
+    0.007493257522583008,
+    0.00711512565612793,
+    0.00683903694152832,
+    0.0063800811767578125,
+    0.006677865982055664,
+    0.006896018981933594,
+    0.00665593147277832,
+    0.00648808479309082,
+    0.007498264312744141,
+    0.007753133773803711,
+    0.007319927215576172,
+    0.008568048477172852,
+    0.007974863052368164,
+    0.0073168277740478516,
+    0.006590843200683594,
+    0.007364749908447266,
+    0.0066759586334228516,
+    0.006802797317504883,
+    0.0073089599609375,
+    0.007570981979370117,
+    0.007217884063720703,
+    0.007661104202270508,
+    0.008215904235839844,
+    0.0073680877685546875,
+    0.0070858001708984375,
+    0.007180690765380859,
+    0.024580717086791992,
+    0.0066988468170166016,
+    0.007074117660522461,
+    0.006718873977661133,
+    0.007854223251342773,
+    0.007355928421020508,
+    0.008070945739746094,
+    0.006798744201660156,
+    0.0075531005859375,
+    0.007146120071411133,
+    0.0074841976165771484,
+    0.006972074508666992,
+    0.006821870803833008,
+    0.0070149898529052734,
+    0.007789134979248047,
+    0.007154941558837891,
+    0.008486032485961914,
+    0.008299112319946289,
+    0.006928205490112305,
+    0.006862163543701172,
+    0.0071392059326171875,
+    0.00664210319519043,
+    0.008360862731933594,
+    0.008318901062011719,
+    0.007749080657958984,
+    0.009228706359863281,
+    0.00835418701171875,
+    0.007348060607910156,
+    0.007477998733520508,
+    0.006588935852050781,
+    0.009052753448486328,
+    0.007310152053833008,
+    0.007634878158569336,
+    0.006412029266357422,
+    0.007276773452758789,
+    0.006782054901123047,
+    0.007152080535888672,
+    0.008155107498168945,
+    0.0068819522857666016,
+    0.008809328079223633,
+    0.007205009460449219,
+    0.007300138473510742,
+    0.0072879791259765625,
+    0.006781101226806641,
+    0.006592988967895508,
+    0.006675004959106445,
+    0.007241010665893555,
+    0.007674694061279297,
+    0.007395029067993164,
+    0.0069158077239990234,
+    0.008369207382202148,
+    0.007752895355224609,
+    0.007004737854003906,
+    0.006937980651855469,
+    0.006775856018066406,
+    0.007703065872192383,
+    0.007277965545654297,
+    0.008613109588623047,
+    0.008411884307861328,
+    0.008886098861694336,
+    0.008491039276123047,
+    0.006894111633300781,
+    0.006833076477050781,
+    0.007152080535888672,
+    0.0071599483489990234,
+    0.006741762161254883,
+    0.007182121276855469,
+    0.00727391242980957,
+    0.008409976959228516,
+    0.009945154190063477,
+    0.010869026184082031,
+    0.008379936218261719,
+    0.009348154067993164,
+    0.008300065994262695,
+    0.037420034408569336,
+    0.012745141983032227,
+    0.03571605682373047,
+    0.011778831481933594,
+    0.038305044174194336,
+    0.011919736862182617,
+    0.04754900932312012,
+    0.01245427131652832,
+    0.00970005989074707,
+    0.007813215255737305,
+    0.007253885269165039,
+    0.006951808929443359,
+    0.006505012512207031,
+    0.006827116012573242,
+    0.006701231002807617,
+    0.006780147552490234,
+    0.007228851318359375,
+    0.0077550411224365234,
+    0.00735926628112793,
+    0.008121728897094727,
+    0.007725954055786133,
+    0.007289886474609375,
+    0.007768869400024414,
+    0.007818937301635742,
+    0.006307125091552734,
+    0.006829023361206055,
+    0.00733184814453125,
+    0.006850004196166992,
+    0.0065500736236572266,
+    0.0074422359466552734,
+    0.007528781890869141,
+    0.008294820785522461,
+    0.007482767105102539,
+    0.0071909427642822266,
+    0.006724834442138672,
+    0.006652116775512695,
+    0.007299184799194336,
+    0.006922006607055664,
+    0.006864309310913086,
+    0.006700992584228516,
+    0.007261037826538086,
+    0.008222103118896484,
+    0.007235050201416016,
+    0.008324861526489258,
+    0.0069539546966552734,
+    0.006783962249755859,
+    0.006865262985229492,
+    0.00701904296875,
+    0.006982088088989258,
+    0.007379293441772461,
+    0.006766796112060547,
+    0.007667064666748047,
+    0.007723093032836914,
+    0.006908893585205078,
+    0.008378744125366211,
+    0.007584095001220703,
+    0.007096052169799805,
+    0.007148027420043945,
+    0.006843090057373047,
+    0.024932861328125,
+    0.008041143417358398,
+    0.009250164031982422,
+    0.010046958923339844,
+    0.007489919662475586,
+    0.007559299468994141,
+    0.007857084274291992,
+    0.00653529167175293,
+    0.007048845291137695,
+    0.007071018218994141,
+    0.006566762924194336,
+    0.007576942443847656,
+    0.009014129638671875,
+    0.007921934127807617,
+    0.00852823257446289,
+    0.006826639175415039,
+    0.006714820861816406,
+    0.007122039794921875,
+    0.006721019744873047,
+    0.006580829620361328,
+    0.007075071334838867,
+    0.006891965866088867,
+    0.007222652435302734,
+    0.008347272872924805,
+    0.008173227310180664,
+    0.007539987564086914,
+    0.006818056106567383,
+    0.0065920352935791016,
+    0.00709223747253418,
+    0.0064809322357177734,
+    0.007024049758911133,
+    0.006479740142822266,
+    0.006659984588623047,
+    0.0067560672760009766,
+    0.008720159530639648,
+    0.011469841003417969,
+    0.007730960845947266,
+    0.007982969284057617,
+    0.006836891174316406
+  ],
+  "details": [
+    {
+      "id": "q_inf_000",
+      "category": "information_extraction",
+      "question": "What is the user's favorite food?",
+      "answer": "The user's favorite food is Pizza",
+      "ground_truth": "Pizza",
+      "correct": true,
+      "latency": 0.02429795265197754
+    },
+    {
+      "id": "q_inf_001",
+      "category": "information_extraction",
+      "question": "What is the user's favorite color?",
+      "answer": "The user's address is 123 Main St",
+      "ground_truth": "Blue",
+      "correct": false,
+      "latency": 0.016168832778930664
+    },
+    {
+      "id": "q_inf_002",
+      "category": "information_extraction",
+      "question": "What is the user's favorite color?",
+      "answer": "The user's address is 123 Main St",
+      "ground_truth": "Blue",
+      "correct": false,
+      "latency": 0.014455795288085938
+    },
+    {
+      "id": "q_inf_003",
+      "category": "information_extraction",
+      "question": "What is the user's favorite food?",
+      "answer": "The user's favorite food is Pizza",
+      "ground_truth": "Pizza",
+      "correct": true,
+      "latency": 0.014252901077270508
+    },
+    {
+      "id": "q_inf_004",
+      "category": "information_extraction",
+      "question": "What is the user's favorite book?",
+      "answer": "The user's favorite book is Dune",
+      "ground_truth": "Dune",
+      "correct": true,
+      "latency": 0.015315055847167969
+    },
+    {
+      "id": "q_inf_005",
+      "category": "information_extraction",
+      "question": "What is the user's favorite color?",
+      "answer": "The user's address is 123 Main St",
+      "ground_truth": "Blue",
+      "correct": false,
+      "latency": 0.01828622817993164
+    },
+    {
+      "id": "q_inf_006",
+      "category": "information_extraction",
+      "question": "What is the user's favorite color?",
+      "answer": "The user's address is 123 Main St",
+      "ground_truth": "Blue",
+      "correct": false,
+      "latency": 0.01804208755493164
+    },
+    {
+      "id": "q_inf_007",
+      "category": "information_extraction",
+      "question": "What is the user's favorite movie?",
+      "answer": "The user's favorite movie is Star Wars",
+      "ground_truth": "Star Wars",
+      "correct": true,
+      "latency": 0.01692795753479004
+    },
+    {
+      "id": "q_inf_008",
+      "category": "information_extraction",
+      "question": "What is the user's favorite food?",
+      "answer": "The user's favorite food is Pizza",
+      "ground_truth": "Pizza",
+      "correct": true,
+      "latency": 0.018627166748046875
+    },
+    {
+      "id": "q_inf_009",
+      "category": "information_extraction",
+      "question": "What is the user's favorite hobby?",
+      "answer": "The user's favorite hobby is Hiking",
+      "ground_truth": "Hiking",
+      "correct": true,
+      "latency": 0.016106843948364258
+    },
+    {
+      "id": "q_inf_010",
+      "category": "information_extraction",
+      "question": "What is the user's favorite book?",
+      "answer": "The user's favorite book is Dune",
+      "ground_truth": "Dune",
+      "correct": true,
+      "latency": 0.01864004135131836
+    },
+    {
+      "id": "q_inf_011",
+      "category": "information_extraction",
+      "question": "What is the user's favorite book?",
+      "answer": "The user's favorite book is Dune",
+      "ground_truth": "Dune",
+      "correct": true,
+      "latency": 0.017930984497070312
+    },
+    {
+      "id": "q_inf_012",
+      "category": "information_extraction",
+      "question": "What is the user's favorite hobby?",
+      "answer": "The user's favorite hobby is Hiking",
+      "ground_truth": "Hiking",
+      "correct": true,
+      "latency": 0.016288042068481445
+    },
+    {
+      "id": "q_inf_013",
+      "category": "information_extraction",
+      "question": "What is the user's favorite hobby?",
+      "answer": "The user's favorite hobby is Hiking",
+      "ground_truth": "Hiking",
+      "correct": true,
+      "latency": 0.015948057174682617
+    },
+    {
+      "id": "q_inf_014",
+      "category": "information_extraction",
+      "question": "What is the user's favorite book?",
+      "answer": "The user's favorite book is Dune",
+      "ground_truth": "Dune",
+      "correct": true,
+      "latency": 0.03581690788269043
+    },
+    {
+      "id": "q_inf_015",
+      "category": "information_extraction",
+      "question": "What is the user's favorite food?",
+      "answer": "The user's favorite food is Pizza",
+      "ground_truth": "Pizza",
+      "correct": true,
+      "latency": 0.018533945083618164
+    },
+    {
+      "id": "q_inf_016",
+      "category": "information_extraction",
+      "question": "What is the user's favorite book?",
+      "answer": "The user's favorite book is Dune",
+      "ground_truth": "Dune",
+      "correct": true,
+      "latency": 0.016292095184326172
+    },
+    {
+      "id": "q_inf_017",
+      "category": "information_extraction",
+      "question": "What is the user's favorite color?",
+      "answer": "The user's address is 123 Main St",
+      "ground_truth": "Blue",
+      "correct": false,
+      "latency": 0.016113996505737305
+    },
+    {
+      "id": "q_inf_018",
+      "category": "information_extraction",
+      "question": "What is the user's favorite color?",
+      "answer": "The user's address is 123 Main St",
+      "ground_truth": "Blue",
+      "correct": false,
+      "latency": 0.015119075775146484
+    },
+    {
+      "id": "q_inf_019",
+      "category": "information_extraction",
+      "question": "What is the user's favorite food?",
+      "answer": "The user's favorite food is Pizza",
+      "ground_truth": "Pizza",
+      "correct": true,
+      "latency": 0.017554759979248047
+    },
+    {
+      "id": "q_inf_020",
+      "category": "information_extraction",
+      "question": "What is the user's favorite color?",
+      "answer": "The user's address is 123 Main St",
+      "ground_truth": "Blue",
+      "correct": false,
+      "latency": 0.01788020133972168
+    },
+    {
+      "id": "q_inf_021",
+      "category": "information_extraction",
+      "question": "What is the user's favorite color?",
+      "answer": "The user's address is 123 Main St",
+      "ground_truth": "Blue",
+      "correct": false,
+      "latency": 0.016338825225830078
+    },
+    {
+      "id": "q_inf_022",
+      "category": "information_extraction",
+      "question": "What is the user's favorite color?",
+      "answer": "The user's address is 123 Main St",
+      "ground_truth": "Blue",
+      "correct": false,
+      "latency": 0.01544499397277832
+    },
+    {
+      "id": "q_inf_023",
+      "category": "information_extraction",
+      "question": "What is the user's favorite food?",
+      "answer": "The user's favorite food is Pizza",
+      "ground_truth": "Pizza",
+      "correct": true,
+      "latency": 0.01691913604736328
+    },
+    {
+      "id": "q_inf_024",
+      "category": "information_extraction",
+      "question": "What is the user's favorite hobby?",
+      "answer": "The user's favorite hobby is Hiking",
+      "ground_truth": "Hiking",
+      "correct": true,
+      "latency": 0.014338016510009766
+    },
+    {
+      "id": "q_inf_025",
+      "category": "information_extraction",
+      "question": "What is the user's favorite movie?",
+      "answer": "The user's favorite movie is Star Wars",
+      "ground_truth": "Star Wars",
+      "correct": true,
+      "latency": 0.017425060272216797
+    },
+    {
+      "id": "q_inf_026",
+      "category": "information_extraction",
+      "question": "What is the user's favorite color?",
+      "answer": "The user's address is 123 Main St",
+      "ground_truth": "Blue",
+      "correct": false,
+      "latency": 0.013809919357299805
+    },
+    {
+      "id": "q_inf_027",
+      "category": "information_extraction",
+      "question": "What is the user's favorite food?",
+      "answer": "The user's favorite food is Pizza",
+      "ground_truth": "Pizza",
+      "correct": true,
+      "latency": 0.014085769653320312
+    },
+    {
+      "id": "q_inf_028",
+      "category": "information_extraction",
+      "question": "What is the user's favorite food?",
+      "answer": "The user's favorite food is Pizza",
+      "ground_truth": "Pizza",
+      "correct": true,
+      "latency": 0.015220880508422852
+    },
+    {
+      "id": "q_inf_029",
+      "category": "information_extraction",
+      "question": "What is the user's favorite hobby?",
+      "answer": "The user's favorite hobby is Hiking",
+      "ground_truth": "Hiking",
+      "correct": true,
+      "latency": 0.013720035552978516
+    },
+    {
+      "id": "q_inf_030",
+      "category": "information_extraction",
+      "question": "What is the user's favorite movie?",
+      "answer": "The user's favorite movie is Star Wars",
+      "ground_truth": "Star Wars",
+      "correct": true,
+      "latency": 0.014902830123901367
+    },
+    {
+      "id": "q_inf_031",
+      "category": "information_extraction",
+      "question": "What is the user's favorite movie?",
+      "answer": "The user's favorite movie is Star Wars",
+      "ground_truth": "Star Wars",
+      "correct": true,
+      "latency": 0.01654815673828125
+    },
+    {
+      "id": "q_inf_032",
+      "category": "information_extraction",
+      "question": "What is the user's favorite hobby?",
+      "answer": "The user's favorite hobby is Hiking",
+      "ground_truth": "Hiking",
+      "correct": true,
+      "latency": 0.014308929443359375
+    },
+    {
+      "id": "q_inf_033",
+      "category": "information_extraction",
+      "question": "What is the user's favorite food?",
+      "answer": "The user's favorite food is Pizza",
+      "ground_truth": "Pizza",
+      "correct": true,
+      "latency": 0.014789104461669922
+    },
+    {
+      "id": "q_inf_034",
+      "category": "information_extraction",
+      "question": "What is the user's favorite book?",
+      "answer": "The user's favorite book is Dune",
+      "ground_truth": "Dune",
+      "correct": true,
+      "latency": 0.013643026351928711
+    },
+    {
+      "id": "q_inf_035",
+      "category": "information_extraction",
+      "question": "What is the user's favorite food?",
+      "answer": "The user's favorite food is Pizza",
+      "ground_truth": "Pizza",
+      "correct": true,
+      "latency": 0.01532292366027832
+    },
+    {
+      "id": "q_inf_036",
+      "category": "information_extraction",
+      "question": "What is the user's favorite food?",
+      "answer": "The user's favorite food is Pizza",
+      "ground_truth": "Pizza",
+      "correct": true,
+      "latency": 0.01627802848815918
+    },
+    {
+      "id": "q_inf_037",
+      "category": "information_extraction",
+      "question": "What is the user's favorite movie?",
+      "answer": "The user's favorite movie is Star Wars",
+      "ground_truth": "Star Wars",
+      "correct": true,
+      "latency": 0.01662302017211914
+    },
+    {
+      "id": "q_inf_038",
+      "category": "information_extraction",
+      "question": "What is the user's favorite movie?",
+      "answer": "The user's favorite movie is Star Wars",
+      "ground_truth": "Star Wars",
+      "correct": true,
+      "latency": 0.01380467414855957
+    },
+    {
+      "id": "q_inf_039",
+      "category": "information_extraction",
+      "question": "What is the user's favorite color?",
+      "answer": "The user's address is 123 Main St",
+      "ground_truth": "Blue",
+      "correct": false,
+      "latency": 0.013495922088623047
+    },
+    {
+      "id": "q_inf_040",
+      "category": "information_extraction",
+      "question": "What is the user's favorite food?",
+      "answer": "The user's favorite food is Pizza",
+      "ground_truth": "Pizza",
+      "correct": true,
+      "latency": 0.014579057693481445
+    },
+    {
+      "id": "q_inf_041",
+      "category": "information_extraction",
+      "question": "What is the user's favorite movie?",
+      "answer": "The user's favorite movie is Star Wars",
+      "ground_truth": "Star Wars",
+      "correct": true,
+      "latency": 0.01582169532775879
+    },
+    {
+      "id": "q_inf_042",
+      "category": "information_extraction",
+      "question": "What is the user's favorite movie?",
+      "answer": "The user's favorite movie is Star Wars",
+      "ground_truth": "Star Wars",
+      "correct": true,
+      "latency": 0.01683211326599121
+    },
+    {
+      "id": "q_inf_043",
+      "category": "information_extraction",
+      "question": "What is the user's favorite movie?",
+      "answer": "The user's favorite movie is Star Wars",
+      "ground_truth": "Star Wars",
+      "correct": true,
+      "latency": 0.014005899429321289
+    },
+    {
+      "id": "q_inf_044",
+      "category": "information_extraction",
+      "question": "What is the user's favorite hobby?",
+      "answer": "The user's favorite hobby is Hiking",
+      "ground_truth": "Hiking",
+      "correct": true,
+      "latency": 0.013866901397705078
+    },
+    {
+      "id": "q_inf_045",
+      "category": "information_extraction",
+      "question": "What is the user's favorite food?",
+      "answer": "The user's favorite food is Pizza",
+      "ground_truth": "Pizza",
+      "correct": true,
+      "latency": 0.013731718063354492
+    },
+    {
+      "id": "q_inf_046",
+      "category": "information_extraction",
+      "question": "What is the user's favorite food?",
+      "answer": "The user's favorite food is Pizza",
+      "ground_truth": "Pizza",
+      "correct": true,
+      "latency": 0.013653039932250977
+    },
+    {
+      "id": "q_inf_047",
+      "category": "information_extraction",
+      "question": "What is the user's favorite hobby?",
+      "answer": "The user's favorite hobby is Hiking",
+      "ground_truth": "Hiking",
+      "correct": true,
+      "latency": 0.016909122467041016
+    },
+    {
+      "id": "q_inf_048",
+      "category": "information_extraction",
+      "question": "What is the user's favorite food?",
+      "answer": "The user's favorite food is Pizza",
+      "ground_truth": "Pizza",
+      "correct": true,
+      "latency": 0.015301227569580078
+    },
+    {
+      "id": "q_inf_049",
+      "category": "information_extraction",
+      "question": "What is the user's favorite color?",
+      "answer": "The user's address is 123 Main St",
+      "ground_truth": "Blue",
+      "correct": false,
+      "latency": 0.01650094985961914
+    },
+    {
+      "id": "q_inf_050",
+      "category": "information_extraction",
+      "question": "What is the user's favorite movie?",
+      "answer": "The user's favorite movie is Star Wars",
+      "ground_truth": "Star Wars",
+      "correct": true,
+      "latency": 0.014098882675170898
+    },
+    {
+      "id": "q_inf_051",
+      "category": "information_extraction",
+      "question": "What is the user's favorite book?",
+      "answer": "The user's favorite book is Dune",
+      "ground_truth": "Dune",
+      "correct": true,
+      "latency": 0.015482902526855469
+    },
+    {
+      "id": "q_inf_052",
+      "category": "information_extraction",
+      "question": "What is the user's favorite color?",
+      "answer": "The user's address is 123 Main St",
+      "ground_truth": "Blue",
+      "correct": false,
+      "latency": 0.015002965927124023
+    },
+    {
+      "id": "q_inf_053",
+      "category": "information_extraction",
+      "question": "What is the user's favorite hobby?",
+      "answer": "The user's favorite hobby is Hiking",
+      "ground_truth": "Hiking",
+      "correct": true,
+      "latency": 0.018309831619262695
+    },
+    {
+      "id": "q_inf_054",
+      "category": "information_extraction",
+      "question": "What is the user's favorite color?",
+      "answer": "The user's address is 123 Main St",
+      "ground_truth": "Blue",
+      "correct": false,
+      "latency": 0.01563096046447754
+    },
+    {
+      "id": "q_inf_055",
+      "category": "information_extraction",
+      "question": "What is the user's favorite book?",
+      "answer": "The user's favorite book is Dune",
+      "ground_truth": "Dune",
+      "correct": true,
+      "latency": 0.014407873153686523
+    },
+    {
+      "id": "q_inf_056",
+      "category": "information_extraction",
+      "question": "What is the user's favorite movie?",
+      "answer": "The user's favorite movie is Star Wars",
+      "ground_truth": "Star Wars",
+      "correct": true,
+      "latency": 0.01489400863647461
+    },
+    {
+      "id": "q_inf_057",
+      "category": "information_extraction",
+      "question": "What is the user's favorite movie?",
+      "answer": "The user's favorite movie is Star Wars",
+      "ground_truth": "Star Wars",
+      "correct": true,
+      "latency": 0.014492273330688477
+    },
+    {
+      "id": "q_inf_058",
+      "category": "information_extraction",
+      "question": "What is the user's favorite food?",
+      "answer": "The user's favorite food is Pizza",
+      "ground_truth": "Pizza",
+      "correct": true,
+      "latency": 0.01651906967163086
+    },
+    {
+      "id": "q_inf_059",
+      "category": "information_extraction",
+      "question": "What is the user's favorite hobby?",
+      "answer": "The user's favorite hobby is Hiking",
+      "ground_truth": "Hiking",
+      "correct": true,
+      "latency": 0.014501094818115234
+    },
+    {
+      "id": "q_inf_060",
+      "category": "information_extraction",
+      "question": "What is the user's favorite color?",
+      "answer": "The user's address is 123 Main St",
+      "ground_truth": "Blue",
+      "correct": false,
+      "latency": 0.01343679428100586
+    },
+    {
+      "id": "q_inf_061",
+      "category": "information_extraction",
+      "question": "What is the user's favorite food?",
+      "answer": "The user's favorite food is Pizza",
+      "ground_truth": "Pizza",
+      "correct": true,
+      "latency": 0.014387130737304688
+    },
+    {
+      "id": "q_inf_062",
+      "category": "information_extraction",
+      "question": "What is the user's favorite food?",
+      "answer": "The user's favorite food is Pizza",
+      "ground_truth": "Pizza",
+      "correct": true,
+      "latency": 0.013886213302612305
+    },
+    {
+      "id": "q_inf_063",
+      "category": "information_extraction",
+      "question": "What is the user's favorite food?",
+      "answer": "The user's favorite food is Pizza",
+      "ground_truth": "Pizza",
+      "correct": true,
+      "latency": 0.015058279037475586
+    },
+    {
+      "id": "q_inf_064",
+      "category": "information_extraction",
+      "question": "What is the user's favorite color?",
+      "answer": "The user's address is 123 Main St",
+      "ground_truth": "Blue",
+      "correct": false,
+      "latency": 0.015386104583740234
+    },
+    {
+      "id": "q_inf_065",
+      "category": "information_extraction",
+      "question": "What is the user's favorite color?",
+      "answer": "The user's address is 123 Main St",
+      "ground_truth": "Blue",
+      "correct": false,
+      "latency": 0.014292001724243164
+    },
+    {
+      "id": "q_inf_066",
+      "category": "information_extraction",
+      "question": "What is the user's favorite food?",
+      "answer": "The user's favorite food is Pizza",
+      "ground_truth": "Pizza",
+      "correct": true,
+      "latency": 0.014379024505615234
+    },
+    {
+      "id": "q_inf_067",
+      "category": "information_extraction",
+      "question": "What is the user's favorite color?",
+      "answer": "The user's address is 123 Main St",
+      "ground_truth": "Blue",
+      "correct": false,
+      "latency": 0.01407313346862793
+    },
+    {
+      "id": "q_inf_068",
+      "category": "information_extraction",
+      "question": "What is the user's favorite movie?",
+      "answer": "The user's favorite movie is Star Wars",
+      "ground_truth": "Star Wars",
+      "correct": true,
+      "latency": 0.015071868896484375
+    },
+    {
+      "id": "q_inf_069",
+      "category": "information_extraction",
+      "question": "What is the user's favorite book?",
+      "answer": "The user's favorite book is Dune",
+      "ground_truth": "Dune",
+      "correct": true,
+      "latency": 0.01754474639892578
+    },
+    {
+      "id": "q_inf_070",
+      "category": "information_extraction",
+      "question": "What is the user's favorite book?",
+      "answer": "The user's favorite book is Dune",
+      "ground_truth": "Dune",
+      "correct": true,
+      "latency": 0.018105268478393555
+    },
+    {
+      "id": "q_inf_071",
+      "category": "information_extraction",
+      "question": "What is the user's favorite hobby?",
+      "answer": "The user's favorite hobby is Hiking",
+      "ground_truth": "Hiking",
+      "correct": true,
+      "latency": 0.01682305335998535
+    },
+    {
+      "id": "q_inf_072",
+      "category": "information_extraction",
+      "question": "What is the user's favorite movie?",
+      "answer": "The user's favorite movie is Star Wars",
+      "ground_truth": "Star Wars",
+      "correct": true,
+      "latency": 0.016344070434570312
+    },
+    {
+      "id": "q_inf_073",
+      "category": "information_extraction",
+      "question": "What is the user's favorite food?",
+      "answer": "The user's favorite food is Pizza",
+      "ground_truth": "Pizza",
+      "correct": true,
+      "latency": 0.02158808708190918
+    },
+    {
+      "id": "q_inf_074",
+      "category": "information_extraction",
+      "question": "What is the user's favorite book?",
+      "answer": "The user's favorite book is Dune",
+      "ground_truth": "Dune",
+      "correct": true,
+      "latency": 0.01891613006591797
+    },
+    {
+      "id": "q_inf_075",
+      "category": "information_extraction",
+      "question": "What is the user's favorite food?",
+      "answer": "The user's favorite food is Pizza",
+      "ground_truth": "Pizza",
+      "correct": true,
+      "latency": 0.016642093658447266
+    },
+    {
+      "id": "q_inf_076",
+      "category": "information_extraction",
+      "question": "What is the user's favorite movie?",
+      "answer": "The user's favorite movie is Star Wars",
+      "ground_truth": "Star Wars",
+      "correct": true,
+      "latency": 0.019262075424194336
+    },
+    {
+      "id": "q_inf_077",
+      "category": "information_extraction",
+      "question": "What is the user's favorite color?",
+      "answer": "The user's address is 123 Main St",
+      "ground_truth": "Blue",
+      "correct": false,
+      "latency": 0.01946711540222168
+    },
+    {
+      "id": "q_inf_078",
+      "category": "information_extraction",
+      "question": "What is the user's favorite hobby?",
+      "answer": "The user's favorite hobby is Hiking",
+      "ground_truth": "Hiking",
+      "correct": true,
+      "latency": 0.025253772735595703
+    },
+    {
+      "id": "q_inf_079",
+      "category": "information_extraction",
+      "question": "What is the user's favorite movie?",
+      "answer": "The user's favorite movie is Star Wars",
+      "ground_truth": "Star Wars",
+      "correct": true,
+      "latency": 0.0238339900970459
+    },
+    {
+      "id": "q_inf_080",
+      "category": "information_extraction",
+      "question": "What is the user's favorite movie?",
+      "answer": "The user's favorite movie is Star Wars",
+      "ground_truth": "Star Wars",
+      "correct": true,
+      "latency": 0.02296304702758789
+    },
+    {
+      "id": "q_inf_081",
+      "category": "information_extraction",
+      "question": "What is the user's favorite hobby?",
+      "answer": "The user's favorite hobby is Hiking",
+      "ground_truth": "Hiking",
+      "correct": true,
+      "latency": 0.04770302772521973
+    },
+    {
+      "id": "q_inf_082",
+      "category": "information_extraction",
+      "question": "What is the user's favorite movie?",
+      "answer": "The user's favorite movie is Star Wars",
+      "ground_truth": "Star Wars",
+      "correct": true,
+      "latency": 0.022586822509765625
+    },
+    {
+      "id": "q_inf_083",
+      "category": "information_extraction",
+      "question": "What is the user's favorite food?",
+      "answer": "The user's favorite food is Pizza",
+      "ground_truth": "Pizza",
+      "correct": true,
+      "latency": 0.022584199905395508
+    },
+    {
+      "id": "q_inf_084",
+      "category": "information_extraction",
+      "question": "What is the user's favorite movie?",
+      "answer": "The user's favorite movie is Star Wars",
+      "ground_truth": "Star Wars",
+      "correct": true,
+      "latency": 0.019170045852661133
+    },
+    {
+      "id": "q_inf_085",
+      "category": "information_extraction",
+      "question": "What is the user's favorite hobby?",
+      "answer": "The user's favorite hobby is Hiking",
+      "ground_truth": "Hiking",
+      "correct": true,
+      "latency": 0.01697683334350586
+    },
+    {
+      "id": "q_inf_086",
+      "category": "information_extraction",
+      "question": "What is the user's favorite food?",
+      "answer": "The user's favorite food is Pizza",
+      "ground_truth": "Pizza",
+      "correct": true,
+      "latency": 0.013989925384521484
+    },
+    {
+      "id": "q_inf_087",
+      "category": "information_extraction",
+      "question": "What is the user's favorite color?",
+      "answer": "The user's address is 123 Main St",
+      "ground_truth": "Blue",
+      "correct": false,
+      "latency": 0.013312101364135742
+    },
+    {
+      "id": "q_inf_088",
+      "category": "information_extraction",
+      "question": "What is the user's favorite food?",
+      "answer": "The user's favorite food is Pizza",
+      "ground_truth": "Pizza",
+      "correct": true,
+      "latency": 0.013214826583862305
+    },
+    {
+      "id": "q_inf_089",
+      "category": "information_extraction",
+      "question": "What is the user's favorite book?",
+      "answer": "The user's favorite book is Dune",
+      "ground_truth": "Dune",
+      "correct": true,
+      "latency": 0.015164852142333984
+    },
+    {
+      "id": "q_inf_090",
+      "category": "information_extraction",
+      "question": "What is the user's favorite food?",
+      "answer": "The user's favorite food is Pizza",
+      "ground_truth": "Pizza",
+      "correct": true,
+      "latency": 0.015039920806884766
+    },
+    {
+      "id": "q_inf_091",
+      "category": "information_extraction",
+      "question": "What is the user's favorite food?",
+      "answer": "The user's favorite food is Pizza",
+      "ground_truth": "Pizza",
+      "correct": true,
+      "latency": 0.013995885848999023
+    },
+    {
+      "id": "q_inf_092",
+      "category": "information_extraction",
+      "question": "What is the user's favorite book?",
+      "answer": "The user's favorite book is Dune",
+      "ground_truth": "Dune",
+      "correct": true,
+      "latency": 0.014387845993041992
+    },
+    {
+      "id": "q_inf_093",
+      "category": "information_extraction",
+      "question": "What is the user's favorite movie?",
+      "answer": "The user's favorite movie is Star Wars",
+      "ground_truth": "Star Wars",
+      "correct": true,
+      "latency": 0.015935182571411133
+    },
+    {
+      "id": "q_inf_094",
+      "category": "information_extraction",
+      "question": "What is the user's favorite movie?",
+      "answer": "The user's favorite movie is Star Wars",
+      "ground_truth": "Star Wars",
+      "correct": true,
+      "latency": 0.014497995376586914
+    },
+    {
+      "id": "q_inf_095",
+      "category": "information_extraction",
+      "question": "What is the user's favorite food?",
+      "answer": "The user's favorite food is Pizza",
+      "ground_truth": "Pizza",
+      "correct": true,
+      "latency": 0.016993999481201172
+    },
+    {
+      "id": "q_inf_096",
+      "category": "information_extraction",
+      "question": "What is the user's favorite hobby?",
+      "answer": "The user's favorite hobby is Hiking",
+      "ground_truth": "Hiking",
+      "correct": true,
+      "latency": 0.021453857421875
+    },
+    {
+      "id": "q_inf_097",
+      "category": "information_extraction",
+      "question": "What is the user's favorite food?",
+      "answer": "The user's favorite food is Pizza",
+      "ground_truth": "Pizza",
+      "correct": true,
+      "latency": 0.019833087921142578
+    },
+    {
+      "id": "q_inf_098",
+      "category": "information_extraction",
+      "question": "What is the user's favorite movie?",
+      "answer": "The user's favorite movie is Star Wars",
+      "ground_truth": "Star Wars",
+      "correct": true,
+      "latency": 0.0182037353515625
+    },
+    {
+      "id": "q_inf_099",
+      "category": "information_extraction",
+      "question": "What is the user's favorite movie?",
+      "answer": "The user's favorite movie is Star Wars",
+      "ground_truth": "Star Wars",
+      "correct": true,
+      "latency": 0.019767045974731445
+    },
+    {
+      "id": "q_cro_000",
+      "category": "cross_session_reasoning",
+      "question": "What did the user mention about their job?",
+      "answer": "The user's job title is Senior Engineer The user's job title is Senior Engineer The user's job title is Senior Engineer",
+      "ground_truth": "The user mentioned the user works as a software engineer",
+      "correct": false,
+      "latency": 0.01743793487548828
+    },
+    {
+      "id": "q_cro_001",
+      "category": "cross_session_reasoning",
+      "question": "What did the user mention about their family?",
+      "answer": "The user's favorite hobby is Hiking The user's favorite hobby is Hiking The user's favorite color is Blue",
+      "ground_truth": "The user mentioned the user has a dog named max",
+      "correct": false,
+      "latency": 0.013034820556640625
+    },
+    {
+      "id": "q_cro_002",
+      "category": "cross_session_reasoning",
+      "question": "What did the user mention about their goal?",
+      "answer": "The user's favorite hobby is Hiking The user's favorite hobby is Hiking The user's favorite color is Blue",
+      "ground_truth": "The user mentioned the user wants to travel to japan",
+      "correct": false,
+      "latency": 0.01277303695678711
+    },
+    {
+      "id": "q_cro_003",
+      "category": "cross_session_reasoning",
+      "question": "What did the user mention about their job?",
+      "answer": "The user's job title is Senior Engineer The user's job title is Senior Engineer The user's job title is Senior Engineer",
+      "ground_truth": "The user mentioned the user works as a software engineer",
+      "correct": false,
+      "latency": 0.010879993438720703
+    },
+    {
+      "id": "q_cro_004",
+      "category": "cross_session_reasoning",
+      "question": "What did the user mention about their goal?",
+      "answer": "The user's favorite hobby is Hiking The user's favorite hobby is Hiking The user's favorite color is Blue",
+      "ground_truth": "The user mentioned the user wants to travel to japan",
+      "correct": false,
+      "latency": 0.013391733169555664
+    },
+    {
+      "id": "q_cro_005",
+      "category": "cross_session_reasoning",
+      "question": "What did the user mention about their job?",
+      "answer": "The user's job title is Senior Engineer The user's job title is Senior Engineer The user's job title is Senior Engineer",
+      "ground_truth": "The user mentioned the user works as a software engineer",
+      "correct": false,
+      "latency": 0.01789689064025879
+    },
+    {
+      "id": "q_cro_006",
+      "category": "cross_session_reasoning",
+      "question": "What did the user mention about their goal?",
+      "answer": "The user's favorite hobby is Hiking The user's favorite hobby is Hiking The user's favorite color is Blue",
+      "ground_truth": "The user mentioned the user wants to travel to japan",
+      "correct": false,
+      "latency": 0.01459813117980957
+    },
+    {
+      "id": "q_cro_007",
+      "category": "cross_session_reasoning",
+      "question": "What did the user mention about their plan?",
+      "answer": "The user's favorite hobby is Hiking The user's favorite hobby is Hiking The user's favorite color is Blue",
+      "ground_truth": "The user mentioned the user plans to learn python",
+      "correct": false,
+      "latency": 0.012296915054321289
+    },
+    {
+      "id": "q_cro_008",
+      "category": "cross_session_reasoning",
+      "question": "What did the user mention about their family?",
+      "answer": "The user's favorite hobby is Hiking The user's favorite hobby is Hiking The user's favorite color is Blue",
+      "ground_truth": "The user mentioned the user has a dog named max",
+      "correct": false,
+      "latency": 0.01125788688659668
+    },
+    {
+      "id": "q_cro_009",
+      "category": "cross_session_reasoning",
+      "question": "What did the user mention about their hobby?",
+      "answer": "The user's favorite hobby is Hiking The user's favorite hobby is Hiking The user's favorite hobby is Hiking",
+      "ground_truth": "The user mentioned the user enjoys hiking on weekends",
+      "correct": false,
+      "latency": 0.012331008911132812
+    },
+    {
+      "id": "q_cro_010",
+      "category": "cross_session_reasoning",
+      "question": "What did the user mention about their family?",
+      "answer": "The user's favorite hobby is Hiking The user's favorite hobby is Hiking The user's favorite color is Blue",
+      "ground_truth": "The user mentioned the user has a dog named max",
+      "correct": false,
+      "latency": 0.01459193229675293
+    },
+    {
+      "id": "q_cro_011",
+      "category": "cross_session_reasoning",
+      "question": "What did the user mention about their goal?",
+      "answer": "The user's favorite hobby is Hiking The user's favorite hobby is Hiking The user's favorite color is Blue",
+      "ground_truth": "The user mentioned the user wants to travel to japan",
+      "correct": false,
+      "latency": 0.014444112777709961
+    },
+    {
+      "id": "q_cro_012",
+      "category": "cross_session_reasoning",
+      "question": "What did the user mention about their plan?",
+      "answer": "The user's favorite hobby is Hiking The user's favorite hobby is Hiking The user's favorite color is Blue",
+      "ground_truth": "The user mentioned the user plans to learn python",
+      "correct": false,
+      "latency": 0.011931896209716797
+    },
+    {
+      "id": "q_cro_013",
+      "category": "cross_session_reasoning",
+      "question": "What did the user mention about their family?",
+      "answer": "The user's favorite hobby is Hiking The user's favorite hobby is Hiking The user's favorite color is Blue",
+      "ground_truth": "The user mentioned the user has a dog named max",
+      "correct": false,
+      "latency": 0.011347055435180664
+    },
+    {
+      "id": "q_cro_014",
+      "category": "cross_session_reasoning",
+      "question": "What did the user mention about their family?",
+      "answer": "The user's favorite hobby is Hiking The user's favorite hobby is Hiking The user's favorite color is Blue",
+      "ground_truth": "The user mentioned the user has a dog named max",
+      "correct": false,
+      "latency": 0.010745763778686523
+    },
+    {
+      "id": "q_cro_015",
+      "category": "cross_session_reasoning",
+      "question": "What did the user mention about their family?",
+      "answer": "The user's favorite hobby is Hiking The user's favorite hobby is Hiking The user's favorite color is Blue",
+      "ground_truth": "The user mentioned the user has a dog named max",
+      "correct": false,
+      "latency": 0.013460159301757812
+    },
+    {
+      "id": "q_cro_016",
+      "category": "cross_session_reasoning",
+      "question": "What did the user mention about their job?",
+      "answer": "The user's job title is Senior Engineer The user's job title is Senior Engineer The user's job title is Senior Engineer",
+      "ground_truth": "The user mentioned the user works as a software engineer",
+      "correct": false,
+      "latency": 0.01235198974609375
+    },
+    {
+      "id": "q_cro_017",
+      "category": "cross_session_reasoning",
+      "question": "What did the user mention about their goal?",
+      "answer": "The user's favorite hobby is Hiking The user's favorite hobby is Hiking The user's favorite color is Blue",
+      "ground_truth": "The user mentioned the user wants to travel to japan",
+      "correct": false,
+      "latency": 0.011783123016357422
+    },
+    {
+      "id": "q_cro_018",
+      "category": "cross_session_reasoning",
+      "question": "What did the user mention about their hobby?",
+      "answer": "The user's favorite hobby is Hiking The user's favorite hobby is Hiking The user's favorite hobby is Hiking",
+      "ground_truth": "The user mentioned the user enjoys hiking on weekends",
+      "correct": false,
+      "latency": 0.013684988021850586
+    },
+    {
+      "id": "q_cro_019",
+      "category": "cross_session_reasoning",
+      "question": "What did the user mention about their hobby?",
+      "answer": "The user's favorite hobby is Hiking The user's favorite hobby is Hiking The user's favorite hobby is Hiking",
+      "ground_truth": "The user mentioned the user enjoys hiking on weekends",
+      "correct": false,
+      "latency": 0.010972023010253906
+    },
+    {
+      "id": "q_cro_020",
+      "category": "cross_session_reasoning",
+      "question": "What did the user mention about their plan?",
+      "answer": "The user's favorite hobby is Hiking The user's favorite hobby is Hiking The user's favorite color is Blue",
+      "ground_truth": "The user mentioned the user plans to learn python",
+      "correct": false,
+      "latency": 0.011978864669799805
+    },
+    {
+      "id": "q_cro_021",
+      "category": "cross_session_reasoning",
+      "question": "What did the user mention about their plan?",
+      "answer": "The user's favorite hobby is Hiking The user's favorite hobby is Hiking The user's favorite color is Blue",
+      "ground_truth": "The user mentioned the user plans to learn python",
+      "correct": false,
+      "latency": 0.010859012603759766
+    },
+    {
+      "id": "q_cro_022",
+      "category": "cross_session_reasoning",
+      "question": "What did the user mention about their plan?",
+      "answer": "The user's favorite hobby is Hiking The user's favorite hobby is Hiking The user's favorite color is Blue",
+      "ground_truth": "The user mentioned the user plans to learn python",
+      "correct": false,
+      "latency": 0.011812925338745117
+    },
+    {
+      "id": "q_cro_023",
+      "category": "cross_session_reasoning",
+      "question": "What did the user mention about their family?",
+      "answer": "The user's favorite hobby is Hiking The user's favorite hobby is Hiking The user's favorite color is Blue",
+      "ground_truth": "The user mentioned the user has a dog named max",
+      "correct": false,
+      "latency": 0.011110067367553711
+    },
+    {
+      "id": "q_cro_024",
+      "category": "cross_session_reasoning",
+      "question": "What did the user mention about their plan?",
+      "answer": "The user's favorite hobby is Hiking The user's favorite hobby is Hiking The user's favorite color is Blue",
+      "ground_truth": "The user mentioned the user plans to learn python",
+      "correct": false,
+      "latency": 0.011002063751220703
+    },
+    {
+      "id": "q_cro_025",
+      "category": "cross_session_reasoning",
+      "question": "What did the user mention about their job?",
+      "answer": "The user's job title is Senior Engineer The user's job title is Senior Engineer The user's job title is Senior Engineer",
+      "ground_truth": "The user mentioned the user works as a software engineer",
+      "correct": false,
+      "latency": 0.013539791107177734
+    },
+    {
+      "id": "q_cro_026",
+      "category": "cross_session_reasoning",
+      "question": "What did the user mention about their goal?",
+      "answer": "The user's favorite hobby is Hiking The user's favorite hobby is Hiking The user's favorite color is Blue",
+      "ground_truth": "The user mentioned the user wants to travel to japan",
+      "correct": false,
+      "latency": 0.009933948516845703
+    },
+    {
+      "id": "q_cro_027",
+      "category": "cross_session_reasoning",
+      "question": "What did the user mention about their family?",
+      "answer": "The user's favorite hobby is Hiking The user's favorite hobby is Hiking The user's favorite color is Blue",
+      "ground_truth": "The user mentioned the user has a dog named max",
+      "correct": false,
+      "latency": 0.01102590560913086
+    },
+    {
+      "id": "q_cro_028",
+      "category": "cross_session_reasoning",
+      "question": "What did the user mention about their family?",
+      "answer": "The user's favorite hobby is Hiking The user's favorite hobby is Hiking The user's favorite color is Blue",
+      "ground_truth": "The user mentioned the user has a dog named max",
+      "correct": false,
+      "latency": 0.009038925170898438
+    },
+    {
+      "id": "q_cro_029",
+      "category": "cross_session_reasoning",
+      "question": "What did the user mention about their goal?",
+      "answer": "The user's favorite hobby is Hiking The user's favorite hobby is Hiking The user's favorite color is Blue",
+      "ground_truth": "The user mentioned the user wants to travel to japan",
+      "correct": false,
+      "latency": 0.01022195816040039
+    },
+    {
+      "id": "q_cro_030",
+      "category": "cross_session_reasoning",
+      "question": "What did the user mention about their hobby?",
+      "answer": "The user's favorite hobby is Hiking The user's favorite hobby is Hiking The user's favorite hobby is Hiking",
+      "ground_truth": "The user mentioned the user enjoys hiking on weekends",
+      "correct": false,
+      "latency": 0.011118888854980469
+    },
+    {
+      "id": "q_cro_031",
+      "category": "cross_session_reasoning",
+      "question": "What did the user mention about their goal?",
+      "answer": "The user's favorite hobby is Hiking The user's favorite hobby is Hiking The user's favorite color is Blue",
+      "ground_truth": "The user mentioned the user wants to travel to japan",
+      "correct": false,
+      "latency": 0.009489059448242188
+    },
+    {
+      "id": "q_cro_032",
+      "category": "cross_session_reasoning",
+      "question": "What did the user mention about their family?",
+      "answer": "The user's favorite hobby is Hiking The user's favorite hobby is Hiking The user's favorite color is Blue",
+      "ground_truth": "The user mentioned the user has a dog named max",
+      "correct": false,
+      "latency": 0.010454893112182617
+    },
+    {
+      "id": "q_cro_033",
+      "category": "cross_session_reasoning",
+      "question": "What did the user mention about their plan?",
+      "answer": "The user's favorite hobby is Hiking The user's favorite hobby is Hiking The user's favorite color is Blue",
+      "ground_truth": "The user mentioned the user plans to learn python",
+      "correct": false,
+      "latency": 0.012009143829345703
+    },
+    {
+      "id": "q_cro_034",
+      "category": "cross_session_reasoning",
+      "question": "What did the user mention about their job?",
+      "answer": "The user's job title is Senior Engineer The user's job title is Senior Engineer The user's job title is Senior Engineer",
+      "ground_truth": "The user mentioned the user works as a software engineer",
+      "correct": false,
+      "latency": 0.011636972427368164
+    },
+    {
+      "id": "q_cro_035",
+      "category": "cross_session_reasoning",
+      "question": "What did the user mention about their goal?",
+      "answer": "The user's favorite hobby is Hiking The user's favorite hobby is Hiking The user's favorite color is Blue",
+      "ground_truth": "The user mentioned the user wants to travel to japan",
+      "correct": false,
+      "latency": 0.01048421859741211
+    },
+    {
+      "id": "q_cro_036",
+      "category": "cross_session_reasoning",
+      "question": "What did the user mention about their job?",
+      "answer": "The user's job title is Senior Engineer The user's job title is Senior Engineer The user's job title is Senior Engineer",
+      "ground_truth": "The user mentioned the user works as a software engineer",
+      "correct": false,
+      "latency": 0.009562969207763672
+    },
+    {
+      "id": "q_cro_037",
+      "category": "cross_session_reasoning",
+      "question": "What did the user mention about their plan?",
+      "answer": "The user's favorite hobby is Hiking The user's favorite hobby is Hiking The user's favorite color is Blue",
+      "ground_truth": "The user mentioned the user plans to learn python",
+      "correct": false,
+      "latency": 0.009365081787109375
+    },
+    {
+      "id": "q_cro_038",
+      "category": "cross_session_reasoning",
+      "question": "What did the user mention about their family?",
+      "answer": "The user's favorite hobby is Hiking The user's favorite hobby is Hiking The user's favorite color is Blue",
+      "ground_truth": "The user mentioned the user has a dog named max",
+      "correct": false,
+      "latency": 0.009282827377319336
+    },
+    {
+      "id": "q_cro_039",
+      "category": "cross_session_reasoning",
+      "question": "What did the user mention about their job?",
+      "answer": "The user's job title is Senior Engineer The user's job title is Senior Engineer The user's job title is Senior Engineer",
+      "ground_truth": "The user mentioned the user works as a software engineer",
+      "correct": false,
+      "latency": 0.010082244873046875
+    },
+    {
+      "id": "q_cro_040",
+      "category": "cross_session_reasoning",
+      "question": "What did the user mention about their goal?",
+      "answer": "The user's favorite hobby is Hiking The user's favorite hobby is Hiking The user's favorite color is Blue",
+      "ground_truth": "The user mentioned the user wants to travel to japan",
+      "correct": false,
+      "latency": 0.009519815444946289
+    },
+    {
+      "id": "q_cro_041",
+      "category": "cross_session_reasoning",
+      "question": "What did the user mention about their plan?",
+      "answer": "The user's favorite hobby is Hiking The user's favorite hobby is Hiking The user's favorite color is Blue",
+      "ground_truth": "The user mentioned the user plans to learn python",
+      "correct": false,
+      "latency": 0.010875225067138672
+    },
+    {
+      "id": "q_cro_042",
+      "category": "cross_session_reasoning",
+      "question": "What did the user mention about their hobby?",
+      "answer": "The user's favorite hobby is Hiking The user's favorite hobby is Hiking The user's favorite hobby is Hiking",
+      "ground_truth": "The user mentioned the user enjoys hiking on weekends",
+      "correct": false,
+      "latency": 0.009850740432739258
+    },
+    {
+      "id": "q_cro_043",
+      "category": "cross_session_reasoning",
+      "question": "What did the user mention about their goal?",
+      "answer": "The user's favorite hobby is Hiking The user's favorite hobby is Hiking The user's favorite color is Blue",
+      "ground_truth": "The user mentioned the user wants to travel to japan",
+      "correct": false,
+      "latency": 0.009379148483276367
+    },
+    {
+      "id": "q_cro_044",
+      "category": "cross_session_reasoning",
+      "question": "What did the user mention about their job?",
+      "answer": "The user's job title is Senior Engineer The user's job title is Senior Engineer The user's job title is Senior Engineer",
+      "ground_truth": "The user mentioned the user works as a software engineer",
+      "correct": false,
+      "latency": 0.009320974349975586
+    },
+    {
+      "id": "q_cro_045",
+      "category": "cross_session_reasoning",
+      "question": "What did the user mention about their family?",
+      "answer": "The user's favorite hobby is Hiking The user's favorite hobby is Hiking The user's favorite color is Blue",
+      "ground_truth": "The user mentioned the user has a dog named max",
+      "correct": false,
+      "latency": 0.009124755859375
+    },
+    {
+      "id": "q_cro_046",
+      "category": "cross_session_reasoning",
+      "question": "What did the user mention about their plan?",
+      "answer": "The user's favorite hobby is Hiking The user's favorite hobby is Hiking The user's favorite color is Blue",
+      "ground_truth": "The user mentioned the user plans to learn python",
+      "correct": false,
+      "latency": 0.00927114486694336
+    },
+    {
+      "id": "q_cro_047",
+      "category": "cross_session_reasoning",
+      "question": "What did the user mention about their goal?",
+      "answer": "The user's favorite hobby is Hiking The user's favorite hobby is Hiking The user's favorite color is Blue",
+      "ground_truth": "The user mentioned the user wants to travel to japan",
+      "correct": false,
+      "latency": 0.009608268737792969
+    },
+    {
+      "id": "q_cro_048",
+      "category": "cross_session_reasoning",
+      "question": "What did the user mention about their goal?",
+      "answer": "The user's favorite hobby is Hiking The user's favorite hobby is Hiking The user's favorite color is Blue",
+      "ground_truth": "The user mentioned the user wants to travel to japan",
+      "correct": false,
+      "latency": 0.00966191291809082
+    },
+    {
+      "id": "q_cro_049",
+      "category": "cross_session_reasoning",
+      "question": "What did the user mention about their goal?",
+      "answer": "The user's favorite hobby is Hiking The user's favorite hobby is Hiking The user's favorite color is Blue",
+      "ground_truth": "The user mentioned the user wants to travel to japan",
+      "correct": false,
+      "latency": 0.00990605354309082
+    },
+    {
+      "id": "q_cro_050",
+      "category": "cross_session_reasoning",
+      "question": "What did the user mention about their plan?",
+      "answer": "The user's favorite hobby is Hiking The user's favorite hobby is Hiking The user's favorite color is Blue",
+      "ground_truth": "The user mentioned the user plans to learn python",
+      "correct": false,
+      "latency": 0.010077238082885742
+    },
+    {
+      "id": "q_cro_051",
+      "category": "cross_session_reasoning",
+      "question": "What did the user mention about their job?",
+      "answer": "The user's job title is Senior Engineer The user's job title is Senior Engineer The user's job title is Senior Engineer",
+      "ground_truth": "The user mentioned the user works as a software engineer",
+      "correct": false,
+      "latency": 0.010239124298095703
+    },
+    {
+      "id": "q_cro_052",
+      "category": "cross_session_reasoning",
+      "question": "What did the user mention about their family?",
+      "answer": "The user's favorite hobby is Hiking The user's favorite hobby is Hiking The user's favorite color is Blue",
+      "ground_truth": "The user mentioned the user has a dog named max",
+      "correct": false,
+      "latency": 0.00904393196105957
+    },
+    {
+      "id": "q_cro_053",
+      "category": "cross_session_reasoning",
+      "question": "What did the user mention about their plan?",
+      "answer": "The user's favorite hobby is Hiking The user's favorite hobby is Hiking The user's favorite color is Blue",
+      "ground_truth": "The user mentioned the user plans to learn python",
+      "correct": false,
+      "latency": 0.008952140808105469
+    },
+    {
+      "id": "q_cro_054",
+      "category": "cross_session_reasoning",
+      "question": "What did the user mention about their hobby?",
+      "answer": "The user's favorite hobby is Hiking The user's favorite hobby is Hiking The user's favorite hobby is Hiking",
+      "ground_truth": "The user mentioned the user enjoys hiking on weekends",
+      "correct": false,
+      "latency": 0.008879899978637695
+    },
+    {
+      "id": "q_cro_055",
+      "category": "cross_session_reasoning",
+      "question": "What did the user mention about their plan?",
+      "answer": "The user's favorite hobby is Hiking The user's favorite hobby is Hiking The user's favorite color is Blue",
+      "ground_truth": "The user mentioned the user plans to learn python",
+      "correct": false,
+      "latency": 0.010608911514282227
+    },
+    {
+      "id": "q_cro_056",
+      "category": "cross_session_reasoning",
+      "question": "What did the user mention about their family?",
+      "answer": "The user's favorite hobby is Hiking The user's favorite hobby is Hiking The user's favorite color is Blue",
+      "ground_truth": "The user mentioned the user has a dog named max",
+      "correct": false,
+      "latency": 0.010702848434448242
+    },
+    {
+      "id": "q_cro_057",
+      "category": "cross_session_reasoning",
+      "question": "What did the user mention about their family?",
+      "answer": "The user's favorite hobby is Hiking The user's favorite hobby is Hiking The user's favorite color is Blue",
+      "ground_truth": "The user mentioned the user has a dog named max",
+      "correct": false,
+      "latency": 0.01020193099975586
+    },
+    {
+      "id": "q_cro_058",
+      "category": "cross_session_reasoning",
+      "question": "What did the user mention about their plan?",
+      "answer": "The user's favorite hobby is Hiking The user's favorite hobby is Hiking The user's favorite color is Blue",
+      "ground_truth": "The user mentioned the user plans to learn python",
+      "correct": false,
+      "latency": 0.010658025741577148
+    },
+    {
+      "id": "q_cro_059",
+      "category": "cross_session_reasoning",
+      "question": "What did the user mention about their hobby?",
+      "answer": "The user's favorite hobby is Hiking The user's favorite hobby is Hiking The user's favorite hobby is Hiking",
+      "ground_truth": "The user mentioned the user enjoys hiking on weekends",
+      "correct": false,
+      "latency": 0.009717226028442383
+    },
+    {
+      "id": "q_cro_060",
+      "category": "cross_session_reasoning",
+      "question": "What did the user mention about their plan?",
+      "answer": "The user's favorite hobby is Hiking The user's favorite hobby is Hiking The user's favorite color is Blue",
+      "ground_truth": "The user mentioned the user plans to learn python",
+      "correct": false,
+      "latency": 0.00937795639038086
+    },
+    {
+      "id": "q_cro_061",
+      "category": "cross_session_reasoning",
+      "question": "What did the user mention about their family?",
+      "answer": "The user's favorite hobby is Hiking The user's favorite hobby is Hiking The user's favorite color is Blue",
+      "ground_truth": "The user mentioned the user has a dog named max",
+      "correct": false,
+      "latency": 0.008934259414672852
+    },
+    {
+      "id": "q_cro_062",
+      "category": "cross_session_reasoning",
+      "question": "What did the user mention about their family?",
+      "answer": "The user's favorite hobby is Hiking The user's favorite hobby is Hiking The user's favorite color is Blue",
+      "ground_truth": "The user mentioned the user has a dog named max",
+      "correct": false,
+      "latency": 0.009205818176269531
+    },
+    {
+      "id": "q_cro_063",
+      "category": "cross_session_reasoning",
+      "question": "What did the user mention about their hobby?",
+      "answer": "The user's favorite hobby is Hiking The user's favorite hobby is Hiking The user's favorite hobby is Hiking",
+      "ground_truth": "The user mentioned the user enjoys hiking on weekends",
+      "correct": false,
+      "latency": 0.00965118408203125
+    },
+    {
+      "id": "q_cro_064",
+      "category": "cross_session_reasoning",
+      "question": "What did the user mention about their family?",
+      "answer": "The user's favorite hobby is Hiking The user's favorite hobby is Hiking The user's favorite color is Blue",
+      "ground_truth": "The user mentioned the user has a dog named max",
+      "correct": false,
+      "latency": 0.009439945220947266
+    },
+    {
+      "id": "q_cro_065",
+      "category": "cross_session_reasoning",
+      "question": "What did the user mention about their goal?",
+      "answer": "The user's favorite hobby is Hiking The user's favorite hobby is Hiking The user's favorite color is Blue",
+      "ground_truth": "The user mentioned the user wants to travel to japan",
+      "correct": false,
+      "latency": 0.010187864303588867
+    },
+    {
+      "id": "q_cro_066",
+      "category": "cross_session_reasoning",
+      "question": "What did the user mention about their family?",
+      "answer": "The user's favorite hobby is Hiking The user's favorite hobby is Hiking The user's favorite color is Blue",
+      "ground_truth": "The user mentioned the user has a dog named max",
+      "correct": false,
+      "latency": 0.009732723236083984
+    },
+    {
+      "id": "q_cro_067",
+      "category": "cross_session_reasoning",
+      "question": "What did the user mention about their hobby?",
+      "answer": "The user's favorite hobby is Hiking The user's favorite hobby is Hiking The user's favorite hobby is Hiking",
+      "ground_truth": "The user mentioned the user enjoys hiking on weekends",
+      "correct": false,
+      "latency": 0.010509967803955078
+    },
+    {
+      "id": "q_cro_068",
+      "category": "cross_session_reasoning",
+      "question": "What did the user mention about their plan?",
+      "answer": "The user's favorite hobby is Hiking The user's favorite hobby is Hiking The user's favorite color is Blue",
+      "ground_truth": "The user mentioned the user plans to learn python",
+      "correct": false,
+      "latency": 0.00875091552734375
+    },
+    {
+      "id": "q_cro_069",
+      "category": "cross_session_reasoning",
+      "question": "What did the user mention about their job?",
+      "answer": "The user's job title is Senior Engineer The user's job title is Senior Engineer The user's job title is Senior Engineer",
+      "ground_truth": "The user mentioned the user works as a software engineer",
+      "correct": false,
+      "latency": 0.008928060531616211
+    },
+    {
+      "id": "q_cro_070",
+      "category": "cross_session_reasoning",
+      "question": "What did the user mention about their plan?",
+      "answer": "The user's favorite hobby is Hiking The user's favorite hobby is Hiking The user's favorite color is Blue",
+      "ground_truth": "The user mentioned the user plans to learn python",
+      "correct": false,
+      "latency": 0.00975799560546875
+    },
+    {
+      "id": "q_cro_071",
+      "category": "cross_session_reasoning",
+      "question": "What did the user mention about their hobby?",
+      "answer": "The user's favorite hobby is Hiking The user's favorite hobby is Hiking The user's favorite hobby is Hiking",
+      "ground_truth": "The user mentioned the user enjoys hiking on weekends",
+      "correct": false,
+      "latency": 0.009182929992675781
+    },
+    {
+      "id": "q_cro_072",
+      "category": "cross_session_reasoning",
+      "question": "What did the user mention about their job?",
+      "answer": "The user's job title is Senior Engineer The user's job title is Senior Engineer The user's job title is Senior Engineer",
+      "ground_truth": "The user mentioned the user works as a software engineer",
+      "correct": false,
+      "latency": 0.009150981903076172
+    },
+    {
+      "id": "q_cro_073",
+      "category": "cross_session_reasoning",
+      "question": "What did the user mention about their family?",
+      "answer": "The user's favorite hobby is Hiking The user's favorite hobby is Hiking The user's favorite color is Blue",
+      "ground_truth": "The user mentioned the user has a dog named max",
+      "correct": false,
+      "latency": 0.009328126907348633
+    },
+    {
+      "id": "q_cro_074",
+      "category": "cross_session_reasoning",
+      "question": "What did the user mention about their plan?",
+      "answer": "The user's favorite hobby is Hiking The user's favorite hobby is Hiking The user's favorite color is Blue",
+      "ground_truth": "The user mentioned the user plans to learn python",
+      "correct": false,
+      "latency": 0.009629964828491211
+    },
+    {
+      "id": "q_cro_075",
+      "category": "cross_session_reasoning",
+      "question": "What did the user mention about their hobby?",
+      "answer": "The user's favorite hobby is Hiking The user's favorite hobby is Hiking The user's favorite hobby is Hiking",
+      "ground_truth": "The user mentioned the user enjoys hiking on weekends",
+      "correct": false,
+      "latency": 0.010762929916381836
+    },
+    {
+      "id": "q_cro_076",
+      "category": "cross_session_reasoning",
+      "question": "What did the user mention about their family?",
+      "answer": "The user's favorite hobby is Hiking The user's favorite hobby is Hiking The user's favorite color is Blue",
+      "ground_truth": "The user mentioned the user has a dog named max",
+      "correct": false,
+      "latency": 0.010293960571289062
+    },
+    {
+      "id": "q_cro_077",
+      "category": "cross_session_reasoning",
+      "question": "What did the user mention about their job?",
+      "answer": "The user's job title is Senior Engineer The user's job title is Senior Engineer The user's job title is Senior Engineer",
+      "ground_truth": "The user mentioned the user works as a software engineer",
+      "correct": false,
+      "latency": 0.008988380432128906
+    },
+    {
+      "id": "q_cro_078",
+      "category": "cross_session_reasoning",
+      "question": "What did the user mention about their hobby?",
+      "answer": "The user's favorite hobby is Hiking The user's favorite hobby is Hiking The user's favorite hobby is Hiking",
+      "ground_truth": "The user mentioned the user enjoys hiking on weekends",
+      "correct": false,
+      "latency": 0.00922703742980957
+    },
+    {
+      "id": "q_cro_079",
+      "category": "cross_session_reasoning",
+      "question": "What did the user mention about their hobby?",
+      "answer": "The user's favorite hobby is Hiking The user's favorite hobby is Hiking The user's favorite hobby is Hiking",
+      "ground_truth": "The user mentioned the user enjoys hiking on weekends",
+      "correct": false,
+      "latency": 0.009222984313964844
+    },
+    {
+      "id": "q_cro_080",
+      "category": "cross_session_reasoning",
+      "question": "What did the user mention about their hobby?",
+      "answer": "The user's favorite hobby is Hiking The user's favorite hobby is Hiking The user's favorite hobby is Hiking",
+      "ground_truth": "The user mentioned the user enjoys hiking on weekends",
+      "correct": false,
+      "latency": 0.008772134780883789
+    },
+    {
+      "id": "q_cro_081",
+      "category": "cross_session_reasoning",
+      "question": "What did the user mention about their job?",
+      "answer": "The user's job title is Senior Engineer The user's job title is Senior Engineer The user's job title is Senior Engineer",
+      "ground_truth": "The user mentioned the user works as a software engineer",
+      "correct": false,
+      "latency": 0.009523868560791016
+    },
+    {
+      "id": "q_cro_082",
+      "category": "cross_session_reasoning",
+      "question": "What did the user mention about their job?",
+      "answer": "The user's job title is Senior Engineer The user's job title is Senior Engineer The user's job title is Senior Engineer",
+      "ground_truth": "The user mentioned the user works as a software engineer",
+      "correct": false,
+      "latency": 0.010535955429077148
+    },
+    {
+      "id": "q_cro_083",
+      "category": "cross_session_reasoning",
+      "question": "What did the user mention about their family?",
+      "answer": "The user's favorite hobby is Hiking The user's favorite hobby is Hiking The user's favorite color is Blue",
+      "ground_truth": "The user mentioned the user has a dog named max",
+      "correct": false,
+      "latency": 0.009156942367553711
+    },
+    {
+      "id": "q_cro_084",
+      "category": "cross_session_reasoning",
+      "question": "What did the user mention about their family?",
+      "answer": "The user's favorite hobby is Hiking The user's favorite hobby is Hiking The user's favorite color is Blue",
+      "ground_truth": "The user mentioned the user has a dog named max",
+      "correct": false,
+      "latency": 0.010629892349243164
+    },
+    {
+      "id": "q_cro_085",
+      "category": "cross_session_reasoning",
+      "question": "What did the user mention about their goal?",
+      "answer": "The user's favorite hobby is Hiking The user's favorite hobby is Hiking The user's favorite color is Blue",
+      "ground_truth": "The user mentioned the user wants to travel to japan",
+      "correct": false,
+      "latency": 0.010104179382324219
+    },
+    {
+      "id": "q_cro_086",
+      "category": "cross_session_reasoning",
+      "question": "What did the user mention about their family?",
+      "answer": "The user's favorite hobby is Hiking The user's favorite hobby is Hiking The user's favorite color is Blue",
+      "ground_truth": "The user mentioned the user has a dog named max",
+      "correct": false,
+      "latency": 0.009299278259277344
+    },
+    {
+      "id": "q_cro_087",
+      "category": "cross_session_reasoning",
+      "question": "What did the user mention about their hobby?",
+      "answer": "The user's favorite hobby is Hiking The user's favorite hobby is Hiking The user's favorite hobby is Hiking",
+      "ground_truth": "The user mentioned the user enjoys hiking on weekends",
+      "correct": false,
+      "latency": 0.009190082550048828
+    },
+    {
+      "id": "q_cro_088",
+      "category": "cross_session_reasoning",
+      "question": "What did the user mention about their hobby?",
+      "answer": "The user's favorite hobby is Hiking The user's favorite hobby is Hiking The user's favorite hobby is Hiking",
+      "ground_truth": "The user mentioned the user enjoys hiking on weekends",
+      "correct": false,
+      "latency": 0.009724855422973633
+    },
+    {
+      "id": "q_cro_089",
+      "category": "cross_session_reasoning",
+      "question": "What did the user mention about their goal?",
+      "answer": "The user's favorite hobby is Hiking The user's favorite hobby is Hiking The user's favorite color is Blue",
+      "ground_truth": "The user mentioned the user wants to travel to japan",
+      "correct": false,
+      "latency": 0.009154796600341797
+    },
+    {
+      "id": "q_cro_090",
+      "category": "cross_session_reasoning",
+      "question": "What did the user mention about their job?",
+      "answer": "The user's job title is Senior Engineer The user's job title is Senior Engineer The user's job title is Senior Engineer",
+      "ground_truth": "The user mentioned the user works as a software engineer",
+      "correct": false,
+      "latency": 0.009968042373657227
+    },
+    {
+      "id": "q_cro_091",
+      "category": "cross_session_reasoning",
+      "question": "What did the user mention about their goal?",
+      "answer": "The user's favorite hobby is Hiking The user's favorite hobby is Hiking The user's favorite color is Blue",
+      "ground_truth": "The user mentioned the user wants to travel to japan",
+      "correct": false,
+      "latency": 0.011128902435302734
+    },
+    {
+      "id": "q_cro_092",
+      "category": "cross_session_reasoning",
+      "question": "What did the user mention about their goal?",
+      "answer": "The user's favorite hobby is Hiking The user's favorite hobby is Hiking The user's favorite color is Blue",
+      "ground_truth": "The user mentioned the user wants to travel to japan",
+      "correct": false,
+      "latency": 0.009633064270019531
+    },
+    {
+      "id": "q_cro_093",
+      "category": "cross_session_reasoning",
+      "question": "What did the user mention about their job?",
+      "answer": "The user's job title is Senior Engineer The user's job title is Senior Engineer The user's job title is Senior Engineer",
+      "ground_truth": "The user mentioned the user works as a software engineer",
+      "correct": false,
+      "latency": 0.008998870849609375
+    },
+    {
+      "id": "q_cro_094",
+      "category": "cross_session_reasoning",
+      "question": "What did the user mention about their family?",
+      "answer": "The user's favorite hobby is Hiking The user's favorite hobby is Hiking The user's favorite color is Blue",
+      "ground_truth": "The user mentioned the user has a dog named max",
+      "correct": false,
+      "latency": 0.009150981903076172
+    },
+    {
+      "id": "q_cro_095",
+      "category": "cross_session_reasoning",
+      "question": "What did the user mention about their goal?",
+      "answer": "The user's favorite hobby is Hiking The user's favorite hobby is Hiking The user's favorite color is Blue",
+      "ground_truth": "The user mentioned the user wants to travel to japan",
+      "correct": false,
+      "latency": 0.02686905860900879
+    },
+    {
+      "id": "q_cro_096",
+      "category": "cross_session_reasoning",
+      "question": "What did the user mention about their hobby?",
+      "answer": "The user's favorite hobby is Hiking The user's favorite hobby is Hiking The user's favorite hobby is Hiking",
+      "ground_truth": "The user mentioned the user enjoys hiking on weekends",
+      "correct": false,
+      "latency": 0.009196996688842773
+    },
+    {
+      "id": "q_cro_097",
+      "category": "cross_session_reasoning",
+      "question": "What did the user mention about their family?",
+      "answer": "The user's favorite hobby is Hiking The user's favorite hobby is Hiking The user's favorite color is Blue",
+      "ground_truth": "The user mentioned the user has a dog named max",
+      "correct": false,
+      "latency": 0.010373830795288086
+    },
+    {
+      "id": "q_cro_098",
+      "category": "cross_session_reasoning",
+      "question": "What did the user mention about their hobby?",
+      "answer": "The user's favorite hobby is Hiking The user's favorite hobby is Hiking The user's favorite hobby is Hiking",
+      "ground_truth": "The user mentioned the user enjoys hiking on weekends",
+      "correct": false,
+      "latency": 0.011255025863647461
+    },
+    {
+      "id": "q_cro_099",
+      "category": "cross_session_reasoning",
+      "question": "What did the user mention about their hobby?",
+      "answer": "The user's favorite hobby is Hiking The user's favorite hobby is Hiking The user's favorite hobby is Hiking",
+      "ground_truth": "The user mentioned the user enjoys hiking on weekends",
+      "correct": false,
+      "latency": 0.009011983871459961
+    },
+    {
+      "id": "q_tem_000",
+      "category": "temporal_reasoning",
+      "question": "When did the user last mention vacation?",
+      "answer": "The user's email is user@example.com",
+      "ground_truth": "27 days ago",
+      "correct": false,
+      "latency": 0.008002042770385742
+    },
+    {
+      "id": "q_tem_001",
+      "category": "temporal_reasoning",
+      "question": "When did the user last mention birthday?",
+      "answer": "The user's email is user@example.com",
+      "ground_truth": "27 days ago",
+      "correct": false,
+      "latency": 0.006690025329589844
+    },
+    {
+      "id": "q_tem_002",
+      "category": "temporal_reasoning",
+      "question": "When did the user last mention deadline?",
+      "answer": "The user's email is user@example.com",
+      "ground_truth": "12 days ago",
+      "correct": false,
+      "latency": 0.0065081119537353516
+    },
+    {
+      "id": "q_tem_003",
+      "category": "temporal_reasoning",
+      "question": "When did the user last mention deadline?",
+      "answer": "The user's email is user@example.com",
+      "ground_truth": "19 days ago",
+      "correct": false,
+      "latency": 0.0066089630126953125
+    },
+    {
+      "id": "q_tem_004",
+      "category": "temporal_reasoning",
+      "question": "When did the user last mention vacation?",
+      "answer": "The user's email is user@example.com",
+      "ground_truth": "20 days ago",
+      "correct": false,
+      "latency": 0.006489753723144531
+    },
+    {
+      "id": "q_tem_005",
+      "category": "temporal_reasoning",
+      "question": "When did the user last mention meeting?",
+      "answer": "The user's email is user@example.com",
+      "ground_truth": "21 days ago",
+      "correct": false,
+      "latency": 0.006829977035522461
+    },
+    {
+      "id": "q_tem_006",
+      "category": "temporal_reasoning",
+      "question": "When did the user last mention meeting?",
+      "answer": "The user's email is user@example.com",
+      "ground_truth": "26 days ago",
+      "correct": false,
+      "latency": 0.006695270538330078
+    },
+    {
+      "id": "q_tem_007",
+      "category": "temporal_reasoning",
+      "question": "When did the user last mention vacation?",
+      "answer": "The user's email is user@example.com",
+      "ground_truth": "15 days ago",
+      "correct": false,
+      "latency": 0.008622169494628906
+    },
+    {
+      "id": "q_tem_008",
+      "category": "temporal_reasoning",
+      "question": "When did the user last mention birthday?",
+      "answer": "The user's email is user@example.com",
+      "ground_truth": "11 days ago",
+      "correct": false,
+      "latency": 0.008064746856689453
+    },
+    {
+      "id": "q_tem_009",
+      "category": "temporal_reasoning",
+      "question": "When did the user last mention deadline?",
+      "answer": "The user's email is user@example.com",
+      "ground_truth": "27 days ago",
+      "correct": false,
+      "latency": 0.007439851760864258
+    },
+    {
+      "id": "q_tem_010",
+      "category": "temporal_reasoning",
+      "question": "When did the user last mention birthday?",
+      "answer": "The user's email is user@example.com",
+      "ground_truth": "27 days ago",
+      "correct": false,
+      "latency": 0.006739139556884766
+    },
+    {
+      "id": "q_tem_011",
+      "category": "temporal_reasoning",
+      "question": "When did the user last mention vacation?",
+      "answer": "The user's email is user@example.com",
+      "ground_truth": "6 days ago",
+      "correct": false,
+      "latency": 0.0062558650970458984
+    },
+    {
+      "id": "q_tem_012",
+      "category": "temporal_reasoning",
+      "question": "When did the user last mention deadline?",
+      "answer": "The user's email is user@example.com",
+      "ground_truth": "12 days ago",
+      "correct": false,
+      "latency": 0.00684809684753418
+    },
+    {
+      "id": "q_tem_013",
+      "category": "temporal_reasoning",
+      "question": "When did the user last mention deadline?",
+      "answer": "The user's email is user@example.com",
+      "ground_truth": "11 days ago",
+      "correct": false,
+      "latency": 0.006863832473754883
+    },
+    {
+      "id": "q_tem_014",
+      "category": "temporal_reasoning",
+      "question": "When did the user last mention meeting?",
+      "answer": "The user's email is user@example.com",
+      "ground_truth": "4 days ago",
+      "correct": false,
+      "latency": 0.006600141525268555
+    },
+    {
+      "id": "q_tem_015",
+      "category": "temporal_reasoning",
+      "question": "When did the user last mention birthday?",
+      "answer": "The user's email is user@example.com",
+      "ground_truth": "1 days ago",
+      "correct": false,
+      "latency": 0.006867885589599609
+    },
+    {
+      "id": "q_tem_016",
+      "category": "temporal_reasoning",
+      "question": "When did the user last mention birthday?",
+      "answer": "The user's email is user@example.com",
+      "ground_truth": "22 days ago",
+      "correct": false,
+      "latency": 0.0074160099029541016
+    },
+    {
+      "id": "q_tem_017",
+      "category": "temporal_reasoning",
+      "question": "When did the user last mention project?",
+      "answer": "The user started a new project 6 days ago",
+      "ground_truth": "24 days ago",
+      "correct": false,
+      "latency": 0.007207155227661133
+    },
+    {
+      "id": "q_tem_018",
+      "category": "temporal_reasoning",
+      "question": "When did the user last mention deadline?",
+      "answer": "The user's email is user@example.com",
+      "ground_truth": "9 days ago",
+      "correct": false,
+      "latency": 0.007964849472045898
+    },
+    {
+      "id": "q_tem_019",
+      "category": "temporal_reasoning",
+      "question": "When did the user last mention birthday?",
+      "answer": "The user's email is user@example.com",
+      "ground_truth": "23 days ago",
+      "correct": false,
+      "latency": 0.008023977279663086
+    },
+    {
+      "id": "q_tem_020",
+      "category": "temporal_reasoning",
+      "question": "When did the user last mention vacation?",
+      "answer": "The user's email is user@example.com",
+      "ground_truth": "11 days ago",
+      "correct": false,
+      "latency": 0.009037971496582031
+    },
+    {
+      "id": "q_tem_021",
+      "category": "temporal_reasoning",
+      "question": "When did the user last mention deadline?",
+      "answer": "The user's email is user@example.com",
+      "ground_truth": "16 days ago",
+      "correct": false,
+      "latency": 0.007930994033813477
+    },
+    {
+      "id": "q_tem_022",
+      "category": "temporal_reasoning",
+      "question": "When did the user last mention project?",
+      "answer": "The user started a new project 6 days ago",
+      "ground_truth": "23 days ago",
+      "correct": false,
+      "latency": 0.007056236267089844
+    },
+    {
+      "id": "q_tem_023",
+      "category": "temporal_reasoning",
+      "question": "When did the user last mention vacation?",
+      "answer": "The user's email is user@example.com",
+      "ground_truth": "4 days ago",
+      "correct": false,
+      "latency": 0.006136894226074219
+    },
+    {
+      "id": "q_tem_024",
+      "category": "temporal_reasoning",
+      "question": "When did the user last mention birthday?",
+      "answer": "The user's email is user@example.com",
+      "ground_truth": "3 days ago",
+      "correct": false,
+      "latency": 0.006747007369995117
+    },
+    {
+      "id": "q_tem_025",
+      "category": "temporal_reasoning",
+      "question": "When did the user last mention meeting?",
+      "answer": "The user's email is user@example.com",
+      "ground_truth": "16 days ago",
+      "correct": false,
+      "latency": 0.007747173309326172
+    },
+    {
+      "id": "q_tem_026",
+      "category": "temporal_reasoning",
+      "question": "When did the user last mention meeting?",
+      "answer": "The user's email is user@example.com",
+      "ground_truth": "2 days ago",
+      "correct": false,
+      "latency": 0.0068852901458740234
+    },
+    {
+      "id": "q_tem_027",
+      "category": "temporal_reasoning",
+      "question": "When did the user last mention vacation?",
+      "answer": "The user's email is user@example.com",
+      "ground_truth": "19 days ago",
+      "correct": false,
+      "latency": 0.006356954574584961
+    },
+    {
+      "id": "q_tem_028",
+      "category": "temporal_reasoning",
+      "question": "When did the user last mention project?",
+      "answer": "The user started a new project 6 days ago",
+      "ground_truth": "30 days ago",
+      "correct": false,
+      "latency": 0.0066759586334228516
+    },
+    {
+      "id": "q_tem_029",
+      "category": "temporal_reasoning",
+      "question": "When did the user last mention vacation?",
+      "answer": "The user's email is user@example.com",
+      "ground_truth": "22 days ago",
+      "correct": false,
+      "latency": 0.0069599151611328125
+    },
+    {
+      "id": "q_tem_030",
+      "category": "temporal_reasoning",
+      "question": "When did the user last mention meeting?",
+      "answer": "The user's email is user@example.com",
+      "ground_truth": "28 days ago",
+      "correct": false,
+      "latency": 0.007102012634277344
+    },
+    {
+      "id": "q_tem_031",
+      "category": "temporal_reasoning",
+      "question": "When did the user last mention vacation?",
+      "answer": "The user's email is user@example.com",
+      "ground_truth": "24 days ago",
+      "correct": false,
+      "latency": 0.007447242736816406
+    },
+    {
+      "id": "q_tem_032",
+      "category": "temporal_reasoning",
+      "question": "When did the user last mention vacation?",
+      "answer": "The user's email is user@example.com",
+      "ground_truth": "10 days ago",
+      "correct": false,
+      "latency": 0.008913040161132812
+    },
+    {
+      "id": "q_tem_033",
+      "category": "temporal_reasoning",
+      "question": "When did the user last mention meeting?",
+      "answer": "The user's email is user@example.com",
+      "ground_truth": "12 days ago",
+      "correct": false,
+      "latency": 0.006652116775512695
+    },
+    {
+      "id": "q_tem_034",
+      "category": "temporal_reasoning",
+      "question": "When did the user last mention vacation?",
+      "answer": "The user's email is user@example.com",
+      "ground_truth": "27 days ago",
+      "correct": false,
+      "latency": 0.0068738460540771484
+    },
+    {
+      "id": "q_tem_035",
+      "category": "temporal_reasoning",
+      "question": "When did the user last mention meeting?",
+      "answer": "The user's email is user@example.com",
+      "ground_truth": "3 days ago",
+      "correct": false,
+      "latency": 0.006609916687011719
+    },
+    {
+      "id": "q_tem_036",
+      "category": "temporal_reasoning",
+      "question": "When did the user last mention birthday?",
+      "answer": "The user's email is user@example.com",
+      "ground_truth": "29 days ago",
+      "correct": false,
+      "latency": 0.006413936614990234
+    },
+    {
+      "id": "q_tem_037",
+      "category": "temporal_reasoning",
+      "question": "When did the user last mention meeting?",
+      "answer": "The user's email is user@example.com",
+      "ground_truth": "16 days ago",
+      "correct": false,
+      "latency": 0.006674766540527344
+    },
+    {
+      "id": "q_tem_038",
+      "category": "temporal_reasoning",
+      "question": "When did the user last mention meeting?",
+      "answer": "The user's email is user@example.com",
+      "ground_truth": "12 days ago",
+      "correct": false,
+      "latency": 0.006368160247802734
+    },
+    {
+      "id": "q_tem_039",
+      "category": "temporal_reasoning",
+      "question": "When did the user last mention birthday?",
+      "answer": "The user's email is user@example.com",
+      "ground_truth": "20 days ago",
+      "correct": false,
+      "latency": 0.006781101226806641
+    },
+    {
+      "id": "q_tem_040",
+      "category": "temporal_reasoning",
+      "question": "When did the user last mention meeting?",
+      "answer": "The user's email is user@example.com",
+      "ground_truth": "13 days ago",
+      "correct": false,
+      "latency": 0.007244110107421875
+    },
+    {
+      "id": "q_tem_041",
+      "category": "temporal_reasoning",
+      "question": "When did the user last mention vacation?",
+      "answer": "The user's email is user@example.com",
+      "ground_truth": "5 days ago",
+      "correct": false,
+      "latency": 0.006512880325317383
+    },
+    {
+      "id": "q_tem_042",
+      "category": "temporal_reasoning",
+      "question": "When did the user last mention deadline?",
+      "answer": "The user's email is user@example.com",
+      "ground_truth": "6 days ago",
+      "correct": false,
+      "latency": 0.006372690200805664
+    },
+    {
+      "id": "q_tem_043",
+      "category": "temporal_reasoning",
+      "question": "When did the user last mention project?",
+      "answer": "The user started a new project 6 days ago",
+      "ground_truth": "1 days ago",
+      "correct": false,
+      "latency": 0.00868082046508789
+    },
+    {
+      "id": "q_tem_044",
+      "category": "temporal_reasoning",
+      "question": "When did the user last mention birthday?",
+      "answer": "The user's email is user@example.com",
+      "ground_truth": "1 days ago",
+      "correct": false,
+      "latency": 0.007960796356201172
+    },
+    {
+      "id": "q_tem_045",
+      "category": "temporal_reasoning",
+      "question": "When did the user last mention meeting?",
+      "answer": "The user's email is user@example.com",
+      "ground_truth": "30 days ago",
+      "correct": false,
+      "latency": 0.007203102111816406
+    },
+    {
+      "id": "q_tem_046",
+      "category": "temporal_reasoning",
+      "question": "When did the user last mention meeting?",
+      "answer": "The user's email is user@example.com",
+      "ground_truth": "22 days ago",
+      "correct": false,
+      "latency": 0.006949901580810547
+    },
+    {
+      "id": "q_tem_047",
+      "category": "temporal_reasoning",
+      "question": "When did the user last mention deadline?",
+      "answer": "The user's email is user@example.com",
+      "ground_truth": "3 days ago",
+      "correct": false,
+      "latency": 0.007786989212036133
+    },
+    {
+      "id": "q_tem_048",
+      "category": "temporal_reasoning",
+      "question": "When did the user last mention birthday?",
+      "answer": "The user's email is user@example.com",
+      "ground_truth": "25 days ago",
+      "correct": false,
+      "latency": 0.00908803939819336
+    },
+    {
+      "id": "q_tem_049",
+      "category": "temporal_reasoning",
+      "question": "When did the user last mention birthday?",
+      "answer": "The user's email is user@example.com",
+      "ground_truth": "8 days ago",
+      "correct": false,
+      "latency": 0.008383989334106445
+    },
+    {
+      "id": "q_tem_050",
+      "category": "temporal_reasoning",
+      "question": "When did the user last mention deadline?",
+      "answer": "The user's email is user@example.com",
+      "ground_truth": "10 days ago",
+      "correct": false,
+      "latency": 0.007073163986206055
+    },
+    {
+      "id": "q_tem_051",
+      "category": "temporal_reasoning",
+      "question": "When did the user last mention vacation?",
+      "answer": "The user's email is user@example.com",
+      "ground_truth": "4 days ago",
+      "correct": false,
+      "latency": 0.0066487789154052734
+    },
+    {
+      "id": "q_tem_052",
+      "category": "temporal_reasoning",
+      "question": "When did the user last mention deadline?",
+      "answer": "The user's email is user@example.com",
+      "ground_truth": "22 days ago",
+      "correct": false,
+      "latency": 0.007628202438354492
+    },
+    {
+      "id": "q_tem_053",
+      "category": "temporal_reasoning",
+      "question": "When did the user last mention deadline?",
+      "answer": "The user's email is user@example.com",
+      "ground_truth": "14 days ago",
+      "correct": false,
+      "latency": 0.007871150970458984
+    },
+    {
+      "id": "q_tem_054",
+      "category": "temporal_reasoning",
+      "question": "When did the user last mention meeting?",
+      "answer": "The user's email is user@example.com",
+      "ground_truth": "23 days ago",
+      "correct": false,
+      "latency": 0.008433818817138672
+    },
+    {
+      "id": "q_tem_055",
+      "category": "temporal_reasoning",
+      "question": "When did the user last mention birthday?",
+      "answer": "The user's email is user@example.com",
+      "ground_truth": "23 days ago",
+      "correct": false,
+      "latency": 0.007734060287475586
+    },
+    {
+      "id": "q_tem_056",
+      "category": "temporal_reasoning",
+      "question": "When did the user last mention meeting?",
+      "answer": "The user's email is user@example.com",
+      "ground_truth": "1 days ago",
+      "correct": false,
+      "latency": 0.006906747817993164
+    },
+    {
+      "id": "q_tem_057",
+      "category": "temporal_reasoning",
+      "question": "When did the user last mention birthday?",
+      "answer": "The user's email is user@example.com",
+      "ground_truth": "6 days ago",
+      "correct": false,
+      "latency": 0.0068149566650390625
+    },
+    {
+      "id": "q_tem_058",
+      "category": "temporal_reasoning",
+      "question": "When did the user last mention birthday?",
+      "answer": "The user's email is user@example.com",
+      "ground_truth": "21 days ago",
+      "correct": false,
+      "latency": 0.006963014602661133
+    },
+    {
+      "id": "q_tem_059",
+      "category": "temporal_reasoning",
+      "question": "When did the user last mention vacation?",
+      "answer": "The user's email is user@example.com",
+      "ground_truth": "18 days ago",
+      "correct": false,
+      "latency": 0.006478071212768555
+    },
+    {
+      "id": "q_tem_060",
+      "category": "temporal_reasoning",
+      "question": "When did the user last mention project?",
+      "answer": "The user started a new project 6 days ago",
+      "ground_truth": "27 days ago",
+      "correct": false,
+      "latency": 0.006844758987426758
+    },
+    {
+      "id": "q_tem_061",
+      "category": "temporal_reasoning",
+      "question": "When did the user last mention project?",
+      "answer": "The user started a new project 6 days ago",
+      "ground_truth": "9 days ago",
+      "correct": false,
+      "latency": 0.006842136383056641
+    },
+    {
+      "id": "q_tem_062",
+      "category": "temporal_reasoning",
+      "question": "When did the user last mention project?",
+      "answer": "The user started a new project 6 days ago",
+      "ground_truth": "6 days ago",
+      "correct": true,
+      "latency": 0.007100820541381836
+    },
+    {
+      "id": "q_tem_063",
+      "category": "temporal_reasoning",
+      "question": "When did the user last mention vacation?",
+      "answer": "The user's email is user@example.com",
+      "ground_truth": "19 days ago",
+      "correct": false,
+      "latency": 0.006476879119873047
+    },
+    {
+      "id": "q_tem_064",
+      "category": "temporal_reasoning",
+      "question": "When did the user last mention birthday?",
+      "answer": "The user's email is user@example.com",
+      "ground_truth": "11 days ago",
+      "correct": false,
+      "latency": 0.007039070129394531
+    },
+    {
+      "id": "q_tem_065",
+      "category": "temporal_reasoning",
+      "question": "When did the user last mention project?",
+      "answer": "The user started a new project 6 days ago",
+      "ground_truth": "24 days ago",
+      "correct": false,
+      "latency": 0.007668972015380859
+    },
+    {
+      "id": "q_tem_066",
+      "category": "temporal_reasoning",
+      "question": "When did the user last mention deadline?",
+      "answer": "The user's email is user@example.com",
+      "ground_truth": "14 days ago",
+      "correct": false,
+      "latency": 0.008142232894897461
+    },
+    {
+      "id": "q_tem_067",
+      "category": "temporal_reasoning",
+      "question": "When did the user last mention birthday?",
+      "answer": "The user's email is user@example.com",
+      "ground_truth": "15 days ago",
+      "correct": false,
+      "latency": 0.007482767105102539
+    },
+    {
+      "id": "q_tem_068",
+      "category": "temporal_reasoning",
+      "question": "When did the user last mention project?",
+      "answer": "The user started a new project 6 days ago",
+      "ground_truth": "13 days ago",
+      "correct": false,
+      "latency": 0.007439136505126953
+    },
+    {
+      "id": "q_tem_069",
+      "category": "temporal_reasoning",
+      "question": "When did the user last mention deadline?",
+      "answer": "The user's email is user@example.com",
+      "ground_truth": "20 days ago",
+      "correct": false,
+      "latency": 0.0067179203033447266
+    },
+    {
+      "id": "q_tem_070",
+      "category": "temporal_reasoning",
+      "question": "When did the user last mention vacation?",
+      "answer": "The user's email is user@example.com",
+      "ground_truth": "16 days ago",
+      "correct": false,
+      "latency": 0.0065572261810302734
+    },
+    {
+      "id": "q_tem_071",
+      "category": "temporal_reasoning",
+      "question": "When did the user last mention meeting?",
+      "answer": "The user's email is user@example.com",
+      "ground_truth": "24 days ago",
+      "correct": false,
+      "latency": 0.00656580924987793
+    },
+    {
+      "id": "q_tem_072",
+      "category": "temporal_reasoning",
+      "question": "When did the user last mention vacation?",
+      "answer": "The user's email is user@example.com",
+      "ground_truth": "11 days ago",
+      "correct": false,
+      "latency": 0.0070378780364990234
+    },
+    {
+      "id": "q_tem_073",
+      "category": "temporal_reasoning",
+      "question": "When did the user last mention birthday?",
+      "answer": "The user's email is user@example.com",
+      "ground_truth": "19 days ago",
+      "correct": false,
+      "latency": 0.006550788879394531
+    },
+    {
+      "id": "q_tem_074",
+      "category": "temporal_reasoning",
+      "question": "When did the user last mention meeting?",
+      "answer": "The user's email is user@example.com",
+      "ground_truth": "2 days ago",
+      "correct": false,
+      "latency": 0.006932973861694336
+    },
+    {
+      "id": "q_tem_075",
+      "category": "temporal_reasoning",
+      "question": "When did the user last mention meeting?",
+      "answer": "The user's email is user@example.com",
+      "ground_truth": "15 days ago",
+      "correct": false,
+      "latency": 0.006321907043457031
+    },
+    {
+      "id": "q_tem_076",
+      "category": "temporal_reasoning",
+      "question": "When did the user last mention project?",
+      "answer": "The user started a new project 6 days ago",
+      "ground_truth": "24 days ago",
+      "correct": false,
+      "latency": 0.008183956146240234
+    },
+    {
+      "id": "q_tem_077",
+      "category": "temporal_reasoning",
+      "question": "When did the user last mention birthday?",
+      "answer": "The user's email is user@example.com",
+      "ground_truth": "25 days ago",
+      "correct": false,
+      "latency": 0.007117033004760742
+    },
+    {
+      "id": "q_tem_078",
+      "category": "temporal_reasoning",
+      "question": "When did the user last mention birthday?",
+      "answer": "The user's email is user@example.com",
+      "ground_truth": "16 days ago",
+      "correct": false,
+      "latency": 0.008179903030395508
+    },
+    {
+      "id": "q_tem_079",
+      "category": "temporal_reasoning",
+      "question": "When did the user last mention project?",
+      "answer": "The user started a new project 6 days ago",
+      "ground_truth": "6 days ago",
+      "correct": true,
+      "latency": 0.007385730743408203
+    },
+    {
+      "id": "q_tem_080",
+      "category": "temporal_reasoning",
+      "question": "When did the user last mention project?",
+      "answer": "The user started a new project 6 days ago",
+      "ground_truth": "5 days ago",
+      "correct": false,
+      "latency": 0.0072021484375
+    },
+    {
+      "id": "q_tem_081",
+      "category": "temporal_reasoning",
+      "question": "When did the user last mention birthday?",
+      "answer": "The user's email is user@example.com",
+      "ground_truth": "23 days ago",
+      "correct": false,
+      "latency": 0.006632089614868164
+    },
+    {
+      "id": "q_tem_082",
+      "category": "temporal_reasoning",
+      "question": "When did the user last mention birthday?",
+      "answer": "The user's email is user@example.com",
+      "ground_truth": "1 days ago",
+      "correct": false,
+      "latency": 0.00697016716003418
+    },
+    {
+      "id": "q_tem_083",
+      "category": "temporal_reasoning",
+      "question": "When did the user last mention deadline?",
+      "answer": "The user's email is user@example.com",
+      "ground_truth": "29 days ago",
+      "correct": false,
+      "latency": 0.006412982940673828
+    },
+    {
+      "id": "q_tem_084",
+      "category": "temporal_reasoning",
+      "question": "When did the user last mention meeting?",
+      "answer": "The user's email is user@example.com",
+      "ground_truth": "28 days ago",
+      "correct": false,
+      "latency": 0.006617307662963867
+    },
+    {
+      "id": "q_tem_085",
+      "category": "temporal_reasoning",
+      "question": "When did the user last mention vacation?",
+      "answer": "The user's email is user@example.com",
+      "ground_truth": "23 days ago",
+      "correct": false,
+      "latency": 0.006452083587646484
+    },
+    {
+      "id": "q_tem_086",
+      "category": "temporal_reasoning",
+      "question": "When did the user last mention project?",
+      "answer": "The user started a new project 6 days ago",
+      "ground_truth": "10 days ago",
+      "correct": false,
+      "latency": 0.006830930709838867
+    },
+    {
+      "id": "q_tem_087",
+      "category": "temporal_reasoning",
+      "question": "When did the user last mention project?",
+      "answer": "The user started a new project 6 days ago",
+      "ground_truth": "29 days ago",
+      "correct": false,
+      "latency": 0.006499052047729492
+    },
+    {
+      "id": "q_tem_088",
+      "category": "temporal_reasoning",
+      "question": "When did the user last mention birthday?",
+      "answer": "The user's email is user@example.com",
+      "ground_truth": "27 days ago",
+      "correct": false,
+      "latency": 0.0068340301513671875
+    },
+    {
+      "id": "q_tem_089",
+      "category": "temporal_reasoning",
+      "question": "When did the user last mention project?",
+      "answer": "The user started a new project 6 days ago",
+      "ground_truth": "6 days ago",
+      "correct": true,
+      "latency": 0.008257150650024414
+    },
+    {
+      "id": "q_tem_090",
+      "category": "temporal_reasoning",
+      "question": "When did the user last mention vacation?",
+      "answer": "The user's email is user@example.com",
+      "ground_truth": "12 days ago",
+      "correct": false,
+      "latency": 0.008387088775634766
+    },
+    {
+      "id": "q_tem_091",
+      "category": "temporal_reasoning",
+      "question": "When did the user last mention vacation?",
+      "answer": "The user's email is user@example.com",
+      "ground_truth": "23 days ago",
+      "correct": false,
+      "latency": 0.006606101989746094
+    },
+    {
+      "id": "q_tem_092",
+      "category": "temporal_reasoning",
+      "question": "When did the user last mention vacation?",
+      "answer": "The user's email is user@example.com",
+      "ground_truth": "22 days ago",
+      "correct": false,
+      "latency": 0.006879091262817383
+    },
+    {
+      "id": "q_tem_093",
+      "category": "temporal_reasoning",
+      "question": "When did the user last mention deadline?",
+      "answer": "The user's email is user@example.com",
+      "ground_truth": "20 days ago",
+      "correct": false,
+      "latency": 0.0062978267669677734
+    },
+    {
+      "id": "q_tem_094",
+      "category": "temporal_reasoning",
+      "question": "When did the user last mention meeting?",
+      "answer": "The user's email is user@example.com",
+      "ground_truth": "17 days ago",
+      "correct": false,
+      "latency": 0.006658077239990234
+    },
+    {
+      "id": "q_tem_095",
+      "category": "temporal_reasoning",
+      "question": "When did the user last mention birthday?",
+      "answer": "The user's email is user@example.com",
+      "ground_truth": "24 days ago",
+      "correct": false,
+      "latency": 0.006654024124145508
+    },
+    {
+      "id": "q_tem_096",
+      "category": "temporal_reasoning",
+      "question": "When did the user last mention meeting?",
+      "answer": "The user's email is user@example.com",
+      "ground_truth": "7 days ago",
+      "correct": false,
+      "latency": 0.0071909427642822266
+    },
+    {
+      "id": "q_tem_097",
+      "category": "temporal_reasoning",
+      "question": "When did the user last mention meeting?",
+      "answer": "The user's email is user@example.com",
+      "ground_truth": "19 days ago",
+      "correct": false,
+      "latency": 0.007020711898803711
+    },
+    {
+      "id": "q_tem_098",
+      "category": "temporal_reasoning",
+      "question": "When did the user last mention vacation?",
+      "answer": "The user's email is user@example.com",
+      "ground_truth": "29 days ago",
+      "correct": false,
+      "latency": 0.006674289703369141
+    },
+    {
+      "id": "q_tem_099",
+      "category": "temporal_reasoning",
+      "question": "When did the user last mention birthday?",
+      "answer": "The user's email is user@example.com",
+      "ground_truth": "26 days ago",
+      "correct": false,
+      "latency": 0.006517887115478516
+    },
+    {
+      "id": "q_kno_000",
+      "category": "knowledge_updates",
+      "question": "What is the user's current phone number?",
+      "answer": "The user's favorite color is Blue",
+      "ground_truth": "555-1234",
+      "correct": false,
+      "latency": 0.007402181625366211
+    },
+    {
+      "id": "q_kno_001",
+      "category": "knowledge_updates",
+      "question": "What is the user's current phone number?",
+      "answer": "The user's favorite color is Blue",
+      "ground_truth": "555-1234",
+      "correct": false,
+      "latency": 0.00828695297241211
+    },
+    {
+      "id": "q_kno_002",
+      "category": "knowledge_updates",
+      "question": "What is the user's current phone number?",
+      "answer": "The user's favorite color is Blue",
+      "ground_truth": "555-1234",
+      "correct": false,
+      "latency": 0.007493257522583008
+    },
+    {
+      "id": "q_kno_003",
+      "category": "knowledge_updates",
+      "question": "What is the user's current relationship?",
+      "answer": "The user's favorite color is Blue",
+      "ground_truth": "Married",
+      "correct": false,
+      "latency": 0.00711512565612793
+    },
+    {
+      "id": "q_kno_004",
+      "category": "knowledge_updates",
+      "question": "What is the user's current relationship?",
+      "answer": "The user's favorite color is Blue",
+      "ground_truth": "Married",
+      "correct": false,
+      "latency": 0.00683903694152832
+    },
+    {
+      "id": "q_kno_005",
+      "category": "knowledge_updates",
+      "question": "What is the user's current email?",
+      "answer": "The user's favorite book is Dune",
+      "ground_truth": "user@example.com",
+      "correct": false,
+      "latency": 0.0063800811767578125
+    },
+    {
+      "id": "q_kno_006",
+      "category": "knowledge_updates",
+      "question": "What is the user's current address?",
+      "answer": "The user's address is 123 Main St",
+      "ground_truth": "123 Main St",
+      "correct": true,
+      "latency": 0.006677865982055664
+    },
+    {
+      "id": "q_kno_007",
+      "category": "knowledge_updates",
+      "question": "What is the user's current job title?",
+      "answer": "The user's job title is Senior Engineer",
+      "ground_truth": "Senior Engineer",
+      "correct": true,
+      "latency": 0.006896018981933594
+    },
+    {
+      "id": "q_kno_008",
+      "category": "knowledge_updates",
+      "question": "What is the user's current email?",
+      "answer": "The user's favorite book is Dune",
+      "ground_truth": "user@example.com",
+      "correct": false,
+      "latency": 0.00665593147277832
+    },
+    {
+      "id": "q_kno_009",
+      "category": "knowledge_updates",
+      "question": "What is the user's current email?",
+      "answer": "The user's favorite book is Dune",
+      "ground_truth": "user@example.com",
+      "correct": false,
+      "latency": 0.00648808479309082
+    },
+    {
+      "id": "q_kno_010",
+      "category": "knowledge_updates",
+      "question": "What is the user's current address?",
+      "answer": "The user's address is 123 Main St",
+      "ground_truth": "123 Main St",
+      "correct": true,
+      "latency": 0.007498264312744141
+    },
+    {
+      "id": "q_kno_011",
+      "category": "knowledge_updates",
+      "question": "What is the user's current relationship?",
+      "answer": "The user's favorite color is Blue",
+      "ground_truth": "Married",
+      "correct": false,
+      "latency": 0.007753133773803711
+    },
+    {
+      "id": "q_kno_012",
+      "category": "knowledge_updates",
+      "question": "What is the user's current relationship?",
+      "answer": "The user's favorite color is Blue",
+      "ground_truth": "Married",
+      "correct": false,
+      "latency": 0.007319927215576172
+    },
+    {
+      "id": "q_kno_013",
+      "category": "knowledge_updates",
+      "question": "What is the user's current relationship?",
+      "answer": "The user's favorite color is Blue",
+      "ground_truth": "Married",
+      "correct": false,
+      "latency": 0.008568048477172852
+    },
+    {
+      "id": "q_kno_014",
+      "category": "knowledge_updates",
+      "question": "What is the user's current address?",
+      "answer": "The user's address is 123 Main St",
+      "ground_truth": "123 Main St",
+      "correct": true,
+      "latency": 0.007974863052368164
+    },
+    {
+      "id": "q_kno_015",
+      "category": "knowledge_updates",
+      "question": "What is the user's current phone number?",
+      "answer": "The user's favorite color is Blue",
+      "ground_truth": "555-1234",
+      "correct": false,
+      "latency": 0.0073168277740478516
+    },
+    {
+      "id": "q_kno_016",
+      "category": "knowledge_updates",
+      "question": "What is the user's current address?",
+      "answer": "The user's address is 123 Main St",
+      "ground_truth": "123 Main St",
+      "correct": true,
+      "latency": 0.006590843200683594
+    },
+    {
+      "id": "q_kno_017",
+      "category": "knowledge_updates",
+      "question": "What is the user's current email?",
+      "answer": "The user's favorite book is Dune",
+      "ground_truth": "user@example.com",
+      "correct": false,
+      "latency": 0.007364749908447266
+    },
+    {
+      "id": "q_kno_018",
+      "category": "knowledge_updates",
+      "question": "What is the user's current address?",
+      "answer": "The user's address is 123 Main St",
+      "ground_truth": "123 Main St",
+      "correct": true,
+      "latency": 0.0066759586334228516
+    },
+    {
+      "id": "q_kno_019",
+      "category": "knowledge_updates",
+      "question": "What is the user's current phone number?",
+      "answer": "The user's favorite color is Blue",
+      "ground_truth": "555-1234",
+      "correct": false,
+      "latency": 0.006802797317504883
+    },
+    {
+      "id": "q_kno_020",
+      "category": "knowledge_updates",
+      "question": "What is the user's current job title?",
+      "answer": "The user's job title is Senior Engineer",
+      "ground_truth": "Senior Engineer",
+      "correct": true,
+      "latency": 0.0073089599609375
+    },
+    {
+      "id": "q_kno_021",
+      "category": "knowledge_updates",
+      "question": "What is the user's current job title?",
+      "answer": "The user's job title is Senior Engineer",
+      "ground_truth": "Senior Engineer",
+      "correct": true,
+      "latency": 0.007570981979370117
+    },
+    {
+      "id": "q_kno_022",
+      "category": "knowledge_updates",
+      "question": "What is the user's current email?",
+      "answer": "The user's favorite book is Dune",
+      "ground_truth": "user@example.com",
+      "correct": false,
+      "latency": 0.007217884063720703
+    },
+    {
+      "id": "q_kno_023",
+      "category": "knowledge_updates",
+      "question": "What is the user's current job title?",
+      "answer": "The user's job title is Senior Engineer",
+      "ground_truth": "Senior Engineer",
+      "correct": true,
+      "latency": 0.007661104202270508
+    },
+    {
+      "id": "q_kno_024",
+      "category": "knowledge_updates",
+      "question": "What is the user's current phone number?",
+      "answer": "The user's favorite color is Blue",
+      "ground_truth": "555-1234",
+      "correct": false,
+      "latency": 0.008215904235839844
+    },
+    {
+      "id": "q_kno_025",
+      "category": "knowledge_updates",
+      "question": "What is the user's current phone number?",
+      "answer": "The user's favorite color is Blue",
+      "ground_truth": "555-1234",
+      "correct": false,
+      "latency": 0.0073680877685546875
+    },
+    {
+      "id": "q_kno_026",
+      "category": "knowledge_updates",
+      "question": "What is the user's current relationship?",
+      "answer": "The user's favorite color is Blue",
+      "ground_truth": "Married",
+      "correct": false,
+      "latency": 0.0070858001708984375
+    },
+    {
+      "id": "q_kno_027",
+      "category": "knowledge_updates",
+      "question": "What is the user's current relationship?",
+      "answer": "The user's favorite color is Blue",
+      "ground_truth": "Married",
+      "correct": false,
+      "latency": 0.007180690765380859
+    },
+    {
+      "id": "q_kno_028",
+      "category": "knowledge_updates",
+      "question": "What is the user's current relationship?",
+      "answer": "The user's favorite color is Blue",
+      "ground_truth": "Married",
+      "correct": false,
+      "latency": 0.024580717086791992
+    },
+    {
+      "id": "q_kno_029",
+      "category": "knowledge_updates",
+      "question": "What is the user's current phone number?",
+      "answer": "The user's favorite color is Blue",
+      "ground_truth": "555-1234",
+      "correct": false,
+      "latency": 0.0066988468170166016
+    },
+    {
+      "id": "q_kno_030",
+      "category": "knowledge_updates",
+      "question": "What is the user's current phone number?",
+      "answer": "The user's favorite color is Blue",
+      "ground_truth": "555-1234",
+      "correct": false,
+      "latency": 0.007074117660522461
+    },
+    {
+      "id": "q_kno_031",
+      "category": "knowledge_updates",
+      "question": "What is the user's current job title?",
+      "answer": "The user's job title is Senior Engineer",
+      "ground_truth": "Senior Engineer",
+      "correct": true,
+      "latency": 0.006718873977661133
+    },
+    {
+      "id": "q_kno_032",
+      "category": "knowledge_updates",
+      "question": "What is the user's current phone number?",
+      "answer": "The user's favorite color is Blue",
+      "ground_truth": "555-1234",
+      "correct": false,
+      "latency": 0.007854223251342773
+    },
+    {
+      "id": "q_kno_033",
+      "category": "knowledge_updates",
+      "question": "What is the user's current phone number?",
+      "answer": "The user's favorite color is Blue",
+      "ground_truth": "555-1234",
+      "correct": false,
+      "latency": 0.007355928421020508
+    },
+    {
+      "id": "q_kno_034",
+      "category": "knowledge_updates",
+      "question": "What is the user's current job title?",
+      "answer": "The user's job title is Senior Engineer",
+      "ground_truth": "Senior Engineer",
+      "correct": true,
+      "latency": 0.008070945739746094
+    },
+    {
+      "id": "q_kno_035",
+      "category": "knowledge_updates",
+      "question": "What is the user's current email?",
+      "answer": "The user's favorite book is Dune",
+      "ground_truth": "user@example.com",
+      "correct": false,
+      "latency": 0.006798744201660156
+    },
+    {
+      "id": "q_kno_036",
+      "category": "knowledge_updates",
+      "question": "What is the user's current job title?",
+      "answer": "The user's job title is Senior Engineer",
+      "ground_truth": "Senior Engineer",
+      "correct": true,
+      "latency": 0.0075531005859375
+    },
+    {
+      "id": "q_kno_037",
+      "category": "knowledge_updates",
+      "question": "What is the user's current relationship?",
+      "answer": "The user's favorite color is Blue",
+      "ground_truth": "Married",
+      "correct": false,
+      "latency": 0.007146120071411133
+    },
+    {
+      "id": "q_kno_038",
+      "category": "knowledge_updates",
+      "question": "What is the user's current address?",
+      "answer": "The user's address is 123 Main St",
+      "ground_truth": "123 Main St",
+      "correct": true,
+      "latency": 0.0074841976165771484
+    },
+    {
+      "id": "q_kno_039",
+      "category": "knowledge_updates",
+      "question": "What is the user's current job title?",
+      "answer": "The user's job title is Senior Engineer",
+      "ground_truth": "Senior Engineer",
+      "correct": true,
+      "latency": 0.006972074508666992
+    },
+    {
+      "id": "q_kno_040",
+      "category": "knowledge_updates",
+      "question": "What is the user's current relationship?",
+      "answer": "The user's favorite color is Blue",
+      "ground_truth": "Married",
+      "correct": false,
+      "latency": 0.006821870803833008
+    },
+    {
+      "id": "q_kno_041",
+      "category": "knowledge_updates",
+      "question": "What is the user's current job title?",
+      "answer": "The user's job title is Senior Engineer",
+      "ground_truth": "Senior Engineer",
+      "correct": true,
+      "latency": 0.0070149898529052734
+    },
+    {
+      "id": "q_kno_042",
+      "category": "knowledge_updates",
+      "question": "What is the user's current address?",
+      "answer": "The user's address is 123 Main St",
+      "ground_truth": "123 Main St",
+      "correct": true,
+      "latency": 0.007789134979248047
+    },
+    {
+      "id": "q_kno_043",
+      "category": "knowledge_updates",
+      "question": "What is the user's current address?",
+      "answer": "The user's address is 123 Main St",
+      "ground_truth": "123 Main St",
+      "correct": true,
+      "latency": 0.007154941558837891
+    },
+    {
+      "id": "q_kno_044",
+      "category": "knowledge_updates",
+      "question": "What is the user's current relationship?",
+      "answer": "The user's favorite color is Blue",
+      "ground_truth": "Married",
+      "correct": false,
+      "latency": 0.008486032485961914
+    },
+    {
+      "id": "q_kno_045",
+      "category": "knowledge_updates",
+      "question": "What is the user's current phone number?",
+      "answer": "The user's favorite color is Blue",
+      "ground_truth": "555-1234",
+      "correct": false,
+      "latency": 0.008299112319946289
+    },
+    {
+      "id": "q_kno_046",
+      "category": "knowledge_updates",
+      "question": "What is the user's current email?",
+      "answer": "The user's favorite book is Dune",
+      "ground_truth": "user@example.com",
+      "correct": false,
+      "latency": 0.006928205490112305
+    },
+    {
+      "id": "q_kno_047",
+      "category": "knowledge_updates",
+      "question": "What is the user's current email?",
+      "answer": "The user's favorite book is Dune",
+      "ground_truth": "user@example.com",
+      "correct": false,
+      "latency": 0.006862163543701172
+    },
+    {
+      "id": "q_kno_048",
+      "category": "knowledge_updates",
+      "question": "What is the user's current relationship?",
+      "answer": "The user's favorite color is Blue",
+      "ground_truth": "Married",
+      "correct": false,
+      "latency": 0.0071392059326171875
+    },
+    {
+      "id": "q_kno_049",
+      "category": "knowledge_updates",
+      "question": "What is the user's current relationship?",
+      "answer": "The user's favorite color is Blue",
+      "ground_truth": "Married",
+      "correct": false,
+      "latency": 0.00664210319519043
+    },
+    {
+      "id": "q_kno_050",
+      "category": "knowledge_updates",
+      "question": "What is the user's current address?",
+      "answer": "The user's address is 123 Main St",
+      "ground_truth": "123 Main St",
+      "correct": true,
+      "latency": 0.008360862731933594
+    },
+    {
+      "id": "q_kno_051",
+      "category": "knowledge_updates",
+      "question": "What is the user's current phone number?",
+      "answer": "The user's favorite color is Blue",
+      "ground_truth": "555-1234",
+      "correct": false,
+      "latency": 0.008318901062011719
+    },
+    {
+      "id": "q_kno_052",
+      "category": "knowledge_updates",
+      "question": "What is the user's current job title?",
+      "answer": "The user's job title is Senior Engineer",
+      "ground_truth": "Senior Engineer",
+      "correct": true,
+      "latency": 0.007749080657958984
+    },
+    {
+      "id": "q_kno_053",
+      "category": "knowledge_updates",
+      "question": "What is the user's current address?",
+      "answer": "The user's address is 123 Main St",
+      "ground_truth": "123 Main St",
+      "correct": true,
+      "latency": 0.009228706359863281
+    },
+    {
+      "id": "q_kno_054",
+      "category": "knowledge_updates",
+      "question": "What is the user's current relationship?",
+      "answer": "The user's favorite color is Blue",
+      "ground_truth": "Married",
+      "correct": false,
+      "latency": 0.00835418701171875
+    },
+    {
+      "id": "q_kno_055",
+      "category": "knowledge_updates",
+      "question": "What is the user's current relationship?",
+      "answer": "The user's favorite color is Blue",
+      "ground_truth": "Married",
+      "correct": false,
+      "latency": 0.007348060607910156
+    },
+    {
+      "id": "q_kno_056",
+      "category": "knowledge_updates",
+      "question": "What is the user's current address?",
+      "answer": "The user's address is 123 Main St",
+      "ground_truth": "123 Main St",
+      "correct": true,
+      "latency": 0.007477998733520508
+    },
+    {
+      "id": "q_kno_057",
+      "category": "knowledge_updates",
+      "question": "What is the user's current email?",
+      "answer": "The user's favorite book is Dune",
+      "ground_truth": "user@example.com",
+      "correct": false,
+      "latency": 0.006588935852050781
+    },
+    {
+      "id": "q_kno_058",
+      "category": "knowledge_updates",
+      "question": "What is the user's current phone number?",
+      "answer": "The user's favorite color is Blue",
+      "ground_truth": "555-1234",
+      "correct": false,
+      "latency": 0.009052753448486328
+    },
+    {
+      "id": "q_kno_059",
+      "category": "knowledge_updates",
+      "question": "What is the user's current job title?",
+      "answer": "The user's job title is Senior Engineer",
+      "ground_truth": "Senior Engineer",
+      "correct": true,
+      "latency": 0.007310152053833008
+    },
+    {
+      "id": "q_kno_060",
+      "category": "knowledge_updates",
+      "question": "What is the user's current address?",
+      "answer": "The user's address is 123 Main St",
+      "ground_truth": "123 Main St",
+      "correct": true,
+      "latency": 0.007634878158569336
+    },
+    {
+      "id": "q_kno_061",
+      "category": "knowledge_updates",
+      "question": "What is the user's current address?",
+      "answer": "The user's address is 123 Main St",
+      "ground_truth": "123 Main St",
+      "correct": true,
+      "latency": 0.006412029266357422
+    },
+    {
+      "id": "q_kno_062",
+      "category": "knowledge_updates",
+      "question": "What is the user's current address?",
+      "answer": "The user's address is 123 Main St",
+      "ground_truth": "123 Main St",
+      "correct": true,
+      "latency": 0.007276773452758789
+    },
+    {
+      "id": "q_kno_063",
+      "category": "knowledge_updates",
+      "question": "What is the user's current email?",
+      "answer": "The user's favorite book is Dune",
+      "ground_truth": "user@example.com",
+      "correct": false,
+      "latency": 0.006782054901123047
+    },
+    {
+      "id": "q_kno_064",
+      "category": "knowledge_updates",
+      "question": "What is the user's current email?",
+      "answer": "The user's favorite book is Dune",
+      "ground_truth": "user@example.com",
+      "correct": false,
+      "latency": 0.007152080535888672
+    },
+    {
+      "id": "q_kno_065",
+      "category": "knowledge_updates",
+      "question": "What is the user's current relationship?",
+      "answer": "The user's favorite color is Blue",
+      "ground_truth": "Married",
+      "correct": false,
+      "latency": 0.008155107498168945
+    },
+    {
+      "id": "q_kno_066",
+      "category": "knowledge_updates",
+      "question": "What is the user's current address?",
+      "answer": "The user's address is 123 Main St",
+      "ground_truth": "123 Main St",
+      "correct": true,
+      "latency": 0.0068819522857666016
+    },
+    {
+      "id": "q_kno_067",
+      "category": "knowledge_updates",
+      "question": "What is the user's current job title?",
+      "answer": "The user's job title is Senior Engineer",
+      "ground_truth": "Senior Engineer",
+      "correct": true,
+      "latency": 0.008809328079223633
+    },
+    {
+      "id": "q_kno_068",
+      "category": "knowledge_updates",
+      "question": "What is the user's current address?",
+      "answer": "The user's address is 123 Main St",
+      "ground_truth": "123 Main St",
+      "correct": true,
+      "latency": 0.007205009460449219
+    },
+    {
+      "id": "q_kno_069",
+      "category": "knowledge_updates",
+      "question": "What is the user's current address?",
+      "answer": "The user's address is 123 Main St",
+      "ground_truth": "123 Main St",
+      "correct": true,
+      "latency": 0.007300138473510742
+    },
+    {
+      "id": "q_kno_070",
+      "category": "knowledge_updates",
+      "question": "What is the user's current address?",
+      "answer": "The user's address is 123 Main St",
+      "ground_truth": "123 Main St",
+      "correct": true,
+      "latency": 0.0072879791259765625
+    },
+    {
+      "id": "q_kno_071",
+      "category": "knowledge_updates",
+      "question": "What is the user's current email?",
+      "answer": "The user's favorite book is Dune",
+      "ground_truth": "user@example.com",
+      "correct": false,
+      "latency": 0.006781101226806641
+    },
+    {
+      "id": "q_kno_072",
+      "category": "knowledge_updates",
+      "question": "What is the user's current phone number?",
+      "answer": "The user's favorite color is Blue",
+      "ground_truth": "555-1234",
+      "correct": false,
+      "latency": 0.006592988967895508
+    },
+    {
+      "id": "q_kno_073",
+      "category": "knowledge_updates",
+      "question": "What is the user's current address?",
+      "answer": "The user's address is 123 Main St",
+      "ground_truth": "123 Main St",
+      "correct": true,
+      "latency": 0.006675004959106445
+    },
+    {
+      "id": "q_kno_074",
+      "category": "knowledge_updates",
+      "question": "What is the user's current phone number?",
+      "answer": "The user's favorite color is Blue",
+      "ground_truth": "555-1234",
+      "correct": false,
+      "latency": 0.007241010665893555
+    },
+    {
+      "id": "q_kno_075",
+      "category": "knowledge_updates",
+      "question": "What is the user's current email?",
+      "answer": "The user's favorite book is Dune",
+      "ground_truth": "user@example.com",
+      "correct": false,
+      "latency": 0.007674694061279297
+    },
+    {
+      "id": "q_kno_076",
+      "category": "knowledge_updates",
+      "question": "What is the user's current address?",
+      "answer": "The user's address is 123 Main St",
+      "ground_truth": "123 Main St",
+      "correct": true,
+      "latency": 0.007395029067993164
+    },
+    {
+      "id": "q_kno_077",
+      "category": "knowledge_updates",
+      "question": "What is the user's current email?",
+      "answer": "The user's favorite book is Dune",
+      "ground_truth": "user@example.com",
+      "correct": false,
+      "latency": 0.0069158077239990234
+    },
+    {
+      "id": "q_kno_078",
+      "category": "knowledge_updates",
+      "question": "What is the user's current email?",
+      "answer": "The user's favorite book is Dune",
+      "ground_truth": "user@example.com",
+      "correct": false,
+      "latency": 0.008369207382202148
+    },
+    {
+      "id": "q_kno_079",
+      "category": "knowledge_updates",
+      "question": "What is the user's current address?",
+      "answer": "The user's address is 123 Main St",
+      "ground_truth": "123 Main St",
+      "correct": true,
+      "latency": 0.007752895355224609
+    },
+    {
+      "id": "q_kno_080",
+      "category": "knowledge_updates",
+      "question": "What is the user's current phone number?",
+      "answer": "The user's favorite color is Blue",
+      "ground_truth": "555-1234",
+      "correct": false,
+      "latency": 0.007004737854003906
+    },
+    {
+      "id": "q_kno_081",
+      "category": "knowledge_updates",
+      "question": "What is the user's current job title?",
+      "answer": "The user's job title is Senior Engineer",
+      "ground_truth": "Senior Engineer",
+      "correct": true,
+      "latency": 0.006937980651855469
+    },
+    {
+      "id": "q_kno_082",
+      "category": "knowledge_updates",
+      "question": "What is the user's current job title?",
+      "answer": "The user's job title is Senior Engineer",
+      "ground_truth": "Senior Engineer",
+      "correct": true,
+      "latency": 0.006775856018066406
+    },
+    {
+      "id": "q_kno_083",
+      "category": "knowledge_updates",
+      "question": "What is the user's current job title?",
+      "answer": "The user's job title is Senior Engineer",
+      "ground_truth": "Senior Engineer",
+      "correct": true,
+      "latency": 0.007703065872192383
+    },
+    {
+      "id": "q_kno_084",
+      "category": "knowledge_updates",
+      "question": "What is the user's current job title?",
+      "answer": "The user's job title is Senior Engineer",
+      "ground_truth": "Senior Engineer",
+      "correct": true,
+      "latency": 0.007277965545654297
+    },
+    {
+      "id": "q_kno_085",
+      "category": "knowledge_updates",
+      "question": "What is the user's current job title?",
+      "answer": "The user's job title is Senior Engineer",
+      "ground_truth": "Senior Engineer",
+      "correct": true,
+      "latency": 0.008613109588623047
+    },
+    {
+      "id": "q_kno_086",
+      "category": "knowledge_updates",
+      "question": "What is the user's current email?",
+      "answer": "The user's favorite book is Dune",
+      "ground_truth": "user@example.com",
+      "correct": false,
+      "latency": 0.008411884307861328
+    },
+    {
+      "id": "q_kno_087",
+      "category": "knowledge_updates",
+      "question": "What is the user's current phone number?",
+      "answer": "The user's favorite color is Blue",
+      "ground_truth": "555-1234",
+      "correct": false,
+      "latency": 0.008886098861694336
+    },
+    {
+      "id": "q_kno_088",
+      "category": "knowledge_updates",
+      "question": "What is the user's current job title?",
+      "answer": "The user's job title is Senior Engineer",
+      "ground_truth": "Senior Engineer",
+      "correct": true,
+      "latency": 0.008491039276123047
+    },
+    {
+      "id": "q_kno_089",
+      "category": "knowledge_updates",
+      "question": "What is the user's current phone number?",
+      "answer": "The user's favorite color is Blue",
+      "ground_truth": "555-1234",
+      "correct": false,
+      "latency": 0.006894111633300781
+    },
+    {
+      "id": "q_kno_090",
+      "category": "knowledge_updates",
+      "question": "What is the user's current relationship?",
+      "answer": "The user's favorite color is Blue",
+      "ground_truth": "Married",
+      "correct": false,
+      "latency": 0.006833076477050781
+    },
+    {
+      "id": "q_kno_091",
+      "category": "knowledge_updates",
+      "question": "What is the user's current relationship?",
+      "answer": "The user's favorite color is Blue",
+      "ground_truth": "Married",
+      "correct": false,
+      "latency": 0.007152080535888672
+    },
+    {
+      "id": "q_kno_092",
+      "category": "knowledge_updates",
+      "question": "What is the user's current address?",
+      "answer": "The user's address is 123 Main St",
+      "ground_truth": "123 Main St",
+      "correct": true,
+      "latency": 0.0071599483489990234
+    },
+    {
+      "id": "q_kno_093",
+      "category": "knowledge_updates",
+      "question": "What is the user's current email?",
+      "answer": "The user's favorite book is Dune",
+      "ground_truth": "user@example.com",
+      "correct": false,
+      "latency": 0.006741762161254883
+    },
+    {
+      "id": "q_kno_094",
+      "category": "knowledge_updates",
+      "question": "What is the user's current job title?",
+      "answer": "The user's job title is Senior Engineer",
+      "ground_truth": "Senior Engineer",
+      "correct": true,
+      "latency": 0.007182121276855469
+    },
+    {
+      "id": "q_kno_095",
+      "category": "knowledge_updates",
+      "question": "What is the user's current address?",
+      "answer": "The user's address is 123 Main St",
+      "ground_truth": "123 Main St",
+      "correct": true,
+      "latency": 0.00727391242980957
+    },
+    {
+      "id": "q_kno_096",
+      "category": "knowledge_updates",
+      "question": "What is the user's current relationship?",
+      "answer": "The user's favorite color is Blue",
+      "ground_truth": "Married",
+      "correct": false,
+      "latency": 0.008409976959228516
+    },
+    {
+      "id": "q_kno_097",
+      "category": "knowledge_updates",
+      "question": "What is the user's current phone number?",
+      "answer": "The user's favorite color is Blue",
+      "ground_truth": "555-1234",
+      "correct": false,
+      "latency": 0.009945154190063477
+    },
+    {
+      "id": "q_kno_098",
+      "category": "knowledge_updates",
+      "question": "What is the user's current relationship?",
+      "answer": "The user's favorite color is Blue",
+      "ground_truth": "Married",
+      "correct": false,
+      "latency": 0.010869026184082031
+    },
+    {
+      "id": "q_kno_099",
+      "category": "knowledge_updates",
+      "question": "What is the user's current email?",
+      "answer": "The user's favorite book is Dune",
+      "ground_truth": "user@example.com",
+      "correct": false,
+      "latency": 0.008379936218261719
+    },
+    {
+      "id": "q_abs_000",
+      "category": "abstention",
+      "question": "What is the user's secret password?",
+      "answer": "The user's favorite book is Dune",
+      "ground_truth": "CANNOT_ANSWER",
+      "correct": false,
+      "latency": 0.009348154067993164
+    },
+    {
+      "id": "q_abs_001",
+      "category": "abstention",
+      "question": "What is the user's secret password?",
+      "answer": "The user's favorite book is Dune",
+      "ground_truth": "CANNOT_ANSWER",
+      "correct": false,
+      "latency": 0.008300065994262695
+    },
+    {
+      "id": "q_abs_002",
+      "category": "abstention",
+      "question": "What is the user's bank account?",
+      "answer": "The user's favorite book is Dune",
+      "ground_truth": "CANNOT_ANSWER",
+      "correct": false,
+      "latency": 0.037420034408569336
+    },
+    {
+      "id": "q_abs_003",
+      "category": "abstention",
+      "question": "What is the user's social security number?",
+      "answer": "The user's favorite color is Blue",
+      "ground_truth": "CANNOT_ANSWER",
+      "correct": false,
+      "latency": 0.012745141983032227
+    },
+    {
+      "id": "q_abs_004",
+      "category": "abstention",
+      "question": "What is the user's bank account?",
+      "answer": "The user's favorite book is Dune",
+      "ground_truth": "CANNOT_ANSWER",
+      "correct": false,
+      "latency": 0.03571605682373047
+    },
+    {
+      "id": "q_abs_005",
+      "category": "abstention",
+      "question": "What is the user's bank account?",
+      "answer": "The user's favorite book is Dune",
+      "ground_truth": "CANNOT_ANSWER",
+      "correct": false,
+      "latency": 0.011778831481933594
+    },
+    {
+      "id": "q_abs_006",
+      "category": "abstention",
+      "question": "What is the user's secret password?",
+      "answer": "The user's favorite book is Dune",
+      "ground_truth": "CANNOT_ANSWER",
+      "correct": false,
+      "latency": 0.038305044174194336
+    },
+    {
+      "id": "q_abs_007",
+      "category": "abstention",
+      "question": "What is the user's bank account?",
+      "answer": "The user's favorite book is Dune",
+      "ground_truth": "CANNOT_ANSWER",
+      "correct": false,
+      "latency": 0.011919736862182617
+    },
+    {
+      "id": "q_abs_008",
+      "category": "abstention",
+      "question": "What is the user's bank account?",
+      "answer": "The user's favorite book is Dune",
+      "ground_truth": "CANNOT_ANSWER",
+      "correct": false,
+      "latency": 0.04754900932312012
+    },
+    {
+      "id": "q_abs_009",
+      "category": "abstention",
+      "question": "What is the user's bank account?",
+      "answer": "The user's favorite book is Dune",
+      "ground_truth": "CANNOT_ANSWER",
+      "correct": false,
+      "latency": 0.01245427131652832
+    },
+    {
+      "id": "q_abs_010",
+      "category": "abstention",
+      "question": "What is the user's social security number?",
+      "answer": "The user's favorite color is Blue",
+      "ground_truth": "CANNOT_ANSWER",
+      "correct": false,
+      "latency": 0.00970005989074707
+    },
+    {
+      "id": "q_abs_011",
+      "category": "abstention",
+      "question": "What is the user's bank account?",
+      "answer": "The user's favorite book is Dune",
+      "ground_truth": "CANNOT_ANSWER",
+      "correct": false,
+      "latency": 0.007813215255737305
+    },
+    {
+      "id": "q_abs_012",
+      "category": "abstention",
+      "question": "What is the user's social security number?",
+      "answer": "The user's favorite color is Blue",
+      "ground_truth": "CANNOT_ANSWER",
+      "correct": false,
+      "latency": 0.007253885269165039
+    },
+    {
+      "id": "q_abs_013",
+      "category": "abstention",
+      "question": "What is the user's social security number?",
+      "answer": "The user's favorite color is Blue",
+      "ground_truth": "CANNOT_ANSWER",
+      "correct": false,
+      "latency": 0.006951808929443359
+    },
+    {
+      "id": "q_abs_014",
+      "category": "abstention",
+      "question": "What is the user's secret password?",
+      "answer": "The user's favorite book is Dune",
+      "ground_truth": "CANNOT_ANSWER",
+      "correct": false,
+      "latency": 0.006505012512207031
+    },
+    {
+      "id": "q_abs_015",
+      "category": "abstention",
+      "question": "What is the user's bank account?",
+      "answer": "The user's favorite book is Dune",
+      "ground_truth": "CANNOT_ANSWER",
+      "correct": false,
+      "latency": 0.006827116012573242
+    },
+    {
+      "id": "q_abs_016",
+      "category": "abstention",
+      "question": "What is the user's secret password?",
+      "answer": "The user's favorite book is Dune",
+      "ground_truth": "CANNOT_ANSWER",
+      "correct": false,
+      "latency": 0.006701231002807617
+    },
+    {
+      "id": "q_abs_017",
+      "category": "abstention",
+      "question": "What is the user's social security number?",
+      "answer": "The user's favorite color is Blue",
+      "ground_truth": "CANNOT_ANSWER",
+      "correct": false,
+      "latency": 0.006780147552490234
+    },
+    {
+      "id": "q_abs_018",
+      "category": "abstention",
+      "question": "What is the user's bank account?",
+      "answer": "The user's favorite book is Dune",
+      "ground_truth": "CANNOT_ANSWER",
+      "correct": false,
+      "latency": 0.007228851318359375
+    },
+    {
+      "id": "q_abs_019",
+      "category": "abstention",
+      "question": "What is the user's social security number?",
+      "answer": "The user's favorite color is Blue",
+      "ground_truth": "CANNOT_ANSWER",
+      "correct": false,
+      "latency": 0.0077550411224365234
+    },
+    {
+      "id": "q_abs_020",
+      "category": "abstention",
+      "question": "What is the user's bank account?",
+      "answer": "The user's favorite book is Dune",
+      "ground_truth": "CANNOT_ANSWER",
+      "correct": false,
+      "latency": 0.00735926628112793
+    },
+    {
+      "id": "q_abs_021",
+      "category": "abstention",
+      "question": "What is the user's social security number?",
+      "answer": "The user's favorite color is Blue",
+      "ground_truth": "CANNOT_ANSWER",
+      "correct": false,
+      "latency": 0.008121728897094727
+    },
+    {
+      "id": "q_abs_022",
+      "category": "abstention",
+      "question": "What is the user's bank account?",
+      "answer": "The user's favorite book is Dune",
+      "ground_truth": "CANNOT_ANSWER",
+      "correct": false,
+      "latency": 0.007725954055786133
+    },
+    {
+      "id": "q_abs_023",
+      "category": "abstention",
+      "question": "What is the user's social security number?",
+      "answer": "The user's favorite color is Blue",
+      "ground_truth": "CANNOT_ANSWER",
+      "correct": false,
+      "latency": 0.007289886474609375
+    },
+    {
+      "id": "q_abs_024",
+      "category": "abstention",
+      "question": "What is the user's social security number?",
+      "answer": "The user's favorite color is Blue",
+      "ground_truth": "CANNOT_ANSWER",
+      "correct": false,
+      "latency": 0.007768869400024414
+    },
+    {
+      "id": "q_abs_025",
+      "category": "abstention",
+      "question": "What is the user's secret password?",
+      "answer": "The user's favorite book is Dune",
+      "ground_truth": "CANNOT_ANSWER",
+      "correct": false,
+      "latency": 0.007818937301635742
+    },
+    {
+      "id": "q_abs_026",
+      "category": "abstention",
+      "question": "What is the user's secret password?",
+      "answer": "The user's favorite book is Dune",
+      "ground_truth": "CANNOT_ANSWER",
+      "correct": false,
+      "latency": 0.006307125091552734
+    },
+    {
+      "id": "q_abs_027",
+      "category": "abstention",
+      "question": "What is the user's secret password?",
+      "answer": "The user's favorite book is Dune",
+      "ground_truth": "CANNOT_ANSWER",
+      "correct": false,
+      "latency": 0.006829023361206055
+    },
+    {
+      "id": "q_abs_028",
+      "category": "abstention",
+      "question": "What is the user's social security number?",
+      "answer": "The user's favorite color is Blue",
+      "ground_truth": "CANNOT_ANSWER",
+      "correct": false,
+      "latency": 0.00733184814453125
+    },
+    {
+      "id": "q_abs_029",
+      "category": "abstention",
+      "question": "What is the user's secret password?",
+      "answer": "The user's favorite book is Dune",
+      "ground_truth": "CANNOT_ANSWER",
+      "correct": false,
+      "latency": 0.006850004196166992
+    },
+    {
+      "id": "q_abs_030",
+      "category": "abstention",
+      "question": "What is the user's bank account?",
+      "answer": "The user's favorite book is Dune",
+      "ground_truth": "CANNOT_ANSWER",
+      "correct": false,
+      "latency": 0.0065500736236572266
+    },
+    {
+      "id": "q_abs_031",
+      "category": "abstention",
+      "question": "What is the user's bank account?",
+      "answer": "The user's favorite book is Dune",
+      "ground_truth": "CANNOT_ANSWER",
+      "correct": false,
+      "latency": 0.0074422359466552734
+    },
+    {
+      "id": "q_abs_032",
+      "category": "abstention",
+      "question": "What is the user's social security number?",
+      "answer": "The user's favorite color is Blue",
+      "ground_truth": "CANNOT_ANSWER",
+      "correct": false,
+      "latency": 0.007528781890869141
+    },
+    {
+      "id": "q_abs_033",
+      "category": "abstention",
+      "question": "What is the user's secret password?",
+      "answer": "The user's favorite book is Dune",
+      "ground_truth": "CANNOT_ANSWER",
+      "correct": false,
+      "latency": 0.008294820785522461
+    },
+    {
+      "id": "q_abs_034",
+      "category": "abstention",
+      "question": "What is the user's bank account?",
+      "answer": "The user's favorite book is Dune",
+      "ground_truth": "CANNOT_ANSWER",
+      "correct": false,
+      "latency": 0.007482767105102539
+    },
+    {
+      "id": "q_abs_035",
+      "category": "abstention",
+      "question": "What is the user's bank account?",
+      "answer": "The user's favorite book is Dune",
+      "ground_truth": "CANNOT_ANSWER",
+      "correct": false,
+      "latency": 0.0071909427642822266
+    },
+    {
+      "id": "q_abs_036",
+      "category": "abstention",
+      "question": "What is the user's bank account?",
+      "answer": "The user's favorite book is Dune",
+      "ground_truth": "CANNOT_ANSWER",
+      "correct": false,
+      "latency": 0.006724834442138672
+    },
+    {
+      "id": "q_abs_037",
+      "category": "abstention",
+      "question": "What is the user's secret password?",
+      "answer": "The user's favorite book is Dune",
+      "ground_truth": "CANNOT_ANSWER",
+      "correct": false,
+      "latency": 0.006652116775512695
+    },
+    {
+      "id": "q_abs_038",
+      "category": "abstention",
+      "question": "What is the user's social security number?",
+      "answer": "The user's favorite color is Blue",
+      "ground_truth": "CANNOT_ANSWER",
+      "correct": false,
+      "latency": 0.007299184799194336
+    },
+    {
+      "id": "q_abs_039",
+      "category": "abstention",
+      "question": "What is the user's social security number?",
+      "answer": "The user's favorite color is Blue",
+      "ground_truth": "CANNOT_ANSWER",
+      "correct": false,
+      "latency": 0.006922006607055664
+    },
+    {
+      "id": "q_abs_040",
+      "category": "abstention",
+      "question": "What is the user's bank account?",
+      "answer": "The user's favorite book is Dune",
+      "ground_truth": "CANNOT_ANSWER",
+      "correct": false,
+      "latency": 0.006864309310913086
+    },
+    {
+      "id": "q_abs_041",
+      "category": "abstention",
+      "question": "What is the user's bank account?",
+      "answer": "The user's favorite book is Dune",
+      "ground_truth": "CANNOT_ANSWER",
+      "correct": false,
+      "latency": 0.006700992584228516
+    },
+    {
+      "id": "q_abs_042",
+      "category": "abstention",
+      "question": "What is the user's secret password?",
+      "answer": "The user's favorite book is Dune",
+      "ground_truth": "CANNOT_ANSWER",
+      "correct": false,
+      "latency": 0.007261037826538086
+    },
+    {
+      "id": "q_abs_043",
+      "category": "abstention",
+      "question": "What is the user's secret password?",
+      "answer": "The user's favorite book is Dune",
+      "ground_truth": "CANNOT_ANSWER",
+      "correct": false,
+      "latency": 0.008222103118896484
+    },
+    {
+      "id": "q_abs_044",
+      "category": "abstention",
+      "question": "What is the user's secret password?",
+      "answer": "The user's favorite book is Dune",
+      "ground_truth": "CANNOT_ANSWER",
+      "correct": false,
+      "latency": 0.007235050201416016
+    },
+    {
+      "id": "q_abs_045",
+      "category": "abstention",
+      "question": "What is the user's bank account?",
+      "answer": "The user's favorite book is Dune",
+      "ground_truth": "CANNOT_ANSWER",
+      "correct": false,
+      "latency": 0.008324861526489258
+    },
+    {
+      "id": "q_abs_046",
+      "category": "abstention",
+      "question": "What is the user's social security number?",
+      "answer": "The user's favorite color is Blue",
+      "ground_truth": "CANNOT_ANSWER",
+      "correct": false,
+      "latency": 0.0069539546966552734
+    },
+    {
+      "id": "q_abs_047",
+      "category": "abstention",
+      "question": "What is the user's social security number?",
+      "answer": "The user's favorite color is Blue",
+      "ground_truth": "CANNOT_ANSWER",
+      "correct": false,
+      "latency": 0.006783962249755859
+    },
+    {
+      "id": "q_abs_048",
+      "category": "abstention",
+      "question": "What is the user's bank account?",
+      "answer": "The user's favorite book is Dune",
+      "ground_truth": "CANNOT_ANSWER",
+      "correct": false,
+      "latency": 0.006865262985229492
+    },
+    {
+      "id": "q_abs_049",
+      "category": "abstention",
+      "question": "What is the user's bank account?",
+      "answer": "The user's favorite book is Dune",
+      "ground_truth": "CANNOT_ANSWER",
+      "correct": false,
+      "latency": 0.00701904296875
+    },
+    {
+      "id": "q_abs_050",
+      "category": "abstention",
+      "question": "What is the user's secret password?",
+      "answer": "The user's favorite book is Dune",
+      "ground_truth": "CANNOT_ANSWER",
+      "correct": false,
+      "latency": 0.006982088088989258
+    },
+    {
+      "id": "q_abs_051",
+      "category": "abstention",
+      "question": "What is the user's social security number?",
+      "answer": "The user's favorite color is Blue",
+      "ground_truth": "CANNOT_ANSWER",
+      "correct": false,
+      "latency": 0.007379293441772461
+    },
+    {
+      "id": "q_abs_052",
+      "category": "abstention",
+      "question": "What is the user's bank account?",
+      "answer": "The user's favorite book is Dune",
+      "ground_truth": "CANNOT_ANSWER",
+      "correct": false,
+      "latency": 0.006766796112060547
+    },
+    {
+      "id": "q_abs_053",
+      "category": "abstention",
+      "question": "What is the user's secret password?",
+      "answer": "The user's favorite book is Dune",
+      "ground_truth": "CANNOT_ANSWER",
+      "correct": false,
+      "latency": 0.007667064666748047
+    },
+    {
+      "id": "q_abs_054",
+      "category": "abstention",
+      "question": "What is the user's secret password?",
+      "answer": "The user's favorite book is Dune",
+      "ground_truth": "CANNOT_ANSWER",
+      "correct": false,
+      "latency": 0.007723093032836914
+    },
+    {
+      "id": "q_abs_055",
+      "category": "abstention",
+      "question": "What is the user's secret password?",
+      "answer": "The user's favorite book is Dune",
+      "ground_truth": "CANNOT_ANSWER",
+      "correct": false,
+      "latency": 0.006908893585205078
+    },
+    {
+      "id": "q_abs_056",
+      "category": "abstention",
+      "question": "What is the user's social security number?",
+      "answer": "The user's favorite color is Blue",
+      "ground_truth": "CANNOT_ANSWER",
+      "correct": false,
+      "latency": 0.008378744125366211
+    },
+    {
+      "id": "q_abs_057",
+      "category": "abstention",
+      "question": "What is the user's secret password?",
+      "answer": "The user's favorite book is Dune",
+      "ground_truth": "CANNOT_ANSWER",
+      "correct": false,
+      "latency": 0.007584095001220703
+    },
+    {
+      "id": "q_abs_058",
+      "category": "abstention",
+      "question": "What is the user's secret password?",
+      "answer": "The user's favorite book is Dune",
+      "ground_truth": "CANNOT_ANSWER",
+      "correct": false,
+      "latency": 0.007096052169799805
+    },
+    {
+      "id": "q_abs_059",
+      "category": "abstention",
+      "question": "What is the user's secret password?",
+      "answer": "The user's favorite book is Dune",
+      "ground_truth": "CANNOT_ANSWER",
+      "correct": false,
+      "latency": 0.007148027420043945
+    },
+    {
+      "id": "q_abs_060",
+      "category": "abstention",
+      "question": "What is the user's bank account?",
+      "answer": "The user's favorite book is Dune",
+      "ground_truth": "CANNOT_ANSWER",
+      "correct": false,
+      "latency": 0.006843090057373047
+    },
+    {
+      "id": "q_abs_061",
+      "category": "abstention",
+      "question": "What is the user's social security number?",
+      "answer": "The user's favorite color is Blue",
+      "ground_truth": "CANNOT_ANSWER",
+      "correct": false,
+      "latency": 0.024932861328125
+    },
+    {
+      "id": "q_abs_062",
+      "category": "abstention",
+      "question": "What is the user's secret password?",
+      "answer": "The user's favorite book is Dune",
+      "ground_truth": "CANNOT_ANSWER",
+      "correct": false,
+      "latency": 0.008041143417358398
+    },
+    {
+      "id": "q_abs_063",
+      "category": "abstention",
+      "question": "What is the user's social security number?",
+      "answer": "The user's favorite color is Blue",
+      "ground_truth": "CANNOT_ANSWER",
+      "correct": false,
+      "latency": 0.009250164031982422
+    },
+    {
+      "id": "q_abs_064",
+      "category": "abstention",
+      "question": "What is the user's secret password?",
+      "answer": "The user's favorite book is Dune",
+      "ground_truth": "CANNOT_ANSWER",
+      "correct": false,
+      "latency": 0.010046958923339844
+    },
+    {
+      "id": "q_abs_065",
+      "category": "abstention",
+      "question": "What is the user's social security number?",
+      "answer": "The user's favorite color is Blue",
+      "ground_truth": "CANNOT_ANSWER",
+      "correct": false,
+      "latency": 0.007489919662475586
+    },
+    {
+      "id": "q_abs_066",
+      "category": "abstention",
+      "question": "What is the user's secret password?",
+      "answer": "The user's favorite book is Dune",
+      "ground_truth": "CANNOT_ANSWER",
+      "correct": false,
+      "latency": 0.007559299468994141
+    },
+    {
+      "id": "q_abs_067",
+      "category": "abstention",
+      "question": "What is the user's social security number?",
+      "answer": "The user's favorite color is Blue",
+      "ground_truth": "CANNOT_ANSWER",
+      "correct": false,
+      "latency": 0.007857084274291992
+    },
+    {
+      "id": "q_abs_068",
+      "category": "abstention",
+      "question": "What is the user's secret password?",
+      "answer": "The user's favorite book is Dune",
+      "ground_truth": "CANNOT_ANSWER",
+      "correct": false,
+      "latency": 0.00653529167175293
+    },
+    {
+      "id": "q_abs_069",
+      "category": "abstention",
+      "question": "What is the user's social security number?",
+      "answer": "The user's favorite color is Blue",
+      "ground_truth": "CANNOT_ANSWER",
+      "correct": false,
+      "latency": 0.007048845291137695
+    },
+    {
+      "id": "q_abs_070",
+      "category": "abstention",
+      "question": "What is the user's social security number?",
+      "answer": "The user's favorite color is Blue",
+      "ground_truth": "CANNOT_ANSWER",
+      "correct": false,
+      "latency": 0.007071018218994141
+    },
+    {
+      "id": "q_abs_071",
+      "category": "abstention",
+      "question": "What is the user's secret password?",
+      "answer": "The user's favorite book is Dune",
+      "ground_truth": "CANNOT_ANSWER",
+      "correct": false,
+      "latency": 0.006566762924194336
+    },
+    {
+      "id": "q_abs_072",
+      "category": "abstention",
+      "question": "What is the user's social security number?",
+      "answer": "The user's favorite color is Blue",
+      "ground_truth": "CANNOT_ANSWER",
+      "correct": false,
+      "latency": 0.007576942443847656
+    },
+    {
+      "id": "q_abs_073",
+      "category": "abstention",
+      "question": "What is the user's secret password?",
+      "answer": "The user's favorite book is Dune",
+      "ground_truth": "CANNOT_ANSWER",
+      "correct": false,
+      "latency": 0.009014129638671875
+    },
+    {
+      "id": "q_abs_074",
+      "category": "abstention",
+      "question": "What is the user's social security number?",
+      "answer": "The user's favorite color is Blue",
+      "ground_truth": "CANNOT_ANSWER",
+      "correct": false,
+      "latency": 0.007921934127807617
+    },
+    {
+      "id": "q_abs_075",
+      "category": "abstention",
+      "question": "What is the user's secret password?",
+      "answer": "The user's favorite book is Dune",
+      "ground_truth": "CANNOT_ANSWER",
+      "correct": false,
+      "latency": 0.00852823257446289
+    },
+    {
+      "id": "q_abs_076",
+      "category": "abstention",
+      "question": "What is the user's bank account?",
+      "answer": "The user's favorite book is Dune",
+      "ground_truth": "CANNOT_ANSWER",
+      "correct": false,
+      "latency": 0.006826639175415039
+    },
+    {
+      "id": "q_abs_077",
+      "category": "abstention",
+      "question": "What is the user's social security number?",
+      "answer": "The user's favorite color is Blue",
+      "ground_truth": "CANNOT_ANSWER",
+      "correct": false,
+      "latency": 0.006714820861816406
+    },
+    {
+      "id": "q_abs_078",
+      "category": "abstention",
+      "question": "What is the user's secret password?",
+      "answer": "The user's favorite book is Dune",
+      "ground_truth": "CANNOT_ANSWER",
+      "correct": false,
+      "latency": 0.007122039794921875
+    },
+    {
+      "id": "q_abs_079",
+      "category": "abstention",
+      "question": "What is the user's bank account?",
+      "answer": "The user's favorite book is Dune",
+      "ground_truth": "CANNOT_ANSWER",
+      "correct": false,
+      "latency": 0.006721019744873047
+    },
+    {
+      "id": "q_abs_080",
+      "category": "abstention",
+      "question": "What is the user's secret password?",
+      "answer": "The user's favorite book is Dune",
+      "ground_truth": "CANNOT_ANSWER",
+      "correct": false,
+      "latency": 0.006580829620361328
+    },
+    {
+      "id": "q_abs_081",
+      "category": "abstention",
+      "question": "What is the user's secret password?",
+      "answer": "The user's favorite book is Dune",
+      "ground_truth": "CANNOT_ANSWER",
+      "correct": false,
+      "latency": 0.007075071334838867
+    },
+    {
+      "id": "q_abs_082",
+      "category": "abstention",
+      "question": "What is the user's bank account?",
+      "answer": "The user's favorite book is Dune",
+      "ground_truth": "CANNOT_ANSWER",
+      "correct": false,
+      "latency": 0.006891965866088867
+    },
+    {
+      "id": "q_abs_083",
+      "category": "abstention",
+      "question": "What is the user's social security number?",
+      "answer": "The user's favorite color is Blue",
+      "ground_truth": "CANNOT_ANSWER",
+      "correct": false,
+      "latency": 0.007222652435302734
+    },
+    {
+      "id": "q_abs_084",
+      "category": "abstention",
+      "question": "What is the user's social security number?",
+      "answer": "The user's favorite color is Blue",
+      "ground_truth": "CANNOT_ANSWER",
+      "correct": false,
+      "latency": 0.008347272872924805
+    },
+    {
+      "id": "q_abs_085",
+      "category": "abstention",
+      "question": "What is the user's secret password?",
+      "answer": "The user's favorite book is Dune",
+      "ground_truth": "CANNOT_ANSWER",
+      "correct": false,
+      "latency": 0.008173227310180664
+    },
+    {
+      "id": "q_abs_086",
+      "category": "abstention",
+      "question": "What is the user's bank account?",
+      "answer": "The user's favorite book is Dune",
+      "ground_truth": "CANNOT_ANSWER",
+      "correct": false,
+      "latency": 0.007539987564086914
+    },
+    {
+      "id": "q_abs_087",
+      "category": "abstention",
+      "question": "What is the user's social security number?",
+      "answer": "The user's favorite color is Blue",
+      "ground_truth": "CANNOT_ANSWER",
+      "correct": false,
+      "latency": 0.006818056106567383
+    },
+    {
+      "id": "q_abs_088",
+      "category": "abstention",
+      "question": "What is the user's bank account?",
+      "answer": "The user's favorite book is Dune",
+      "ground_truth": "CANNOT_ANSWER",
+      "correct": false,
+      "latency": 0.0065920352935791016
+    },
+    {
+      "id": "q_abs_089",
+      "category": "abstention",
+      "question": "What is the user's social security number?",
+      "answer": "The user's favorite color is Blue",
+      "ground_truth": "CANNOT_ANSWER",
+      "correct": false,
+      "latency": 0.00709223747253418
+    },
+    {
+      "id": "q_abs_090",
+      "category": "abstention",
+      "question": "What is the user's secret password?",
+      "answer": "The user's favorite book is Dune",
+      "ground_truth": "CANNOT_ANSWER",
+      "correct": false,
+      "latency": 0.0064809322357177734
+    },
+    {
+      "id": "q_abs_091",
+      "category": "abstention",
+      "question": "What is the user's secret password?",
+      "answer": "The user's favorite book is Dune",
+      "ground_truth": "CANNOT_ANSWER",
+      "correct": false,
+      "latency": 0.007024049758911133
+    },
+    {
+      "id": "q_abs_092",
+      "category": "abstention",
+      "question": "What is the user's bank account?",
+      "answer": "The user's favorite book is Dune",
+      "ground_truth": "CANNOT_ANSWER",
+      "correct": false,
+      "latency": 0.006479740142822266
+    },
+    {
+      "id": "q_abs_093",
+      "category": "abstention",
+      "question": "What is the user's social security number?",
+      "answer": "The user's favorite color is Blue",
+      "ground_truth": "CANNOT_ANSWER",
+      "correct": false,
+      "latency": 0.006659984588623047
+    },
+    {
+      "id": "q_abs_094",
+      "category": "abstention",
+      "question": "What is the user's bank account?",
+      "answer": "The user's favorite book is Dune",
+      "ground_truth": "CANNOT_ANSWER",
+      "correct": false,
+      "latency": 0.0067560672760009766
+    },
+    {
+      "id": "q_abs_095",
+      "category": "abstention",
+      "question": "What is the user's secret password?",
+      "answer": "The user's favorite book is Dune",
+      "ground_truth": "CANNOT_ANSWER",
+      "correct": false,
+      "latency": 0.008720159530639648
+    },
+    {
+      "id": "q_abs_096",
+      "category": "abstention",
+      "question": "What is the user's bank account?",
+      "answer": "The user's favorite book is Dune",
+      "ground_truth": "CANNOT_ANSWER",
+      "correct": false,
+      "latency": 0.011469841003417969
+    },
+    {
+      "id": "q_abs_097",
+      "category": "abstention",
+      "question": "What is the user's bank account?",
+      "answer": "The user's favorite book is Dune",
+      "ground_truth": "CANNOT_ANSWER",
+      "correct": false,
+      "latency": 0.007730960845947266
+    },
+    {
+      "id": "q_abs_098",
+      "category": "abstention",
+      "question": "What is the user's bank account?",
+      "answer": "The user's favorite book is Dune",
+      "ground_truth": "CANNOT_ANSWER",
+      "correct": false,
+      "latency": 0.007982969284057617
+    },
+    {
+      "id": "q_abs_099",
+      "category": "abstention",
+      "question": "What is the user's social security number?",
+      "answer": "The user's favorite color is Blue",
+      "ground_truth": "CANNOT_ANSWER",
+      "correct": false,
+      "latency": 0.006836891174316406
+    }
+  ]
+}
