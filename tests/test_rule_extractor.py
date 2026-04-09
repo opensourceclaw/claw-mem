@@ -5,51 +5,54 @@ Tests rule extraction from memories.
 """
 
 import pytest
+from pathlib import Path
+import tempfile
+
+
+@pytest.fixture
+def workspace():
+    """Provide a temporary workspace"""
+    with tempfile.TemporaryDirectory() as tmpdir:
+        yield tmpdir
 
 
 class TestRuleExtractor:
     """Test rule extractor"""
     
-    def test_extractor_initialization(self):
+    def test_extractor_initialization(self, workspace):
         """Test extractor initialization"""
         from claw_mem.rule_extractor import RuleExtractor
         
-        extractor = RuleExtractor()
+        extractor = RuleExtractor(workspace)
         assert extractor is not None
     
-    def test_extract_rules_basic(self):
+    def test_extract_rules_basic(self, workspace):
         """Test basic rule extraction"""
         from claw_mem.rule_extractor import RuleExtractor
         
-        extractor = RuleExtractor()
+        extractor = RuleExtractor(workspace)
         
-        memories = [
-            {"content": "The user likes pizza"},
-            {"content": "The user dislikes broccoli"},
-        ]
+        conversation = "不要创建文件到 /tmp/"
         
-        if hasattr(extractor, 'extract'):
-            rules = extractor.extract(memories)
-            assert isinstance(rules, list)
+        rule = extractor.extract(conversation)
+        assert rule is not None
+        assert rule.rule_type in ["FORBIDDEN_PATH", "FORBIDDEN_TOOL", "PREFERENCE", "REQUIRE_ORDER"]
     
-    def test_extract_from_text(self):
+    def test_extract_from_text(self, workspace):
         """Test extracting rules from text"""
         from claw_mem.rule_extractor import RuleExtractor
         
-        extractor = RuleExtractor()
+        extractor = RuleExtractor(workspace)
         
-        text = "The user always prefers coffee in the morning"
+        text = "我偏好使用中文回复"
         
-        if hasattr(extractor, 'extract_from_text'):
-            rules = extractor.extract_from_text(text)
-            assert rules is not None
+        rule = extractor.extract(text)
+        assert rule is not None
+        assert rule.rule_type == "PREFERENCE"
     
-    def test_rule_format(self):
+    def test_rule_format(self, workspace):
         """Test rule format"""
         from claw_mem.rule_extractor import RuleExtractor
         
-        extractor = RuleExtractor()
-        
-        if hasattr(extractor, 'format_rule'):
-            rule = extractor.format_rule("preference", "coffee", "morning")
-            assert isinstance(rule, str)
+        extractor = RuleExtractor(workspace)
+        assert extractor.rules_file is not None

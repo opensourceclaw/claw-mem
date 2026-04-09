@@ -118,12 +118,15 @@ class ProceduralStorage:
     
     def count(self) -> int:
         """
-        Get number of skill files
+        Get number of procedural memory records
         
         Returns:
-            int: File count
+            int: Record count
         """
-        return len(list(self.skills_dir.glob("*.md")))
+        count = 0
+        for file_path in self.skills_dir.glob("*.md"):
+            count += len(self._read_file(file_path))
+        return count
     
     def _extract_skill_name(self, memory_record: Dict) -> str:
         """
