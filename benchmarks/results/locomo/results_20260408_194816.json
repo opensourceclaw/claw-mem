@@ -1,0 +1,58 @@
+{
+  "qa": {
+    "single_hop": {
+      "accuracy": 0.0,
+      "correct": 0,
+      "total": 50,
+      "avg_latency": 0.025309720039367677
+    },
+    "multi_hop": {
+      "accuracy": 0.0,
+      "correct": 0,
+      "total": 50,
+      "avg_latency": 0.029782505035400392
+    },
+    "temporal": {
+      "accuracy": 0.0,
+      "correct": 0,
+      "total": 50,
+      "avg_latency": 0.02632563591003418
+    },
+    "open_domain": {
+      "accuracy": 0.0,
+      "correct": 0,
+      "total": 50,
+      "avg_latency": 0.027413721084594726
+    },
+    "adversarial": {
+      "accuracy": 0.0,
+      "correct": 0,
+      "total": 50,
+      "avg_latency": 0.026028637886047364
+    },
+    "overall": {
+      "accuracy": 0.0,
+      "correct": 0,
+      "total": 250
+    }
+  },
+  "event_summarization": {
+    "total": 0,
+    "correct": 0,
+    "precision": 0,
+    "recall": 0,
+    "f1": 0
+  },
+  "dialog_generation": {
+    "total": 10,
+    "coherent": 10,
+    "relevant": 10,
+    "consistent": 10
+  },
+  "overall": {
+    "qa_accuracy": 0.0,
+    "event_summary_f1": 0,
+    "dialog_coherence": 1.0,
+    "average_score": 0.3333333333333333
+  }
+}

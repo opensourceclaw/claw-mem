@@ -1,0 +1,600 @@
+{"timestamp": "2026-04-09T00:15:48.943368", "action": "memory_stored", "details": {"type": "semantic", "content": "The user's favorite food is Pizza"}}
+{"timestamp": "2026-04-09T00:15:48.945845", "action": "memory_stored", "details": {"type": "semantic", "content": "The user's favorite color is Blue"}}
+{"timestamp": "2026-04-09T00:15:48.946775", "action": "memory_stored", "details": {"type": "semantic", "content": "The user's favorite color is Blue"}}
+{"timestamp": "2026-04-09T00:15:48.947430", "action": "memory_stored", "details": {"type": "semantic", "content": "The user's favorite food is Pizza"}}
+{"timestamp": "2026-04-09T00:15:48.947967", "action": "memory_stored", "details": {"type": "semantic", "content": "The user's favorite book is Dune"}}
+{"timestamp": "2026-04-09T00:15:48.948485", "action": "memory_stored", "details": {"type": "semantic", "content": "The user's favorite color is Blue"}}
+{"timestamp": "2026-04-09T00:15:48.949010", "action": "memory_stored", "details": {"type": "semantic", "content": "The user's favorite color is Blue"}}
+{"timestamp": "2026-04-09T00:15:48.949890", "action": "memory_stored", "details": {"type": "semantic", "content": "The user's favorite movie is Star Wars"}}
+{"timestamp": "2026-04-09T00:15:48.950489", "action": "memory_stored", "details": {"type": "semantic", "content": "The user's favorite food is Pizza"}}
+{"timestamp": "2026-04-09T00:15:48.951103", "action": "memory_stored", "details": {"type": "semantic", "content": "The user's favorite hobby is Hiking"}}
+{"timestamp": "2026-04-09T00:15:48.951576", "action": "memory_stored", "details": {"type": "semantic", "content": "The user's favorite book is Dune"}}
+{"timestamp": "2026-04-09T00:15:48.952091", "action": "memory_stored", "details": {"type": "semantic", "content": "The user's favorite book is Dune"}}
+{"timestamp": "2026-04-09T00:15:48.952588", "action": "memory_stored", "details": {"type": "semantic", "content": "The user's favorite hobby is Hiking"}}
+{"timestamp": "2026-04-09T00:15:48.953051", "action": "memory_stored", "details": {"type": "semantic", "content": "The user's favorite hobby is Hiking"}}
+{"timestamp": "2026-04-09T00:15:48.953609", "action": "memory_stored", "details": {"type": "semantic", "content": "The user's favorite book is Dune"}}
+{"timestamp": "2026-04-09T00:15:48.954217", "action": "memory_stored", "details": {"type": "semantic", "content": "The user's favorite food is Pizza"}}
+{"timestamp": "2026-04-09T00:15:48.954644", "action": "memory_stored", "details": {"type": "semantic", "content": "The user's favorite book is Dune"}}
+{"timestamp": "2026-04-09T00:15:48.955064", "action": "memory_stored", "details": {"type": "semantic", "content": "The user's favorite color is Blue"}}
+{"timestamp": "2026-04-09T00:15:48.956441", "action": "memory_stored", "details": {"type": "semantic", "content": "The user's favorite color is Blue"}}
+{"timestamp": "2026-04-09T00:15:48.957096", "action": "memory_stored", "details": {"type": "semantic", "content": "The user's favorite food is Pizza"}}
+{"timestamp": "2026-04-09T00:15:48.957956", "action": "memory_stored", "details": {"type": "semantic", "content": "The user's favorite color is Blue"}}
+{"timestamp": "2026-04-09T00:15:48.959327", "action": "memory_stored", "details": {"type": "semantic", "content": "The user's favorite color is Blue"}}
+{"timestamp": "2026-04-09T00:15:48.960166", "action": "memory_stored", "details": {"type": "semantic", "content": "The user's favorite color is Blue"}}
+{"timestamp": "2026-04-09T00:15:48.961590", "action": "memory_stored", "details": {"type": "semantic", "content": "The user's favorite food is Pizza"}}
+{"timestamp": "2026-04-09T00:15:48.962616", "action": "memory_stored", "details": {"type": "semantic", "content": "The user's favorite hobby is Hiking"}}
+{"timestamp": "2026-04-09T00:15:48.963474", "action": "memory_stored", "details": {"type": "semantic", "content": "The user's favorite movie is Star Wars"}}
+{"timestamp": "2026-04-09T00:15:48.964323", "action": "memory_stored", "details": {"type": "semantic", "content": "The user's favorite color is Blue"}}
+{"timestamp": "2026-04-09T00:15:48.965063", "action": "memory_stored", "details": {"type": "semantic", "content": "The user's favorite food is Pizza"}}
+{"timestamp": "2026-04-09T00:15:48.965588", "action": "memory_stored", "details": {"type": "semantic", "content": "The user's favorite food is Pizza"}}
+{"timestamp": "2026-04-09T00:15:48.966100", "action": "memory_stored", "details": {"type": "semantic", "content": "The user's favorite hobby is Hiking"}}
+{"timestamp": "2026-04-09T00:15:48.966915", "action": "memory_stored", "details": {"type": "semantic", "content": "The user's favorite movie is Star Wars"}}
+{"timestamp": "2026-04-09T00:15:48.967373", "action": "memory_stored", "details": {"type": "semantic", "content": "The user's favorite movie is Star Wars"}}
+{"timestamp": "2026-04-09T00:15:48.967918", "action": "memory_stored", "details": {"type": "semantic", "content": "The user's favorite hobby is Hiking"}}
+{"timestamp": "2026-04-09T00:15:48.968346", "action": "memory_stored", "details": {"type": "semantic", "content": "The user's favorite food is Pizza"}}
+{"timestamp": "2026-04-09T00:15:48.968776", "action": "memory_stored", "details": {"type": "semantic", "content": "The user's favorite book is Dune"}}
+{"timestamp": "2026-04-09T00:15:48.969400", "action": "memory_stored", "details": {"type": "semantic", "content": "The user's favorite food is Pizza"}}
+{"timestamp": "2026-04-09T00:15:48.969948", "action": "memory_stored", "details": {"type": "semantic", "content": "The user's favorite food is Pizza"}}
+{"timestamp": "2026-04-09T00:15:48.970553", "action": "memory_stored", "details": {"type": "semantic", "content": "The user's favorite movie is Star Wars"}}
+{"timestamp": "2026-04-09T00:15:48.971035", "action": "memory_stored", "details": {"type": "semantic", "content": "The user's favorite movie is Star Wars"}}
+{"timestamp": "2026-04-09T00:15:48.971462", "action": "memory_stored", "details": {"type": "semantic", "content": "The user's favorite color is Blue"}}
+{"timestamp": "2026-04-09T00:15:48.972504", "action": "memory_stored", "details": {"type": "semantic", "content": "The user's favorite food is Pizza"}}
+{"timestamp": "2026-04-09T00:15:48.973436", "action": "memory_stored", "details": {"type": "semantic", "content": "The user's favorite movie is Star Wars"}}
+{"timestamp": "2026-04-09T00:15:48.974443", "action": "memory_stored", "details": {"type": "semantic", "content": "The user's favorite movie is Star Wars"}}
+{"timestamp": "2026-04-09T00:15:48.976002", "action": "memory_stored", "details": {"type": "semantic", "content": "The user's favorite movie is Star Wars"}}
+{"timestamp": "2026-04-09T00:15:48.976784", "action": "memory_stored", "details": {"type": "semantic", "content": "The user's favorite hobby is Hiking"}}
+{"timestamp": "2026-04-09T00:15:48.978288", "action": "memory_stored", "details": {"type": "semantic", "content": "The user's favorite food is Pizza"}}
+{"timestamp": "2026-04-09T00:15:48.979263", "action": "memory_stored", "details": {"type": "semantic", "content": "The user's favorite food is Pizza"}}
+{"timestamp": "2026-04-09T00:15:48.979859", "action": "memory_stored", "details": {"type": "semantic", "content": "The user's favorite hobby is Hiking"}}
+{"timestamp": "2026-04-09T00:15:48.980704", "action": "memory_stored", "details": {"type": "semantic", "content": "The user's favorite food is Pizza"}}
+{"timestamp": "2026-04-09T00:15:48.981296", "action": "memory_stored", "details": {"type": "semantic", "content": "The user's favorite color is Blue"}}
+{"timestamp": "2026-04-09T00:15:48.981900", "action": "memory_stored", "details": {"type": "semantic", "content": "The user's favorite movie is Star Wars"}}
+{"timestamp": "2026-04-09T00:15:48.982689", "action": "memory_stored", "details": {"type": "semantic", "content": "The user's favorite book is Dune"}}
+{"timestamp": "2026-04-09T00:15:48.983390", "action": "memory_stored", "details": {"type": "semantic", "content": "The user's favorite color is Blue"}}
+{"timestamp": "2026-04-09T00:15:48.983846", "action": "memory_stored", "details": {"type": "semantic", "content": "The user's favorite hobby is Hiking"}}
+{"timestamp": "2026-04-09T00:15:48.984558", "action": "memory_stored", "details": {"type": "semantic", "content": "The user's favorite color is Blue"}}
+{"timestamp": "2026-04-09T00:15:48.985023", "action": "memory_stored", "details": {"type": "semantic", "content": "The user's favorite book is Dune"}}
+{"timestamp": "2026-04-09T00:15:48.985456", "action": "memory_stored", "details": {"type": "semantic", "content": "The user's favorite movie is Star Wars"}}
+{"timestamp": "2026-04-09T00:15:48.985912", "action": "memory_stored", "details": {"type": "semantic", "content": "The user's favorite movie is Star Wars"}}
+{"timestamp": "2026-04-09T00:15:48.986372", "action": "memory_stored", "details": {"type": "semantic", "content": "The user's favorite food is Pizza"}}
+{"timestamp": "2026-04-09T00:15:48.986849", "action": "memory_stored", "details": {"type": "semantic", "content": "The user's favorite hobby is Hiking"}}
+{"timestamp": "2026-04-09T00:15:48.987465", "action": "memory_stored", "details": {"type": "semantic", "content": "The user's favorite color is Blue"}}
+{"timestamp": "2026-04-09T00:15:48.987888", "action": "memory_stored", "details": {"type": "semantic", "content": "The user's favorite food is Pizza"}}
+{"timestamp": "2026-04-09T00:15:48.988269", "action": "memory_stored", "details": {"type": "semantic", "content": "The user's favorite food is Pizza"}}
+{"timestamp": "2026-04-09T00:15:48.994258", "action": "memory_stored", "details": {"type": "semantic", "content": "The user's favorite food is Pizza"}}
+{"timestamp": "2026-04-09T00:15:48.998436", "action": "memory_stored", "details": {"type": "semantic", "content": "The user's favorite color is Blue"}}
+{"timestamp": "2026-04-09T00:15:48.999870", "action": "memory_stored", "details": {"type": "semantic", "content": "The user's favorite color is Blue"}}
+{"timestamp": "2026-04-09T00:15:49.000797", "action": "memory_stored", "details": {"type": "semantic", "content": "The user's favorite food is Pizza"}}
+{"timestamp": "2026-04-09T00:15:49.001518", "action": "memory_stored", "details": {"type": "semantic", "content": "The user's favorite color is Blue"}}
+{"timestamp": "2026-04-09T00:15:49.002511", "action": "memory_stored", "details": {"type": "semantic", "content": "The user's favorite movie is Star Wars"}}
+{"timestamp": "2026-04-09T00:15:49.003216", "action": "memory_stored", "details": {"type": "semantic", "content": "The user's favorite book is Dune"}}
+{"timestamp": "2026-04-09T00:15:49.003889", "action": "memory_stored", "details": {"type": "semantic", "content": "The user's favorite book is Dune"}}
+{"timestamp": "2026-04-09T00:15:49.004714", "action": "memory_stored", "details": {"type": "semantic", "content": "The user's favorite hobby is Hiking"}}
+{"timestamp": "2026-04-09T00:15:49.006491", "action": "memory_stored", "details": {"type": "semantic", "content": "The user's favorite movie is Star Wars"}}
+{"timestamp": "2026-04-09T00:15:49.008093", "action": "memory_stored", "details": {"type": "semantic", "content": "The user's favorite food is Pizza"}}
+{"timestamp": "2026-04-09T00:15:49.011240", "action": "memory_stored", "details": {"type": "semantic", "content": "The user's favorite book is Dune"}}
+{"timestamp": "2026-04-09T00:15:49.012710", "action": "memory_stored", "details": {"type": "semantic", "content": "The user's favorite food is Pizza"}}
+{"timestamp": "2026-04-09T00:15:49.013639", "action": "memory_stored", "details": {"type": "semantic", "content": "The user's favorite movie is Star Wars"}}
+{"timestamp": "2026-04-09T00:15:49.014476", "action": "memory_stored", "details": {"type": "semantic", "content": "The user's favorite color is Blue"}}
+{"timestamp": "2026-04-09T00:15:49.015049", "action": "memory_stored", "details": {"type": "semantic", "content": "The user's favorite hobby is Hiking"}}
+{"timestamp": "2026-04-09T00:15:49.015540", "action": "memory_stored", "details": {"type": "semantic", "content": "The user's favorite movie is Star Wars"}}
+{"timestamp": "2026-04-09T00:15:49.016058", "action": "memory_stored", "details": {"type": "semantic", "content": "The user's favorite movie is Star Wars"}}
+{"timestamp": "2026-04-09T00:15:49.016940", "action": "memory_stored", "details": {"type": "semantic", "content": "The user's favorite hobby is Hiking"}}
+{"timestamp": "2026-04-09T00:15:49.017629", "action": "memory_stored", "details": {"type": "semantic", "content": "The user's favorite movie is Star Wars"}}
+{"timestamp": "2026-04-09T00:15:49.018097", "action": "memory_stored", "details": {"type": "semantic", "content": "The user's favorite food is Pizza"}}
+{"timestamp": "2026-04-09T00:15:49.018514", "action": "memory_stored", "details": {"type": "semantic", "content": "The user's favorite movie is Star Wars"}}
+{"timestamp": "2026-04-09T00:15:49.018973", "action": "memory_stored", "details": {"type": "semantic", "content": "The user's favorite hobby is Hiking"}}
+{"timestamp": "2026-04-09T00:15:49.019381", "action": "memory_stored", "details": {"type": "semantic", "content": "The user's favorite food is Pizza"}}
+{"timestamp": "2026-04-09T00:15:49.019844", "action": "memory_stored", "details": {"type": "semantic", "content": "The user's favorite color is Blue"}}
+{"timestamp": "2026-04-09T00:15:49.020365", "action": "memory_stored", "details": {"type": "semantic", "content": "The user's favorite food is Pizza"}}
+{"timestamp": "2026-04-09T00:15:49.021091", "action": "memory_stored", "details": {"type": "semantic", "content": "The user's favorite book is Dune"}}
+{"timestamp": "2026-04-09T00:15:49.021595", "action": "memory_stored", "details": {"type": "semantic", "content": "The user's favorite food is Pizza"}}
+{"timestamp": "2026-04-09T00:15:49.023251", "action": "memory_stored", "details": {"type": "semantic", "content": "The user's favorite food is Pizza"}}
+{"timestamp": "2026-04-09T00:15:49.023934", "action": "memory_stored", "details": {"type": "semantic", "content": "The user's favorite book is Dune"}}
+{"timestamp": "2026-04-09T00:15:49.025332", "action": "memory_stored", "details": {"type": "semantic", "content": "The user's favorite movie is Star Wars"}}
+{"timestamp": "2026-04-09T00:15:49.026424", "action": "memory_stored", "details": {"type": "semantic", "content": "The user's favorite movie is Star Wars"}}
+{"timestamp": "2026-04-09T00:15:49.027271", "action": "memory_stored", "details": {"type": "semantic", "content": "The user's favorite food is Pizza"}}
+{"timestamp": "2026-04-09T00:15:49.029025", "action": "memory_stored", "details": {"type": "semantic", "content": "The user's favorite hobby is Hiking"}}
+{"timestamp": "2026-04-09T00:15:49.029942", "action": "memory_stored", "details": {"type": "semantic", "content": "The user's favorite food is Pizza"}}
+{"timestamp": "2026-04-09T00:15:49.030675", "action": "memory_stored", "details": {"type": "semantic", "content": "The user's favorite movie is Star Wars"}}
+{"timestamp": "2026-04-09T00:15:49.031140", "action": "memory_stored", "details": {"type": "semantic", "content": "The user's favorite movie is Star Wars"}}
+{"timestamp": "2026-04-09T00:15:49.031593", "action": "memory_stored", "details": {"type": "semantic", "content": "The user works as a software engineer"}}
+{"timestamp": "2026-04-09T00:15:49.032263", "action": "memory_stored", "details": {"type": "semantic", "content": "The user has a dog named Max"}}
+{"timestamp": "2026-04-09T00:15:49.033195", "action": "memory_stored", "details": {"type": "semantic", "content": "The user wants to travel to Japan"}}
+{"timestamp": "2026-04-09T00:15:49.033775", "action": "memory_stored", "details": {"type": "semantic", "content": "The user works as a software engineer"}}
+{"timestamp": "2026-04-09T00:15:49.034262", "action": "memory_stored", "details": {"type": "semantic", "content": "The user wants to travel to Japan"}}
+{"timestamp": "2026-04-09T00:15:49.034743", "action": "memory_stored", "details": {"type": "semantic", "content": "The user works as a software engineer"}}
+{"timestamp": "2026-04-09T00:15:49.035220", "action": "memory_stored", "details": {"type": "semantic", "content": "The user wants to travel to Japan"}}
+{"timestamp": "2026-04-09T00:15:49.035783", "action": "memory_stored", "details": {"type": "semantic", "content": "The user plans to learn Python"}}
+{"timestamp": "2026-04-09T00:15:49.036303", "action": "memory_stored", "details": {"type": "semantic", "content": "The user has a dog named Max"}}
+{"timestamp": "2026-04-09T00:15:49.036914", "action": "memory_stored", "details": {"type": "semantic", "content": "The user enjoys hiking on weekends"}}
+{"timestamp": "2026-04-09T00:15:49.037659", "action": "memory_stored", "details": {"type": "semantic", "content": "The user has a dog named Max"}}
+{"timestamp": "2026-04-09T00:15:49.038114", "action": "memory_stored", "details": {"type": "semantic", "content": "The user wants to travel to Japan"}}
+{"timestamp": "2026-04-09T00:15:49.038623", "action": "memory_stored", "details": {"type": "semantic", "content": "The user plans to learn Python"}}
+{"timestamp": "2026-04-09T00:15:49.039054", "action": "memory_stored", "details": {"type": "semantic", "content": "The user has a dog named Max"}}
+{"timestamp": "2026-04-09T00:15:49.039799", "action": "memory_stored", "details": {"type": "semantic", "content": "The user has a dog named Max"}}
+{"timestamp": "2026-04-09T00:15:49.040943", "action": "memory_stored", "details": {"type": "semantic", "content": "The user has a dog named Max"}}
+{"timestamp": "2026-04-09T00:15:49.041512", "action": "memory_stored", "details": {"type": "semantic", "content": "The user works as a software engineer"}}
+{"timestamp": "2026-04-09T00:15:49.042013", "action": "memory_stored", "details": {"type": "semantic", "content": "The user wants to travel to Japan"}}
+{"timestamp": "2026-04-09T00:15:49.043989", "action": "memory_stored", "details": {"type": "semantic", "content": "The user enjoys hiking on weekends"}}
+{"timestamp": "2026-04-09T00:15:49.045552", "action": "memory_stored", "details": {"type": "semantic", "content": "The user enjoys hiking on weekends"}}
+{"timestamp": "2026-04-09T00:15:49.047488", "action": "memory_stored", "details": {"type": "semantic", "content": "The user plans to learn Python"}}
+{"timestamp": "2026-04-09T00:15:49.048267", "action": "memory_stored", "details": {"type": "semantic", "content": "The user plans to learn Python"}}
+{"timestamp": "2026-04-09T00:15:49.048891", "action": "memory_stored", "details": {"type": "semantic", "content": "The user plans to learn Python"}}
+{"timestamp": "2026-04-09T00:15:49.049519", "action": "memory_stored", "details": {"type": "semantic", "content": "The user has a dog named Max"}}
+{"timestamp": "2026-04-09T00:15:49.050686", "action": "memory_stored", "details": {"type": "semantic", "content": "The user plans to learn Python"}}
+{"timestamp": "2026-04-09T00:15:49.052473", "action": "memory_stored", "details": {"type": "semantic", "content": "The user works as a software engineer"}}
+{"timestamp": "2026-04-09T00:15:49.053548", "action": "memory_stored", "details": {"type": "semantic", "content": "The user wants to travel to Japan"}}
+{"timestamp": "2026-04-09T00:15:49.054036", "action": "memory_stored", "details": {"type": "semantic", "content": "The user has a dog named Max"}}
+{"timestamp": "2026-04-09T00:15:49.054456", "action": "memory_stored", "details": {"type": "semantic", "content": "The user has a dog named Max"}}
+{"timestamp": "2026-04-09T00:15:49.054886", "action": "memory_stored", "details": {"type": "semantic", "content": "The user wants to travel to Japan"}}
+{"timestamp": "2026-04-09T00:15:49.056518", "action": "memory_stored", "details": {"type": "semantic", "content": "The user enjoys hiking on weekends"}}
+{"timestamp": "2026-04-09T00:15:49.057151", "action": "memory_stored", "details": {"type": "semantic", "content": "The user wants to travel to Japan"}}
+{"timestamp": "2026-04-09T00:15:49.060852", "action": "memory_stored", "details": {"type": "semantic", "content": "The user has a dog named Max"}}
+{"timestamp": "2026-04-09T00:15:49.062404", "action": "memory_stored", "details": {"type": "semantic", "content": "The user plans to learn Python"}}
+{"timestamp": "2026-04-09T00:15:49.064218", "action": "memory_stored", "details": {"type": "semantic", "content": "The user works as a software engineer"}}
+{"timestamp": "2026-04-09T00:15:49.065245", "action": "memory_stored", "details": {"type": "semantic", "content": "The user wants to travel to Japan"}}
+{"timestamp": "2026-04-09T00:15:49.066116", "action": "memory_stored", "details": {"type": "semantic", "content": "The user works as a software engineer"}}
+{"timestamp": "2026-04-09T00:15:49.066990", "action": "memory_stored", "details": {"type": "semantic", "content": "The user plans to learn Python"}}
+{"timestamp": "2026-04-09T00:15:49.068464", "action": "memory_stored", "details": {"type": "semantic", "content": "The user has a dog named Max"}}
+{"timestamp": "2026-04-09T00:15:49.069002", "action": "memory_stored", "details": {"type": "semantic", "content": "The user works as a software engineer"}}
+{"timestamp": "2026-04-09T00:15:49.069823", "action": "memory_stored", "details": {"type": "semantic", "content": "The user wants to travel to Japan"}}
+{"timestamp": "2026-04-09T00:15:49.070734", "action": "memory_stored", "details": {"type": "semantic", "content": "The user plans to learn Python"}}
+{"timestamp": "2026-04-09T00:15:49.071359", "action": "memory_stored", "details": {"type": "semantic", "content": "The user enjoys hiking on weekends"}}
+{"timestamp": "2026-04-09T00:15:49.077892", "action": "memory_stored", "details": {"type": "semantic", "content": "The user wants to travel to Japan"}}
+{"timestamp": "2026-04-09T00:15:49.079268", "action": "memory_stored", "details": {"type": "semantic", "content": "The user works as a software engineer"}}
+{"timestamp": "2026-04-09T00:15:49.080814", "action": "memory_stored", "details": {"type": "semantic", "content": "The user has a dog named Max"}}
+{"timestamp": "2026-04-09T00:15:49.081740", "action": "memory_stored", "details": {"type": "semantic", "content": "The user plans to learn Python"}}
+{"timestamp": "2026-04-09T00:15:49.082521", "action": "memory_stored", "details": {"type": "semantic", "content": "The user wants to travel to Japan"}}
+{"timestamp": "2026-04-09T00:15:49.083025", "action": "memory_stored", "details": {"type": "semantic", "content": "The user wants to travel to Japan"}}
+{"timestamp": "2026-04-09T00:15:49.083851", "action": "memory_stored", "details": {"type": "semantic", "content": "The user wants to travel to Japan"}}
+{"timestamp": "2026-04-09T00:15:49.085791", "action": "memory_stored", "details": {"type": "semantic", "content": "The user plans to learn Python"}}
+{"timestamp": "2026-04-09T00:15:49.086447", "action": "memory_stored", "details": {"type": "semantic", "content": "The user works as a software engineer"}}
+{"timestamp": "2026-04-09T00:15:49.087168", "action": "memory_stored", "details": {"type": "semantic", "content": "The user has a dog named Max"}}
+{"timestamp": "2026-04-09T00:15:49.087681", "action": "memory_stored", "details": {"type": "semantic", "content": "The user plans to learn Python"}}
+{"timestamp": "2026-04-09T00:15:49.088138", "action": "memory_stored", "details": {"type": "semantic", "content": "The user enjoys hiking on weekends"}}
+{"timestamp": "2026-04-09T00:15:49.093862", "action": "memory_stored", "details": {"type": "semantic", "content": "The user plans to learn Python"}}
+{"timestamp": "2026-04-09T00:15:49.096604", "action": "memory_stored", "details": {"type": "semantic", "content": "The user has a dog named Max"}}
+{"timestamp": "2026-04-09T00:15:49.097641", "action": "memory_stored", "details": {"type": "semantic", "content": "The user has a dog named Max"}}
+{"timestamp": "2026-04-09T00:15:49.099947", "action": "memory_stored", "details": {"type": "semantic", "content": "The user plans to learn Python"}}
+{"timestamp": "2026-04-09T00:15:49.100735", "action": "memory_stored", "details": {"type": "semantic", "content": "The user enjoys hiking on weekends"}}
+{"timestamp": "2026-04-09T00:15:49.101479", "action": "memory_stored", "details": {"type": "semantic", "content": "The user plans to learn Python"}}
+{"timestamp": "2026-04-09T00:15:49.102223", "action": "memory_stored", "details": {"type": "semantic", "content": "The user has a dog named Max"}}
+{"timestamp": "2026-04-09T00:15:49.104386", "action": "memory_stored", "details": {"type": "semantic", "content": "The user has a dog named Max"}}
+{"timestamp": "2026-04-09T00:15:49.105126", "action": "memory_stored", "details": {"type": "semantic", "content": "The user enjoys hiking on weekends"}}
+{"timestamp": "2026-04-09T00:15:49.110743", "action": "memory_stored", "details": {"type": "semantic", "content": "The user has a dog named Max"}}
+{"timestamp": "2026-04-09T00:15:49.111756", "action": "memory_stored", "details": {"type": "semantic", "content": "The user wants to travel to Japan"}}
+{"timestamp": "2026-04-09T00:15:49.113069", "action": "memory_stored", "details": {"type": "semantic", "content": "The user has a dog named Max"}}
+{"timestamp": "2026-04-09T00:15:49.115218", "action": "memory_stored", "details": {"type": "semantic", "content": "The user enjoys hiking on weekends"}}
+{"timestamp": "2026-04-09T00:15:49.116086", "action": "memory_stored", "details": {"type": "semantic", "content": "The user plans to learn Python"}}
+{"timestamp": "2026-04-09T00:15:49.117340", "action": "memory_stored", "details": {"type": "semantic", "content": "The user works as a software engineer"}}
+{"timestamp": "2026-04-09T00:15:49.118815", "action": "memory_stored", "details": {"type": "semantic", "content": "The user plans to learn Python"}}
+{"timestamp": "2026-04-09T00:15:49.119399", "action": "memory_stored", "details": {"type": "semantic", "content": "The user enjoys hiking on weekends"}}
+{"timestamp": "2026-04-09T00:15:49.120065", "action": "memory_stored", "details": {"type": "semantic", "content": "The user works as a software engineer"}}
+{"timestamp": "2026-04-09T00:15:49.120847", "action": "memory_stored", "details": {"type": "semantic", "content": "The user has a dog named Max"}}
+{"timestamp": "2026-04-09T00:15:49.121338", "action": "memory_stored", "details": {"type": "semantic", "content": "The user plans to learn Python"}}
+{"timestamp": "2026-04-09T00:15:49.127524", "action": "memory_stored", "details": {"type": "semantic", "content": "The user enjoys hiking on weekends"}}
+{"timestamp": "2026-04-09T00:15:49.129040", "action": "memory_stored", "details": {"type": "semantic", "content": "The user has a dog named Max"}}
+{"timestamp": "2026-04-09T00:15:49.134364", "action": "memory_stored", "details": {"type": "semantic", "content": "The user works as a software engineer"}}
+{"timestamp": "2026-04-09T00:15:49.135408", "action": "memory_stored", "details": {"type": "semantic", "content": "The user enjoys hiking on weekends"}}
+{"timestamp": "2026-04-09T00:15:49.136587", "action": "memory_stored", "details": {"type": "semantic", "content": "The user enjoys hiking on weekends"}}
+{"timestamp": "2026-04-09T00:15:49.137200", "action": "memory_stored", "details": {"type": "semantic", "content": "The user enjoys hiking on weekends"}}
+{"timestamp": "2026-04-09T00:15:49.138303", "action": "memory_stored", "details": {"type": "semantic", "content": "The user works as a software engineer"}}
+{"timestamp": "2026-04-09T00:15:49.145087", "action": "memory_stored", "details": {"type": "semantic", "content": "The user works as a software engineer"}}
+{"timestamp": "2026-04-09T00:15:49.147495", "action": "memory_stored", "details": {"type": "semantic", "content": "The user has a dog named Max"}}
+{"timestamp": "2026-04-09T00:15:49.148471", "action": "memory_stored", "details": {"type": "semantic", "content": "The user has a dog named Max"}}
+{"timestamp": "2026-04-09T00:15:49.149285", "action": "memory_stored", "details": {"type": "semantic", "content": "The user wants to travel to Japan"}}
+{"timestamp": "2026-04-09T00:15:49.150094", "action": "memory_stored", "details": {"type": "semantic", "content": "The user has a dog named Max"}}
+{"timestamp": "2026-04-09T00:15:49.151727", "action": "memory_stored", "details": {"type": "semantic", "content": "The user enjoys hiking on weekends"}}
+{"timestamp": "2026-04-09T00:15:49.152373", "action": "memory_stored", "details": {"type": "semantic", "content": "The user enjoys hiking on weekends"}}
+{"timestamp": "2026-04-09T00:15:49.153105", "action": "memory_stored", "details": {"type": "semantic", "content": "The user wants to travel to Japan"}}
+{"timestamp": "2026-04-09T00:15:49.154492", "action": "memory_stored", "details": {"type": "semantic", "content": "The user works as a software engineer"}}
+{"timestamp": "2026-04-09T00:15:49.158767", "action": "memory_stored", "details": {"type": "semantic", "content": "The user wants to travel to Japan"}}
+{"timestamp": "2026-04-09T00:15:49.160412", "action": "memory_stored", "details": {"type": "semantic", "content": "The user wants to travel to Japan"}}
+{"timestamp": "2026-04-09T00:15:49.161539", "action": "memory_stored", "details": {"type": "semantic", "content": "The user works as a software engineer"}}
+{"timestamp": "2026-04-09T00:15:49.164911", "action": "memory_stored", "details": {"type": "semantic", "content": "The user has a dog named Max"}}
+{"timestamp": "2026-04-09T00:15:49.165606", "action": "memory_stored", "details": {"type": "semantic", "content": "The user wants to travel to Japan"}}
+{"timestamp": "2026-04-09T00:15:49.166321", "action": "memory_stored", "details": {"type": "semantic", "content": "The user enjoys hiking on weekends"}}
+{"timestamp": "2026-04-09T00:15:49.167091", "action": "memory_stored", "details": {"type": "semantic", "content": "The user has a dog named Max"}}
+{"timestamp": "2026-04-09T00:15:49.167773", "action": "memory_stored", "details": {"type": "semantic", "content": "The user enjoys hiking on weekends"}}
+{"timestamp": "2026-04-09T00:15:49.168403", "action": "memory_stored", "details": {"type": "semantic", "content": "The user enjoys hiking on weekends"}}
+{"timestamp": "2026-04-09T00:15:49.168872", "action": "memory_stored", "details": {"type": "semantic", "content": "The user went on vacation 27 days ago"}}
+{"timestamp": "2026-04-09T00:15:49.169324", "action": "memory_stored", "details": {"type": "semantic", "content": "The user's birthday was 27 days ago"}}
+{"timestamp": "2026-04-09T00:15:49.169859", "action": "memory_stored", "details": {"type": "semantic", "content": "The user had a deadline 12 days ago"}}
+{"timestamp": "2026-04-09T00:15:49.171474", "action": "memory_stored", "details": {"type": "semantic", "content": "The user had a deadline 19 days ago"}}
+{"timestamp": "2026-04-09T00:15:49.174409", "action": "memory_stored", "details": {"type": "semantic", "content": "The user went on vacation 20 days ago"}}
+{"timestamp": "2026-04-09T00:15:49.175870", "action": "memory_stored", "details": {"type": "semantic", "content": "The user had a meeting 21 days ago"}}
+{"timestamp": "2026-04-09T00:15:49.176692", "action": "memory_stored", "details": {"type": "semantic", "content": "The user had a meeting 26 days ago"}}
+{"timestamp": "2026-04-09T00:15:49.181190", "action": "memory_stored", "details": {"type": "semantic", "content": "The user went on vacation 15 days ago"}}
+{"timestamp": "2026-04-09T00:15:49.182974", "action": "memory_stored", "details": {"type": "semantic", "content": "The user's birthday was 11 days ago"}}
+{"timestamp": "2026-04-09T00:15:49.183875", "action": "memory_stored", "details": {"type": "semantic", "content": "The user had a deadline 27 days ago"}}
+{"timestamp": "2026-04-09T00:15:49.184444", "action": "memory_stored", "details": {"type": "semantic", "content": "The user's birthday was 27 days ago"}}
+{"timestamp": "2026-04-09T00:15:49.184895", "action": "memory_stored", "details": {"type": "semantic", "content": "The user went on vacation 6 days ago"}}
+{"timestamp": "2026-04-09T00:15:49.185337", "action": "memory_stored", "details": {"type": "semantic", "content": "The user had a deadline 12 days ago"}}
+{"timestamp": "2026-04-09T00:15:49.185936", "action": "memory_stored", "details": {"type": "semantic", "content": "The user had a deadline 11 days ago"}}
+{"timestamp": "2026-04-09T00:15:49.186722", "action": "memory_stored", "details": {"type": "semantic", "content": "The user had a meeting 4 days ago"}}
+{"timestamp": "2026-04-09T00:15:49.187793", "action": "memory_stored", "details": {"type": "semantic", "content": "The user's birthday was 1 days ago"}}
+{"timestamp": "2026-04-09T00:15:49.188450", "action": "memory_stored", "details": {"type": "semantic", "content": "The user's birthday was 22 days ago"}}
+{"timestamp": "2026-04-09T00:15:49.190474", "action": "memory_stored", "details": {"type": "semantic", "content": "The user started a new project 24 days ago"}}
+{"timestamp": "2026-04-09T00:15:49.191140", "action": "memory_stored", "details": {"type": "semantic", "content": "The user had a deadline 9 days ago"}}
+{"timestamp": "2026-04-09T00:15:49.192287", "action": "memory_stored", "details": {"type": "semantic", "content": "The user's birthday was 23 days ago"}}
+{"timestamp": "2026-04-09T00:15:49.194160", "action": "memory_stored", "details": {"type": "semantic", "content": "The user went on vacation 11 days ago"}}
+{"timestamp": "2026-04-09T00:15:49.197624", "action": "memory_stored", "details": {"type": "semantic", "content": "The user had a deadline 16 days ago"}}
+{"timestamp": "2026-04-09T00:15:49.198260", "action": "memory_stored", "details": {"type": "semantic", "content": "The user started a new project 23 days ago"}}
+{"timestamp": "2026-04-09T00:15:49.198794", "action": "memory_stored", "details": {"type": "semantic", "content": "The user went on vacation 4 days ago"}}
+{"timestamp": "2026-04-09T00:15:49.199287", "action": "memory_stored", "details": {"type": "semantic", "content": "The user's birthday was 3 days ago"}}
+{"timestamp": "2026-04-09T00:15:49.200129", "action": "memory_stored", "details": {"type": "semantic", "content": "The user had a meeting 16 days ago"}}
+{"timestamp": "2026-04-09T00:15:49.200664", "action": "memory_stored", "details": {"type": "semantic", "content": "The user had a meeting 2 days ago"}}
+{"timestamp": "2026-04-09T00:15:49.201344", "action": "memory_stored", "details": {"type": "semantic", "content": "The user went on vacation 19 days ago"}}
+{"timestamp": "2026-04-09T00:15:49.202257", "action": "memory_stored", "details": {"type": "semantic", "content": "The user started a new project 30 days ago"}}
+{"timestamp": "2026-04-09T00:15:49.204546", "action": "memory_stored", "details": {"type": "semantic", "content": "The user went on vacation 22 days ago"}}
+{"timestamp": "2026-04-09T00:15:49.205148", "action": "memory_stored", "details": {"type": "semantic", "content": "The user had a meeting 28 days ago"}}
+{"timestamp": "2026-04-09T00:15:49.206500", "action": "memory_stored", "details": {"type": "semantic", "content": "The user went on vacation 24 days ago"}}
+{"timestamp": "2026-04-09T00:15:49.207685", "action": "memory_stored", "details": {"type": "semantic", "content": "The user went on vacation 10 days ago"}}
+{"timestamp": "2026-04-09T00:15:49.208353", "action": "memory_stored", "details": {"type": "semantic", "content": "The user had a meeting 12 days ago"}}
+{"timestamp": "2026-04-09T00:15:49.209130", "action": "memory_stored", "details": {"type": "semantic", "content": "The user went on vacation 27 days ago"}}
+{"timestamp": "2026-04-09T00:15:49.214392", "action": "memory_stored", "details": {"type": "semantic", "content": "The user had a meeting 3 days ago"}}
+{"timestamp": "2026-04-09T00:15:49.215099", "action": "memory_stored", "details": {"type": "semantic", "content": "The user's birthday was 29 days ago"}}
+{"timestamp": "2026-04-09T00:15:49.215637", "action": "memory_stored", "details": {"type": "semantic", "content": "The user had a meeting 16 days ago"}}
+{"timestamp": "2026-04-09T00:15:49.216054", "action": "memory_stored", "details": {"type": "semantic", "content": "The user had a meeting 12 days ago"}}
+{"timestamp": "2026-04-09T00:15:49.216472", "action": "memory_stored", "details": {"type": "semantic", "content": "The user's birthday was 20 days ago"}}
+{"timestamp": "2026-04-09T00:15:49.216882", "action": "memory_stored", "details": {"type": "semantic", "content": "The user had a meeting 13 days ago"}}
+{"timestamp": "2026-04-09T00:15:49.217310", "action": "memory_stored", "details": {"type": "semantic", "content": "The user went on vacation 5 days ago"}}
+{"timestamp": "2026-04-09T00:15:49.217985", "action": "memory_stored", "details": {"type": "semantic", "content": "The user had a deadline 6 days ago"}}
+{"timestamp": "2026-04-09T00:15:49.219114", "action": "memory_stored", "details": {"type": "semantic", "content": "The user started a new project 1 days ago"}}
+{"timestamp": "2026-04-09T00:15:49.220117", "action": "memory_stored", "details": {"type": "semantic", "content": "The user's birthday was 1 days ago"}}
+{"timestamp": "2026-04-09T00:15:49.222677", "action": "memory_stored", "details": {"type": "semantic", "content": "The user had a meeting 30 days ago"}}
+{"timestamp": "2026-04-09T00:15:49.224164", "action": "memory_stored", "details": {"type": "semantic", "content": "The user had a meeting 22 days ago"}}
+{"timestamp": "2026-04-09T00:15:49.225052", "action": "memory_stored", "details": {"type": "semantic", "content": "The user had a deadline 3 days ago"}}
+{"timestamp": "2026-04-09T00:15:49.225828", "action": "memory_stored", "details": {"type": "semantic", "content": "The user's birthday was 25 days ago"}}
+{"timestamp": "2026-04-09T00:15:49.229679", "action": "memory_stored", "details": {"type": "semantic", "content": "The user's birthday was 8 days ago"}}
+{"timestamp": "2026-04-09T00:15:49.231134", "action": "memory_stored", "details": {"type": "semantic", "content": "The user had a deadline 10 days ago"}}
+{"timestamp": "2026-04-09T00:15:49.232460", "action": "memory_stored", "details": {"type": "semantic", "content": "The user went on vacation 4 days ago"}}
+{"timestamp": "2026-04-09T00:15:49.233402", "action": "memory_stored", "details": {"type": "semantic", "content": "The user had a deadline 22 days ago"}}
+{"timestamp": "2026-04-09T00:15:49.234589", "action": "memory_stored", "details": {"type": "semantic", "content": "The user had a deadline 14 days ago"}}
+{"timestamp": "2026-04-09T00:15:49.236244", "action": "memory_stored", "details": {"type": "semantic", "content": "The user had a meeting 23 days ago"}}
+{"timestamp": "2026-04-09T00:15:49.236826", "action": "memory_stored", "details": {"type": "semantic", "content": "The user's birthday was 23 days ago"}}
+{"timestamp": "2026-04-09T00:15:49.237344", "action": "memory_stored", "details": {"type": "semantic", "content": "The user had a meeting 1 days ago"}}
+{"timestamp": "2026-04-09T00:15:49.238056", "action": "memory_stored", "details": {"type": "semantic", "content": "The user's birthday was 6 days ago"}}
+{"timestamp": "2026-04-09T00:15:49.241521", "action": "memory_stored", "details": {"type": "semantic", "content": "The user's birthday was 21 days ago"}}
+{"timestamp": "2026-04-09T00:15:49.245724", "action": "memory_stored", "details": {"type": "semantic", "content": "The user went on vacation 18 days ago"}}
+{"timestamp": "2026-04-09T00:15:49.246481", "action": "memory_stored", "details": {"type": "semantic", "content": "The user started a new project 27 days ago"}}
+{"timestamp": "2026-04-09T00:15:49.247245", "action": "memory_stored", "details": {"type": "semantic", "content": "The user started a new project 9 days ago"}}
+{"timestamp": "2026-04-09T00:15:49.247809", "action": "memory_stored", "details": {"type": "semantic", "content": "The user started a new project 6 days ago"}}
+{"timestamp": "2026-04-09T00:15:49.248370", "action": "memory_stored", "details": {"type": "semantic", "content": "The user went on vacation 19 days ago"}}
+{"timestamp": "2026-04-09T00:15:49.249008", "action": "memory_stored", "details": {"type": "semantic", "content": "The user's birthday was 11 days ago"}}
+{"timestamp": "2026-04-09T00:15:49.249788", "action": "memory_stored", "details": {"type": "semantic", "content": "The user started a new project 24 days ago"}}
+{"timestamp": "2026-04-09T00:15:49.251189", "action": "memory_stored", "details": {"type": "semantic", "content": "The user had a deadline 14 days ago"}}
+{"timestamp": "2026-04-09T00:15:49.252963", "action": "memory_stored", "details": {"type": "semantic", "content": "The user's birthday was 15 days ago"}}
+{"timestamp": "2026-04-09T00:15:49.254130", "action": "memory_stored", "details": {"type": "semantic", "content": "The user started a new project 13 days ago"}}
+{"timestamp": "2026-04-09T00:15:49.266750", "action": "memory_stored", "details": {"type": "semantic", "content": "The user had a deadline 20 days ago"}}
+{"timestamp": "2026-04-09T00:15:49.270659", "action": "memory_stored", "details": {"type": "semantic", "content": "The user went on vacation 16 days ago"}}
+{"timestamp": "2026-04-09T00:15:49.271617", "action": "memory_stored", "details": {"type": "semantic", "content": "The user had a meeting 24 days ago"}}
+{"timestamp": "2026-04-09T00:15:49.278670", "action": "memory_stored", "details": {"type": "semantic", "content": "The user went on vacation 11 days ago"}}
+{"timestamp": "2026-04-09T00:15:49.279371", "action": "memory_stored", "details": {"type": "semantic", "content": "The user's birthday was 19 days ago"}}
+{"timestamp": "2026-04-09T00:15:49.280975", "action": "memory_stored", "details": {"type": "semantic", "content": "The user had a meeting 2 days ago"}}
+{"timestamp": "2026-04-09T00:15:49.282598", "action": "memory_stored", "details": {"type": "semantic", "content": "The user had a meeting 15 days ago"}}
+{"timestamp": "2026-04-09T00:15:49.283342", "action": "memory_stored", "details": {"type": "semantic", "content": "The user started a new project 24 days ago"}}
+{"timestamp": "2026-04-09T00:15:49.284126", "action": "memory_stored", "details": {"type": "semantic", "content": "The user's birthday was 25 days ago"}}
+{"timestamp": "2026-04-09T00:15:49.285319", "action": "memory_stored", "details": {"type": "semantic", "content": "The user's birthday was 16 days ago"}}
+{"timestamp": "2026-04-09T00:15:49.286305", "action": "memory_stored", "details": {"type": "semantic", "content": "The user started a new project 6 days ago"}}
+{"timestamp": "2026-04-09T00:15:49.287146", "action": "memory_stored", "details": {"type": "semantic", "content": "The user started a new project 5 days ago"}}
+{"timestamp": "2026-04-09T00:15:49.288255", "action": "memory_stored", "details": {"type": "semantic", "content": "The user's birthday was 23 days ago"}}
+{"timestamp": "2026-04-09T00:15:49.289571", "action": "memory_stored", "details": {"type": "semantic", "content": "The user's birthday was 1 days ago"}}
+{"timestamp": "2026-04-09T00:15:49.292477", "action": "memory_stored", "details": {"type": "semantic", "content": "The user had a deadline 29 days ago"}}
+{"timestamp": "2026-04-09T00:15:49.293134", "action": "memory_stored", "details": {"type": "semantic", "content": "The user had a meeting 28 days ago"}}
+{"timestamp": "2026-04-09T00:15:49.293656", "action": "memory_stored", "details": {"type": "semantic", "content": "The user went on vacation 23 days ago"}}
+{"timestamp": "2026-04-09T00:15:49.295342", "action": "memory_stored", "details": {"type": "semantic", "content": "The user started a new project 10 days ago"}}
+{"timestamp": "2026-04-09T00:15:49.296165", "action": "memory_stored", "details": {"type": "semantic", "content": "The user started a new project 29 days ago"}}
+{"timestamp": "2026-04-09T00:15:49.296845", "action": "memory_stored", "details": {"type": "semantic", "content": "The user's birthday was 27 days ago"}}
+{"timestamp": "2026-04-09T00:15:49.298968", "action": "memory_stored", "details": {"type": "semantic", "content": "The user started a new project 6 days ago"}}
+{"timestamp": "2026-04-09T00:15:49.300028", "action": "memory_stored", "details": {"type": "semantic", "content": "The user went on vacation 12 days ago"}}
+{"timestamp": "2026-04-09T00:15:49.301039", "action": "memory_stored", "details": {"type": "semantic", "content": "The user went on vacation 23 days ago"}}
+{"timestamp": "2026-04-09T00:15:49.302412", "action": "memory_stored", "details": {"type": "semantic", "content": "The user went on vacation 22 days ago"}}
+{"timestamp": "2026-04-09T00:15:49.303165", "action": "memory_stored", "details": {"type": "semantic", "content": "The user had a deadline 20 days ago"}}
+{"timestamp": "2026-04-09T00:15:49.303666", "action": "memory_stored", "details": {"type": "semantic", "content": "The user had a meeting 17 days ago"}}
+{"timestamp": "2026-04-09T00:15:49.304306", "action": "memory_stored", "details": {"type": "semantic", "content": "The user's birthday was 24 days ago"}}
+{"timestamp": "2026-04-09T00:15:49.304909", "action": "memory_stored", "details": {"type": "semantic", "content": "The user had a meeting 7 days ago"}}
+{"timestamp": "2026-04-09T00:15:49.305535", "action": "memory_stored", "details": {"type": "semantic", "content": "The user had a meeting 19 days ago"}}
+{"timestamp": "2026-04-09T00:15:49.308994", "action": "memory_stored", "details": {"type": "semantic", "content": "The user went on vacation 29 days ago"}}
+{"timestamp": "2026-04-09T00:15:49.309746", "action": "memory_stored", "details": {"type": "semantic", "content": "The user's birthday was 26 days ago"}}
+{"timestamp": "2026-04-09T00:15:49.310883", "action": "memory_stored", "details": {"type": "semantic", "content": "The user's phone number is 555-1234"}}
+{"timestamp": "2026-04-09T00:15:49.312069", "action": "memory_stored", "details": {"type": "semantic", "content": "The user's phone number is 555-1234"}}
+{"timestamp": "2026-04-09T00:15:49.312984", "action": "memory_stored", "details": {"type": "semantic", "content": "The user's phone number is 555-1234"}}
+{"timestamp": "2026-04-09T00:15:49.315277", "action": "memory_stored", "details": {"type": "semantic", "content": "The user's relationship status is Married"}}
+{"timestamp": "2026-04-09T00:15:49.316334", "action": "memory_stored", "details": {"type": "semantic", "content": "The user's relationship status is Married"}}
+{"timestamp": "2026-04-09T00:15:49.317211", "action": "memory_stored", "details": {"type": "semantic", "content": "The user's email is user@example.com"}}
+{"timestamp": "2026-04-09T00:15:49.318306", "action": "memory_stored", "details": {"type": "semantic", "content": "The user's address is 123 Main St"}}
+{"timestamp": "2026-04-09T00:15:49.319325", "action": "memory_stored", "details": {"type": "semantic", "content": "The user's job title is Senior Engineer"}}
+{"timestamp": "2026-04-09T00:15:49.320045", "action": "memory_stored", "details": {"type": "semantic", "content": "The user's email is user@example.com"}}
+{"timestamp": "2026-04-09T00:15:49.320830", "action": "memory_stored", "details": {"type": "semantic", "content": "The user's email is user@example.com"}}
+{"timestamp": "2026-04-09T00:15:49.321511", "action": "memory_stored", "details": {"type": "semantic", "content": "The user's address is 123 Main St"}}
+{"timestamp": "2026-04-09T00:15:49.326063", "action": "memory_stored", "details": {"type": "semantic", "content": "The user's relationship status is Married"}}
+{"timestamp": "2026-04-09T00:15:49.327382", "action": "memory_stored", "details": {"type": "semantic", "content": "The user's relationship status is Married"}}
+{"timestamp": "2026-04-09T00:15:49.328657", "action": "memory_stored", "details": {"type": "semantic", "content": "The user's relationship status is Married"}}
+{"timestamp": "2026-04-09T00:15:49.329606", "action": "memory_stored", "details": {"type": "semantic", "content": "The user's address is 123 Main St"}}
+{"timestamp": "2026-04-09T00:15:49.331108", "action": "memory_stored", "details": {"type": "semantic", "content": "The user's phone number is 555-1234"}}
+{"timestamp": "2026-04-09T00:15:49.331820", "action": "memory_stored", "details": {"type": "semantic", "content": "The user's address is 123 Main St"}}
+{"timestamp": "2026-04-09T00:15:49.332324", "action": "memory_stored", "details": {"type": "semantic", "content": "The user's email is user@example.com"}}
+{"timestamp": "2026-04-09T00:15:49.332839", "action": "memory_stored", "details": {"type": "semantic", "content": "The user's address is 123 Main St"}}
+{"timestamp": "2026-04-09T00:15:49.333460", "action": "memory_stored", "details": {"type": "semantic", "content": "The user's phone number is 555-1234"}}
+{"timestamp": "2026-04-09T00:15:49.334366", "action": "memory_stored", "details": {"type": "semantic", "content": "The user's job title is Senior Engineer"}}
+{"timestamp": "2026-04-09T00:15:49.335432", "action": "memory_stored", "details": {"type": "semantic", "content": "The user's job title is Senior Engineer"}}
+{"timestamp": "2026-04-09T00:15:49.335902", "action": "memory_stored", "details": {"type": "semantic", "content": "The user's email is user@example.com"}}
+{"timestamp": "2026-04-09T00:15:49.336591", "action": "memory_stored", "details": {"type": "semantic", "content": "The user's job title is Senior Engineer"}}
+{"timestamp": "2026-04-09T00:15:49.338099", "action": "memory_stored", "details": {"type": "semantic", "content": "The user's phone number is 555-1234"}}
+{"timestamp": "2026-04-09T00:15:49.342560", "action": "memory_stored", "details": {"type": "semantic", "content": "The user's phone number is 555-1234"}}
+{"timestamp": "2026-04-09T00:15:49.343335", "action": "memory_stored", "details": {"type": "semantic", "content": "The user's relationship status is Married"}}
+{"timestamp": "2026-04-09T00:15:49.344780", "action": "memory_stored", "details": {"type": "semantic", "content": "The user's relationship status is Married"}}
+{"timestamp": "2026-04-09T00:15:49.347096", "action": "memory_stored", "details": {"type": "semantic", "content": "The user's relationship status is Married"}}
+{"timestamp": "2026-04-09T00:15:49.349747", "action": "memory_stored", "details": {"type": "semantic", "content": "The user's phone number is 555-1234"}}
+{"timestamp": "2026-04-09T00:15:49.350549", "action": "memory_stored", "details": {"type": "semantic", "content": "The user's phone number is 555-1234"}}
+{"timestamp": "2026-04-09T00:15:49.351334", "action": "memory_stored", "details": {"type": "semantic", "content": "The user's job title is Senior Engineer"}}
+{"timestamp": "2026-04-09T00:15:49.351868", "action": "memory_stored", "details": {"type": "semantic", "content": "The user's phone number is 555-1234"}}
+{"timestamp": "2026-04-09T00:15:49.352454", "action": "memory_stored", "details": {"type": "semantic", "content": "The user's phone number is 555-1234"}}
+{"timestamp": "2026-04-09T00:15:49.352910", "action": "memory_stored", "details": {"type": "semantic", "content": "The user's job title is Senior Engineer"}}
+{"timestamp": "2026-04-09T00:15:49.353343", "action": "memory_stored", "details": {"type": "semantic", "content": "The user's email is user@example.com"}}
+{"timestamp": "2026-04-09T00:15:49.353970", "action": "memory_stored", "details": {"type": "semantic", "content": "The user's job title is Senior Engineer"}}
+{"timestamp": "2026-04-09T00:15:49.354854", "action": "memory_stored", "details": {"type": "semantic", "content": "The user's relationship status is Married"}}
+{"timestamp": "2026-04-09T00:15:49.356408", "action": "memory_stored", "details": {"type": "semantic", "content": "The user's address is 123 Main St"}}
+{"timestamp": "2026-04-09T00:15:49.357547", "action": "memory_stored", "details": {"type": "semantic", "content": "The user's job title is Senior Engineer"}}
+{"timestamp": "2026-04-09T00:15:49.358350", "action": "memory_stored", "details": {"type": "semantic", "content": "The user's relationship status is Married"}}
+{"timestamp": "2026-04-09T00:15:49.359840", "action": "memory_stored", "details": {"type": "semantic", "content": "The user's job title is Senior Engineer"}}
+{"timestamp": "2026-04-09T00:15:49.361016", "action": "memory_stored", "details": {"type": "semantic", "content": "The user's address is 123 Main St"}}
+{"timestamp": "2026-04-09T00:15:49.363578", "action": "memory_stored", "details": {"type": "semantic", "content": "The user's address is 123 Main St"}}
+{"timestamp": "2026-04-09T00:15:49.365110", "action": "memory_stored", "details": {"type": "semantic", "content": "The user's relationship status is Married"}}
+{"timestamp": "2026-04-09T00:15:49.366042", "action": "memory_stored", "details": {"type": "semantic", "content": "The user's phone number is 555-1234"}}
+{"timestamp": "2026-04-09T00:15:49.367763", "action": "memory_stored", "details": {"type": "semantic", "content": "The user's email is user@example.com"}}
+{"timestamp": "2026-04-09T00:15:49.368475", "action": "memory_stored", "details": {"type": "semantic", "content": "The user's email is user@example.com"}}
+{"timestamp": "2026-04-09T00:15:49.368924", "action": "memory_stored", "details": {"type": "semantic", "content": "The user's relationship status is Married"}}
+{"timestamp": "2026-04-09T00:15:49.369349", "action": "memory_stored", "details": {"type": "semantic", "content": "The user's relationship status is Married"}}
+{"timestamp": "2026-04-09T00:15:49.370318", "action": "memory_stored", "details": {"type": "semantic", "content": "The user's address is 123 Main St"}}
+{"timestamp": "2026-04-09T00:15:49.373710", "action": "memory_stored", "details": {"type": "semantic", "content": "The user's phone number is 555-1234"}}
+{"timestamp": "2026-04-09T00:15:49.375225", "action": "memory_stored", "details": {"type": "semantic", "content": "The user's job title is Senior Engineer"}}
+{"timestamp": "2026-04-09T00:15:49.376056", "action": "memory_stored", "details": {"type": "semantic", "content": "The user's address is 123 Main St"}}
+{"timestamp": "2026-04-09T00:15:49.382390", "action": "memory_stored", "details": {"type": "semantic", "content": "The user's relationship status is Married"}}
+{"timestamp": "2026-04-09T00:15:49.383574", "action": "memory_stored", "details": {"type": "semantic", "content": "The user's relationship status is Married"}}
+{"timestamp": "2026-04-09T00:15:49.384290", "action": "memory_stored", "details": {"type": "semantic", "content": "The user's address is 123 Main St"}}
+{"timestamp": "2026-04-09T00:15:49.385183", "action": "memory_stored", "details": {"type": "semantic", "content": "The user's email is user@example.com"}}
+{"timestamp": "2026-04-09T00:15:49.387816", "action": "memory_stored", "details": {"type": "semantic", "content": "The user's phone number is 555-1234"}}
+{"timestamp": "2026-04-09T00:15:49.393209", "action": "memory_stored", "details": {"type": "semantic", "content": "The user's job title is Senior Engineer"}}
+{"timestamp": "2026-04-09T00:15:49.446319", "action": "memory_stored", "details": {"type": "semantic", "content": "The user's address is 123 Main St"}}
+{"timestamp": "2026-04-09T00:15:49.447030", "action": "memory_stored", "details": {"type": "semantic", "content": "The user's address is 123 Main St"}}
+{"timestamp": "2026-04-09T00:15:49.454951", "action": "memory_stored", "details": {"type": "semantic", "content": "The user's address is 123 Main St"}}
+{"timestamp": "2026-04-09T00:15:49.459541", "action": "memory_stored", "details": {"type": "semantic", "content": "The user's email is user@example.com"}}
+{"timestamp": "2026-04-09T00:15:49.460766", "action": "memory_stored", "details": {"type": "semantic", "content": "The user's email is user@example.com"}}
+{"timestamp": "2026-04-09T00:15:49.461684", "action": "memory_stored", "details": {"type": "semantic", "content": "The user's relationship status is Married"}}
+{"timestamp": "2026-04-09T00:15:49.471066", "action": "memory_stored", "details": {"type": "semantic", "content": "The user's address is 123 Main St"}}
+{"timestamp": "2026-04-09T00:15:49.471631", "action": "memory_stored", "details": {"type": "semantic", "content": "The user's job title is Senior Engineer"}}
+{"timestamp": "2026-04-09T00:15:49.474847", "action": "memory_stored", "details": {"type": "semantic", "content": "The user's address is 123 Main St"}}
+{"timestamp": "2026-04-09T00:15:49.476109", "action": "memory_stored", "details": {"type": "semantic", "content": "The user's address is 123 Main St"}}
+{"timestamp": "2026-04-09T00:15:49.477159", "action": "memory_stored", "details": {"type": "semantic", "content": "The user's address is 123 Main St"}}
+{"timestamp": "2026-04-09T00:15:49.478468", "action": "memory_stored", "details": {"type": "semantic", "content": "The user's email is user@example.com"}}
+{"timestamp": "2026-04-09T00:15:49.481646", "action": "memory_stored", "details": {"type": "semantic", "content": "The user's phone number is 555-1234"}}
+{"timestamp": "2026-04-09T00:15:49.484663", "action": "memory_stored", "details": {"type": "semantic", "content": "The user's address is 123 Main St"}}
+{"timestamp": "2026-04-09T00:15:49.486057", "action": "memory_stored", "details": {"type": "semantic", "content": "The user's phone number is 555-1234"}}
+{"timestamp": "2026-04-09T00:15:49.487453", "action": "memory_stored", "details": {"type": "semantic", "content": "The user's email is user@example.com"}}
+{"timestamp": "2026-04-09T00:15:49.489831", "action": "memory_stored", "details": {"type": "semantic", "content": "The user's address is 123 Main St"}}
+{"timestamp": "2026-04-09T00:15:49.502529", "action": "memory_stored", "details": {"type": "semantic", "content": "The user's email is user@example.com"}}
+{"timestamp": "2026-04-09T00:15:49.503880", "action": "memory_stored", "details": {"type": "semantic", "content": "The user's email is user@example.com"}}
+{"timestamp": "2026-04-09T00:15:49.504694", "action": "memory_stored", "details": {"type": "semantic", "content": "The user's address is 123 Main St"}}
+{"timestamp": "2026-04-09T00:15:49.509383", "action": "memory_stored", "details": {"type": "semantic", "content": "The user's phone number is 555-1234"}}
+{"timestamp": "2026-04-09T00:15:49.510179", "action": "memory_stored", "details": {"type": "semantic", "content": "The user's job title is Senior Engineer"}}
+{"timestamp": "2026-04-09T00:15:49.510798", "action": "memory_stored", "details": {"type": "semantic", "content": "The user's job title is Senior Engineer"}}
+{"timestamp": "2026-04-09T00:15:49.512148", "action": "memory_stored", "details": {"type": "semantic", "content": "The user's job title is Senior Engineer"}}
+{"timestamp": "2026-04-09T00:15:49.513601", "action": "memory_stored", "details": {"type": "semantic", "content": "The user's job title is Senior Engineer"}}
+{"timestamp": "2026-04-09T00:15:49.515402", "action": "memory_stored", "details": {"type": "semantic", "content": "The user's job title is Senior Engineer"}}
+{"timestamp": "2026-04-09T00:15:49.516291", "action": "memory_stored", "details": {"type": "semantic", "content": "The user's email is user@example.com"}}
+{"timestamp": "2026-04-09T00:15:49.517367", "action": "memory_stored", "details": {"type": "semantic", "content": "The user's phone number is 555-1234"}}
+{"timestamp": "2026-04-09T00:15:49.518647", "action": "memory_stored", "details": {"type": "semantic", "content": "The user's job title is Senior Engineer"}}
+{"timestamp": "2026-04-09T00:15:49.519615", "action": "memory_stored", "details": {"type": "semantic", "content": "The user's phone number is 555-1234"}}
+{"timestamp": "2026-04-09T00:15:49.520185", "action": "memory_stored", "details": {"type": "semantic", "content": "The user's relationship status is Married"}}
+{"timestamp": "2026-04-09T00:15:49.520693", "action": "memory_stored", "details": {"type": "semantic", "content": "The user's relationship status is Married"}}
+{"timestamp": "2026-04-09T00:15:49.521336", "action": "memory_stored", "details": {"type": "semantic", "content": "The user's address is 123 Main St"}}
+{"timestamp": "2026-04-09T00:15:49.554743", "action": "memory_stored", "details": {"type": "semantic", "content": "The user's email is user@example.com"}}
+{"timestamp": "2026-04-09T00:15:49.601510", "action": "memory_stored", "details": {"type": "semantic", "content": "The user's job title is Senior Engineer"}}
+{"timestamp": "2026-04-09T00:15:49.604063", "action": "memory_stored", "details": {"type": "semantic", "content": "The user's address is 123 Main St"}}
+{"timestamp": "2026-04-09T00:15:49.612248", "action": "memory_stored", "details": {"type": "semantic", "content": "The user's relationship status is Married"}}
+{"timestamp": "2026-04-09T00:15:49.619430", "action": "memory_stored", "details": {"type": "semantic", "content": "The user's phone number is 555-1234"}}
+{"timestamp": "2026-04-09T00:15:49.649453", "action": "memory_stored", "details": {"type": "semantic", "content": "The user's relationship status is Married"}}
+{"timestamp": "2026-04-09T00:15:49.650955", "action": "memory_stored", "details": {"type": "semantic", "content": "The user's email is user@example.com"}}
+{"timestamp": "2026-04-09T00:15:49.783621", "action": "memory_search", "details": {"query": "", "type": null, "metadata": null, "results_count": 0, "method": "enhanced_smart"}}
+{"timestamp": "2026-04-09T00:15:49.851241", "action": "memory_search", "details": {"query": "What is the user's favorite food?", "type": null, "metadata": null, "results_count": 40, "method": "smart"}}
+{"timestamp": "2026-04-09T00:15:49.863677", "action": "memory_search", "details": {"query": "", "type": null, "metadata": null, "results_count": 0, "method": "enhanced_smart"}}
+{"timestamp": "2026-04-09T00:15:49.897211", "action": "memory_search", "details": {"query": "What is the user's favorite color?", "type": null, "metadata": null, "results_count": 40, "method": "smart"}}
+{"timestamp": "2026-04-09T00:15:49.974517", "action": "memory_search", "details": {"query": "", "type": null, "metadata": null, "results_count": 0, "method": "enhanced_smart"}}
+{"timestamp": "2026-04-09T00:15:50.047347", "action": "memory_search", "details": {"query": "What is the user's favorite color?", "type": null, "metadata": null, "results_count": 40, "method": "smart"}}
+{"timestamp": "2026-04-09T00:15:50.152946", "action": "memory_search", "details": {"query": "", "type": null, "metadata": null, "results_count": 0, "method": "enhanced_smart"}}
+{"timestamp": "2026-04-09T00:15:50.383288", "action": "memory_search", "details": {"query": "What is the user's favorite food?", "type": null, "metadata": null, "results_count": 40, "method": "smart"}}
+{"timestamp": "2026-04-09T00:15:50.496546", "action": "memory_search", "details": {"query": "", "type": null, "metadata": null, "results_count": 0, "method": "enhanced_smart"}}
+{"timestamp": "2026-04-09T00:15:50.645745", "action": "memory_search", "details": {"query": "What is the user's favorite book?", "type": null, "metadata": null, "results_count": 40, "method": "smart"}}
+{"timestamp": "2026-04-09T00:15:50.758815", "action": "memory_search", "details": {"query": "", "type": null, "metadata": null, "results_count": 0, "method": "enhanced_smart"}}
+{"timestamp": "2026-04-09T00:15:50.816993", "action": "memory_search", "details": {"query": "What is the user's favorite color?", "type": null, "metadata": null, "results_count": 40, "method": "smart"}}
+{"timestamp": "2026-04-09T00:15:50.849104", "action": "memory_search", "details": {"query": "", "type": null, "metadata": null, "results_count": 0, "method": "enhanced_smart"}}
+{"timestamp": "2026-04-09T00:15:50.866879", "action": "memory_search", "details": {"query": "What is the user's favorite color?", "type": null, "metadata": null, "results_count": 40, "method": "smart"}}
+{"timestamp": "2026-04-09T00:15:50.870136", "action": "memory_search", "details": {"query": "", "type": null, "metadata": null, "results_count": 0, "method": "enhanced_smart"}}
+{"timestamp": "2026-04-09T00:15:50.886396", "action": "memory_search", "details": {"query": "What is the user's favorite movie?", "type": null, "metadata": null, "results_count": 40, "method": "smart"}}
+{"timestamp": "2026-04-09T00:15:50.890720", "action": "memory_search", "details": {"query": "", "type": null, "metadata": null, "results_count": 0, "method": "enhanced_smart"}}
+{"timestamp": "2026-04-09T00:15:50.906855", "action": "memory_search", "details": {"query": "What is the user's favorite food?", "type": null, "metadata": null, "results_count": 40, "method": "smart"}}
+{"timestamp": "2026-04-09T00:15:50.910650", "action": "memory_search", "details": {"query": "", "type": null, "metadata": null, "results_count": 0, "method": "enhanced_smart"}}
+{"timestamp": "2026-04-09T00:15:50.926212", "action": "memory_search", "details": {"query": "What is the user's favorite hobby?", "type": null, "metadata": null, "results_count": 40, "method": "smart"}}
+{"timestamp": "2026-04-09T00:15:50.929611", "action": "memory_search", "details": {"query": "", "type": null, "metadata": null, "results_count": 0, "method": "enhanced_smart"}}
+{"timestamp": "2026-04-09T00:15:50.950372", "action": "memory_search", "details": {"query": "What is the user's favorite book?", "type": null, "metadata": null, "results_count": 40, "method": "smart"}}
+{"timestamp": "2026-04-09T00:15:50.953534", "action": "memory_search", "details": {"query": "", "type": null, "metadata": null, "results_count": 0, "method": "enhanced_smart"}}
+{"timestamp": "2026-04-09T00:15:50.977003", "action": "memory_search", "details": {"query": "What is the user's favorite book?", "type": null, "metadata": null, "results_count": 40, "method": "smart"}}
+{"timestamp": "2026-04-09T00:15:50.981038", "action": "memory_search", "details": {"query": "", "type": null, "metadata": null, "results_count": 0, "method": "enhanced_smart"}}
+{"timestamp": "2026-04-09T00:15:51.050145", "action": "memory_search", "details": {"query": "What is the user's favorite hobby?", "type": null, "metadata": null, "results_count": 40, "method": "smart"}}
+{"timestamp": "2026-04-09T00:15:51.513337", "action": "memory_search", "details": {"query": "", "type": null, "metadata": null, "results_count": 0, "method": "enhanced_smart"}}
+{"timestamp": "2026-04-09T00:15:52.531039", "action": "memory_search", "details": {"query": "What is the user's favorite hobby?", "type": null, "metadata": null, "results_count": 40, "method": "smart"}}
+{"timestamp": "2026-04-09T00:15:52.870581", "action": "memory_search", "details": {"query": "", "type": null, "metadata": null, "results_count": 0, "method": "enhanced_smart"}}
+{"timestamp": "2026-04-09T00:15:53.040768", "action": "memory_search", "details": {"query": "What is the user's favorite book?", "type": null, "metadata": null, "results_count": 40, "method": "smart"}}
+{"timestamp": "2026-04-09T00:15:53.046130", "action": "memory_search", "details": {"query": "", "type": null, "metadata": null, "results_count": 0, "method": "enhanced_smart"}}
+{"timestamp": "2026-04-09T00:15:53.196335", "action": "memory_search", "details": {"query": "What is the user's favorite food?", "type": null, "metadata": null, "results_count": 40, "method": "smart"}}
+{"timestamp": "2026-04-09T00:15:53.310901", "action": "memory_search", "details": {"query": "", "type": null, "metadata": null, "results_count": 0, "method": "enhanced_smart"}}
+{"timestamp": "2026-04-09T00:15:53.458739", "action": "memory_search", "details": {"query": "What is the user's favorite book?", "type": null, "metadata": null, "results_count": 40, "method": "smart"}}
+{"timestamp": "2026-04-09T00:15:53.541165", "action": "memory_search", "details": {"query": "", "type": null, "metadata": null, "results_count": 0, "method": "enhanced_smart"}}
+{"timestamp": "2026-04-09T00:15:53.621343", "action": "memory_search", "details": {"query": "What is the user's favorite color?", "type": null, "metadata": null, "results_count": 40, "method": "smart"}}
+{"timestamp": "2026-04-09T00:15:53.628071", "action": "memory_search", "details": {"query": "", "type": null, "metadata": null, "results_count": 0, "method": "enhanced_smart"}}
+{"timestamp": "2026-04-09T00:15:53.679944", "action": "memory_search", "details": {"query": "What is the user's favorite color?", "type": null, "metadata": null, "results_count": 40, "method": "smart"}}
+{"timestamp": "2026-04-09T00:15:53.746396", "action": "memory_search", "details": {"query": "", "type": null, "metadata": null, "results_count": 0, "method": "enhanced_smart"}}
+{"timestamp": "2026-04-09T00:15:53.797637", "action": "memory_search", "details": {"query": "What is the user's favorite food?", "type": null, "metadata": null, "results_count": 40, "method": "smart"}}
+{"timestamp": "2026-04-09T00:15:53.842165", "action": "memory_search", "details": {"query": "", "type": null, "metadata": null, "results_count": 0, "method": "enhanced_smart"}}
+{"timestamp": "2026-04-09T00:15:53.875882", "action": "memory_search", "details": {"query": "What is the user's favorite color?", "type": null, "metadata": null, "results_count": 40, "method": "smart"}}
+{"timestamp": "2026-04-09T00:15:53.923110", "action": "memory_search", "details": {"query": "", "type": null, "metadata": null, "results_count": 0, "method": "enhanced_smart"}}
+{"timestamp": "2026-04-09T00:15:53.956209", "action": "memory_search", "details": {"query": "What is the user's favorite color?", "type": null, "metadata": null, "results_count": 40, "method": "smart"}}
+{"timestamp": "2026-04-09T00:15:53.960697", "action": "memory_search", "details": {"query": "", "type": null, "metadata": null, "results_count": 0, "method": "enhanced_smart"}}
+{"timestamp": "2026-04-09T00:15:53.977236", "action": "memory_search", "details": {"query": "What is the user's favorite color?", "type": null, "metadata": null, "results_count": 40, "method": "smart"}}
+{"timestamp": "2026-04-09T00:15:53.981004", "action": "memory_search", "details": {"query": "", "type": null, "metadata": null, "results_count": 0, "method": "enhanced_smart"}}
+{"timestamp": "2026-04-09T00:15:54.009761", "action": "memory_search", "details": {"query": "What is the user's favorite food?", "type": null, "metadata": null, "results_count": 40, "method": "smart"}}
+{"timestamp": "2026-04-09T00:15:54.013031", "action": "memory_search", "details": {"query": "", "type": null, "metadata": null, "results_count": 0, "method": "enhanced_smart"}}
+{"timestamp": "2026-04-09T00:15:54.032999", "action": "memory_search", "details": {"query": "What is the user's favorite hobby?", "type": null, "metadata": null, "results_count": 40, "method": "smart"}}
+{"timestamp": "2026-04-09T00:15:54.117825", "action": "memory_search", "details": {"query": "", "type": null, "metadata": null, "results_count": 0, "method": "enhanced_smart"}}
+{"timestamp": "2026-04-09T00:15:54.136695", "action": "memory_search", "details": {"query": "What is the user's favorite movie?", "type": null, "metadata": null, "results_count": 40, "method": "smart"}}
+{"timestamp": "2026-04-09T00:15:54.141911", "action": "memory_search", "details": {"query": "", "type": null, "metadata": null, "results_count": 0, "method": "enhanced_smart"}}
+{"timestamp": "2026-04-09T00:15:54.162487", "action": "memory_search", "details": {"query": "What is the user's favorite color?", "type": null, "metadata": null, "results_count": 40, "method": "smart"}}
+{"timestamp": "2026-04-09T00:15:54.166024", "action": "memory_search", "details": {"query": "", "type": null, "metadata": null, "results_count": 0, "method": "enhanced_smart"}}
+{"timestamp": "2026-04-09T00:15:54.212751", "action": "memory_search", "details": {"query": "What is the user's favorite food?", "type": null, "metadata": null, "results_count": 40, "method": "smart"}}
+{"timestamp": "2026-04-09T00:15:54.290711", "action": "memory_search", "details": {"query": "", "type": null, "metadata": null, "results_count": 0, "method": "enhanced_smart"}}
+{"timestamp": "2026-04-09T00:15:54.339158", "action": "memory_search", "details": {"query": "What is the user's favorite food?", "type": null, "metadata": null, "results_count": 40, "method": "smart"}}
+{"timestamp": "2026-04-09T00:15:54.343346", "action": "memory_search", "details": {"query": "", "type": null, "metadata": null, "results_count": 0, "method": "enhanced_smart"}}
+{"timestamp": "2026-04-09T00:15:54.385921", "action": "memory_search", "details": {"query": "What is the user's favorite hobby?", "type": null, "metadata": null, "results_count": 40, "method": "smart"}}
+{"timestamp": "2026-04-09T00:15:54.459128", "action": "memory_search", "details": {"query": "", "type": null, "metadata": null, "results_count": 0, "method": "enhanced_smart"}}
+{"timestamp": "2026-04-09T00:15:54.769207", "action": "memory_search", "details": {"query": "What is the user's favorite movie?", "type": null, "metadata": null, "results_count": 40, "method": "smart"}}
+{"timestamp": "2026-04-09T00:15:54.782585", "action": "memory_search", "details": {"query": "", "type": null, "metadata": null, "results_count": 0, "method": "enhanced_smart"}}
+{"timestamp": "2026-04-09T00:15:54.882944", "action": "memory_search", "details": {"query": "What is the user's favorite movie?", "type": null, "metadata": null, "results_count": 40, "method": "smart"}}
+{"timestamp": "2026-04-09T00:15:55.073015", "action": "memory_search", "details": {"query": "", "type": null, "metadata": null, "results_count": 0, "method": "enhanced_smart"}}
+{"timestamp": "2026-04-09T00:15:55.113644", "action": "memory_search", "details": {"query": "What is the user's favorite hobby?", "type": null, "metadata": null, "results_count": 40, "method": "smart"}}
+{"timestamp": "2026-04-09T00:15:55.118741", "action": "memory_search", "details": {"query": "", "type": null, "metadata": null, "results_count": 0, "method": "enhanced_smart"}}
+{"timestamp": "2026-04-09T00:15:55.157470", "action": "memory_search", "details": {"query": "What is the user's favorite food?", "type": null, "metadata": null, "results_count": 40, "method": "smart"}}
+{"timestamp": "2026-04-09T00:15:55.201860", "action": "memory_search", "details": {"query": "", "type": null, "metadata": null, "results_count": 0, "method": "enhanced_smart"}}
+{"timestamp": "2026-04-09T00:15:55.270741", "action": "memory_search", "details": {"query": "What is the user's favorite book?", "type": null, "metadata": null, "results_count": 40, "method": "smart"}}
+{"timestamp": "2026-04-09T00:15:55.353698", "action": "memory_search", "details": {"query": "", "type": null, "metadata": null, "results_count": 0, "method": "enhanced_smart"}}
+{"timestamp": "2026-04-09T00:15:55.491935", "action": "memory_search", "details": {"query": "What is the user's favorite food?", "type": null, "metadata": null, "results_count": 40, "method": "smart"}}
+{"timestamp": "2026-04-09T00:15:55.534796", "action": "memory_search", "details": {"query": "", "type": null, "metadata": null, "results_count": 0, "method": "enhanced_smart"}}
+{"timestamp": "2026-04-09T00:15:55.693713", "action": "memory_search", "details": {"query": "What is the user's favorite food?", "type": null, "metadata": null, "results_count": 40, "method": "smart"}}
+{"timestamp": "2026-04-09T00:15:55.718109", "action": "memory_search", "details": {"query": "", "type": null, "metadata": null, "results_count": 0, "method": "enhanced_smart"}}
+{"timestamp": "2026-04-09T00:15:55.753298", "action": "memory_search", "details": {"query": "What is the user's favorite movie?", "type": null, "metadata": null, "results_count": 40, "method": "smart"}}
+{"timestamp": "2026-04-09T00:15:55.797320", "action": "memory_search", "details": {"query": "", "type": null, "metadata": null, "results_count": 0, "method": "enhanced_smart"}}
+{"timestamp": "2026-04-09T00:15:55.858521", "action": "memory_search", "details": {"query": "What is the user's favorite movie?", "type": null, "metadata": null, "results_count": 40, "method": "smart"}}
+{"timestamp": "2026-04-09T00:15:55.862014", "action": "memory_search", "details": {"query": "", "type": null, "metadata": null, "results_count": 0, "method": "enhanced_smart"}}
+{"timestamp": "2026-04-09T00:15:55.887484", "action": "memory_search", "details": {"query": "What is the user's favorite color?", "type": null, "metadata": null, "results_count": 40, "method": "smart"}}
+{"timestamp": "2026-04-09T00:15:55.909711", "action": "memory_search", "details": {"query": "", "type": null, "metadata": null, "results_count": 0, "method": "enhanced_smart"}}
+{"timestamp": "2026-04-09T00:15:55.935328", "action": "memory_search", "details": {"query": "What is the user's favorite food?", "type": null, "metadata": null, "results_count": 40, "method": "smart"}}
+{"timestamp": "2026-04-09T00:15:55.978637", "action": "memory_search", "details": {"query": "", "type": null, "metadata": null, "results_count": 0, "method": "enhanced_smart"}}
+{"timestamp": "2026-04-09T00:15:55.997376", "action": "memory_search", "details": {"query": "What is the user's favorite movie?", "type": null, "metadata": null, "results_count": 40, "method": "smart"}}
+{"timestamp": "2026-04-09T00:15:56.001123", "action": "memory_search", "details": {"query": "", "type": null, "metadata": null, "results_count": 0, "method": "enhanced_smart"}}
+{"timestamp": "2026-04-09T00:15:56.021456", "action": "memory_search", "details": {"query": "What is the user's favorite movie?", "type": null, "metadata": null, "results_count": 40, "method": "smart"}}
+{"timestamp": "2026-04-09T00:15:56.067721", "action": "memory_search", "details": {"query": "", "type": null, "metadata": null, "results_count": 0, "method": "enhanced_smart"}}
+{"timestamp": "2026-04-09T00:15:56.085058", "action": "memory_search", "details": {"query": "What is the user's favorite movie?", "type": null, "metadata": null, "results_count": 40, "method": "smart"}}
+{"timestamp": "2026-04-09T00:15:56.088125", "action": "memory_search", "details": {"query": "", "type": null, "metadata": null, "results_count": 0, "method": "enhanced_smart"}}
+{"timestamp": "2026-04-09T00:15:56.117876", "action": "memory_search", "details": {"query": "What is the user's favorite hobby?", "type": null, "metadata": null, "results_count": 40, "method": "smart"}}
+{"timestamp": "2026-04-09T00:15:56.153400", "action": "memory_search", "details": {"query": "", "type": null, "metadata": null, "results_count": 0, "method": "enhanced_smart"}}
+{"timestamp": "2026-04-09T00:15:56.170660", "action": "memory_search", "details": {"query": "What is the user's favorite food?", "type": null, "metadata": null, "results_count": 40, "method": "smart"}}
+{"timestamp": "2026-04-09T00:15:56.174150", "action": "memory_search", "details": {"query": "", "type": null, "metadata": null, "results_count": 0, "method": "enhanced_smart"}}
+{"timestamp": "2026-04-09T00:15:56.190950", "action": "memory_search", "details": {"query": "What is the user's favorite food?", "type": null, "metadata": null, "results_count": 40, "method": "smart"}}
+{"timestamp": "2026-04-09T00:15:56.193771", "action": "memory_search", "details": {"query": "", "type": null, "metadata": null, "results_count": 0, "method": "enhanced_smart"}}
+{"timestamp": "2026-04-09T00:15:56.207674", "action": "memory_search", "details": {"query": "What is the user's favorite hobby?", "type": null, "metadata": null, "results_count": 40, "method": "smart"}}
+{"timestamp": "2026-04-09T00:15:56.211984", "action": "memory_search", "details": {"query": "", "type": null, "metadata": null, "results_count": 0, "method": "enhanced_smart"}}
+{"timestamp": "2026-04-09T00:15:56.227247", "action": "memory_search", "details": {"query": "What is the user's favorite food?", "type": null, "metadata": null, "results_count": 40, "method": "smart"}}
+{"timestamp": "2026-04-09T00:15:56.230072", "action": "memory_search", "details": {"query": "", "type": null, "metadata": null, "results_count": 0, "method": "enhanced_smart"}}
+{"timestamp": "2026-04-09T00:15:56.244838", "action": "memory_search", "details": {"query": "What is the user's favorite color?", "type": null, "metadata": null, "results_count": 40, "method": "smart"}}
+{"timestamp": "2026-04-09T00:15:56.247752", "action": "memory_search", "details": {"query": "", "type": null, "metadata": null, "results_count": 0, "method": "enhanced_smart"}}
+{"timestamp": "2026-04-09T00:15:56.262539", "action": "memory_search", "details": {"query": "What is the user's favorite movie?", "type": null, "metadata": null, "results_count": 40, "method": "smart"}}
+{"timestamp": "2026-04-09T00:15:56.265420", "action": "memory_search", "details": {"query": "", "type": null, "metadata": null, "results_count": 0, "method": "enhanced_smart"}}
+{"timestamp": "2026-04-09T00:15:56.279882", "action": "memory_search", "details": {"query": "What is the user's favorite book?", "type": null, "metadata": null, "results_count": 40, "method": "smart"}}
+{"timestamp": "2026-04-09T00:15:56.283160", "action": "memory_search", "details": {"query": "", "type": null, "metadata": null, "results_count": 0, "method": "enhanced_smart"}}
+{"timestamp": "2026-04-09T00:15:56.298137", "action": "memory_search", "details": {"query": "What is the user's favorite color?", "type": null, "metadata": null, "results_count": 40, "method": "smart"}}
+{"timestamp": "2026-04-09T00:15:56.300986", "action": "memory_search", "details": {"query": "", "type": null, "metadata": null, "results_count": 0, "method": "enhanced_smart"}}
+{"timestamp": "2026-04-09T00:15:56.321206", "action": "memory_search", "details": {"query": "What is the user's favorite hobby?", "type": null, "metadata": null, "results_count": 40, "method": "smart"}}
+{"timestamp": "2026-04-09T00:15:56.324997", "action": "memory_search", "details": {"query": "", "type": null, "metadata": null, "results_count": 0, "method": "enhanced_smart"}}
+{"timestamp": "2026-04-09T00:15:56.338948", "action": "memory_search", "details": {"query": "What is the user's favorite color?", "type": null, "metadata": null, "results_count": 40, "method": "smart"}}
+{"timestamp": "2026-04-09T00:15:56.342496", "action": "memory_search", "details": {"query": "", "type": null, "metadata": null, "results_count": 0, "method": "enhanced_smart"}}
+{"timestamp": "2026-04-09T00:15:56.359391", "action": "memory_search", "details": {"query": "What is the user's favorite book?", "type": null, "metadata": null, "results_count": 40, "method": "smart"}}
+{"timestamp": "2026-04-09T00:15:56.362193", "action": "memory_search", "details": {"query": "", "type": null, "metadata": null, "results_count": 0, "method": "enhanced_smart"}}
+{"timestamp": "2026-04-09T00:15:56.377297", "action": "memory_search", "details": {"query": "What is the user's favorite movie?", "type": null, "metadata": null, "results_count": 40, "method": "smart"}}
+{"timestamp": "2026-04-09T00:15:56.380888", "action": "memory_search", "details": {"query": "", "type": null, "metadata": null, "results_count": 0, "method": "enhanced_smart"}}
+{"timestamp": "2026-04-09T00:15:56.396327", "action": "memory_search", "details": {"query": "What is the user's favorite movie?", "type": null, "metadata": null, "results_count": 40, "method": "smart"}}
+{"timestamp": "2026-04-09T00:15:56.399314", "action": "memory_search", "details": {"query": "", "type": null, "metadata": null, "results_count": 0, "method": "enhanced_smart"}}
+{"timestamp": "2026-04-09T00:15:56.418036", "action": "memory_search", "details": {"query": "What is the user's favorite food?", "type": null, "metadata": null, "results_count": 40, "method": "smart"}}
+{"timestamp": "2026-04-09T00:15:56.482034", "action": "memory_search", "details": {"query": "", "type": null, "metadata": null, "results_count": 0, "method": "enhanced_smart"}}
+{"timestamp": "2026-04-09T00:15:56.531037", "action": "memory_search", "details": {"query": "What is the user's favorite hobby?", "type": null, "metadata": null, "results_count": 40, "method": "smart"}}
+{"timestamp": "2026-04-09T00:15:56.535266", "action": "memory_search", "details": {"query": "", "type": null, "metadata": null, "results_count": 0, "method": "enhanced_smart"}}
+{"timestamp": "2026-04-09T00:15:56.552586", "action": "memory_search", "details": {"query": "What is the user's favorite color?", "type": null, "metadata": null, "results_count": 40, "method": "smart"}}
+{"timestamp": "2026-04-09T00:15:56.555495", "action": "memory_search", "details": {"query": "", "type": null, "metadata": null, "results_count": 0, "method": "enhanced_smart"}}
+{"timestamp": "2026-04-09T00:15:56.576154", "action": "memory_search", "details": {"query": "What is the user's favorite food?", "type": null, "metadata": null, "results_count": 40, "method": "smart"}}
+{"timestamp": "2026-04-09T00:15:56.578958", "action": "memory_search", "details": {"query": "", "type": null, "metadata": null, "results_count": 0, "method": "enhanced_smart"}}
+{"timestamp": "2026-04-09T00:15:56.595601", "action": "memory_search", "details": {"query": "What is the user's favorite food?", "type": null, "metadata": null, "results_count": 40, "method": "smart"}}
+{"timestamp": "2026-04-09T00:15:56.599920", "action": "memory_search", "details": {"query": "", "type": null, "metadata": null, "results_count": 0, "method": "enhanced_smart"}}
+{"timestamp": "2026-04-09T00:15:56.616582", "action": "memory_search", "details": {"query": "What is the user's favorite food?", "type": null, "metadata": null, "results_count": 40, "method": "smart"}}
+{"timestamp": "2026-04-09T00:15:56.620286", "action": "memory_search", "details": {"query": "", "type": null, "metadata": null, "results_count": 0, "method": "enhanced_smart"}}
+{"timestamp": "2026-04-09T00:15:56.636665", "action": "memory_search", "details": {"query": "What is the user's favorite color?", "type": null, "metadata": null, "results_count": 40, "method": "smart"}}
+{"timestamp": "2026-04-09T00:15:56.640681", "action": "memory_search", "details": {"query": "", "type": null, "metadata": null, "results_count": 0, "method": "enhanced_smart"}}
+{"timestamp": "2026-04-09T00:15:56.661486", "action": "memory_search", "details": {"query": "What is the user's favorite color?", "type": null, "metadata": null, "results_count": 40, "method": "smart"}}
+{"timestamp": "2026-04-09T00:15:56.665229", "action": "memory_search", "details": {"query": "", "type": null, "metadata": null, "results_count": 0, "method": "enhanced_smart"}}
+{"timestamp": "2026-04-09T00:15:56.682232", "action": "memory_search", "details": {"query": "What is the user's favorite food?", "type": null, "metadata": null, "results_count": 40, "method": "smart"}}
+{"timestamp": "2026-04-09T00:15:56.685869", "action": "memory_search", "details": {"query": "", "type": null, "metadata": null, "results_count": 0, "method": "enhanced_smart"}}
+{"timestamp": "2026-04-09T00:15:56.702291", "action": "memory_search", "details": {"query": "What is the user's favorite color?", "type": null, "metadata": null, "results_count": 40, "method": "smart"}}
+{"timestamp": "2026-04-09T00:15:56.706206", "action": "memory_search", "details": {"query": "", "type": null, "metadata": null, "results_count": 0, "method": "enhanced_smart"}}
+{"timestamp": "2026-04-09T00:15:56.725363", "action": "memory_search", "details": {"query": "What is the user's favorite movie?", "type": null, "metadata": null, "results_count": 40, "method": "smart"}}
+{"timestamp": "2026-04-09T00:15:56.730490", "action": "memory_search", "details": {"query": "", "type": null, "metadata": null, "results_count": 0, "method": "enhanced_smart"}}
+{"timestamp": "2026-04-09T00:15:56.748672", "action": "memory_search", "details": {"query": "What is the user's favorite book?", "type": null, "metadata": null, "results_count": 40, "method": "smart"}}
+{"timestamp": "2026-04-09T00:15:56.752191", "action": "memory_search", "details": {"query": "", "type": null, "metadata": null, "results_count": 0, "method": "enhanced_smart"}}
+{"timestamp": "2026-04-09T00:15:56.769240", "action": "memory_search", "details": {"query": "What is the user's favorite book?", "type": null, "metadata": null, "results_count": 40, "method": "smart"}}
+{"timestamp": "2026-04-09T00:15:56.773913", "action": "memory_search", "details": {"query": "", "type": null, "metadata": null, "results_count": 0, "method": "enhanced_smart"}}
+{"timestamp": "2026-04-09T00:15:56.790478", "action": "memory_search", "details": {"query": "What is the user's favorite hobby?", "type": null, "metadata": null, "results_count": 40, "method": "smart"}}
+{"timestamp": "2026-04-09T00:15:56.793690", "action": "memory_search", "details": {"query": "", "type": null, "metadata": null, "results_count": 0, "method": "enhanced_smart"}}
+{"timestamp": "2026-04-09T00:15:56.812753", "action": "memory_search", "details": {"query": "What is the user's favorite movie?", "type": null, "metadata": null, "results_count": 40, "method": "smart"}}
+{"timestamp": "2026-04-09T00:15:56.817554", "action": "memory_search", "details": {"query": "", "type": null, "metadata": null, "results_count": 0, "method": "enhanced_smart"}}
+{"timestamp": "2026-04-09T00:15:56.840083", "action": "memory_search", "details": {"query": "What is the user's favorite food?", "type": null, "metadata": null, "results_count": 40, "method": "smart"}}
+{"timestamp": "2026-04-09T00:15:56.867796", "action": "memory_search", "details": {"query": "", "type": null, "metadata": null, "results_count": 0, "method": "enhanced_smart"}}
+{"timestamp": "2026-04-09T00:15:56.886967", "action": "memory_search", "details": {"query": "What is the user's favorite book?", "type": null, "metadata": null, "results_count": 40, "method": "smart"}}
+{"timestamp": "2026-04-09T00:15:56.890871", "action": "memory_search", "details": {"query": "", "type": null, "metadata": null, "results_count": 0, "method": "enhanced_smart"}}
+{"timestamp": "2026-04-09T00:15:56.905551", "action": "memory_search", "details": {"query": "What is the user's favorite food?", "type": null, "metadata": null, "results_count": 40, "method": "smart"}}
+{"timestamp": "2026-04-09T00:15:56.909452", "action": "memory_search", "details": {"query": "", "type": null, "metadata": null, "results_count": 0, "method": "enhanced_smart"}}
+{"timestamp": "2026-04-09T00:15:56.922958", "action": "memory_search", "details": {"query": "What is the user's favorite movie?", "type": null, "metadata": null, "results_count": 40, "method": "smart"}}
+{"timestamp": "2026-04-09T00:15:56.926456", "action": "memory_search", "details": {"query": "", "type": null, "metadata": null, "results_count": 0, "method": "enhanced_smart"}}
+{"timestamp": "2026-04-09T00:15:56.941551", "action": "memory_search", "details": {"query": "What is the user's favorite color?", "type": null, "metadata": null, "results_count": 40, "method": "smart"}}
+{"timestamp": "2026-04-09T00:15:56.944349", "action": "memory_search", "details": {"query": "", "type": null, "metadata": null, "results_count": 0, "method": "enhanced_smart"}}
+{"timestamp": "2026-04-09T00:15:56.958264", "action": "memory_search", "details": {"query": "What is the user's favorite hobby?", "type": null, "metadata": null, "results_count": 40, "method": "smart"}}
+{"timestamp": "2026-04-09T00:15:56.961205", "action": "memory_search", "details": {"query": "", "type": null, "metadata": null, "results_count": 0, "method": "enhanced_smart"}}
+{"timestamp": "2026-04-09T00:15:56.976912", "action": "memory_search", "details": {"query": "What is the user's favorite movie?", "type": null, "metadata": null, "results_count": 40, "method": "smart"}}
+{"timestamp": "2026-04-09T00:15:56.980137", "action": "memory_search", "details": {"query": "", "type": null, "metadata": null, "results_count": 0, "method": "enhanced_smart"}}
+{"timestamp": "2026-04-09T00:15:56.997380", "action": "memory_search", "details": {"query": "What is the user's favorite movie?", "type": null, "metadata": null, "results_count": 40, "method": "smart"}}
+{"timestamp": "2026-04-09T00:15:57.043962", "action": "memory_search", "details": {"query": "", "type": null, "metadata": null, "results_count": 0, "method": "enhanced_smart"}}
+{"timestamp": "2026-04-09T00:15:57.097688", "action": "memory_search", "details": {"query": "What is the user's favorite hobby?", "type": null, "metadata": null, "results_count": 40, "method": "smart"}}
+{"timestamp": "2026-04-09T00:15:57.100720", "action": "memory_search", "details": {"query": "", "type": null, "metadata": null, "results_count": 0, "method": "enhanced_smart"}}
+{"timestamp": "2026-04-09T00:15:57.114734", "action": "memory_search", "details": {"query": "What is the user's favorite movie?", "type": null, "metadata": null, "results_count": 40, "method": "smart"}}
+{"timestamp": "2026-04-09T00:15:57.117518", "action": "memory_search", "details": {"query": "", "type": null, "metadata": null, "results_count": 0, "method": "enhanced_smart"}}
+{"timestamp": "2026-04-09T00:15:57.132322", "action": "memory_search", "details": {"query": "What is the user's favorite food?", "type": null, "metadata": null, "results_count": 40, "method": "smart"}}
+{"timestamp": "2026-04-09T00:15:57.135569", "action": "memory_search", "details": {"query": "", "type": null, "metadata": null, "results_count": 0, "method": "enhanced_smart"}}
+{"timestamp": "2026-04-09T00:15:57.150909", "action": "memory_search", "details": {"query": "What is the user's favorite movie?", "type": null, "metadata": null, "results_count": 40, "method": "smart"}}
+{"timestamp": "2026-04-09T00:15:57.153806", "action": "memory_search", "details": {"query": "", "type": null, "metadata": null, "results_count": 0, "method": "enhanced_smart"}}
+{"timestamp": "2026-04-09T00:15:57.188133", "action": "memory_search", "details": {"query": "What is the user's favorite hobby?", "type": null, "metadata": null, "results_count": 40, "method": "smart"}}
+{"timestamp": "2026-04-09T00:15:57.191723", "action": "memory_search", "details": {"query": "", "type": null, "metadata": null, "results_count": 0, "method": "enhanced_smart"}}
+{"timestamp": "2026-04-09T00:15:57.205234", "action": "memory_search", "details": {"query": "What is the user's favorite food?", "type": null, "metadata": null, "results_count": 40, "method": "smart"}}
+{"timestamp": "2026-04-09T00:15:57.209216", "action": "memory_search", "details": {"query": "", "type": null, "metadata": null, "results_count": 0, "method": "enhanced_smart"}}
+{"timestamp": "2026-04-09T00:15:57.228884", "action": "memory_search", "details": {"query": "What is the user's favorite color?", "type": null, "metadata": null, "results_count": 40, "method": "smart"}}
+{"timestamp": "2026-04-09T00:15:57.231858", "action": "memory_search", "details": {"query": "", "type": null, "metadata": null, "results_count": 0, "method": "enhanced_smart"}}
+{"timestamp": "2026-04-09T00:15:57.246469", "action": "memory_search", "details": {"query": "What is the user's favorite food?", "type": null, "metadata": null, "results_count": 40, "method": "smart"}}
+{"timestamp": "2026-04-09T00:15:57.249516", "action": "memory_search", "details": {"query": "", "type": null, "metadata": null, "results_count": 0, "method": "enhanced_smart"}}
+{"timestamp": "2026-04-09T00:15:57.264208", "action": "memory_search", "details": {"query": "What is the user's favorite book?", "type": null, "metadata": null, "results_count": 40, "method": "smart"}}
+{"timestamp": "2026-04-09T00:15:57.267142", "action": "memory_search", "details": {"query": "", "type": null, "metadata": null, "results_count": 0, "method": "enhanced_smart"}}
+{"timestamp": "2026-04-09T00:15:57.280953", "action": "memory_search", "details": {"query": "What is the user's favorite food?", "type": null, "metadata": null, "results_count": 40, "method": "smart"}}
+{"timestamp": "2026-04-09T00:15:57.284012", "action": "memory_search", "details": {"query": "", "type": null, "metadata": null, "results_count": 0, "method": "enhanced_smart"}}
+{"timestamp": "2026-04-09T00:15:57.300858", "action": "memory_search", "details": {"query": "What is the user's favorite food?", "type": null, "metadata": null, "results_count": 40, "method": "smart"}}
+{"timestamp": "2026-04-09T00:15:57.304117", "action": "memory_search", "details": {"query": "", "type": null, "metadata": null, "results_count": 0, "method": "enhanced_smart"}}
+{"timestamp": "2026-04-09T00:15:57.319524", "action": "memory_search", "details": {"query": "What is the user's favorite book?", "type": null, "metadata": null, "results_count": 40, "method": "smart"}}
+{"timestamp": "2026-04-09T00:15:57.324273", "action": "memory_search", "details": {"query": "", "type": null, "metadata": null, "results_count": 0, "method": "enhanced_smart"}}
+{"timestamp": "2026-04-09T00:15:57.337555", "action": "memory_search", "details": {"query": "What is the user's favorite movie?", "type": null, "metadata": null, "results_count": 40, "method": "smart"}}
+{"timestamp": "2026-04-09T00:15:57.340668", "action": "memory_search", "details": {"query": "", "type": null, "metadata": null, "results_count": 0, "method": "enhanced_smart"}}
+{"timestamp": "2026-04-09T00:15:57.354677", "action": "memory_search", "details": {"query": "What is the user's favorite movie?", "type": null, "metadata": null, "results_count": 40, "method": "smart"}}
+{"timestamp": "2026-04-09T00:15:57.358297", "action": "memory_search", "details": {"query": "", "type": null, "metadata": null, "results_count": 0, "method": "enhanced_smart"}}
+{"timestamp": "2026-04-09T00:15:57.372192", "action": "memory_search", "details": {"query": "What is the user's favorite food?", "type": null, "metadata": null, "results_count": 40, "method": "smart"}}
+{"timestamp": "2026-04-09T00:15:57.377037", "action": "memory_search", "details": {"query": "", "type": null, "metadata": null, "results_count": 0, "method": "enhanced_smart"}}
+{"timestamp": "2026-04-09T00:15:57.394300", "action": "memory_search", "details": {"query": "What is the user's favorite hobby?", "type": null, "metadata": null, "results_count": 40, "method": "smart"}}
+{"timestamp": "2026-04-09T00:15:57.397579", "action": "memory_search", "details": {"query": "", "type": null, "metadata": null, "results_count": 0, "method": "enhanced_smart"}}
+{"timestamp": "2026-04-09T00:15:57.413835", "action": "memory_search", "details": {"query": "What is the user's favorite food?", "type": null, "metadata": null, "results_count": 40, "method": "smart"}}
+{"timestamp": "2026-04-09T00:15:57.417613", "action": "memory_search", "details": {"query": "", "type": null, "metadata": null, "results_count": 0, "method": "enhanced_smart"}}
+{"timestamp": "2026-04-09T00:15:57.433226", "action": "memory_search", "details": {"query": "What is the user's favorite movie?", "type": null, "metadata": null, "results_count": 40, "method": "smart"}}
+{"timestamp": "2026-04-09T00:15:57.436362", "action": "memory_search", "details": {"query": "", "type": null, "metadata": null, "results_count": 0, "method": "enhanced_smart"}}
+{"timestamp": "2026-04-09T00:15:57.450672", "action": "memory_search", "details": {"query": "What is the user's favorite movie?", "type": null, "metadata": null, "results_count": 40, "method": "smart"}}
