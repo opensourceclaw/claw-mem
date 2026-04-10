@@ -176,11 +176,16 @@ class ProceduralStorage:
         timestamp = memory_record.get("timestamp", datetime.now().isoformat())
         content = memory_record.get("content", "")
         tags = memory_record.get("tags", [])
+        metadata = memory_record.get("metadata", {})
         
         # Add metadata comments
         meta = []
         if tags:
             meta.append(f"tags: {', '.join(tags)}")
+        
+        # Add custom metadata fields
+        for key, value in metadata.items():
+            meta.append(f"{key}: {value}")
         
         # Format output
         lines = []
@@ -227,10 +232,20 @@ class ProceduralStorage:
                         timestamp = line[1:end_timestamp]
                         content = line[end_timestamp+1:].strip()
                         
+                        # Extract standard fields
+                        tags_str = current_meta.get("tags", "")
+                        
+                        # Extract custom metadata (exclude standard fields)
+                        metadata = {}
+                        for key, value in current_meta.items():
+                            if key not in ["tags"]:
+                                metadata[key] = value
+                        
                         memories.append({
                             "timestamp": timestamp,
                             "content": content,
-                            "tags": current_meta.get("tags", "").split(", ") if current_meta.get("tags") else [],
+                            "tags": tags_str.split(", ") if tags_str else [],
+                            "metadata": metadata,
                             "type": "procedural",
                             "source": str(file_path)
                         })

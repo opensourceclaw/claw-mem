@@ -93,7 +93,6 @@ class TestMemoryManager:
         
         assert memory.session_id is None
     
-    @pytest.mark.skip(reason="Index update issue - needs investigation")
     def test_store_with_metadata(self, temp_workspace):
         """Test store memory with metadata"""
         memory = MemoryManager(str(temp_workspace))
@@ -111,12 +110,11 @@ class TestMemoryManager:
         # Rebuild index to include new memory
         memory._load_and_build_index()
         
-        # Verify metadata is stored
-        results = memory.search("date format")
+        # Verify metadata is stored using keyword mode (more reliable for small corpus)
+        results = memory.search("date", mode="keyword")
         assert len(results) > 0
         assert results[0].get("metadata") == {"neo_agent": "Tech", "neo_domain": "Work"}
     
-    @pytest.mark.skip(reason="Index update issue - needs investigation")
     def test_search_with_metadata_filter(self, temp_workspace):
         """Test search with metadata filter"""
         memory = MemoryManager(str(temp_workspace))
@@ -127,13 +125,13 @@ class TestMemoryManager:
         memory.store("Business memory", memory_type="semantic", metadata={"neo_agent": "Business"})
         memory.store("Life memory", memory_type="semantic", metadata={"neo_agent": "Body", "neo_domain": "Life"})
         
-        # Search with metadata filter
-        results = memory.search("memory", metadata={"neo_agent": "Tech"})
+        # Search with metadata filter using keyword mode
+        results = memory.search("memory", metadata={"neo_agent": "Tech"}, mode="keyword")
         assert len(results) == 1
         assert results[0]["metadata"]["neo_agent"] == "Tech"
         
         # Search with multiple metadata filters
-        results = memory.search("memory", metadata={"neo_agent": "Body", "neo_domain": "Life"})
+        results = memory.search("memory", metadata={"neo_agent": "Body", "neo_domain": "Life"}, mode="keyword")
         assert len(results) == 1
         assert results[0]["metadata"]["neo_domain"] == "Life"
     

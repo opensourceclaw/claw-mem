@@ -28,6 +28,10 @@ from .storage.semantic import SemanticStorage
 from .storage.procedural import ProceduralStorage
 from .storage.index import InMemoryIndex, WorkingMemoryCache
 from .retrieval.keyword import KeywordRetriever
+from .retrieval.bm25_retriever import BM25Retriever, HybridBM25Retriever
+from .retrieval.entity_retriever import EntityEnhancedRetriever, HybridEntityRetriever
+from .retrieval.heuristic_retriever import HeuristicRetriever, SmartRetriever, HeuristicConfig
+from .retrieval.enhanced_smart_retriever import EnhancedSmartRetriever
 from .retrieval.three_tier import ThreeTierRetriever, SessionStartupHook
 from .security.validation import WriteValidator
 from .security.checkpoint import CheckpointManager
@@ -82,6 +86,13 @@ class MemoryManager:
         
         # Initialize utilities
         self.retriever = KeywordRetriever()
+        self.bm25_retriever = BM25Retriever()
+        self.hybrid_retriever = HybridBM25Retriever()
+        self.entity_retriever = EntityEnhancedRetriever(use_spacy=False)  # Fallback mode
+        self.hybrid_entity_retriever = HybridEntityRetriever(use_spacy=False)  # Fallback mode
+        self.heuristic_retriever = HeuristicRetriever()
+        self.smart_retriever = SmartRetriever()
+        self.enhanced_smart_retriever = EnhancedSmartRetriever()
         self.three_tier_retriever = ThreeTierRetriever(self.workspace)
         self.session_startup_hook = SessionStartupHook(self.three_tier_retriever)
         self.validator = WriteValidator()
@@ -97,6 +108,9 @@ class MemoryManager:
         
         # Initialize rule extractor (F101)
         self.rule_extractor = RuleExtractor(self.workspace)
+        
+        # Search mode: "keyword" | "bm25" | "hybrid" | "entity" | "hybrid_entity" | "heuristic" | "smart" | "enhanced_smart"
+        self.search_mode = os.environ.get('CLAW_MEM_SEARCH_MODE', 'enhanced_smart')
         
         # Validate session memory on startup
         self._validate_session_memory()
@@ -284,82 +298,116 @@ class MemoryManager:
         return True
     
     def search(self, query: str, memory_type: Optional[str] = None,
-               metadata: Optional[Dict] = None, limit: int = 10) -> List[Dict]:
+               metadata: Optional[Dict] = None, limit: int = 10,
+               mode: Optional[str] = None) -> List[Dict]:
         """
-        Retrieve memories using hybrid search (N-gram + BM25)
+        Retrieve memories using specified search mode.
 
         Args:
             query: Search query
             memory_type: Memory type filter (optional)
             metadata: Optional metadata filter (e.g., {"neo_agent": "Tech"})
             limit: Number of results
+            mode: Search mode - "keyword" | "bm25" | "hybrid" | "entity" | "hybrid_entity" (default: use self.search_mode)
 
         Returns:
             List[Dict]: Memory records
         """
-        # Use in-memory index for fast search
-        if self.index.built:
-            hybrid_results = self.index.hybrid_search(query, limit=limit * 3)  # Get more for filtering
-
-            # Convert memory_ids to memory records
-            results = []
-            for memory_id, score in hybrid_results:
-                # Check L1 cache first
-                cached = self.working_cache.get(memory_id)
-                if cached:
-                    memory = cached
-                else:
-                    # Find from working memory
-                    memory = None
-                    for m in self.working_memory:
-                        if m.get("id") == memory_id:
-                            memory = m
-                            # Add to cache
-                            self.working_cache.put(memory_id, m)
-                            break
-                
-                if memory:
-                    # Apply memory_type filter
-                    if memory_type and memory.get("type") != memory_type:
-                        continue
-                    
-                    # Apply metadata filter (exact match)
-                    if metadata:
-                        memory_metadata = memory.get("metadata", {})
-                        # Check if all metadata key-value pairs match
-                        if not all(memory_metadata.get(k) == v for k, v in metadata.items()):
-                            continue
-                    
-                    results.append(memory)
-                    
-                    # Stop when we have enough results
-                    if len(results) >= limit:
-                        break
-
-            # Log audit
-            self.audit.log("memory_search", {
-                "query": query,
-                "type": memory_type,
-                "metadata": metadata,
-                "results_count": len(results),
-                "method": "hybrid_index"
-            })
-
-            _log(f"🔍 Retrieved {len(results)} memories (hybrid): {query}")
-            return results
-        else:
-            # Fallback to keyword search
-            results = self.retriever.search(
-                query=query,
-                episodic=self.episodic,
-                semantic=self.semantic,
-                procedural=self.procedural,
-                memory_type=memory_type,
-                limit=limit
+        # Use provided mode or default
+        search_mode = mode or self.search_mode
+        
+        # Gather all memories for BM25/Entity search
+        all_memories = []
+        if memory_type is None or memory_type == "episodic":
+            all_memories.extend(self.episodic.get_recent(limit * 3))
+        if memory_type is None or memory_type == "semantic":
+            all_memories.extend(self.semantic.get_all())
+        if memory_type is None or memory_type == "procedural":
+            all_memories.extend(self.procedural.get_all())
+        
+        # Choose search strategy
+        if search_mode == "bm25":
+            # Pure BM25 search
+            results = self.bm25_retriever.search(
+                query, all_memories, limit=limit * 2, rank_by_importance=True
             )
+            method = "bm25"
+        elif search_mode == "hybrid":
+            # Hybrid BM25 + keyword search
+            results = self.hybrid_retriever.search(
+                query, all_memories, limit=limit * 2
+            )
+            # Apply importance ranking
+            if results:
+                results = self.importance_scorer.rank_memories(results)
+            method = "hybrid_bm25"
+        elif search_mode == "entity":
+            # Entity-enhanced search
+            results = self.entity_retriever.search(
+                query, all_memories, limit=limit * 2
+            )
+            # Apply importance ranking
+            if results:
+                results = self.importance_scorer.rank_memories(results)
+            method = "entity_enhanced"
+        elif search_mode == "hybrid_entity":
+            # Hybrid BM25 + Entity + Keyword search (recommended)
+            results = self.hybrid_entity_retriever.search(
+                query, all_memories, limit=limit * 2
+            )
+            # Apply importance ranking
+            if results:
+                results = self.importance_scorer.rank_memories(results)
+            method = "hybrid_entity"
+        elif search_mode == "heuristic":
+            # Heuristic search (BM25 + Entity + Time + Type + Keyword)
+            results = self.heuristic_retriever.search(
+                query, all_memories, limit=limit * 2
+            )
+            # Apply importance ranking
+            if results:
+                results = self.importance_scorer.rank_memories(results)
+            method = "heuristic"
+        elif search_mode == "smart":
+            # Smart search (all features enabled)
+            results = self.smart_retriever.search(
+                query, all_memories, limit=limit * 2, rank_by_importance=True
+            )
+            method = "smart"
+        elif search_mode == "enhanced_smart":
+            # Enhanced smart search (with time parsing and preference detection)
+            results = self.enhanced_smart_retriever.search(
+                query, all_memories, limit=limit * 2, rank_by_importance=True
+            )
+            method = "enhanced_smart"
+        else:
+            # Fallback to keyword search (original behavior)
+            results = self.retriever.search(
+                query, self.episodic, self.semantic, self.procedural,
+                memory_type=memory_type, limit=limit * 2
+            )
+            method = "keyword"
+        
+        # Apply metadata filter if specified
+        if metadata:
+            filtered_results = []
+            for memory in results:
+                memory_metadata = memory.get("metadata", {})
+                if all(memory_metadata.get(k) == v for k, v in metadata.items()):
+                    filtered_results.append(memory)
+            results = filtered_results
+        
+        # Log audit
+        self.audit.log("memory_search", {
+            "query": query,
+            "type": memory_type,
+            "metadata": metadata,
+            "results_count": len(results),
+            "method": method
+        })
 
-            _log(f"🔍 Retrieved {len(results)} memories (keyword): {query}")
-            return results
+        _log(f"🔍 Retrieved {len(results)} memories ({method}): {query}")
+        return results[:limit]
 
     def cross_session_search(self, query: str,
                               layers: Optional[List[str]] = None,

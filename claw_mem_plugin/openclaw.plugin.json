@@ -29,6 +29,28 @@
       "topK": {
         "type": "number",
         "description": "Max memories to recall (default: 10)"
+      },
+      "attentionEngine": {
+        "type": "object",
+        "description": "Attention OS v2.0.0-rc.2 configuration",
+        "properties": {
+          "enabled": {
+            "type": "boolean",
+            "description": "Enable attention-based context filtering (default: true)"
+          },
+          "decayFactor": {
+            "type": "number",
+            "description": "Attention decay factor per cycle (default: 0.9)"
+          },
+          "maxNodesInContext": {
+            "type": "number",
+            "description": "Max high-attention nodes to include in context (default: 5)"
+          },
+          "causalDepth": {
+            "type": "number",
+            "description": "DAG traversal depth for causal chain (default: 1)"
+          }
+        }
       }
     },
     "additionalProperties": false

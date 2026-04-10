@@ -127,7 +127,6 @@ class SemanticStorage:
         with open(self.file_path, "w", encoding="utf-8") as f:
             f.write("# MEMORY.md\n\n")
             f.write("<!-- Core Memory - Permanent Storage -->\n\n")
-            f.write("<!-- Format: [timestamp] content <!-- tags: tag1, tag2 --> -->\n\n")
     
     def _format_memory(self, memory_record: Dict) -> str:
         """
@@ -143,6 +142,7 @@ class SemanticStorage:
         content = memory_record.get("content", "")
         tags = memory_record.get("tags", [])
         memory_id = memory_record.get("id", self._generate_id())
+        metadata = memory_record.get("metadata", {})
         
         # Add metadata comments
         meta = []
@@ -150,6 +150,10 @@ class SemanticStorage:
             meta.append(f"tags: {', '.join(tags)}")
         if memory_id:
             meta.append(f"id: {memory_id}")
+        
+        # Add custom metadata fields
+        for key, value in metadata.items():
+            meta.append(f"{key}: {value}")
         
         # Format output
         lines = []
@@ -192,11 +196,22 @@ class SemanticStorage:
                         timestamp = line[1:end_timestamp]
                         content = line[end_timestamp+1:].strip()
                         
+                        # Extract standard fields
+                        memory_id = current_meta.get("id")
+                        tags_str = current_meta.get("tags", "")
+                        
+                        # Extract custom metadata (exclude standard fields)
+                        metadata = {}
+                        for key, value in current_meta.items():
+                            if key not in ["tags", "id"]:
+                                metadata[key] = value
+                        
                         memories.append({
-                            "id": current_meta.get("id"),
+                            "id": memory_id,
                             "timestamp": timestamp,
                             "content": content,
-                            "tags": current_meta.get("tags", "").split(", ") if current_meta.get("tags") else [],
+                            "tags": tags_str.split(", ") if tags_str else [],
+                            "metadata": metadata,
                             "type": "semantic",
                             "source": str(self.file_path)
                         })

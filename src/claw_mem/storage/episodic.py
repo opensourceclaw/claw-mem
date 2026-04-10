@@ -160,6 +160,7 @@ class EpisodicStorage:
         timestamp = memory_record.get("timestamp", datetime.now().isoformat())
         content = memory_record.get("content", "")
         tags = memory_record.get("tags", [])
+        metadata = memory_record.get("metadata", {})
         
         # Add metadata comments
         meta = []
@@ -167,6 +168,10 @@ class EpisodicStorage:
             meta.append(f"tags: {', '.join(tags)}")
         if memory_record.get("session_id"):
             meta.append(f"session: {memory_record['session_id']}")
+        
+        # Add custom metadata fields
+        for key, value in metadata.items():
+            meta.append(f"{key}: {value}")
         
         # Format output
         lines = []
@@ -226,11 +231,22 @@ class EpisodicStorage:
                         timestamp = line[1:end_timestamp]
                         content = line[end_timestamp+1:].strip()
                         
+                        # Extract standard fields
+                        session_id = current_meta.get("session")
+                        tags_str = current_meta.get("tags", "")
+                        
+                        # Extract custom metadata (exclude standard fields)
+                        metadata = {}
+                        for key, value in current_meta.items():
+                            if key not in ["tags", "session"]:
+                                metadata[key] = value
+                        
                         memories.append({
                             "timestamp": timestamp,
                             "content": content,
-                            "tags": current_meta.get("tags", "").split(", "),
-                            "session_id": current_meta.get("session"),
+                            "tags": tags_str.split(", ") if tags_str else [],
+                            "session_id": session_id,
+                            "metadata": metadata,
                             "type": "episodic",
                             "source": str(file_path)
                         })
