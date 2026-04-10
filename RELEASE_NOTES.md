@@ -157,7 +157,7 @@ results = memory.search(
 ### From Source
 
 ```bash
-git clone https://github.com/petercheng/claw-mem.git
+git clone https://github.com/opensourceclaw/claw-mem.git
 cd claw-mem
 git checkout v2.0.0-rc.3
 pip install -e .
@@ -187,7 +187,28 @@ No new configuration options required. Default settings work out of the box.
 
 ## 🤝 Contributors
 
+This release is the result of successful human-AI collaboration.
+
+### Human Contributors
 - Peter Cheng (@petercheng) - Design and implementation
+
+### AI Contributors
+- Friday AI - Main Agent for deployment, execution, and coordination
+  - Managed release process from v2.0.0-rc.2 to v2.0.0-rc.3
+  - Coordinated GitHub Release creation and deployment
+  - Validated functionality and benchmark results
+
+- JARVIS AI - Adversary Agent for audit and quality assurance
+  - Conducted comprehensive code review and audit
+  - Validated release readiness and security
+  - Provided quality assurance and risk assessment
+
+### Collaboration Model
+This project demonstrates the power of human-AI collaboration:
+- Human provides vision, design, and strategic direction
+- Friday AI executes deployment and coordinates tasks
+- JARVIS AI ensures quality through adversarial review
+- Together, they achieve 100% benchmark accuracy and successful release
 
 ---
 
@@ -204,7 +225,7 @@ No new configuration options required. Default settings work out of the box.
 
 1. Improve test coverage from 57% to 70%
 2. Performance optimization for metadata operations
-3. Integration testing with neoclaw
+3. Integration testing and validation
 
 ### For v2.0.0 Final
 
@@ -217,7 +238,7 @@ No new configuration options required. Default settings work out of the box.
 ## 📞 Feedback
 
 Please report any issues or feedback at:
-- GitHub Issues: https://github.com/petercheng/claw-mem/issues
+- GitHub Issues: https://github.com/opensourceclaw/claw-mem/issues
 - Email: peter@petercheng.dev
 
 ---
