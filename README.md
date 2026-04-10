@@ -147,12 +147,6 @@ memory_store(text="User prefers Chinese language", metadata={"category": "prefer
 - ✅ **Completely Local**: No cloud dependencies, data privacy
 - ✅ **Simple Deployment**: Just a Python environment
 
-## 📖 Documentation
-
-- [Architecture Design](docs/v2.0.0/LOCAL_FIRST_PLUGIN_ARCHITECTURE.md)
-- [Plugin API Research](docs/v2.0.0/PLUGIN_API_RESEARCH.md)
-- [Performance Report](PHASE2_COMPLETION_REPORT.md)
-
 ## 🔧 Configuration
 
 ### Plugin Configuration
