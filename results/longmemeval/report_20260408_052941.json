@@ -1,0 +1,27 @@
+{
+  "benchmark": "LongMemEval",
+  "timestamp": "2026-04-08T05:29:41.069394",
+  "summary": {
+    "total_questions": 500,
+    "correct_answers": 100,
+    "accuracy": 0.2,
+    "target_accuracy": 0.75,
+    "target_achieved": false
+  },
+  "by_category": {
+    "abstention": 1.0
+  },
+  "latency": {
+    "mean": 0.0002118196487426758,
+    "median": 0.0001983642578125,
+    "p50": 0.0001983642578125,
+    "p95": 0.0002693057060241698,
+    "p99": 0.0003889799118041991,
+    "min": 0.00019097328186035156,
+    "max": 0.000537872314453125
+  },
+  "performance": {
+    "throughput_qps": 4720.997348148881,
+    "avg_latency_ms": 0.21181964874267578
+  }
+}

@@ -1,0 +1,128 @@
+{
+  "timestamp": "2026-04-07T02:21:04.548210",
+  "total_samples": 1,
+  "max_questions_per_sample": 3,
+  "samples": [
+    {
+      "sample_id": "conv-26",
+      "total_questions": 3,
+      "strategies": {
+        "full_context": {
+          "answers": [
+            {
+              "question": "When did Caroline go to the LGBTQ support group?",
+              "expected": "7 May 2023",
+              "generated": "[Mock Response] Question: Context (retrieved memories):\nCaroline: Hey Mel! Good to see you! How have you been?\nMelanie: Hey Ca... (LLM not configured)",
+              "retrieved_count": 0
+            },
+            {
+              "question": "When did Melanie paint a sunrise?",
+              "expected": "2022",
+              "generated": "[Mock Response] Question: Context (retrieved memories):\nCaroline: Hey Mel! Good to see you! How have you been?\nMelanie: Hey Ca... (LLM not configured)",
+              "retrieved_count": 0
+            },
+            {
+              "question": "What fields would Caroline be likely to pursue in her educaton?",
+              "expected": "Psychology, counseling certification",
+              "generated": "[Mock Response] Question: Context (retrieved memories):\nCaroline: Hey Mel! Good to see you! How have you been?\nMelanie: Hey Ca... (LLM not configured)",
+              "retrieved_count": 0
+            }
+          ],
+          "count": 3
+        },
+        "claw_mem": {
+          "answers": [
+            {
+              "question": "When did Caroline go to the LGBTQ support group?",
+              "expected": "7 May 2023",
+              "generated": "[Mock Response] Question: Context (retrieved memories):\nNo relevant memories found.\n\nQuestion: When did Caroline go to the LGB... (LLM not configured)",
+              "retrieved_count": 0
+            },
+            {
+              "question": "When did Melanie paint a sunrise?",
+              "expected": "2022",
+              "generated": "[Mock Response] Question: Context (retrieved memories):\nNo relevant memories found.\n\nQuestion: When did Melanie paint a sunris... (LLM not configured)",
+              "retrieved_count": 0
+            },
+            {
+              "question": "What fields would Caroline be likely to pursue in her educaton?",
+              "expected": "Psychology, counseling certification",
+              "generated": "[Mock Response] Question: Context (retrieved memories):\nNo relevant memories found.\n\nQuestion: What fields would Caroline be l... (LLM not configured)",
+              "retrieved_count": 0
+            }
+          ],
+          "count": 3
+        },
+        "no_memory": {
+          "answers": [
+            {
+              "question": "When did Caroline go to the LGBTQ support group?",
+              "expected": "7 May 2023",
+              "generated": "[Mock Response] Question: Context (retrieved memories):\n\n\nQuestion: When did Caroline go to the LGBTQ support group?\n\nPlease p... (LLM not configured)",
+              "retrieved_count": 0
+            },
+            {
+              "question": "When did Melanie paint a sunrise?",
+              "expected": "2022",
+              "generated": "[Mock Response] Question: Context (retrieved memories):\n\n\nQuestion: When did Melanie paint a sunrise?\n\nPlease provide a helpfu... (LLM not configured)",
+              "retrieved_count": 0
+            },
+            {
+              "question": "What fields would Caroline be likely to pursue in her educaton?",
+              "expected": "Psychology, counseling certification",
+              "generated": "[Mock Response] Question: Context (retrieved memories):\n\n\nQuestion: What fields would Caroline be likely to pursue in her educ... (LLM not configured)",
+              "retrieved_count": 0
+            }
+          ],
+          "count": 3
+        },
+        "rag_observations": {
+          "answers": [
+            {
+              "question": "When did Caroline go to the LGBTQ support group?",
+              "expected": "7 May 2023",
+              "generated": "[Mock Response] Question: Context (retrieved memories):\nCaroline joined a new LGBTQ activist group called 'Connected LGBTQ Act... (LLM not configured)",
+              "retrieved_count": 0
+            },
+            {
+              "question": "When did Melanie paint a sunrise?",
+              "expected": "2022",
+              "generated": "[Mock Response] Question: Context (retrieved memories):\nCaroline joined a new LGBTQ activist group called 'Connected LGBTQ Act... (LLM not configured)",
+              "retrieved_count": 0
+            },
+            {
+              "question": "What fields would Caroline be likely to pursue in her educaton?",
+              "expected": "Psychology, counseling certification",
+              "generated": "[Mock Response] Question: Context (retrieved memories):\nCaroline joined a new LGBTQ activist group called 'Connected LGBTQ Act... (LLM not configured)",
+              "retrieved_count": 0
+            }
+          ],
+          "count": 3
+        },
+        "rag_summaries": {
+          "answers": [
+            {
+              "question": "When did Caroline go to the LGBTQ support group?",
+              "expected": "7 May 2023",
+              "generated": "[Mock Response] Question: Context (retrieved memories):\nCaroline and Melanie had a conversation at 8:56 pm on 20 July, 2023. C... (LLM not configured)",
+              "retrieved_count": 0
+            },
+            {
+              "question": "When did Melanie paint a sunrise?",
+              "expected": "2022",
+              "generated": "[Mock Response] Question: Context (retrieved memories):\nCaroline and Melanie had a conversation at 8:56 pm on 20 July, 2023. C... (LLM not configured)",
+              "retrieved_count": 0
+            },
+            {
+              "question": "What fields would Caroline be likely to pursue in her educaton?",
+              "expected": "Psychology, counseling certification",
+              "generated": "[Mock Response] Question: Context (retrieved memories):\nCaroline and Melanie had a conversation at 8:56 pm on 20 July, 2023. C... (LLM not configured)",
+              "retrieved_count": 0
+            }
+          ],
+          "count": 3
+        }
+      }
+    }
+  ]
+}

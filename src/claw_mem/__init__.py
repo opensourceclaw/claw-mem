@@ -38,6 +38,8 @@ from .storage.semantic import SemanticStorage
 from .storage.procedural import ProceduralStorage
 from .storage.index import InMemoryIndex, WorkingMemoryCache
 from .retrieval.keyword import KeywordRetriever
+from .retrieval.bm25_retriever import BM25Retriever, HybridBM25Retriever
+from .retrieval.entity_retriever import EntityEnhancedRetriever, HybridEntityRetriever
 from .config import ConfigDetector
 from .importance import ImportanceScorer
 from .memory_fix_plugin import MemoryFixPlugin
@@ -105,6 +107,10 @@ __all__ = [
     "InMemoryIndex",
     "WorkingMemoryCache",
     "KeywordRetriever",
+    "BM25Retriever",
+    "HybridBM25Retriever",
+    "EntityEnhancedRetriever",
+    "HybridEntityRetriever",
     "ConfigDetector",
     "ImportanceScorer",
     "MemoryFixPlugin",

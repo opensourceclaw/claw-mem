@@ -1,0 +1,401 @@
+{"timestamp": "2026-04-08T05:47:39.841663", "action": "memory_stored", "details": {"type": "semantic", "content": "The user's favorite movie is Reading"}}
+{"timestamp": "2026-04-08T05:47:39.842274", "action": "memory_stored", "details": {"type": "semantic", "content": "The user's favorite food is Star Wars"}}
+{"timestamp": "2026-04-08T05:47:39.842655", "action": "memory_stored", "details": {"type": "semantic", "content": "The user's favorite food is Reading"}}
+{"timestamp": "2026-04-08T05:47:39.843093", "action": "memory_stored", "details": {"type": "semantic", "content": "The user's favorite food is Blue"}}
+{"timestamp": "2026-04-08T05:47:39.843501", "action": "memory_stored", "details": {"type": "semantic", "content": "The user's favorite hobby is Star Wars"}}
+{"timestamp": "2026-04-08T05:47:39.843882", "action": "memory_stored", "details": {"type": "semantic", "content": "The user's favorite hobby is Pizza"}}
+{"timestamp": "2026-04-08T05:47:39.844255", "action": "memory_stored", "details": {"type": "semantic", "content": "The user's favorite movie is Blue"}}
+{"timestamp": "2026-04-08T05:47:39.844661", "action": "memory_stored", "details": {"type": "semantic", "content": "The user's favorite food is Reading"}}
+{"timestamp": "2026-04-08T05:47:39.845501", "action": "memory_stored", "details": {"type": "semantic", "content": "The user's favorite movie is Blue"}}
+{"timestamp": "2026-04-08T05:47:39.848174", "action": "memory_stored", "details": {"type": "semantic", "content": "The user's favorite food is Reading"}}
+{"timestamp": "2026-04-08T05:47:39.849159", "action": "memory_stored", "details": {"type": "semantic", "content": "The user's favorite color is Blue"}}
+{"timestamp": "2026-04-08T05:47:39.849763", "action": "memory_stored", "details": {"type": "semantic", "content": "The user's favorite color is Star Wars"}}
+{"timestamp": "2026-04-08T05:47:39.850301", "action": "memory_stored", "details": {"type": "semantic", "content": "The user's favorite color is Reading"}}
+{"timestamp": "2026-04-08T05:47:39.850833", "action": "memory_stored", "details": {"type": "semantic", "content": "The user's favorite food is Pizza"}}
+{"timestamp": "2026-04-08T05:47:39.851566", "action": "memory_stored", "details": {"type": "semantic", "content": "The user's favorite hobby is Python"}}
+{"timestamp": "2026-04-08T05:47:39.852409", "action": "memory_stored", "details": {"type": "semantic", "content": "The user's favorite food is Blue"}}
+{"timestamp": "2026-04-08T05:47:39.852939", "action": "memory_stored", "details": {"type": "semantic", "content": "The user's favorite food is Star Wars"}}
+{"timestamp": "2026-04-08T05:47:39.853430", "action": "memory_stored", "details": {"type": "semantic", "content": "The user's favorite book is Python"}}
+{"timestamp": "2026-04-08T05:47:39.853949", "action": "memory_stored", "details": {"type": "semantic", "content": "The user's favorite color is Star Wars"}}
+{"timestamp": "2026-04-08T05:47:39.854491", "action": "memory_stored", "details": {"type": "semantic", "content": "The user's favorite color is Pizza"}}
+{"timestamp": "2026-04-08T05:47:39.855005", "action": "memory_stored", "details": {"type": "semantic", "content": "The user's favorite color is Python"}}
+{"timestamp": "2026-04-08T05:47:39.855484", "action": "memory_stored", "details": {"type": "semantic", "content": "The user's favorite hobby is Python"}}
+{"timestamp": "2026-04-08T05:47:39.859576", "action": "memory_stored", "details": {"type": "semantic", "content": "The user's favorite hobby is Reading"}}
+{"timestamp": "2026-04-08T05:47:39.861319", "action": "memory_stored", "details": {"type": "semantic", "content": "The user's favorite movie is Reading"}}
+{"timestamp": "2026-04-08T05:47:39.862096", "action": "memory_stored", "details": {"type": "semantic", "content": "The user's favorite book is Python"}}
+{"timestamp": "2026-04-08T05:47:39.862738", "action": "memory_stored", "details": {"type": "semantic", "content": "The user's favorite food is Star Wars"}}
+{"timestamp": "2026-04-08T05:47:39.863598", "action": "memory_stored", "details": {"type": "semantic", "content": "The user's favorite food is Pizza"}}
+{"timestamp": "2026-04-08T05:47:39.866353", "action": "memory_stored", "details": {"type": "semantic", "content": "The user's favorite food is Star Wars"}}
+{"timestamp": "2026-04-08T05:47:39.867923", "action": "memory_stored", "details": {"type": "semantic", "content": "The user's favorite food is Star Wars"}}
+{"timestamp": "2026-04-08T05:47:39.868648", "action": "memory_stored", "details": {"type": "semantic", "content": "The user's favorite movie is Python"}}
+{"timestamp": "2026-04-08T05:47:39.869369", "action": "memory_stored", "details": {"type": "semantic", "content": "The user's favorite book is Reading"}}
+{"timestamp": "2026-04-08T05:47:39.870048", "action": "memory_stored", "details": {"type": "semantic", "content": "The user's favorite book is Star Wars"}}
+{"timestamp": "2026-04-08T05:47:39.870729", "action": "memory_stored", "details": {"type": "semantic", "content": "The user's favorite food is Blue"}}
+{"timestamp": "2026-04-08T05:47:39.871284", "action": "memory_stored", "details": {"type": "semantic", "content": "The user's favorite movie is Python"}}
+{"timestamp": "2026-04-08T05:47:39.872530", "action": "memory_stored", "details": {"type": "semantic", "content": "The user's favorite food is Pizza"}}
+{"timestamp": "2026-04-08T05:47:39.873278", "action": "memory_stored", "details": {"type": "semantic", "content": "The user's favorite hobby is Reading"}}
+{"timestamp": "2026-04-08T05:47:39.873779", "action": "memory_stored", "details": {"type": "semantic", "content": "The user's favorite hobby is Pizza"}}
+{"timestamp": "2026-04-08T05:47:39.874248", "action": "memory_stored", "details": {"type": "semantic", "content": "The user's favorite food is Reading"}}
+{"timestamp": "2026-04-08T05:47:39.874776", "action": "memory_stored", "details": {"type": "semantic", "content": "The user's favorite movie is Blue"}}
+{"timestamp": "2026-04-08T05:47:39.875214", "action": "memory_stored", "details": {"type": "semantic", "content": "The user's favorite food is Reading"}}
+{"timestamp": "2026-04-08T05:47:39.875681", "action": "memory_stored", "details": {"type": "semantic", "content": "The user's favorite food is Python"}}
+{"timestamp": "2026-04-08T05:47:39.876092", "action": "memory_stored", "details": {"type": "semantic", "content": "The user's favorite book is Python"}}
+{"timestamp": "2026-04-08T05:47:39.876484", "action": "memory_stored", "details": {"type": "semantic", "content": "The user's favorite color is Star Wars"}}
+{"timestamp": "2026-04-08T05:47:39.876870", "action": "memory_stored", "details": {"type": "semantic", "content": "The user's favorite movie is Reading"}}
+{"timestamp": "2026-04-08T05:47:39.877252", "action": "memory_stored", "details": {"type": "semantic", "content": "The user's favorite book is Reading"}}
+{"timestamp": "2026-04-08T05:47:39.877801", "action": "memory_stored", "details": {"type": "semantic", "content": "The user's favorite movie is Python"}}
+{"timestamp": "2026-04-08T05:47:39.878205", "action": "memory_stored", "details": {"type": "semantic", "content": "The user's favorite color is Pizza"}}
+{"timestamp": "2026-04-08T05:47:39.878838", "action": "memory_stored", "details": {"type": "semantic", "content": "The user's favorite hobby is Python"}}
+{"timestamp": "2026-04-08T05:47:39.879359", "action": "memory_stored", "details": {"type": "semantic", "content": "The user's favorite book is Blue"}}
+{"timestamp": "2026-04-08T05:47:39.879845", "action": "memory_stored", "details": {"type": "semantic", "content": "The user's favorite movie is Pizza"}}
+{"timestamp": "2026-04-08T05:47:39.880260", "action": "memory_stored", "details": {"type": "semantic", "content": "The user's favorite hobby is Python"}}
+{"timestamp": "2026-04-08T05:47:39.880725", "action": "memory_stored", "details": {"type": "semantic", "content": "The user's favorite hobby is Python"}}
+{"timestamp": "2026-04-08T05:47:39.881122", "action": "memory_stored", "details": {"type": "semantic", "content": "The user's favorite hobby is Reading"}}
+{"timestamp": "2026-04-08T05:47:39.881754", "action": "memory_stored", "details": {"type": "semantic", "content": "The user's favorite book is Blue"}}
+{"timestamp": "2026-04-08T05:47:39.882674", "action": "memory_stored", "details": {"type": "semantic", "content": "The user's favorite book is Python"}}
+{"timestamp": "2026-04-08T05:47:39.883473", "action": "memory_stored", "details": {"type": "semantic", "content": "The user's favorite hobby is Pizza"}}
+{"timestamp": "2026-04-08T05:47:39.884117", "action": "memory_stored", "details": {"type": "semantic", "content": "The user's favorite movie is Pizza"}}
+{"timestamp": "2026-04-08T05:47:39.884688", "action": "memory_stored", "details": {"type": "semantic", "content": "The user's favorite movie is Star Wars"}}
+{"timestamp": "2026-04-08T05:47:39.885218", "action": "memory_stored", "details": {"type": "semantic", "content": "The user's favorite book is Star Wars"}}
+{"timestamp": "2026-04-08T05:47:39.885728", "action": "memory_stored", "details": {"type": "semantic", "content": "The user's favorite book is Blue"}}
+{"timestamp": "2026-04-08T05:47:39.886745", "action": "memory_stored", "details": {"type": "semantic", "content": "The user's favorite hobby is Star Wars"}}
+{"timestamp": "2026-04-08T05:47:39.887432", "action": "memory_stored", "details": {"type": "semantic", "content": "The user's favorite book is Python"}}
+{"timestamp": "2026-04-08T05:47:39.888369", "action": "memory_stored", "details": {"type": "semantic", "content": "The user's favorite hobby is Python"}}
+{"timestamp": "2026-04-08T05:47:39.888972", "action": "memory_stored", "details": {"type": "semantic", "content": "The user's favorite movie is Blue"}}
+{"timestamp": "2026-04-08T05:47:39.889795", "action": "memory_stored", "details": {"type": "semantic", "content": "The user's favorite hobby is Blue"}}
+{"timestamp": "2026-04-08T05:47:39.891171", "action": "memory_stored", "details": {"type": "semantic", "content": "The user's favorite color is Reading"}}
+{"timestamp": "2026-04-08T05:47:39.891942", "action": "memory_stored", "details": {"type": "semantic", "content": "The user's favorite book is Pizza"}}
+{"timestamp": "2026-04-08T05:47:39.892633", "action": "memory_stored", "details": {"type": "semantic", "content": "The user's favorite book is Python"}}
+{"timestamp": "2026-04-08T05:47:39.893318", "action": "memory_stored", "details": {"type": "semantic", "content": "The user's favorite movie is Python"}}
+{"timestamp": "2026-04-08T05:47:39.893916", "action": "memory_stored", "details": {"type": "semantic", "content": "The user's favorite book is Pizza"}}
+{"timestamp": "2026-04-08T05:47:39.894528", "action": "memory_stored", "details": {"type": "semantic", "content": "The user's favorite food is Star Wars"}}
+{"timestamp": "2026-04-08T05:47:39.895133", "action": "memory_stored", "details": {"type": "semantic", "content": "The user's favorite book is Python"}}
+{"timestamp": "2026-04-08T05:47:39.895923", "action": "memory_stored", "details": {"type": "semantic", "content": "The user's favorite hobby is Blue"}}
+{"timestamp": "2026-04-08T05:47:39.896701", "action": "memory_stored", "details": {"type": "semantic", "content": "The user's favorite food is Python"}}
+{"timestamp": "2026-04-08T05:47:39.897434", "action": "memory_stored", "details": {"type": "semantic", "content": "The user's favorite book is Blue"}}
+{"timestamp": "2026-04-08T05:47:39.898992", "action": "memory_stored", "details": {"type": "semantic", "content": "The user's favorite hobby is Python"}}
+{"timestamp": "2026-04-08T05:47:39.899802", "action": "memory_stored", "details": {"type": "semantic", "content": "The user's favorite movie is Star Wars"}}
+{"timestamp": "2026-04-08T05:47:39.900666", "action": "memory_stored", "details": {"type": "semantic", "content": "The user's favorite food is Reading"}}
+{"timestamp": "2026-04-08T05:47:39.901322", "action": "memory_stored", "details": {"type": "semantic", "content": "The user's favorite book is Pizza"}}
+{"timestamp": "2026-04-08T05:47:39.901995", "action": "memory_stored", "details": {"type": "semantic", "content": "The user's favorite movie is Blue"}}
+{"timestamp": "2026-04-08T05:47:39.903463", "action": "memory_stored", "details": {"type": "semantic", "content": "The user's favorite food is Reading"}}
+{"timestamp": "2026-04-08T05:47:39.904181", "action": "memory_stored", "details": {"type": "semantic", "content": "The user's favorite movie is Star Wars"}}
+{"timestamp": "2026-04-08T05:47:39.911258", "action": "memory_stored", "details": {"type": "semantic", "content": "The user's favorite book is Star Wars"}}
+{"timestamp": "2026-04-08T05:47:39.911983", "action": "memory_stored", "details": {"type": "semantic", "content": "The user's favorite hobby is Reading"}}
+{"timestamp": "2026-04-08T05:47:39.912803", "action": "memory_stored", "details": {"type": "semantic", "content": "The user's favorite book is Star Wars"}}
+{"timestamp": "2026-04-08T05:47:39.913331", "action": "memory_stored", "details": {"type": "semantic", "content": "The user's favorite hobby is Python"}}
+{"timestamp": "2026-04-08T05:47:39.913789", "action": "memory_stored", "details": {"type": "semantic", "content": "The user's favorite food is Star Wars"}}
+{"timestamp": "2026-04-08T05:47:39.914293", "action": "memory_stored", "details": {"type": "semantic", "content": "The user's favorite book is Blue"}}
+{"timestamp": "2026-04-08T05:47:39.915035", "action": "memory_stored", "details": {"type": "semantic", "content": "The user's favorite movie is Blue"}}
+{"timestamp": "2026-04-08T05:47:39.915867", "action": "memory_stored", "details": {"type": "semantic", "content": "The user's favorite food is Blue"}}
+{"timestamp": "2026-04-08T05:47:39.916561", "action": "memory_stored", "details": {"type": "semantic", "content": "The user's favorite color is Star Wars"}}
+{"timestamp": "2026-04-08T05:47:39.918082", "action": "memory_stored", "details": {"type": "semantic", "content": "The user's favorite color is Blue"}}
+{"timestamp": "2026-04-08T05:47:39.919013", "action": "memory_stored", "details": {"type": "semantic", "content": "The user's favorite movie is Pizza"}}
+{"timestamp": "2026-04-08T05:47:39.919731", "action": "memory_stored", "details": {"type": "semantic", "content": "The user's favorite book is Pizza"}}
+{"timestamp": "2026-04-08T05:47:39.924258", "action": "memory_stored", "details": {"type": "semantic", "content": "The user's favorite hobby is Python"}}
+{"timestamp": "2026-04-08T05:47:39.924909", "action": "memory_stored", "details": {"type": "semantic", "content": "The user's favorite food is Star Wars"}}
+{"timestamp": "2026-04-08T05:47:39.925400", "action": "memory_stored", "details": {"type": "semantic", "content": "The user's favorite food is Pizza"}}
+{"timestamp": "2026-04-08T05:47:39.925810", "action": "memory_stored", "details": {"type": "semantic", "content": "The user's favorite color is Blue"}}
+{"timestamp": "2026-04-08T05:47:39.926233", "action": "memory_stored", "details": {"type": "semantic", "content": "The user's favorite movie is Star Wars"}}
+{"timestamp": "2026-04-08T05:47:39.926651", "action": "memory_stored", "details": {"type": "semantic", "content": "The user's favorite book is Pizza"}}
+{"timestamp": "2026-04-08T05:47:39.927387", "action": "memory_stored", "details": {"type": "semantic", "content": "User mentioned planning to learn in a previous session"}}
+{"timestamp": "2026-04-08T05:47:39.927882", "action": "memory_stored", "details": {"type": "semantic", "content": "User mentioned having a dog in a previous session"}}
+{"timestamp": "2026-04-08T05:47:39.928308", "action": "memory_stored", "details": {"type": "semantic", "content": "User mentioned planning to learn in a previous session"}}
+{"timestamp": "2026-04-08T05:47:39.928744", "action": "memory_stored", "details": {"type": "semantic", "content": "User mentioned working as an engineer in a previous session"}}
+{"timestamp": "2026-04-08T05:47:39.929331", "action": "memory_stored", "details": {"type": "semantic", "content": "User mentioned liking hiking in a previous session"}}
+{"timestamp": "2026-04-08T05:47:39.929781", "action": "memory_stored", "details": {"type": "semantic", "content": "User mentioned having a dog in a previous session"}}
+{"timestamp": "2026-04-08T05:47:39.930324", "action": "memory_stored", "details": {"type": "semantic", "content": "User mentioned having a dog in a previous session"}}
+{"timestamp": "2026-04-08T05:47:39.930760", "action": "memory_stored", "details": {"type": "semantic", "content": "User mentioned having a dog in a previous session"}}
+{"timestamp": "2026-04-08T05:47:39.931188", "action": "memory_stored", "details": {"type": "semantic", "content": "User mentioned wanting to travel in a previous session"}}
+{"timestamp": "2026-04-08T05:47:39.931782", "action": "memory_stored", "details": {"type": "semantic", "content": "User mentioned having a dog in a previous session"}}
+{"timestamp": "2026-04-08T05:47:39.932429", "action": "memory_stored", "details": {"type": "semantic", "content": "User mentioned liking hiking in a previous session"}}
+{"timestamp": "2026-04-08T05:47:39.933206", "action": "memory_stored", "details": {"type": "semantic", "content": "User mentioned planning to learn in a previous session"}}
+{"timestamp": "2026-04-08T05:47:39.934029", "action": "memory_stored", "details": {"type": "semantic", "content": "User mentioned having a dog in a previous session"}}
+{"timestamp": "2026-04-08T05:47:39.934640", "action": "memory_stored", "details": {"type": "semantic", "content": "User mentioned wanting to travel in a previous session"}}
+{"timestamp": "2026-04-08T05:47:39.935357", "action": "memory_stored", "details": {"type": "semantic", "content": "User mentioned wanting to travel in a previous session"}}
+{"timestamp": "2026-04-08T05:47:39.936193", "action": "memory_stored", "details": {"type": "semantic", "content": "User mentioned liking hiking in a previous session"}}
+{"timestamp": "2026-04-08T05:47:39.936751", "action": "memory_stored", "details": {"type": "semantic", "content": "User mentioned having a dog in a previous session"}}
+{"timestamp": "2026-04-08T05:47:39.937249", "action": "memory_stored", "details": {"type": "semantic", "content": "User mentioned planning to learn in a previous session"}}
+{"timestamp": "2026-04-08T05:47:39.937694", "action": "memory_stored", "details": {"type": "semantic", "content": "User mentioned planning to learn in a previous session"}}
+{"timestamp": "2026-04-08T05:47:39.938150", "action": "memory_stored", "details": {"type": "semantic", "content": "User mentioned working as an engineer in a previous session"}}
+{"timestamp": "2026-04-08T05:47:39.938626", "action": "memory_stored", "details": {"type": "semantic", "content": "User mentioned working as an engineer in a previous session"}}
+{"timestamp": "2026-04-08T05:47:39.939317", "action": "memory_stored", "details": {"type": "semantic", "content": "User mentioned working as an engineer in a previous session"}}
+{"timestamp": "2026-04-08T05:47:39.942488", "action": "memory_stored", "details": {"type": "semantic", "content": "User mentioned having a dog in a previous session"}}
+{"timestamp": "2026-04-08T05:47:39.946158", "action": "memory_stored", "details": {"type": "semantic", "content": "User mentioned wanting to travel in a previous session"}}
+{"timestamp": "2026-04-08T05:47:39.947514", "action": "memory_stored", "details": {"type": "semantic", "content": "User mentioned working as an engineer in a previous session"}}
+{"timestamp": "2026-04-08T05:47:39.948232", "action": "memory_stored", "details": {"type": "semantic", "content": "User mentioned working as an engineer in a previous session"}}
+{"timestamp": "2026-04-08T05:47:39.949076", "action": "memory_stored", "details": {"type": "semantic", "content": "User mentioned working as an engineer in a previous session"}}
+{"timestamp": "2026-04-08T05:47:39.950428", "action": "memory_stored", "details": {"type": "semantic", "content": "User mentioned planning to learn in a previous session"}}
+{"timestamp": "2026-04-08T05:47:39.951303", "action": "memory_stored", "details": {"type": "semantic", "content": "User mentioned having a dog in a previous session"}}
+{"timestamp": "2026-04-08T05:47:39.951916", "action": "memory_stored", "details": {"type": "semantic", "content": "User mentioned liking hiking in a previous session"}}
+{"timestamp": "2026-04-08T05:47:39.955599", "action": "memory_stored", "details": {"type": "semantic", "content": "User mentioned having a dog in a previous session"}}
+{"timestamp": "2026-04-08T05:47:39.962994", "action": "memory_stored", "details": {"type": "semantic", "content": "User mentioned planning to learn in a previous session"}}
+{"timestamp": "2026-04-08T05:47:39.963746", "action": "memory_stored", "details": {"type": "semantic", "content": "User mentioned planning to learn in a previous session"}}
+{"timestamp": "2026-04-08T05:47:39.964949", "action": "memory_stored", "details": {"type": "semantic", "content": "User mentioned working as an engineer in a previous session"}}
+{"timestamp": "2026-04-08T05:47:39.965628", "action": "memory_stored", "details": {"type": "semantic", "content": "User mentioned having a dog in a previous session"}}
+{"timestamp": "2026-04-08T05:47:39.966097", "action": "memory_stored", "details": {"type": "semantic", "content": "User mentioned having a dog in a previous session"}}
+{"timestamp": "2026-04-08T05:47:39.966656", "action": "memory_stored", "details": {"type": "semantic", "content": "User mentioned wanting to travel in a previous session"}}
+{"timestamp": "2026-04-08T05:47:39.967156", "action": "memory_stored", "details": {"type": "semantic", "content": "User mentioned working as an engineer in a previous session"}}
+{"timestamp": "2026-04-08T05:47:39.967826", "action": "memory_stored", "details": {"type": "semantic", "content": "User mentioned wanting to travel in a previous session"}}
+{"timestamp": "2026-04-08T05:47:39.968661", "action": "memory_stored", "details": {"type": "semantic", "content": "User mentioned wanting to travel in a previous session"}}
+{"timestamp": "2026-04-08T05:47:39.969324", "action": "memory_stored", "details": {"type": "semantic", "content": "User mentioned liking hiking in a previous session"}}
+{"timestamp": "2026-04-08T05:47:39.969824", "action": "memory_stored", "details": {"type": "semantic", "content": "User mentioned planning to learn in a previous session"}}
+{"timestamp": "2026-04-08T05:47:39.970352", "action": "memory_stored", "details": {"type": "semantic", "content": "User mentioned working as an engineer in a previous session"}}
+{"timestamp": "2026-04-08T05:47:39.970890", "action": "memory_stored", "details": {"type": "semantic", "content": "User mentioned having a dog in a previous session"}}
+{"timestamp": "2026-04-08T05:47:39.971365", "action": "memory_stored", "details": {"type": "semantic", "content": "User mentioned working as an engineer in a previous session"}}
+{"timestamp": "2026-04-08T05:47:39.971839", "action": "memory_stored", "details": {"type": "semantic", "content": "User mentioned liking hiking in a previous session"}}
+{"timestamp": "2026-04-08T05:47:39.972946", "action": "memory_stored", "details": {"type": "semantic", "content": "User mentioned having a dog in a previous session"}}
+{"timestamp": "2026-04-08T05:47:39.973565", "action": "memory_stored", "details": {"type": "semantic", "content": "User mentioned working as an engineer in a previous session"}}
+{"timestamp": "2026-04-08T05:47:39.974457", "action": "memory_stored", "details": {"type": "semantic", "content": "User mentioned having a dog in a previous session"}}
+{"timestamp": "2026-04-08T05:47:39.975104", "action": "memory_stored", "details": {"type": "semantic", "content": "User mentioned liking hiking in a previous session"}}
+{"timestamp": "2026-04-08T05:47:39.975855", "action": "memory_stored", "details": {"type": "semantic", "content": "User mentioned having a dog in a previous session"}}
+{"timestamp": "2026-04-08T05:47:39.976363", "action": "memory_stored", "details": {"type": "semantic", "content": "User mentioned liking hiking in a previous session"}}
+{"timestamp": "2026-04-08T05:47:39.976814", "action": "memory_stored", "details": {"type": "semantic", "content": "User mentioned working as an engineer in a previous session"}}
+{"timestamp": "2026-04-08T05:47:39.977268", "action": "memory_stored", "details": {"type": "semantic", "content": "User mentioned planning to learn in a previous session"}}
+{"timestamp": "2026-04-08T05:47:39.977834", "action": "memory_stored", "details": {"type": "semantic", "content": "User mentioned working as an engineer in a previous session"}}
+{"timestamp": "2026-04-08T05:47:39.978260", "action": "memory_stored", "details": {"type": "semantic", "content": "User mentioned working as an engineer in a previous session"}}
+{"timestamp": "2026-04-08T05:47:39.978854", "action": "memory_stored", "details": {"type": "semantic", "content": "User mentioned wanting to travel in a previous session"}}
+{"timestamp": "2026-04-08T05:47:39.979488", "action": "memory_stored", "details": {"type": "semantic", "content": "User mentioned liking hiking in a previous session"}}
+{"timestamp": "2026-04-08T05:47:39.979931", "action": "memory_stored", "details": {"type": "semantic", "content": "User mentioned planning to learn in a previous session"}}
+{"timestamp": "2026-04-08T05:47:39.980345", "action": "memory_stored", "details": {"type": "semantic", "content": "User mentioned planning to learn in a previous session"}}
+{"timestamp": "2026-04-08T05:47:39.980771", "action": "memory_stored", "details": {"type": "semantic", "content": "User mentioned wanting to travel in a previous session"}}
+{"timestamp": "2026-04-08T05:47:39.981175", "action": "memory_stored", "details": {"type": "semantic", "content": "User mentioned having a dog in a previous session"}}
+{"timestamp": "2026-04-08T05:47:39.981733", "action": "memory_stored", "details": {"type": "semantic", "content": "User mentioned planning to learn in a previous session"}}
+{"timestamp": "2026-04-08T05:47:39.982358", "action": "memory_stored", "details": {"type": "semantic", "content": "User mentioned liking hiking in a previous session"}}
+{"timestamp": "2026-04-08T05:47:39.983064", "action": "memory_stored", "details": {"type": "semantic", "content": "User mentioned having a dog in a previous session"}}
+{"timestamp": "2026-04-08T05:47:39.983969", "action": "memory_stored", "details": {"type": "semantic", "content": "User mentioned wanting to travel in a previous session"}}
+{"timestamp": "2026-04-08T05:47:39.985021", "action": "memory_stored", "details": {"type": "semantic", "content": "User mentioned planning to learn in a previous session"}}
+{"timestamp": "2026-04-08T05:47:39.986127", "action": "memory_stored", "details": {"type": "semantic", "content": "User mentioned working as an engineer in a previous session"}}
+{"timestamp": "2026-04-08T05:47:39.986835", "action": "memory_stored", "details": {"type": "semantic", "content": "User mentioned having a dog in a previous session"}}
+{"timestamp": "2026-04-08T05:47:39.987362", "action": "memory_stored", "details": {"type": "semantic", "content": "User mentioned having a dog in a previous session"}}
+{"timestamp": "2026-04-08T05:47:39.987974", "action": "memory_stored", "details": {"type": "semantic", "content": "User mentioned having a dog in a previous session"}}
+{"timestamp": "2026-04-08T05:47:39.988504", "action": "memory_stored", "details": {"type": "semantic", "content": "User mentioned working as an engineer in a previous session"}}
+{"timestamp": "2026-04-08T05:47:39.989039", "action": "memory_stored", "details": {"type": "semantic", "content": "User mentioned working as an engineer in a previous session"}}
+{"timestamp": "2026-04-08T05:47:39.989567", "action": "memory_stored", "details": {"type": "semantic", "content": "User mentioned working as an engineer in a previous session"}}
+{"timestamp": "2026-04-08T05:47:39.990223", "action": "memory_stored", "details": {"type": "semantic", "content": "User mentioned planning to learn in a previous session"}}
+{"timestamp": "2026-04-08T05:47:39.991440", "action": "memory_stored", "details": {"type": "semantic", "content": "User mentioned having a dog in a previous session"}}
+{"timestamp": "2026-04-08T05:47:39.992284", "action": "memory_stored", "details": {"type": "semantic", "content": "User mentioned planning to learn in a previous session"}}
+{"timestamp": "2026-04-08T05:47:39.992758", "action": "memory_stored", "details": {"type": "semantic", "content": "User mentioned wanting to travel in a previous session"}}
+{"timestamp": "2026-04-08T05:47:39.993350", "action": "memory_stored", "details": {"type": "semantic", "content": "User mentioned wanting to travel in a previous session"}}
+{"timestamp": "2026-04-08T05:47:39.993900", "action": "memory_stored", "details": {"type": "semantic", "content": "User mentioned liking hiking in a previous session"}}
+{"timestamp": "2026-04-08T05:47:39.994414", "action": "memory_stored", "details": {"type": "semantic", "content": "User mentioned wanting to travel in a previous session"}}
+{"timestamp": "2026-04-08T05:47:39.994887", "action": "memory_stored", "details": {"type": "semantic", "content": "User mentioned wanting to travel in a previous session"}}
+{"timestamp": "2026-04-08T05:47:39.995563", "action": "memory_stored", "details": {"type": "semantic", "content": "User mentioned liking hiking in a previous session"}}
+{"timestamp": "2026-04-08T05:47:39.996133", "action": "memory_stored", "details": {"type": "semantic", "content": "User mentioned liking hiking in a previous session"}}
+{"timestamp": "2026-04-08T05:47:39.996623", "action": "memory_stored", "details": {"type": "semantic", "content": "User mentioned planning to learn in a previous session"}}
+{"timestamp": "2026-04-08T05:47:39.997138", "action": "memory_stored", "details": {"type": "semantic", "content": "User mentioned wanting to travel in a previous session"}}
+{"timestamp": "2026-04-08T05:47:39.997748", "action": "memory_stored", "details": {"type": "semantic", "content": "User mentioned planning to learn in a previous session"}}
+{"timestamp": "2026-04-08T05:47:39.998511", "action": "memory_stored", "details": {"type": "semantic", "content": "User mentioned wanting to travel in a previous session"}}
+{"timestamp": "2026-04-08T05:47:40.000065", "action": "memory_stored", "details": {"type": "semantic", "content": "User mentioned planning to learn in a previous session"}}
+{"timestamp": "2026-04-08T05:47:40.000976", "action": "memory_stored", "details": {"type": "semantic", "content": "User mentioned planning to learn in a previous session"}}
+{"timestamp": "2026-04-08T05:47:40.001573", "action": "memory_stored", "details": {"type": "semantic", "content": "User mentioned wanting to travel in a previous session"}}
+{"timestamp": "2026-04-08T05:47:40.002464", "action": "memory_stored", "details": {"type": "semantic", "content": "User mentioned having a dog in a previous session"}}
+{"timestamp": "2026-04-08T05:47:40.003331", "action": "memory_stored", "details": {"type": "semantic", "content": "User mentioned working as an engineer in a previous session"}}
+{"timestamp": "2026-04-08T05:47:40.003880", "action": "memory_stored", "details": {"type": "semantic", "content": "User mentioned liking hiking in a previous session"}}
+{"timestamp": "2026-04-08T05:47:40.004381", "action": "memory_stored", "details": {"type": "semantic", "content": "User mentioned having a dog in a previous session"}}
+{"timestamp": "2026-04-08T05:47:40.004830", "action": "memory_stored", "details": {"type": "semantic", "content": "User mentioned planning to learn in a previous session"}}
+{"timestamp": "2026-04-08T05:47:40.005256", "action": "memory_stored", "details": {"type": "semantic", "content": "User mentioned working as an engineer in a previous session"}}
+{"timestamp": "2026-04-08T05:47:40.005775", "action": "memory_stored", "details": {"type": "semantic", "content": "User mentioned working as an engineer in a previous session"}}
+{"timestamp": "2026-04-08T05:47:40.006395", "action": "memory_stored", "details": {"type": "semantic", "content": "User mentioned working as an engineer in a previous session"}}
+{"timestamp": "2026-04-08T05:47:40.006854", "action": "memory_stored", "details": {"type": "semantic", "content": "User mentioned wanting to travel in a previous session"}}
+{"timestamp": "2026-04-08T05:47:40.007290", "action": "memory_stored", "details": {"type": "semantic", "content": "User talked about vacation 11 days ago"}}
+{"timestamp": "2026-04-08T05:47:40.007853", "action": "memory_stored", "details": {"type": "semantic", "content": "User talked about deadline 15 days ago"}}
+{"timestamp": "2026-04-08T05:47:40.008282", "action": "memory_stored", "details": {"type": "semantic", "content": "User talked about vacation 1 days ago"}}
+{"timestamp": "2026-04-08T05:47:40.008708", "action": "memory_stored", "details": {"type": "semantic", "content": "User talked about birthday 3 days ago"}}
+{"timestamp": "2026-04-08T05:47:40.009145", "action": "memory_stored", "details": {"type": "semantic", "content": "User talked about meeting 24 days ago"}}
+{"timestamp": "2026-04-08T05:47:40.009660", "action": "memory_stored", "details": {"type": "semantic", "content": "User talked about meeting 17 days ago"}}
+{"timestamp": "2026-04-08T05:47:40.010240", "action": "memory_stored", "details": {"type": "semantic", "content": "User talked about project 27 days ago"}}
+{"timestamp": "2026-04-08T05:47:40.010724", "action": "memory_stored", "details": {"type": "semantic", "content": "User talked about vacation 11 days ago"}}
+{"timestamp": "2026-04-08T05:47:40.011193", "action": "memory_stored", "details": {"type": "semantic", "content": "User talked about meeting 14 days ago"}}
+{"timestamp": "2026-04-08T05:47:40.011637", "action": "memory_stored", "details": {"type": "semantic", "content": "User talked about birthday 1 days ago"}}
+{"timestamp": "2026-04-08T05:47:40.012228", "action": "memory_stored", "details": {"type": "semantic", "content": "User talked about project 18 days ago"}}
+{"timestamp": "2026-04-08T05:47:40.012662", "action": "memory_stored", "details": {"type": "semantic", "content": "User talked about birthday 29 days ago"}}
+{"timestamp": "2026-04-08T05:47:40.013079", "action": "memory_stored", "details": {"type": "semantic", "content": "User talked about vacation 24 days ago"}}
+{"timestamp": "2026-04-08T05:47:40.013515", "action": "memory_stored", "details": {"type": "semantic", "content": "User talked about meeting 26 days ago"}}
+{"timestamp": "2026-04-08T05:47:40.014066", "action": "memory_stored", "details": {"type": "semantic", "content": "User talked about meeting 29 days ago"}}
+{"timestamp": "2026-04-08T05:47:40.014660", "action": "memory_stored", "details": {"type": "semantic", "content": "User talked about birthday 11 days ago"}}
+{"timestamp": "2026-04-08T05:47:40.015137", "action": "memory_stored", "details": {"type": "semantic", "content": "User talked about meeting 10 days ago"}}
+{"timestamp": "2026-04-08T05:47:40.015601", "action": "memory_stored", "details": {"type": "semantic", "content": "User talked about vacation 13 days ago"}}
+{"timestamp": "2026-04-08T05:47:40.016294", "action": "memory_stored", "details": {"type": "semantic", "content": "User talked about birthday 18 days ago"}}
+{"timestamp": "2026-04-08T05:47:40.016890", "action": "memory_stored", "details": {"type": "semantic", "content": "User talked about birthday 4 days ago"}}
+{"timestamp": "2026-04-08T05:47:40.017361", "action": "memory_stored", "details": {"type": "semantic", "content": "User talked about project 21 days ago"}}
+{"timestamp": "2026-04-08T05:47:40.017792", "action": "memory_stored", "details": {"type": "semantic", "content": "User talked about vacation 17 days ago"}}
+{"timestamp": "2026-04-08T05:47:40.018353", "action": "memory_stored", "details": {"type": "semantic", "content": "User talked about deadline 18 days ago"}}
+{"timestamp": "2026-04-08T05:47:40.019161", "action": "memory_stored", "details": {"type": "semantic", "content": "User talked about deadline 30 days ago"}}
+{"timestamp": "2026-04-08T05:47:40.020075", "action": "memory_stored", "details": {"type": "semantic", "content": "User talked about deadline 26 days ago"}}
+{"timestamp": "2026-04-08T05:47:40.020679", "action": "memory_stored", "details": {"type": "semantic", "content": "User talked about meeting 12 days ago"}}
+{"timestamp": "2026-04-08T05:47:40.023805", "action": "memory_stored", "details": {"type": "semantic", "content": "User talked about meeting 25 days ago"}}
+{"timestamp": "2026-04-08T05:47:40.024746", "action": "memory_stored", "details": {"type": "semantic", "content": "User talked about meeting 13 days ago"}}
+{"timestamp": "2026-04-08T05:47:40.025726", "action": "memory_stored", "details": {"type": "semantic", "content": "User talked about birthday 20 days ago"}}
+{"timestamp": "2026-04-08T05:47:40.026341", "action": "memory_stored", "details": {"type": "semantic", "content": "User talked about project 29 days ago"}}
+{"timestamp": "2026-04-08T05:47:40.028439", "action": "memory_stored", "details": {"type": "semantic", "content": "User talked about birthday 12 days ago"}}
+{"timestamp": "2026-04-08T05:47:40.028976", "action": "memory_stored", "details": {"type": "semantic", "content": "User talked about meeting 25 days ago"}}
+{"timestamp": "2026-04-08T05:47:40.031402", "action": "memory_stored", "details": {"type": "semantic", "content": "User talked about vacation 23 days ago"}}
+{"timestamp": "2026-04-08T05:47:40.032086", "action": "memory_stored", "details": {"type": "semantic", "content": "User talked about project 18 days ago"}}
+{"timestamp": "2026-04-08T05:47:40.032633", "action": "memory_stored", "details": {"type": "semantic", "content": "User talked about deadline 20 days ago"}}
+{"timestamp": "2026-04-08T05:47:40.033295", "action": "memory_stored", "details": {"type": "semantic", "content": "User talked about project 7 days ago"}}
+{"timestamp": "2026-04-08T05:47:40.033770", "action": "memory_stored", "details": {"type": "semantic", "content": "User talked about meeting 15 days ago"}}
+{"timestamp": "2026-04-08T05:47:40.034192", "action": "memory_stored", "details": {"type": "semantic", "content": "User talked about birthday 5 days ago"}}
+{"timestamp": "2026-04-08T05:47:40.035087", "action": "memory_stored", "details": {"type": "semantic", "content": "User talked about vacation 17 days ago"}}
+{"timestamp": "2026-04-08T05:47:40.036172", "action": "memory_stored", "details": {"type": "semantic", "content": "User talked about birthday 27 days ago"}}
+{"timestamp": "2026-04-08T05:47:40.036656", "action": "memory_stored", "details": {"type": "semantic", "content": "User talked about vacation 11 days ago"}}
+{"timestamp": "2026-04-08T05:47:40.037059", "action": "memory_stored", "details": {"type": "semantic", "content": "User talked about vacation 24 days ago"}}
+{"timestamp": "2026-04-08T05:47:40.037526", "action": "memory_stored", "details": {"type": "semantic", "content": "User talked about meeting 25 days ago"}}
+{"timestamp": "2026-04-08T05:47:40.037984", "action": "memory_stored", "details": {"type": "semantic", "content": "User talked about meeting 10 days ago"}}
+{"timestamp": "2026-04-08T05:47:40.038864", "action": "memory_stored", "details": {"type": "semantic", "content": "User talked about deadline 5 days ago"}}
+{"timestamp": "2026-04-08T05:47:40.039346", "action": "memory_stored", "details": {"type": "semantic", "content": "User talked about birthday 15 days ago"}}
+{"timestamp": "2026-04-08T05:47:40.039824", "action": "memory_stored", "details": {"type": "semantic", "content": "User talked about project 1 days ago"}}
+{"timestamp": "2026-04-08T05:47:40.040261", "action": "memory_stored", "details": {"type": "semantic", "content": "User talked about meeting 24 days ago"}}
+{"timestamp": "2026-04-08T05:47:40.040665", "action": "memory_stored", "details": {"type": "semantic", "content": "User talked about birthday 12 days ago"}}
+{"timestamp": "2026-04-08T05:47:40.041067", "action": "memory_stored", "details": {"type": "semantic", "content": "User talked about birthday 9 days ago"}}
+{"timestamp": "2026-04-08T05:47:40.041480", "action": "memory_stored", "details": {"type": "semantic", "content": "User talked about project 3 days ago"}}
+{"timestamp": "2026-04-08T05:47:40.041909", "action": "memory_stored", "details": {"type": "semantic", "content": "User talked about project 8 days ago"}}
+{"timestamp": "2026-04-08T05:47:40.042754", "action": "memory_stored", "details": {"type": "semantic", "content": "User talked about deadline 11 days ago"}}
+{"timestamp": "2026-04-08T05:47:40.043350", "action": "memory_stored", "details": {"type": "semantic", "content": "User talked about project 28 days ago"}}
+{"timestamp": "2026-04-08T05:47:40.044095", "action": "memory_stored", "details": {"type": "semantic", "content": "User talked about birthday 28 days ago"}}
+{"timestamp": "2026-04-08T05:47:40.044922", "action": "memory_stored", "details": {"type": "semantic", "content": "User talked about birthday 18 days ago"}}
+{"timestamp": "2026-04-08T05:47:40.045434", "action": "memory_stored", "details": {"type": "semantic", "content": "User talked about birthday 25 days ago"}}
+{"timestamp": "2026-04-08T05:47:40.046016", "action": "memory_stored", "details": {"type": "semantic", "content": "User talked about deadline 6 days ago"}}
+{"timestamp": "2026-04-08T05:47:40.046521", "action": "memory_stored", "details": {"type": "semantic", "content": "User talked about deadline 6 days ago"}}
+{"timestamp": "2026-04-08T05:47:40.047027", "action": "memory_stored", "details": {"type": "semantic", "content": "User talked about vacation 21 days ago"}}
+{"timestamp": "2026-04-08T05:47:40.047577", "action": "memory_stored", "details": {"type": "semantic", "content": "User talked about deadline 9 days ago"}}
+{"timestamp": "2026-04-08T05:47:40.048248", "action": "memory_stored", "details": {"type": "semantic", "content": "User talked about meeting 27 days ago"}}
+{"timestamp": "2026-04-08T05:47:40.048704", "action": "memory_stored", "details": {"type": "semantic", "content": "User talked about vacation 12 days ago"}}
+{"timestamp": "2026-04-08T05:47:40.049208", "action": "memory_stored", "details": {"type": "semantic", "content": "User talked about meeting 26 days ago"}}
+{"timestamp": "2026-04-08T05:47:40.050052", "action": "memory_stored", "details": {"type": "semantic", "content": "User talked about birthday 9 days ago"}}
+{"timestamp": "2026-04-08T05:47:40.051072", "action": "memory_stored", "details": {"type": "semantic", "content": "User talked about meeting 17 days ago"}}
+{"timestamp": "2026-04-08T05:47:40.051607", "action": "memory_stored", "details": {"type": "semantic", "content": "User talked about deadline 19 days ago"}}
+{"timestamp": "2026-04-08T05:47:40.052066", "action": "memory_stored", "details": {"type": "semantic", "content": "User talked about deadline 16 days ago"}}
+{"timestamp": "2026-04-08T05:47:40.052590", "action": "memory_stored", "details": {"type": "semantic", "content": "User talked about deadline 21 days ago"}}
+{"timestamp": "2026-04-08T05:47:40.053086", "action": "memory_stored", "details": {"type": "semantic", "content": "User talked about meeting 19 days ago"}}
+{"timestamp": "2026-04-08T05:47:40.053644", "action": "memory_stored", "details": {"type": "semantic", "content": "User talked about project 2 days ago"}}
+{"timestamp": "2026-04-08T05:47:40.054096", "action": "memory_stored", "details": {"type": "semantic", "content": "User talked about vacation 20 days ago"}}
+{"timestamp": "2026-04-08T05:47:40.054478", "action": "memory_stored", "details": {"type": "semantic", "content": "User talked about project 7 days ago"}}
+{"timestamp": "2026-04-08T05:47:40.055012", "action": "memory_stored", "details": {"type": "semantic", "content": "User talked about project 1 days ago"}}
+{"timestamp": "2026-04-08T05:47:40.055588", "action": "memory_stored", "details": {"type": "semantic", "content": "User talked about project 7 days ago"}}
+{"timestamp": "2026-04-08T05:47:40.056111", "action": "memory_stored", "details": {"type": "semantic", "content": "User talked about project 23 days ago"}}
+{"timestamp": "2026-04-08T05:47:40.056495", "action": "memory_stored", "details": {"type": "semantic", "content": "User talked about meeting 23 days ago"}}
+{"timestamp": "2026-04-08T05:47:40.056862", "action": "memory_stored", "details": {"type": "semantic", "content": "User talked about deadline 8 days ago"}}
+{"timestamp": "2026-04-08T05:47:40.057246", "action": "memory_stored", "details": {"type": "semantic", "content": "User talked about project 9 days ago"}}
+{"timestamp": "2026-04-08T05:47:40.057675", "action": "memory_stored", "details": {"type": "semantic", "content": "User talked about deadline 10 days ago"}}
+{"timestamp": "2026-04-08T05:47:40.058831", "action": "memory_stored", "details": {"type": "semantic", "content": "User talked about project 9 days ago"}}
+{"timestamp": "2026-04-08T05:47:40.059871", "action": "memory_stored", "details": {"type": "semantic", "content": "User talked about deadline 11 days ago"}}
+{"timestamp": "2026-04-08T05:47:40.060729", "action": "memory_stored", "details": {"type": "semantic", "content": "User talked about meeting 9 days ago"}}
+{"timestamp": "2026-04-08T05:47:40.061658", "action": "memory_stored", "details": {"type": "semantic", "content": "User talked about deadline 22 days ago"}}
+{"timestamp": "2026-04-08T05:47:40.062187", "action": "memory_stored", "details": {"type": "semantic", "content": "User talked about birthday 11 days ago"}}
+{"timestamp": "2026-04-08T05:47:40.062623", "action": "memory_stored", "details": {"type": "semantic", "content": "User talked about deadline 12 days ago"}}
+{"timestamp": "2026-04-08T05:47:40.063051", "action": "memory_stored", "details": {"type": "semantic", "content": "User talked about project 3 days ago"}}
+{"timestamp": "2026-04-08T05:47:40.063541", "action": "memory_stored", "details": {"type": "semantic", "content": "User talked about birthday 17 days ago"}}
+{"timestamp": "2026-04-08T05:47:40.064033", "action": "memory_stored", "details": {"type": "semantic", "content": "User talked about meeting 15 days ago"}}
+{"timestamp": "2026-04-08T05:47:40.064600", "action": "memory_stored", "details": {"type": "semantic", "content": "User talked about deadline 20 days ago"}}
+{"timestamp": "2026-04-08T05:47:40.065079", "action": "memory_stored", "details": {"type": "semantic", "content": "User talked about project 2 days ago"}}
+{"timestamp": "2026-04-08T05:47:40.065697", "action": "memory_stored", "details": {"type": "semantic", "content": "User talked about meeting 5 days ago"}}
+{"timestamp": "2026-04-08T05:47:40.066234", "action": "memory_stored", "details": {"type": "semantic", "content": "User talked about deadline 19 days ago"}}
+{"timestamp": "2026-04-08T05:47:40.066698", "action": "memory_stored", "details": {"type": "semantic", "content": "User talked about deadline 2 days ago"}}
+{"timestamp": "2026-04-08T05:47:40.067114", "action": "memory_stored", "details": {"type": "semantic", "content": "User talked about deadline 7 days ago"}}
+{"timestamp": "2026-04-08T05:47:40.067672", "action": "memory_stored", "details": {"type": "semantic", "content": "User talked about deadline 13 days ago"}}
+{"timestamp": "2026-04-08T05:47:40.068123", "action": "memory_stored", "details": {"type": "semantic", "content": "User talked about meeting 4 days ago"}}
+{"timestamp": "2026-04-08T05:47:40.068561", "action": "memory_stored", "details": {"type": "semantic", "content": "User talked about meeting 14 days ago"}}
+{"timestamp": "2026-04-08T05:47:40.068962", "action": "memory_stored", "details": {"type": "semantic", "content": "User talked about vacation 29 days ago"}}
+{"timestamp": "2026-04-08T05:47:40.069425", "action": "memory_stored", "details": {"type": "semantic", "content": "User talked about project 4 days ago"}}
+{"timestamp": "2026-04-08T05:47:40.070227", "action": "memory_stored", "details": {"type": "semantic", "content": "The user's current phone number is value A"}}
+{"timestamp": "2026-04-08T05:47:40.070920", "action": "memory_stored", "details": {"type": "semantic", "content": "The user's current email is value C"}}
+{"timestamp": "2026-04-08T05:47:40.071587", "action": "memory_stored", "details": {"type": "semantic", "content": "The user's current relationship status is value C"}}
+{"timestamp": "2026-04-08T05:47:40.072228", "action": "memory_stored", "details": {"type": "semantic", "content": "The user's current phone number is value B"}}
+{"timestamp": "2026-04-08T05:47:40.073270", "action": "memory_stored", "details": {"type": "semantic", "content": "The user's current email is value A"}}
+{"timestamp": "2026-04-08T05:47:40.075460", "action": "memory_stored", "details": {"type": "semantic", "content": "The user's current address is value C"}}
+{"timestamp": "2026-04-08T05:47:40.076439", "action": "memory_stored", "details": {"type": "semantic", "content": "The user's current email is value C"}}
+{"timestamp": "2026-04-08T05:47:40.077209", "action": "memory_stored", "details": {"type": "semantic", "content": "The user's current job title is value A"}}
+{"timestamp": "2026-04-08T05:47:40.077999", "action": "memory_stored", "details": {"type": "semantic", "content": "The user's current job title is value C"}}
+{"timestamp": "2026-04-08T05:47:40.080263", "action": "memory_stored", "details": {"type": "semantic", "content": "The user's current job title is value A"}}
+{"timestamp": "2026-04-08T05:47:40.080791", "action": "memory_stored", "details": {"type": "semantic", "content": "The user's current email is value C"}}
+{"timestamp": "2026-04-08T05:47:40.081290", "action": "memory_stored", "details": {"type": "semantic", "content": "The user's current phone number is value C"}}
+{"timestamp": "2026-04-08T05:47:40.081838", "action": "memory_stored", "details": {"type": "semantic", "content": "The user's current job title is value C"}}
+{"timestamp": "2026-04-08T05:47:40.082537", "action": "memory_stored", "details": {"type": "semantic", "content": "The user's current job title is value C"}}
+{"timestamp": "2026-04-08T05:47:40.083018", "action": "memory_stored", "details": {"type": "semantic", "content": "The user's current relationship status is value A"}}
+{"timestamp": "2026-04-08T05:47:40.083453", "action": "memory_stored", "details": {"type": "semantic", "content": "The user's current relationship status is value B"}}
+{"timestamp": "2026-04-08T05:47:40.084252", "action": "memory_stored", "details": {"type": "semantic", "content": "The user's current address is value A"}}
+{"timestamp": "2026-04-08T05:47:40.092845", "action": "memory_stored", "details": {"type": "semantic", "content": "The user's current relationship status is value A"}}
+{"timestamp": "2026-04-08T05:47:40.093352", "action": "memory_stored", "details": {"type": "semantic", "content": "The user's current email is value B"}}
+{"timestamp": "2026-04-08T05:47:40.093818", "action": "memory_stored", "details": {"type": "semantic", "content": "The user's current job title is value A"}}
+{"timestamp": "2026-04-08T05:47:40.094264", "action": "memory_stored", "details": {"type": "semantic", "content": "The user's current phone number is value C"}}
+{"timestamp": "2026-04-08T05:47:40.094684", "action": "memory_stored", "details": {"type": "semantic", "content": "The user's current relationship status is value B"}}
+{"timestamp": "2026-04-08T05:47:40.095244", "action": "memory_stored", "details": {"type": "semantic", "content": "The user's current address is value C"}}
+{"timestamp": "2026-04-08T05:47:40.096057", "action": "memory_stored", "details": {"type": "semantic", "content": "The user's current relationship status is value C"}}
+{"timestamp": "2026-04-08T05:47:40.096768", "action": "memory_stored", "details": {"type": "semantic", "content": "The user's current email is value A"}}
+{"timestamp": "2026-04-08T05:47:40.097349", "action": "memory_stored", "details": {"type": "semantic", "content": "The user's current phone number is value C"}}
+{"timestamp": "2026-04-08T05:47:40.097943", "action": "memory_stored", "details": {"type": "semantic", "content": "The user's current job title is value B"}}
+{"timestamp": "2026-04-08T05:47:40.099743", "action": "memory_stored", "details": {"type": "semantic", "content": "The user's current job title is value A"}}
+{"timestamp": "2026-04-08T05:47:40.100507", "action": "memory_stored", "details": {"type": "semantic", "content": "The user's current phone number is value C"}}
+{"timestamp": "2026-04-08T05:47:40.101105", "action": "memory_stored", "details": {"type": "semantic", "content": "The user's current phone number is value B"}}
+{"timestamp": "2026-04-08T05:47:40.101748", "action": "memory_stored", "details": {"type": "semantic", "content": "The user's current job title is value A"}}
+{"timestamp": "2026-04-08T05:47:40.102397", "action": "memory_stored", "details": {"type": "semantic", "content": "The user's current relationship status is value C"}}
+{"timestamp": "2026-04-08T05:47:40.106128", "action": "memory_stored", "details": {"type": "semantic", "content": "The user's current email is value B"}}
+{"timestamp": "2026-04-08T05:47:40.107022", "action": "memory_stored", "details": {"type": "semantic", "content": "The user's current job title is value A"}}
+{"timestamp": "2026-04-08T05:47:40.107747", "action": "memory_stored", "details": {"type": "semantic", "content": "The user's current address is value A"}}
+{"timestamp": "2026-04-08T05:47:40.108254", "action": "memory_stored", "details": {"type": "semantic", "content": "The user's current address is value A"}}
+{"timestamp": "2026-04-08T05:47:40.108694", "action": "memory_stored", "details": {"type": "semantic", "content": "The user's current address is value A"}}
+{"timestamp": "2026-04-08T05:47:40.109338", "action": "memory_stored", "details": {"type": "semantic", "content": "The user's current relationship status is value A"}}
+{"timestamp": "2026-04-08T05:47:40.110203", "action": "memory_stored", "details": {"type": "semantic", "content": "The user's current phone number is value C"}}
+{"timestamp": "2026-04-08T05:47:40.110722", "action": "memory_stored", "details": {"type": "semantic", "content": "The user's current email is value A"}}
+{"timestamp": "2026-04-08T05:47:40.111393", "action": "memory_stored", "details": {"type": "semantic", "content": "The user's current address is value C"}}
+{"timestamp": "2026-04-08T05:47:40.111977", "action": "memory_stored", "details": {"type": "semantic", "content": "The user's current job title is value C"}}
+{"timestamp": "2026-04-08T05:47:40.112458", "action": "memory_stored", "details": {"type": "semantic", "content": "The user's current phone number is value C"}}
+{"timestamp": "2026-04-08T05:47:40.112909", "action": "memory_stored", "details": {"type": "semantic", "content": "The user's current job title is value A"}}
+{"timestamp": "2026-04-08T05:47:40.113400", "action": "memory_stored", "details": {"type": "semantic", "content": "The user's current email is value C"}}
+{"timestamp": "2026-04-08T05:47:40.114274", "action": "memory_stored", "details": {"type": "semantic", "content": "The user's current phone number is value A"}}
+{"timestamp": "2026-04-08T05:47:40.114930", "action": "memory_stored", "details": {"type": "semantic", "content": "The user's current job title is value B"}}
+{"timestamp": "2026-04-08T05:47:40.115665", "action": "memory_stored", "details": {"type": "semantic", "content": "The user's current relationship status is value B"}}
+{"timestamp": "2026-04-08T05:47:40.116372", "action": "memory_stored", "details": {"type": "semantic", "content": "The user's current relationship status is value A"}}
+{"timestamp": "2026-04-08T05:47:40.117183", "action": "memory_stored", "details": {"type": "semantic", "content": "The user's current address is value B"}}
+{"timestamp": "2026-04-08T05:47:40.118441", "action": "memory_stored", "details": {"type": "semantic", "content": "The user's current job title is value B"}}
+{"timestamp": "2026-04-08T05:47:40.118944", "action": "memory_stored", "details": {"type": "semantic", "content": "The user's current email is value B"}}
+{"timestamp": "2026-04-08T05:47:40.119424", "action": "memory_stored", "details": {"type": "semantic", "content": "The user's current email is value C"}}
+{"timestamp": "2026-04-08T05:47:40.120091", "action": "memory_stored", "details": {"type": "semantic", "content": "The user's current email is value C"}}
+{"timestamp": "2026-04-08T05:47:40.121102", "action": "memory_stored", "details": {"type": "semantic", "content": "The user's current phone number is value A"}}
+{"timestamp": "2026-04-08T05:47:40.121720", "action": "memory_stored", "details": {"type": "semantic", "content": "The user's current address is value C"}}
+{"timestamp": "2026-04-08T05:47:40.122238", "action": "memory_stored", "details": {"type": "semantic", "content": "The user's current address is value C"}}
+{"timestamp": "2026-04-08T05:47:40.122676", "action": "memory_stored", "details": {"type": "semantic", "content": "The user's current phone number is value A"}}
+{"timestamp": "2026-04-08T05:47:40.123237", "action": "memory_stored", "details": {"type": "semantic", "content": "The user's current address is value B"}}
+{"timestamp": "2026-04-08T05:47:40.123836", "action": "memory_stored", "details": {"type": "semantic", "content": "The user's current relationship status is value B"}}
+{"timestamp": "2026-04-08T05:47:40.124324", "action": "memory_stored", "details": {"type": "semantic", "content": "The user's current phone number is value A"}}
+{"timestamp": "2026-04-08T05:47:40.124885", "action": "memory_stored", "details": {"type": "semantic", "content": "The user's current job title is value A"}}
+{"timestamp": "2026-04-08T05:47:40.126067", "action": "memory_stored", "details": {"type": "semantic", "content": "The user's current address is value C"}}
+{"timestamp": "2026-04-08T05:47:40.126572", "action": "memory_stored", "details": {"type": "semantic", "content": "The user's current phone number is value A"}}
+{"timestamp": "2026-04-08T05:47:40.127044", "action": "memory_stored", "details": {"type": "semantic", "content": "The user's current job title is value A"}}
+{"timestamp": "2026-04-08T05:47:40.127515", "action": "memory_stored", "details": {"type": "semantic", "content": "The user's current phone number is value A"}}
+{"timestamp": "2026-04-08T05:47:40.127989", "action": "memory_stored", "details": {"type": "semantic", "content": "The user's current phone number is value A"}}
+{"timestamp": "2026-04-08T05:47:40.128407", "action": "memory_stored", "details": {"type": "semantic", "content": "The user's current email is value C"}}
+{"timestamp": "2026-04-08T05:47:40.128825", "action": "memory_stored", "details": {"type": "semantic", "content": "The user's current email is value A"}}
+{"timestamp": "2026-04-08T05:47:40.129237", "action": "memory_stored", "details": {"type": "semantic", "content": "The user's current relationship status is value A"}}
+{"timestamp": "2026-04-08T05:47:40.129985", "action": "memory_stored", "details": {"type": "semantic", "content": "The user's current email is value A"}}
+{"timestamp": "2026-04-08T05:47:40.130431", "action": "memory_stored", "details": {"type": "semantic", "content": "The user's current job title is value B"}}
+{"timestamp": "2026-04-08T05:47:40.130976", "action": "memory_stored", "details": {"type": "semantic", "content": "The user's current relationship status is value B"}}
+{"timestamp": "2026-04-08T05:47:40.131487", "action": "memory_stored", "details": {"type": "semantic", "content": "The user's current email is value A"}}
+{"timestamp": "2026-04-08T05:47:40.131942", "action": "memory_stored", "details": {"type": "semantic", "content": "The user's current phone number is value C"}}
+{"timestamp": "2026-04-08T05:47:40.132384", "action": "memory_stored", "details": {"type": "semantic", "content": "The user's current job title is value B"}}
+{"timestamp": "2026-04-08T05:47:40.132832", "action": "memory_stored", "details": {"type": "semantic", "content": "The user's current relationship status is value A"}}
+{"timestamp": "2026-04-08T05:47:40.133259", "action": "memory_stored", "details": {"type": "semantic", "content": "The user's current email is value C"}}
+{"timestamp": "2026-04-08T05:47:40.133936", "action": "memory_stored", "details": {"type": "semantic", "content": "The user's current phone number is value C"}}
+{"timestamp": "2026-04-08T05:47:40.134433", "action": "memory_stored", "details": {"type": "semantic", "content": "The user's current job title is value B"}}
+{"timestamp": "2026-04-08T05:47:40.134886", "action": "memory_stored", "details": {"type": "semantic", "content": "The user's current phone number is value B"}}
+{"timestamp": "2026-04-08T05:47:40.135317", "action": "memory_stored", "details": {"type": "semantic", "content": "The user's current email is value A"}}
+{"timestamp": "2026-04-08T05:47:40.135968", "action": "memory_stored", "details": {"type": "semantic", "content": "The user's current address is value A"}}
+{"timestamp": "2026-04-08T05:47:40.136588", "action": "memory_stored", "details": {"type": "semantic", "content": "The user's current job title is value C"}}
+{"timestamp": "2026-04-08T05:47:40.137143", "action": "memory_stored", "details": {"type": "semantic", "content": "The user's current address is value C"}}
+{"timestamp": "2026-04-08T05:47:40.145485", "action": "memory_stored", "details": {"type": "semantic", "content": "The user's current address is value A"}}
+{"timestamp": "2026-04-08T05:47:40.146075", "action": "memory_stored", "details": {"type": "semantic", "content": "The user's current job title is value B"}}
+{"timestamp": "2026-04-08T05:47:40.146594", "action": "memory_stored", "details": {"type": "semantic", "content": "The user's current relationship status is value B"}}
+{"timestamp": "2026-04-08T05:47:40.147305", "action": "memory_stored", "details": {"type": "semantic", "content": "The user's current phone number is value B"}}
+{"timestamp": "2026-04-08T05:47:40.147945", "action": "memory_stored", "details": {"type": "semantic", "content": "The user's current address is value B"}}
+{"timestamp": "2026-04-08T05:47:40.148465", "action": "memory_stored", "details": {"type": "semantic", "content": "The user's current address is value C"}}
+{"timestamp": "2026-04-08T05:47:40.149161", "action": "memory_stored", "details": {"type": "semantic", "content": "The user's current phone number is value A"}}
+{"timestamp": "2026-04-08T05:47:40.150110", "action": "memory_stored", "details": {"type": "semantic", "content": "The user's current relationship status is value B"}}
+{"timestamp": "2026-04-08T05:47:40.150832", "action": "memory_stored", "details": {"type": "semantic", "content": "The user's current relationship status is value B"}}
+{"timestamp": "2026-04-08T05:47:40.151629", "action": "memory_stored", "details": {"type": "semantic", "content": "The user's current job title is value C"}}
+{"timestamp": "2026-04-08T05:47:40.152428", "action": "memory_stored", "details": {"type": "semantic", "content": "The user's current job title is value B"}}
+{"timestamp": "2026-04-08T05:47:40.153397", "action": "memory_stored", "details": {"type": "semantic", "content": "The user's current address is value B"}}
+{"timestamp": "2026-04-08T05:47:40.154041", "action": "memory_stored", "details": {"type": "semantic", "content": "The user's current job title is value B"}}
+{"timestamp": "2026-04-08T05:47:40.154617", "action": "memory_stored", "details": {"type": "semantic", "content": "The user's current job title is value A"}}
+{"timestamp": "2026-04-08T05:47:40.155192", "action": "memory_stored", "details": {"type": "semantic", "content": "The user's current email is value C"}}
+{"timestamp": "2026-04-08T05:48:00.645219", "action": "MEMORY_VALIDATION_FAILED", "details": "['发现 398 个重复条目']"}

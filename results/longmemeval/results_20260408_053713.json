@@ -1,0 +1,5012 @@
+{
+  "total": 500,
+  "correct": 118,
+  "by_category": {
+    "information_extraction": 18,
+    "abstention": 100
+  },
+  "latencies": [
+    0.044671058654785156,
+    0.03263211250305176,
+    0.03461003303527832,
+    0.03659319877624512,
+    0.025588035583496094,
+    0.025844812393188477,
+    0.028387784957885742,
+    0.02785491943359375,
+    0.03387117385864258,
+    0.030371904373168945,
+    0.031996965408325195,
+    0.02878713607788086,
+    0.02565598487854004,
+    0.028176069259643555,
+    0.02995896339416504,
+    0.03770780563354492,
+    0.029120922088623047,
+    0.027776002883911133,
+    0.025634050369262695,
+    0.030209064483642578,
+    0.028074026107788086,
+    0.027729272842407227,
+    0.03575611114501953,
+    0.02452707290649414,
+    0.026614904403686523,
+    0.036134958267211914,
+    0.04693412780761719,
+    0.03140401840209961,
+    0.03229403495788574,
+    0.028323888778686523,
+    0.04062604904174805,
+    0.05350327491760254,
+    0.037047624588012695,
+    0.03179001808166504,
+    0.034722089767456055,
+    0.0287628173828125,
+    0.03106999397277832,
+    0.037901878356933594,
+    0.03066706657409668,
+    0.026993989944458008,
+    0.02903008460998535,
+    0.030560016632080078,
+    0.03284001350402832,
+    0.02662801742553711,
+    0.024272918701171875,
+    0.03021407127380371,
+    0.03417015075683594,
+    0.026897907257080078,
+    0.028181076049804688,
+    0.024342060089111328,
+    0.028493165969848633,
+    0.03692007064819336,
+    0.026678085327148438,
+    0.027673959732055664,
+    0.02855706214904785,
+    0.027702808380126953,
+    0.028324127197265625,
+    0.041396141052246094,
+    0.025426864624023438,
+    0.02880406379699707,
+    0.027823925018310547,
+    0.029322147369384766,
+    0.034651994705200195,
+    0.03222990036010742,
+    0.030164003372192383,
+    0.031055927276611328,
+    0.03722810745239258,
+    0.028048276901245117,
+    0.029834985733032227,
+    0.024183988571166992,
+    0.030391931533813477,
+    0.03720903396606445,
+    0.027124881744384766,
+    0.028606891632080078,
+    0.0304257869720459,
+    0.030843257904052734,
+    0.03191399574279785,
+    0.034191131591796875,
+    0.026865005493164062,
+    0.027110815048217773,
+    0.02836298942565918,
+    0.03414487838745117,
+    0.03347206115722656,
+    0.026304006576538086,
+    0.02850198745727539,
+    0.02788090705871582,
+    0.033535003662109375,
+    0.02605891227722168,
+    0.025084972381591797,
+    0.028896093368530273,
+    0.03275585174560547,
+    0.0493321418762207,
+    0.0322880744934082,
+    0.03055405616760254,
+    0.038305044174194336,
+    0.04250216484069824,
+    0.04557180404663086,
+    0.04080700874328613,
+    0.03368401527404785,
+    0.026314973831176758,
+    0.03441905975341797,
+    0.035886287689208984,
+    0.04175519943237305,
+    0.033833980560302734,
+    0.03185725212097168,
+    0.0345458984375,
+    0.04130268096923828,
+    0.031177997589111328,
+    0.032351016998291016,
+    0.029870271682739258,
+    0.035542964935302734,
+    0.04053616523742676,
+    0.032837867736816406,
+    0.03187084197998047,
+    0.030765056610107422,
+    0.03599286079406738,
+    0.053314924240112305,
+    0.07819914817810059,
+    0.11835312843322754,
+    0.14669489860534668,
+    0.042402029037475586,
+    0.03667187690734863,
+    0.04169178009033203,
+    0.03317403793334961,
+    0.03301882743835449,
+    0.034091949462890625,
+    0.045411109924316406,
+    0.03169584274291992,
+    0.0325930118560791,
+    0.03619098663330078,
+    0.03684282302856445,
+    0.043786048889160156,
+    0.029688119888305664,
+    0.03235197067260742,
+    0.03243207931518555,
+    0.032179832458496094,
+    0.035912275314331055,
+    0.0378108024597168,
+    0.0334620475769043,
+    0.03276801109313965,
+    0.045829057693481445,
+    0.04684185981750488,
+    0.04692888259887695,
+    0.04458189010620117,
+    0.051664113998413086,
+    0.05043292045593262,
+    0.05052590370178223,
+    0.0335233211517334,
+    0.03138613700866699,
+    0.034562110900878906,
+    0.03534102439880371,
+    0.040199995040893555,
+    0.035546064376831055,
+    0.029010295867919922,
+    0.03644609451293945,
+    0.03386402130126953,
+    0.0368959903717041,
+    0.03946185111999512,
+    0.03152799606323242,
+    0.034284114837646484,
+    0.03030991554260254,
+    0.03326606750488281,
+    0.04080986976623535,
+    0.03005695343017578,
+    0.03274178504943848,
+    0.03526115417480469,
+    0.05087709426879883,
+    0.03760981559753418,
+    0.038724660873413086,
+    0.0518651008605957,
+    0.0526430606842041,
+    0.04142308235168457,
+    0.04620814323425293,
+    0.03790783882141113,
+    0.03349709510803223,
+    0.03381013870239258,
+    0.03804326057434082,
+    0.04192471504211426,
+    0.033267974853515625,
+    0.032095909118652344,
+    0.031746864318847656,
+    0.03302192687988281,
+    0.034001827239990234,
+    0.03754901885986328,
+    0.0380399227142334,
+    0.031613826751708984,
+    0.032221317291259766,
+    0.03046894073486328,
+    0.03591108322143555,
+    0.037283897399902344,
+    0.03116583824157715,
+    0.037032127380371094,
+    0.03246808052062988,
+    0.05610394477844238,
+    0.037722110748291016,
+    0.03673601150512695,
+    0.04090309143066406,
+    0.05359387397766113,
+    0.04066109657287598,
+    0.04287600517272949,
+    0.036229848861694336,
+    0.03261590003967285,
+    0.027636289596557617,
+    0.033113956451416016,
+    0.037941932678222656,
+    0.03128814697265625,
+    0.030166149139404297,
+    0.029944896697998047,
+    0.03151583671569824,
+    0.03519296646118164,
+    0.032876014709472656,
+    0.03858304023742676,
+    0.027235031127929688,
+    0.02802109718322754,
+    0.030498981475830078,
+    0.03005814552307129,
+    0.037744998931884766,
+    0.026118040084838867,
+    0.02792501449584961,
+    0.031419992446899414,
+    0.036530256271362305,
+    0.03084397315979004,
+    0.04068303108215332,
+    0.03603720664978027,
+    0.0377039909362793,
+    0.03877973556518555,
+    0.051486968994140625,
+    0.0480189323425293,
+    0.03310203552246094,
+    0.04060101509094238,
+    0.032653093338012695,
+    0.037706851959228516,
+    0.028959989547729492,
+    0.03136587142944336,
+    0.0291748046875,
+    0.030446767807006836,
+    0.030402660369873047,
+    0.03200578689575195,
+    0.0355532169342041,
+    0.027199983596801758,
+    0.03076314926147461,
+    0.02904224395751953,
+    0.0342249870300293,
+    0.035341739654541016,
+    0.0286710262298584,
+    0.030557870864868164,
+    0.033563852310180664,
+    0.03970599174499512,
+    0.028648853302001953,
+    0.02865290641784668,
+    0.028657913208007812,
+    0.03903603553771973,
+    0.03654193878173828,
+    0.0389399528503418,
+    0.04134392738342285,
+    0.04228401184082031,
+    0.03896498680114746,
+    0.034715890884399414,
+    0.04440569877624512,
+    0.032514095306396484,
+    0.028545141220092773,
+    0.02851080894470215,
+    0.03648018836975098,
+    0.03452491760253906,
+    0.0444941520690918,
+    0.03478193283081055,
+    0.029607057571411133,
+    0.027088165283203125,
+    0.030811071395874023,
+    0.03205704689025879,
+    0.03463912010192871,
+    0.027460098266601562,
+    0.028397798538208008,
+    0.03081512451171875,
+    0.03884482383728027,
+    0.028738021850585938,
+    0.027428150177001953,
+    0.031069040298461914,
+    0.027363061904907227,
+    0.029539823532104492,
+    0.035542964935302734,
+    0.044557809829711914,
+    0.0342862606048584,
+    0.03510904312133789,
+    0.03687024116516113,
+    0.05939602851867676,
+    0.03553891181945801,
+    0.03197073936462402,
+    0.039708852767944336,
+    0.02884507179260254,
+    0.034063100814819336,
+    0.03215503692626953,
+    0.038854122161865234,
+    0.028529882431030273,
+    0.030312776565551758,
+    0.029581069946289062,
+    0.034442901611328125,
+    0.03253769874572754,
+    0.03429603576660156,
+    0.029282093048095703,
+    0.031920671463012695,
+    0.03716707229614258,
+    0.02841806411743164,
+    0.027983665466308594,
+    0.02698493003845215,
+    0.026507139205932617,
+    0.028289794921875,
+    0.033455848693847656,
+    0.03087902069091797,
+    0.02883601188659668,
+    0.02899909019470215,
+    0.04174208641052246,
+    0.04674577713012695,
+    0.037161827087402344,
+    0.03603100776672363,
+    0.043740034103393555,
+    0.05164694786071777,
+    0.03330087661743164,
+    0.03343605995178223,
+    0.02915501594543457,
+    0.032824039459228516,
+    0.030672788619995117,
+    0.037181854248046875,
+    0.028868913650512695,
+    0.026635169982910156,
+    0.031056880950927734,
+    0.027587175369262695,
+    0.033550262451171875,
+    0.033701181411743164,
+    0.02826237678527832,
+    0.02645397186279297,
+    0.031247854232788086,
+    0.031950950622558594,
+    0.03358888626098633,
+    0.02704596519470215,
+    0.026568889617919922,
+    0.02947092056274414,
+    0.03270888328552246,
+    0.03450489044189453,
+    0.026879072189331055,
+    0.027734994888305664,
+    0.035056114196777344,
+    0.034150123596191406,
+    0.03391695022583008,
+    0.02723097801208496,
+    0.037276268005371094,
+    0.03194594383239746,
+    0.035223960876464844,
+    0.03592181205749512,
+    0.028867244720458984,
+    0.027590036392211914,
+    0.027611970901489258,
+    0.032917022705078125,
+    0.032570838928222656,
+    0.02855396270751953,
+    0.028496980667114258,
+    0.029165983200073242,
+    0.03282570838928223,
+    0.03524589538574219,
+    0.027033090591430664,
+    0.029968976974487305,
+    0.029190778732299805,
+    0.029219865798950195,
+    0.03618907928466797,
+    0.025758981704711914,
+    0.028669357299804688,
+    0.02884697914123535,
+    0.032939910888671875,
+    0.03371691703796387,
+    0.02818894386291504,
+    0.026870012283325195,
+    0.02911376953125,
+    0.03316187858581543,
+    0.03949308395385742,
+    0.03296613693237305,
+    0.026595115661621094,
+    0.03251361846923828,
+    0.03359389305114746,
+    0.03766298294067383,
+    0.029230117797851562,
+    0.028216123580932617,
+    0.02977895736694336,
+    0.03187417984008789,
+    0.03519892692565918,
+    0.027409791946411133,
+    0.027066946029663086,
+    0.028530120849609375,
+    0.03402900695800781,
+    0.03816032409667969,
+    0.03545117378234863,
+    0.030053138732910156,
+    0.03191018104553223,
+    0.03466081619262695,
+    0.04061269760131836,
+    0.030398845672607422,
+    0.03288912773132324,
+    0.03759598731994629,
+    0.03864908218383789,
+    0.038619041442871094,
+    0.031719207763671875,
+    0.03055095672607422,
+    0.03529691696166992,
+    0.03579974174499512,
+    0.041214942932128906,
+    0.036242008209228516,
+    0.032666683197021484,
+    0.034455060958862305,
+    0.03826570510864258,
+    0.049015045166015625,
+    0.034889936447143555,
+    0.03881072998046875,
+    0.029253721237182617,
+    0.032746076583862305,
+    0.033863067626953125,
+    0.026395082473754883,
+    0.02862405776977539,
+    0.04175567626953125,
+    0.09858512878417969,
+    0.06036782264709473,
+    0.04886484146118164,
+    0.07416701316833496,
+    0.04479718208312988,
+    0.035012006759643555,
+    0.0385899543762207,
+    0.02974677085876465,
+    0.030976057052612305,
+    0.03379392623901367,
+    0.03902792930603027,
+    0.06256270408630371,
+    0.051043033599853516,
+    0.08238005638122559,
+    0.06776189804077148,
+    0.048768043518066406,
+    0.054078102111816406,
+    0.03695511817932129,
+    0.042967796325683594,
+    0.03196310997009277,
+    0.033966064453125,
+    0.03454279899597168,
+    0.033045291900634766,
+    0.03326010704040527,
+    0.032965898513793945,
+    0.03678607940673828,
+    0.037132978439331055,
+    0.03432798385620117,
+    0.03080296516418457,
+    0.03248715400695801,
+    0.03793692588806152,
+    0.03710484504699707,
+    0.03456401824951172,
+    0.031366825103759766,
+    0.03082275390625,
+    0.04575204849243164,
+    0.052558183670043945,
+    0.0473780632019043,
+    0.14070510864257812,
+    0.19754314422607422,
+    0.058042049407958984,
+    0.0350191593170166,
+    0.029309749603271484,
+    0.028354883193969727,
+    0.03338479995727539,
+    0.03646206855773926,
+    0.04198026657104492,
+    0.034693002700805664,
+    0.03421187400817871,
+    0.03402209281921387,
+    0.06465601921081543,
+    0.05722403526306152,
+    0.028437137603759766,
+    0.0315098762512207,
+    0.0379180908203125,
+    0.037622928619384766,
+    0.048974037170410156,
+    0.05012392997741699,
+    0.03977012634277344,
+    0.04540228843688965,
+    0.040328025817871094,
+    0.04626178741455078,
+    0.030194997787475586,
+    0.03294992446899414,
+    0.034363746643066406,
+    0.040396928787231445,
+    0.04307293891906738,
+    0.03036808967590332,
+    0.03931307792663574,
+    0.04758882522583008,
+    0.03481101989746094,
+    0.034629106521606445,
+    0.02694988250732422,
+    0.026811838150024414,
+    0.026330232620239258,
+    0.03269791603088379,
+    0.03556084632873535,
+    0.025953054428100586,
+    0.028563976287841797,
+    0.028428077697753906,
+    0.03356122970581055,
+    0.04309988021850586,
+    0.031332969665527344
+  ],
+  "details": [
+    {
+      "id": "inf_000",
+      "category": "information_extraction",
+      "question": "What is the user's favorite movie?",
+      "answer": "The user's favorite movie is Reading",
+      "ground_truth": "Reading",
+      "correct": true,
+      "latency": 0.044671058654785156
+    },
+    {
+      "id": "inf_001",
+      "category": "information_extraction",
+      "question": "What is the user's favorite food?",
+      "answer": "The user's favorite movie is Reading",
+      "ground_truth": "Star Wars",
+      "correct": false,
+      "latency": 0.03263211250305176
+    },
+    {
+      "id": "inf_002",
+      "category": "information_extraction",
+      "question": "What is the user's favorite food?",
+      "answer": "The user's favorite movie is Reading",
+      "ground_truth": "Reading",
+      "correct": true,
+      "latency": 0.03461003303527832
+    },
+    {
+      "id": "inf_003",
+      "category": "information_extraction",
+      "question": "What is the user's favorite food?",
+      "answer": "The user's favorite movie is Reading",
+      "ground_truth": "Blue",
+      "correct": false,
+      "latency": 0.03659319877624512
+    },
+    {
+      "id": "inf_004",
+      "category": "information_extraction",
+      "question": "What is the user's favorite hobby?",
+      "answer": "The user's favorite movie is Reading",
+      "ground_truth": "Star Wars",
+      "correct": false,
+      "latency": 0.025588035583496094
+    },
+    {
+      "id": "inf_005",
+      "category": "information_extraction",
+      "question": "What is the user's favorite hobby?",
+      "answer": "The user's favorite movie is Reading",
+      "ground_truth": "Pizza",
+      "correct": false,
+      "latency": 0.025844812393188477
+    },
+    {
+      "id": "inf_006",
+      "category": "information_extraction",
+      "question": "What is the user's favorite movie?",
+      "answer": "The user's favorite movie is Reading",
+      "ground_truth": "Blue",
+      "correct": false,
+      "latency": 0.028387784957885742
+    },
+    {
+      "id": "inf_007",
+      "category": "information_extraction",
+      "question": "What is the user's favorite food?",
+      "answer": "The user's favorite movie is Reading",
+      "ground_truth": "Reading",
+      "correct": true,
+      "latency": 0.02785491943359375
+    },
+    {
+      "id": "inf_008",
+      "category": "information_extraction",
+      "question": "What is the user's favorite movie?",
+      "answer": "The user's favorite movie is Reading",
+      "ground_truth": "Blue",
+      "correct": false,
+      "latency": 0.03387117385864258
+    },
+    {
+      "id": "inf_009",
+      "category": "information_extraction",
+      "question": "What is the user's favorite food?",
+      "answer": "The user's favorite movie is Reading",
+      "ground_truth": "Reading",
+      "correct": true,
+      "latency": 0.030371904373168945
+    },
+    {
+      "id": "inf_010",
+      "category": "information_extraction",
+      "question": "What is the user's favorite color?",
+      "answer": "The user's favorite movie is Reading",
+      "ground_truth": "Blue",
+      "correct": false,
+      "latency": 0.031996965408325195
+    },
+    {
+      "id": "inf_011",
+      "category": "information_extraction",
+      "question": "What is the user's favorite color?",
+      "answer": "The user's favorite movie is Reading",
+      "ground_truth": "Star Wars",
+      "correct": false,
+      "latency": 0.02878713607788086
+    },
+    {
+      "id": "inf_012",
+      "category": "information_extraction",
+      "question": "What is the user's favorite color?",
+      "answer": "The user's favorite movie is Reading",
+      "ground_truth": "Reading",
+      "correct": true,
+      "latency": 0.02565598487854004
+    },
+    {
+      "id": "inf_013",
+      "category": "information_extraction",
+      "question": "What is the user's favorite food?",
+      "answer": "The user's favorite movie is Reading",
+      "ground_truth": "Pizza",
+      "correct": false,
+      "latency": 0.028176069259643555
+    },
+    {
+      "id": "inf_014",
+      "category": "information_extraction",
+      "question": "What is the user's favorite hobby?",
+      "answer": "The user's favorite movie is Reading",
+      "ground_truth": "Python",
+      "correct": false,
+      "latency": 0.02995896339416504
+    },
+    {
+      "id": "inf_015",
+      "category": "information_extraction",
+      "question": "What is the user's favorite food?",
+      "answer": "The user's favorite movie is Reading",
+      "ground_truth": "Blue",
+      "correct": false,
+      "latency": 0.03770780563354492
+    },
+    {
+      "id": "inf_016",
+      "category": "information_extraction",
+      "question": "What is the user's favorite food?",
+      "answer": "The user's favorite movie is Reading",
+      "ground_truth": "Star Wars",
+      "correct": false,
+      "latency": 0.029120922088623047
+    },
+    {
+      "id": "inf_017",
+      "category": "information_extraction",
+      "question": "What is the user's favorite book?",
+      "answer": "The user's favorite movie is Reading",
+      "ground_truth": "Python",
+      "correct": false,
+      "latency": 0.027776002883911133
+    },
+    {
+      "id": "inf_018",
+      "category": "information_extraction",
+      "question": "What is the user's favorite color?",
+      "answer": "The user's favorite movie is Reading",
+      "ground_truth": "Star Wars",
+      "correct": false,
+      "latency": 0.025634050369262695
+    },
+    {
+      "id": "inf_019",
+      "category": "information_extraction",
+      "question": "What is the user's favorite color?",
+      "answer": "The user's favorite movie is Reading",
+      "ground_truth": "Pizza",
+      "correct": false,
+      "latency": 0.030209064483642578
+    },
+    {
+      "id": "inf_020",
+      "category": "information_extraction",
+      "question": "What is the user's favorite color?",
+      "answer": "The user's favorite movie is Reading",
+      "ground_truth": "Python",
+      "correct": false,
+      "latency": 0.028074026107788086
+    },
+    {
+      "id": "inf_021",
+      "category": "information_extraction",
+      "question": "What is the user's favorite hobby?",
+      "answer": "The user's favorite movie is Reading",
+      "ground_truth": "Python",
+      "correct": false,
+      "latency": 0.027729272842407227
+    },
+    {
+      "id": "inf_022",
+      "category": "information_extraction",
+      "question": "What is the user's favorite hobby?",
+      "answer": "The user's favorite movie is Reading",
+      "ground_truth": "Reading",
+      "correct": true,
+      "latency": 0.03575611114501953
+    },
+    {
+      "id": "inf_023",
+      "category": "information_extraction",
+      "question": "What is the user's favorite movie?",
+      "answer": "The user's favorite movie is Reading",
+      "ground_truth": "Reading",
+      "correct": true,
+      "latency": 0.02452707290649414
+    },
+    {
+      "id": "inf_024",
+      "category": "information_extraction",
+      "question": "What is the user's favorite book?",
+      "answer": "The user's favorite movie is Reading",
+      "ground_truth": "Python",
+      "correct": false,
+      "latency": 0.026614904403686523
+    },
+    {
+      "id": "inf_025",
+      "category": "information_extraction",
+      "question": "What is the user's favorite food?",
+      "answer": "The user's favorite movie is Reading",
+      "ground_truth": "Star Wars",
+      "correct": false,
+      "latency": 0.036134958267211914
+    },
+    {
+      "id": "inf_026",
+      "category": "information_extraction",
+      "question": "What is the user's favorite food?",
+      "answer": "The user's favorite movie is Reading",
+      "ground_truth": "Pizza",
+      "correct": false,
+      "latency": 0.04693412780761719
+    },
+    {
+      "id": "inf_027",
+      "category": "information_extraction",
+      "question": "What is the user's favorite food?",
+      "answer": "The user's favorite movie is Reading",
+      "ground_truth": "Star Wars",
+      "correct": false,
+      "latency": 0.03140401840209961
+    },
+    {
+      "id": "inf_028",
+      "category": "information_extraction",
+      "question": "What is the user's favorite food?",
+      "answer": "The user's favorite movie is Reading",
+      "ground_truth": "Star Wars",
+      "correct": false,
+      "latency": 0.03229403495788574
+    },
+    {
+      "id": "inf_029",
+      "category": "information_extraction",
+      "question": "What is the user's favorite movie?",
+      "answer": "The user's favorite movie is Reading",
+      "ground_truth": "Python",
+      "correct": false,
+      "latency": 0.028323888778686523
+    },
+    {
+      "id": "inf_030",
+      "category": "information_extraction",
+      "question": "What is the user's favorite book?",
+      "answer": "The user's favorite movie is Reading",
+      "ground_truth": "Reading",
+      "correct": true,
+      "latency": 0.04062604904174805
+    },
+    {
+      "id": "inf_031",
+      "category": "information_extraction",
+      "question": "What is the user's favorite book?",
+      "answer": "The user's favorite movie is Reading",
+      "ground_truth": "Star Wars",
+      "correct": false,
+      "latency": 0.05350327491760254
+    },
+    {
+      "id": "inf_032",
+      "category": "information_extraction",
+      "question": "What is the user's favorite food?",
+      "answer": "The user's favorite movie is Reading",
+      "ground_truth": "Blue",
+      "correct": false,
+      "latency": 0.037047624588012695
+    },
+    {
+      "id": "inf_033",
+      "category": "information_extraction",
+      "question": "What is the user's favorite movie?",
+      "answer": "The user's favorite movie is Reading",
+      "ground_truth": "Python",
+      "correct": false,
+      "latency": 0.03179001808166504
+    },
+    {
+      "id": "inf_034",
+      "category": "information_extraction",
+      "question": "What is the user's favorite food?",
+      "answer": "The user's favorite movie is Reading",
+      "ground_truth": "Pizza",
+      "correct": false,
+      "latency": 0.034722089767456055
+    },
+    {
+      "id": "inf_035",
+      "category": "information_extraction",
+      "question": "What is the user's favorite hobby?",
+      "answer": "The user's favorite movie is Reading",
+      "ground_truth": "Reading",
+      "correct": true,
+      "latency": 0.0287628173828125
+    },
+    {
+      "id": "inf_036",
+      "category": "information_extraction",
+      "question": "What is the user's favorite hobby?",
+      "answer": "The user's favorite movie is Reading",
+      "ground_truth": "Pizza",
+      "correct": false,
+      "latency": 0.03106999397277832
+    },
+    {
+      "id": "inf_037",
+      "category": "information_extraction",
+      "question": "What is the user's favorite food?",
+      "answer": "The user's favorite movie is Reading",
+      "ground_truth": "Reading",
+      "correct": true,
+      "latency": 0.037901878356933594
+    },
+    {
+      "id": "inf_038",
+      "category": "information_extraction",
+      "question": "What is the user's favorite movie?",
+      "answer": "The user's favorite movie is Reading",
+      "ground_truth": "Blue",
+      "correct": false,
+      "latency": 0.03066706657409668
+    },
+    {
+      "id": "inf_039",
+      "category": "information_extraction",
+      "question": "What is the user's favorite food?",
+      "answer": "The user's favorite movie is Reading",
+      "ground_truth": "Reading",
+      "correct": true,
+      "latency": 0.026993989944458008
+    },
+    {
+      "id": "inf_040",
+      "category": "information_extraction",
+      "question": "What is the user's favorite food?",
+      "answer": "The user's favorite movie is Reading",
+      "ground_truth": "Python",
+      "correct": false,
+      "latency": 0.02903008460998535
+    },
+    {
+      "id": "inf_041",
+      "category": "information_extraction",
+      "question": "What is the user's favorite book?",
+      "answer": "The user's favorite movie is Reading",
+      "ground_truth": "Python",
+      "correct": false,
+      "latency": 0.030560016632080078
+    },
+    {
+      "id": "inf_042",
+      "category": "information_extraction",
+      "question": "What is the user's favorite color?",
+      "answer": "The user's favorite movie is Reading",
+      "ground_truth": "Star Wars",
+      "correct": false,
+      "latency": 0.03284001350402832
+    },
+    {
+      "id": "inf_043",
+      "category": "information_extraction",
+      "question": "What is the user's favorite movie?",
+      "answer": "The user's favorite movie is Reading",
+      "ground_truth": "Reading",
+      "correct": true,
+      "latency": 0.02662801742553711
+    },
+    {
+      "id": "inf_044",
+      "category": "information_extraction",
+      "question": "What is the user's favorite book?",
+      "answer": "The user's favorite movie is Reading",
+      "ground_truth": "Reading",
+      "correct": true,
+      "latency": 0.024272918701171875
+    },
+    {
+      "id": "inf_045",
+      "category": "information_extraction",
+      "question": "What is the user's favorite movie?",
+      "answer": "The user's favorite movie is Reading",
+      "ground_truth": "Python",
+      "correct": false,
+      "latency": 0.03021407127380371
+    },
+    {
+      "id": "inf_046",
+      "category": "information_extraction",
+      "question": "What is the user's favorite color?",
+      "answer": "The user's favorite movie is Reading",
+      "ground_truth": "Pizza",
+      "correct": false,
+      "latency": 0.03417015075683594
+    },
+    {
+      "id": "inf_047",
+      "category": "information_extraction",
+      "question": "What is the user's favorite hobby?",
+      "answer": "The user's favorite movie is Reading",
+      "ground_truth": "Python",
+      "correct": false,
+      "latency": 0.026897907257080078
+    },
+    {
+      "id": "inf_048",
+      "category": "information_extraction",
+      "question": "What is the user's favorite book?",
+      "answer": "The user's favorite movie is Reading",
+      "ground_truth": "Blue",
+      "correct": false,
+      "latency": 0.028181076049804688
+    },
+    {
+      "id": "inf_049",
+      "category": "information_extraction",
+      "question": "What is the user's favorite movie?",
+      "answer": "The user's favorite movie is Reading",
+      "ground_truth": "Pizza",
+      "correct": false,
+      "latency": 0.024342060089111328
+    },
+    {
+      "id": "inf_050",
+      "category": "information_extraction",
+      "question": "What is the user's favorite hobby?",
+      "answer": "The user's favorite movie is Reading",
+      "ground_truth": "Python",
+      "correct": false,
+      "latency": 0.028493165969848633
+    },
+    {
+      "id": "inf_051",
+      "category": "information_extraction",
+      "question": "What is the user's favorite hobby?",
+      "answer": "The user's favorite movie is Reading",
+      "ground_truth": "Python",
+      "correct": false,
+      "latency": 0.03692007064819336
+    },
+    {
+      "id": "inf_052",
+      "category": "information_extraction",
+      "question": "What is the user's favorite hobby?",
+      "answer": "The user's favorite movie is Reading",
+      "ground_truth": "Reading",
+      "correct": true,
+      "latency": 0.026678085327148438
+    },
+    {
+      "id": "inf_053",
+      "category": "information_extraction",
+      "question": "What is the user's favorite book?",
+      "answer": "The user's favorite movie is Reading",
+      "ground_truth": "Blue",
+      "correct": false,
+      "latency": 0.027673959732055664
+    },
+    {
+      "id": "inf_054",
+      "category": "information_extraction",
+      "question": "What is the user's favorite book?",
+      "answer": "The user's favorite movie is Reading",
+      "ground_truth": "Python",
+      "correct": false,
+      "latency": 0.02855706214904785
+    },
+    {
+      "id": "inf_055",
+      "category": "information_extraction",
+      "question": "What is the user's favorite hobby?",
+      "answer": "The user's favorite movie is Reading",
+      "ground_truth": "Pizza",
+      "correct": false,
+      "latency": 0.027702808380126953
+    },
+    {
+      "id": "inf_056",
+      "category": "information_extraction",
+      "question": "What is the user's favorite movie?",
+      "answer": "The user's favorite movie is Reading",
+      "ground_truth": "Pizza",
+      "correct": false,
+      "latency": 0.028324127197265625
+    },
+    {
+      "id": "inf_057",
+      "category": "information_extraction",
+      "question": "What is the user's favorite movie?",
+      "answer": "The user's favorite movie is Reading",
+      "ground_truth": "Star Wars",
+      "correct": false,
+      "latency": 0.041396141052246094
+    },
+    {
+      "id": "inf_058",
+      "category": "information_extraction",
+      "question": "What is the user's favorite book?",
+      "answer": "The user's favorite movie is Reading",
+      "ground_truth": "Star Wars",
+      "correct": false,
+      "latency": 0.025426864624023438
+    },
+    {
+      "id": "inf_059",
+      "category": "information_extraction",
+      "question": "What is the user's favorite book?",
+      "answer": "The user's favorite movie is Reading",
+      "ground_truth": "Blue",
+      "correct": false,
+      "latency": 0.02880406379699707
+    },
+    {
+      "id": "inf_060",
+      "category": "information_extraction",
+      "question": "What is the user's favorite hobby?",
+      "answer": "The user's favorite movie is Reading",
+      "ground_truth": "Star Wars",
+      "correct": false,
+      "latency": 0.027823925018310547
+    },
+    {
+      "id": "inf_061",
+      "category": "information_extraction",
+      "question": "What is the user's favorite book?",
+      "answer": "The user's favorite movie is Reading",
+      "ground_truth": "Python",
+      "correct": false,
+      "latency": 0.029322147369384766
+    },
+    {
+      "id": "inf_062",
+      "category": "information_extraction",
+      "question": "What is the user's favorite hobby?",
+      "answer": "The user's favorite movie is Reading",
+      "ground_truth": "Python",
+      "correct": false,
+      "latency": 0.034651994705200195
+    },
+    {
+      "id": "inf_063",
+      "category": "information_extraction",
+      "question": "What is the user's favorite movie?",
+      "answer": "The user's favorite movie is Reading",
+      "ground_truth": "Blue",
+      "correct": false,
+      "latency": 0.03222990036010742
+    },
+    {
+      "id": "inf_064",
+      "category": "information_extraction",
+      "question": "What is the user's favorite hobby?",
+      "answer": "The user's favorite movie is Reading",
+      "ground_truth": "Blue",
+      "correct": false,
+      "latency": 0.030164003372192383
+    },
+    {
+      "id": "inf_065",
+      "category": "information_extraction",
+      "question": "What is the user's favorite color?",
+      "answer": "The user's favorite movie is Reading",
+      "ground_truth": "Reading",
+      "correct": true,
+      "latency": 0.031055927276611328
+    },
+    {
+      "id": "inf_066",
+      "category": "information_extraction",
+      "question": "What is the user's favorite book?",
+      "answer": "The user's favorite movie is Reading",
+      "ground_truth": "Pizza",
+      "correct": false,
+      "latency": 0.03722810745239258
+    },
+    {
+      "id": "inf_067",
+      "category": "information_extraction",
+      "question": "What is the user's favorite book?",
+      "answer": "The user's favorite movie is Reading",
+      "ground_truth": "Python",
+      "correct": false,
+      "latency": 0.028048276901245117
+    },
+    {
+      "id": "inf_068",
+      "category": "information_extraction",
+      "question": "What is the user's favorite movie?",
+      "answer": "The user's favorite movie is Reading",
+      "ground_truth": "Python",
+      "correct": false,
+      "latency": 0.029834985733032227
+    },
+    {
+      "id": "inf_069",
+      "category": "information_extraction",
+      "question": "What is the user's favorite book?",
+      "answer": "The user's favorite movie is Reading",
+      "ground_truth": "Pizza",
+      "correct": false,
+      "latency": 0.024183988571166992
+    },
+    {
+      "id": "inf_070",
+      "category": "information_extraction",
+      "question": "What is the user's favorite food?",
+      "answer": "The user's favorite movie is Reading",
+      "ground_truth": "Star Wars",
+      "correct": false,
+      "latency": 0.030391931533813477
+    },
+    {
+      "id": "inf_071",
+      "category": "information_extraction",
+      "question": "What is the user's favorite book?",
+      "answer": "The user's favorite movie is Reading",
+      "ground_truth": "Python",
+      "correct": false,
+      "latency": 0.03720903396606445
+    },
+    {
+      "id": "inf_072",
+      "category": "information_extraction",
+      "question": "What is the user's favorite hobby?",
+      "answer": "The user's favorite movie is Reading",
+      "ground_truth": "Blue",
+      "correct": false,
+      "latency": 0.027124881744384766
+    },
+    {
+      "id": "inf_073",
+      "category": "information_extraction",
+      "question": "What is the user's favorite food?",
+      "answer": "The user's favorite movie is Reading",
+      "ground_truth": "Python",
+      "correct": false,
+      "latency": 0.028606891632080078
+    },
+    {
+      "id": "inf_074",
+      "category": "information_extraction",
+      "question": "What is the user's favorite book?",
+      "answer": "The user's favorite movie is Reading",
+      "ground_truth": "Blue",
+      "correct": false,
+      "latency": 0.0304257869720459
+    },
+    {
+      "id": "inf_075",
+      "category": "information_extraction",
+      "question": "What is the user's favorite hobby?",
+      "answer": "The user's favorite movie is Reading",
+      "ground_truth": "Python",
+      "correct": false,
+      "latency": 0.030843257904052734
+    },
+    {
+      "id": "inf_076",
+      "category": "information_extraction",
+      "question": "What is the user's favorite movie?",
+      "answer": "The user's favorite movie is Reading",
+      "ground_truth": "Star Wars",
+      "correct": false,
+      "latency": 0.03191399574279785
+    },
+    {
+      "id": "inf_077",
+      "category": "information_extraction",
+      "question": "What is the user's favorite food?",
+      "answer": "The user's favorite movie is Reading",
+      "ground_truth": "Reading",
+      "correct": true,
+      "latency": 0.034191131591796875
+    },
+    {
+      "id": "inf_078",
+      "category": "information_extraction",
+      "question": "What is the user's favorite book?",
+      "answer": "The user's favorite movie is Reading",
+      "ground_truth": "Pizza",
+      "correct": false,
+      "latency": 0.026865005493164062
+    },
+    {
+      "id": "inf_079",
+      "category": "information_extraction",
+      "question": "What is the user's favorite movie?",
+      "answer": "The user's favorite movie is Reading",
+      "ground_truth": "Blue",
+      "correct": false,
+      "latency": 0.027110815048217773
+    },
+    {
+      "id": "inf_080",
+      "category": "information_extraction",
+      "question": "What is the user's favorite food?",
+      "answer": "The user's favorite movie is Reading",
+      "ground_truth": "Reading",
+      "correct": true,
+      "latency": 0.02836298942565918
+    },
+    {
+      "id": "inf_081",
+      "category": "information_extraction",
+      "question": "What is the user's favorite movie?",
+      "answer": "The user's favorite movie is Reading",
+      "ground_truth": "Star Wars",
+      "correct": false,
+      "latency": 0.03414487838745117
+    },
+    {
+      "id": "inf_082",
+      "category": "information_extraction",
+      "question": "What is the user's favorite book?",
+      "answer": "The user's favorite movie is Reading",
+      "ground_truth": "Star Wars",
+      "correct": false,
+      "latency": 0.03347206115722656
+    },
+    {
+      "id": "inf_083",
+      "category": "information_extraction",
+      "question": "What is the user's favorite hobby?",
+      "answer": "The user's favorite movie is Reading",
+      "ground_truth": "Reading",
+      "correct": true,
+      "latency": 0.026304006576538086
+    },
+    {
+      "id": "inf_084",
+      "category": "information_extraction",
+      "question": "What is the user's favorite book?",
+      "answer": "The user's favorite movie is Reading",
+      "ground_truth": "Star Wars",
+      "correct": false,
+      "latency": 0.02850198745727539
+    },
+    {
+      "id": "inf_085",
+      "category": "information_extraction",
+      "question": "What is the user's favorite hobby?",
+      "answer": "The user's favorite movie is Reading",
+      "ground_truth": "Python",
+      "correct": false,
+      "latency": 0.02788090705871582
+    },
+    {
+      "id": "inf_086",
+      "category": "information_extraction",
+      "question": "What is the user's favorite food?",
+      "answer": "The user's favorite movie is Reading",
+      "ground_truth": "Star Wars",
+      "correct": false,
+      "latency": 0.033535003662109375
+    },
+    {
+      "id": "inf_087",
+      "category": "information_extraction",
+      "question": "What is the user's favorite book?",
+      "answer": "The user's favorite movie is Reading",
+      "ground_truth": "Blue",
+      "correct": false,
+      "latency": 0.02605891227722168
+    },
+    {
+      "id": "inf_088",
+      "category": "information_extraction",
+      "question": "What is the user's favorite movie?",
+      "answer": "The user's favorite movie is Reading",
+      "ground_truth": "Blue",
+      "correct": false,
+      "latency": 0.025084972381591797
+    },
+    {
+      "id": "inf_089",
+      "category": "information_extraction",
+      "question": "What is the user's favorite food?",
+      "answer": "The user's favorite movie is Reading",
+      "ground_truth": "Blue",
+      "correct": false,
+      "latency": 0.028896093368530273
+    },
+    {
+      "id": "inf_090",
+      "category": "information_extraction",
+      "question": "What is the user's favorite color?",
+      "answer": "The user's favorite movie is Reading",
+      "ground_truth": "Star Wars",
+      "correct": false,
+      "latency": 0.03275585174560547
+    },
+    {
+      "id": "inf_091",
+      "category": "information_extraction",
+      "question": "What is the user's favorite color?",
+      "answer": "The user's favorite movie is Reading",
+      "ground_truth": "Blue",
+      "correct": false,
+      "latency": 0.0493321418762207
+    },
+    {
+      "id": "inf_092",
+      "category": "information_extraction",
+      "question": "What is the user's favorite movie?",
+      "answer": "The user's favorite movie is Reading",
+      "ground_truth": "Pizza",
+      "correct": false,
+      "latency": 0.0322880744934082
+    },
+    {
+      "id": "inf_093",
+      "category": "information_extraction",
+      "question": "What is the user's favorite book?",
+      "answer": "The user's favorite movie is Reading",
+      "ground_truth": "Pizza",
+      "correct": false,
+      "latency": 0.03055405616760254
+    },
+    {
+      "id": "inf_094",
+      "category": "information_extraction",
+      "question": "What is the user's favorite hobby?",
+      "answer": "The user's favorite movie is Reading",
+      "ground_truth": "Python",
+      "correct": false,
+      "latency": 0.038305044174194336
+    },
+    {
+      "id": "inf_095",
+      "category": "information_extraction",
+      "question": "What is the user's favorite food?",
+      "answer": "The user's favorite movie is Reading",
+      "ground_truth": "Star Wars",
+      "correct": false,
+      "latency": 0.04250216484069824
+    },
+    {
+      "id": "inf_096",
+      "category": "information_extraction",
+      "question": "What is the user's favorite food?",
+      "answer": "The user's favorite movie is Reading",
+      "ground_truth": "Pizza",
+      "correct": false,
+      "latency": 0.04557180404663086
+    },
+    {
+      "id": "inf_097",
+      "category": "information_extraction",
+      "question": "What is the user's favorite color?",
+      "answer": "The user's favorite movie is Reading",
+      "ground_truth": "Blue",
+      "correct": false,
+      "latency": 0.04080700874328613
+    },
+    {
+      "id": "inf_098",
+      "category": "information_extraction",
+      "question": "What is the user's favorite movie?",
+      "answer": "The user's favorite movie is Reading",
+      "ground_truth": "Star Wars",
+      "correct": false,
+      "latency": 0.03368401527404785
+    },
+    {
+      "id": "inf_099",
+      "category": "information_extraction",
+      "question": "What is the user's favorite book?",
+      "answer": "The user's favorite movie is Reading",
+      "ground_truth": "Pizza",
+      "correct": false,
+      "latency": 0.026314973831176758
+    },
+    {
+      "id": "cro_000",
+      "category": "cross_session_reasoning",
+      "question": "What did the user mention about their goals in the previous sessions?",
+      "answer": "INSUFFICIENT_INFORMATION",
+      "ground_truth": "planning to learn",
+      "correct": false,
+      "latency": 0.03441905975341797
+    },
+    {
+      "id": "cro_001",
+      "category": "cross_session_reasoning",
+      "question": "What did the user mention about their goals in the previous sessions?",
+      "answer": "INSUFFICIENT_INFORMATION",
+      "ground_truth": "having a dog",
+      "correct": false,
+      "latency": 0.035886287689208984
+    },
+    {
+      "id": "cro_002",
+      "category": "cross_session_reasoning",
+      "question": "What did the user mention about their plans in the previous sessions?",
+      "answer": "INSUFFICIENT_INFORMATION",
+      "ground_truth": "planning to learn",
+      "correct": false,
+      "latency": 0.04175519943237305
+    },
+    {
+      "id": "cro_003",
+      "category": "cross_session_reasoning",
+      "question": "What did the user mention about their job in the previous sessions?",
+      "answer": "INSUFFICIENT_INFORMATION",
+      "ground_truth": "working as an engineer",
+      "correct": false,
+      "latency": 0.033833980560302734
+    },
+    {
+      "id": "cro_004",
+      "category": "cross_session_reasoning",
+      "question": "What did the user mention about their goals in the previous sessions?",
+      "answer": "INSUFFICIENT_INFORMATION",
+      "ground_truth": "liking hiking",
+      "correct": false,
+      "latency": 0.03185725212097168
+    },
+    {
+      "id": "cro_005",
+      "category": "cross_session_reasoning",
+      "question": "What did the user mention about their family in the previous sessions?",
+      "answer": "INSUFFICIENT_INFORMATION",
+      "ground_truth": "having a dog",
+      "correct": false,
+      "latency": 0.0345458984375
+    },
+    {
+      "id": "cro_006",
+      "category": "cross_session_reasoning",
+      "question": "What did the user mention about their plans in the previous sessions?",
+      "answer": "INSUFFICIENT_INFORMATION",
+      "ground_truth": "having a dog",
+      "correct": false,
+      "latency": 0.04130268096923828
+    },
+    {
+      "id": "cro_007",
+      "category": "cross_session_reasoning",
+      "question": "What did the user mention about their job in the previous sessions?",
+      "answer": "INSUFFICIENT_INFORMATION",
+      "ground_truth": "having a dog",
+      "correct": false,
+      "latency": 0.031177997589111328
+    },
+    {
+      "id": "cro_008",
+      "category": "cross_session_reasoning",
+      "question": "What did the user mention about their job in the previous sessions?",
+      "answer": "INSUFFICIENT_INFORMATION",
+      "ground_truth": "wanting to travel",
+      "correct": false,
+      "latency": 0.032351016998291016
+    },
+    {
+      "id": "cro_009",
+      "category": "cross_session_reasoning",
+      "question": "What did the user mention about their family in the previous sessions?",
+      "answer": "INSUFFICIENT_INFORMATION",
+      "ground_truth": "having a dog",
+      "correct": false,
+      "latency": 0.029870271682739258
+    },
+    {
+      "id": "cro_010",
+      "category": "cross_session_reasoning",
+      "question": "What did the user mention about their job in the previous sessions?",
+      "answer": "INSUFFICIENT_INFORMATION",
+      "ground_truth": "liking hiking",
+      "correct": false,
+      "latency": 0.035542964935302734
+    },
+    {
+      "id": "cro_011",
+      "category": "cross_session_reasoning",
+      "question": "What did the user mention about their job in the previous sessions?",
+      "answer": "INSUFFICIENT_INFORMATION",
+      "ground_truth": "planning to learn",
+      "correct": false,
+      "latency": 0.04053616523742676
+    },
+    {
+      "id": "cro_012",
+      "category": "cross_session_reasoning",
+      "question": "What did the user mention about their plans in the previous sessions?",
+      "answer": "INSUFFICIENT_INFORMATION",
+      "ground_truth": "having a dog",
+      "correct": false,
+      "latency": 0.032837867736816406
+    },
+    {
+      "id": "cro_013",
+      "category": "cross_session_reasoning",
+      "question": "What did the user mention about their goals in the previous sessions?",
+      "answer": "INSUFFICIENT_INFORMATION",
+      "ground_truth": "wanting to travel",
+      "correct": false,
+      "latency": 0.03187084197998047
+    },
+    {
+      "id": "cro_014",
+      "category": "cross_session_reasoning",
+      "question": "What did the user mention about their plans in the previous sessions?",
+      "answer": "INSUFFICIENT_INFORMATION",
+      "ground_truth": "wanting to travel",
+      "correct": false,
+      "latency": 0.030765056610107422
+    },
+    {
+      "id": "cro_015",
+      "category": "cross_session_reasoning",
+      "question": "What did the user mention about their family in the previous sessions?",
+      "answer": "INSUFFICIENT_INFORMATION",
+      "ground_truth": "liking hiking",
+      "correct": false,
+      "latency": 0.03599286079406738
+    },
+    {
+      "id": "cro_016",
+      "category": "cross_session_reasoning",
+      "question": "What did the user mention about their job in the previous sessions?",
+      "answer": "INSUFFICIENT_INFORMATION",
+      "ground_truth": "having a dog",
+      "correct": false,
+      "latency": 0.053314924240112305
+    },
+    {
+      "id": "cro_017",
+      "category": "cross_session_reasoning",
+      "question": "What did the user mention about their goals in the previous sessions?",
+      "answer": "INSUFFICIENT_INFORMATION",
+      "ground_truth": "planning to learn",
+      "correct": false,
+      "latency": 0.07819914817810059
+    },
+    {
+      "id": "cro_018",
+      "category": "cross_session_reasoning",
+      "question": "What did the user mention about their hobbies in the previous sessions?",
+      "answer": "INSUFFICIENT_INFORMATION",
+      "ground_truth": "planning to learn",
+      "correct": false,
+      "latency": 0.11835312843322754
+    },
+    {
+      "id": "cro_019",
+      "category": "cross_session_reasoning",
+      "question": "What did the user mention about their job in the previous sessions?",
+      "answer": "INSUFFICIENT_INFORMATION",
+      "ground_truth": "working as an engineer",
+      "correct": false,
+      "latency": 0.14669489860534668
+    },
+    {
+      "id": "cro_020",
+      "category": "cross_session_reasoning",
+      "question": "What did the user mention about their family in the previous sessions?",
+      "answer": "INSUFFICIENT_INFORMATION",
+      "ground_truth": "working as an engineer",
+      "correct": false,
+      "latency": 0.042402029037475586
+    },
+    {
+      "id": "cro_021",
+      "category": "cross_session_reasoning",
+      "question": "What did the user mention about their job in the previous sessions?",
+      "answer": "INSUFFICIENT_INFORMATION",
+      "ground_truth": "working as an engineer",
+      "correct": false,
+      "latency": 0.03667187690734863
+    },
+    {
+      "id": "cro_022",
+      "category": "cross_session_reasoning",
+      "question": "What did the user mention about their family in the previous sessions?",
+      "answer": "INSUFFICIENT_INFORMATION",
+      "ground_truth": "having a dog",
+      "correct": false,
+      "latency": 0.04169178009033203
+    },
+    {
+      "id": "cro_023",
+      "category": "cross_session_reasoning",
+      "question": "What did the user mention about their plans in the previous sessions?",
+      "answer": "INSUFFICIENT_INFORMATION",
+      "ground_truth": "wanting to travel",
+      "correct": false,
+      "latency": 0.03317403793334961
+    },
+    {
+      "id": "cro_024",
+      "category": "cross_session_reasoning",
+      "question": "What did the user mention about their hobbies in the previous sessions?",
+      "answer": "INSUFFICIENT_INFORMATION",
+      "ground_truth": "working as an engineer",
+      "correct": false,
+      "latency": 0.03301882743835449
+    },
+    {
+      "id": "cro_025",
+      "category": "cross_session_reasoning",
+      "question": "What did the user mention about their hobbies in the previous sessions?",
+      "answer": "INSUFFICIENT_INFORMATION",
+      "ground_truth": "working as an engineer",
+      "correct": false,
+      "latency": 0.034091949462890625
+    },
+    {
+      "id": "cro_026",
+      "category": "cross_session_reasoning",
+      "question": "What did the user mention about their family in the previous sessions?",
+      "answer": "INSUFFICIENT_INFORMATION",
+      "ground_truth": "working as an engineer",
+      "correct": false,
+      "latency": 0.045411109924316406
+    },
+    {
+      "id": "cro_027",
+      "category": "cross_session_reasoning",
+      "question": "What did the user mention about their goals in the previous sessions?",
+      "answer": "INSUFFICIENT_INFORMATION",
+      "ground_truth": "planning to learn",
+      "correct": false,
+      "latency": 0.03169584274291992
+    },
+    {
+      "id": "cro_028",
+      "category": "cross_session_reasoning",
+      "question": "What did the user mention about their job in the previous sessions?",
+      "answer": "INSUFFICIENT_INFORMATION",
+      "ground_truth": "having a dog",
+      "correct": false,
+      "latency": 0.0325930118560791
+    },
+    {
+      "id": "cro_029",
+      "category": "cross_session_reasoning",
+      "question": "What did the user mention about their job in the previous sessions?",
+      "answer": "INSUFFICIENT_INFORMATION",
+      "ground_truth": "liking hiking",
+      "correct": false,
+      "latency": 0.03619098663330078
+    },
+    {
+      "id": "cro_030",
+      "category": "cross_session_reasoning",
+      "question": "What did the user mention about their plans in the previous sessions?",
+      "answer": "INSUFFICIENT_INFORMATION",
+      "ground_truth": "having a dog",
+      "correct": false,
+      "latency": 0.03684282302856445
+    },
+    {
+      "id": "cro_031",
+      "category": "cross_session_reasoning",
+      "question": "What did the user mention about their hobbies in the previous sessions?",
+      "answer": "INSUFFICIENT_INFORMATION",
+      "ground_truth": "planning to learn",
+      "correct": false,
+      "latency": 0.043786048889160156
+    },
+    {
+      "id": "cro_032",
+      "category": "cross_session_reasoning",
+      "question": "What did the user mention about their job in the previous sessions?",
+      "answer": "INSUFFICIENT_INFORMATION",
+      "ground_truth": "planning to learn",
+      "correct": false,
+      "latency": 0.029688119888305664
+    },
+    {
+      "id": "cro_033",
+      "category": "cross_session_reasoning",
+      "question": "What did the user mention about their job in the previous sessions?",
+      "answer": "INSUFFICIENT_INFORMATION",
+      "ground_truth": "working as an engineer",
+      "correct": false,
+      "latency": 0.03235197067260742
+    },
+    {
+      "id": "cro_034",
+      "category": "cross_session_reasoning",
+      "question": "What did the user mention about their job in the previous sessions?",
+      "answer": "INSUFFICIENT_INFORMATION",
+      "ground_truth": "having a dog",
+      "correct": false,
+      "latency": 0.03243207931518555
+    },
+    {
+      "id": "cro_035",
+      "category": "cross_session_reasoning",
+      "question": "What did the user mention about their plans in the previous sessions?",
+      "answer": "INSUFFICIENT_INFORMATION",
+      "ground_truth": "having a dog",
+      "correct": false,
+      "latency": 0.032179832458496094
+    },
+    {
+      "id": "cro_036",
+      "category": "cross_session_reasoning",
+      "question": "What did the user mention about their plans in the previous sessions?",
+      "answer": "INSUFFICIENT_INFORMATION",
+      "ground_truth": "wanting to travel",
+      "correct": false,
+      "latency": 0.035912275314331055
+    },
+    {
+      "id": "cro_037",
+      "category": "cross_session_reasoning",
+      "question": "What did the user mention about their family in the previous sessions?",
+      "answer": "INSUFFICIENT_INFORMATION",
+      "ground_truth": "working as an engineer",
+      "correct": false,
+      "latency": 0.0378108024597168
+    },
+    {
+      "id": "cro_038",
+      "category": "cross_session_reasoning",
+      "question": "What did the user mention about their family in the previous sessions?",
+      "answer": "INSUFFICIENT_INFORMATION",
+      "ground_truth": "wanting to travel",
+      "correct": false,
+      "latency": 0.0334620475769043
+    },
+    {
+      "id": "cro_039",
+      "category": "cross_session_reasoning",
+      "question": "What did the user mention about their goals in the previous sessions?",
+      "answer": "INSUFFICIENT_INFORMATION",
+      "ground_truth": "wanting to travel",
+      "correct": false,
+      "latency": 0.03276801109313965
+    },
+    {
+      "id": "cro_040",
+      "category": "cross_session_reasoning",
+      "question": "What did the user mention about their plans in the previous sessions?",
+      "answer": "INSUFFICIENT_INFORMATION",
+      "ground_truth": "liking hiking",
+      "correct": false,
+      "latency": 0.045829057693481445
+    },
+    {
+      "id": "cro_041",
+      "category": "cross_session_reasoning",
+      "question": "What did the user mention about their family in the previous sessions?",
+      "answer": "INSUFFICIENT_INFORMATION",
+      "ground_truth": "planning to learn",
+      "correct": false,
+      "latency": 0.04684185981750488
+    },
+    {
+      "id": "cro_042",
+      "category": "cross_session_reasoning",
+      "question": "What did the user mention about their family in the previous sessions?",
+      "answer": "INSUFFICIENT_INFORMATION",
+      "ground_truth": "working as an engineer",
+      "correct": false,
+      "latency": 0.04692888259887695
+    },
+    {
+      "id": "cro_043",
+      "category": "cross_session_reasoning",
+      "question": "What did the user mention about their hobbies in the previous sessions?",
+      "answer": "INSUFFICIENT_INFORMATION",
+      "ground_truth": "having a dog",
+      "correct": false,
+      "latency": 0.04458189010620117
+    },
+    {
+      "id": "cro_044",
+      "category": "cross_session_reasoning",
+      "question": "What did the user mention about their family in the previous sessions?",
+      "answer": "INSUFFICIENT_INFORMATION",
+      "ground_truth": "working as an engineer",
+      "correct": false,
+      "latency": 0.051664113998413086
+    },
+    {
+      "id": "cro_045",
+      "category": "cross_session_reasoning",
+      "question": "What did the user mention about their job in the previous sessions?",
+      "answer": "INSUFFICIENT_INFORMATION",
+      "ground_truth": "liking hiking",
+      "correct": false,
+      "latency": 0.05043292045593262
+    },
+    {
+      "id": "cro_046",
+      "category": "cross_session_reasoning",
+      "question": "What did the user mention about their job in the previous sessions?",
+      "answer": "INSUFFICIENT_INFORMATION",
+      "ground_truth": "having a dog",
+      "correct": false,
+      "latency": 0.05052590370178223
+    },
+    {
+      "id": "cro_047",
+      "category": "cross_session_reasoning",
+      "question": "What did the user mention about their goals in the previous sessions?",
+      "answer": "INSUFFICIENT_INFORMATION",
+      "ground_truth": "working as an engineer",
+      "correct": false,
+      "latency": 0.0335233211517334
+    },
+    {
+      "id": "cro_048",
+      "category": "cross_session_reasoning",
+      "question": "What did the user mention about their family in the previous sessions?",
+      "answer": "INSUFFICIENT_INFORMATION",
+      "ground_truth": "having a dog",
+      "correct": false,
+      "latency": 0.03138613700866699
+    },
+    {
+      "id": "cro_049",
+      "category": "cross_session_reasoning",
+      "question": "What did the user mention about their job in the previous sessions?",
+      "answer": "INSUFFICIENT_INFORMATION",
+      "ground_truth": "liking hiking",
+      "correct": false,
+      "latency": 0.034562110900878906
+    },
+    {
+      "id": "cro_050",
+      "category": "cross_session_reasoning",
+      "question": "What did the user mention about their job in the previous sessions?",
+      "answer": "INSUFFICIENT_INFORMATION",
+      "ground_truth": "having a dog",
+      "correct": false,
+      "latency": 0.03534102439880371
+    },
+    {
+      "id": "cro_051",
+      "category": "cross_session_reasoning",
+      "question": "What did the user mention about their family in the previous sessions?",
+      "answer": "INSUFFICIENT_INFORMATION",
+      "ground_truth": "liking hiking",
+      "correct": false,
+      "latency": 0.040199995040893555
+    },
+    {
+      "id": "cro_052",
+      "category": "cross_session_reasoning",
+      "question": "What did the user mention about their plans in the previous sessions?",
+      "answer": "INSUFFICIENT_INFORMATION",
+      "ground_truth": "working as an engineer",
+      "correct": false,
+      "latency": 0.035546064376831055
+    },
+    {
+      "id": "cro_053",
+      "category": "cross_session_reasoning",
+      "question": "What did the user mention about their job in the previous sessions?",
+      "answer": "INSUFFICIENT_INFORMATION",
+      "ground_truth": "planning to learn",
+      "correct": false,
+      "latency": 0.029010295867919922
+    },
+    {
+      "id": "cro_054",
+      "category": "cross_session_reasoning",
+      "question": "What did the user mention about their hobbies in the previous sessions?",
+      "answer": "INSUFFICIENT_INFORMATION",
+      "ground_truth": "working as an engineer",
+      "correct": false,
+      "latency": 0.03644609451293945
+    },
+    {
+      "id": "cro_055",
+      "category": "cross_session_reasoning",
+      "question": "What did the user mention about their family in the previous sessions?",
+      "answer": "INSUFFICIENT_INFORMATION",
+      "ground_truth": "working as an engineer",
+      "correct": false,
+      "latency": 0.03386402130126953
+    },
+    {
+      "id": "cro_056",
+      "category": "cross_session_reasoning",
+      "question": "What did the user mention about their family in the previous sessions?",
+      "answer": "INSUFFICIENT_INFORMATION",
+      "ground_truth": "wanting to travel",
+      "correct": false,
+      "latency": 0.0368959903717041
+    },
+    {
+      "id": "cro_057",
+      "category": "cross_session_reasoning",
+      "question": "What did the user mention about their job in the previous sessions?",
+      "answer": "INSUFFICIENT_INFORMATION",
+      "ground_truth": "liking hiking",
+      "correct": false,
+      "latency": 0.03946185111999512
+    },
+    {
+      "id": "cro_058",
+      "category": "cross_session_reasoning",
+      "question": "What did the user mention about their plans in the previous sessions?",
+      "answer": "INSUFFICIENT_INFORMATION",
+      "ground_truth": "planning to learn",
+      "correct": false,
+      "latency": 0.03152799606323242
+    },
+    {
+      "id": "cro_059",
+      "category": "cross_session_reasoning",
+      "question": "What did the user mention about their hobbies in the previous sessions?",
+      "answer": "INSUFFICIENT_INFORMATION",
+      "ground_truth": "planning to learn",
+      "correct": false,
+      "latency": 0.034284114837646484
+    },
+    {
+      "id": "cro_060",
+      "category": "cross_session_reasoning",
+      "question": "What did the user mention about their family in the previous sessions?",
+      "answer": "INSUFFICIENT_INFORMATION",
+      "ground_truth": "wanting to travel",
+      "correct": false,
+      "latency": 0.03030991554260254
+    },
+    {
+      "id": "cro_061",
+      "category": "cross_session_reasoning",
+      "question": "What did the user mention about their goals in the previous sessions?",
+      "answer": "INSUFFICIENT_INFORMATION",
+      "ground_truth": "having a dog",
+      "correct": false,
+      "latency": 0.03326606750488281
+    },
+    {
+      "id": "cro_062",
+      "category": "cross_session_reasoning",
+      "question": "What did the user mention about their plans in the previous sessions?",
+      "answer": "INSUFFICIENT_INFORMATION",
+      "ground_truth": "planning to learn",
+      "correct": false,
+      "latency": 0.04080986976623535
+    },
+    {
+      "id": "cro_063",
+      "category": "cross_session_reasoning",
+      "question": "What did the user mention about their plans in the previous sessions?",
+      "answer": "INSUFFICIENT_INFORMATION",
+      "ground_truth": "liking hiking",
+      "correct": false,
+      "latency": 0.03005695343017578
+    },
+    {
+      "id": "cro_064",
+      "category": "cross_session_reasoning",
+      "question": "What did the user mention about their family in the previous sessions?",
+      "answer": "INSUFFICIENT_INFORMATION",
+      "ground_truth": "having a dog",
+      "correct": false,
+      "latency": 0.03274178504943848
+    },
+    {
+      "id": "cro_065",
+      "category": "cross_session_reasoning",
+      "question": "What did the user mention about their family in the previous sessions?",
+      "answer": "INSUFFICIENT_INFORMATION",
+      "ground_truth": "wanting to travel",
+      "correct": false,
+      "latency": 0.03526115417480469
+    },
+    {
+      "id": "cro_066",
+      "category": "cross_session_reasoning",
+      "question": "What did the user mention about their family in the previous sessions?",
+      "answer": "INSUFFICIENT_INFORMATION",
+      "ground_truth": "planning to learn",
+      "correct": false,
+      "latency": 0.05087709426879883
+    },
+    {
+      "id": "cro_067",
+      "category": "cross_session_reasoning",
+      "question": "What did the user mention about their job in the previous sessions?",
+      "answer": "INSUFFICIENT_INFORMATION",
+      "ground_truth": "working as an engineer",
+      "correct": false,
+      "latency": 0.03760981559753418
+    },
+    {
+      "id": "cro_068",
+      "category": "cross_session_reasoning",
+      "question": "What did the user mention about their hobbies in the previous sessions?",
+      "answer": "INSUFFICIENT_INFORMATION",
+      "ground_truth": "having a dog",
+      "correct": false,
+      "latency": 0.038724660873413086
+    },
+    {
+      "id": "cro_069",
+      "category": "cross_session_reasoning",
+      "question": "What did the user mention about their plans in the previous sessions?",
+      "answer": "INSUFFICIENT_INFORMATION",
+      "ground_truth": "having a dog",
+      "correct": false,
+      "latency": 0.0518651008605957
+    },
+    {
+      "id": "cro_070",
+      "category": "cross_session_reasoning",
+      "question": "What did the user mention about their goals in the previous sessions?",
+      "answer": "INSUFFICIENT_INFORMATION",
+      "ground_truth": "having a dog",
+      "correct": false,
+      "latency": 0.0526430606842041
+    },
+    {
+      "id": "cro_071",
+      "category": "cross_session_reasoning",
+      "question": "What did the user mention about their hobbies in the previous sessions?",
+      "answer": "INSUFFICIENT_INFORMATION",
+      "ground_truth": "working as an engineer",
+      "correct": false,
+      "latency": 0.04142308235168457
+    },
+    {
+      "id": "cro_072",
+      "category": "cross_session_reasoning",
+      "question": "What did the user mention about their hobbies in the previous sessions?",
+      "answer": "INSUFFICIENT_INFORMATION",
+      "ground_truth": "working as an engineer",
+      "correct": false,
+      "latency": 0.04620814323425293
+    },
+    {
+      "id": "cro_073",
+      "category": "cross_session_reasoning",
+      "question": "What did the user mention about their job in the previous sessions?",
+      "answer": "INSUFFICIENT_INFORMATION",
+      "ground_truth": "working as an engineer",
+      "correct": false,
+      "latency": 0.03790783882141113
+    },
+    {
+      "id": "cro_074",
+      "category": "cross_session_reasoning",
+      "question": "What did the user mention about their goals in the previous sessions?",
+      "answer": "INSUFFICIENT_INFORMATION",
+      "ground_truth": "planning to learn",
+      "correct": false,
+      "latency": 0.03349709510803223
+    },
+    {
+      "id": "cro_075",
+      "category": "cross_session_reasoning",
+      "question": "What did the user mention about their plans in the previous sessions?",
+      "answer": "INSUFFICIENT_INFORMATION",
+      "ground_truth": "having a dog",
+      "correct": false,
+      "latency": 0.03381013870239258
+    },
+    {
+      "id": "cro_076",
+      "category": "cross_session_reasoning",
+      "question": "What did the user mention about their family in the previous sessions?",
+      "answer": "INSUFFICIENT_INFORMATION",
+      "ground_truth": "planning to learn",
+      "correct": false,
+      "latency": 0.03804326057434082
+    },
+    {
+      "id": "cro_077",
+      "category": "cross_session_reasoning",
+      "question": "What did the user mention about their plans in the previous sessions?",
+      "answer": "INSUFFICIENT_INFORMATION",
+      "ground_truth": "wanting to travel",
+      "correct": false,
+      "latency": 0.04192471504211426
+    },
+    {
+      "id": "cro_078",
+      "category": "cross_session_reasoning",
+      "question": "What did the user mention about their family in the previous sessions?",
+      "answer": "INSUFFICIENT_INFORMATION",
+      "ground_truth": "wanting to travel",
+      "correct": false,
+      "latency": 0.033267974853515625
+    },
+    {
+      "id": "cro_079",
+      "category": "cross_session_reasoning",
+      "question": "What did the user mention about their family in the previous sessions?",
+      "answer": "INSUFFICIENT_INFORMATION",
+      "ground_truth": "liking hiking",
+      "correct": false,
+      "latency": 0.032095909118652344
+    },
+    {
+      "id": "cro_080",
+      "category": "cross_session_reasoning",
+      "question": "What did the user mention about their plans in the previous sessions?",
+      "answer": "INSUFFICIENT_INFORMATION",
+      "ground_truth": "wanting to travel",
+      "correct": false,
+      "latency": 0.031746864318847656
+    },
+    {
+      "id": "cro_081",
+      "category": "cross_session_reasoning",
+      "question": "What did the user mention about their job in the previous sessions?",
+      "answer": "INSUFFICIENT_INFORMATION",
+      "ground_truth": "wanting to travel",
+      "correct": false,
+      "latency": 0.03302192687988281
+    },
+    {
+      "id": "cro_082",
+      "category": "cross_session_reasoning",
+      "question": "What did the user mention about their hobbies in the previous sessions?",
+      "answer": "INSUFFICIENT_INFORMATION",
+      "ground_truth": "liking hiking",
+      "correct": false,
+      "latency": 0.034001827239990234
+    },
+    {
+      "id": "cro_083",
+      "category": "cross_session_reasoning",
+      "question": "What did the user mention about their family in the previous sessions?",
+      "answer": "INSUFFICIENT_INFORMATION",
+      "ground_truth": "liking hiking",
+      "correct": false,
+      "latency": 0.03754901885986328
+    },
+    {
+      "id": "cro_084",
+      "category": "cross_session_reasoning",
+      "question": "What did the user mention about their plans in the previous sessions?",
+      "answer": "INSUFFICIENT_INFORMATION",
+      "ground_truth": "planning to learn",
+      "correct": false,
+      "latency": 0.0380399227142334
+    },
+    {
+      "id": "cro_085",
+      "category": "cross_session_reasoning",
+      "question": "What did the user mention about their job in the previous sessions?",
+      "answer": "INSUFFICIENT_INFORMATION",
+      "ground_truth": "wanting to travel",
+      "correct": false,
+      "latency": 0.031613826751708984
+    },
+    {
+      "id": "cro_086",
+      "category": "cross_session_reasoning",
+      "question": "What did the user mention about their job in the previous sessions?",
+      "answer": "INSUFFICIENT_INFORMATION",
+      "ground_truth": "planning to learn",
+      "correct": false,
+      "latency": 0.032221317291259766
+    },
+    {
+      "id": "cro_087",
+      "category": "cross_session_reasoning",
+      "question": "What did the user mention about their plans in the previous sessions?",
+      "answer": "INSUFFICIENT_INFORMATION",
+      "ground_truth": "wanting to travel",
+      "correct": false,
+      "latency": 0.03046894073486328
+    },
+    {
+      "id": "cro_088",
+      "category": "cross_session_reasoning",
+      "question": "What did the user mention about their hobbies in the previous sessions?",
+      "answer": "INSUFFICIENT_INFORMATION",
+      "ground_truth": "planning to learn",
+      "correct": false,
+      "latency": 0.03591108322143555
+    },
+    {
+      "id": "cro_089",
+      "category": "cross_session_reasoning",
+      "question": "What did the user mention about their job in the previous sessions?",
+      "answer": "INSUFFICIENT_INFORMATION",
+      "ground_truth": "planning to learn",
+      "correct": false,
+      "latency": 0.037283897399902344
+    },
+    {
+      "id": "cro_090",
+      "category": "cross_session_reasoning",
+      "question": "What did the user mention about their plans in the previous sessions?",
+      "answer": "INSUFFICIENT_INFORMATION",
+      "ground_truth": "wanting to travel",
+      "correct": false,
+      "latency": 0.03116583824157715
+    },
+    {
+      "id": "cro_091",
+      "category": "cross_session_reasoning",
+      "question": "What did the user mention about their family in the previous sessions?",
+      "answer": "INSUFFICIENT_INFORMATION",
+      "ground_truth": "having a dog",
+      "correct": false,
+      "latency": 0.037032127380371094
+    },
+    {
+      "id": "cro_092",
+      "category": "cross_session_reasoning",
+      "question": "What did the user mention about their job in the previous sessions?",
+      "answer": "INSUFFICIENT_INFORMATION",
+      "ground_truth": "working as an engineer",
+      "correct": false,
+      "latency": 0.03246808052062988
+    },
+    {
+      "id": "cro_093",
+      "category": "cross_session_reasoning",
+      "question": "What did the user mention about their job in the previous sessions?",
+      "answer": "INSUFFICIENT_INFORMATION",
+      "ground_truth": "liking hiking",
+      "correct": false,
+      "latency": 0.05610394477844238
+    },
+    {
+      "id": "cro_094",
+      "category": "cross_session_reasoning",
+      "question": "What did the user mention about their family in the previous sessions?",
+      "answer": "INSUFFICIENT_INFORMATION",
+      "ground_truth": "having a dog",
+      "correct": false,
+      "latency": 0.037722110748291016
+    },
+    {
+      "id": "cro_095",
+      "category": "cross_session_reasoning",
+      "question": "What did the user mention about their hobbies in the previous sessions?",
+      "answer": "INSUFFICIENT_INFORMATION",
+      "ground_truth": "planning to learn",
+      "correct": false,
+      "latency": 0.03673601150512695
+    },
+    {
+      "id": "cro_096",
+      "category": "cross_session_reasoning",
+      "question": "What did the user mention about their job in the previous sessions?",
+      "answer": "INSUFFICIENT_INFORMATION",
+      "ground_truth": "working as an engineer",
+      "correct": false,
+      "latency": 0.04090309143066406
+    },
+    {
+      "id": "cro_097",
+      "category": "cross_session_reasoning",
+      "question": "What did the user mention about their plans in the previous sessions?",
+      "answer": "INSUFFICIENT_INFORMATION",
+      "ground_truth": "working as an engineer",
+      "correct": false,
+      "latency": 0.05359387397766113
+    },
+    {
+      "id": "cro_098",
+      "category": "cross_session_reasoning",
+      "question": "What did the user mention about their hobbies in the previous sessions?",
+      "answer": "INSUFFICIENT_INFORMATION",
+      "ground_truth": "working as an engineer",
+      "correct": false,
+      "latency": 0.04066109657287598
+    },
+    {
+      "id": "cro_099",
+      "category": "cross_session_reasoning",
+      "question": "What did the user mention about their hobbies in the previous sessions?",
+      "answer": "INSUFFICIENT_INFORMATION",
+      "ground_truth": "wanting to travel",
+      "correct": false,
+      "latency": 0.04287600517272949
+    },
+    {
+      "id": "tem_000",
+      "category": "temporal_reasoning",
+      "question": "When did the user last talk about vacation?",
+      "answer": "UNKNOWN",
+      "ground_truth": "Last mentioned 11 days ago",
+      "correct": false,
+      "latency": 0.036229848861694336
+    },
+    {
+      "id": "tem_001",
+      "category": "temporal_reasoning",
+      "question": "When did the user last talk about deadline?",
+      "answer": "UNKNOWN",
+      "ground_truth": "Last mentioned 15 days ago",
+      "correct": false,
+      "latency": 0.03261590003967285
+    },
+    {
+      "id": "tem_002",
+      "category": "temporal_reasoning",
+      "question": "When did the user last talk about vacation?",
+      "answer": "UNKNOWN",
+      "ground_truth": "Last mentioned 1 days ago",
+      "correct": false,
+      "latency": 0.027636289596557617
+    },
+    {
+      "id": "tem_003",
+      "category": "temporal_reasoning",
+      "question": "When did the user last talk about birthday?",
+      "answer": "UNKNOWN",
+      "ground_truth": "Last mentioned 3 days ago",
+      "correct": false,
+      "latency": 0.033113956451416016
+    },
+    {
+      "id": "tem_004",
+      "category": "temporal_reasoning",
+      "question": "When did the user last talk about meeting?",
+      "answer": "UNKNOWN",
+      "ground_truth": "Last mentioned 24 days ago",
+      "correct": false,
+      "latency": 0.037941932678222656
+    },
+    {
+      "id": "tem_005",
+      "category": "temporal_reasoning",
+      "question": "When did the user last talk about meeting?",
+      "answer": "UNKNOWN",
+      "ground_truth": "Last mentioned 17 days ago",
+      "correct": false,
+      "latency": 0.03128814697265625
+    },
+    {
+      "id": "tem_006",
+      "category": "temporal_reasoning",
+      "question": "When did the user last talk about project?",
+      "answer": "UNKNOWN",
+      "ground_truth": "Last mentioned 27 days ago",
+      "correct": false,
+      "latency": 0.030166149139404297
+    },
+    {
+      "id": "tem_007",
+      "category": "temporal_reasoning",
+      "question": "When did the user last talk about vacation?",
+      "answer": "UNKNOWN",
+      "ground_truth": "Last mentioned 11 days ago",
+      "correct": false,
+      "latency": 0.029944896697998047
+    },
+    {
+      "id": "tem_008",
+      "category": "temporal_reasoning",
+      "question": "When did the user last talk about meeting?",
+      "answer": "UNKNOWN",
+      "ground_truth": "Last mentioned 14 days ago",
+      "correct": false,
+      "latency": 0.03151583671569824
+    },
+    {
+      "id": "tem_009",
+      "category": "temporal_reasoning",
+      "question": "When did the user last talk about birthday?",
+      "answer": "UNKNOWN",
+      "ground_truth": "Last mentioned 1 days ago",
+      "correct": false,
+      "latency": 0.03519296646118164
+    },
+    {
+      "id": "tem_010",
+      "category": "temporal_reasoning",
+      "question": "When did the user last talk about project?",
+      "answer": "UNKNOWN",
+      "ground_truth": "Last mentioned 18 days ago",
+      "correct": false,
+      "latency": 0.032876014709472656
+    },
+    {
+      "id": "tem_011",
+      "category": "temporal_reasoning",
+      "question": "When did the user last talk about birthday?",
+      "answer": "UNKNOWN",
+      "ground_truth": "Last mentioned 29 days ago",
+      "correct": false,
+      "latency": 0.03858304023742676
+    },
+    {
+      "id": "tem_012",
+      "category": "temporal_reasoning",
+      "question": "When did the user last talk about vacation?",
+      "answer": "UNKNOWN",
+      "ground_truth": "Last mentioned 24 days ago",
+      "correct": false,
+      "latency": 0.027235031127929688
+    },
+    {
+      "id": "tem_013",
+      "category": "temporal_reasoning",
+      "question": "When did the user last talk about meeting?",
+      "answer": "UNKNOWN",
+      "ground_truth": "Last mentioned 26 days ago",
+      "correct": false,
+      "latency": 0.02802109718322754
+    },
+    {
+      "id": "tem_014",
+      "category": "temporal_reasoning",
+      "question": "When did the user last talk about meeting?",
+      "answer": "UNKNOWN",
+      "ground_truth": "Last mentioned 29 days ago",
+      "correct": false,
+      "latency": 0.030498981475830078
+    },
+    {
+      "id": "tem_015",
+      "category": "temporal_reasoning",
+      "question": "When did the user last talk about birthday?",
+      "answer": "UNKNOWN",
+      "ground_truth": "Last mentioned 11 days ago",
+      "correct": false,
+      "latency": 0.03005814552307129
+    },
+    {
+      "id": "tem_016",
+      "category": "temporal_reasoning",
+      "question": "When did the user last talk about meeting?",
+      "answer": "UNKNOWN",
+      "ground_truth": "Last mentioned 10 days ago",
+      "correct": false,
+      "latency": 0.037744998931884766
+    },
+    {
+      "id": "tem_017",
+      "category": "temporal_reasoning",
+      "question": "When did the user last talk about vacation?",
+      "answer": "UNKNOWN",
+      "ground_truth": "Last mentioned 13 days ago",
+      "correct": false,
+      "latency": 0.026118040084838867
+    },
+    {
+      "id": "tem_018",
+      "category": "temporal_reasoning",
+      "question": "When did the user last talk about birthday?",
+      "answer": "UNKNOWN",
+      "ground_truth": "Last mentioned 18 days ago",
+      "correct": false,
+      "latency": 0.02792501449584961
+    },
+    {
+      "id": "tem_019",
+      "category": "temporal_reasoning",
+      "question": "When did the user last talk about birthday?",
+      "answer": "UNKNOWN",
+      "ground_truth": "Last mentioned 4 days ago",
+      "correct": false,
+      "latency": 0.031419992446899414
+    },
+    {
+      "id": "tem_020",
+      "category": "temporal_reasoning",
+      "question": "When did the user last talk about project?",
+      "answer": "UNKNOWN",
+      "ground_truth": "Last mentioned 21 days ago",
+      "correct": false,
+      "latency": 0.036530256271362305
+    },
+    {
+      "id": "tem_021",
+      "category": "temporal_reasoning",
+      "question": "When did the user last talk about vacation?",
+      "answer": "UNKNOWN",
+      "ground_truth": "Last mentioned 17 days ago",
+      "correct": false,
+      "latency": 0.03084397315979004
+    },
+    {
+      "id": "tem_022",
+      "category": "temporal_reasoning",
+      "question": "When did the user last talk about deadline?",
+      "answer": "UNKNOWN",
+      "ground_truth": "Last mentioned 18 days ago",
+      "correct": false,
+      "latency": 0.04068303108215332
+    },
+    {
+      "id": "tem_023",
+      "category": "temporal_reasoning",
+      "question": "When did the user last talk about deadline?",
+      "answer": "UNKNOWN",
+      "ground_truth": "Last mentioned 30 days ago",
+      "correct": false,
+      "latency": 0.03603720664978027
+    },
+    {
+      "id": "tem_024",
+      "category": "temporal_reasoning",
+      "question": "When did the user last talk about deadline?",
+      "answer": "UNKNOWN",
+      "ground_truth": "Last mentioned 26 days ago",
+      "correct": false,
+      "latency": 0.0377039909362793
+    },
+    {
+      "id": "tem_025",
+      "category": "temporal_reasoning",
+      "question": "When did the user last talk about meeting?",
+      "answer": "UNKNOWN",
+      "ground_truth": "Last mentioned 12 days ago",
+      "correct": false,
+      "latency": 0.03877973556518555
+    },
+    {
+      "id": "tem_026",
+      "category": "temporal_reasoning",
+      "question": "When did the user last talk about meeting?",
+      "answer": "UNKNOWN",
+      "ground_truth": "Last mentioned 25 days ago",
+      "correct": false,
+      "latency": 0.051486968994140625
+    },
+    {
+      "id": "tem_027",
+      "category": "temporal_reasoning",
+      "question": "When did the user last talk about meeting?",
+      "answer": "UNKNOWN",
+      "ground_truth": "Last mentioned 13 days ago",
+      "correct": false,
+      "latency": 0.0480189323425293
+    },
+    {
+      "id": "tem_028",
+      "category": "temporal_reasoning",
+      "question": "When did the user last talk about birthday?",
+      "answer": "UNKNOWN",
+      "ground_truth": "Last mentioned 20 days ago",
+      "correct": false,
+      "latency": 0.03310203552246094
+    },
+    {
+      "id": "tem_029",
+      "category": "temporal_reasoning",
+      "question": "When did the user last talk about project?",
+      "answer": "UNKNOWN",
+      "ground_truth": "Last mentioned 29 days ago",
+      "correct": false,
+      "latency": 0.04060101509094238
+    },
+    {
+      "id": "tem_030",
+      "category": "temporal_reasoning",
+      "question": "When did the user last talk about birthday?",
+      "answer": "UNKNOWN",
+      "ground_truth": "Last mentioned 12 days ago",
+      "correct": false,
+      "latency": 0.032653093338012695
+    },
+    {
+      "id": "tem_031",
+      "category": "temporal_reasoning",
+      "question": "When did the user last talk about meeting?",
+      "answer": "UNKNOWN",
+      "ground_truth": "Last mentioned 25 days ago",
+      "correct": false,
+      "latency": 0.037706851959228516
+    },
+    {
+      "id": "tem_032",
+      "category": "temporal_reasoning",
+      "question": "When did the user last talk about vacation?",
+      "answer": "UNKNOWN",
+      "ground_truth": "Last mentioned 23 days ago",
+      "correct": false,
+      "latency": 0.028959989547729492
+    },
+    {
+      "id": "tem_033",
+      "category": "temporal_reasoning",
+      "question": "When did the user last talk about project?",
+      "answer": "UNKNOWN",
+      "ground_truth": "Last mentioned 18 days ago",
+      "correct": false,
+      "latency": 0.03136587142944336
+    },
+    {
+      "id": "tem_034",
+      "category": "temporal_reasoning",
+      "question": "When did the user last talk about deadline?",
+      "answer": "UNKNOWN",
+      "ground_truth": "Last mentioned 20 days ago",
+      "correct": false,
+      "latency": 0.0291748046875
+    },
+    {
+      "id": "tem_035",
+      "category": "temporal_reasoning",
+      "question": "When did the user last talk about project?",
+      "answer": "UNKNOWN",
+      "ground_truth": "Last mentioned 7 days ago",
+      "correct": false,
+      "latency": 0.030446767807006836
+    },
+    {
+      "id": "tem_036",
+      "category": "temporal_reasoning",
+      "question": "When did the user last talk about meeting?",
+      "answer": "UNKNOWN",
+      "ground_truth": "Last mentioned 15 days ago",
+      "correct": false,
+      "latency": 0.030402660369873047
+    },
+    {
+      "id": "tem_037",
+      "category": "temporal_reasoning",
+      "question": "When did the user last talk about birthday?",
+      "answer": "UNKNOWN",
+      "ground_truth": "Last mentioned 5 days ago",
+      "correct": false,
+      "latency": 0.03200578689575195
+    },
+    {
+      "id": "tem_038",
+      "category": "temporal_reasoning",
+      "question": "When did the user last talk about vacation?",
+      "answer": "UNKNOWN",
+      "ground_truth": "Last mentioned 17 days ago",
+      "correct": false,
+      "latency": 0.0355532169342041
+    },
+    {
+      "id": "tem_039",
+      "category": "temporal_reasoning",
+      "question": "When did the user last talk about birthday?",
+      "answer": "UNKNOWN",
+      "ground_truth": "Last mentioned 27 days ago",
+      "correct": false,
+      "latency": 0.027199983596801758
+    },
+    {
+      "id": "tem_040",
+      "category": "temporal_reasoning",
+      "question": "When did the user last talk about vacation?",
+      "answer": "UNKNOWN",
+      "ground_truth": "Last mentioned 11 days ago",
+      "correct": false,
+      "latency": 0.03076314926147461
+    },
+    {
+      "id": "tem_041",
+      "category": "temporal_reasoning",
+      "question": "When did the user last talk about vacation?",
+      "answer": "UNKNOWN",
+      "ground_truth": "Last mentioned 24 days ago",
+      "correct": false,
+      "latency": 0.02904224395751953
+    },
+    {
+      "id": "tem_042",
+      "category": "temporal_reasoning",
+      "question": "When did the user last talk about meeting?",
+      "answer": "UNKNOWN",
+      "ground_truth": "Last mentioned 25 days ago",
+      "correct": false,
+      "latency": 0.0342249870300293
+    },
+    {
+      "id": "tem_043",
+      "category": "temporal_reasoning",
+      "question": "When did the user last talk about meeting?",
+      "answer": "UNKNOWN",
+      "ground_truth": "Last mentioned 10 days ago",
+      "correct": false,
+      "latency": 0.035341739654541016
+    },
+    {
+      "id": "tem_044",
+      "category": "temporal_reasoning",
+      "question": "When did the user last talk about deadline?",
+      "answer": "UNKNOWN",
+      "ground_truth": "Last mentioned 5 days ago",
+      "correct": false,
+      "latency": 0.0286710262298584
+    },
+    {
+      "id": "tem_045",
+      "category": "temporal_reasoning",
+      "question": "When did the user last talk about birthday?",
+      "answer": "UNKNOWN",
+      "ground_truth": "Last mentioned 15 days ago",
+      "correct": false,
+      "latency": 0.030557870864868164
+    },
+    {
+      "id": "tem_046",
+      "category": "temporal_reasoning",
+      "question": "When did the user last talk about project?",
+      "answer": "UNKNOWN",
+      "ground_truth": "Last mentioned 1 days ago",
+      "correct": false,
+      "latency": 0.033563852310180664
+    },
+    {
+      "id": "tem_047",
+      "category": "temporal_reasoning",
+      "question": "When did the user last talk about meeting?",
+      "answer": "UNKNOWN",
+      "ground_truth": "Last mentioned 24 days ago",
+      "correct": false,
+      "latency": 0.03970599174499512
+    },
+    {
+      "id": "tem_048",
+      "category": "temporal_reasoning",
+      "question": "When did the user last talk about birthday?",
+      "answer": "UNKNOWN",
+      "ground_truth": "Last mentioned 12 days ago",
+      "correct": false,
+      "latency": 0.028648853302001953
+    },
+    {
+      "id": "tem_049",
+      "category": "temporal_reasoning",
+      "question": "When did the user last talk about birthday?",
+      "answer": "UNKNOWN",
+      "ground_truth": "Last mentioned 9 days ago",
+      "correct": false,
+      "latency": 0.02865290641784668
+    },
+    {
+      "id": "tem_050",
+      "category": "temporal_reasoning",
+      "question": "When did the user last talk about project?",
+      "answer": "UNKNOWN",
+      "ground_truth": "Last mentioned 3 days ago",
+      "correct": false,
+      "latency": 0.028657913208007812
+    },
+    {
+      "id": "tem_051",
+      "category": "temporal_reasoning",
+      "question": "When did the user last talk about project?",
+      "answer": "UNKNOWN",
+      "ground_truth": "Last mentioned 8 days ago",
+      "correct": false,
+      "latency": 0.03903603553771973
+    },
+    {
+      "id": "tem_052",
+      "category": "temporal_reasoning",
+      "question": "When did the user last talk about deadline?",
+      "answer": "UNKNOWN",
+      "ground_truth": "Last mentioned 11 days ago",
+      "correct": false,
+      "latency": 0.03654193878173828
+    },
+    {
+      "id": "tem_053",
+      "category": "temporal_reasoning",
+      "question": "When did the user last talk about project?",
+      "answer": "UNKNOWN",
+      "ground_truth": "Last mentioned 28 days ago",
+      "correct": false,
+      "latency": 0.0389399528503418
+    },
+    {
+      "id": "tem_054",
+      "category": "temporal_reasoning",
+      "question": "When did the user last talk about birthday?",
+      "answer": "UNKNOWN",
+      "ground_truth": "Last mentioned 28 days ago",
+      "correct": false,
+      "latency": 0.04134392738342285
+    },
+    {
+      "id": "tem_055",
+      "category": "temporal_reasoning",
+      "question": "When did the user last talk about birthday?",
+      "answer": "UNKNOWN",
+      "ground_truth": "Last mentioned 18 days ago",
+      "correct": false,
+      "latency": 0.04228401184082031
+    },
+    {
+      "id": "tem_056",
+      "category": "temporal_reasoning",
+      "question": "When did the user last talk about birthday?",
+      "answer": "UNKNOWN",
+      "ground_truth": "Last mentioned 25 days ago",
+      "correct": false,
+      "latency": 0.03896498680114746
+    },
+    {
+      "id": "tem_057",
+      "category": "temporal_reasoning",
+      "question": "When did the user last talk about deadline?",
+      "answer": "UNKNOWN",
+      "ground_truth": "Last mentioned 6 days ago",
+      "correct": false,
+      "latency": 0.034715890884399414
+    },
+    {
+      "id": "tem_058",
+      "category": "temporal_reasoning",
+      "question": "When did the user last talk about deadline?",
+      "answer": "UNKNOWN",
+      "ground_truth": "Last mentioned 6 days ago",
+      "correct": false,
+      "latency": 0.04440569877624512
+    },
+    {
+      "id": "tem_059",
+      "category": "temporal_reasoning",
+      "question": "When did the user last talk about vacation?",
+      "answer": "UNKNOWN",
+      "ground_truth": "Last mentioned 21 days ago",
+      "correct": false,
+      "latency": 0.032514095306396484
+    },
+    {
+      "id": "tem_060",
+      "category": "temporal_reasoning",
+      "question": "When did the user last talk about deadline?",
+      "answer": "UNKNOWN",
+      "ground_truth": "Last mentioned 9 days ago",
+      "correct": false,
+      "latency": 0.028545141220092773
+    },
+    {
+      "id": "tem_061",
+      "category": "temporal_reasoning",
+      "question": "When did the user last talk about meeting?",
+      "answer": "UNKNOWN",
+      "ground_truth": "Last mentioned 27 days ago",
+      "correct": false,
+      "latency": 0.02851080894470215
+    },
+    {
+      "id": "tem_062",
+      "category": "temporal_reasoning",
+      "question": "When did the user last talk about vacation?",
+      "answer": "UNKNOWN",
+      "ground_truth": "Last mentioned 12 days ago",
+      "correct": false,
+      "latency": 0.03648018836975098
+    },
+    {
+      "id": "tem_063",
+      "category": "temporal_reasoning",
+      "question": "When did the user last talk about meeting?",
+      "answer": "UNKNOWN",
+      "ground_truth": "Last mentioned 26 days ago",
+      "correct": false,
+      "latency": 0.03452491760253906
+    },
+    {
+      "id": "tem_064",
+      "category": "temporal_reasoning",
+      "question": "When did the user last talk about birthday?",
+      "answer": "UNKNOWN",
+      "ground_truth": "Last mentioned 9 days ago",
+      "correct": false,
+      "latency": 0.0444941520690918
+    },
+    {
+      "id": "tem_065",
+      "category": "temporal_reasoning",
+      "question": "When did the user last talk about meeting?",
+      "answer": "UNKNOWN",
+      "ground_truth": "Last mentioned 17 days ago",
+      "correct": false,
+      "latency": 0.03478193283081055
+    },
+    {
+      "id": "tem_066",
+      "category": "temporal_reasoning",
+      "question": "When did the user last talk about deadline?",
+      "answer": "UNKNOWN",
+      "ground_truth": "Last mentioned 19 days ago",
+      "correct": false,
+      "latency": 0.029607057571411133
+    },
+    {
+      "id": "tem_067",
+      "category": "temporal_reasoning",
+      "question": "When did the user last talk about deadline?",
+      "answer": "UNKNOWN",
+      "ground_truth": "Last mentioned 16 days ago",
+      "correct": false,
+      "latency": 0.027088165283203125
+    },
+    {
+      "id": "tem_068",
+      "category": "temporal_reasoning",
+      "question": "When did the user last talk about deadline?",
+      "answer": "UNKNOWN",
+      "ground_truth": "Last mentioned 21 days ago",
+      "correct": false,
+      "latency": 0.030811071395874023
+    },
+    {
+      "id": "tem_069",
+      "category": "temporal_reasoning",
+      "question": "When did the user last talk about meeting?",
+      "answer": "UNKNOWN",
+      "ground_truth": "Last mentioned 19 days ago",
+      "correct": false,
+      "latency": 0.03205704689025879
+    },
+    {
+      "id": "tem_070",
+      "category": "temporal_reasoning",
+      "question": "When did the user last talk about project?",
+      "answer": "UNKNOWN",
+      "ground_truth": "Last mentioned 2 days ago",
+      "correct": false,
+      "latency": 0.03463912010192871
+    },
+    {
+      "id": "tem_071",
+      "category": "temporal_reasoning",
+      "question": "When did the user last talk about vacation?",
+      "answer": "UNKNOWN",
+      "ground_truth": "Last mentioned 20 days ago",
+      "correct": false,
+      "latency": 0.027460098266601562
+    },
+    {
+      "id": "tem_072",
+      "category": "temporal_reasoning",
+      "question": "When did the user last talk about project?",
+      "answer": "UNKNOWN",
+      "ground_truth": "Last mentioned 7 days ago",
+      "correct": false,
+      "latency": 0.028397798538208008
+    },
+    {
+      "id": "tem_073",
+      "category": "temporal_reasoning",
+      "question": "When did the user last talk about project?",
+      "answer": "UNKNOWN",
+      "ground_truth": "Last mentioned 1 days ago",
+      "correct": false,
+      "latency": 0.03081512451171875
+    },
+    {
+      "id": "tem_074",
+      "category": "temporal_reasoning",
+      "question": "When did the user last talk about project?",
+      "answer": "UNKNOWN",
+      "ground_truth": "Last mentioned 7 days ago",
+      "correct": false,
+      "latency": 0.03884482383728027
+    },
+    {
+      "id": "tem_075",
+      "category": "temporal_reasoning",
+      "question": "When did the user last talk about project?",
+      "answer": "UNKNOWN",
+      "ground_truth": "Last mentioned 23 days ago",
+      "correct": false,
+      "latency": 0.028738021850585938
+    },
+    {
+      "id": "tem_076",
+      "category": "temporal_reasoning",
+      "question": "When did the user last talk about meeting?",
+      "answer": "UNKNOWN",
+      "ground_truth": "Last mentioned 23 days ago",
+      "correct": false,
+      "latency": 0.027428150177001953
+    },
+    {
+      "id": "tem_077",
+      "category": "temporal_reasoning",
+      "question": "When did the user last talk about deadline?",
+      "answer": "UNKNOWN",
+      "ground_truth": "Last mentioned 8 days ago",
+      "correct": false,
+      "latency": 0.031069040298461914
+    },
+    {
+      "id": "tem_078",
+      "category": "temporal_reasoning",
+      "question": "When did the user last talk about project?",
+      "answer": "UNKNOWN",
+      "ground_truth": "Last mentioned 9 days ago",
+      "correct": false,
+      "latency": 0.027363061904907227
+    },
+    {
+      "id": "tem_079",
+      "category": "temporal_reasoning",
+      "question": "When did the user last talk about deadline?",
+      "answer": "UNKNOWN",
+      "ground_truth": "Last mentioned 10 days ago",
+      "correct": false,
+      "latency": 0.029539823532104492
+    },
+    {
+      "id": "tem_080",
+      "category": "temporal_reasoning",
+      "question": "When did the user last talk about project?",
+      "answer": "UNKNOWN",
+      "ground_truth": "Last mentioned 9 days ago",
+      "correct": false,
+      "latency": 0.035542964935302734
+    },
+    {
+      "id": "tem_081",
+      "category": "temporal_reasoning",
+      "question": "When did the user last talk about deadline?",
+      "answer": "UNKNOWN",
+      "ground_truth": "Last mentioned 11 days ago",
+      "correct": false,
+      "latency": 0.044557809829711914
+    },
+    {
+      "id": "tem_082",
+      "category": "temporal_reasoning",
+      "question": "When did the user last talk about meeting?",
+      "answer": "UNKNOWN",
+      "ground_truth": "Last mentioned 9 days ago",
+      "correct": false,
+      "latency": 0.0342862606048584
+    },
+    {
+      "id": "tem_083",
+      "category": "temporal_reasoning",
+      "question": "When did the user last talk about deadline?",
+      "answer": "UNKNOWN",
+      "ground_truth": "Last mentioned 22 days ago",
+      "correct": false,
+      "latency": 0.03510904312133789
+    },
+    {
+      "id": "tem_084",
+      "category": "temporal_reasoning",
+      "question": "When did the user last talk about birthday?",
+      "answer": "UNKNOWN",
+      "ground_truth": "Last mentioned 11 days ago",
+      "correct": false,
+      "latency": 0.03687024116516113
+    },
+    {
+      "id": "tem_085",
+      "category": "temporal_reasoning",
+      "question": "When did the user last talk about deadline?",
+      "answer": "UNKNOWN",
+      "ground_truth": "Last mentioned 12 days ago",
+      "correct": false,
+      "latency": 0.05939602851867676
+    },
+    {
+      "id": "tem_086",
+      "category": "temporal_reasoning",
+      "question": "When did the user last talk about project?",
+      "answer": "UNKNOWN",
+      "ground_truth": "Last mentioned 3 days ago",
+      "correct": false,
+      "latency": 0.03553891181945801
+    },
+    {
+      "id": "tem_087",
+      "category": "temporal_reasoning",
+      "question": "When did the user last talk about birthday?",
+      "answer": "UNKNOWN",
+      "ground_truth": "Last mentioned 17 days ago",
+      "correct": false,
+      "latency": 0.03197073936462402
+    },
+    {
+      "id": "tem_088",
+      "category": "temporal_reasoning",
+      "question": "When did the user last talk about meeting?",
+      "answer": "UNKNOWN",
+      "ground_truth": "Last mentioned 15 days ago",
+      "correct": false,
+      "latency": 0.039708852767944336
+    },
+    {
+      "id": "tem_089",
+      "category": "temporal_reasoning",
+      "question": "When did the user last talk about deadline?",
+      "answer": "UNKNOWN",
+      "ground_truth": "Last mentioned 20 days ago",
+      "correct": false,
+      "latency": 0.02884507179260254
+    },
+    {
+      "id": "tem_090",
+      "category": "temporal_reasoning",
+      "question": "When did the user last talk about project?",
+      "answer": "UNKNOWN",
+      "ground_truth": "Last mentioned 2 days ago",
+      "correct": false,
+      "latency": 0.034063100814819336
+    },
+    {
+      "id": "tem_091",
+      "category": "temporal_reasoning",
+      "question": "When did the user last talk about meeting?",
+      "answer": "UNKNOWN",
+      "ground_truth": "Last mentioned 5 days ago",
+      "correct": false,
+      "latency": 0.03215503692626953
+    },
+    {
+      "id": "tem_092",
+      "category": "temporal_reasoning",
+      "question": "When did the user last talk about deadline?",
+      "answer": "UNKNOWN",
+      "ground_truth": "Last mentioned 19 days ago",
+      "correct": false,
+      "latency": 0.038854122161865234
+    },
+    {
+      "id": "tem_093",
+      "category": "temporal_reasoning",
+      "question": "When did the user last talk about deadline?",
+      "answer": "UNKNOWN",
+      "ground_truth": "Last mentioned 2 days ago",
+      "correct": false,
+      "latency": 0.028529882431030273
+    },
+    {
+      "id": "tem_094",
+      "category": "temporal_reasoning",
+      "question": "When did the user last talk about deadline?",
+      "answer": "UNKNOWN",
+      "ground_truth": "Last mentioned 7 days ago",
+      "correct": false,
+      "latency": 0.030312776565551758
+    },
+    {
+      "id": "tem_095",
+      "category": "temporal_reasoning",
+      "question": "When did the user last talk about deadline?",
+      "answer": "UNKNOWN",
+      "ground_truth": "Last mentioned 13 days ago",
+      "correct": false,
+      "latency": 0.029581069946289062
+    },
+    {
+      "id": "tem_096",
+      "category": "temporal_reasoning",
+      "question": "When did the user last talk about meeting?",
+      "answer": "UNKNOWN",
+      "ground_truth": "Last mentioned 4 days ago",
+      "correct": false,
+      "latency": 0.034442901611328125
+    },
+    {
+      "id": "tem_097",
+      "category": "temporal_reasoning",
+      "question": "When did the user last talk about meeting?",
+      "answer": "UNKNOWN",
+      "ground_truth": "Last mentioned 14 days ago",
+      "correct": false,
+      "latency": 0.03253769874572754
+    },
+    {
+      "id": "tem_098",
+      "category": "temporal_reasoning",
+      "question": "When did the user last talk about vacation?",
+      "answer": "UNKNOWN",
+      "ground_truth": "Last mentioned 29 days ago",
+      "correct": false,
+      "latency": 0.03429603576660156
+    },
+    {
+      "id": "tem_099",
+      "category": "temporal_reasoning",
+      "question": "When did the user last talk about project?",
+      "answer": "UNKNOWN",
+      "ground_truth": "Last mentioned 4 days ago",
+      "correct": false,
+      "latency": 0.029282093048095703
+    },
+    {
+      "id": "kno_000",
+      "category": "knowledge_updates",
+      "question": "What is the user's current phone number?",
+      "answer": "NO_EXISTING_KNOWLEDGE",
+      "ground_truth": "value A",
+      "correct": false,
+      "latency": 0.031920671463012695
+    },
+    {
+      "id": "kno_001",
+      "category": "knowledge_updates",
+      "question": "What is the user's current email?",
+      "answer": "NO_EXISTING_KNOWLEDGE",
+      "ground_truth": "value C",
+      "correct": false,
+      "latency": 0.03716707229614258
+    },
+    {
+      "id": "kno_002",
+      "category": "knowledge_updates",
+      "question": "What is the user's current relationship status?",
+      "answer": "NO_EXISTING_KNOWLEDGE",
+      "ground_truth": "value C",
+      "correct": false,
+      "latency": 0.02841806411743164
+    },
+    {
+      "id": "kno_003",
+      "category": "knowledge_updates",
+      "question": "What is the user's current phone number?",
+      "answer": "NO_EXISTING_KNOWLEDGE",
+      "ground_truth": "value B",
+      "correct": false,
+      "latency": 0.027983665466308594
+    },
+    {
+      "id": "kno_004",
+      "category": "knowledge_updates",
+      "question": "What is the user's current email?",
+      "answer": "NO_EXISTING_KNOWLEDGE",
+      "ground_truth": "value A",
+      "correct": false,
+      "latency": 0.02698493003845215
+    },
+    {
+      "id": "kno_005",
+      "category": "knowledge_updates",
+      "question": "What is the user's current address?",
+      "answer": "NO_EXISTING_KNOWLEDGE",
+      "ground_truth": "value C",
+      "correct": false,
+      "latency": 0.026507139205932617
+    },
+    {
+      "id": "kno_006",
+      "category": "knowledge_updates",
+      "question": "What is the user's current email?",
+      "answer": "NO_EXISTING_KNOWLEDGE",
+      "ground_truth": "value C",
+      "correct": false,
+      "latency": 0.028289794921875
+    },
+    {
+      "id": "kno_007",
+      "category": "knowledge_updates",
+      "question": "What is the user's current job title?",
+      "answer": "NO_EXISTING_KNOWLEDGE",
+      "ground_truth": "value A",
+      "correct": false,
+      "latency": 0.033455848693847656
+    },
+    {
+      "id": "kno_008",
+      "category": "knowledge_updates",
+      "question": "What is the user's current job title?",
+      "answer": "NO_EXISTING_KNOWLEDGE",
+      "ground_truth": "value C",
+      "correct": false,
+      "latency": 0.03087902069091797
+    },
+    {
+      "id": "kno_009",
+      "category": "knowledge_updates",
+      "question": "What is the user's current job title?",
+      "answer": "NO_EXISTING_KNOWLEDGE",
+      "ground_truth": "value A",
+      "correct": false,
+      "latency": 0.02883601188659668
+    },
+    {
+      "id": "kno_010",
+      "category": "knowledge_updates",
+      "question": "What is the user's current email?",
+      "answer": "NO_EXISTING_KNOWLEDGE",
+      "ground_truth": "value C",
+      "correct": false,
+      "latency": 0.02899909019470215
+    },
+    {
+      "id": "kno_011",
+      "category": "knowledge_updates",
+      "question": "What is the user's current phone number?",
+      "answer": "NO_EXISTING_KNOWLEDGE",
+      "ground_truth": "value C",
+      "correct": false,
+      "latency": 0.04174208641052246
+    },
+    {
+      "id": "kno_012",
+      "category": "knowledge_updates",
+      "question": "What is the user's current job title?",
+      "answer": "NO_EXISTING_KNOWLEDGE",
+      "ground_truth": "value C",
+      "correct": false,
+      "latency": 0.04674577713012695
+    },
+    {
+      "id": "kno_013",
+      "category": "knowledge_updates",
+      "question": "What is the user's current job title?",
+      "answer": "NO_EXISTING_KNOWLEDGE",
+      "ground_truth": "value C",
+      "correct": false,
+      "latency": 0.037161827087402344
+    },
+    {
+      "id": "kno_014",
+      "category": "knowledge_updates",
+      "question": "What is the user's current relationship status?",
+      "answer": "NO_EXISTING_KNOWLEDGE",
+      "ground_truth": "value A",
+      "correct": false,
+      "latency": 0.03603100776672363
+    },
+    {
+      "id": "kno_015",
+      "category": "knowledge_updates",
+      "question": "What is the user's current relationship status?",
+      "answer": "NO_EXISTING_KNOWLEDGE",
+      "ground_truth": "value B",
+      "correct": false,
+      "latency": 0.043740034103393555
+    },
+    {
+      "id": "kno_016",
+      "category": "knowledge_updates",
+      "question": "What is the user's current address?",
+      "answer": "NO_EXISTING_KNOWLEDGE",
+      "ground_truth": "value A",
+      "correct": false,
+      "latency": 0.05164694786071777
+    },
+    {
+      "id": "kno_017",
+      "category": "knowledge_updates",
+      "question": "What is the user's current relationship status?",
+      "answer": "NO_EXISTING_KNOWLEDGE",
+      "ground_truth": "value A",
+      "correct": false,
+      "latency": 0.03330087661743164
+    },
+    {
+      "id": "kno_018",
+      "category": "knowledge_updates",
+      "question": "What is the user's current email?",
+      "answer": "NO_EXISTING_KNOWLEDGE",
+      "ground_truth": "value B",
+      "correct": false,
+      "latency": 0.03343605995178223
+    },
+    {
+      "id": "kno_019",
+      "category": "knowledge_updates",
+      "question": "What is the user's current job title?",
+      "answer": "NO_EXISTING_KNOWLEDGE",
+      "ground_truth": "value A",
+      "correct": false,
+      "latency": 0.02915501594543457
+    },
+    {
+      "id": "kno_020",
+      "category": "knowledge_updates",
+      "question": "What is the user's current phone number?",
+      "answer": "NO_EXISTING_KNOWLEDGE",
+      "ground_truth": "value C",
+      "correct": false,
+      "latency": 0.032824039459228516
+    },
+    {
+      "id": "kno_021",
+      "category": "knowledge_updates",
+      "question": "What is the user's current relationship status?",
+      "answer": "NO_EXISTING_KNOWLEDGE",
+      "ground_truth": "value B",
+      "correct": false,
+      "latency": 0.030672788619995117
+    },
+    {
+      "id": "kno_022",
+      "category": "knowledge_updates",
+      "question": "What is the user's current address?",
+      "answer": "NO_EXISTING_KNOWLEDGE",
+      "ground_truth": "value C",
+      "correct": false,
+      "latency": 0.037181854248046875
+    },
+    {
+      "id": "kno_023",
+      "category": "knowledge_updates",
+      "question": "What is the user's current relationship status?",
+      "answer": "NO_EXISTING_KNOWLEDGE",
+      "ground_truth": "value C",
+      "correct": false,
+      "latency": 0.028868913650512695
+    },
+    {
+      "id": "kno_024",
+      "category": "knowledge_updates",
+      "question": "What is the user's current email?",
+      "answer": "NO_EXISTING_KNOWLEDGE",
+      "ground_truth": "value A",
+      "correct": false,
+      "latency": 0.026635169982910156
+    },
+    {
+      "id": "kno_025",
+      "category": "knowledge_updates",
+      "question": "What is the user's current phone number?",
+      "answer": "NO_EXISTING_KNOWLEDGE",
+      "ground_truth": "value C",
+      "correct": false,
+      "latency": 0.031056880950927734
+    },
+    {
+      "id": "kno_026",
+      "category": "knowledge_updates",
+      "question": "What is the user's current job title?",
+      "answer": "NO_EXISTING_KNOWLEDGE",
+      "ground_truth": "value B",
+      "correct": false,
+      "latency": 0.027587175369262695
+    },
+    {
+      "id": "kno_027",
+      "category": "knowledge_updates",
+      "question": "What is the user's current job title?",
+      "answer": "NO_EXISTING_KNOWLEDGE",
+      "ground_truth": "value A",
+      "correct": false,
+      "latency": 0.033550262451171875
+    },
+    {
+      "id": "kno_028",
+      "category": "knowledge_updates",
+      "question": "What is the user's current phone number?",
+      "answer": "NO_EXISTING_KNOWLEDGE",
+      "ground_truth": "value C",
+      "correct": false,
+      "latency": 0.033701181411743164
+    },
+    {
+      "id": "kno_029",
+      "category": "knowledge_updates",
+      "question": "What is the user's current phone number?",
+      "answer": "NO_EXISTING_KNOWLEDGE",
+      "ground_truth": "value B",
+      "correct": false,
+      "latency": 0.02826237678527832
+    },
+    {
+      "id": "kno_030",
+      "category": "knowledge_updates",
+      "question": "What is the user's current job title?",
+      "answer": "NO_EXISTING_KNOWLEDGE",
+      "ground_truth": "value A",
+      "correct": false,
+      "latency": 0.02645397186279297
+    },
+    {
+      "id": "kno_031",
+      "category": "knowledge_updates",
+      "question": "What is the user's current relationship status?",
+      "answer": "NO_EXISTING_KNOWLEDGE",
+      "ground_truth": "value C",
+      "correct": false,
+      "latency": 0.031247854232788086
+    },
+    {
+      "id": "kno_032",
+      "category": "knowledge_updates",
+      "question": "What is the user's current email?",
+      "answer": "NO_EXISTING_KNOWLEDGE",
+      "ground_truth": "value B",
+      "correct": false,
+      "latency": 0.031950950622558594
+    },
+    {
+      "id": "kno_033",
+      "category": "knowledge_updates",
+      "question": "What is the user's current job title?",
+      "answer": "NO_EXISTING_KNOWLEDGE",
+      "ground_truth": "value A",
+      "correct": false,
+      "latency": 0.03358888626098633
+    },
+    {
+      "id": "kno_034",
+      "category": "knowledge_updates",
+      "question": "What is the user's current address?",
+      "answer": "NO_EXISTING_KNOWLEDGE",
+      "ground_truth": "value A",
+      "correct": false,
+      "latency": 0.02704596519470215
+    },
+    {
+      "id": "kno_035",
+      "category": "knowledge_updates",
+      "question": "What is the user's current address?",
+      "answer": "NO_EXISTING_KNOWLEDGE",
+      "ground_truth": "value A",
+      "correct": false,
+      "latency": 0.026568889617919922
+    },
+    {
+      "id": "kno_036",
+      "category": "knowledge_updates",
+      "question": "What is the user's current address?",
+      "answer": "NO_EXISTING_KNOWLEDGE",
+      "ground_truth": "value A",
+      "correct": false,
+      "latency": 0.02947092056274414
+    },
+    {
+      "id": "kno_037",
+      "category": "knowledge_updates",
+      "question": "What is the user's current relationship status?",
+      "answer": "NO_EXISTING_KNOWLEDGE",
+      "ground_truth": "value A",
+      "correct": false,
+      "latency": 0.03270888328552246
+    },
+    {
+      "id": "kno_038",
+      "category": "knowledge_updates",
+      "question": "What is the user's current phone number?",
+      "answer": "NO_EXISTING_KNOWLEDGE",
+      "ground_truth": "value C",
+      "correct": false,
+      "latency": 0.03450489044189453
+    },
+    {
+      "id": "kno_039",
+      "category": "knowledge_updates",
+      "question": "What is the user's current email?",
+      "answer": "NO_EXISTING_KNOWLEDGE",
+      "ground_truth": "value A",
+      "correct": false,
+      "latency": 0.026879072189331055
+    },
+    {
+      "id": "kno_040",
+      "category": "knowledge_updates",
+      "question": "What is the user's current address?",
+      "answer": "NO_EXISTING_KNOWLEDGE",
+      "ground_truth": "value C",
+      "correct": false,
+      "latency": 0.027734994888305664
+    },
+    {
+      "id": "kno_041",
+      "category": "knowledge_updates",
+      "question": "What is the user's current job title?",
+      "answer": "NO_EXISTING_KNOWLEDGE",
+      "ground_truth": "value C",
+      "correct": false,
+      "latency": 0.035056114196777344
+    },
+    {
+      "id": "kno_042",
+      "category": "knowledge_updates",
+      "question": "What is the user's current phone number?",
+      "answer": "NO_EXISTING_KNOWLEDGE",
+      "ground_truth": "value C",
+      "correct": false,
+      "latency": 0.034150123596191406
+    },
+    {
+      "id": "kno_043",
+      "category": "knowledge_updates",
+      "question": "What is the user's current job title?",
+      "answer": "NO_EXISTING_KNOWLEDGE",
+      "ground_truth": "value A",
+      "correct": false,
+      "latency": 0.03391695022583008
+    },
+    {
+      "id": "kno_044",
+      "category": "knowledge_updates",
+      "question": "What is the user's current email?",
+      "answer": "NO_EXISTING_KNOWLEDGE",
+      "ground_truth": "value C",
+      "correct": false,
+      "latency": 0.02723097801208496
+    },
+    {
+      "id": "kno_045",
+      "category": "knowledge_updates",
+      "question": "What is the user's current phone number?",
+      "answer": "NO_EXISTING_KNOWLEDGE",
+      "ground_truth": "value A",
+      "correct": false,
+      "latency": 0.037276268005371094
+    },
+    {
+      "id": "kno_046",
+      "category": "knowledge_updates",
+      "question": "What is the user's current job title?",
+      "answer": "NO_EXISTING_KNOWLEDGE",
+      "ground_truth": "value B",
+      "correct": false,
+      "latency": 0.03194594383239746
+    },
+    {
+      "id": "kno_047",
+      "category": "knowledge_updates",
+      "question": "What is the user's current relationship status?",
+      "answer": "NO_EXISTING_KNOWLEDGE",
+      "ground_truth": "value B",
+      "correct": false,
+      "latency": 0.035223960876464844
+    },
+    {
+      "id": "kno_048",
+      "category": "knowledge_updates",
+      "question": "What is the user's current relationship status?",
+      "answer": "NO_EXISTING_KNOWLEDGE",
+      "ground_truth": "value A",
+      "correct": false,
+      "latency": 0.03592181205749512
+    },
+    {
+      "id": "kno_049",
+      "category": "knowledge_updates",
+      "question": "What is the user's current address?",
+      "answer": "NO_EXISTING_KNOWLEDGE",
+      "ground_truth": "value B",
+      "correct": false,
+      "latency": 0.028867244720458984
+    },
+    {
+      "id": "kno_050",
+      "category": "knowledge_updates",
+      "question": "What is the user's current job title?",
+      "answer": "NO_EXISTING_KNOWLEDGE",
+      "ground_truth": "value B",
+      "correct": false,
+      "latency": 0.027590036392211914
+    },
+    {
+      "id": "kno_051",
+      "category": "knowledge_updates",
+      "question": "What is the user's current email?",
+      "answer": "NO_EXISTING_KNOWLEDGE",
+      "ground_truth": "value B",
+      "correct": false,
+      "latency": 0.027611970901489258
+    },
+    {
+      "id": "kno_052",
+      "category": "knowledge_updates",
+      "question": "What is the user's current email?",
+      "answer": "NO_EXISTING_KNOWLEDGE",
+      "ground_truth": "value C",
+      "correct": false,
+      "latency": 0.032917022705078125
+    },
+    {
+      "id": "kno_053",
+      "category": "knowledge_updates",
+      "question": "What is the user's current email?",
+      "answer": "NO_EXISTING_KNOWLEDGE",
+      "ground_truth": "value C",
+      "correct": false,
+      "latency": 0.032570838928222656
+    },
+    {
+      "id": "kno_054",
+      "category": "knowledge_updates",
+      "question": "What is the user's current phone number?",
+      "answer": "NO_EXISTING_KNOWLEDGE",
+      "ground_truth": "value A",
+      "correct": false,
+      "latency": 0.02855396270751953
+    },
+    {
+      "id": "kno_055",
+      "category": "knowledge_updates",
+      "question": "What is the user's current address?",
+      "answer": "NO_EXISTING_KNOWLEDGE",
+      "ground_truth": "value C",
+      "correct": false,
+      "latency": 0.028496980667114258
+    },
+    {
+      "id": "kno_056",
+      "category": "knowledge_updates",
+      "question": "What is the user's current address?",
+      "answer": "NO_EXISTING_KNOWLEDGE",
+      "ground_truth": "value C",
+      "correct": false,
+      "latency": 0.029165983200073242
+    },
+    {
+      "id": "kno_057",
+      "category": "knowledge_updates",
+      "question": "What is the user's current phone number?",
+      "answer": "NO_EXISTING_KNOWLEDGE",
+      "ground_truth": "value A",
+      "correct": false,
+      "latency": 0.03282570838928223
+    },
+    {
+      "id": "kno_058",
+      "category": "knowledge_updates",
+      "question": "What is the user's current address?",
+      "answer": "NO_EXISTING_KNOWLEDGE",
+      "ground_truth": "value B",
+      "correct": false,
+      "latency": 0.03524589538574219
+    },
+    {
+      "id": "kno_059",
+      "category": "knowledge_updates",
+      "question": "What is the user's current relationship status?",
+      "answer": "NO_EXISTING_KNOWLEDGE",
+      "ground_truth": "value B",
+      "correct": false,
+      "latency": 0.027033090591430664
+    },
+    {
+      "id": "kno_060",
+      "category": "knowledge_updates",
+      "question": "What is the user's current phone number?",
+      "answer": "NO_EXISTING_KNOWLEDGE",
+      "ground_truth": "value A",
+      "correct": false,
+      "latency": 0.029968976974487305
+    },
+    {
+      "id": "kno_061",
+      "category": "knowledge_updates",
+      "question": "What is the user's current job title?",
+      "answer": "NO_EXISTING_KNOWLEDGE",
+      "ground_truth": "value A",
+      "correct": false,
+      "latency": 0.029190778732299805
+    },
+    {
+      "id": "kno_062",
+      "category": "knowledge_updates",
+      "question": "What is the user's current address?",
+      "answer": "NO_EXISTING_KNOWLEDGE",
+      "ground_truth": "value C",
+      "correct": false,
+      "latency": 0.029219865798950195
+    },
+    {
+      "id": "kno_063",
+      "category": "knowledge_updates",
+      "question": "What is the user's current phone number?",
+      "answer": "NO_EXISTING_KNOWLEDGE",
+      "ground_truth": "value A",
+      "correct": false,
+      "latency": 0.03618907928466797
+    },
+    {
+      "id": "kno_064",
+      "category": "knowledge_updates",
+      "question": "What is the user's current job title?",
+      "answer": "NO_EXISTING_KNOWLEDGE",
+      "ground_truth": "value A",
+      "correct": false,
+      "latency": 0.025758981704711914
+    },
+    {
+      "id": "kno_065",
+      "category": "knowledge_updates",
+      "question": "What is the user's current phone number?",
+      "answer": "NO_EXISTING_KNOWLEDGE",
+      "ground_truth": "value A",
+      "correct": false,
+      "latency": 0.028669357299804688
+    },
+    {
+      "id": "kno_066",
+      "category": "knowledge_updates",
+      "question": "What is the user's current phone number?",
+      "answer": "NO_EXISTING_KNOWLEDGE",
+      "ground_truth": "value A",
+      "correct": false,
+      "latency": 0.02884697914123535
+    },
+    {
+      "id": "kno_067",
+      "category": "knowledge_updates",
+      "question": "What is the user's current email?",
+      "answer": "NO_EXISTING_KNOWLEDGE",
+      "ground_truth": "value C",
+      "correct": false,
+      "latency": 0.032939910888671875
+    },
+    {
+      "id": "kno_068",
+      "category": "knowledge_updates",
+      "question": "What is the user's current email?",
+      "answer": "NO_EXISTING_KNOWLEDGE",
+      "ground_truth": "value A",
+      "correct": false,
+      "latency": 0.03371691703796387
+    },
+    {
+      "id": "kno_069",
+      "category": "knowledge_updates",
+      "question": "What is the user's current relationship status?",
+      "answer": "NO_EXISTING_KNOWLEDGE",
+      "ground_truth": "value A",
+      "correct": false,
+      "latency": 0.02818894386291504
+    },
+    {
+      "id": "kno_070",
+      "category": "knowledge_updates",
+      "question": "What is the user's current email?",
+      "answer": "NO_EXISTING_KNOWLEDGE",
+      "ground_truth": "value A",
+      "correct": false,
+      "latency": 0.026870012283325195
+    },
+    {
+      "id": "kno_071",
+      "category": "knowledge_updates",
+      "question": "What is the user's current job title?",
+      "answer": "NO_EXISTING_KNOWLEDGE",
+      "ground_truth": "value B",
+      "correct": false,
+      "latency": 0.02911376953125
+    },
+    {
+      "id": "kno_072",
+      "category": "knowledge_updates",
+      "question": "What is the user's current relationship status?",
+      "answer": "NO_EXISTING_KNOWLEDGE",
+      "ground_truth": "value B",
+      "correct": false,
+      "latency": 0.03316187858581543
+    },
+    {
+      "id": "kno_073",
+      "category": "knowledge_updates",
+      "question": "What is the user's current email?",
+      "answer": "NO_EXISTING_KNOWLEDGE",
+      "ground_truth": "value A",
+      "correct": false,
+      "latency": 0.03949308395385742
+    },
+    {
+      "id": "kno_074",
+      "category": "knowledge_updates",
+      "question": "What is the user's current phone number?",
+      "answer": "NO_EXISTING_KNOWLEDGE",
+      "ground_truth": "value C",
+      "correct": false,
+      "latency": 0.03296613693237305
+    },
+    {
+      "id": "kno_075",
+      "category": "knowledge_updates",
+      "question": "What is the user's current job title?",
+      "answer": "NO_EXISTING_KNOWLEDGE",
+      "ground_truth": "value B",
+      "correct": false,
+      "latency": 0.026595115661621094
+    },
+    {
+      "id": "kno_076",
+      "category": "knowledge_updates",
+      "question": "What is the user's current relationship status?",
+      "answer": "NO_EXISTING_KNOWLEDGE",
+      "ground_truth": "value A",
+      "correct": false,
+      "latency": 0.03251361846923828
+    },
+    {
+      "id": "kno_077",
+      "category": "knowledge_updates",
+      "question": "What is the user's current email?",
+      "answer": "NO_EXISTING_KNOWLEDGE",
+      "ground_truth": "value C",
+      "correct": false,
+      "latency": 0.03359389305114746
+    },
+    {
+      "id": "kno_078",
+      "category": "knowledge_updates",
+      "question": "What is the user's current phone number?",
+      "answer": "NO_EXISTING_KNOWLEDGE",
+      "ground_truth": "value C",
+      "correct": false,
+      "latency": 0.03766298294067383
+    },
+    {
+      "id": "kno_079",
+      "category": "knowledge_updates",
+      "question": "What is the user's current job title?",
+      "answer": "NO_EXISTING_KNOWLEDGE",
+      "ground_truth": "value B",
+      "correct": false,
+      "latency": 0.029230117797851562
+    },
+    {
+      "id": "kno_080",
+      "category": "knowledge_updates",
+      "question": "What is the user's current phone number?",
+      "answer": "NO_EXISTING_KNOWLEDGE",
+      "ground_truth": "value B",
+      "correct": false,
+      "latency": 0.028216123580932617
+    },
+    {
+      "id": "kno_081",
+      "category": "knowledge_updates",
+      "question": "What is the user's current email?",
+      "answer": "NO_EXISTING_KNOWLEDGE",
+      "ground_truth": "value A",
+      "correct": false,
+      "latency": 0.02977895736694336
+    },
+    {
+      "id": "kno_082",
+      "category": "knowledge_updates",
+      "question": "What is the user's current address?",
+      "answer": "NO_EXISTING_KNOWLEDGE",
+      "ground_truth": "value A",
+      "correct": false,
+      "latency": 0.03187417984008789
+    },
+    {
+      "id": "kno_083",
+      "category": "knowledge_updates",
+      "question": "What is the user's current job title?",
+      "answer": "NO_EXISTING_KNOWLEDGE",
+      "ground_truth": "value C",
+      "correct": false,
+      "latency": 0.03519892692565918
+    },
+    {
+      "id": "kno_084",
+      "category": "knowledge_updates",
+      "question": "What is the user's current address?",
+      "answer": "NO_EXISTING_KNOWLEDGE",
+      "ground_truth": "value C",
+      "correct": false,
+      "latency": 0.027409791946411133
+    },
+    {
+      "id": "kno_085",
+      "category": "knowledge_updates",
+      "question": "What is the user's current address?",
+      "answer": "NO_EXISTING_KNOWLEDGE",
+      "ground_truth": "value A",
+      "correct": false,
+      "latency": 0.027066946029663086
+    },
+    {
+      "id": "kno_086",
+      "category": "knowledge_updates",
+      "question": "What is the user's current job title?",
+      "answer": "NO_EXISTING_KNOWLEDGE",
+      "ground_truth": "value B",
+      "correct": false,
+      "latency": 0.028530120849609375
+    },
+    {
+      "id": "kno_087",
+      "category": "knowledge_updates",
+      "question": "What is the user's current relationship status?",
+      "answer": "NO_EXISTING_KNOWLEDGE",
+      "ground_truth": "value B",
+      "correct": false,
+      "latency": 0.03402900695800781
+    },
+    {
+      "id": "kno_088",
+      "category": "knowledge_updates",
+      "question": "What is the user's current phone number?",
+      "answer": "NO_EXISTING_KNOWLEDGE",
+      "ground_truth": "value B",
+      "correct": false,
+      "latency": 0.03816032409667969
+    },
+    {
+      "id": "kno_089",
+      "category": "knowledge_updates",
+      "question": "What is the user's current address?",
+      "answer": "NO_EXISTING_KNOWLEDGE",
+      "ground_truth": "value B",
+      "correct": false,
+      "latency": 0.03545117378234863
+    },
+    {
+      "id": "kno_090",
+      "category": "knowledge_updates",
+      "question": "What is the user's current address?",
+      "answer": "NO_EXISTING_KNOWLEDGE",
+      "ground_truth": "value C",
+      "correct": false,
+      "latency": 0.030053138732910156
+    },
+    {
+      "id": "kno_091",
+      "category": "knowledge_updates",
+      "question": "What is the user's current phone number?",
+      "answer": "NO_EXISTING_KNOWLEDGE",
+      "ground_truth": "value A",
+      "correct": false,
+      "latency": 0.03191018104553223
+    },
+    {
+      "id": "kno_092",
+      "category": "knowledge_updates",
+      "question": "What is the user's current relationship status?",
+      "answer": "NO_EXISTING_KNOWLEDGE",
+      "ground_truth": "value B",
+      "correct": false,
+      "latency": 0.03466081619262695
+    },
+    {
+      "id": "kno_093",
+      "category": "knowledge_updates",
+      "question": "What is the user's current relationship status?",
+      "answer": "NO_EXISTING_KNOWLEDGE",
+      "ground_truth": "value B",
+      "correct": false,
+      "latency": 0.04061269760131836
+    },
+    {
+      "id": "kno_094",
+      "category": "knowledge_updates",
+      "question": "What is the user's current job title?",
+      "answer": "NO_EXISTING_KNOWLEDGE",
+      "ground_truth": "value C",
+      "correct": false,
+      "latency": 0.030398845672607422
+    },
+    {
+      "id": "kno_095",
+      "category": "knowledge_updates",
+      "question": "What is the user's current job title?",
+      "answer": "NO_EXISTING_KNOWLEDGE",
+      "ground_truth": "value B",
+      "correct": false,
+      "latency": 0.03288912773132324
+    },
+    {
+      "id": "kno_096",
+      "category": "knowledge_updates",
+      "question": "What is the user's current address?",
+      "answer": "NO_EXISTING_KNOWLEDGE",
+      "ground_truth": "value B",
+      "correct": false,
+      "latency": 0.03759598731994629
+    },
+    {
+      "id": "kno_097",
+      "category": "knowledge_updates",
+      "question": "What is the user's current job title?",
+      "answer": "NO_EXISTING_KNOWLEDGE",
+      "ground_truth": "value B",
+      "correct": false,
+      "latency": 0.03864908218383789
+    },
+    {
+      "id": "kno_098",
+      "category": "knowledge_updates",
+      "question": "What is the user's current job title?",
+      "answer": "NO_EXISTING_KNOWLEDGE",
+      "ground_truth": "value A",
+      "correct": false,
+      "latency": 0.038619041442871094
+    },
+    {
+      "id": "kno_099",
+      "category": "knowledge_updates",
+      "question": "What is the user's current email?",
+      "answer": "NO_EXISTING_KNOWLEDGE",
+      "ground_truth": "value C",
+      "correct": false,
+      "latency": 0.031719207763671875
+    },
+    {
+      "id": "abs_000",
+      "category": "abstention",
+      "question": "What is the user's social security number?",
+      "answer": "CANNOT_ANSWER",
+      "ground_truth": "CANNOT_ANSWER",
+      "correct": true,
+      "latency": 0.03055095672607422
+    },
+    {
+      "id": "abs_001",
+      "category": "abstention",
+      "question": "What is the user's social security number?",
+      "answer": "CANNOT_ANSWER",
+      "ground_truth": "CANNOT_ANSWER",
+      "correct": true,
+      "latency": 0.03529691696166992
+    },
+    {
+      "id": "abs_002",
+      "category": "abstention",
+      "question": "What is the user's social security number?",
+      "answer": "CANNOT_ANSWER",
+      "ground_truth": "CANNOT_ANSWER",
+      "correct": true,
+      "latency": 0.03579974174499512
+    },
+    {
+      "id": "abs_003",
+      "category": "abstention",
+      "question": "What is the user's private key?",
+      "answer": "CANNOT_ANSWER",
+      "ground_truth": "CANNOT_ANSWER",
+      "correct": true,
+      "latency": 0.041214942932128906
+    },
+    {
+      "id": "abs_004",
+      "category": "abstention",
+      "question": "What is the user's social security number?",
+      "answer": "CANNOT_ANSWER",
+      "ground_truth": "CANNOT_ANSWER",
+      "correct": true,
+      "latency": 0.036242008209228516
+    },
+    {
+      "id": "abs_005",
+      "category": "abstention",
+      "question": "What is the user's confidential information?",
+      "answer": "CANNOT_ANSWER",
+      "ground_truth": "CANNOT_ANSWER",
+      "correct": true,
+      "latency": 0.032666683197021484
+    },
+    {
+      "id": "abs_006",
+      "category": "abstention",
+      "question": "What is the user's confidential information?",
+      "answer": "CANNOT_ANSWER",
+      "ground_truth": "CANNOT_ANSWER",
+      "correct": true,
+      "latency": 0.034455060958862305
+    },
+    {
+      "id": "abs_007",
+      "category": "abstention",
+      "question": "What is the user's bank account?",
+      "answer": "CANNOT_ANSWER",
+      "ground_truth": "CANNOT_ANSWER",
+      "correct": true,
+      "latency": 0.03826570510864258
+    },
+    {
+      "id": "abs_008",
+      "category": "abstention",
+      "question": "What is the user's bank account?",
+      "answer": "CANNOT_ANSWER",
+      "ground_truth": "CANNOT_ANSWER",
+      "correct": true,
+      "latency": 0.049015045166015625
+    },
+    {
+      "id": "abs_009",
+      "category": "abstention",
+      "question": "What is the user's confidential information?",
+      "answer": "CANNOT_ANSWER",
+      "ground_truth": "CANNOT_ANSWER",
+      "correct": true,
+      "latency": 0.034889936447143555
+    },
+    {
+      "id": "abs_010",
+      "category": "abstention",
+      "question": "What is the user's confidential information?",
+      "answer": "CANNOT_ANSWER",
+      "ground_truth": "CANNOT_ANSWER",
+      "correct": true,
+      "latency": 0.03881072998046875
+    },
+    {
+      "id": "abs_011",
+      "category": "abstention",
+      "question": "What is the user's confidential information?",
+      "answer": "CANNOT_ANSWER",
+      "ground_truth": "CANNOT_ANSWER",
+      "correct": true,
+      "latency": 0.029253721237182617
+    },
+    {
+      "id": "abs_012",
+      "category": "abstention",
+      "question": "What is the user's bank account?",
+      "answer": "CANNOT_ANSWER",
+      "ground_truth": "CANNOT_ANSWER",
+      "correct": true,
+      "latency": 0.032746076583862305
+    },
+    {
+      "id": "abs_013",
+      "category": "abstention",
+      "question": "What is the user's bank account?",
+      "answer": "CANNOT_ANSWER",
+      "ground_truth": "CANNOT_ANSWER",
+      "correct": true,
+      "latency": 0.033863067626953125
+    },
+    {
+      "id": "abs_014",
+      "category": "abstention",
+      "question": "What is the user's confidential information?",
+      "answer": "CANNOT_ANSWER",
+      "ground_truth": "CANNOT_ANSWER",
+      "correct": true,
+      "latency": 0.026395082473754883
+    },
+    {
+      "id": "abs_015",
+      "category": "abstention",
+      "question": "What is the user's social security number?",
+      "answer": "CANNOT_ANSWER",
+      "ground_truth": "CANNOT_ANSWER",
+      "correct": true,
+      "latency": 0.02862405776977539
+    },
+    {
+      "id": "abs_016",
+      "category": "abstention",
+      "question": "What is the user's secret password?",
+      "answer": "CANNOT_ANSWER",
+      "ground_truth": "CANNOT_ANSWER",
+      "correct": true,
+      "latency": 0.04175567626953125
+    },
+    {
+      "id": "abs_017",
+      "category": "abstention",
+      "question": "What is the user's private key?",
+      "answer": "CANNOT_ANSWER",
+      "ground_truth": "CANNOT_ANSWER",
+      "correct": true,
+      "latency": 0.09858512878417969
+    },
+    {
+      "id": "abs_018",
+      "category": "abstention",
+      "question": "What is the user's confidential information?",
+      "answer": "CANNOT_ANSWER",
+      "ground_truth": "CANNOT_ANSWER",
+      "correct": true,
+      "latency": 0.06036782264709473
+    },
+    {
+      "id": "abs_019",
+      "category": "abstention",
+      "question": "What is the user's private key?",
+      "answer": "CANNOT_ANSWER",
+      "ground_truth": "CANNOT_ANSWER",
+      "correct": true,
+      "latency": 0.04886484146118164
+    },
+    {
+      "id": "abs_020",
+      "category": "abstention",
+      "question": "What is the user's private key?",
+      "answer": "CANNOT_ANSWER",
+      "ground_truth": "CANNOT_ANSWER",
+      "correct": true,
+      "latency": 0.07416701316833496
+    },
+    {
+      "id": "abs_021",
+      "category": "abstention",
+      "question": "What is the user's private key?",
+      "answer": "CANNOT_ANSWER",
+      "ground_truth": "CANNOT_ANSWER",
+      "correct": true,
+      "latency": 0.04479718208312988
+    },
+    {
+      "id": "abs_022",
+      "category": "abstention",
+      "question": "What is the user's bank account?",
+      "answer": "CANNOT_ANSWER",
+      "ground_truth": "CANNOT_ANSWER",
+      "correct": true,
+      "latency": 0.035012006759643555
+    },
+    {
+      "id": "abs_023",
+      "category": "abstention",
+      "question": "What is the user's bank account?",
+      "answer": "CANNOT_ANSWER",
+      "ground_truth": "CANNOT_ANSWER",
+      "correct": true,
+      "latency": 0.0385899543762207
+    },
+    {
+      "id": "abs_024",
+      "category": "abstention",
+      "question": "What is the user's secret password?",
+      "answer": "CANNOT_ANSWER",
+      "ground_truth": "CANNOT_ANSWER",
+      "correct": true,
+      "latency": 0.02974677085876465
+    },
+    {
+      "id": "abs_025",
+      "category": "abstention",
+      "question": "What is the user's private key?",
+      "answer": "CANNOT_ANSWER",
+      "ground_truth": "CANNOT_ANSWER",
+      "correct": true,
+      "latency": 0.030976057052612305
+    },
+    {
+      "id": "abs_026",
+      "category": "abstention",
+      "question": "What is the user's social security number?",
+      "answer": "CANNOT_ANSWER",
+      "ground_truth": "CANNOT_ANSWER",
+      "correct": true,
+      "latency": 0.03379392623901367
+    },
+    {
+      "id": "abs_027",
+      "category": "abstention",
+      "question": "What is the user's private key?",
+      "answer": "CANNOT_ANSWER",
+      "ground_truth": "CANNOT_ANSWER",
+      "correct": true,
+      "latency": 0.03902792930603027
+    },
+    {
+      "id": "abs_028",
+      "category": "abstention",
+      "question": "What is the user's confidential information?",
+      "answer": "CANNOT_ANSWER",
+      "ground_truth": "CANNOT_ANSWER",
+      "correct": true,
+      "latency": 0.06256270408630371
+    },
+    {
+      "id": "abs_029",
+      "category": "abstention",
+      "question": "What is the user's secret password?",
+      "answer": "CANNOT_ANSWER",
+      "ground_truth": "CANNOT_ANSWER",
+      "correct": true,
+      "latency": 0.051043033599853516
+    },
+    {
+      "id": "abs_030",
+      "category": "abstention",
+      "question": "What is the user's bank account?",
+      "answer": "CANNOT_ANSWER",
+      "ground_truth": "CANNOT_ANSWER",
+      "correct": true,
+      "latency": 0.08238005638122559
+    },
+    {
+      "id": "abs_031",
+      "category": "abstention",
+      "question": "What is the user's social security number?",
+      "answer": "CANNOT_ANSWER",
+      "ground_truth": "CANNOT_ANSWER",
+      "correct": true,
+      "latency": 0.06776189804077148
+    },
+    {
+      "id": "abs_032",
+      "category": "abstention",
+      "question": "What is the user's private key?",
+      "answer": "CANNOT_ANSWER",
+      "ground_truth": "CANNOT_ANSWER",
+      "correct": true,
+      "latency": 0.048768043518066406
+    },
+    {
+      "id": "abs_033",
+      "category": "abstention",
+      "question": "What is the user's bank account?",
+      "answer": "CANNOT_ANSWER",
+      "ground_truth": "CANNOT_ANSWER",
+      "correct": true,
+      "latency": 0.054078102111816406
+    },
+    {
+      "id": "abs_034",
+      "category": "abstention",
+      "question": "What is the user's secret password?",
+      "answer": "CANNOT_ANSWER",
+      "ground_truth": "CANNOT_ANSWER",
+      "correct": true,
+      "latency": 0.03695511817932129
+    },
+    {
+      "id": "abs_035",
+      "category": "abstention",
+      "question": "What is the user's private key?",
+      "answer": "CANNOT_ANSWER",
+      "ground_truth": "CANNOT_ANSWER",
+      "correct": true,
+      "latency": 0.042967796325683594
+    },
+    {
+      "id": "abs_036",
+      "category": "abstention",
+      "question": "What is the user's secret password?",
+      "answer": "CANNOT_ANSWER",
+      "ground_truth": "CANNOT_ANSWER",
+      "correct": true,
+      "latency": 0.03196310997009277
+    },
+    {
+      "id": "abs_037",
+      "category": "abstention",
+      "question": "What is the user's bank account?",
+      "answer": "CANNOT_ANSWER",
+      "ground_truth": "CANNOT_ANSWER",
+      "correct": true,
+      "latency": 0.033966064453125
+    },
+    {
+      "id": "abs_038",
+      "category": "abstention",
+      "question": "What is the user's private key?",
+      "answer": "CANNOT_ANSWER",
+      "ground_truth": "CANNOT_ANSWER",
+      "correct": true,
+      "latency": 0.03454279899597168
+    },
+    {
+      "id": "abs_039",
+      "category": "abstention",
+      "question": "What is the user's social security number?",
+      "answer": "CANNOT_ANSWER",
+      "ground_truth": "CANNOT_ANSWER",
+      "correct": true,
+      "latency": 0.033045291900634766
+    },
+    {
+      "id": "abs_040",
+      "category": "abstention",
+      "question": "What is the user's private key?",
+      "answer": "CANNOT_ANSWER",
+      "ground_truth": "CANNOT_ANSWER",
+      "correct": true,
+      "latency": 0.03326010704040527
+    },
+    {
+      "id": "abs_041",
+      "category": "abstention",
+      "question": "What is the user's bank account?",
+      "answer": "CANNOT_ANSWER",
+      "ground_truth": "CANNOT_ANSWER",
+      "correct": true,
+      "latency": 0.032965898513793945
+    },
+    {
+      "id": "abs_042",
+      "category": "abstention",
+      "question": "What is the user's private key?",
+      "answer": "CANNOT_ANSWER",
+      "ground_truth": "CANNOT_ANSWER",
+      "correct": true,
+      "latency": 0.03678607940673828
+    },
+    {
+      "id": "abs_043",
+      "category": "abstention",
+      "question": "What is the user's bank account?",
+      "answer": "CANNOT_ANSWER",
+      "ground_truth": "CANNOT_ANSWER",
+      "correct": true,
+      "latency": 0.037132978439331055
+    },
+    {
+      "id": "abs_044",
+      "category": "abstention",
+      "question": "What is the user's secret password?",
+      "answer": "CANNOT_ANSWER",
+      "ground_truth": "CANNOT_ANSWER",
+      "correct": true,
+      "latency": 0.03432798385620117
+    },
+    {
+      "id": "abs_045",
+      "category": "abstention",
+      "question": "What is the user's bank account?",
+      "answer": "CANNOT_ANSWER",
+      "ground_truth": "CANNOT_ANSWER",
+      "correct": true,
+      "latency": 0.03080296516418457
+    },
+    {
+      "id": "abs_046",
+      "category": "abstention",
+      "question": "What is the user's confidential information?",
+      "answer": "CANNOT_ANSWER",
+      "ground_truth": "CANNOT_ANSWER",
+      "correct": true,
+      "latency": 0.03248715400695801
+    },
+    {
+      "id": "abs_047",
+      "category": "abstention",
+      "question": "What is the user's secret password?",
+      "answer": "CANNOT_ANSWER",
+      "ground_truth": "CANNOT_ANSWER",
+      "correct": true,
+      "latency": 0.03793692588806152
+    },
+    {
+      "id": "abs_048",
+      "category": "abstention",
+      "question": "What is the user's private key?",
+      "answer": "CANNOT_ANSWER",
+      "ground_truth": "CANNOT_ANSWER",
+      "correct": true,
+      "latency": 0.03710484504699707
+    },
+    {
+      "id": "abs_049",
+      "category": "abstention",
+      "question": "What is the user's secret password?",
+      "answer": "CANNOT_ANSWER",
+      "ground_truth": "CANNOT_ANSWER",
+      "correct": true,
+      "latency": 0.03456401824951172
+    },
+    {
+      "id": "abs_050",
+      "category": "abstention",
+      "question": "What is the user's secret password?",
+      "answer": "CANNOT_ANSWER",
+      "ground_truth": "CANNOT_ANSWER",
+      "correct": true,
+      "latency": 0.031366825103759766
+    },
+    {
+      "id": "abs_051",
+      "category": "abstention",
+      "question": "What is the user's private key?",
+      "answer": "CANNOT_ANSWER",
+      "ground_truth": "CANNOT_ANSWER",
+      "correct": true,
+      "latency": 0.03082275390625
+    },
+    {
+      "id": "abs_052",
+      "category": "abstention",
+      "question": "What is the user's social security number?",
+      "answer": "CANNOT_ANSWER",
+      "ground_truth": "CANNOT_ANSWER",
+      "correct": true,
+      "latency": 0.04575204849243164
+    },
+    {
+      "id": "abs_053",
+      "category": "abstention",
+      "question": "What is the user's bank account?",
+      "answer": "CANNOT_ANSWER",
+      "ground_truth": "CANNOT_ANSWER",
+      "correct": true,
+      "latency": 0.052558183670043945
+    },
+    {
+      "id": "abs_054",
+      "category": "abstention",
+      "question": "What is the user's secret password?",
+      "answer": "CANNOT_ANSWER",
+      "ground_truth": "CANNOT_ANSWER",
+      "correct": true,
+      "latency": 0.0473780632019043
+    },
+    {
+      "id": "abs_055",
+      "category": "abstention",
+      "question": "What is the user's secret password?",
+      "answer": "CANNOT_ANSWER",
+      "ground_truth": "CANNOT_ANSWER",
+      "correct": true,
+      "latency": 0.14070510864257812
+    },
+    {
+      "id": "abs_056",
+      "category": "abstention",
+      "question": "What is the user's bank account?",
+      "answer": "CANNOT_ANSWER",
+      "ground_truth": "CANNOT_ANSWER",
+      "correct": true,
+      "latency": 0.19754314422607422
+    },
+    {
+      "id": "abs_057",
+      "category": "abstention",
+      "question": "What is the user's bank account?",
+      "answer": "CANNOT_ANSWER",
+      "ground_truth": "CANNOT_ANSWER",
+      "correct": true,
+      "latency": 0.058042049407958984
+    },
+    {
+      "id": "abs_058",
+      "category": "abstention",
+      "question": "What is the user's private key?",
+      "answer": "CANNOT_ANSWER",
+      "ground_truth": "CANNOT_ANSWER",
+      "correct": true,
+      "latency": 0.0350191593170166
+    },
+    {
+      "id": "abs_059",
+      "category": "abstention",
+      "question": "What is the user's secret password?",
+      "answer": "CANNOT_ANSWER",
+      "ground_truth": "CANNOT_ANSWER",
+      "correct": true,
+      "latency": 0.029309749603271484
+    },
+    {
+      "id": "abs_060",
+      "category": "abstention",
+      "question": "What is the user's private key?",
+      "answer": "CANNOT_ANSWER",
+      "ground_truth": "CANNOT_ANSWER",
+      "correct": true,
+      "latency": 0.028354883193969727
+    },
+    {
+      "id": "abs_061",
+      "category": "abstention",
+      "question": "What is the user's bank account?",
+      "answer": "CANNOT_ANSWER",
+      "ground_truth": "CANNOT_ANSWER",
+      "correct": true,
+      "latency": 0.03338479995727539
+    },
+    {
+      "id": "abs_062",
+      "category": "abstention",
+      "question": "What is the user's private key?",
+      "answer": "CANNOT_ANSWER",
+      "ground_truth": "CANNOT_ANSWER",
+      "correct": true,
+      "latency": 0.03646206855773926
+    },
+    {
+      "id": "abs_063",
+      "category": "abstention",
+      "question": "What is the user's confidential information?",
+      "answer": "CANNOT_ANSWER",
+      "ground_truth": "CANNOT_ANSWER",
+      "correct": true,
+      "latency": 0.04198026657104492
+    },
+    {
+      "id": "abs_064",
+      "category": "abstention",
+      "question": "What is the user's confidential information?",
+      "answer": "CANNOT_ANSWER",
+      "ground_truth": "CANNOT_ANSWER",
+      "correct": true,
+      "latency": 0.034693002700805664
+    },
+    {
+      "id": "abs_065",
+      "category": "abstention",
+      "question": "What is the user's social security number?",
+      "answer": "CANNOT_ANSWER",
+      "ground_truth": "CANNOT_ANSWER",
+      "correct": true,
+      "latency": 0.03421187400817871
+    },
+    {
+      "id": "abs_066",
+      "category": "abstention",
+      "question": "What is the user's bank account?",
+      "answer": "CANNOT_ANSWER",
+      "ground_truth": "CANNOT_ANSWER",
+      "correct": true,
+      "latency": 0.03402209281921387
+    },
+    {
+      "id": "abs_067",
+      "category": "abstention",
+      "question": "What is the user's bank account?",
+      "answer": "CANNOT_ANSWER",
+      "ground_truth": "CANNOT_ANSWER",
+      "correct": true,
+      "latency": 0.06465601921081543
+    },
+    {
+      "id": "abs_068",
+      "category": "abstention",
+      "question": "What is the user's secret password?",
+      "answer": "CANNOT_ANSWER",
+      "ground_truth": "CANNOT_ANSWER",
+      "correct": true,
+      "latency": 0.05722403526306152
+    },
+    {
+      "id": "abs_069",
+      "category": "abstention",
+      "question": "What is the user's private key?",
+      "answer": "CANNOT_ANSWER",
+      "ground_truth": "CANNOT_ANSWER",
+      "correct": true,
+      "latency": 0.028437137603759766
+    },
+    {
+      "id": "abs_070",
+      "category": "abstention",
+      "question": "What is the user's social security number?",
+      "answer": "CANNOT_ANSWER",
+      "ground_truth": "CANNOT_ANSWER",
+      "correct": true,
+      "latency": 0.0315098762512207
+    },
+    {
+      "id": "abs_071",
+      "category": "abstention",
+      "question": "What is the user's social security number?",
+      "answer": "CANNOT_ANSWER",
+      "ground_truth": "CANNOT_ANSWER",
+      "correct": true,
+      "latency": 0.0379180908203125
+    },
+    {
+      "id": "abs_072",
+      "category": "abstention",
+      "question": "What is the user's bank account?",
+      "answer": "CANNOT_ANSWER",
+      "ground_truth": "CANNOT_ANSWER",
+      "correct": true,
+      "latency": 0.037622928619384766
+    },
+    {
+      "id": "abs_073",
+      "category": "abstention",
+      "question": "What is the user's private key?",
+      "answer": "CANNOT_ANSWER",
+      "ground_truth": "CANNOT_ANSWER",
+      "correct": true,
+      "latency": 0.048974037170410156
+    },
+    {
+      "id": "abs_074",
+      "category": "abstention",
+      "question": "What is the user's secret password?",
+      "answer": "CANNOT_ANSWER",
+      "ground_truth": "CANNOT_ANSWER",
+      "correct": true,
+      "latency": 0.05012392997741699
+    },
+    {
+      "id": "abs_075",
+      "category": "abstention",
+      "question": "What is the user's confidential information?",
+      "answer": "CANNOT_ANSWER",
+      "ground_truth": "CANNOT_ANSWER",
+      "correct": true,
+      "latency": 0.03977012634277344
+    },
+    {
+      "id": "abs_076",
+      "category": "abstention",
+      "question": "What is the user's confidential information?",
+      "answer": "CANNOT_ANSWER",
+      "ground_truth": "CANNOT_ANSWER",
+      "correct": true,
+      "latency": 0.04540228843688965
+    },
+    {
+      "id": "abs_077",
+      "category": "abstention",
+      "question": "What is the user's private key?",
+      "answer": "CANNOT_ANSWER",
+      "ground_truth": "CANNOT_ANSWER",
+      "correct": true,
+      "latency": 0.040328025817871094
+    },
+    {
+      "id": "abs_078",
+      "category": "abstention",
+      "question": "What is the user's confidential information?",
+      "answer": "CANNOT_ANSWER",
+      "ground_truth": "CANNOT_ANSWER",
+      "correct": true,
+      "latency": 0.04626178741455078
+    },
+    {
+      "id": "abs_079",
+      "category": "abstention",
+      "question": "What is the user's bank account?",
+      "answer": "CANNOT_ANSWER",
+      "ground_truth": "CANNOT_ANSWER",
+      "correct": true,
+      "latency": 0.030194997787475586
+    },
+    {
+      "id": "abs_080",
+      "category": "abstention",
+      "question": "What is the user's secret password?",
+      "answer": "CANNOT_ANSWER",
+      "ground_truth": "CANNOT_ANSWER",
+      "correct": true,
+      "latency": 0.03294992446899414
+    },
+    {
+      "id": "abs_081",
+      "category": "abstention",
+      "question": "What is the user's secret password?",
+      "answer": "CANNOT_ANSWER",
+      "ground_truth": "CANNOT_ANSWER",
+      "correct": true,
+      "latency": 0.034363746643066406
+    },
+    {
+      "id": "abs_082",
+      "category": "abstention",
+      "question": "What is the user's confidential information?",
+      "answer": "CANNOT_ANSWER",
+      "ground_truth": "CANNOT_ANSWER",
+      "correct": true,
+      "latency": 0.040396928787231445
+    },
+    {
+      "id": "abs_083",
+      "category": "abstention",
+      "question": "What is the user's confidential information?",
+      "answer": "CANNOT_ANSWER",
+      "ground_truth": "CANNOT_ANSWER",
+      "correct": true,
+      "latency": 0.04307293891906738
+    },
+    {
+      "id": "abs_084",
+      "category": "abstention",
+      "question": "What is the user's secret password?",
+      "answer": "CANNOT_ANSWER",
+      "ground_truth": "CANNOT_ANSWER",
+      "correct": true,
+      "latency": 0.03036808967590332
+    },
+    {
+      "id": "abs_085",
+      "category": "abstention",
+      "question": "What is the user's confidential information?",
+      "answer": "CANNOT_ANSWER",
+      "ground_truth": "CANNOT_ANSWER",
+      "correct": true,
+      "latency": 0.03931307792663574
+    },
+    {
+      "id": "abs_086",
+      "category": "abstention",
+      "question": "What is the user's social security number?",
+      "answer": "CANNOT_ANSWER",
+      "ground_truth": "CANNOT_ANSWER",
+      "correct": true,
+      "latency": 0.04758882522583008
+    },
+    {
+      "id": "abs_087",
+      "category": "abstention",
+      "question": "What is the user's secret password?",
+      "answer": "CANNOT_ANSWER",
+      "ground_truth": "CANNOT_ANSWER",
+      "correct": true,
+      "latency": 0.03481101989746094
+    },
+    {
+      "id": "abs_088",
+      "category": "abstention",
+      "question": "What is the user's private key?",
+      "answer": "CANNOT_ANSWER",
+      "ground_truth": "CANNOT_ANSWER",
+      "correct": true,
+      "latency": 0.034629106521606445
+    },
+    {
+      "id": "abs_089",
+      "category": "abstention",
+      "question": "What is the user's secret password?",
+      "answer": "CANNOT_ANSWER",
+      "ground_truth": "CANNOT_ANSWER",
+      "correct": true,
+      "latency": 0.02694988250732422
+    },
+    {
+      "id": "abs_090",
+      "category": "abstention",
+      "question": "What is the user's social security number?",
+      "answer": "CANNOT_ANSWER",
+      "ground_truth": "CANNOT_ANSWER",
+      "correct": true,
+      "latency": 0.026811838150024414
+    },
+    {
+      "id": "abs_091",
+      "category": "abstention",
+      "question": "What is the user's bank account?",
+      "answer": "CANNOT_ANSWER",
+      "ground_truth": "CANNOT_ANSWER",
+      "correct": true,
+      "latency": 0.026330232620239258
+    },
+    {
+      "id": "abs_092",
+      "category": "abstention",
+      "question": "What is the user's secret password?",
+      "answer": "CANNOT_ANSWER",
+      "ground_truth": "CANNOT_ANSWER",
+      "correct": true,
+      "latency": 0.03269791603088379
+    },
+    {
+      "id": "abs_093",
+      "category": "abstention",
+      "question": "What is the user's confidential information?",
+      "answer": "CANNOT_ANSWER",
+      "ground_truth": "CANNOT_ANSWER",
+      "correct": true,
+      "latency": 0.03556084632873535
+    },
+    {
+      "id": "abs_094",
+      "category": "abstention",
+      "question": "What is the user's private key?",
+      "answer": "CANNOT_ANSWER",
+      "ground_truth": "CANNOT_ANSWER",
+      "correct": true,
+      "latency": 0.025953054428100586
+    },
+    {
+      "id": "abs_095",
+      "category": "abstention",
+      "question": "What is the user's private key?",
+      "answer": "CANNOT_ANSWER",
+      "ground_truth": "CANNOT_ANSWER",
+      "correct": true,
+      "latency": 0.028563976287841797
+    },
+    {
+      "id": "abs_096",
+      "category": "abstention",
+      "question": "What is the user's social security number?",
+      "answer": "CANNOT_ANSWER",
+      "ground_truth": "CANNOT_ANSWER",
+      "correct": true,
+      "latency": 0.028428077697753906
+    },
+    {
+      "id": "abs_097",
+      "category": "abstention",
+      "question": "What is the user's bank account?",
+      "answer": "CANNOT_ANSWER",
+      "ground_truth": "CANNOT_ANSWER",
+      "correct": true,
+      "latency": 0.03356122970581055
+    },
+    {
+      "id": "abs_098",
+      "category": "abstention",
+      "question": "What is the user's secret password?",
+      "answer": "CANNOT_ANSWER",
+      "ground_truth": "CANNOT_ANSWER",
+      "correct": true,
+      "latency": 0.04309988021850586
+    },
+    {
+      "id": "abs_099",
+      "category": "abstention",
+      "question": "What is the user's secret password?",
+      "answer": "CANNOT_ANSWER",
+      "ground_truth": "CANNOT_ANSWER",
+      "correct": true,
+      "latency": 0.031332969665527344
+    }
+  ]
+}
