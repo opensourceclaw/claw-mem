@@ -157,26 +157,3 @@ def test_backup_and_recovery():
     print("✅ All F6 tests passed!")
     print("=" * 60)
     
-    return {
-        "backup_created": len(backup_files) > 0,
-        "integrity_check_passed": is_valid,
-        "recovery_successful": loaded,
-        "backup_count": len(backup_files_after),
-    }
-
-
-if __name__ == "__main__":
-    results = test_backup_and_recovery()
-    
-    print(f"\n📊 F6 Test Results:")
-    print(f"  - Backup created: {results['backup_created']}")
-    print(f"  - Integrity check: {'PASS' if results['integrity_check_passed'] else 'FAIL'}")
-    print(f"  - Recovery: {'SUCCESS' if results['recovery_successful'] else 'N/A'}")
-    print(f"  - Backup count: {results['backup_count']} (max 3)")
-    
-    print(f"\n💡 F6 Features:")
-    print(f"  - Automatic backup before save")
-    print(f"  - Checksum verification")
-    print(f"  - Corruption detection and recovery")
-    print(f"  - Version mismatch handling")
-    print(f"  - Old backup cleanup (keeps last 3)")
