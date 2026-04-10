@@ -33,10 +33,19 @@ class FriendlyError(Exception):
         error_code: Optional[str] = None,
         details: Optional[str] = None
     ):
-        self.message = message
-        self.suggestion = suggestion
-        self.error_code = error_code
-        self.details = details
+        # Handle simple message-only calls (backward compatibility)
+        if isinstance(message, str) and all(arg is None or isinstance(arg, str) 
+                                            for arg in [suggestion, error_code, details]):
+            self.message = message
+            self.suggestion = suggestion
+            self.error_code = error_code
+            self.details = details
+        else:
+            # Legacy support: if message looks like args tuple/list
+            self.message = str(message)
+            self.suggestion = suggestion
+            self.error_code = error_code
+            self.details = details
         super().__init__(self.format())
     
     def format(self) -> str:
@@ -114,13 +123,26 @@ class PermissionDeniedError(FriendlyError):
 class ConfigurationError(FriendlyError):
     """Error raised when configuration is invalid"""
     
-    def __init__(self, config_key: str, current_value: str, suggestion: Optional[str] = None):
-        super().__init__(
-            message=f"Configuration item '{config_key}' is invalid",
-            suggestion=suggestion or "Please check configuration file or run 'claw-mem --help' for available options",
-            error_code="CONFIGURATION_ERROR",
-            details=f"Current value: {current_value}"
-        )
+    def __init__(self, *args, **kwargs):
+        # Support both simple message and detailed configuration error
+        if len(args) == 1 and isinstance(args[0], str) and not kwargs:
+            # Simple message: ConfigurationError("message")
+            super().__init__(
+                message=args[0],
+                error_code="CONFIGURATION_ERROR"
+            )
+        else:
+            # Detailed configuration error: ConfigurationError(config_key, current_value, suggestion)
+            config_key = kwargs.get('config_key', args[0] if args else "unknown")
+            current_value = kwargs.get('current_value', args[1] if len(args) > 1 else "")
+            suggestion = kwargs.get('suggestion', args[2] if len(args) > 2 else None)
+            
+            super().__init__(
+                message=f"Configuration item '{config_key}' is invalid",
+                suggestion=suggestion or "Please check configuration file or run 'claw-mem --help' for available options",
+                error_code="CONFIGURATION_ERROR",
+                details=f"Current value: {current_value}"
+            )
 
 
 class MemoryRetrievalError(FriendlyError):
@@ -138,13 +160,27 @@ class MemoryRetrievalError(FriendlyError):
 class ValidationError(FriendlyError):
     """Error raised when data validation fails"""
     
-    def __init__(self, field: str, value: str, reason: str, suggestion: Optional[str] = None):
-        super().__init__(
-            message=f"Validation failed: {field}",
-            suggestion=suggestion or "Please check if input format is correct",
-            error_code="VALIDATION_ERROR",
-            details=f"Value: {value}\nReason: {reason}"
-        )
+    def __init__(self, *args, **kwargs):
+        # Support both simple message and detailed validation error
+        if len(args) == 1 and isinstance(args[0], str) and not kwargs:
+            # Simple message: ValidationError("message")
+            super().__init__(
+                message=args[0],
+                error_code="VALIDATION_ERROR"
+            )
+        else:
+            # Detailed validation: ValidationError(field, value, reason, suggestion)
+            field = kwargs.get('field', args[0] if args else "unknown")
+            value = kwargs.get('value', args[1] if len(args) > 1 else "")
+            reason = kwargs.get('reason', args[2] if len(args) > 2 else "")
+            suggestion = kwargs.get('suggestion', args[3] if len(args) > 3 else None)
+            
+            super().__init__(
+                message=f"Validation failed: {field}",
+                suggestion=suggestion or "Please check if input format is correct",
+                error_code="VALIDATION_ERROR",
+                details=f"Value: {value}\nReason: {reason}"
+            )
 
 
 class NetworkError(FriendlyError):
