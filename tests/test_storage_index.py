@@ -298,3 +298,95 @@ class TestInMemoryIndexTokenization:
         assert "编程" in filtered
         assert "的" not in filtered
         assert "我" not in filtered
+
+
+class TestInMemoryIndexPersistence:
+    """Test InMemoryIndex persistence functionality"""
+    
+    def setup_method(self):
+        """Setup index and temp directory for each test"""
+        self.tmpdir = tempfile.mkdtemp()
+        # Use absolute path to avoid Path.expanduser() issues
+        abs_tmpdir = str(Path(self.tmpdir).resolve())
+        self.index = InMemoryIndex(index_dir=abs_tmpdir, enable_persistence=True)
+        
+        self.memories = [
+            {"id": "1", "content": "Python programming"},
+            {"id": "2", "content": "Machine learning"},
+        ]
+        
+        self.index.build(self.memories, save_index=True)
+    
+    def teardown_method(self):
+        """Cleanup temp directory after each test"""
+        shutil.rmtree(self.tmpdir, ignore_errors=True)
+    
+    def test_save_index(self):
+        """Test saving index to disk"""
+        success = self.index.save_index()
+        assert success is True
+        
+        # Check index file exists (INDEX_VERSION is 0.7.0)
+        index_file = Path(self.tmpdir).resolve() / "index_v0.7.0.pkl.gz"
+        assert index_file.exists()
+    
+    def test_save_index_without_persistence(self):
+        """Test saving index without persistence returns False"""
+        index = InMemoryIndex(enable_persistence=False)
+        index.build(self.memories, save_index=False)
+        
+        success = index.save_index()
+        assert success is False
+    
+    def test_load_index(self):
+        """Test loading index from disk"""
+        # First save
+        self.index.save_index()
+        
+        # Create new index and load
+        new_index = InMemoryIndex(index_dir=self.tmpdir, enable_persistence=True)
+        loaded = new_index.load_index()
+        
+        assert loaded is True
+        assert new_index.built is True
+        assert new_index.index_loaded is True
+        assert len(new_index.memory_ids) == 2
+    
+    def test_load_index_not_exists(self):
+        """Test loading non-existent index returns False"""
+        # Create index in a different temp directory
+        empty_tmpdir = tempfile.mkdtemp()
+        try:
+            index = InMemoryIndex(index_dir=empty_tmpdir, enable_persistence=True)
+            loaded = index.load_index()
+            
+            assert loaded is False
+        finally:
+            shutil.rmtree(empty_tmpdir, ignore_errors=True)
+    
+    @pytest.mark.skip("Test requires existing backup files")
+    def test_restore_from_backup(self):
+        """Test restoring index from backup"""
+        pytest.skip("Requires existing backup files")
+    
+    @pytest.mark.skip("Test requires existing backup files")
+    def test_cleanup_old_backups(self):
+        """Test cleaning up old backup files"""
+        pytest.skip("Requires creating multiple backups")
+    
+    def test_lazy_loading(self):
+        """Test lazy loading on first search"""
+        # Save index
+        self.index.save_index()
+        
+        # Create new index (not loaded yet)
+        new_index = InMemoryIndex(index_dir=self.tmpdir, enable_persistence=True)
+        assert new_index.built is False
+        assert new_index.index_loaded is False
+        
+        # First search triggers lazy loading
+        results = new_index.ngram_search("Python", limit=5)
+        
+        # Index should now be loaded
+        assert new_index.built is True
+        assert new_index.index_loaded is True
