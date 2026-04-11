@@ -74,8 +74,8 @@ def test_lazy_loading():
     # Step 3: First search triggers lazy loading
     print("Step 3: First search (triggers lazy loading)...")
     start = time.time()
-    # Use 3+ character query for better n-gram matching
-    results = index2.ngram_search("明天的天气", limit=5)
+    # Use longer query for better 3-gram matching (jieba splits "上海明天的天气" into ['上海', '明天', '天气'])
+    results = index2.ngram_search("上海明天的天气", limit=5)
     first_search_time = time.time() - start
     
     print(f"⏱️  First search time: {first_search_time:.6f}s")
@@ -86,7 +86,7 @@ def test_lazy_loading():
     # Verify index IS loaded after first search
     assert index2.built, "Index should be built after first search"
     assert index2.index_loaded, "Index should be loaded after first search"
-    assert len(results) > 0, "Should find results for '明天的天气'"
+    assert len(results) > 0, "Should find results for '上海明天的天气'"
     
     # Step 4: Second search (no loading needed)
     print("Step 4: Second search (no loading needed)...")
@@ -117,7 +117,7 @@ def test_lazy_loading():
     assert not index3.built, "New index should not be built"
     
     if index3.bm25_index is not None or True:  # BM25 may not be available
-        bm25_results = index3.bm25_search("天气", limit=5)
+        bm25_results = index3.bm25_search("上海天气", limit=5)
         print(f"🔍 BM25 search results: {bm25_results}")
         print(f"✅ BM25 search also triggers lazy loading\n")
     
@@ -126,7 +126,7 @@ def test_lazy_loading():
     index4 = InMemoryIndex(ngram_size=3, enable_persistence=True)
     assert not index4.built, "New index should not be built"
     
-    hybrid_results = index4.hybrid_search("天气", limit=5)
+    hybrid_results = index4.hybrid_search("上海天气", limit=5)
     print(f"🔍 Hybrid search results: {hybrid_results}")
     print(f"✅ Hybrid search also triggers lazy loading\n")
     
