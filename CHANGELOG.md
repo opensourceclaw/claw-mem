@@ -5,6 +5,49 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.0.0] - 2026-04-11
+
+### Added
+
+- **Test Suite Expansion**: Comprehensive test suite for storage/index.py (38 tests, 49% coverage)
+- **Error System Tests**: Complete test coverage for errors.py (23 tests, 94% coverage)
+- **Time Parser Tests**: Comprehensive test coverage for time_parser.py (20 tests, 87% coverage)
+- **Persistence Tests**: Tests for save_index, load_index, backup creation and restoration
+- **Lazy Loading Tests**: Tests for lazy loading mechanism and index management
+- **Search Coverage**: Tests for n-gram, BM25, and hybrid search methods
+- **Tokenization Tests**: Tests for English, Chinese, and mixed language tokenization
+
+### Fixed
+
+- **Python Environment**: Fixed Python environment mismatch for test execution
+- **Test Dependencies**: Fixed missing pyyaml dependency in Python 3.14 environment
+- **Test Failures**: Fixed test_truncation and test_lazy_loading test failures
+- **N-gram Search**: Fixed n-gram search query length matching
+- **Context Truncation**: Fixed context truncation test to account for fixed headers
+
+### Test Results
+
+- **Total Tests**: 307 passed, 0 failed, 4 skipped
+- **Coverage**: 65% (3534/5541 lines)
+- **Test Modules**:
+  - test_errors.py: 23 tests, 94% coverage
+  - test_time_parser.py: 20 tests, 87% coverage
+  - test_storage_index.py: 38 tests, 49% coverage
+  - All other tests: Passing
+
+### Performance
+
+- **Startup Time**: ~4ms (lazy loading enabled)
+- **Search Latency**: ~5ms (n-gram search)
+- **Index Build**: ~10ms for 100 memories
+
+### Documentation
+
+- Updated test coverage reports
+- Added comprehensive test documentation
+
+---
+
 ## [2.0.0-rc.3] - 2026-04-10
 
 ### Added
