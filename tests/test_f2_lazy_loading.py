@@ -74,7 +74,8 @@ def test_lazy_loading():
     # Step 3: First search triggers lazy loading
     print("Step 3: First search (triggers lazy loading)...")
     start = time.time()
-    results = index2.ngram_search("天气", limit=5)
+    # Use 3+ character query for better n-gram matching
+    results = index2.ngram_search("明天的天气", limit=5)
     first_search_time = time.time() - start
     
     print(f"⏱️  First search time: {first_search_time:.6f}s")
@@ -85,7 +86,7 @@ def test_lazy_loading():
     # Verify index IS loaded after first search
     assert index2.built, "Index should be built after first search"
     assert index2.index_loaded, "Index should be loaded after first search"
-    assert len(results) > 0, "Should find results for '天气'"
+    assert len(results) > 0, "Should find results for '明天的天气'"
     
     # Step 4: Second search (no loading needed)
     print("Step 4: Second search (no loading needed)...")
