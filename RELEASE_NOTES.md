@@ -1,3 +1,44 @@
+# claw-mem v2.0.1 Release Notes
+
+**Release Date:** April 17, 2026
+**Type:** Stable Release
+
+---
+
+## 🎯 Overview
+
+claw-mem v2.0.1 adds Claude Code Plugin support and fixes installation documentation.
+
+## ✨ New Features
+
+### Claude Code Plugin
+
+- **claude-code-plugin/**: Full Claude Code integration
+  - SessionStartHook: Inject memories at session start
+  - PostToolUseHook: Capture facts from tool usage
+  - SessionEndHook: Create session summary
+  - CLI tools: `claw-mem-recall`, `claw-mem-store`
+
+### npm Package
+
+```bash
+npm install @opensourceclaw/claude-code-claw-mem
+```
+
+## 📝 Changes
+
+- Updated README with correct installation methods
+- Added skill/SKILL.md for ClawHub
+- Fixed pip/npm installation instructions
+
+## 🔗 Links
+
+- [GitHub](https://github.com/opensourceclaw/claw-mem)
+- [ClawHub](https://clawhub.ai/petercheng/opensourceclaw-claw-mem)
+- [npm](https://www.npmjs.com/package/@opensourceclaw/claude-code-claw-mem)
+
+---
+
 # claw-mem v2.0.0 Release Notes
 
 **Release Date:** April 12, 2026
