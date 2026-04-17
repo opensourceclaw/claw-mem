@@ -23,7 +23,7 @@ Tests to verify:
 
 import time
 import pytest
-from src.claw_mem.retrieval.optimized import OptimizedRetriever, LRUCache, TTLCache
+from claw_mem.retrieval.optimized import OptimizedRetriever, LRUCache, TTLCache
 
 
 class TestLRUCache:

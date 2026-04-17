@@ -171,7 +171,7 @@ class RecoveryManager:
         if "index" in error_msg.lower() or "Index" in error_type:
             problem_type = "index_corrupted"
             severity = "high"
-            description = "索引文件损坏或无法加载"
+            description = "Index file corrupted or cannot be loaded"
             root_cause = "May be caused by unexpected shutdown, disk errors, or version incompatibility"
             affected = ["index", "retrieval"]
         
@@ -185,29 +185,29 @@ class RecoveryManager:
         elif "memory" in error_msg.lower() or "Memory" in error_type:
             problem_type = "memory_corrupted"
             severity = "high"
-            description = "记忆文件损坏或无法读取"
+            description = "Memory file corrupted or cannot be read"
             root_cause = "May be caused by disk errors, permission issues, or interrupted write"
             affected = ["memory", "storage"]
         
         elif "permission" in error_msg.lower() or "Permission" in error_type:
             problem_type = "permission_denied"
             severity = "medium"
-            description = "文件权限不足"
-            root_cause = "文件系统权限设置问题"
+            description = "Insufficient file permissions"
+            root_cause = "File system permission settings issue"
             affected = ["filesystem"]
         
         elif "disk" in error_msg.lower() or "No space" in error_msg:
             problem_type = "disk_full"
             severity = "critical"
-            description = "磁盘空间不足"
-            root_cause = "磁盘空间已满"
+            description = "Insufficient disk space"
+            root_cause = "Disk space full"
             affected = ["filesystem", "storage"]
         
         else:
             problem_type = "generic_error"
             severity = "medium"
             description = f"Error occurred: {error_msg}"
-            root_cause = "未知原因"
+            root_cause = "Unknown cause"
             affected = ["unknown"]
         
         diagnosis = Diagnosis(
@@ -290,7 +290,7 @@ class RecoveryManager:
                 success=False,
                 strategy_used=RecoveryStrategy.MANUAL,
                 time_taken_ms=elapsed,
-                description=f"恢复失败：{str(e)}",
+                description=f"Recovery failed: {str(e)}",
                 user_action_needed=True,
                 error_details=traceback.format_exc(),
             )
@@ -353,7 +353,7 @@ class RecoveryManager:
                     success=True,
                     strategy_used=RecoveryStrategy.BACKUP,
                     time_taken_ms=0,
-                    description="已从备份索引恢复",
+                    description="Restored from backup index",
                     data_recovered=True,
                 )
             
@@ -364,7 +364,7 @@ class RecoveryManager:
                 success=True,
                 strategy_used=RecoveryStrategy.REBUILD,
                 time_taken_ms=0,
-                description="索引已重建",
+                description="Index rebuilt",
                 data_recovered=False,
                 user_action_needed=False,
             )
@@ -374,7 +374,7 @@ class RecoveryManager:
                 success=False,
                 strategy_used=RecoveryStrategy.MANUAL,
                 time_taken_ms=0,
-                description=f"索引恢复失败：{str(e)}",
+                description=f"Index recovery failed: {str(e)}",
                 user_action_needed=True,
                 error_details=str(e),
             )
@@ -393,7 +393,7 @@ class RecoveryManager:
                     success=True,
                     strategy_used=RecoveryStrategy.BACKUP,
                     time_taken_ms=0,
-                    description="已从备份恢复配置",
+                    description="Config restored from backup",
                     data_recovered=True,
                 )
             
@@ -404,7 +404,7 @@ class RecoveryManager:
                 success=True,
                 strategy_used=RecoveryStrategy.DEGRADE,
                 time_taken_ms=0,
-                description="已重置为默认配置",
+                description="Reset to default config",
                 data_recovered=False,
                 user_action_needed=False,
             )
@@ -414,7 +414,7 @@ class RecoveryManager:
                 success=False,
                 strategy_used=RecoveryStrategy.MANUAL,
                 time_taken_ms=0,
-                description=f"配置恢复失败：{str(e)}",
+                description=f"Config recovery failed: {str(e)}",
                 user_action_needed=True,
                 error_details=str(e),
             )
@@ -432,7 +432,7 @@ class RecoveryManager:
                     success=True,
                     strategy_used=RecoveryStrategy.BACKUP,
                     time_taken_ms=0,
-                    description="已从备份恢复记忆",
+                    description="Memory restored from backup",
                     data_recovered=True,
                 )
             

@@ -32,17 +32,17 @@ class WriteValidator:
     # Unsafe patterns list (English + Chinese)
     UNSAFE_PATTERNS = [
         r"ignore.*instruction",  # Ignore instructions
-        r"忽略.*指令",           # Ignore instructions (Chinese)
+        r"忽略.*指令",           # Ignore instructions
         r"override.*memory",     # Override memory
-        r"覆盖.*记忆",           # Override memory (Chinese)
+        r"覆盖.*记忆",           # Override memory
         r"delete.*file",         # Delete files
-        r"删除.*文件",           # Delete files (Chinese)
+        r"删除.*文件",           # Delete files
         r"execute.*code",        # Execute code
-        r"执行.*代码",           # Execute code (Chinese)
+        r"执行.*代码",           # Execute code
         r"system:",              # System prompt injection
         r"<\|startoftext\|>",   # Special tokens
         r"act as.*system",       # Role-playing attacks
-        r"扮演.*系统",           # Role-playing attacks (Chinese)
+        r"扮演.*系统",           # Role-playing attacks
     ]
     
     def __init__(self):

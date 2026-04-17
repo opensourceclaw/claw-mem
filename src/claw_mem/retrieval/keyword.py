@@ -105,7 +105,7 @@ class KeywordRetriever:
                 return True
         
         # Check individual characters for Chinese queries
-        # This helps match "语言" in "用户偏好使用中文交流"
+        # This helps match language preferences in user text
         if any(char in content for char in query_lower if '\u4e00' <= char <= '\u9fff'):
             return True
         

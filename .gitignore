@@ -93,3 +93,7 @@ docs/
 !GIT_COMMIT_RULES.md
 !RELEASE_NOTES.md
 docs/
+
+# Audit log files
+.audit_log.jsonl
+**/.audit_log.jsonl
