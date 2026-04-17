@@ -221,7 +221,6 @@ Apache License 2.0 - see [LICENSE](LICENSE) for details.
 ## 🙏 Acknowledgments
 
 - OpenClaw - AI Assistant Framework
-- Mem0 - Memory System Inspiration
 - Three-Tier Memory Architecture
 
 ---
