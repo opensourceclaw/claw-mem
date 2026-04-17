@@ -26,7 +26,7 @@ from dataclasses import dataclass
 
 @dataclass
 class MemoryImportance:
-    """记忆重要性数据结构"""
+    """Memory importance data structure"""
     base_score: float = 1.0
     type_weight: float = 0.0
     frequency_weight: float = 0.0
@@ -34,68 +34,68 @@ class MemoryImportance:
     total_score: float = 1.0
     
     def calculate_total(self) -> float:
-        """计算总分"""
+        """Calculate total score"""
         self.total_score = min(2.0, self.base_score + self.type_weight + self.frequency_weight + self.recency_weight)
         return self.total_score
 
 
 class ImportanceScorer:
     """
-    记忆重要性评分器
+    Memory importance scorer
     
-    评分公式：
+    Scoring formula:
     Importance = Base(1.0) + Type Weight + Frequency Weight + Recency Weight
     
-    上限：2.0
+    Max: 2.0
     """
     
-    # 类型权重配置
+    # Class-based weight config
     TYPE_WEIGHTS = {
-        'semantic': 0.5,    # 核心事实：高权重
-        'procedural': 0.3,  # 技能流程：中权重
-        'episodic': 0.0,    # 情景记忆：低权重（会过期）
+        'semantic': 0.5,    # Core facts: high weight
+        'procedural': 0.3,  # Skills: medium weight
+        'episodic': 0.0,    # Episodic: low weight (expires)
     }
     
-    # 频率权重配置
+    # Frequency weight config
     FREQUENCY_THRESHOLDS = [
-        (10, 0.3),  # 访问 >10 次：+0.3
-        (5, 0.2),   # 访问 >5 次：+0.2
-        (1, 0.1),   # 访问 >1 次：+0.1
+        (10, 0.3),  # Access >10 times: +0.3
+        (5, 0.2),   # Access >5 times: +0.2
+        (1, 0.1),   # Access >1 time: +0.1
     ]
     
-    # 新近度权重配置
+    # Recency weight config
     RECENCY_THRESHOLDS = [
-        (7, 0.2),   # 7 天内访问：+0.2
-        (30, 0.1),  # 30 天内访问：+0.1
+        (7, 0.2),   # Access within 7 days: +0.2
+        (30, 0.1),  # Access within 30 days: +0.1
     ]
     
-    # 最大分数
+    # Max score
     MAX_SCORE = 2.0
     
     def calculate(self, memory: dict) -> MemoryImportance:
         """
-        计算记忆重要性分数
+        Calculate memory importance score
         
         Args:
-            memory: 记忆字典，包含以下字段：
-                - memory_type: 记忆类型 ('semantic'/'procedural'/'episodic')
-                - access_count: 访问次数
-                - accessed_at: 最后访问时间 (datetime)
+            memory: memory dict with fields:
+                - memory_type: memory type ('semantic'/'procedural'/'episodic')
+                - access_count: access count
+                - accessed_at: last access time (datetime)
         
         Returns:
-            MemoryImportance: 重要性评分详情
+            MemoryImportance: importance score details
         """
         importance = MemoryImportance()
         
-        # 1. 类型权重
+        # 1. Type weight
         memory_type = memory.get('memory_type', 'episodic')
         importance.type_weight = self.TYPE_WEIGHTS.get(memory_type, 0.0)
         
-        # 2. 频率权重
+        # 2. Frequency weight
         access_count = memory.get('access_count', 0)
         importance.frequency_weight = self._calculate_frequency_weight(access_count)
         
-        # 3. 新近度权重
+        # 3. Recency weight
         accessed_at = memory.get('accessed_at')
         if accessed_at:
             if isinstance(accessed_at, str):
@@ -103,20 +103,20 @@ class ImportanceScorer:
             days_since_access = (datetime.now() - accessed_at).days
             importance.recency_weight = self._calculate_recency_weight(days_since_access)
         
-        # 4. 计算总分
+        # 4. Calculate total
         importance.calculate_total()
         
         return importance
     
     def _calculate_frequency_weight(self, access_count: int) -> float:
-        """计算频率权重"""
+        """Calculate frequency weight"""
         for threshold, weight in self.FREQUENCY_THRESHOLDS:
             if access_count > threshold:
                 return weight
         return 0.0
     
     def _calculate_recency_weight(self, days: int) -> float:
-        """计算新近度权重"""
+        """Calculate recency weight"""
         for threshold, weight in self.RECENCY_THRESHOLDS:
             if days < threshold:
                 return weight
@@ -124,32 +124,32 @@ class ImportanceScorer:
     
     def should_prioritize(self, memory: dict, threshold: float = 1.5) -> bool:
         """
-        判断是否应该优先检索
+        Check if memory should be prioritized for retrieval
         
         Args:
-            memory: 记忆字典
-            threshold: 优先级阈值（默认 1.5）
+            memory: memory dict
+            threshold: priority threshold (default 1.5)
         
         Returns:
-            bool: 是否应该优先
+            bool: whether to prioritize
         """
         importance = self.calculate(memory)
         return importance.total_score >= threshold
     
     def should_archive(self, memory: dict, threshold: float = 0.3) -> bool:
         """
-        判断是否应该归档（低优先级记忆）
+        Check if memory should be archived (low priority)
         
         Args:
-            memory: 记忆字典
-            threshold: 归档阈值（默认 0.3）
+            memory: memory dict
+            threshold: archive threshold (default 0.3)
         
         Returns:
-            bool: 是否应该归档
+            bool: whether to archive
         """
         importance = self.calculate(memory)
         
-        # 只有情景记忆会过期
+        # Only episodic memories expire
         if memory.get('memory_type') == 'episodic':
             return importance.total_score < threshold
         
@@ -157,13 +157,13 @@ class ImportanceScorer:
     
     def rank_memories(self, memories: list) -> list:
         """
-        对记忆列表按重要性排序
+        Rank memories by importance
         
         Args:
-            memories: 记忆列表
+            memories: memory list
         
         Returns:
-            list: 排序后的记忆列表（重要性从高到低）
+            list: sorted memory list (highest importance first)
         """
         scored_memories = []
         
@@ -175,23 +175,23 @@ class ImportanceScorer:
                 'score': importance.total_score
             })
         
-        # 按分数降序排序
+        # Sort by score descending
         scored_memories.sort(key=lambda x: x['score'], reverse=True)
         
-        # 返回排序后的记忆
+        # Return sorted memories
         return [item['memory'] for item in scored_memories]
     
     def filter_high_priority(self, memories: list, threshold: float = 1.5, limit: Optional[int] = None) -> list:
         """
-        筛选高优先级记忆
+        Filter high priority memories
         
         Args:
-            memories: 记忆列表
-            threshold: 优先级阈值
-            limit: 最大返回数量
+            memories: memory list
+            threshold: priority threshold
+            limit: max return count
         
         Returns:
-            list: 高优先级记忆列表
+            list: high priority memory list
         """
         high_priority = []
         
@@ -199,10 +199,10 @@ class ImportanceScorer:
             if self.should_prioritize(memory, threshold):
                 high_priority.append(memory)
         
-        # 按重要性排序
+        # Sort by importance
         high_priority = self.rank_memories(high_priority)
         
-        # 限制数量
+        # Limit count
         if limit:
             high_priority = high_priority[:limit]
         
@@ -210,88 +210,88 @@ class ImportanceScorer:
     
     def get_importance_label(self, score: float) -> str:
         """
-        获取重要性标签
+        Get importance label
         
         Args:
-            score: 重要性分数
+            score: importance score
         
         Returns:
-            str: 标签（高/中/低）
+            str: label (high/medium/low)
         """
         if score >= 1.7:
-            return "高"
+            return "high"
         elif score >= 1.3:
-            return "中"
+            return "medium"
         else:
-            return "低"
+            return "low"
     
     def explain_score(self, memory: dict) -> str:
         """
-        解释重要性评分原因
+        Explain importance score breakdown
         
         Args:
-            memory: 记忆字典
+            memory: memory dict
         
         Returns:
-            str: 评分解释
+            str: score explanation
         """
         importance = self.calculate(memory)
         
-        explanation = f"重要性评分：{importance.total_score:.2f}/2.00\n"
-        explanation += f"  - 基础分：{importance.base_score:.1f}\n"
-        explanation += f"  - 类型权重：{importance.type_weight:.1f} ({memory.get('memory_type', 'unknown')})\n"
-        explanation += f"  - 频率权重：{importance.frequency_weight:.1f} (访问{memory.get('access_count', 0)}次)\n"
+        explanation = f"Importance score: {importance.total_score:.2f}/2.00\n"
+        explanation += f"  - Base score: {importance.base_score:.1f}\n"
+        explanation += f"  - Type weight: {importance.type_weight:.1f} ({memory.get('memory_type', 'unknown')})\n"
+        explanation += f"  - Frequency weight: {importance.frequency_weight:.1f} ({memory.get('access_count', 0)} accesses)\n"
         
         accessed_at = memory.get('accessed_at')
         if accessed_at:
             if isinstance(accessed_at, str):
                 accessed_at = datetime.fromisoformat(accessed_at)
             days = (datetime.now() - accessed_at).days
-            explanation += f"  - 新近度权重：{importance.recency_weight:.1f} ({days}天前访问)\n"
+            explanation += f"  - Recency weight: {importance.recency_weight:.1f} ({days} days ago)\n"
         
-        explanation += f"\n优先级：{self.get_importance_label(importance.total_score)}"
+        explanation += f"\nPriority: {self.get_importance_label(importance.total_score)}"
         
         return explanation
 
 
 # ============================================================================
-# 使用示例
+# Usage Example
 # ============================================================================
 
 if __name__ == "__main__":
     scorer = ImportanceScorer()
     
-    # 示例 1：高优先级记忆（语义 + 高频 + 新近）
+    # Example 1: High priority memory (semantic + high freq + recent)
     high_priority_memory = {
         'memory_type': 'semantic',
         'access_count': 15,
         'accessed_at': datetime.now() - timedelta(days=2),
-        'content': '用户偏好使用中文'
+        'content': 'User prefers Chinese language'
     }
     
     importance = scorer.calculate(high_priority_memory)
-    print(f"高优先级记忆评分：{importance.total_score:.2f}")
+    print(f"High priority memory score: {importance.total_score:.2f}")
     print(scorer.explain_score(high_priority_memory))
     print()
     
-    # 示例 2：低优先级记忆（情景 + 低频 + 陈旧）
+    # Example 2: Low priority memory (episodic + low freq + old)
     low_priority_memory = {
         'memory_type': 'episodic',
         'access_count': 1,
         'accessed_at': datetime.now() - timedelta(days=60),
-        'content': '用户今天询问了天气'
+        'content': 'User asked about weather today'
     }
     
     importance = scorer.calculate(low_priority_memory)
-    print(f"低优先级记忆评分：{importance.total_score:.2f}")
+    print(f"Low priority memory score: {importance.total_score:.2f}")
     print(scorer.explain_score(low_priority_memory))
     print()
     
-    # 示例 3：记忆排序
+    # Example 3: Memory ranking
     memories = [high_priority_memory, low_priority_memory]
     ranked = scorer.rank_memories(memories)
     
-    print("排序结果:")
+    print("Ranking results:")
     for i, mem in enumerate(ranked, 1):
         importance = scorer.calculate(mem)
         print(f"{i}. [{scorer.get_importance_label(importance.total_score)}] {mem['content']}")

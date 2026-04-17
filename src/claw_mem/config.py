@@ -64,9 +64,9 @@ class ConfigDetector:
             str: Detected workspace path
         
         Raises:
-            WorkspaceNotFoundError: 如果未找到有效的工作区
+            WorkspaceNotFoundError: if no valid workspace found
         """
-        # 合并路径列表
+        # Merge path list
         search_paths = custom_paths if custom_paths else cls.DEFAULT_PATHS
         
         # Record searched paths
@@ -114,19 +114,19 @@ class ConfigDetector:
                     # File existence is sufficient
                     return True
         
-        # 没有找到任何特征
+        # No features found
         return False
     
     @classmethod
     def get_workspace_info(cls, workspace_path: str) -> dict:
         """
-        获取工作区详细信息
+        Get workspace details
         
         Args:
-            workspace_path: 工作区路径
+            workspace_path: workspace path
         
         Returns:
-            dict: 工作区信息
+            dict: workspace info
         """
         path = Path(workspace_path).expanduser().resolve()
         
@@ -141,41 +141,41 @@ class ConfigDetector:
         if not path.exists():
             return info
         
-        # 检查特征文件
+        # Check feature files
         for marker in cls.WORKSPACE_MARKERS:
             marker_path = path / marker
             if marker_path.exists():
                 info["markers_found"].append(marker)
         
-        # 检查记忆文件
+        # Check memory files
         memory_dir = path / "memory"
         if memory_dir.exists() and memory_dir.is_dir():
             md_files = list(memory_dir.glob("*.md"))
-            info["memory_files"] = [f.name for f in md_files[:10]]  # 最多 10 个
+            info["memory_files"] = [f.name for f in md_files[:10]]  # Max 10
         
         return info
     
     @classmethod
     def suggest_workspace(cls) -> Optional[str]:
         """
-        建议一个工作区路径（如果不存在则创建）
+        Suggest a workspace path (create if not exists)
         
         Returns:
-            Optional[str]: 建议的路径，如果无法创建则返回 None
+            Optional[str]: suggested path, or None if cannot create
         """
-        # 首选路径
+        # Preferred path
         preferred = Path("~/.openclaw/workspace").expanduser()
         
-        # 如果已存在，直接返回
+        # If exists, return directly
         if cls._is_valid_workspace(preferred):
             return str(preferred)
         
-        # 尝试创建
+        # Try to create
         try:
             preferred.mkdir(parents=True, exist_ok=True)
             return str(preferred)
         except (OSError, PermissionError):
-            # 创建失败
+            # Create failed
             return None
 
 
@@ -184,7 +184,7 @@ class ConfigDetector:
 # ============================================================================
 
 if __name__ == "__main__":
-    # 示例 1：自动检测
+    # Example 1：自动检测
     try:
         workspace = ConfigDetector.detect_workspace()
         print(f"✅ 检测到工作区：{workspace}")
@@ -193,7 +193,7 @@ if __name__ == "__main__":
     
     print()
     
-    # 示例 2：获取工作区信息
+    # Example 2：获取工作区信息
     try:
         workspace = ConfigDetector.detect_workspace()
         info = ConfigDetector.get_workspace_info(workspace)
@@ -209,7 +209,7 @@ if __name__ == "__main__":
     
     print()
     
-    # 示例 3：建议工作区
+    # Example 3：建议工作区
     suggested = ConfigDetector.suggest_workspace()
     if suggested:
         print(f"💡 建议的工作区：{suggested}")

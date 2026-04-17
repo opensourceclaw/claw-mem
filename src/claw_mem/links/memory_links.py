@@ -20,7 +20,7 @@ Maintains simplicity while adding association capabilities.
 
 Syntax:
 - Links: [[memory_id]] or [[2026-03-25#投资决策]]
-- Tags: #tag or #标签名
+- Tags: #tag or #tagname
 """
 
 import re
@@ -140,7 +140,7 @@ class MemoryTagParser:
     Parses #tag syntax from markdown content.
     """
     
-    # Pattern: #tag or #标签 (Chinese supported)
+    # Pattern: #tag or #tagname (Unicode supported)
     TAG_PATTERN = re.compile(r'#([a-zA-Z0-9\u4e00-\u9fa5_]+)')
     
     def parse_tags(self, content: str) -> Set[str]:

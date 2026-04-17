@@ -28,7 +28,7 @@ from zipfile import ZipFile, ZIP_DEFLATED
 
 
 class BackupManager:
-    """备份和恢复管理器"""
+    """Backup and Recovery Manager"""
     
     def __init__(self, workspace: str):
         self.workspace = Path(workspace).expanduser()
@@ -36,7 +36,7 @@ class BackupManager:
         self.backup_dir.mkdir(parents=True, exist_ok=True)
     
     def backup(self, output_path: Optional[str] = None, incremental: bool = False) -> Dict[str, Any]:
-        """创建备份"""
+        """Create backup"""
         if output_path is None:
             timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
             backup_type = "incremental" if incremental else "full"
@@ -71,16 +71,16 @@ class BackupManager:
         }
     
     def restore(self, backup_path: str, verify_first: bool = True) -> Dict[str, Any]:
-        """从备份恢复"""
+        """Restore from backup"""
         backup_path = Path(backup_path).expanduser().resolve()
         
         if not backup_path.exists():
-            return {"success": False, "error": f"备份文件不存在：{backup_path}"}
+            return {"success": False, "error": f"Backup file does not exist：{backup_path}"}
         
         if verify_first:
             verify_result = self.verify(backup_path)
             if not verify_result["valid"]:
-                return {"success": False, "error": f"备份验证失败：{verify_result.get('error', 'Unknown')}"}
+                return {"success": False, "error": f"Backup verification failed：{verify_result.get('error', 'Unknown')}"}
         
         restored_files = []
         with ZipFile(backup_path, 'r') as zipf:
@@ -99,23 +99,23 @@ class BackupManager:
         }
     
     def verify(self, backup_path: str) -> Dict[str, Any]:
-        """验证备份文件"""
+        """Verify backup file"""
         backup_path = Path(backup_path).expanduser().resolve()
         
         if not backup_path.exists():
-            return {"valid": False, "error": "备份文件不存在"}
+            return {"valid": False, "error": "Backup file does not exist"}
         
         try:
             with ZipFile(backup_path, 'r') as zipf:
                 if "backup_info.json" not in zipf.namelist():
-                    return {"valid": False, "error": "备份信息缺失"}
+                    return {"valid": False, "error": "Missing backup info"}
                 backup_info = json.loads(zipf.read("backup_info.json"))
             return {"valid": True, "backup_info": backup_info}
         except Exception as e:
             return {"valid": False, "error": str(e)}
     
     def list_backups(self) -> list:
-        """列出所有备份"""
+        """List all backups"""
         if not self.backup_dir.exists():
             return []
         
@@ -133,7 +133,7 @@ class BackupManager:
         return backups
     
     def _collect_files(self) -> list:
-        """收集要备份的文件"""
+        """Collect files to backup"""
         files = []
         memory_files = [self.workspace / "MEMORY.md", self.workspace / "memory"]
         
@@ -151,18 +151,18 @@ def backup_command(workspace: str, output: Optional[str] = None, incremental: bo
     manager = BackupManager(workspace)
     result = manager.backup(output_path=output, incremental=incremental)
     if result["success"]:
-        print(f"✅ 备份成功!")
-        print(f"   路径：{result['path']}")
-        print(f"   大小：{result['size'] / 1024:.1f} KB")
-        print(f"   文件数：{result['files_count']}")
+        print("✅ Backup successful!")
+        print(f"   Path: {result['path']}")
+        print(f"   Size: {result['size'] / 1024:.1f} KB")
+        print(f"   Files: {result['files_count']}")
 
 
 def restore_command(workspace: str, backup_path: str):
     manager = BackupManager(workspace)
     result = manager.restore(backup_path)
     if result["success"]:
-        print(f"✅ 恢复成功!")
-        print(f"   恢复文件数：{result['restored_files']}")
+        print("✅ Restore successful!")
+        print(f"   Restored files: {result['restored_files']}")
         print(f"   备份时间：{result['backup_timestamp']}")
     else:
         print(f"❌ 恢复失败：{result.get('error')}")

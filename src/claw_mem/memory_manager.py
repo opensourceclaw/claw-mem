@@ -116,15 +116,15 @@ class MemoryManager:
         self._validate_session_memory()
     
     def _validate_session_memory(self):
-        """验证会话启动时的记忆（F000 修复）"""
+        """Validate memory at session start (F000 fix)"""
         validation = self.memory_fix.validate_session_memory()
         
         if not validation['valid']:
-            # 记录错误但不阻止启动
+            # Log error but do not block startup
             self.audit.log("MEMORY_VALIDATION_FAILED", str(validation['errors']))
         
         if validation['warnings']:
-            # 记录警告
+            # Log warning
             for warning in validation['warnings']:
                 self.audit.log("MEMORY_WARNING", warning)
         

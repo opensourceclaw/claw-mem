@@ -19,7 +19,7 @@ Simple markdown-based linking and tagging system.
 
 Syntax:
 - Links: [[memory_id]] or [[2026-03-25#投资决策]]
-- Tags: #tag or #标签名
+- Tags: #tag or #tagname
 """
 
 from .memory_links import (
