@@ -1,0 +1,49 @@
+{
+  "name": "claw-mem",
+  "version": "2.0.0",
+  "description": "Three-Tier Memory System for Claude Code",
+  "author": "OpenClaw Community",
+  "license": "Apache-2.0",
+  "homepage": "https://github.com/opensourceclaw/claw-mem",
+  "repository": "https://github.com/opensourceclaw/claw-mem",
+  
+  "hooks": {
+    "SessionStart": "./dist/hooks/SessionStartHook.js",
+    "PostToolUse": "./dist/hooks/PostToolUseHook.js",
+    "SessionEnd": "./dist/hooks/SessionEndHook.js"
+  },
+  
+  "dependencies": {
+    "python": ">=3.8",
+    "pip-package": "claw-mem>=2.0.0"
+  },
+  
+  "configuration": {
+    "workspaceDir": {
+      "type": "string",
+      "default": "~/.claude-mem",
+      "description": "Directory for memory storage"
+    },
+    "autoCapture": {
+      "type": "boolean",
+      "default": true,
+      "description": "Automatically capture facts from tool usage"
+    },
+    "topK": {
+      "type": "number",
+      "default": 10,
+      "description": "Maximum memories to recall"
+    }
+  },
+  
+  "commands": {
+    "recall": {
+      "description": "Recall memories",
+      "usage": "claw-mem-recall [query]"
+    },
+    "store": {
+      "description": "Store a memory",
+      "usage": "claw-mem-store <content> [--layer semantic|episodic|procedural]"
+    }
+  }
+}
