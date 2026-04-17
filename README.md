@@ -27,29 +27,41 @@ claw-mem is a **Local-First** memory system for OpenClaw, featuring:
 
 ## 📦 Installation
 
-### Python Package
+### Option 1: Via ClawHub (Recommended)
 
 ```bash
-pip install claw-mem
+# Install ClawHub skill
+npx clawhub@latest install opensourceclaw-claw-mem
+
+# Install Python package
+pip install git+https://github.com/opensourceclaw/claw-mem.git
 ```
 
-### OpenClaw Plugin
+### Option 2: From GitHub
 
 ```bash
-npm install @opensourceclaw/openclaw-claw-mem
+# Clone and install
+git clone https://github.com/opensourceclaw/claw-mem.git
+cd claw-mem
+pip install -e .
+```
+
+### Option 3: Direct pip install
+
+```bash
+pip install git+https://github.com/opensourceclaw/claw-mem.git
 ```
 
 ## 🚀 Quick Start
 
-### 1. Install Dependencies
+### 1. Install
 
 ```bash
-# Python package
-pip install claw-mem
+# Install Python package
+pip install git+https://github.com/opensourceclaw/claw-mem.git
 
-# OpenClaw Plugin
-cd your-openclaw-project
-npm install @opensourceclaw/openclaw-claw-mem
+# Or via ClawHub
+npx clawhub@latest install opensourceclaw-claw-mem
 ```
 
 ### 2. Configure OpenClaw
@@ -116,18 +128,18 @@ memory_store(text="User prefers Chinese language", metadata={"category": "prefer
 ┌─────────────────────────────────────┐
 │   OpenClaw Plugin (TypeScript)      │
 │   @opensourceclaw/openclaw-claw-mem │
-│   - Plugin 注册                      │
-│   - Tool 定义                        │
-│   - Hook 处理                        │
+│   - Plugin Registration             │
+│   - Tool Definition                 │
+│   - Hook Handling                   │
 └──────────────┬──────────────────────┘
                │ spawn + stdio JSON-RPC
-               │ (~1-5ms 延迟)
+               │ (~1-5ms latency)
                ▼
 ┌─────────────────────────────────────┐
 │   claw-mem Python Bridge            │
 │   claw_mem.bridge                   │
 │   - stdio JSON-RPC Server           │
-│   - 命令路由                         │
+│   - Command Routing                 │
 └──────────────┬──────────────────────┘
                │ Python Function Call
                ▼
