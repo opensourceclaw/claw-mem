@@ -41,6 +41,7 @@ from .importance import ImportanceScorer
 from .memory_fix_plugin import MemoryFixPlugin
 from .memory_decay import MemoryDecay
 from .rule_extractor import RuleExtractor
+from .gating import WriteTimeGating
 
 
 def _log(message: str):
@@ -60,13 +61,16 @@ class MemoryManager:
     4. Security validation and auditing
     """
     
-    def __init__(self, workspace: Optional[str] = None, auto_detect: bool = True):
+    def __init__(self, workspace: Optional[str] = None, auto_detect: bool = True,
+                 enable_gating: bool = False, gating_threshold: float = 0.6):
         """
         Initialize Memory Manager
-        
+
         Args:
             workspace: OpenClaw workspace path (optional, auto-detect if None)
             auto_detect: Enable auto-detection (default: True)
+            enable_gating: Enable Write-Time Gating (default: False)
+            gating_threshold: Salience threshold for gating (default: 0.6)
         """
         # Auto-detect workspace if not provided
         if workspace is None and auto_detect:
@@ -108,7 +112,12 @@ class MemoryManager:
         
         # Initialize rule extractor (F101)
         self.rule_extractor = RuleExtractor(self.workspace)
-        
+
+        # Initialize Write-Time Gating (v2.1.0)
+        self.enable_gating = enable_gating
+        self.gating_threshold = gating_threshold
+        self.gating = WriteTimeGating(threshold=gating_threshold) if enable_gating else None
+
         # Search mode: "keyword" | "bm25" | "hybrid" | "entity" | "hybrid_entity" | "heuristic" | "smart" | "enhanced_smart"
         self.search_mode = os.environ.get('CLAW_MEM_SEARCH_MODE', 'enhanced_smart')
         
@@ -507,6 +516,18 @@ class MemoryManager:
             "semantic_count": self.semantic.count(),
             "procedural_count": self.procedural.count(),
         }
-    
+
+    def get_gating_stats(self) -> Optional[Dict]:
+        """
+        Get gating statistics
+
+        Returns:
+            Dict: Gating statistics or None if gating is disabled
+        """
+        if not self.enable_gating or self.gating is None:
+            return None
+
+        return self.gating.get_stats()
+
     def __repr__(self) -> str:
         return f"MemoryManager(workspace={self.workspace}, session={self.session_id})"
