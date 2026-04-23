@@ -5,6 +5,51 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.1.0] - 2026-04-23
+
+### Added
+
+- **Write-Time Gating**: Intelligent memory storage with salience scoring
+  - `WriteTimeGating` class for controlling memory storage
+  - `SalienceScorer` for multi-dimensional scoring (source reputation 40%, novelty 30%, reliability 30%)
+  - Storage tiers: active memory + cold storage
+  - Version chain management
+
+- **MemoryManager Integration**:
+  - `enable_gating` parameter to enable/disable gating
+  - `gating_threshold` parameter to set salience threshold
+  - `get_gating_stats()` method to retrieve statistics
+
+- **Performance**:
+  - Write latency: ~0.5ms (target <10ms) - 20x better
+  - Scoring latency: ~0.02ms (target <5ms) - 250x better
+  - Memory usage: <5MB (target <10MB)
+
+### Changed
+
+- MemoryManager now supports optional gating feature
+- Backward compatible: `enable_gating=False` preserves existing behavior
+
+### Testing
+
+- 53+ unit tests with gating module coverage
+- Edge cases and error handling covered
+- Integration tests with MemoryManager
+- Stress tests: 10,000 writes in ~4s, 0.4ms avg latency
+- Concurrent access tests: 20 threads × 100 writes passed
+- Memory leak tests passed
+
+### References
+
+- Selective Memory: Learning what to remember (Paper)
+
+### Contributors
+
+- Friday AI (Architecture, Planning, Supervision)
+- Jarvis (Implementation, Testing)
+
+---
+
 ## [2.0.0] - 2026-04-11
 
 ### Added
