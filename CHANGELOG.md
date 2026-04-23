@@ -5,6 +5,56 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.2.0] - 2026-04-23
+
+### Added
+
+- **Concept-Mediated Graph**: Graph-augmented memory system based on GAAMA paper
+  - Four node types: Episode, Fact, Reflection, Concept
+  - Five edge types: NEXT, DERIVED_FROM, SYNTHESIZED_FROM, RELATED_TO, HAS_CONCEPT
+  - Hybrid retrieval: Semantic search + PPR (Personalized PageRank)
+  - `ConceptMediatedGraph` core class
+
+- **LLM Extractors**:
+  - `BaseExtractor` - Abstract base class
+  - `LLMExtractor` - LLM-driven extraction with rule-based fallback
+  - `KeywordExtractor` - Lightweight keyword extraction
+  - `DummyExtractor` - For testing
+
+- **MemoryManager Integration**:
+  - `enable_graph` parameter to enable graph features
+  - Automatic creation of ConceptMediatedGraph
+  - Backward compatible (disabled by default)
+
+- **New Module**: `claw_mem.graph`
+  - `concept_graph.py` - Core graph class
+  - `nodes.py` - Node type definitions
+  - `edges.py` - Edge type definitions
+  - `storage.py` - Storage layer (memory + file)
+  - `extractors.py` - LLM extractors
+
+- **Exports**:
+  - `ConceptMediatedGraph`, `NodeType`, `EpisodeNode`, `FactNode`, `ReflectionNode`, `ConceptNode`
+  - `EdgeType`, `Edge`
+  - `LLMExtractor`, `KeywordExtractor`, `DummyExtractor`
+  - `DummyEmbedder`
+
+### Tests
+
+- 86 tests (all passing)
+- concept_graph.py coverage: 83%
+
+### Performance
+
+- Add conversation: < 100ms
+- Retrieve: < 50ms
+
+### References
+
+- Based on GAAMA paper: "Graph-Augmented Associative Memory"
+
+---
+
 ## [2.1.0] - 2026-04-23
 
 ### Added

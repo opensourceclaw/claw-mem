@@ -62,7 +62,8 @@ class MemoryManager:
     """
     
     def __init__(self, workspace: Optional[str] = None, auto_detect: bool = True,
-                 enable_gating: bool = False, gating_threshold: float = 0.6):
+                 enable_gating: bool = False, gating_threshold: float = 0.6,
+                 enable_graph: bool = False):
         """
         Initialize Memory Manager
 
@@ -71,6 +72,7 @@ class MemoryManager:
             auto_detect: Enable auto-detection (default: True)
             enable_gating: Enable Write-Time Gating (default: False)
             gating_threshold: Salience threshold for gating (default: 0.6)
+            enable_graph: Enable Concept-Mediated Graph (default: False)
         """
         # Auto-detect workspace if not provided
         if workspace is None and auto_detect:
@@ -117,6 +119,16 @@ class MemoryManager:
         self.enable_gating = enable_gating
         self.gating_threshold = gating_threshold
         self.gating = WriteTimeGating(threshold=gating_threshold) if enable_gating else None
+
+        # Initialize Concept-Mediated Graph (v2.2.0)
+        self.enable_graph = enable_graph
+        self.graph = None
+        if enable_graph:
+            from claw_mem.graph import ConceptMediatedGraph, DummyEmbedder, KeywordExtractor
+            self.graph = ConceptMediatedGraph(
+                embedder=DummyEmbedder(),
+                extractor=KeywordExtractor()
+            )
 
         # Search mode: "keyword" | "bm25" | "hybrid" | "entity" | "hybrid_entity" | "heuristic" | "smart" | "enhanced_smart"
         self.search_mode = os.environ.get('CLAW_MEM_SEARCH_MODE', 'enhanced_smart')
