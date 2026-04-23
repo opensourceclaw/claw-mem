@@ -29,7 +29,7 @@ v0.9.0 Features (2026-03-22):
 - 100% English documentation
 """
 
-__version__ = "2.0.1"
+__version__ = "2.1.0"
 __author__ = "Peter Cheng"
 
 from .memory_manager import MemoryManager
@@ -98,6 +98,14 @@ from .errors import (
     DependencyError,
     get_error_documentation,
 )
+from .gating import (
+    WriteTimeGating,
+    SalienceScorer,
+    GatingResult,
+    InMemoryStorage,
+    DiskStorage,
+    VersionChain,
+)
 
 __all__ = [
     "MemoryManager",
@@ -152,4 +160,11 @@ __all__ = [
     "NetworkError",
     "DependencyError",
     "get_error_documentation",
+    # Gating module (v2.1.0)
+    "WriteTimeGating",
+    "SalienceScorer",
+    "GatingResult",
+    "InMemoryStorage",
+    "DiskStorage",
+    "VersionChain",
 ]

@@ -122,6 +122,57 @@ memory_store(text="User prefers Chinese language", metadata={"category": "prefer
 | Search | ~5ms | ✅ Excellent |
 | **Average** | **~6ms** | **✅ Good** |
 
+## Write-Time Gating (v2.1.0)
+
+Intelligent memory storage mechanism based on the Selective Memory paper.
+
+### Quick Start
+
+```python
+from claw_mem import MemoryManager
+
+# Enable write-time gating
+manager = MemoryManager(enable_gating=True, gating_threshold=0.6)
+
+# Write memory (automatic scoring and tiering)
+manager.gating.write({
+    'content': 'Important decision: Use Python as primary language',
+    'source': 'user',
+    'context': {'topic': 'tech'},
+    'verified': True
+})
+
+# View statistics
+stats = manager.get_gating_stats()
+print(f"Active memories: {stats['active_count']}")
+print(f"Cold storage: {stats['cold_count']}")
+```
+
+### Salience Scoring
+
+Memory salience is determined by three dimensions:
+
+| Dimension | Weight | Description |
+|-----------|--------|-------------|
+| Source Reputation | 40% | user > agent > system > external |
+| Novelty | 30% | Difference from recent memories |
+| Reliability | 30% | Verification status, context completeness |
+
+### Performance
+
+| Metric | Target | Actual |
+|--------|--------|--------|
+| Write Latency | < 10ms | ~0.5ms |
+| Scoring Latency | < 5ms | ~0.02ms |
+| Memory Usage | < 10MB | < 5MB |
+
+### Backward Compatibility
+
+```python
+# Disable gating, behavior identical to previous versions
+manager = MemoryManager(enable_gating=False)
+```
+
 ## 🏗️ Architecture
 
 ```
@@ -195,6 +246,15 @@ npm test
 ```
 
 ## 📝 Changelog
+
+### v2.1.0 (2026-04-23)
+
+- ✅ Write-Time Gating ( Selective Memory paper implementation)
+- ✅ SalienceScorer with source reputation, novelty, and reliability scoring
+- ✅ WriteTimeGating with active/cold tier storage
+- ✅ Version chain for memory tracking
+- ✅ Stress testing: 10,000 writes in ~4s, 0.4ms avg latency
+- ✅ 80%+ test coverage on gating module
 
 ### v2.0.0 (2026-03-31)
 
