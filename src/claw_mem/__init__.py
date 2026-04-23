@@ -98,6 +98,14 @@ from .errors import (
     DependencyError,
     get_error_documentation,
 )
+from .gating import (
+    WriteTimeGating,
+    SalienceScorer,
+    GatingResult,
+    InMemoryStorage,
+    DiskStorage,
+    VersionChain,
+)
 
 __all__ = [
     "MemoryManager",
@@ -152,4 +160,11 @@ __all__ = [
     "NetworkError",
     "DependencyError",
     "get_error_documentation",
+    # Gating module (v2.1.0)
+    "WriteTimeGating",
+    "SalienceScorer",
+    "GatingResult",
+    "InMemoryStorage",
+    "DiskStorage",
+    "VersionChain",
 ]
