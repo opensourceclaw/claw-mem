@@ -1,0 +1,13 @@
+{
+  "id": "20260423-110857",
+  "label": "claw-mem Phase1 Day2 \u5b8c\u6210\u8fb9\u754c\u6d4b\u8bd5",
+  "description": "",
+  "timestamp": "2026-04-23T11:08:57.227608",
+  "branch": "",
+  "commit": "ade4422",
+  "status": "M experiments/locomo\n M src/claw_mem/__init__.py\n?? .helix/\n?? src/claw_mem/gating/\n?? tests/gating/",
+  "cwd": "/Users/liantian/workspace/osprojects/claw-mem",
+  "remaining_work": [],
+  "decisions": [],
+  "tags": []
+}

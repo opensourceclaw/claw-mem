@@ -1,0 +1,13 @@
+{
+  "id": "20260423-143052",
+  "label": "Day 4 \u538b\u529b\u6d4b\u8bd5 + \u6587\u6863\u5b8c\u6210",
+  "description": "",
+  "timestamp": "2026-04-23T14:30:52.439137",
+  "branch": "feature/v2.1.0-gating-phase1",
+  "commit": "7b2ee66",
+  "status": "M README.md\n M experiments/locomo\n?? .helix/\n?? tests/gating/test_stress.py",
+  "cwd": "/Users/liantian/workspace/osprojects/claw-mem",
+  "remaining_work": [],
+  "decisions": [],
+  "tags": []
+}

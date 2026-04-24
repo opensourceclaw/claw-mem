@@ -1,0 +1,13 @@
+{
+  "id": "20260423-165301",
+  "label": "claw-mem v2.2.0 Day 4 \u5b8c\u6210 - MemoryManager\u96c6\u6210",
+  "description": "",
+  "timestamp": "2026-04-23T16:53:01.783482",
+  "branch": "main",
+  "commit": "597da27",
+  "status": "M experiments/locomo\n M src/claw_mem/__init__.py\n M src/claw_mem/memory_manager.py\n?? .helix/\n?? demo_simple.py\n?? demo_v2.1.0.py\n?? src/claw_mem/graph/\n?? test_installation.py\n?? tests/graph/\n?? tests/test_memory_manager_graph.py",
+  "cwd": "/Users/liantian/workspace/osprojects/claw-mem",
+  "remaining_work": [],
+  "decisions": [],
+  "tags": []
+}

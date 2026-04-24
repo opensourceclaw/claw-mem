@@ -1,0 +1,13 @@
+{
+  "id": "20260423-163048",
+  "label": "claw-mem v2.2.0 Day 2-3 \u5b8c\u6210 - LLM\u63d0\u53d6\u5668 + 83%\u8986\u76d6\u7387",
+  "description": "",
+  "timestamp": "2026-04-23T16:30:48.937908",
+  "branch": "main",
+  "commit": "597da27",
+  "status": "M experiments/locomo\n?? .helix/\n?? demo_simple.py\n?? demo_v2.1.0.py\n?? src/claw_mem/graph/\n?? test_installation.py\n?? tests/graph/",
+  "cwd": "/Users/liantian/workspace/osprojects/claw-mem",
+  "remaining_work": [],
+  "decisions": [],
+  "tags": []
+}

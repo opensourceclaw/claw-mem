@@ -365,21 +365,21 @@ class TestImportanceScorer:
         scorer = ImportanceScorer()
 
         label = scorer.get_importance_label(1.8)
-        assert label == "高"
+        assert label == "high"
 
     def test_get_importance_label_medium(self):
         """Test getting importance label for medium score"""
         scorer = ImportanceScorer()
 
         label = scorer.get_importance_label(1.5)
-        assert label == "中"
+        assert label == "medium"
 
     def test_get_importance_label_low(self):
         """Test getting importance label for low score"""
         scorer = ImportanceScorer()
 
         label = scorer.get_importance_label(1.0)
-        assert label == "低"
+        assert label == "low"
 
     def test_explain_score(self):
         """Test explaining score"""
@@ -394,12 +394,12 @@ class TestImportanceScorer:
 
         explanation = scorer.explain_score(memory)
 
-        assert "重要性评分" in explanation
-        assert "基础分" in explanation
-        assert "类型权重" in explanation
-        assert "频率权重" in explanation
-        assert "新近度权重" in explanation
-        assert "优先级" in explanation
+        assert "Importance score" in explanation
+        assert "Base score" in explanation
+        assert "Type weight" in explanation
+        assert "Frequency weight" in explanation
+        assert "Recency weight" in explanation
+        assert "Priority" in explanation
 
     def test_explain_score_with_string_accessed_at(self):
         """Test explain_score with string accessed_at"""
@@ -414,8 +414,8 @@ class TestImportanceScorer:
 
         explanation = scorer.explain_score(memory)
 
-        assert "重要性评分" in explanation
-        assert "天前访问" in explanation
+        assert "Importance score" in explanation
+        assert "days ago" in explanation
 
     def test_explain_score_without_accessed_at(self):
         """Test explain_score without accessed_at"""
@@ -429,9 +429,9 @@ class TestImportanceScorer:
 
         explanation = scorer.explain_score(memory)
 
-        assert "重要性评分" in explanation
+        assert "Importance score" in explanation
         # Should not show recency weight if no accessed_at
-        assert "新近度权重" not in explanation
+        assert "Recency weight" not in explanation
 
     def test_rank_memories_with_limit(self):
         """Test ranking memories and limiting results"""

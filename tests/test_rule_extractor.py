@@ -32,7 +32,7 @@ class TestRuleExtractor:
         
         extractor = RuleExtractor(workspace)
         
-        conversation = "不要创建文件到 /tmp/"
+        conversation = "do not create files to /tmp/"
         
         rule = extractor.extract(conversation)
         assert rule is not None
@@ -44,7 +44,7 @@ class TestRuleExtractor:
         
         extractor = RuleExtractor(workspace)
         
-        text = "我偏好使用中文回复"
+        text = "I prefer use Chinese for reply"
         
         rule = extractor.extract(text)
         assert rule is not None

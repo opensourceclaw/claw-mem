@@ -17,5 +17,15 @@ Values Module - 用户价值观存储
 """
 
 from .user_value_store import UserValue, UserValueStore
+from .feedback_handler import FeedbackHandler, ValueSuggestion, FeedbackStatus
+from .value_backup import ValueBackup, BackupMetadata
 
-__all__ = ["UserValue", "UserValueStore"]
+__all__ = [
+    "UserValue",
+    "UserValueStore",
+    "FeedbackHandler",
+    "ValueSuggestion",
+    "FeedbackStatus",
+    "ValueBackup",
+    "BackupMetadata",
+]
