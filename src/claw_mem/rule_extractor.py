@@ -54,7 +54,7 @@ class RuleExtractor:
         # Simple rule matching
         if "do not" in conversation and "to" in conversation:
             # Extract path
-            match = re.search(r'到\s*(~?/\S+)', conversation)
+            match = re.search(r'to\s*(~?/\S+)', conversation)
             if match:
                 path = match.group(1)
                 return self._create_rule(
