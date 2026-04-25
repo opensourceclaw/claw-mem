@@ -163,18 +163,18 @@ def restore_command(workspace: str, backup_path: str):
     if result["success"]:
         print("✅ Restore successful!")
         print(f"   Restored files: {result['restored_files']}")
-        print(f"   备份时间：{result['backup_timestamp']}")
+        print(f"   backup时间：{result['backup_timestamp']}")
     else:
-        print(f"❌ 恢复失败：{result.get('error')}")
+        print(f"❌ restore失败：{result.get('error')}")
 
 
 def list_command(workspace: str):
     manager = BackupManager(workspace)
     backups = manager.list_backups()
     if not backups:
-        print("暂无备份")
+        print("暂无backup")
         return
-    print(f"找到 {len(backups)} 个备份:\n")
+    print(f"找到 {len(backups)} 个backup:\n")
     print(f"{'时间':<25} {'类型':<12} {'大小':<10} {'状态':<8} 路径")
     print("-" * 100)
     for backup in backups[:5]:
@@ -186,10 +186,10 @@ if __name__ == "__main__":
     workspace = "~/.openclaw/workspace"
     manager = BackupManager(workspace)
     
-    print("创建备份...")
+    print("创建backup...")
     result = manager.backup()
     if result["success"]:
         print(f"✅ {result['path']}")
     
-    print("\n列出备份...")
+    print("\n列出backup...")
     list_command(workspace)

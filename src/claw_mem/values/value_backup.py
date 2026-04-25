@@ -13,7 +13,7 @@
 # limitations under the License.
 
 """
-Value Backup - 价值观本地存储
+Value Backup - values本地storage
 """
 
 import json
@@ -28,7 +28,7 @@ from claw_mem.values import UserValueStore, UserValue
 
 @dataclass
 class BackupMetadata:
-    """备份元数据"""
+    """backup元数据"""
     user_id: str
     backup_id: str
     created_at: datetime
@@ -62,14 +62,14 @@ class BackupMetadata:
 
 
 class ValueBackup:
-    """价值观备份管理器"""
+    """valuesbackup管理器"""
 
     def __init__(self, value_store: Optional[UserValueStore] = None, backup_dir: Optional[Path] = None):
-        """初始化备份管理器
+        """initializebackup管理器
 
         Args:
-            value_store: 用户价值观存储
-            backup_dir: 备份目录，默认 ~/.claw_mem/backups/
+            value_store: uservaluesstorage
+            backup_dir: backup目录，默认 ~/.claw_mem/backups/
         """
         self.value_store = value_store or UserValueStore()
 
@@ -83,21 +83,21 @@ class ValueBackup:
         self.metadata_file = self.backup_dir / "metadata.json"
 
     def export_values(self, user_id: str, path: Optional[Path] = None) -> BackupMetadata:
-        """导出用户价值观到文件
+        """exportuservalues到文件
 
         Args:
-            user_id: 用户 ID
-            path: 导出路径，如果为 None 则自动生成
+            user_id: user ID
+            path: export路径，if为 None 则自动生成
 
         Returns:
-            BackupMetadata: 备份元数据
+            BackupMetadata: backup元数据
         """
-        # 获取用户价值观
+        # getuservalues
         user_values = self.value_store.get_user_values(user_id)
         if not user_values:
             raise ValueError(f"User {user_id} not found")
 
-        # 生成备份 ID 和路径
+        # 生成backup ID 和路径
         import uuid
         backup_id = str(uuid.uuid4())[:8]
 
@@ -105,7 +105,7 @@ class ValueBackup:
             timestamp = datetime.now(timezone.utc).strftime("%Y%m%d_%H%M%S")
             path = self.backup_dir / f"{user_id}_{timestamp}.json"
 
-        # 导出数据
+        # export数据
         export_data = {
             "user_id": user_id,
             "exported_at": datetime.now(timezone.utc).isoformat(),
@@ -130,21 +130,21 @@ class ValueBackup:
             checksum=checksum
         )
 
-        # 保存元数据
+        # save元数据
         self._save_metadata(metadata)
 
         return metadata
 
     def import_values(self, user_id: str, path: Path, overwrite: bool = False) -> bool:
-        """从文件导入用户价值观
+        """从文件importuservalues
 
         Args:
-            user_id: 用户 ID
-            path: 导入文件路径
+            user_id: user ID
+            path: import文件路径
             overwrite: 是否覆盖现有数据
 
         Returns:
-            bool: 是否成功导入
+            bool: 是否成功import
         """
         # 读取文件
         if not path.exists():
@@ -158,39 +158,39 @@ class ValueBackup:
 
         imported_values = data["values"]
 
-        # 检查用户ID匹配
+        # checkuserID匹配
         if imported_values.get("user_id") != user_id:
-            # 允许导入不同用户的价值观（创建新用户）
+            # 允许import不同user的values（创建新user）
             pass
 
-        # 获取现有价值观
+        # get现有values
         existing = self.value_store.get_user_values(user_id)
 
         if existing and not overwrite:
             raise ValueError(f"User {user_id} already exists. Use overwrite=True to replace.")
 
-        # 导入原则
+        # import原则
         for principle in imported_values.get("principles", []):
             self.value_store.save_principle(user_id, principle)
 
-        # 导入偏好
+        # importpreference
         for key, value in imported_values.get("preferences", {}).items():
             self.value_store.save_preference(user_id, key, value)
 
-        # 导入红线
+        # import红线
         for line in imported_values.get("red_lines", []):
             self.value_store.save_red_line(user_id, line)
 
         return True
 
     def list_backups(self, user_id: Optional[str] = None) -> List[BackupMetadata]:
-        """列出备份文件
+        """列出backup文件
 
         Args:
-            user_id: 用户 ID，如果为 None 则列出所有用户的备份
+            user_id: user ID，if为 None 则列出所有user的backup
 
         Returns:
-            List[BackupMetadata]: 备份元数据列表
+            List[BackupMetadata]: backup元数据列表
         """
         metadata_list = []
 
@@ -215,10 +215,10 @@ class ValueBackup:
         return metadata_list
 
     def backup_metadata(self, user_id: str) -> Dict[str, Any]:
-        """获取用户备份元数据
+        """getuserbackup元数据
 
         Args:
-            user_id: 用户 ID
+            user_id: user ID
 
         Returns:
             Dict: 元数据汇总
@@ -241,13 +241,13 @@ class ValueBackup:
         }
 
     def delete_backup(self, backup_id: str) -> bool:
-        """删除备份
+        """deletebackup
 
         Args:
-            backup_id: 备份 ID
+            backup_id: backup ID
 
         Returns:
-            bool: 是否成功删除
+            bool: 是否成功delete
         """
         if self.metadata_file.exists():
             try:
@@ -263,18 +263,18 @@ class ValueBackup:
         meta_data = all_metadata[backup_id]
         file_path = Path(meta_data["file_path"])
 
-        # 删除文件
+        # delete文件
         if file_path.exists():
             file_path.unlink()
 
-        # 删除元数据
+        # delete元数据
         del all_metadata[backup_id]
         self.metadata_file.write_text(json.dumps(all_metadata, indent=2), encoding="utf-8")
 
         return True
 
     def _save_metadata(self, metadata: BackupMetadata) -> None:
-        """保存备份元数据"""
+        """savebackup元数据"""
         all_metadata = {}
 
         if self.metadata_file.exists():

@@ -66,7 +66,7 @@ class Edge:
             self.metadata = {}
 
     def to_dict(self) -> Dict[str, Any]:
-        """转换为字典"""
+        """convert为字典"""
         return {
             'source_id': self.source_id,
             'target_id': self.target_id,

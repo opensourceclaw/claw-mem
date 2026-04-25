@@ -13,7 +13,7 @@
 # limitations under the License.
 
 """
-Feedback Handler - 反馈处理机制
+Feedback Handler - feedbackprocess机制
 """
 
 from dataclasses import dataclass, field
@@ -25,7 +25,7 @@ from claw_mem.values import UserValueStore
 
 
 class FeedbackStatus(Enum):
-    """反馈状态"""
+    """feedback状态"""
     PENDING = "pending"       # 待确认
     ACCEPTED = "accepted"     # 已接受
     REJECTED = "rejected"     # 已拒绝
@@ -34,7 +34,7 @@ class FeedbackStatus(Enum):
 
 @dataclass
 class ValueSuggestion:
-    """价值观建议"""
+    """values建议"""
     id: str
     user_id: str
     suggestion_type: str  # "principle", "preference", "red_line"
@@ -58,13 +58,13 @@ class ValueSuggestion:
 
 
 class FeedbackHandler:
-    """反馈处理器 - 管理用户对价值观的确认"""
+    """feedbackprocess器 - 管理user对values的确认"""
 
     def __init__(self, value_store: Optional[UserValueStore] = None):
-        """初始化反馈处理器
+        """initializefeedbackprocess器
 
         Args:
-            value_store: 用户价值观存储
+            value_store: uservaluesstorage
         """
         self.value_store = value_store or UserValueStore()
 
@@ -75,12 +75,12 @@ class FeedbackHandler:
         self._suggestion_history: List[ValueSuggestion] = []
 
     def request_confirmation(self, user_id: str, value_type: str, content: str, evidence: List[str] = None) -> ValueSuggestion:
-        """请求用户确认价值观
+        """请求user确认values
 
         Args:
-            user_id: 用户 ID
-            value_type: 价值观类型 ("principle", "preference", "red_line")
-            content: 价值观内容
+            user_id: user ID
+            value_type: values类型 ("principle", "preference", "red_line")
+            content: values内容
             evidence: 证据列表
 
         Returns:
@@ -106,14 +106,14 @@ class FeedbackHandler:
         return suggestion
 
     def process_feedback(self, suggestion_id: str, accepted: bool) -> bool:
-        """处理用户反馈
+        """processuserfeedback
 
         Args:
             suggestion_id: 建议 ID
             accepted: 是否接受
 
         Returns:
-            bool: 是否成功处理
+            bool: 是否成功process
         """
         # 查找建议
         suggestion = None
@@ -125,11 +125,11 @@ class FeedbackHandler:
         if not suggestion:
             return False
 
-        # 更新状态
+        # update状态
         suggestion.status = FeedbackStatus.ACCEPTED if accepted else FeedbackStatus.REJECTED
         suggestion.responded_at = datetime.now(timezone.utc)
 
-        # 如果接受，更新到价值观存储
+        # if接受，update到valuesstorage
         if accepted:
             user_id = suggestion.user_id
 
@@ -137,7 +137,7 @@ class FeedbackHandler:
                 self.value_store.save_principle(user_id, suggestion.content)
 
             elif suggestion.suggestion_type == "preference":
-                # 偏好需要解析 key-value
+                # preferenceneedparse key-value
                 # 简化：假设 content 格式为 "key:value"
                 if ":" in suggestion.content:
                     key, value = suggestion.content.split(":", 1)
@@ -157,7 +157,7 @@ class FeedbackHandler:
         return True
 
     def suggest_update(self, suggestion: Dict[str, Any]) -> ValueSuggestion:
-        """建议更新价值观
+        """建议updatevalues
 
         Args:
             suggestion: 建议数据
@@ -173,10 +173,10 @@ class FeedbackHandler:
         )
 
     def get_pending_suggestions(self, user_id: str) -> List[ValueSuggestion]:
-        """获取待确认的建议
+        """get待确认的建议
 
         Args:
-            user_id: 用户 ID
+            user_id: user ID
 
         Returns:
             List[ValueSuggestion]: 待确认的建议列表
@@ -184,10 +184,10 @@ class FeedbackHandler:
         return self._pending_suggestions.get(user_id, [])
 
     def get_accepted_suggestions(self, user_id: str) -> List[ValueSuggestion]:
-        """获取已接受的建议
+        """get已接受的建议
 
         Args:
-            user_id: 用户 ID
+            user_id: user ID
 
         Returns:
             List[ValueSuggestion]: 已接受的建议列表
@@ -198,10 +198,10 @@ class FeedbackHandler:
         ]
 
     def get_rejected_suggestions(self, user_id: str) -> List[ValueSuggestion]:
-        """获取已拒绝的建议
+        """get已拒绝的建议
 
         Args:
-            user_id: 用户 ID
+            user_id: user ID
 
         Returns:
             List[ValueSuggestion]: 已拒绝的建议列表

@@ -131,10 +131,10 @@ class RuleExtractor:
         """Load rules from file (simplified)"""
         if not self.rules_file.exists():
             return
-        # 简化实现：暂不解析
+        # 简化实现：暂不parse
     
     def check_before_operation(self, operation: str, context: Dict) -> Tuple[bool, str]:
-        """操作前检查所有适用规则"""
+        """操作前check所有适用rule"""
         for rule in self.rules:
             if rule.rule_type == "FORBIDDEN_PATH":
                 path = context.get('path', '')
@@ -150,10 +150,10 @@ class RuleExtractor:
                     if tool == forbidden_tool:
                         return False, f"禁止使用工具：{forbidden_tool}"
         
-        return True, "所有规则检查通过"
+        return True, "所有rulecheck通过"
     
     def get_statistics(self) -> Dict:
-        """获取规则统计"""
+        """getrule统计"""
         stats = {
             'total_rules': len(self.rules),
             'by_type': {},
@@ -169,26 +169,26 @@ if __name__ == "__main__":
     workspace = "~/.openclaw/workspace"
     extractor = RuleExtractor(workspace)
     
-    print("测试 F101 自动规则提取\n")
+    print("测试 F101 自动rule提取\n")
     
     # Test 1
-    print("测试 1: 提取禁止路径规则")
-    rule = extractor.extract("不要创建文件到 ~/.openclaw/workspace/")
+    print("测试 1: 提取禁止路径rule")
+    rule = extractor.extract("don't创建文件到 ~/.openclaw/workspace/")
     if rule:
         print(f"  ✅ 提取成功：{rule.rule_type} - {rule.condition}")
     else:
         print(f"  ❌ 提取失败")
     
     # Test 2
-    print("\n测试 2: 提取偏好规则")
-    rule = extractor.extract("我偏好使用中文")
+    print("\n测试 2: 提取preferencerule")
+    rule = extractor.extract("我preference使用中文")
     if rule:
         print(f"  ✅ 提取成功：{rule.rule_type} - {rule.condition}")
     else:
         print(f"  ❌ 提取失败")
     
     # Test 3
-    print("\n测试 3: 操作前规则检查")
+    print("\n测试 3: 操作前rulecheck")
     allowed, msg = extractor.check_before_operation(
         "file_write",
         {'path': '/Users/liantian/workspace/test.md'}
@@ -196,7 +196,7 @@ if __name__ == "__main__":
     print(f"  允许：{allowed}, 消息：{msg}")
     
     # Test 4
-    print("\n测试 4: 规则统计")
+    print("\n测试 4: rule统计")
     stats = extractor.get_statistics()
-    print(f"  总规则数：{stats['total_rules']}")
+    print(f"  总rule数：{stats['total_rules']}")
     print(f"  按类型：{stats['by_type']}")

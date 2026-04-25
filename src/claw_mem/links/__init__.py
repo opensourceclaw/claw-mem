@@ -18,7 +18,7 @@ claw-mem Memory Links and Tags
 Simple markdown-based linking and tagging system.
 
 Syntax:
-- Links: [[memory_id]] or [[2026-03-25#投资决策]]
+- Links: [[memory_id]] or [[2026-03-25#investment决策]]
 - Tags: #tag or #tagname
 """
 

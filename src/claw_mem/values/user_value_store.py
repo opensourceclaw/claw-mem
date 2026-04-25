@@ -13,7 +13,7 @@
 # limitations under the License.
 
 """
-User Value Store - 用户价值观存储
+User Value Store - uservaluesstorage
 """
 
 from dataclasses import dataclass, field, asdict
@@ -25,7 +25,7 @@ from pathlib import Path
 
 @dataclass
 class UserValue:
-    """用户价值观数据结构"""
+    """uservalues数据结构"""
     user_id: str
     principles: List[str] = field(default_factory=list)
     preferences: Dict[str, Any] = field(default_factory=dict)
@@ -34,7 +34,7 @@ class UserValue:
     updated_at: datetime = field(default_factory=lambda: datetime.now(timezone.utc))
 
     def to_dict(self) -> Dict[str, Any]:
-        """转换为字典"""
+        """convert为字典"""
         return {
             "user_id": self.user_id,
             "principles": self.principles,
@@ -58,13 +58,13 @@ class UserValue:
 
 
 class UserValueStore:
-    """用户价值观存储"""
+    """uservaluesstorage"""
 
     def __init__(self, storage_path: Optional[Path] = None):
-        """初始化存储
+        """initializestorage
 
         Args:
-            storage_path: 存储路径，默认 ~/.claw_mem/values/
+            storage_path: storage路径，默认 ~/.claw_mem/values/
         """
         if storage_path is None:
             storage_path = Path.home() / ".claw_mem" / "values"
@@ -76,20 +76,20 @@ class UserValueStore:
         self._cache: Dict[str, UserValue] = {}
 
     def _get_user_file(self, user_id: str) -> Path:
-        """获取用户数据文件路径"""
+        """getuser数据文件路径"""
         # Sanitize user_id for filesystem
         safe_id = user_id.replace("/", "_").replace("\\", "_")
         return self.storage_path / f"{safe_id}.json"
 
     def save_principle(self, user_id: str, principle: str) -> UserValue:
-        """保存核心原则
+        """save核心原则
 
         Args:
-            user_id: 用户 ID
+            user_id: user ID
             principle: 原则内容
 
         Returns:
-            UserValue: 更新后的用户价值观
+            UserValue: update后的uservalues
         """
         user_values = self._get_or_create_user(user_id)
 
@@ -101,15 +101,15 @@ class UserValueStore:
         return user_values
 
     def save_preference(self, user_id: str, key: str, value: Any) -> UserValue:
-        """保存用户偏好
+        """saveuserpreference
 
         Args:
-            user_id: 用户 ID
-            key: 偏好键
-            value: 偏好值
+            user_id: user ID
+            key: preference键
+            value: preference值
 
         Returns:
-            UserValue: 更新后的用户价值观
+            UserValue: update后的uservalues
         """
         user_values = self._get_or_create_user(user_id)
 
@@ -120,14 +120,14 @@ class UserValueStore:
         return user_values
 
     def save_red_line(self, user_id: str, line: str) -> UserValue:
-        """保存红线
+        """save红线
 
         Args:
-            user_id: 用户 ID
+            user_id: user ID
             line: 红线内容
 
         Returns:
-            UserValue: 更新后的用户价值观
+            UserValue: update后的uservalues
         """
         user_values = self._get_or_create_user(user_id)
 
@@ -139,13 +139,13 @@ class UserValueStore:
         return user_values
 
     def get_user_values(self, user_id: str) -> Optional[UserValue]:
-        """获取用户价值观
+        """getuservalues
 
         Args:
-            user_id: 用户 ID
+            user_id: user ID
 
         Returns:
-            Optional[UserValue]: 用户价值观，如果不存在返回 None
+            Optional[UserValue]: uservalues，if不存在返回 None
         """
         if user_id in self._cache:
             return self._cache[user_id]
@@ -163,14 +163,14 @@ class UserValueStore:
         return None
 
     def delete_principle(self, user_id: str, principle: str) -> Optional[UserValue]:
-        """删除核心原则
+        """delete核心原则
 
         Args:
-            user_id: 用户 ID
+            user_id: user ID
             principle: 原则内容
 
         Returns:
-            Optional[UserValue]: 更新后的用户价值观
+            Optional[UserValue]: update后的uservalues
         """
         user_values = self.get_user_values(user_id)
         if not user_values:
@@ -184,14 +184,14 @@ class UserValueStore:
         return user_values
 
     def delete_red_line(self, user_id: str, line: str) -> Optional[UserValue]:
-        """删除红线
+        """delete红线
 
         Args:
-            user_id: 用户 ID
+            user_id: user ID
             line: 红线内容
 
         Returns:
-            Optional[UserValue]: 更新后的用户价值观
+            Optional[UserValue]: update后的uservalues
         """
         user_values = self.get_user_values(user_id)
         if not user_values:
@@ -205,14 +205,14 @@ class UserValueStore:
         return user_values
 
     def delete_preference(self, user_id: str, key: str) -> Optional[UserValue]:
-        """删除偏好
+        """deletepreference
 
         Args:
-            user_id: 用户 ID
-            key: 偏好键
+            user_id: user ID
+            key: preference键
 
         Returns:
-            Optional[UserValue]: 更新后的用户价值观
+            Optional[UserValue]: update后的uservalues
         """
         user_values = self.get_user_values(user_id)
         if not user_values:
@@ -226,10 +226,10 @@ class UserValueStore:
         return user_values
 
     def list_users(self) -> List[str]:
-        """列出所有用户 ID
+        """列出所有user ID
 
         Returns:
-            List[str]: 用户 ID 列表
+            List[str]: user ID 列表
         """
         users = []
         for f in self.storage_path.glob("*.json"):
@@ -238,7 +238,7 @@ class UserValueStore:
         return users
 
     def _get_or_create_user(self, user_id: str) -> UserValue:
-        """获取或创建用户价值观"""
+        """get或创建uservalues"""
         user_values = self.get_user_values(user_id)
         if user_values is None:
             user_values = UserValue(user_id=user_id)
@@ -246,7 +246,7 @@ class UserValueStore:
         return user_values
 
     def _save_user(self, user_values: UserValue) -> None:
-        """保存用户价值观到文件"""
+        """saveuservalues到文件"""
         user_file = self._get_user_file(user_values.user_id)
         user_file.write_text(
             json.dumps(user_values.to_dict(), indent=2, ensure_ascii=False),
