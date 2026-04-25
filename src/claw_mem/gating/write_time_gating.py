@@ -2,7 +2,7 @@
 Write-Time Gating - 写时门控
 
 来源: Selective Memory 论文
-核心思想: 只存储显著信息，避免记忆冗余
+核心思想: 只storage显著信息，avoid记忆冗余
 
 References:
     - Selective Memory: Learning what to remember
@@ -25,13 +25,13 @@ class GatingResult:
 
 
 class InMemoryStorage:
-    """活跃记忆存储"""
+    """活跃记忆storage"""
 
     def __init__(self):
         self._items: List[Dict[str, Any]] = []
 
     def store(self, item: Dict[str, Any]) -> Dict[str, Any]:
-        """存储到活跃记忆"""
+        """storage到活跃记忆"""
         stored_item = {
             **item,
             '_stored_at': datetime.now().isoformat(),
@@ -41,14 +41,14 @@ class InMemoryStorage:
         return stored_item
 
     def get(self, key: str) -> Optional[Dict[str, Any]]:
-        """获取记忆项"""
+        """get记忆项"""
         for item in self._items:
             if item.get('id') == key or item.get('content', '').startswith(key):
                 return item
         return None
 
     def count(self) -> int:
-        """返回存储数量"""
+        """返回storage数量"""
         return len(self._items)
 
     def list_all(self) -> List[Dict[str, Any]]:
@@ -56,12 +56,12 @@ class InMemoryStorage:
         return self._items.copy()
 
     def clear(self):
-        """清空存储"""
+        """清空storage"""
         self._items.clear()
 
 
 class DiskStorage:
-    """冷存储（磁盘）"""
+    """冷storage（磁盘）"""
 
     def __init__(self, storage_path: str = "/tmp/claw-mem-cold"):
         import os
@@ -70,7 +70,7 @@ class DiskStorage:
         self._count = 0
 
     def archive(self, item: Dict[str, Any]) -> Dict[str, Any]:
-        """归档到冷存储"""
+        """归档到冷storage"""
         import json
         import os
 
@@ -119,13 +119,13 @@ class VersionChain:
         })
 
     def get(self, index: int) -> Optional[Dict[str, Any]]:
-        """获取指定版本"""
+        """get指定版本"""
         if 0 <= index < len(self._chain):
             return self._chain[index]
         return None
 
     def latest(self) -> Optional[Dict[str, Any]]:
-        """获取最新版本"""
+        """get最新版本"""
         return self._chain[-1] if self._chain else None
 
     def __len__(self) -> int:
@@ -137,11 +137,11 @@ class VersionChain:
 
 
 class WriteTimeGating:
-    """写时门控 - 只存储显著信息
+    """写时门控 - 只storage显著信息
 
     核心功能:
     1. 显著性评分 (salience scoring)
-    2. 冷热存储分层 (hot/cold tiering)
+    2. 冷热storage分层 (hot/cold tiering)
     3. 版本链管理 (version chain)
 
     Example:
@@ -164,8 +164,8 @@ class WriteTimeGating:
         """
         Args:
             threshold: 显著性阈值，默认 0.6
-            active_memory: 活跃记忆存储
-            cold_storage: 冷存储
+            active_memory: 活跃记忆storage
+            cold_storage: 冷storage
         """
         self.threshold = threshold
         self.active_memory = active_memory or InMemoryStorage()
@@ -191,7 +191,7 @@ class WriteTimeGating:
         # 1. 计算显著性评分
         salience = self.salience_scorer.compute(item)
 
-        # 2. 决定存储层级
+        # 2. 决定storage层级
         if salience >= self.threshold:
             # 高显著性 → 活跃记忆
             stored_item = self.active_memory.store(item)
@@ -199,13 +199,13 @@ class WriteTimeGating:
             stored = True
             reason = f"High salience ({salience:.2f} >= {self.threshold})"
         else:
-            # 低显著性 → 冷存储
+            # 低显著性 → 冷storage
             stored_item = self.cold_storage.archive(item)
             tier = 'cold'
             stored = True
             reason = f"Low salience ({salience:.2f} < {self.threshold})"
 
-        # 3. 更新版本链
+        # 3. update版本链
         self.version_chain.append(stored_item)
 
         elapsed_ms = (time.time() - start_time) * 1000
@@ -218,19 +218,19 @@ class WriteTimeGating:
         )
 
     def should_store(self, item: Dict[str, Any]) -> bool:
-        """判断是否应该存储（预检查）
+        """判断是否shouldstorage（预check）
 
         Args:
             item: 记忆项
 
         Returns:
-            bool: 是否应该存储到活跃记忆
+            bool: 是否shouldstorage到活跃记忆
         """
         salience = self.salience_scorer.compute(item)
         return salience >= self.threshold
 
     def get_stats(self) -> Dict[str, Any]:
-        """获取统计信息"""
+        """get统计信息"""
         return {
             'active_count': self.active_memory.count(),
             'cold_count': self.cold_storage.count(),
@@ -248,7 +248,7 @@ class WriteTimeGating:
         Returns:
             bool: 是否成功
         """
-        # 从冷存储读取
+        # 从冷storage读取
         cold_items = self.cold_storage.list_all()
         for item in cold_items:
             if item.get('id') == item_id or item.get('content', '').startswith(item_id):
@@ -272,7 +272,7 @@ class SalienceScorer:
 
     # 来源声誉权重
     SOURCE_REPUTATION = {
-        'user': 1.0,      # 用户输入最高优先级
+        'user': 1.0,      # user输入最高优first级
         'agent': 0.8,     # Agent 生成的信息
         'system': 0.6,    # 系统信息
         'external': 0.4   # 外部来源
@@ -324,7 +324,7 @@ class SalienceScorer:
             self.weights['reliability'] * reliability_score
         )
 
-        # 更新最近记录
+        # update最近记录
         self._update_recent(item.get('content', ''))
 
         return salience
@@ -358,7 +358,7 @@ class SalienceScorer:
     def _reliability(self, item: Dict[str, Any]) -> float:
         """可靠性评分
 
-        基于来源、验证状态、上下文完整性
+        基于来源、validate状态、上下文完整性
         """
         score = 0.5  # 基础分
 
@@ -367,7 +367,7 @@ class SalienceScorer:
         if source in ['user', 'agent']:
             score += 0.2
 
-        # 验证状态加分
+        # validate状态加分
         if item.get('verified', False):
             score += 0.2
 
@@ -392,7 +392,7 @@ class SalienceScorer:
         return len(intersection) / len(union) if union else 0.0
 
     def _update_recent(self, content: str):
-        """更新最近记录"""
+        """update最近记录"""
         self.recent_items.append(content)
 
         # 保持窗口大小

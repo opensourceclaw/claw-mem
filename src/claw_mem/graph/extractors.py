@@ -17,7 +17,7 @@ LLM Extractors - LLM 驱动的事实和概念提取器
 
 支持:
 - LLM 驱动的智能提取
-- 基于规则的备用提取
+- 基于rule的备用提取
 - 空提取器（用于测试）
 """
 
@@ -44,7 +44,7 @@ class LLMExtractor(BaseExtractor):
     """LLM 驱动的提取器
 
     支持多种 LLM 客户端（OpenAI, Anthropic, 本地模型等）。
-    无 LLM 时使用基于规则的备用方案。
+    无 LLM 时使用基于rule的备用方案。
     """
 
     def __init__(self, llm_client: Any = None):
@@ -73,7 +73,7 @@ class LLMExtractor(BaseExtractor):
             facts = self._parse_lines(response)
             return facts
         except Exception as e:
-            # 降级到规则提取
+            # 降级到rule提取
             return self._extract_facts_rule_based(text)
 
     def extract_concepts(self, text: str) -> List[str]:
@@ -95,7 +95,7 @@ class LLMExtractor(BaseExtractor):
             concepts = self._parse_lines(response)
             return concepts
         except Exception as e:
-            # 降级到规则提取
+            # 降级到rule提取
             return self._extract_concepts_rule_based(text)
 
     def generate_reflection(self, nodes: List[Any]) -> str:
@@ -127,7 +127,7 @@ class LLMExtractor(BaseExtractor):
             raise ValueError("LLM client must have 'generate' or 'chat' method")
 
     def _parse_lines(self, response: str) -> List[str]:
-        """解析 LLM 响应为行列表"""
+        """parse LLM 响应为行列表"""
         lines = response.strip().split('\n')
         return [line.strip().strip('-* ').strip() for line in lines if line.strip()]
 
@@ -137,7 +137,7 @@ class LLMExtractor(BaseExtractor):
 
 要求：
 1. 每行一个事实
-2. 只提取客观事实，不要推断
+2. 只提取客观事实，don't推断
 3. 保持简洁
 
 文本：
@@ -169,7 +169,7 @@ class LLMExtractor(BaseExtractor):
 反思："""
 
     def _extract_facts_rule_based(self, text: str) -> List[str]:
-        """基于规则的事实提取（备用方案）
+        """基于rule的事实提取（备用方案）
 
         按句子分割文本，提取完整句子作为事实。
         """
@@ -184,7 +184,7 @@ class LLMExtractor(BaseExtractor):
         return facts[:5]  # 最多5个
 
     def _extract_concepts_rule_based(self, text: str) -> List[str]:
-        """基于规则的概念提取（备用方案）
+        """基于rule的概念提取（备用方案）
 
         提取中文词语（2-4字）和英文单词作为概念。
         """
@@ -199,7 +199,7 @@ class LLMExtractor(BaseExtractor):
         return concepts[:10]  # 最多10个
 
     def _generate_reflection_rule_based(self, nodes: List[Any]) -> str:
-        """基于规则的反思生成（备用方案）"""
+        """基于rule的反思生成（备用方案）"""
         if not nodes:
             return "无足够信息生成反思"
 

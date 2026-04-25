@@ -111,7 +111,7 @@ class ConceptMediatedGraph:
     ):
         """
         Args:
-            storage: 图谱存储后端
+            storage: 图谱storage后端
             embedder: 向量嵌入器
             extractor: 提取器（用于提取事实和概念）
         """
@@ -138,8 +138,8 @@ class ConceptMediatedGraph:
 
         流程:
         1. 创建 Episode 节点
-        2. 提取 Fact 节点（如果有 LLM）
-        3. 提取 Concept 节点（如果有 LLM）
+        2. 提取 Fact 节点（if有 LLM）
+        3. 提取 Concept 节点（if有 LLM）
         4. 建立边关系
         """
         episode_ids = []
@@ -205,7 +205,7 @@ class ConceptMediatedGraph:
         if self.extractor:
             concepts = self._extract_concepts(turns)
             for concept_content in concepts:
-                # 检查是否已存在
+                # check是否已存在
                 existing = self._find_concept(concept_content)
                 if existing:
                     existing.frequency += 1
@@ -317,12 +317,12 @@ class ConceptMediatedGraph:
 
         Args:
             content: 概念内容
-            category: 概念类别
+            category: 概念类don't
 
         Returns:
             str: 节点 ID
         """
-        # 检查是否已存在
+        # check是否已存在
         existing = self._find_concept(content)
         if existing:
             existing.frequency += 1
@@ -412,7 +412,7 @@ class ConceptMediatedGraph:
             except Exception:
                 pass
 
-        # 获取所有节点
+        # get所有节点
         all_nodes = self.storage.get_all_nodes()
 
         # 过滤节点类型
@@ -460,16 +460,16 @@ class ConceptMediatedGraph:
         return results
 
     def get_node(self, node_id: str) -> Optional[Node]:
-        """获取节点"""
+        """get节点"""
         return self.storage.get_node(node_id)
 
     def get_neighbors(self, node_id: str) -> List[Node]:
-        """获取邻居节点"""
+        """get邻居节点"""
         neighbor_ids = self.storage.get_neighbors(node_id)
         return [self.storage.get_node(nid) for nid in neighbor_ids if self.storage.get_node(nid)]
 
     def get_stats(self) -> Dict[str, Any]:
-        """获取统计信息"""
+        """get统计信息"""
         if hasattr(self.storage, 'get_stats'):
             return self.storage.get_stats()
         return {

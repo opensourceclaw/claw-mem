@@ -49,7 +49,7 @@ class Node:
     updated_at: Optional[datetime] = None
 
     def to_dict(self) -> Dict[str, Any]:
-        """转换为字典"""
+        """convert为字典"""
         return {
             'id': self.id,
             'type': self.type.value,
@@ -151,7 +151,7 @@ class FactNode:
     属性:
         confidence: 置信度 (0-1)
         source_episode: 来源情景 ID
-        verified: 是否已验证
+        verified: 是否已validate
     """
     id: str
     content: str
@@ -257,9 +257,9 @@ class ConceptNode:
     """概念节点 - 抽象概念、主题
 
     属性:
-        category: 概念类别 (general/topic/entity/action)
+        category: 概念类don't (general/topic/entity/action)
         frequency: 出现频率
-        aliases: 别名列表
+        aliases: don't名列表
     """
     id: str
     content: str
@@ -318,7 +318,7 @@ def create_node(node_type: NodeType, content: str, **kwargs) -> Any:
         节点实例
 
     Example:
-        >>> node = create_node(NodeType.EPISODE, "用户说：你好", speaker="user")
+        >>> node = create_node(NodeType.EPISODE, "user说：你好", speaker="user")
     """
     node_id = kwargs.pop('id', f"{node_type.value}_{int(time.time() * 1000000)}")
 

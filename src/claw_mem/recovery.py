@@ -459,7 +459,7 @@ class RecoveryManager:
                 success=False,
                 strategy_used=RecoveryStrategy.MANUAL,
                 time_taken_ms=0,
-                description=f"记忆恢复失败：{str(e)}",
+                description=f"记忆restore失败：{str(e)}",
                 user_action_needed=True,
                 error_details=str(e),
             )
@@ -487,7 +487,7 @@ class RecoveryManager:
                 success=False,
                 strategy_used=RecoveryStrategy.MANUAL,
                 time_taken_ms=0,
-                description=f"通用恢复失败：{str(e)}",
+                description=f"通用restore失败：{str(e)}",
                 user_action_needed=True,
                 error_details=str(e),
             )

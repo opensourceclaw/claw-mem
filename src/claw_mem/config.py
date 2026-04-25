@@ -193,7 +193,7 @@ if __name__ == "__main__":
     
     print()
     
-    # Example 2：获取工作区信息
+    # Example 2：get工作区信息
     try:
         workspace = ConfigDetector.detect_workspace()
         info = ConfigDetector.get_workspace_info(workspace)
@@ -205,7 +205,7 @@ if __name__ == "__main__":
         print(f"  特征文件：{', '.join(info['markers_found'])}")
         print(f"  记忆文件：{', '.join(info['memory_files'][:5])}")
     except WorkspaceNotFoundError:
-        print("未找到工作区，无法获取信息")
+        print("未找到工作区，无法get信息")
     
     print()
     

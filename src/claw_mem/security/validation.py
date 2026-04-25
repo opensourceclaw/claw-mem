@@ -36,7 +36,7 @@ class WriteValidator:
         r"override.*memory",     # Override memory
         r"覆盖.*记忆",           # Override memory
         r"delete.*file",         # Delete files
-        r"删除.*文件",           # Delete files
+        r"delete.*文件",           # Delete files
         r"execute.*code",        # Execute code
         r"执行.*代码",           # Execute code
         r"system:",              # System prompt injection
