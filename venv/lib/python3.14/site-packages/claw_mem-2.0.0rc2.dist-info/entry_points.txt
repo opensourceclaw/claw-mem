@@ -1,0 +1,2 @@
+[console_scripts]
+claw-mem = claw_mem.cli:main

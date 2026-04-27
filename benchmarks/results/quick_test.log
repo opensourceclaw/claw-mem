@@ -1,0 +1,4 @@
+usage: longmemeval_runner.py [-h] [--data-dir DATA_DIR]
+                             [--output-dir OUTPUT_DIR] [--workspace WORKSPACE]
+                             [--no-preload]
+longmemeval_runner.py: error: unrecognized arguments: --limit 50

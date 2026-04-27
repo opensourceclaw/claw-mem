@@ -1,0 +1,10 @@
+rank-bm25>=0.2.2
+cachetools>=5.0.0
+
+[dev]
+pytest>=7.0.0
+pytest-benchmark
+pytest-cov>=3.0.0
+
+[zh]
+jieba>=0.42.1

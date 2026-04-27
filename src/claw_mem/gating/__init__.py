@@ -72,6 +72,9 @@ from .write_time_gating import (
     InMemoryStorage,
     DiskStorage,
     VersionChain,
+    GatingFilter,
+    GatingFilterResult,
+    AdaptiveThreshold,
 )
 
 __all__ = [
@@ -81,4 +84,7 @@ __all__ = [
     'InMemoryStorage',
     'DiskStorage',
     'VersionChain',
+    'GatingFilter',
+    'GatingFilterResult',
+    'AdaptiveThreshold',
 ]

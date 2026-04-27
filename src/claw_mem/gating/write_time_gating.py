@@ -8,10 +8,11 @@ References:
     - Selective Memory: Learning what to remember
 """
 
-from typing import Dict, Any, Optional, List
+from typing import Dict, Any, Optional, List, Callable
 from dataclasses import dataclass, field
 from datetime import datetime
 import time
+import math
 
 
 @dataclass
@@ -22,6 +23,274 @@ class GatingResult:
     salience_score: float
     reason: Optional[str] = None
     timestamp: datetime = field(default_factory=datetime.now)
+
+
+@dataclass
+class GatingFilterResult:
+    """门控过滤器结果"""
+    should_store: bool
+    importance_score: float
+    reason: Optional[str] = None
+    metadata: Dict[str, Any] = field(default_factory=dict)
+
+
+class GatingFilter:
+    """门控过滤器 - 基于重要性评分决定是否存储
+
+    使用 ImportanceScorer 计算记忆重要性，
+    根据阈值决定是否存储到主存储。
+
+    Example:
+        >>> from claw_mem.gating import GatingFilter
+        >>> from claw_mem.importance import ImportanceScorer
+        >>>
+        >>> scorer = ImportanceScorer()
+        >>> filter = GatingFilter(scorer=scorer, threshold=1.0)
+        >>>
+        >>> result = filter.should_store({
+        ...     'memory_type': 'semantic',
+        ...     'access_count': 5,
+        ...     'content': '重要事实'
+        ... })
+        >>>
+        >>> print(result.should_store)  # True/False
+    """
+
+    DEFAULT_THRESHOLD = 1.0  # 默认阈值
+
+    # 内存类型默认权重
+    TYPE_WEIGHTS = {
+        'semantic': 0.5,
+        'procedural': 0.3,
+        'episodic': 0.0,
+    }
+
+    def __init__(
+        self,
+        scorer: Optional[Any] = None,
+        threshold: float = DEFAULT_THRESHOLD,
+        custom_score_func: Optional[Callable[[Dict], float]] = None
+    ):
+        """
+        Args:
+            scorer: 重要性评分器 (ImportanceScorer)
+            threshold: 存储阈值 (默认 1.0)
+            custom_score_func: 自定义评分函数
+        """
+        self.scorer = scorer
+        self.threshold = threshold
+        self.custom_score_func = custom_score_func
+
+        # 如果没有提供scorer，使用内置评分
+        if self.scorer is None and self.custom_score_func is None:
+            self.scorer = _DefaultImportanceScorer()
+
+    def should_store(self, memory: Dict[str, Any]) -> GatingFilterResult:
+        """判断是否应该存储
+
+        Args:
+            memory: 记忆字典，包含:
+                - memory_type: 记忆类型 (semantic/procedural/episodic)
+                - access_count: 访问次数
+                - accessed_at: 上次访问时间
+                - content: 内容
+                - source: 来源 (user/agent/system)
+
+        Returns:
+            GatingFilterResult: 门控结果
+        """
+        # 计算重要性评分
+        if self.custom_score_func:
+            score = self.custom_score_func(memory)
+        elif self.scorer:
+            score = self.scorer.calculate(memory).total_score
+        else:
+            # 默认评分
+            score = self._default_score(memory)
+
+        # 判断是否存储
+        should_store = score >= self.threshold
+
+        # 生成原因
+        reason = self._generate_reason(memory, score, should_store)
+
+        return GatingFilterResult(
+            should_store=should_store,
+            importance_score=score,
+            reason=reason,
+            metadata={
+                'memory_type': memory.get('memory_type', 'unknown'),
+                'threshold': self.threshold
+            }
+        )
+
+    def _default_score(self, memory: Dict[str, Any]) -> float:
+        """默认评分逻辑"""
+        score = 1.0  # 基础分
+
+        # 记忆类型权重
+        mem_type = memory.get('memory_type', 'episodic')
+        score += self.TYPE_WEIGHTS.get(mem_type, 0.0)
+
+        # 访问频率权重
+        access_count = memory.get('access_count', 0)
+        if access_count > 10:
+            score += 0.3
+        elif access_count > 5:
+            score += 0.2
+        elif access_count > 1:
+            score += 0.1
+
+        # 来源权重
+        source = memory.get('source', 'system')
+        if source == 'user':
+            score += 0.2
+        elif source == 'agent':
+            score += 0.1
+
+        return min(2.0, score)
+
+    def _generate_reason(self, memory: Dict[str, Any], score: float, should_store: bool) -> str:
+        """生成决策原因"""
+        mem_type = memory.get('memory_type', 'unknown')
+        source = memory.get('source', 'unknown')
+
+        if should_store:
+            return f"High importance ({score:.2f} >= {self.threshold}): type={mem_type}, source={source}"
+        else:
+            return f"Low importance ({score:.2f} < {self.threshold}): type={mem_type}, source={source}"
+
+    def set_threshold(self, threshold: float):
+        """设置新阈值"""
+        self.threshold = max(0.0, min(2.0, threshold))
+
+    def get_threshold(self) -> float:
+        """获取当前阈值"""
+        return self.threshold
+
+
+class _DefaultImportanceScorer:
+    """默认重要性评分器"""
+
+    def calculate(self, memory: Dict[str, Any]) -> 'MemoryImportance':
+        """计算重要性"""
+        # 简化实现
+        score = 1.0
+        mem_type = memory.get('memory_type') or 'episodic'
+
+        type_weights = {'semantic': 0.5, 'procedural': 0.3, 'episodic': 0.0}
+        score += type_weights.get(mem_type, 0.0)
+
+        access_count = memory.get('access_count') or 0
+        if access_count > 10:
+            score += 0.3
+        elif access_count > 5:
+            score += 0.2
+        elif access_count > 1:
+            score += 0.1
+
+        return MemoryImportance(total_score=min(2.0, score))
+
+
+class MemoryImportance:
+    """记忆重要性数据结构"""
+    def __init__(self, total_score: float = 1.0):
+        self.total_score = total_score
+
+
+class AdaptiveThreshold:
+    """自适应阈值 - 根据记忆数量动态调整
+
+    当记忆数量较多时，提高阈值以过滤低重要性记忆；
+    当记忆数量较少时，降低阈值以保留更多记忆。
+
+    Example:
+        >>> from claw_mem.gating import AdaptiveThreshold
+        >>>
+        >>> adapter = AdaptiveThreshold(
+        ...     base_threshold=1.0,
+        ...     min_threshold=0.5,
+        ...     max_threshold=1.5,
+        ...     memory_capacity=1000
+        ... )
+        >>>
+        >>> # 根据当前记忆数量计算阈值
+        >>> threshold = adapter.get_threshold(current_memory_count=500)
+        >>> print(threshold)  # ~1.0
+        >>>
+        >>> threshold = adapter.get_threshold(current_memory_count=900)
+        >>> print(threshold)  # ~1.3
+    """
+
+    def __init__(
+        self,
+        base_threshold: float = 1.0,
+        min_threshold: float = 0.5,
+        max_threshold: float = 1.5,
+        memory_capacity: int = 1000,
+        scale_factor: float = 0.5
+    ):
+        """
+        Args:
+            base_threshold: 基础阈值
+            min_threshold: 最小阈值
+            max_threshold: 最大阈值
+            memory_capacity: 记忆容量参考值
+            scale_factor: 缩放因子，控制阈值变化速度
+        """
+        self.base_threshold = base_threshold
+        self.min_threshold = min_threshold
+        self.max_threshold = max_threshold
+        self.memory_capacity = memory_capacity
+        self.scale_factor = scale_factor
+
+    def get_threshold(self, current_memory_count: int) -> float:
+        """根据当前记忆数量计算阈值
+
+        Args:
+            current_memory_count: 当前记忆数量
+
+        Returns:
+            float: 动态计算的阈值
+        """
+        # 计算使用率
+        usage_ratio = current_memory_count / self.memory_capacity
+
+        # 使用 sigmoid 函数平滑过渡
+        # 当 usage_ratio = 0.5 时，threshold = base_threshold
+        # 当 usage_ratio 接近 0 时，threshold 接近 min_threshold
+        # 当 usage_ratio 接近 1 时，threshold 接近 max_threshold
+
+        # 调整偏移，使 base_threshold 在 usage_ratio=0.5 时
+        adjusted = (usage_ratio - 0.5) * self.scale_factor * 2
+        threshold = self.base_threshold + adjusted
+
+        # 限制在 min/max 范围内
+        return max(self.min_threshold, min(self.max_threshold, threshold))
+
+    def get_stats(self, current_memory_count: int) -> Dict[str, Any]:
+        """获取统计信息
+
+        Args:
+            current_memory_count: 当前记忆数量
+
+        Returns:
+            Dict: 统计信息
+        """
+        threshold = self.get_threshold(current_memory_count)
+        return {
+            'current_count': current_memory_count,
+            'capacity': self.memory_capacity,
+            'usage_ratio': current_memory_count / self.memory_capacity,
+            'current_threshold': threshold,
+            'base_threshold': self.base_threshold,
+            'min_threshold': self.min_threshold,
+            'max_threshold': self.max_threshold
+        }
+
+    def reset(self):
+        """重置到基础阈值"""
+        return self.base_threshold
 
 
 class InMemoryStorage:
