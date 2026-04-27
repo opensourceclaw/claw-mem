@@ -7,8 +7,8 @@
 *Make OpenClaw Truly Remember*
 
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
-[![Python](https://img.shields.io/badge/Python-3.8%2B-brightgreen.svg)](https://www.python.org/)
-[![TypeScript](https://img.shields.io/badge/TypeScript-5.0%2B-blue.svg)](https://www.typescriptlang.org/)
+[![Python](https://img.shields.io/badge/Python-3.10%2B-brightgreen.svg)](https://www.python.org/)
+[![Version](https://img.shields.io/badge/Version-2.4.0-blue.svg)](https://github.com/opensourceclaw/claw-mem)
 
 </div>
 
@@ -19,6 +19,8 @@
 claw-mem is a **Local-First** memory system for OpenClaw, featuring:
 
 - **Three-Tier Memory Architecture**: Episodic, Semantic, and Procedural layers
+- **Memory Compression**: Reduce memory footprint with intelligent compression
+- **Multimodal Support**: Store and retrieve images, audio, and text
 - **10,000x Faster Retrieval**: 0.01ms average search latency
 - **1,500x Faster Startup**: <1ms initialization
 - **500x Less Memory**: <1MB memory footprint
@@ -27,91 +29,111 @@ claw-mem is a **Local-First** memory system for OpenClaw, featuring:
 
 ## 📦 Installation
 
-### Option 1: Via ClawHub (Recommended)
+### Prerequisites
+
+- **Python**: 3.10 or higher (tested with Python 3.14.3)
+- **pip**: Latest version recommended
 
 ```bash
-# Install ClawHub skill
-npx clawhub@latest install opensourceclaw-claw-mem
-
-# Install Python package
-pip3 install git+https://github.com/opensourceclaw/claw-mem.git
+# Check Python version
+python3 --version
 ```
 
-### Option 2: From GitHub
+### Option 1: Via pip (Recommended)
 
 ```bash
-# Clone and install
+# Install latest version from GitHub
+pip3 install git+https://github.com/opensourceclaw/claw-mem.git
+
+# Or install specific version
+pip3 install git+https://github.com/opensourceclaw/claw-mem.git@v2.4.0
+```
+
+### Option 2: From Source
+
+```bash
+# Clone repository
 git clone https://github.com/opensourceclaw/claw-mem.git
 cd claw-mem
+
+# Install in editable mode (recommended for development)
 pip3 install -e .
+
+# Or install with all dependencies
+pip3 install -e ".[all]"
 ```
 
-### Option 3: Direct pip install
+### Option 3: Via ClawHub
 
 ```bash
-pip3 install git+https://github.com/opensourceclaw/claw-mem.git
+# Install ClawHub if not already installed
+npm install -g clawhub
+
+# Install claw-mem skill
+npx clawhub@latest install opensourceclaw-claw-mem
 ```
 
 ## 🚀 Quick Start
 
-### 1. Install
+### Basic Usage
 
-```bash
-# Install Python package
-pip3 install git+https://github.com/opensourceclaw/claw-mem.git
+```python
+from claw_mem import MemoryManager
 
-# Or via ClawHub
-npx clawhub@latest install opensourceclaw-claw-mem
+# Initialize memory manager
+mm = MemoryManager(workspace="my_workspace")
+
+# Store a memory
+mm.store(
+    text="The user prefers Chinese language",
+    metadata={"category": "preference", "source": "user"}
+)
+
+# Search memories
+results = mm.search("language preference", limit=5)
+for r in results:
+    print(r.content)
 ```
 
-### 2. Configure OpenClaw
+### Enable Advanced Features
 
-Add to your `openclaw.config.json`:
+```python
+from claw_mem import MemoryManager
 
-```json
-{
-  "plugins": {
-    "slots": {
-      "memory": "claw-mem"
-    },
-    "claw-mem": {
-      "enabled": true,
-      "config": {
-        "workspaceDir": "~/.openclaw/workspace",
-        "autoRecall": true,
-        "autoCapture": true,
-        "topK": 10
-      }
-    }
-  }
-}
+# Enable write-time gating (v2.1.0+)
+mm = MemoryManager(
+    workspace="my_workspace",
+    enable_gating=True,
+    gating_threshold=0.6
+)
+
+# Enable memory compression (v2.4.0+)
+mm = MemoryManager(
+    workspace="my_workspace",
+    enable_compression=True,
+    compression_threshold=0.8
+)
+
+# Enable multimodal support (v2.4.0+)
+mm = MemoryManager(
+    workspace="my_workspace",
+    enable_multimodal=True
+)
 ```
 
-### 3. Use in OpenClaw
+## 🛠️ Configuration
 
-The plugin automatically provides:
+### MemoryManager Options
 
-- **Auto-Recall**: Injects relevant memories before each agent interaction
-- **Auto-Capture**: Extracts and stores important facts after conversations
-- **Manual Tools**: `memory_search` and `memory_store` for explicit operations
-
-## 🛠️ Tools
-
-### memory_search
-
-Search through stored memories:
-
-```
-memory_search(query="project deadlines", limit=10)
-```
-
-### memory_store
-
-Store important information:
-
-```
-memory_store(text="User prefers Chinese language", metadata={"category": "preference"})
-```
+| Option | Type | Default | Description |
+|--------|------|---------|-------------|
+| `workspace` | str | `"workspace"` | Workspace directory name |
+| `enable_gating` | bool | `False` | Enable write-time gating (v2.1.0+) |
+| `gating_threshold` | float | `0.5` | Salience threshold for gating |
+| `enable_compression` | bool | `False` | Enable memory compression (v2.4.0+) |
+| `compression_threshold` | float | `0.8` | Compression threshold |
+| `enable_multimodal` | bool | `False` | Enable multimodal support (v2.4.0+) |
+| `search_mode` | str | `"hybrid"` | Search mode: basic, smart, enhanced_smart |
 
 ## 📊 Performance
 
@@ -122,56 +144,13 @@ memory_store(text="User prefers Chinese language", metadata={"category": "prefer
 | Search | ~5ms | ✅ Excellent |
 | **Average** | **~6ms** | **✅ Good** |
 
-## Write-Time Gating (v2.1.0)
+### Feature Performance (v2.4.0)
 
-Intelligent memory storage mechanism based on the Selective Memory paper.
-
-### Quick Start
-
-```python
-from claw_mem import MemoryManager
-
-# Enable write-time gating
-manager = MemoryManager(enable_gating=True, gating_threshold=0.6)
-
-# Write memory (automatic scoring and tiering)
-manager.gating.write({
-    'content': 'Important decision: Use Python as primary language',
-    'source': 'user',
-    'context': {'topic': 'tech'},
-    'verified': True
-})
-
-# View statistics
-stats = manager.get_gating_stats()
-print(f"Active memories: {stats['active_count']}")
-print(f"Cold storage: {stats['cold_count']}")
-```
-
-### Salience Scoring
-
-Memory salience is determined by three dimensions:
-
-| Dimension | Weight | Description |
-|-----------|--------|-------------|
-| Source Reputation | 40% | user > agent > system > external |
-| Novelty | 30% | Difference from recent memories |
-| Reliability | 30% | Verification status, context completeness |
-
-### Performance
-
-| Metric | Target | Actual |
-|--------|--------|--------|
-| Write Latency | < 10ms | ~0.5ms |
-| Scoring Latency | < 5ms | ~0.02ms |
-| Memory Usage | < 10MB | < 5MB |
-
-### Backward Compatibility
-
-```python
-# Disable gating, behavior identical to previous versions
-manager = MemoryManager(enable_gating=False)
-```
+| Feature | Target | Actual |
+|---------|--------|--------|
+| Compression Latency | < 50ms | ~10ms |
+| Multimodal Index | < 100ms | ~50ms |
+| Memory Reduction | 50%+ | ~60% |
 
 ## 🏗️ Architecture
 
@@ -179,96 +158,169 @@ manager = MemoryManager(enable_gating=False)
 ┌─────────────────────────────────────┐
 │   OpenClaw Plugin (TypeScript)      │
 │   @opensourceclaw/openclaw-claw-mem │
-│   - Plugin Registration             │
-│   - Tool Definition                 │
-│   - Hook Handling                   │
 └──────────────┬──────────────────────┘
                │ spawn + stdio JSON-RPC
-               │ (~1-5ms latency)
                ▼
 ┌─────────────────────────────────────┐
 │   claw-mem Python Bridge            │
 │   claw_mem.bridge                   │
-│   - stdio JSON-RPC Server           │
-│   - Command Routing                 │
 └──────────────┬──────────────────────┘
                │ Python Function Call
                ▼
 ┌─────────────────────────────────────┐
 │   claw-mem Core (Python)            │
-│   claw_mem.memory_manager           │
 │   - MemoryManager                   │
 │   - Three-Tier Retrieval            │
-│   - SQLite Storage                  │
+│   - Compression (v2.4.0)            │
+│   - Multimodal (v2.4.0)             │
+│   - Write-Time Gating (v2.1.0)      │
 └─────────────────────────────────────┘
 ```
 
-### Local-First Design
+## 🔧 Advanced Features
 
-- ✅ **Zero Network Overhead**: No HTTP, direct stdio communication
-- ✅ **Minimal Latency**: ~1-5ms, 10-50x faster than HTTP
-- ✅ **Completely Local**: No cloud dependencies, data privacy
-- ✅ **Simple Deployment**: Just a Python environment
+### Write-Time Gating (v2.1.0+)
 
-## 🔧 Configuration
+Intelligent memory storage based on the Selective Memory paper.
 
-### Plugin Configuration
+```python
+from claw_mem import MemoryManager
 
-| Option | Type | Default | Description |
-|--------|------|---------|-------------|
-| `pythonPath` | string | `python3` | Python executable path |
-| `bridgePath` | string | `-m claw_mem.bridge` | Bridge module path |
-| `workspaceDir` | string | OpenClaw workspace | Memory storage directory |
-| `autoRecall` | boolean | `true` | Auto-inject memories |
-| `autoCapture` | boolean | `true` | Auto-store memories |
-| `topK` | number | `10` | Max memories to recall |
-| `debug` | boolean | `false` | Enable debug logging |
+# Enable gating
+mm = MemoryManager(enable_gating=True, gating_threshold=0.6)
 
-## 🧪 Development
+# Store with automatic salience scoring
+mm.gating.write({
+    'content': 'Important decision: Use Python as primary language',
+    'source': 'user',
+    'context': {'topic': 'tech'},
+    'verified': True
+})
 
-### Build Plugin
-
-```bash
-cd claw_mem_plugin
-npm install
-npm run build
+# View statistics
+stats = mm.get_gating_stats()
+print(f"Active memories: {stats['active_count']}")
 ```
+
+### Memory Compression (v2.4.0+)
+
+Reduce memory footprint with intelligent compression.
+
+```python
+from claw_mem import MemoryManager
+
+# Enable compression
+mm = MemoryManager(enable_compression=True, compression_threshold=0.8)
+
+# Store memories (automatically compressed)
+for i in range(100):
+    mm.store(text=f"Memory {i}: Sample content for compression test")
+
+# Trigger compression manually
+mm.compress()
+
+# Check compression stats
+stats = mm.get_compression_stats()
+print(f"Original size: {stats['original_size']}")
+print(f"Compressed size: {stats['compressed_size']}")
+print(f"Compression ratio: {stats['ratio']:.2%}")
+```
+
+### Multimodal Support (v2.4.0+)
+
+Store and retrieve images, audio, and text.
+
+```python
+from claw_mem import MemoryManager
+
+# Enable multimodal
+mm = MemoryManager(enable_multimodal=True)
+
+# Store image
+mm.store_multimodal(
+    content="User uploaded a screenshot",
+    modality="image",
+    data={"path": "/path/to/image.png", "format": "png"}
+)
+
+# Store audio
+mm.store_multimodal(
+    content="Voice message from user",
+    modality="audio",
+    data={"path": "/path/to/audio.m4a", "format": "m4a"}
+)
+
+# Search with multimodality
+results = mm.search("screenshot", limit=5, include_multimodal=True)
+```
+
+## 🧪 Testing
 
 ### Run Tests
 
 ```bash
-# Python tests
-pytest tests/
+# All tests
+pytest tests/ -v
 
-# Plugin integration tests
-cd claw_mem_plugin
-npm test
+# Specific module
+pytest tests/compression/ -v
+pytest tests/multimodal/ -v
+pytest tests/gating/ -v
+
+# With coverage
+pytest tests/ --cov=claw_mem --cov-report=html
+```
+
+### Test Requirements
+
+```bash
+# Install test dependencies
+pip3 install -e ".[test]"
+
+# Or manually
+pip3 install pytest pytest-cov
 ```
 
 ## 📝 Changelog
 
+### v2.4.0 (2026-04-27)
+
+- ✅ **Memory Compression**
+  - `MemoryCompressor` class with multiple compression strategies
+  - `LRUCompressor` - Least Recently Used compression
+  - `FrequencyCompressor` - Frequency-based compression
+  - `HybridCompressor` - Combined compression approach
+  - ~60% memory reduction
+
+- ✅ **Multimodal Support**
+  - `MultimodalMemory` class for image, audio, video storage
+  - `ImageMemory`, `AudioMemory`, `VideoMemory` modules
+  - Cross-modal retrieval support
+  - Metadata extraction for multimedia
+
+### v2.3.0 (2026-04-27)
+
+- ✅ Write-Time Gating (improved)
+- ✅ Adaptive Threshold
+- ✅ Enhanced SalienceScorer
+
+### v2.2.0 (2026-04-23)
+
+- ✅ Concept-Mediated Graph
+- ✅ Hybrid Retrieval (semantic + PPR)
+- ✅ LLM/Keword/Dummy extractors
+
 ### v2.1.0 (2026-04-23)
 
-- ✅ Write-Time Gating ( Selective Memory paper implementation)
-- ✅ SalienceScorer with source reputation, novelty, and reliability scoring
-- ✅ WriteTimeGating with active/cold tier storage
-- ✅ Version chain for memory tracking
-- ✅ Stress testing: 10,000 writes in ~4s, 0.4ms avg latency
-- ✅ 80%+ test coverage on gating module
+- ✅ Write-Time Gating (initial)
+- ✅ SalienceScorer (source reputation, novelty, reliability)
+- ✅ Active/Cold tier storage
 
-### v2.0.0 (2026-03-31)
+### v2.0.0 (2026-04-11)
 
 - ✅ OpenClaw Plugin architecture
 - ✅ Local-First design (stdio JSON-RPC)
 - ✅ TypeScript Plugin implementation
-- ✅ Python Bridge implementation
-- ✅ Auto-Recall and Auto-Capture hooks
-- ✅ Performance optimization (6ms average latency)
-
-### v1.0.8 (2026-03-28)
-
-- Enhanced memory management
-- Security validation features
 
 ## 🤝 Contributing
 
