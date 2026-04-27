@@ -272,6 +272,32 @@ class MemoryManager:
                 "reason": "validation_failed"
             })
             return False
+
+        # Write-Time Gating check (v2.3.0)
+        if self.enable_gating and self.gating is not None:
+            gating_item = {
+                'content': content,
+                'source': metadata.get('source', 'user') if metadata else 'user',
+                'memory_type': memory_type,
+                'context': metadata or {},
+                'session_id': self.session_id
+            }
+
+            # Use gating to decide if should store
+            gating_result = self.gating.write(gating_item)
+
+            # Log gating decision
+            self.audit.log("gating_decision", {
+                "content": content[:100],
+                "type": memory_type,
+                "salience": gating_result.salience_score,
+                "tier": gating_result.tier,
+                "stored": gating_result.stored
+            })
+
+            # If gated to cold storage, we still store but may limit indexing
+            if gating_result.tier == 'cold':
+                update_index = False  # Skip indexing for cold storage
         
         import uuid
         

@@ -1,0 +1,2002 @@
+[
+  {
+    "test_id": "conv_000_fact_000",
+    "conversation_id": "conv_000",
+    "category": "single_hop",
+    "question": "What does the user think about programming?",
+    "answer": "Python is great for data science",
+    "fact": "Python is great for data science"
+  },
+  {
+    "test_id": "conv_000_fact_001",
+    "conversation_id": "conv_000",
+    "category": "multi_hop",
+    "question": "What does the user think about hobby?",
+    "answer": "The user loves hiking",
+    "fact": "The user loves hiking"
+  },
+  {
+    "test_id": "conv_000_fact_002",
+    "conversation_id": "conv_000",
+    "category": "temporal",
+    "question": "What does the user think about preference?",
+    "answer": "Blue is the favorite color",
+    "fact": "Blue is the favorite color"
+  },
+  {
+    "test_id": "conv_000_fact_003",
+    "conversation_id": "conv_000",
+    "category": "open_domain",
+    "question": "What does the user think about job?",
+    "answer": "Works as an engineer",
+    "fact": "Works as an engineer"
+  },
+  {
+    "test_id": "conv_000_fact_004",
+    "conversation_id": "conv_000",
+    "category": "adversarial",
+    "question": "What does the user think about pet?",
+    "answer": "Has a dog named Max",
+    "fact": "Has a dog named Max"
+  },
+  {
+    "test_id": "conv_001_fact_000",
+    "conversation_id": "conv_001",
+    "category": "single_hop",
+    "question": "What does the user think about programming?",
+    "answer": "Python is great for data science",
+    "fact": "Python is great for data science"
+  },
+  {
+    "test_id": "conv_001_fact_001",
+    "conversation_id": "conv_001",
+    "category": "multi_hop",
+    "question": "What does the user think about hobby?",
+    "answer": "The user loves hiking",
+    "fact": "The user loves hiking"
+  },
+  {
+    "test_id": "conv_001_fact_002",
+    "conversation_id": "conv_001",
+    "category": "temporal",
+    "question": "What does the user think about preference?",
+    "answer": "Blue is the favorite color",
+    "fact": "Blue is the favorite color"
+  },
+  {
+    "test_id": "conv_001_fact_003",
+    "conversation_id": "conv_001",
+    "category": "open_domain",
+    "question": "What does the user think about job?",
+    "answer": "Works as an engineer",
+    "fact": "Works as an engineer"
+  },
+  {
+    "test_id": "conv_001_fact_004",
+    "conversation_id": "conv_001",
+    "category": "adversarial",
+    "question": "What does the user think about pet?",
+    "answer": "Has a dog named Max",
+    "fact": "Has a dog named Max"
+  },
+  {
+    "test_id": "conv_002_fact_000",
+    "conversation_id": "conv_002",
+    "category": "single_hop",
+    "question": "What does the user think about programming?",
+    "answer": "Python is great for data science",
+    "fact": "Python is great for data science"
+  },
+  {
+    "test_id": "conv_002_fact_001",
+    "conversation_id": "conv_002",
+    "category": "multi_hop",
+    "question": "What does the user think about hobby?",
+    "answer": "The user loves hiking",
+    "fact": "The user loves hiking"
+  },
+  {
+    "test_id": "conv_002_fact_002",
+    "conversation_id": "conv_002",
+    "category": "temporal",
+    "question": "What does the user think about preference?",
+    "answer": "Blue is the favorite color",
+    "fact": "Blue is the favorite color"
+  },
+  {
+    "test_id": "conv_002_fact_003",
+    "conversation_id": "conv_002",
+    "category": "open_domain",
+    "question": "What does the user think about job?",
+    "answer": "Works as an engineer",
+    "fact": "Works as an engineer"
+  },
+  {
+    "test_id": "conv_002_fact_004",
+    "conversation_id": "conv_002",
+    "category": "adversarial",
+    "question": "What does the user think about pet?",
+    "answer": "Has a dog named Max",
+    "fact": "Has a dog named Max"
+  },
+  {
+    "test_id": "conv_003_fact_000",
+    "conversation_id": "conv_003",
+    "category": "single_hop",
+    "question": "What does the user think about programming?",
+    "answer": "Python is great for data science",
+    "fact": "Python is great for data science"
+  },
+  {
+    "test_id": "conv_003_fact_001",
+    "conversation_id": "conv_003",
+    "category": "multi_hop",
+    "question": "What does the user think about hobby?",
+    "answer": "The user loves hiking",
+    "fact": "The user loves hiking"
+  },
+  {
+    "test_id": "conv_003_fact_002",
+    "conversation_id": "conv_003",
+    "category": "temporal",
+    "question": "What does the user think about preference?",
+    "answer": "Blue is the favorite color",
+    "fact": "Blue is the favorite color"
+  },
+  {
+    "test_id": "conv_003_fact_003",
+    "conversation_id": "conv_003",
+    "category": "open_domain",
+    "question": "What does the user think about job?",
+    "answer": "Works as an engineer",
+    "fact": "Works as an engineer"
+  },
+  {
+    "test_id": "conv_003_fact_004",
+    "conversation_id": "conv_003",
+    "category": "adversarial",
+    "question": "What does the user think about pet?",
+    "answer": "Has a dog named Max",
+    "fact": "Has a dog named Max"
+  },
+  {
+    "test_id": "conv_004_fact_000",
+    "conversation_id": "conv_004",
+    "category": "single_hop",
+    "question": "What does the user think about programming?",
+    "answer": "Python is great for data science",
+    "fact": "Python is great for data science"
+  },
+  {
+    "test_id": "conv_004_fact_001",
+    "conversation_id": "conv_004",
+    "category": "multi_hop",
+    "question": "What does the user think about hobby?",
+    "answer": "The user loves hiking",
+    "fact": "The user loves hiking"
+  },
+  {
+    "test_id": "conv_004_fact_002",
+    "conversation_id": "conv_004",
+    "category": "temporal",
+    "question": "What does the user think about preference?",
+    "answer": "Blue is the favorite color",
+    "fact": "Blue is the favorite color"
+  },
+  {
+    "test_id": "conv_004_fact_003",
+    "conversation_id": "conv_004",
+    "category": "open_domain",
+    "question": "What does the user think about job?",
+    "answer": "Works as an engineer",
+    "fact": "Works as an engineer"
+  },
+  {
+    "test_id": "conv_004_fact_004",
+    "conversation_id": "conv_004",
+    "category": "adversarial",
+    "question": "What does the user think about pet?",
+    "answer": "Has a dog named Max",
+    "fact": "Has a dog named Max"
+  },
+  {
+    "test_id": "conv_005_fact_000",
+    "conversation_id": "conv_005",
+    "category": "single_hop",
+    "question": "What does the user think about programming?",
+    "answer": "Python is great for data science",
+    "fact": "Python is great for data science"
+  },
+  {
+    "test_id": "conv_005_fact_001",
+    "conversation_id": "conv_005",
+    "category": "multi_hop",
+    "question": "What does the user think about hobby?",
+    "answer": "The user loves hiking",
+    "fact": "The user loves hiking"
+  },
+  {
+    "test_id": "conv_005_fact_002",
+    "conversation_id": "conv_005",
+    "category": "temporal",
+    "question": "What does the user think about preference?",
+    "answer": "Blue is the favorite color",
+    "fact": "Blue is the favorite color"
+  },
+  {
+    "test_id": "conv_005_fact_003",
+    "conversation_id": "conv_005",
+    "category": "open_domain",
+    "question": "What does the user think about job?",
+    "answer": "Works as an engineer",
+    "fact": "Works as an engineer"
+  },
+  {
+    "test_id": "conv_005_fact_004",
+    "conversation_id": "conv_005",
+    "category": "adversarial",
+    "question": "What does the user think about pet?",
+    "answer": "Has a dog named Max",
+    "fact": "Has a dog named Max"
+  },
+  {
+    "test_id": "conv_006_fact_000",
+    "conversation_id": "conv_006",
+    "category": "single_hop",
+    "question": "What does the user think about programming?",
+    "answer": "Python is great for data science",
+    "fact": "Python is great for data science"
+  },
+  {
+    "test_id": "conv_006_fact_001",
+    "conversation_id": "conv_006",
+    "category": "multi_hop",
+    "question": "What does the user think about hobby?",
+    "answer": "The user loves hiking",
+    "fact": "The user loves hiking"
+  },
+  {
+    "test_id": "conv_006_fact_002",
+    "conversation_id": "conv_006",
+    "category": "temporal",
+    "question": "What does the user think about preference?",
+    "answer": "Blue is the favorite color",
+    "fact": "Blue is the favorite color"
+  },
+  {
+    "test_id": "conv_006_fact_003",
+    "conversation_id": "conv_006",
+    "category": "open_domain",
+    "question": "What does the user think about job?",
+    "answer": "Works as an engineer",
+    "fact": "Works as an engineer"
+  },
+  {
+    "test_id": "conv_006_fact_004",
+    "conversation_id": "conv_006",
+    "category": "adversarial",
+    "question": "What does the user think about pet?",
+    "answer": "Has a dog named Max",
+    "fact": "Has a dog named Max"
+  },
+  {
+    "test_id": "conv_007_fact_000",
+    "conversation_id": "conv_007",
+    "category": "single_hop",
+    "question": "What does the user think about programming?",
+    "answer": "Python is great for data science",
+    "fact": "Python is great for data science"
+  },
+  {
+    "test_id": "conv_007_fact_001",
+    "conversation_id": "conv_007",
+    "category": "multi_hop",
+    "question": "What does the user think about hobby?",
+    "answer": "The user loves hiking",
+    "fact": "The user loves hiking"
+  },
+  {
+    "test_id": "conv_007_fact_002",
+    "conversation_id": "conv_007",
+    "category": "temporal",
+    "question": "What does the user think about preference?",
+    "answer": "Blue is the favorite color",
+    "fact": "Blue is the favorite color"
+  },
+  {
+    "test_id": "conv_007_fact_003",
+    "conversation_id": "conv_007",
+    "category": "open_domain",
+    "question": "What does the user think about job?",
+    "answer": "Works as an engineer",
+    "fact": "Works as an engineer"
+  },
+  {
+    "test_id": "conv_007_fact_004",
+    "conversation_id": "conv_007",
+    "category": "adversarial",
+    "question": "What does the user think about pet?",
+    "answer": "Has a dog named Max",
+    "fact": "Has a dog named Max"
+  },
+  {
+    "test_id": "conv_008_fact_000",
+    "conversation_id": "conv_008",
+    "category": "single_hop",
+    "question": "What does the user think about programming?",
+    "answer": "Python is great for data science",
+    "fact": "Python is great for data science"
+  },
+  {
+    "test_id": "conv_008_fact_001",
+    "conversation_id": "conv_008",
+    "category": "multi_hop",
+    "question": "What does the user think about hobby?",
+    "answer": "The user loves hiking",
+    "fact": "The user loves hiking"
+  },
+  {
+    "test_id": "conv_008_fact_002",
+    "conversation_id": "conv_008",
+    "category": "temporal",
+    "question": "What does the user think about preference?",
+    "answer": "Blue is the favorite color",
+    "fact": "Blue is the favorite color"
+  },
+  {
+    "test_id": "conv_008_fact_003",
+    "conversation_id": "conv_008",
+    "category": "open_domain",
+    "question": "What does the user think about job?",
+    "answer": "Works as an engineer",
+    "fact": "Works as an engineer"
+  },
+  {
+    "test_id": "conv_008_fact_004",
+    "conversation_id": "conv_008",
+    "category": "adversarial",
+    "question": "What does the user think about pet?",
+    "answer": "Has a dog named Max",
+    "fact": "Has a dog named Max"
+  },
+  {
+    "test_id": "conv_009_fact_000",
+    "conversation_id": "conv_009",
+    "category": "single_hop",
+    "question": "What does the user think about programming?",
+    "answer": "Python is great for data science",
+    "fact": "Python is great for data science"
+  },
+  {
+    "test_id": "conv_009_fact_001",
+    "conversation_id": "conv_009",
+    "category": "multi_hop",
+    "question": "What does the user think about hobby?",
+    "answer": "The user loves hiking",
+    "fact": "The user loves hiking"
+  },
+  {
+    "test_id": "conv_009_fact_002",
+    "conversation_id": "conv_009",
+    "category": "temporal",
+    "question": "What does the user think about preference?",
+    "answer": "Blue is the favorite color",
+    "fact": "Blue is the favorite color"
+  },
+  {
+    "test_id": "conv_009_fact_003",
+    "conversation_id": "conv_009",
+    "category": "open_domain",
+    "question": "What does the user think about job?",
+    "answer": "Works as an engineer",
+    "fact": "Works as an engineer"
+  },
+  {
+    "test_id": "conv_009_fact_004",
+    "conversation_id": "conv_009",
+    "category": "adversarial",
+    "question": "What does the user think about pet?",
+    "answer": "Has a dog named Max",
+    "fact": "Has a dog named Max"
+  },
+  {
+    "test_id": "conv_010_fact_000",
+    "conversation_id": "conv_010",
+    "category": "single_hop",
+    "question": "What does the user think about programming?",
+    "answer": "Python is great for data science",
+    "fact": "Python is great for data science"
+  },
+  {
+    "test_id": "conv_010_fact_001",
+    "conversation_id": "conv_010",
+    "category": "multi_hop",
+    "question": "What does the user think about hobby?",
+    "answer": "The user loves hiking",
+    "fact": "The user loves hiking"
+  },
+  {
+    "test_id": "conv_010_fact_002",
+    "conversation_id": "conv_010",
+    "category": "temporal",
+    "question": "What does the user think about preference?",
+    "answer": "Blue is the favorite color",
+    "fact": "Blue is the favorite color"
+  },
+  {
+    "test_id": "conv_010_fact_003",
+    "conversation_id": "conv_010",
+    "category": "open_domain",
+    "question": "What does the user think about job?",
+    "answer": "Works as an engineer",
+    "fact": "Works as an engineer"
+  },
+  {
+    "test_id": "conv_010_fact_004",
+    "conversation_id": "conv_010",
+    "category": "adversarial",
+    "question": "What does the user think about pet?",
+    "answer": "Has a dog named Max",
+    "fact": "Has a dog named Max"
+  },
+  {
+    "test_id": "conv_011_fact_000",
+    "conversation_id": "conv_011",
+    "category": "single_hop",
+    "question": "What does the user think about programming?",
+    "answer": "Python is great for data science",
+    "fact": "Python is great for data science"
+  },
+  {
+    "test_id": "conv_011_fact_001",
+    "conversation_id": "conv_011",
+    "category": "multi_hop",
+    "question": "What does the user think about hobby?",
+    "answer": "The user loves hiking",
+    "fact": "The user loves hiking"
+  },
+  {
+    "test_id": "conv_011_fact_002",
+    "conversation_id": "conv_011",
+    "category": "temporal",
+    "question": "What does the user think about preference?",
+    "answer": "Blue is the favorite color",
+    "fact": "Blue is the favorite color"
+  },
+  {
+    "test_id": "conv_011_fact_003",
+    "conversation_id": "conv_011",
+    "category": "open_domain",
+    "question": "What does the user think about job?",
+    "answer": "Works as an engineer",
+    "fact": "Works as an engineer"
+  },
+  {
+    "test_id": "conv_011_fact_004",
+    "conversation_id": "conv_011",
+    "category": "adversarial",
+    "question": "What does the user think about pet?",
+    "answer": "Has a dog named Max",
+    "fact": "Has a dog named Max"
+  },
+  {
+    "test_id": "conv_012_fact_000",
+    "conversation_id": "conv_012",
+    "category": "single_hop",
+    "question": "What does the user think about programming?",
+    "answer": "Python is great for data science",
+    "fact": "Python is great for data science"
+  },
+  {
+    "test_id": "conv_012_fact_001",
+    "conversation_id": "conv_012",
+    "category": "multi_hop",
+    "question": "What does the user think about hobby?",
+    "answer": "The user loves hiking",
+    "fact": "The user loves hiking"
+  },
+  {
+    "test_id": "conv_012_fact_002",
+    "conversation_id": "conv_012",
+    "category": "temporal",
+    "question": "What does the user think about preference?",
+    "answer": "Blue is the favorite color",
+    "fact": "Blue is the favorite color"
+  },
+  {
+    "test_id": "conv_012_fact_003",
+    "conversation_id": "conv_012",
+    "category": "open_domain",
+    "question": "What does the user think about job?",
+    "answer": "Works as an engineer",
+    "fact": "Works as an engineer"
+  },
+  {
+    "test_id": "conv_012_fact_004",
+    "conversation_id": "conv_012",
+    "category": "adversarial",
+    "question": "What does the user think about pet?",
+    "answer": "Has a dog named Max",
+    "fact": "Has a dog named Max"
+  },
+  {
+    "test_id": "conv_013_fact_000",
+    "conversation_id": "conv_013",
+    "category": "single_hop",
+    "question": "What does the user think about programming?",
+    "answer": "Python is great for data science",
+    "fact": "Python is great for data science"
+  },
+  {
+    "test_id": "conv_013_fact_001",
+    "conversation_id": "conv_013",
+    "category": "multi_hop",
+    "question": "What does the user think about hobby?",
+    "answer": "The user loves hiking",
+    "fact": "The user loves hiking"
+  },
+  {
+    "test_id": "conv_013_fact_002",
+    "conversation_id": "conv_013",
+    "category": "temporal",
+    "question": "What does the user think about preference?",
+    "answer": "Blue is the favorite color",
+    "fact": "Blue is the favorite color"
+  },
+  {
+    "test_id": "conv_013_fact_003",
+    "conversation_id": "conv_013",
+    "category": "open_domain",
+    "question": "What does the user think about job?",
+    "answer": "Works as an engineer",
+    "fact": "Works as an engineer"
+  },
+  {
+    "test_id": "conv_013_fact_004",
+    "conversation_id": "conv_013",
+    "category": "adversarial",
+    "question": "What does the user think about pet?",
+    "answer": "Has a dog named Max",
+    "fact": "Has a dog named Max"
+  },
+  {
+    "test_id": "conv_014_fact_000",
+    "conversation_id": "conv_014",
+    "category": "single_hop",
+    "question": "What does the user think about programming?",
+    "answer": "Python is great for data science",
+    "fact": "Python is great for data science"
+  },
+  {
+    "test_id": "conv_014_fact_001",
+    "conversation_id": "conv_014",
+    "category": "multi_hop",
+    "question": "What does the user think about hobby?",
+    "answer": "The user loves hiking",
+    "fact": "The user loves hiking"
+  },
+  {
+    "test_id": "conv_014_fact_002",
+    "conversation_id": "conv_014",
+    "category": "temporal",
+    "question": "What does the user think about preference?",
+    "answer": "Blue is the favorite color",
+    "fact": "Blue is the favorite color"
+  },
+  {
+    "test_id": "conv_014_fact_003",
+    "conversation_id": "conv_014",
+    "category": "open_domain",
+    "question": "What does the user think about job?",
+    "answer": "Works as an engineer",
+    "fact": "Works as an engineer"
+  },
+  {
+    "test_id": "conv_014_fact_004",
+    "conversation_id": "conv_014",
+    "category": "adversarial",
+    "question": "What does the user think about pet?",
+    "answer": "Has a dog named Max",
+    "fact": "Has a dog named Max"
+  },
+  {
+    "test_id": "conv_015_fact_000",
+    "conversation_id": "conv_015",
+    "category": "single_hop",
+    "question": "What does the user think about programming?",
+    "answer": "Python is great for data science",
+    "fact": "Python is great for data science"
+  },
+  {
+    "test_id": "conv_015_fact_001",
+    "conversation_id": "conv_015",
+    "category": "multi_hop",
+    "question": "What does the user think about hobby?",
+    "answer": "The user loves hiking",
+    "fact": "The user loves hiking"
+  },
+  {
+    "test_id": "conv_015_fact_002",
+    "conversation_id": "conv_015",
+    "category": "temporal",
+    "question": "What does the user think about preference?",
+    "answer": "Blue is the favorite color",
+    "fact": "Blue is the favorite color"
+  },
+  {
+    "test_id": "conv_015_fact_003",
+    "conversation_id": "conv_015",
+    "category": "open_domain",
+    "question": "What does the user think about job?",
+    "answer": "Works as an engineer",
+    "fact": "Works as an engineer"
+  },
+  {
+    "test_id": "conv_015_fact_004",
+    "conversation_id": "conv_015",
+    "category": "adversarial",
+    "question": "What does the user think about pet?",
+    "answer": "Has a dog named Max",
+    "fact": "Has a dog named Max"
+  },
+  {
+    "test_id": "conv_016_fact_000",
+    "conversation_id": "conv_016",
+    "category": "single_hop",
+    "question": "What does the user think about programming?",
+    "answer": "Python is great for data science",
+    "fact": "Python is great for data science"
+  },
+  {
+    "test_id": "conv_016_fact_001",
+    "conversation_id": "conv_016",
+    "category": "multi_hop",
+    "question": "What does the user think about hobby?",
+    "answer": "The user loves hiking",
+    "fact": "The user loves hiking"
+  },
+  {
+    "test_id": "conv_016_fact_002",
+    "conversation_id": "conv_016",
+    "category": "temporal",
+    "question": "What does the user think about preference?",
+    "answer": "Blue is the favorite color",
+    "fact": "Blue is the favorite color"
+  },
+  {
+    "test_id": "conv_016_fact_003",
+    "conversation_id": "conv_016",
+    "category": "open_domain",
+    "question": "What does the user think about job?",
+    "answer": "Works as an engineer",
+    "fact": "Works as an engineer"
+  },
+  {
+    "test_id": "conv_016_fact_004",
+    "conversation_id": "conv_016",
+    "category": "adversarial",
+    "question": "What does the user think about pet?",
+    "answer": "Has a dog named Max",
+    "fact": "Has a dog named Max"
+  },
+  {
+    "test_id": "conv_017_fact_000",
+    "conversation_id": "conv_017",
+    "category": "single_hop",
+    "question": "What does the user think about programming?",
+    "answer": "Python is great for data science",
+    "fact": "Python is great for data science"
+  },
+  {
+    "test_id": "conv_017_fact_001",
+    "conversation_id": "conv_017",
+    "category": "multi_hop",
+    "question": "What does the user think about hobby?",
+    "answer": "The user loves hiking",
+    "fact": "The user loves hiking"
+  },
+  {
+    "test_id": "conv_017_fact_002",
+    "conversation_id": "conv_017",
+    "category": "temporal",
+    "question": "What does the user think about preference?",
+    "answer": "Blue is the favorite color",
+    "fact": "Blue is the favorite color"
+  },
+  {
+    "test_id": "conv_017_fact_003",
+    "conversation_id": "conv_017",
+    "category": "open_domain",
+    "question": "What does the user think about job?",
+    "answer": "Works as an engineer",
+    "fact": "Works as an engineer"
+  },
+  {
+    "test_id": "conv_017_fact_004",
+    "conversation_id": "conv_017",
+    "category": "adversarial",
+    "question": "What does the user think about pet?",
+    "answer": "Has a dog named Max",
+    "fact": "Has a dog named Max"
+  },
+  {
+    "test_id": "conv_018_fact_000",
+    "conversation_id": "conv_018",
+    "category": "single_hop",
+    "question": "What does the user think about programming?",
+    "answer": "Python is great for data science",
+    "fact": "Python is great for data science"
+  },
+  {
+    "test_id": "conv_018_fact_001",
+    "conversation_id": "conv_018",
+    "category": "multi_hop",
+    "question": "What does the user think about hobby?",
+    "answer": "The user loves hiking",
+    "fact": "The user loves hiking"
+  },
+  {
+    "test_id": "conv_018_fact_002",
+    "conversation_id": "conv_018",
+    "category": "temporal",
+    "question": "What does the user think about preference?",
+    "answer": "Blue is the favorite color",
+    "fact": "Blue is the favorite color"
+  },
+  {
+    "test_id": "conv_018_fact_003",
+    "conversation_id": "conv_018",
+    "category": "open_domain",
+    "question": "What does the user think about job?",
+    "answer": "Works as an engineer",
+    "fact": "Works as an engineer"
+  },
+  {
+    "test_id": "conv_018_fact_004",
+    "conversation_id": "conv_018",
+    "category": "adversarial",
+    "question": "What does the user think about pet?",
+    "answer": "Has a dog named Max",
+    "fact": "Has a dog named Max"
+  },
+  {
+    "test_id": "conv_019_fact_000",
+    "conversation_id": "conv_019",
+    "category": "single_hop",
+    "question": "What does the user think about programming?",
+    "answer": "Python is great for data science",
+    "fact": "Python is great for data science"
+  },
+  {
+    "test_id": "conv_019_fact_001",
+    "conversation_id": "conv_019",
+    "category": "multi_hop",
+    "question": "What does the user think about hobby?",
+    "answer": "The user loves hiking",
+    "fact": "The user loves hiking"
+  },
+  {
+    "test_id": "conv_019_fact_002",
+    "conversation_id": "conv_019",
+    "category": "temporal",
+    "question": "What does the user think about preference?",
+    "answer": "Blue is the favorite color",
+    "fact": "Blue is the favorite color"
+  },
+  {
+    "test_id": "conv_019_fact_003",
+    "conversation_id": "conv_019",
+    "category": "open_domain",
+    "question": "What does the user think about job?",
+    "answer": "Works as an engineer",
+    "fact": "Works as an engineer"
+  },
+  {
+    "test_id": "conv_019_fact_004",
+    "conversation_id": "conv_019",
+    "category": "adversarial",
+    "question": "What does the user think about pet?",
+    "answer": "Has a dog named Max",
+    "fact": "Has a dog named Max"
+  },
+  {
+    "test_id": "conv_020_fact_000",
+    "conversation_id": "conv_020",
+    "category": "single_hop",
+    "question": "What does the user think about programming?",
+    "answer": "Python is great for data science",
+    "fact": "Python is great for data science"
+  },
+  {
+    "test_id": "conv_020_fact_001",
+    "conversation_id": "conv_020",
+    "category": "multi_hop",
+    "question": "What does the user think about hobby?",
+    "answer": "The user loves hiking",
+    "fact": "The user loves hiking"
+  },
+  {
+    "test_id": "conv_020_fact_002",
+    "conversation_id": "conv_020",
+    "category": "temporal",
+    "question": "What does the user think about preference?",
+    "answer": "Blue is the favorite color",
+    "fact": "Blue is the favorite color"
+  },
+  {
+    "test_id": "conv_020_fact_003",
+    "conversation_id": "conv_020",
+    "category": "open_domain",
+    "question": "What does the user think about job?",
+    "answer": "Works as an engineer",
+    "fact": "Works as an engineer"
+  },
+  {
+    "test_id": "conv_020_fact_004",
+    "conversation_id": "conv_020",
+    "category": "adversarial",
+    "question": "What does the user think about pet?",
+    "answer": "Has a dog named Max",
+    "fact": "Has a dog named Max"
+  },
+  {
+    "test_id": "conv_021_fact_000",
+    "conversation_id": "conv_021",
+    "category": "single_hop",
+    "question": "What does the user think about programming?",
+    "answer": "Python is great for data science",
+    "fact": "Python is great for data science"
+  },
+  {
+    "test_id": "conv_021_fact_001",
+    "conversation_id": "conv_021",
+    "category": "multi_hop",
+    "question": "What does the user think about hobby?",
+    "answer": "The user loves hiking",
+    "fact": "The user loves hiking"
+  },
+  {
+    "test_id": "conv_021_fact_002",
+    "conversation_id": "conv_021",
+    "category": "temporal",
+    "question": "What does the user think about preference?",
+    "answer": "Blue is the favorite color",
+    "fact": "Blue is the favorite color"
+  },
+  {
+    "test_id": "conv_021_fact_003",
+    "conversation_id": "conv_021",
+    "category": "open_domain",
+    "question": "What does the user think about job?",
+    "answer": "Works as an engineer",
+    "fact": "Works as an engineer"
+  },
+  {
+    "test_id": "conv_021_fact_004",
+    "conversation_id": "conv_021",
+    "category": "adversarial",
+    "question": "What does the user think about pet?",
+    "answer": "Has a dog named Max",
+    "fact": "Has a dog named Max"
+  },
+  {
+    "test_id": "conv_022_fact_000",
+    "conversation_id": "conv_022",
+    "category": "single_hop",
+    "question": "What does the user think about programming?",
+    "answer": "Python is great for data science",
+    "fact": "Python is great for data science"
+  },
+  {
+    "test_id": "conv_022_fact_001",
+    "conversation_id": "conv_022",
+    "category": "multi_hop",
+    "question": "What does the user think about hobby?",
+    "answer": "The user loves hiking",
+    "fact": "The user loves hiking"
+  },
+  {
+    "test_id": "conv_022_fact_002",
+    "conversation_id": "conv_022",
+    "category": "temporal",
+    "question": "What does the user think about preference?",
+    "answer": "Blue is the favorite color",
+    "fact": "Blue is the favorite color"
+  },
+  {
+    "test_id": "conv_022_fact_003",
+    "conversation_id": "conv_022",
+    "category": "open_domain",
+    "question": "What does the user think about job?",
+    "answer": "Works as an engineer",
+    "fact": "Works as an engineer"
+  },
+  {
+    "test_id": "conv_022_fact_004",
+    "conversation_id": "conv_022",
+    "category": "adversarial",
+    "question": "What does the user think about pet?",
+    "answer": "Has a dog named Max",
+    "fact": "Has a dog named Max"
+  },
+  {
+    "test_id": "conv_023_fact_000",
+    "conversation_id": "conv_023",
+    "category": "single_hop",
+    "question": "What does the user think about programming?",
+    "answer": "Python is great for data science",
+    "fact": "Python is great for data science"
+  },
+  {
+    "test_id": "conv_023_fact_001",
+    "conversation_id": "conv_023",
+    "category": "multi_hop",
+    "question": "What does the user think about hobby?",
+    "answer": "The user loves hiking",
+    "fact": "The user loves hiking"
+  },
+  {
+    "test_id": "conv_023_fact_002",
+    "conversation_id": "conv_023",
+    "category": "temporal",
+    "question": "What does the user think about preference?",
+    "answer": "Blue is the favorite color",
+    "fact": "Blue is the favorite color"
+  },
+  {
+    "test_id": "conv_023_fact_003",
+    "conversation_id": "conv_023",
+    "category": "open_domain",
+    "question": "What does the user think about job?",
+    "answer": "Works as an engineer",
+    "fact": "Works as an engineer"
+  },
+  {
+    "test_id": "conv_023_fact_004",
+    "conversation_id": "conv_023",
+    "category": "adversarial",
+    "question": "What does the user think about pet?",
+    "answer": "Has a dog named Max",
+    "fact": "Has a dog named Max"
+  },
+  {
+    "test_id": "conv_024_fact_000",
+    "conversation_id": "conv_024",
+    "category": "single_hop",
+    "question": "What does the user think about programming?",
+    "answer": "Python is great for data science",
+    "fact": "Python is great for data science"
+  },
+  {
+    "test_id": "conv_024_fact_001",
+    "conversation_id": "conv_024",
+    "category": "multi_hop",
+    "question": "What does the user think about hobby?",
+    "answer": "The user loves hiking",
+    "fact": "The user loves hiking"
+  },
+  {
+    "test_id": "conv_024_fact_002",
+    "conversation_id": "conv_024",
+    "category": "temporal",
+    "question": "What does the user think about preference?",
+    "answer": "Blue is the favorite color",
+    "fact": "Blue is the favorite color"
+  },
+  {
+    "test_id": "conv_024_fact_003",
+    "conversation_id": "conv_024",
+    "category": "open_domain",
+    "question": "What does the user think about job?",
+    "answer": "Works as an engineer",
+    "fact": "Works as an engineer"
+  },
+  {
+    "test_id": "conv_024_fact_004",
+    "conversation_id": "conv_024",
+    "category": "adversarial",
+    "question": "What does the user think about pet?",
+    "answer": "Has a dog named Max",
+    "fact": "Has a dog named Max"
+  },
+  {
+    "test_id": "conv_025_fact_000",
+    "conversation_id": "conv_025",
+    "category": "single_hop",
+    "question": "What does the user think about programming?",
+    "answer": "Python is great for data science",
+    "fact": "Python is great for data science"
+  },
+  {
+    "test_id": "conv_025_fact_001",
+    "conversation_id": "conv_025",
+    "category": "multi_hop",
+    "question": "What does the user think about hobby?",
+    "answer": "The user loves hiking",
+    "fact": "The user loves hiking"
+  },
+  {
+    "test_id": "conv_025_fact_002",
+    "conversation_id": "conv_025",
+    "category": "temporal",
+    "question": "What does the user think about preference?",
+    "answer": "Blue is the favorite color",
+    "fact": "Blue is the favorite color"
+  },
+  {
+    "test_id": "conv_025_fact_003",
+    "conversation_id": "conv_025",
+    "category": "open_domain",
+    "question": "What does the user think about job?",
+    "answer": "Works as an engineer",
+    "fact": "Works as an engineer"
+  },
+  {
+    "test_id": "conv_025_fact_004",
+    "conversation_id": "conv_025",
+    "category": "adversarial",
+    "question": "What does the user think about pet?",
+    "answer": "Has a dog named Max",
+    "fact": "Has a dog named Max"
+  },
+  {
+    "test_id": "conv_026_fact_000",
+    "conversation_id": "conv_026",
+    "category": "single_hop",
+    "question": "What does the user think about programming?",
+    "answer": "Python is great for data science",
+    "fact": "Python is great for data science"
+  },
+  {
+    "test_id": "conv_026_fact_001",
+    "conversation_id": "conv_026",
+    "category": "multi_hop",
+    "question": "What does the user think about hobby?",
+    "answer": "The user loves hiking",
+    "fact": "The user loves hiking"
+  },
+  {
+    "test_id": "conv_026_fact_002",
+    "conversation_id": "conv_026",
+    "category": "temporal",
+    "question": "What does the user think about preference?",
+    "answer": "Blue is the favorite color",
+    "fact": "Blue is the favorite color"
+  },
+  {
+    "test_id": "conv_026_fact_003",
+    "conversation_id": "conv_026",
+    "category": "open_domain",
+    "question": "What does the user think about job?",
+    "answer": "Works as an engineer",
+    "fact": "Works as an engineer"
+  },
+  {
+    "test_id": "conv_026_fact_004",
+    "conversation_id": "conv_026",
+    "category": "adversarial",
+    "question": "What does the user think about pet?",
+    "answer": "Has a dog named Max",
+    "fact": "Has a dog named Max"
+  },
+  {
+    "test_id": "conv_027_fact_000",
+    "conversation_id": "conv_027",
+    "category": "single_hop",
+    "question": "What does the user think about programming?",
+    "answer": "Python is great for data science",
+    "fact": "Python is great for data science"
+  },
+  {
+    "test_id": "conv_027_fact_001",
+    "conversation_id": "conv_027",
+    "category": "multi_hop",
+    "question": "What does the user think about hobby?",
+    "answer": "The user loves hiking",
+    "fact": "The user loves hiking"
+  },
+  {
+    "test_id": "conv_027_fact_002",
+    "conversation_id": "conv_027",
+    "category": "temporal",
+    "question": "What does the user think about preference?",
+    "answer": "Blue is the favorite color",
+    "fact": "Blue is the favorite color"
+  },
+  {
+    "test_id": "conv_027_fact_003",
+    "conversation_id": "conv_027",
+    "category": "open_domain",
+    "question": "What does the user think about job?",
+    "answer": "Works as an engineer",
+    "fact": "Works as an engineer"
+  },
+  {
+    "test_id": "conv_027_fact_004",
+    "conversation_id": "conv_027",
+    "category": "adversarial",
+    "question": "What does the user think about pet?",
+    "answer": "Has a dog named Max",
+    "fact": "Has a dog named Max"
+  },
+  {
+    "test_id": "conv_028_fact_000",
+    "conversation_id": "conv_028",
+    "category": "single_hop",
+    "question": "What does the user think about programming?",
+    "answer": "Python is great for data science",
+    "fact": "Python is great for data science"
+  },
+  {
+    "test_id": "conv_028_fact_001",
+    "conversation_id": "conv_028",
+    "category": "multi_hop",
+    "question": "What does the user think about hobby?",
+    "answer": "The user loves hiking",
+    "fact": "The user loves hiking"
+  },
+  {
+    "test_id": "conv_028_fact_002",
+    "conversation_id": "conv_028",
+    "category": "temporal",
+    "question": "What does the user think about preference?",
+    "answer": "Blue is the favorite color",
+    "fact": "Blue is the favorite color"
+  },
+  {
+    "test_id": "conv_028_fact_003",
+    "conversation_id": "conv_028",
+    "category": "open_domain",
+    "question": "What does the user think about job?",
+    "answer": "Works as an engineer",
+    "fact": "Works as an engineer"
+  },
+  {
+    "test_id": "conv_028_fact_004",
+    "conversation_id": "conv_028",
+    "category": "adversarial",
+    "question": "What does the user think about pet?",
+    "answer": "Has a dog named Max",
+    "fact": "Has a dog named Max"
+  },
+  {
+    "test_id": "conv_029_fact_000",
+    "conversation_id": "conv_029",
+    "category": "single_hop",
+    "question": "What does the user think about programming?",
+    "answer": "Python is great for data science",
+    "fact": "Python is great for data science"
+  },
+  {
+    "test_id": "conv_029_fact_001",
+    "conversation_id": "conv_029",
+    "category": "multi_hop",
+    "question": "What does the user think about hobby?",
+    "answer": "The user loves hiking",
+    "fact": "The user loves hiking"
+  },
+  {
+    "test_id": "conv_029_fact_002",
+    "conversation_id": "conv_029",
+    "category": "temporal",
+    "question": "What does the user think about preference?",
+    "answer": "Blue is the favorite color",
+    "fact": "Blue is the favorite color"
+  },
+  {
+    "test_id": "conv_029_fact_003",
+    "conversation_id": "conv_029",
+    "category": "open_domain",
+    "question": "What does the user think about job?",
+    "answer": "Works as an engineer",
+    "fact": "Works as an engineer"
+  },
+  {
+    "test_id": "conv_029_fact_004",
+    "conversation_id": "conv_029",
+    "category": "adversarial",
+    "question": "What does the user think about pet?",
+    "answer": "Has a dog named Max",
+    "fact": "Has a dog named Max"
+  },
+  {
+    "test_id": "conv_030_fact_000",
+    "conversation_id": "conv_030",
+    "category": "single_hop",
+    "question": "What does the user think about programming?",
+    "answer": "Python is great for data science",
+    "fact": "Python is great for data science"
+  },
+  {
+    "test_id": "conv_030_fact_001",
+    "conversation_id": "conv_030",
+    "category": "multi_hop",
+    "question": "What does the user think about hobby?",
+    "answer": "The user loves hiking",
+    "fact": "The user loves hiking"
+  },
+  {
+    "test_id": "conv_030_fact_002",
+    "conversation_id": "conv_030",
+    "category": "temporal",
+    "question": "What does the user think about preference?",
+    "answer": "Blue is the favorite color",
+    "fact": "Blue is the favorite color"
+  },
+  {
+    "test_id": "conv_030_fact_003",
+    "conversation_id": "conv_030",
+    "category": "open_domain",
+    "question": "What does the user think about job?",
+    "answer": "Works as an engineer",
+    "fact": "Works as an engineer"
+  },
+  {
+    "test_id": "conv_030_fact_004",
+    "conversation_id": "conv_030",
+    "category": "adversarial",
+    "question": "What does the user think about pet?",
+    "answer": "Has a dog named Max",
+    "fact": "Has a dog named Max"
+  },
+  {
+    "test_id": "conv_031_fact_000",
+    "conversation_id": "conv_031",
+    "category": "single_hop",
+    "question": "What does the user think about programming?",
+    "answer": "Python is great for data science",
+    "fact": "Python is great for data science"
+  },
+  {
+    "test_id": "conv_031_fact_001",
+    "conversation_id": "conv_031",
+    "category": "multi_hop",
+    "question": "What does the user think about hobby?",
+    "answer": "The user loves hiking",
+    "fact": "The user loves hiking"
+  },
+  {
+    "test_id": "conv_031_fact_002",
+    "conversation_id": "conv_031",
+    "category": "temporal",
+    "question": "What does the user think about preference?",
+    "answer": "Blue is the favorite color",
+    "fact": "Blue is the favorite color"
+  },
+  {
+    "test_id": "conv_031_fact_003",
+    "conversation_id": "conv_031",
+    "category": "open_domain",
+    "question": "What does the user think about job?",
+    "answer": "Works as an engineer",
+    "fact": "Works as an engineer"
+  },
+  {
+    "test_id": "conv_031_fact_004",
+    "conversation_id": "conv_031",
+    "category": "adversarial",
+    "question": "What does the user think about pet?",
+    "answer": "Has a dog named Max",
+    "fact": "Has a dog named Max"
+  },
+  {
+    "test_id": "conv_032_fact_000",
+    "conversation_id": "conv_032",
+    "category": "single_hop",
+    "question": "What does the user think about programming?",
+    "answer": "Python is great for data science",
+    "fact": "Python is great for data science"
+  },
+  {
+    "test_id": "conv_032_fact_001",
+    "conversation_id": "conv_032",
+    "category": "multi_hop",
+    "question": "What does the user think about hobby?",
+    "answer": "The user loves hiking",
+    "fact": "The user loves hiking"
+  },
+  {
+    "test_id": "conv_032_fact_002",
+    "conversation_id": "conv_032",
+    "category": "temporal",
+    "question": "What does the user think about preference?",
+    "answer": "Blue is the favorite color",
+    "fact": "Blue is the favorite color"
+  },
+  {
+    "test_id": "conv_032_fact_003",
+    "conversation_id": "conv_032",
+    "category": "open_domain",
+    "question": "What does the user think about job?",
+    "answer": "Works as an engineer",
+    "fact": "Works as an engineer"
+  },
+  {
+    "test_id": "conv_032_fact_004",
+    "conversation_id": "conv_032",
+    "category": "adversarial",
+    "question": "What does the user think about pet?",
+    "answer": "Has a dog named Max",
+    "fact": "Has a dog named Max"
+  },
+  {
+    "test_id": "conv_033_fact_000",
+    "conversation_id": "conv_033",
+    "category": "single_hop",
+    "question": "What does the user think about programming?",
+    "answer": "Python is great for data science",
+    "fact": "Python is great for data science"
+  },
+  {
+    "test_id": "conv_033_fact_001",
+    "conversation_id": "conv_033",
+    "category": "multi_hop",
+    "question": "What does the user think about hobby?",
+    "answer": "The user loves hiking",
+    "fact": "The user loves hiking"
+  },
+  {
+    "test_id": "conv_033_fact_002",
+    "conversation_id": "conv_033",
+    "category": "temporal",
+    "question": "What does the user think about preference?",
+    "answer": "Blue is the favorite color",
+    "fact": "Blue is the favorite color"
+  },
+  {
+    "test_id": "conv_033_fact_003",
+    "conversation_id": "conv_033",
+    "category": "open_domain",
+    "question": "What does the user think about job?",
+    "answer": "Works as an engineer",
+    "fact": "Works as an engineer"
+  },
+  {
+    "test_id": "conv_033_fact_004",
+    "conversation_id": "conv_033",
+    "category": "adversarial",
+    "question": "What does the user think about pet?",
+    "answer": "Has a dog named Max",
+    "fact": "Has a dog named Max"
+  },
+  {
+    "test_id": "conv_034_fact_000",
+    "conversation_id": "conv_034",
+    "category": "single_hop",
+    "question": "What does the user think about programming?",
+    "answer": "Python is great for data science",
+    "fact": "Python is great for data science"
+  },
+  {
+    "test_id": "conv_034_fact_001",
+    "conversation_id": "conv_034",
+    "category": "multi_hop",
+    "question": "What does the user think about hobby?",
+    "answer": "The user loves hiking",
+    "fact": "The user loves hiking"
+  },
+  {
+    "test_id": "conv_034_fact_002",
+    "conversation_id": "conv_034",
+    "category": "temporal",
+    "question": "What does the user think about preference?",
+    "answer": "Blue is the favorite color",
+    "fact": "Blue is the favorite color"
+  },
+  {
+    "test_id": "conv_034_fact_003",
+    "conversation_id": "conv_034",
+    "category": "open_domain",
+    "question": "What does the user think about job?",
+    "answer": "Works as an engineer",
+    "fact": "Works as an engineer"
+  },
+  {
+    "test_id": "conv_034_fact_004",
+    "conversation_id": "conv_034",
+    "category": "adversarial",
+    "question": "What does the user think about pet?",
+    "answer": "Has a dog named Max",
+    "fact": "Has a dog named Max"
+  },
+  {
+    "test_id": "conv_035_fact_000",
+    "conversation_id": "conv_035",
+    "category": "single_hop",
+    "question": "What does the user think about programming?",
+    "answer": "Python is great for data science",
+    "fact": "Python is great for data science"
+  },
+  {
+    "test_id": "conv_035_fact_001",
+    "conversation_id": "conv_035",
+    "category": "multi_hop",
+    "question": "What does the user think about hobby?",
+    "answer": "The user loves hiking",
+    "fact": "The user loves hiking"
+  },
+  {
+    "test_id": "conv_035_fact_002",
+    "conversation_id": "conv_035",
+    "category": "temporal",
+    "question": "What does the user think about preference?",
+    "answer": "Blue is the favorite color",
+    "fact": "Blue is the favorite color"
+  },
+  {
+    "test_id": "conv_035_fact_003",
+    "conversation_id": "conv_035",
+    "category": "open_domain",
+    "question": "What does the user think about job?",
+    "answer": "Works as an engineer",
+    "fact": "Works as an engineer"
+  },
+  {
+    "test_id": "conv_035_fact_004",
+    "conversation_id": "conv_035",
+    "category": "adversarial",
+    "question": "What does the user think about pet?",
+    "answer": "Has a dog named Max",
+    "fact": "Has a dog named Max"
+  },
+  {
+    "test_id": "conv_036_fact_000",
+    "conversation_id": "conv_036",
+    "category": "single_hop",
+    "question": "What does the user think about programming?",
+    "answer": "Python is great for data science",
+    "fact": "Python is great for data science"
+  },
+  {
+    "test_id": "conv_036_fact_001",
+    "conversation_id": "conv_036",
+    "category": "multi_hop",
+    "question": "What does the user think about hobby?",
+    "answer": "The user loves hiking",
+    "fact": "The user loves hiking"
+  },
+  {
+    "test_id": "conv_036_fact_002",
+    "conversation_id": "conv_036",
+    "category": "temporal",
+    "question": "What does the user think about preference?",
+    "answer": "Blue is the favorite color",
+    "fact": "Blue is the favorite color"
+  },
+  {
+    "test_id": "conv_036_fact_003",
+    "conversation_id": "conv_036",
+    "category": "open_domain",
+    "question": "What does the user think about job?",
+    "answer": "Works as an engineer",
+    "fact": "Works as an engineer"
+  },
+  {
+    "test_id": "conv_036_fact_004",
+    "conversation_id": "conv_036",
+    "category": "adversarial",
+    "question": "What does the user think about pet?",
+    "answer": "Has a dog named Max",
+    "fact": "Has a dog named Max"
+  },
+  {
+    "test_id": "conv_037_fact_000",
+    "conversation_id": "conv_037",
+    "category": "single_hop",
+    "question": "What does the user think about programming?",
+    "answer": "Python is great for data science",
+    "fact": "Python is great for data science"
+  },
+  {
+    "test_id": "conv_037_fact_001",
+    "conversation_id": "conv_037",
+    "category": "multi_hop",
+    "question": "What does the user think about hobby?",
+    "answer": "The user loves hiking",
+    "fact": "The user loves hiking"
+  },
+  {
+    "test_id": "conv_037_fact_002",
+    "conversation_id": "conv_037",
+    "category": "temporal",
+    "question": "What does the user think about preference?",
+    "answer": "Blue is the favorite color",
+    "fact": "Blue is the favorite color"
+  },
+  {
+    "test_id": "conv_037_fact_003",
+    "conversation_id": "conv_037",
+    "category": "open_domain",
+    "question": "What does the user think about job?",
+    "answer": "Works as an engineer",
+    "fact": "Works as an engineer"
+  },
+  {
+    "test_id": "conv_037_fact_004",
+    "conversation_id": "conv_037",
+    "category": "adversarial",
+    "question": "What does the user think about pet?",
+    "answer": "Has a dog named Max",
+    "fact": "Has a dog named Max"
+  },
+  {
+    "test_id": "conv_038_fact_000",
+    "conversation_id": "conv_038",
+    "category": "single_hop",
+    "question": "What does the user think about programming?",
+    "answer": "Python is great for data science",
+    "fact": "Python is great for data science"
+  },
+  {
+    "test_id": "conv_038_fact_001",
+    "conversation_id": "conv_038",
+    "category": "multi_hop",
+    "question": "What does the user think about hobby?",
+    "answer": "The user loves hiking",
+    "fact": "The user loves hiking"
+  },
+  {
+    "test_id": "conv_038_fact_002",
+    "conversation_id": "conv_038",
+    "category": "temporal",
+    "question": "What does the user think about preference?",
+    "answer": "Blue is the favorite color",
+    "fact": "Blue is the favorite color"
+  },
+  {
+    "test_id": "conv_038_fact_003",
+    "conversation_id": "conv_038",
+    "category": "open_domain",
+    "question": "What does the user think about job?",
+    "answer": "Works as an engineer",
+    "fact": "Works as an engineer"
+  },
+  {
+    "test_id": "conv_038_fact_004",
+    "conversation_id": "conv_038",
+    "category": "adversarial",
+    "question": "What does the user think about pet?",
+    "answer": "Has a dog named Max",
+    "fact": "Has a dog named Max"
+  },
+  {
+    "test_id": "conv_039_fact_000",
+    "conversation_id": "conv_039",
+    "category": "single_hop",
+    "question": "What does the user think about programming?",
+    "answer": "Python is great for data science",
+    "fact": "Python is great for data science"
+  },
+  {
+    "test_id": "conv_039_fact_001",
+    "conversation_id": "conv_039",
+    "category": "multi_hop",
+    "question": "What does the user think about hobby?",
+    "answer": "The user loves hiking",
+    "fact": "The user loves hiking"
+  },
+  {
+    "test_id": "conv_039_fact_002",
+    "conversation_id": "conv_039",
+    "category": "temporal",
+    "question": "What does the user think about preference?",
+    "answer": "Blue is the favorite color",
+    "fact": "Blue is the favorite color"
+  },
+  {
+    "test_id": "conv_039_fact_003",
+    "conversation_id": "conv_039",
+    "category": "open_domain",
+    "question": "What does the user think about job?",
+    "answer": "Works as an engineer",
+    "fact": "Works as an engineer"
+  },
+  {
+    "test_id": "conv_039_fact_004",
+    "conversation_id": "conv_039",
+    "category": "adversarial",
+    "question": "What does the user think about pet?",
+    "answer": "Has a dog named Max",
+    "fact": "Has a dog named Max"
+  },
+  {
+    "test_id": "conv_040_fact_000",
+    "conversation_id": "conv_040",
+    "category": "single_hop",
+    "question": "What does the user think about programming?",
+    "answer": "Python is great for data science",
+    "fact": "Python is great for data science"
+  },
+  {
+    "test_id": "conv_040_fact_001",
+    "conversation_id": "conv_040",
+    "category": "multi_hop",
+    "question": "What does the user think about hobby?",
+    "answer": "The user loves hiking",
+    "fact": "The user loves hiking"
+  },
+  {
+    "test_id": "conv_040_fact_002",
+    "conversation_id": "conv_040",
+    "category": "temporal",
+    "question": "What does the user think about preference?",
+    "answer": "Blue is the favorite color",
+    "fact": "Blue is the favorite color"
+  },
+  {
+    "test_id": "conv_040_fact_003",
+    "conversation_id": "conv_040",
+    "category": "open_domain",
+    "question": "What does the user think about job?",
+    "answer": "Works as an engineer",
+    "fact": "Works as an engineer"
+  },
+  {
+    "test_id": "conv_040_fact_004",
+    "conversation_id": "conv_040",
+    "category": "adversarial",
+    "question": "What does the user think about pet?",
+    "answer": "Has a dog named Max",
+    "fact": "Has a dog named Max"
+  },
+  {
+    "test_id": "conv_041_fact_000",
+    "conversation_id": "conv_041",
+    "category": "single_hop",
+    "question": "What does the user think about programming?",
+    "answer": "Python is great for data science",
+    "fact": "Python is great for data science"
+  },
+  {
+    "test_id": "conv_041_fact_001",
+    "conversation_id": "conv_041",
+    "category": "multi_hop",
+    "question": "What does the user think about hobby?",
+    "answer": "The user loves hiking",
+    "fact": "The user loves hiking"
+  },
+  {
+    "test_id": "conv_041_fact_002",
+    "conversation_id": "conv_041",
+    "category": "temporal",
+    "question": "What does the user think about preference?",
+    "answer": "Blue is the favorite color",
+    "fact": "Blue is the favorite color"
+  },
+  {
+    "test_id": "conv_041_fact_003",
+    "conversation_id": "conv_041",
+    "category": "open_domain",
+    "question": "What does the user think about job?",
+    "answer": "Works as an engineer",
+    "fact": "Works as an engineer"
+  },
+  {
+    "test_id": "conv_041_fact_004",
+    "conversation_id": "conv_041",
+    "category": "adversarial",
+    "question": "What does the user think about pet?",
+    "answer": "Has a dog named Max",
+    "fact": "Has a dog named Max"
+  },
+  {
+    "test_id": "conv_042_fact_000",
+    "conversation_id": "conv_042",
+    "category": "single_hop",
+    "question": "What does the user think about programming?",
+    "answer": "Python is great for data science",
+    "fact": "Python is great for data science"
+  },
+  {
+    "test_id": "conv_042_fact_001",
+    "conversation_id": "conv_042",
+    "category": "multi_hop",
+    "question": "What does the user think about hobby?",
+    "answer": "The user loves hiking",
+    "fact": "The user loves hiking"
+  },
+  {
+    "test_id": "conv_042_fact_002",
+    "conversation_id": "conv_042",
+    "category": "temporal",
+    "question": "What does the user think about preference?",
+    "answer": "Blue is the favorite color",
+    "fact": "Blue is the favorite color"
+  },
+  {
+    "test_id": "conv_042_fact_003",
+    "conversation_id": "conv_042",
+    "category": "open_domain",
+    "question": "What does the user think about job?",
+    "answer": "Works as an engineer",
+    "fact": "Works as an engineer"
+  },
+  {
+    "test_id": "conv_042_fact_004",
+    "conversation_id": "conv_042",
+    "category": "adversarial",
+    "question": "What does the user think about pet?",
+    "answer": "Has a dog named Max",
+    "fact": "Has a dog named Max"
+  },
+  {
+    "test_id": "conv_043_fact_000",
+    "conversation_id": "conv_043",
+    "category": "single_hop",
+    "question": "What does the user think about programming?",
+    "answer": "Python is great for data science",
+    "fact": "Python is great for data science"
+  },
+  {
+    "test_id": "conv_043_fact_001",
+    "conversation_id": "conv_043",
+    "category": "multi_hop",
+    "question": "What does the user think about hobby?",
+    "answer": "The user loves hiking",
+    "fact": "The user loves hiking"
+  },
+  {
+    "test_id": "conv_043_fact_002",
+    "conversation_id": "conv_043",
+    "category": "temporal",
+    "question": "What does the user think about preference?",
+    "answer": "Blue is the favorite color",
+    "fact": "Blue is the favorite color"
+  },
+  {
+    "test_id": "conv_043_fact_003",
+    "conversation_id": "conv_043",
+    "category": "open_domain",
+    "question": "What does the user think about job?",
+    "answer": "Works as an engineer",
+    "fact": "Works as an engineer"
+  },
+  {
+    "test_id": "conv_043_fact_004",
+    "conversation_id": "conv_043",
+    "category": "adversarial",
+    "question": "What does the user think about pet?",
+    "answer": "Has a dog named Max",
+    "fact": "Has a dog named Max"
+  },
+  {
+    "test_id": "conv_044_fact_000",
+    "conversation_id": "conv_044",
+    "category": "single_hop",
+    "question": "What does the user think about programming?",
+    "answer": "Python is great for data science",
+    "fact": "Python is great for data science"
+  },
+  {
+    "test_id": "conv_044_fact_001",
+    "conversation_id": "conv_044",
+    "category": "multi_hop",
+    "question": "What does the user think about hobby?",
+    "answer": "The user loves hiking",
+    "fact": "The user loves hiking"
+  },
+  {
+    "test_id": "conv_044_fact_002",
+    "conversation_id": "conv_044",
+    "category": "temporal",
+    "question": "What does the user think about preference?",
+    "answer": "Blue is the favorite color",
+    "fact": "Blue is the favorite color"
+  },
+  {
+    "test_id": "conv_044_fact_003",
+    "conversation_id": "conv_044",
+    "category": "open_domain",
+    "question": "What does the user think about job?",
+    "answer": "Works as an engineer",
+    "fact": "Works as an engineer"
+  },
+  {
+    "test_id": "conv_044_fact_004",
+    "conversation_id": "conv_044",
+    "category": "adversarial",
+    "question": "What does the user think about pet?",
+    "answer": "Has a dog named Max",
+    "fact": "Has a dog named Max"
+  },
+  {
+    "test_id": "conv_045_fact_000",
+    "conversation_id": "conv_045",
+    "category": "single_hop",
+    "question": "What does the user think about programming?",
+    "answer": "Python is great for data science",
+    "fact": "Python is great for data science"
+  },
+  {
+    "test_id": "conv_045_fact_001",
+    "conversation_id": "conv_045",
+    "category": "multi_hop",
+    "question": "What does the user think about hobby?",
+    "answer": "The user loves hiking",
+    "fact": "The user loves hiking"
+  },
+  {
+    "test_id": "conv_045_fact_002",
+    "conversation_id": "conv_045",
+    "category": "temporal",
+    "question": "What does the user think about preference?",
+    "answer": "Blue is the favorite color",
+    "fact": "Blue is the favorite color"
+  },
+  {
+    "test_id": "conv_045_fact_003",
+    "conversation_id": "conv_045",
+    "category": "open_domain",
+    "question": "What does the user think about job?",
+    "answer": "Works as an engineer",
+    "fact": "Works as an engineer"
+  },
+  {
+    "test_id": "conv_045_fact_004",
+    "conversation_id": "conv_045",
+    "category": "adversarial",
+    "question": "What does the user think about pet?",
+    "answer": "Has a dog named Max",
+    "fact": "Has a dog named Max"
+  },
+  {
+    "test_id": "conv_046_fact_000",
+    "conversation_id": "conv_046",
+    "category": "single_hop",
+    "question": "What does the user think about programming?",
+    "answer": "Python is great for data science",
+    "fact": "Python is great for data science"
+  },
+  {
+    "test_id": "conv_046_fact_001",
+    "conversation_id": "conv_046",
+    "category": "multi_hop",
+    "question": "What does the user think about hobby?",
+    "answer": "The user loves hiking",
+    "fact": "The user loves hiking"
+  },
+  {
+    "test_id": "conv_046_fact_002",
+    "conversation_id": "conv_046",
+    "category": "temporal",
+    "question": "What does the user think about preference?",
+    "answer": "Blue is the favorite color",
+    "fact": "Blue is the favorite color"
+  },
+  {
+    "test_id": "conv_046_fact_003",
+    "conversation_id": "conv_046",
+    "category": "open_domain",
+    "question": "What does the user think about job?",
+    "answer": "Works as an engineer",
+    "fact": "Works as an engineer"
+  },
+  {
+    "test_id": "conv_046_fact_004",
+    "conversation_id": "conv_046",
+    "category": "adversarial",
+    "question": "What does the user think about pet?",
+    "answer": "Has a dog named Max",
+    "fact": "Has a dog named Max"
+  },
+  {
+    "test_id": "conv_047_fact_000",
+    "conversation_id": "conv_047",
+    "category": "single_hop",
+    "question": "What does the user think about programming?",
+    "answer": "Python is great for data science",
+    "fact": "Python is great for data science"
+  },
+  {
+    "test_id": "conv_047_fact_001",
+    "conversation_id": "conv_047",
+    "category": "multi_hop",
+    "question": "What does the user think about hobby?",
+    "answer": "The user loves hiking",
+    "fact": "The user loves hiking"
+  },
+  {
+    "test_id": "conv_047_fact_002",
+    "conversation_id": "conv_047",
+    "category": "temporal",
+    "question": "What does the user think about preference?",
+    "answer": "Blue is the favorite color",
+    "fact": "Blue is the favorite color"
+  },
+  {
+    "test_id": "conv_047_fact_003",
+    "conversation_id": "conv_047",
+    "category": "open_domain",
+    "question": "What does the user think about job?",
+    "answer": "Works as an engineer",
+    "fact": "Works as an engineer"
+  },
+  {
+    "test_id": "conv_047_fact_004",
+    "conversation_id": "conv_047",
+    "category": "adversarial",
+    "question": "What does the user think about pet?",
+    "answer": "Has a dog named Max",
+    "fact": "Has a dog named Max"
+  },
+  {
+    "test_id": "conv_048_fact_000",
+    "conversation_id": "conv_048",
+    "category": "single_hop",
+    "question": "What does the user think about programming?",
+    "answer": "Python is great for data science",
+    "fact": "Python is great for data science"
+  },
+  {
+    "test_id": "conv_048_fact_001",
+    "conversation_id": "conv_048",
+    "category": "multi_hop",
+    "question": "What does the user think about hobby?",
+    "answer": "The user loves hiking",
+    "fact": "The user loves hiking"
+  },
+  {
+    "test_id": "conv_048_fact_002",
+    "conversation_id": "conv_048",
+    "category": "temporal",
+    "question": "What does the user think about preference?",
+    "answer": "Blue is the favorite color",
+    "fact": "Blue is the favorite color"
+  },
+  {
+    "test_id": "conv_048_fact_003",
+    "conversation_id": "conv_048",
+    "category": "open_domain",
+    "question": "What does the user think about job?",
+    "answer": "Works as an engineer",
+    "fact": "Works as an engineer"
+  },
+  {
+    "test_id": "conv_048_fact_004",
+    "conversation_id": "conv_048",
+    "category": "adversarial",
+    "question": "What does the user think about pet?",
+    "answer": "Has a dog named Max",
+    "fact": "Has a dog named Max"
+  },
+  {
+    "test_id": "conv_049_fact_000",
+    "conversation_id": "conv_049",
+    "category": "single_hop",
+    "question": "What does the user think about programming?",
+    "answer": "Python is great for data science",
+    "fact": "Python is great for data science"
+  },
+  {
+    "test_id": "conv_049_fact_001",
+    "conversation_id": "conv_049",
+    "category": "multi_hop",
+    "question": "What does the user think about hobby?",
+    "answer": "The user loves hiking",
+    "fact": "The user loves hiking"
+  },
+  {
+    "test_id": "conv_049_fact_002",
+    "conversation_id": "conv_049",
+    "category": "temporal",
+    "question": "What does the user think about preference?",
+    "answer": "Blue is the favorite color",
+    "fact": "Blue is the favorite color"
+  },
+  {
+    "test_id": "conv_049_fact_003",
+    "conversation_id": "conv_049",
+    "category": "open_domain",
+    "question": "What does the user think about job?",
+    "answer": "Works as an engineer",
+    "fact": "Works as an engineer"
+  },
+  {
+    "test_id": "conv_049_fact_004",
+    "conversation_id": "conv_049",
+    "category": "adversarial",
+    "question": "What does the user think about pet?",
+    "answer": "Has a dog named Max",
+    "fact": "Has a dog named Max"
+  }
+]

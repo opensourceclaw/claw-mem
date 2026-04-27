@@ -1,0 +1,6002 @@
+[
+  {
+    "id": "q_inf_000",
+    "test_id": "test_inf_000",
+    "category": "information_extraction",
+    "question": "What is the user's favorite food?",
+    "fact": "The user's favorite food is Pizza",
+    "ground_truth": "Pizza",
+    "context": {
+      "session_id": "session_1",
+      "timestamp": "2026-04-08T16:50:21.679152"
+    }
+  },
+  {
+    "id": "q_inf_001",
+    "test_id": "test_inf_001",
+    "category": "information_extraction",
+    "question": "What is the user's favorite color?",
+    "fact": "The user's favorite color is Blue",
+    "ground_truth": "Blue",
+    "context": {
+      "session_id": "session_6",
+      "timestamp": "2026-04-08T16:50:21.679187"
+    }
+  },
+  {
+    "id": "q_inf_002",
+    "test_id": "test_inf_002",
+    "category": "information_extraction",
+    "question": "What is the user's favorite color?",
+    "fact": "The user's favorite color is Blue",
+    "ground_truth": "Blue",
+    "context": {
+      "session_id": "session_1",
+      "timestamp": "2026-04-08T16:50:21.679200"
+    }
+  },
+  {
+    "id": "q_inf_003",
+    "test_id": "test_inf_003",
+    "category": "information_extraction",
+    "question": "What is the user's favorite food?",
+    "fact": "The user's favorite food is Pizza",
+    "ground_truth": "Pizza",
+    "context": {
+      "session_id": "session_7",
+      "timestamp": "2026-04-08T16:50:21.679212"
+    }
+  },
+  {
+    "id": "q_inf_004",
+    "test_id": "test_inf_004",
+    "category": "information_extraction",
+    "question": "What is the user's favorite book?",
+    "fact": "The user's favorite book is Dune",
+    "ground_truth": "Dune",
+    "context": {
+      "session_id": "session_1",
+      "timestamp": "2026-04-08T16:50:21.679223"
+    }
+  },
+  {
+    "id": "q_inf_005",
+    "test_id": "test_inf_005",
+    "category": "information_extraction",
+    "question": "What is the user's favorite color?",
+    "fact": "The user's favorite color is Blue",
+    "ground_truth": "Blue",
+    "context": {
+      "session_id": "session_3",
+      "timestamp": "2026-04-08T16:50:21.679234"
+    }
+  },
+  {
+    "id": "q_inf_006",
+    "test_id": "test_inf_006",
+    "category": "information_extraction",
+    "question": "What is the user's favorite color?",
+    "fact": "The user's favorite color is Blue",
+    "ground_truth": "Blue",
+    "context": {
+      "session_id": "session_2",
+      "timestamp": "2026-04-08T16:50:21.679245"
+    }
+  },
+  {
+    "id": "q_inf_007",
+    "test_id": "test_inf_007",
+    "category": "information_extraction",
+    "question": "What is the user's favorite movie?",
+    "fact": "The user's favorite movie is Star Wars",
+    "ground_truth": "Star Wars",
+    "context": {
+      "session_id": "session_8",
+      "timestamp": "2026-04-08T16:50:21.679255"
+    }
+  },
+  {
+    "id": "q_inf_008",
+    "test_id": "test_inf_008",
+    "category": "information_extraction",
+    "question": "What is the user's favorite food?",
+    "fact": "The user's favorite food is Pizza",
+    "ground_truth": "Pizza",
+    "context": {
+      "session_id": "session_4",
+      "timestamp": "2026-04-08T16:50:21.679266"
+    }
+  },
+  {
+    "id": "q_inf_009",
+    "test_id": "test_inf_009",
+    "category": "information_extraction",
+    "question": "What is the user's favorite hobby?",
+    "fact": "The user's favorite hobby is Hiking",
+    "ground_truth": "Hiking",
+    "context": {
+      "session_id": "session_10",
+      "timestamp": "2026-04-08T16:50:21.679277"
+    }
+  },
+  {
+    "id": "q_inf_010",
+    "test_id": "test_inf_010",
+    "category": "information_extraction",
+    "question": "What is the user's favorite book?",
+    "fact": "The user's favorite book is Dune",
+    "ground_truth": "Dune",
+    "context": {
+      "session_id": "session_1",
+      "timestamp": "2026-04-08T16:50:21.679291"
+    }
+  },
+  {
+    "id": "q_inf_011",
+    "test_id": "test_inf_011",
+    "category": "information_extraction",
+    "question": "What is the user's favorite book?",
+    "fact": "The user's favorite book is Dune",
+    "ground_truth": "Dune",
+    "context": {
+      "session_id": "session_6",
+      "timestamp": "2026-04-08T16:50:21.679305"
+    }
+  },
+  {
+    "id": "q_inf_012",
+    "test_id": "test_inf_012",
+    "category": "information_extraction",
+    "question": "What is the user's favorite hobby?",
+    "fact": "The user's favorite hobby is Hiking",
+    "ground_truth": "Hiking",
+    "context": {
+      "session_id": "session_9",
+      "timestamp": "2026-04-08T16:50:21.679315"
+    }
+  },
+  {
+    "id": "q_inf_013",
+    "test_id": "test_inf_013",
+    "category": "information_extraction",
+    "question": "What is the user's favorite hobby?",
+    "fact": "The user's favorite hobby is Hiking",
+    "ground_truth": "Hiking",
+    "context": {
+      "session_id": "session_8",
+      "timestamp": "2026-04-08T16:50:21.679325"
+    }
+  },
+  {
+    "id": "q_inf_014",
+    "test_id": "test_inf_014",
+    "category": "information_extraction",
+    "question": "What is the user's favorite book?",
+    "fact": "The user's favorite book is Dune",
+    "ground_truth": "Dune",
+    "context": {
+      "session_id": "session_5",
+      "timestamp": "2026-04-08T16:50:21.679335"
+    }
+  },
+  {
+    "id": "q_inf_015",
+    "test_id": "test_inf_015",
+    "category": "information_extraction",
+    "question": "What is the user's favorite food?",
+    "fact": "The user's favorite food is Pizza",
+    "ground_truth": "Pizza",
+    "context": {
+      "session_id": "session_6",
+      "timestamp": "2026-04-08T16:50:21.679348"
+    }
+  },
+  {
+    "id": "q_inf_016",
+    "test_id": "test_inf_016",
+    "category": "information_extraction",
+    "question": "What is the user's favorite book?",
+    "fact": "The user's favorite book is Dune",
+    "ground_truth": "Dune",
+    "context": {
+      "session_id": "session_10",
+      "timestamp": "2026-04-08T16:50:21.679374"
+    }
+  },
+  {
+    "id": "q_inf_017",
+    "test_id": "test_inf_017",
+    "category": "information_extraction",
+    "question": "What is the user's favorite color?",
+    "fact": "The user's favorite color is Blue",
+    "ground_truth": "Blue",
+    "context": {
+      "session_id": "session_1",
+      "timestamp": "2026-04-08T16:50:21.679386"
+    }
+  },
+  {
+    "id": "q_inf_018",
+    "test_id": "test_inf_018",
+    "category": "information_extraction",
+    "question": "What is the user's favorite color?",
+    "fact": "The user's favorite color is Blue",
+    "ground_truth": "Blue",
+    "context": {
+      "session_id": "session_10",
+      "timestamp": "2026-04-08T16:50:21.679418"
+    }
+  },
+  {
+    "id": "q_inf_019",
+    "test_id": "test_inf_019",
+    "category": "information_extraction",
+    "question": "What is the user's favorite food?",
+    "fact": "The user's favorite food is Pizza",
+    "ground_truth": "Pizza",
+    "context": {
+      "session_id": "session_8",
+      "timestamp": "2026-04-08T16:50:21.679441"
+    }
+  },
+  {
+    "id": "q_inf_020",
+    "test_id": "test_inf_020",
+    "category": "information_extraction",
+    "question": "What is the user's favorite color?",
+    "fact": "The user's favorite color is Blue",
+    "ground_truth": "Blue",
+    "context": {
+      "session_id": "session_7",
+      "timestamp": "2026-04-08T16:50:21.679451"
+    }
+  },
+  {
+    "id": "q_inf_021",
+    "test_id": "test_inf_021",
+    "category": "information_extraction",
+    "question": "What is the user's favorite color?",
+    "fact": "The user's favorite color is Blue",
+    "ground_truth": "Blue",
+    "context": {
+      "session_id": "session_4",
+      "timestamp": "2026-04-08T16:50:21.679463"
+    }
+  },
+  {
+    "id": "q_inf_022",
+    "test_id": "test_inf_022",
+    "category": "information_extraction",
+    "question": "What is the user's favorite color?",
+    "fact": "The user's favorite color is Blue",
+    "ground_truth": "Blue",
+    "context": {
+      "session_id": "session_8",
+      "timestamp": "2026-04-08T16:50:21.679475"
+    }
+  },
+  {
+    "id": "q_inf_023",
+    "test_id": "test_inf_023",
+    "category": "information_extraction",
+    "question": "What is the user's favorite food?",
+    "fact": "The user's favorite food is Pizza",
+    "ground_truth": "Pizza",
+    "context": {
+      "session_id": "session_1",
+      "timestamp": "2026-04-08T16:50:21.679485"
+    }
+  },
+  {
+    "id": "q_inf_024",
+    "test_id": "test_inf_024",
+    "category": "information_extraction",
+    "question": "What is the user's favorite hobby?",
+    "fact": "The user's favorite hobby is Hiking",
+    "ground_truth": "Hiking",
+    "context": {
+      "session_id": "session_5",
+      "timestamp": "2026-04-08T16:50:21.679494"
+    }
+  },
+  {
+    "id": "q_inf_025",
+    "test_id": "test_inf_025",
+    "category": "information_extraction",
+    "question": "What is the user's favorite movie?",
+    "fact": "The user's favorite movie is Star Wars",
+    "ground_truth": "Star Wars",
+    "context": {
+      "session_id": "session_7",
+      "timestamp": "2026-04-08T16:50:21.679504"
+    }
+  },
+  {
+    "id": "q_inf_026",
+    "test_id": "test_inf_026",
+    "category": "information_extraction",
+    "question": "What is the user's favorite color?",
+    "fact": "The user's favorite color is Blue",
+    "ground_truth": "Blue",
+    "context": {
+      "session_id": "session_7",
+      "timestamp": "2026-04-08T16:50:21.679514"
+    }
+  },
+  {
+    "id": "q_inf_027",
+    "test_id": "test_inf_027",
+    "category": "information_extraction",
+    "question": "What is the user's favorite food?",
+    "fact": "The user's favorite food is Pizza",
+    "ground_truth": "Pizza",
+    "context": {
+      "session_id": "session_5",
+      "timestamp": "2026-04-08T16:50:21.679524"
+    }
+  },
+  {
+    "id": "q_inf_028",
+    "test_id": "test_inf_028",
+    "category": "information_extraction",
+    "question": "What is the user's favorite food?",
+    "fact": "The user's favorite food is Pizza",
+    "ground_truth": "Pizza",
+    "context": {
+      "session_id": "session_5",
+      "timestamp": "2026-04-08T16:50:21.679537"
+    }
+  },
+  {
+    "id": "q_inf_029",
+    "test_id": "test_inf_029",
+    "category": "information_extraction",
+    "question": "What is the user's favorite hobby?",
+    "fact": "The user's favorite hobby is Hiking",
+    "ground_truth": "Hiking",
+    "context": {
+      "session_id": "session_6",
+      "timestamp": "2026-04-08T16:50:21.679547"
+    }
+  },
+  {
+    "id": "q_inf_030",
+    "test_id": "test_inf_030",
+    "category": "information_extraction",
+    "question": "What is the user's favorite movie?",
+    "fact": "The user's favorite movie is Star Wars",
+    "ground_truth": "Star Wars",
+    "context": {
+      "session_id": "session_4",
+      "timestamp": "2026-04-08T16:50:21.679558"
+    }
+  },
+  {
+    "id": "q_inf_031",
+    "test_id": "test_inf_031",
+    "category": "information_extraction",
+    "question": "What is the user's favorite movie?",
+    "fact": "The user's favorite movie is Star Wars",
+    "ground_truth": "Star Wars",
+    "context": {
+      "session_id": "session_7",
+      "timestamp": "2026-04-08T16:50:21.679568"
+    }
+  },
+  {
+    "id": "q_inf_032",
+    "test_id": "test_inf_032",
+    "category": "information_extraction",
+    "question": "What is the user's favorite hobby?",
+    "fact": "The user's favorite hobby is Hiking",
+    "ground_truth": "Hiking",
+    "context": {
+      "session_id": "session_7",
+      "timestamp": "2026-04-08T16:50:21.679581"
+    }
+  },
+  {
+    "id": "q_inf_033",
+    "test_id": "test_inf_033",
+    "category": "information_extraction",
+    "question": "What is the user's favorite food?",
+    "fact": "The user's favorite food is Pizza",
+    "ground_truth": "Pizza",
+    "context": {
+      "session_id": "session_2",
+      "timestamp": "2026-04-08T16:50:21.679591"
+    }
+  },
+  {
+    "id": "q_inf_034",
+    "test_id": "test_inf_034",
+    "category": "information_extraction",
+    "question": "What is the user's favorite book?",
+    "fact": "The user's favorite book is Dune",
+    "ground_truth": "Dune",
+    "context": {
+      "session_id": "session_10",
+      "timestamp": "2026-04-08T16:50:21.679600"
+    }
+  },
+  {
+    "id": "q_inf_035",
+    "test_id": "test_inf_035",
+    "category": "information_extraction",
+    "question": "What is the user's favorite food?",
+    "fact": "The user's favorite food is Pizza",
+    "ground_truth": "Pizza",
+    "context": {
+      "session_id": "session_3",
+      "timestamp": "2026-04-08T16:50:21.679610"
+    }
+  },
+  {
+    "id": "q_inf_036",
+    "test_id": "test_inf_036",
+    "category": "information_extraction",
+    "question": "What is the user's favorite food?",
+    "fact": "The user's favorite food is Pizza",
+    "ground_truth": "Pizza",
+    "context": {
+      "session_id": "session_5",
+      "timestamp": "2026-04-08T16:50:21.679619"
+    }
+  },
+  {
+    "id": "q_inf_037",
+    "test_id": "test_inf_037",
+    "category": "information_extraction",
+    "question": "What is the user's favorite movie?",
+    "fact": "The user's favorite movie is Star Wars",
+    "ground_truth": "Star Wars",
+    "context": {
+      "session_id": "session_8",
+      "timestamp": "2026-04-08T16:50:21.679629"
+    }
+  },
+  {
+    "id": "q_inf_038",
+    "test_id": "test_inf_038",
+    "category": "information_extraction",
+    "question": "What is the user's favorite movie?",
+    "fact": "The user's favorite movie is Star Wars",
+    "ground_truth": "Star Wars",
+    "context": {
+      "session_id": "session_10",
+      "timestamp": "2026-04-08T16:50:21.679639"
+    }
+  },
+  {
+    "id": "q_inf_039",
+    "test_id": "test_inf_039",
+    "category": "information_extraction",
+    "question": "What is the user's favorite color?",
+    "fact": "The user's favorite color is Blue",
+    "ground_truth": "Blue",
+    "context": {
+      "session_id": "session_7",
+      "timestamp": "2026-04-08T16:50:21.679649"
+    }
+  },
+  {
+    "id": "q_inf_040",
+    "test_id": "test_inf_040",
+    "category": "information_extraction",
+    "question": "What is the user's favorite food?",
+    "fact": "The user's favorite food is Pizza",
+    "ground_truth": "Pizza",
+    "context": {
+      "session_id": "session_6",
+      "timestamp": "2026-04-08T16:50:21.679659"
+    }
+  },
+  {
+    "id": "q_inf_041",
+    "test_id": "test_inf_041",
+    "category": "information_extraction",
+    "question": "What is the user's favorite movie?",
+    "fact": "The user's favorite movie is Star Wars",
+    "ground_truth": "Star Wars",
+    "context": {
+      "session_id": "session_3",
+      "timestamp": "2026-04-08T16:50:21.679673"
+    }
+  },
+  {
+    "id": "q_inf_042",
+    "test_id": "test_inf_042",
+    "category": "information_extraction",
+    "question": "What is the user's favorite movie?",
+    "fact": "The user's favorite movie is Star Wars",
+    "ground_truth": "Star Wars",
+    "context": {
+      "session_id": "session_8",
+      "timestamp": "2026-04-08T16:50:21.679683"
+    }
+  },
+  {
+    "id": "q_inf_043",
+    "test_id": "test_inf_043",
+    "category": "information_extraction",
+    "question": "What is the user's favorite movie?",
+    "fact": "The user's favorite movie is Star Wars",
+    "ground_truth": "Star Wars",
+    "context": {
+      "session_id": "session_2",
+      "timestamp": "2026-04-08T16:50:21.679695"
+    }
+  },
+  {
+    "id": "q_inf_044",
+    "test_id": "test_inf_044",
+    "category": "information_extraction",
+    "question": "What is the user's favorite hobby?",
+    "fact": "The user's favorite hobby is Hiking",
+    "ground_truth": "Hiking",
+    "context": {
+      "session_id": "session_9",
+      "timestamp": "2026-04-08T16:50:21.679760"
+    }
+  },
+  {
+    "id": "q_inf_045",
+    "test_id": "test_inf_045",
+    "category": "information_extraction",
+    "question": "What is the user's favorite food?",
+    "fact": "The user's favorite food is Pizza",
+    "ground_truth": "Pizza",
+    "context": {
+      "session_id": "session_2",
+      "timestamp": "2026-04-08T16:50:21.679778"
+    }
+  },
+  {
+    "id": "q_inf_046",
+    "test_id": "test_inf_046",
+    "category": "information_extraction",
+    "question": "What is the user's favorite food?",
+    "fact": "The user's favorite food is Pizza",
+    "ground_truth": "Pizza",
+    "context": {
+      "session_id": "session_7",
+      "timestamp": "2026-04-08T16:50:21.679793"
+    }
+  },
+  {
+    "id": "q_inf_047",
+    "test_id": "test_inf_047",
+    "category": "information_extraction",
+    "question": "What is the user's favorite hobby?",
+    "fact": "The user's favorite hobby is Hiking",
+    "ground_truth": "Hiking",
+    "context": {
+      "session_id": "session_4",
+      "timestamp": "2026-04-08T16:50:21.679803"
+    }
+  },
+  {
+    "id": "q_inf_048",
+    "test_id": "test_inf_048",
+    "category": "information_extraction",
+    "question": "What is the user's favorite food?",
+    "fact": "The user's favorite food is Pizza",
+    "ground_truth": "Pizza",
+    "context": {
+      "session_id": "session_5",
+      "timestamp": "2026-04-08T16:50:21.679813"
+    }
+  },
+  {
+    "id": "q_inf_049",
+    "test_id": "test_inf_049",
+    "category": "information_extraction",
+    "question": "What is the user's favorite color?",
+    "fact": "The user's favorite color is Blue",
+    "ground_truth": "Blue",
+    "context": {
+      "session_id": "session_8",
+      "timestamp": "2026-04-08T16:50:21.679823"
+    }
+  },
+  {
+    "id": "q_inf_050",
+    "test_id": "test_inf_050",
+    "category": "information_extraction",
+    "question": "What is the user's favorite movie?",
+    "fact": "The user's favorite movie is Star Wars",
+    "ground_truth": "Star Wars",
+    "context": {
+      "session_id": "session_2",
+      "timestamp": "2026-04-08T16:50:21.679832"
+    }
+  },
+  {
+    "id": "q_inf_051",
+    "test_id": "test_inf_051",
+    "category": "information_extraction",
+    "question": "What is the user's favorite book?",
+    "fact": "The user's favorite book is Dune",
+    "ground_truth": "Dune",
+    "context": {
+      "session_id": "session_3",
+      "timestamp": "2026-04-08T16:50:21.679842"
+    }
+  },
+  {
+    "id": "q_inf_052",
+    "test_id": "test_inf_052",
+    "category": "information_extraction",
+    "question": "What is the user's favorite color?",
+    "fact": "The user's favorite color is Blue",
+    "ground_truth": "Blue",
+    "context": {
+      "session_id": "session_2",
+      "timestamp": "2026-04-08T16:50:21.679854"
+    }
+  },
+  {
+    "id": "q_inf_053",
+    "test_id": "test_inf_053",
+    "category": "information_extraction",
+    "question": "What is the user's favorite hobby?",
+    "fact": "The user's favorite hobby is Hiking",
+    "ground_truth": "Hiking",
+    "context": {
+      "session_id": "session_3",
+      "timestamp": "2026-04-08T16:50:21.679869"
+    }
+  },
+  {
+    "id": "q_inf_054",
+    "test_id": "test_inf_054",
+    "category": "information_extraction",
+    "question": "What is the user's favorite color?",
+    "fact": "The user's favorite color is Blue",
+    "ground_truth": "Blue",
+    "context": {
+      "session_id": "session_1",
+      "timestamp": "2026-04-08T16:50:21.679881"
+    }
+  },
+  {
+    "id": "q_inf_055",
+    "test_id": "test_inf_055",
+    "category": "information_extraction",
+    "question": "What is the user's favorite book?",
+    "fact": "The user's favorite book is Dune",
+    "ground_truth": "Dune",
+    "context": {
+      "session_id": "session_6",
+      "timestamp": "2026-04-08T16:50:21.679891"
+    }
+  },
+  {
+    "id": "q_inf_056",
+    "test_id": "test_inf_056",
+    "category": "information_extraction",
+    "question": "What is the user's favorite movie?",
+    "fact": "The user's favorite movie is Star Wars",
+    "ground_truth": "Star Wars",
+    "context": {
+      "session_id": "session_8",
+      "timestamp": "2026-04-08T16:50:21.679901"
+    }
+  },
+  {
+    "id": "q_inf_057",
+    "test_id": "test_inf_057",
+    "category": "information_extraction",
+    "question": "What is the user's favorite movie?",
+    "fact": "The user's favorite movie is Star Wars",
+    "ground_truth": "Star Wars",
+    "context": {
+      "session_id": "session_4",
+      "timestamp": "2026-04-08T16:50:21.679910"
+    }
+  },
+  {
+    "id": "q_inf_058",
+    "test_id": "test_inf_058",
+    "category": "information_extraction",
+    "question": "What is the user's favorite food?",
+    "fact": "The user's favorite food is Pizza",
+    "ground_truth": "Pizza",
+    "context": {
+      "session_id": "session_2",
+      "timestamp": "2026-04-08T16:50:21.679920"
+    }
+  },
+  {
+    "id": "q_inf_059",
+    "test_id": "test_inf_059",
+    "category": "information_extraction",
+    "question": "What is the user's favorite hobby?",
+    "fact": "The user's favorite hobby is Hiking",
+    "ground_truth": "Hiking",
+    "context": {
+      "session_id": "session_4",
+      "timestamp": "2026-04-08T16:50:21.679931"
+    }
+  },
+  {
+    "id": "q_inf_060",
+    "test_id": "test_inf_060",
+    "category": "information_extraction",
+    "question": "What is the user's favorite color?",
+    "fact": "The user's favorite color is Blue",
+    "ground_truth": "Blue",
+    "context": {
+      "session_id": "session_5",
+      "timestamp": "2026-04-08T16:50:21.679941"
+    }
+  },
+  {
+    "id": "q_inf_061",
+    "test_id": "test_inf_061",
+    "category": "information_extraction",
+    "question": "What is the user's favorite food?",
+    "fact": "The user's favorite food is Pizza",
+    "ground_truth": "Pizza",
+    "context": {
+      "session_id": "session_1",
+      "timestamp": "2026-04-08T16:50:21.679951"
+    }
+  },
+  {
+    "id": "q_inf_062",
+    "test_id": "test_inf_062",
+    "category": "information_extraction",
+    "question": "What is the user's favorite food?",
+    "fact": "The user's favorite food is Pizza",
+    "ground_truth": "Pizza",
+    "context": {
+      "session_id": "session_6",
+      "timestamp": "2026-04-08T16:50:21.679960"
+    }
+  },
+  {
+    "id": "q_inf_063",
+    "test_id": "test_inf_063",
+    "category": "information_extraction",
+    "question": "What is the user's favorite food?",
+    "fact": "The user's favorite food is Pizza",
+    "ground_truth": "Pizza",
+    "context": {
+      "session_id": "session_4",
+      "timestamp": "2026-04-08T16:50:21.679970"
+    }
+  },
+  {
+    "id": "q_inf_064",
+    "test_id": "test_inf_064",
+    "category": "information_extraction",
+    "question": "What is the user's favorite color?",
+    "fact": "The user's favorite color is Blue",
+    "ground_truth": "Blue",
+    "context": {
+      "session_id": "session_10",
+      "timestamp": "2026-04-08T16:50:21.679984"
+    }
+  },
+  {
+    "id": "q_inf_065",
+    "test_id": "test_inf_065",
+    "category": "information_extraction",
+    "question": "What is the user's favorite color?",
+    "fact": "The user's favorite color is Blue",
+    "ground_truth": "Blue",
+    "context": {
+      "session_id": "session_8",
+      "timestamp": "2026-04-08T16:50:21.679994"
+    }
+  },
+  {
+    "id": "q_inf_066",
+    "test_id": "test_inf_066",
+    "category": "information_extraction",
+    "question": "What is the user's favorite food?",
+    "fact": "The user's favorite food is Pizza",
+    "ground_truth": "Pizza",
+    "context": {
+      "session_id": "session_4",
+      "timestamp": "2026-04-08T16:50:21.680003"
+    }
+  },
+  {
+    "id": "q_inf_067",
+    "test_id": "test_inf_067",
+    "category": "information_extraction",
+    "question": "What is the user's favorite color?",
+    "fact": "The user's favorite color is Blue",
+    "ground_truth": "Blue",
+    "context": {
+      "session_id": "session_9",
+      "timestamp": "2026-04-08T16:50:21.680016"
+    }
+  },
+  {
+    "id": "q_inf_068",
+    "test_id": "test_inf_068",
+    "category": "information_extraction",
+    "question": "What is the user's favorite movie?",
+    "fact": "The user's favorite movie is Star Wars",
+    "ground_truth": "Star Wars",
+    "context": {
+      "session_id": "session_7",
+      "timestamp": "2026-04-08T16:50:21.680025"
+    }
+  },
+  {
+    "id": "q_inf_069",
+    "test_id": "test_inf_069",
+    "category": "information_extraction",
+    "question": "What is the user's favorite book?",
+    "fact": "The user's favorite book is Dune",
+    "ground_truth": "Dune",
+    "context": {
+      "session_id": "session_7",
+      "timestamp": "2026-04-08T16:50:21.680035"
+    }
+  },
+  {
+    "id": "q_inf_070",
+    "test_id": "test_inf_070",
+    "category": "information_extraction",
+    "question": "What is the user's favorite book?",
+    "fact": "The user's favorite book is Dune",
+    "ground_truth": "Dune",
+    "context": {
+      "session_id": "session_2",
+      "timestamp": "2026-04-08T16:50:21.680044"
+    }
+  },
+  {
+    "id": "q_inf_071",
+    "test_id": "test_inf_071",
+    "category": "information_extraction",
+    "question": "What is the user's favorite hobby?",
+    "fact": "The user's favorite hobby is Hiking",
+    "ground_truth": "Hiking",
+    "context": {
+      "session_id": "session_10",
+      "timestamp": "2026-04-08T16:50:21.680056"
+    }
+  },
+  {
+    "id": "q_inf_072",
+    "test_id": "test_inf_072",
+    "category": "information_extraction",
+    "question": "What is the user's favorite movie?",
+    "fact": "The user's favorite movie is Star Wars",
+    "ground_truth": "Star Wars",
+    "context": {
+      "session_id": "session_4",
+      "timestamp": "2026-04-08T16:50:21.681608"
+    }
+  },
+  {
+    "id": "q_inf_073",
+    "test_id": "test_inf_073",
+    "category": "information_extraction",
+    "question": "What is the user's favorite food?",
+    "fact": "The user's favorite food is Pizza",
+    "ground_truth": "Pizza",
+    "context": {
+      "session_id": "session_8",
+      "timestamp": "2026-04-08T16:50:21.681641"
+    }
+  },
+  {
+    "id": "q_inf_074",
+    "test_id": "test_inf_074",
+    "category": "information_extraction",
+    "question": "What is the user's favorite book?",
+    "fact": "The user's favorite book is Dune",
+    "ground_truth": "Dune",
+    "context": {
+      "session_id": "session_5",
+      "timestamp": "2026-04-08T16:50:21.681659"
+    }
+  },
+  {
+    "id": "q_inf_075",
+    "test_id": "test_inf_075",
+    "category": "information_extraction",
+    "question": "What is the user's favorite food?",
+    "fact": "The user's favorite food is Pizza",
+    "ground_truth": "Pizza",
+    "context": {
+      "session_id": "session_10",
+      "timestamp": "2026-04-08T16:50:21.681676"
+    }
+  },
+  {
+    "id": "q_inf_076",
+    "test_id": "test_inf_076",
+    "category": "information_extraction",
+    "question": "What is the user's favorite movie?",
+    "fact": "The user's favorite movie is Star Wars",
+    "ground_truth": "Star Wars",
+    "context": {
+      "session_id": "session_1",
+      "timestamp": "2026-04-08T16:50:21.681692"
+    }
+  },
+  {
+    "id": "q_inf_077",
+    "test_id": "test_inf_077",
+    "category": "information_extraction",
+    "question": "What is the user's favorite color?",
+    "fact": "The user's favorite color is Blue",
+    "ground_truth": "Blue",
+    "context": {
+      "session_id": "session_10",
+      "timestamp": "2026-04-08T16:50:21.681707"
+    }
+  },
+  {
+    "id": "q_inf_078",
+    "test_id": "test_inf_078",
+    "category": "information_extraction",
+    "question": "What is the user's favorite hobby?",
+    "fact": "The user's favorite hobby is Hiking",
+    "ground_truth": "Hiking",
+    "context": {
+      "session_id": "session_4",
+      "timestamp": "2026-04-08T16:50:21.681724"
+    }
+  },
+  {
+    "id": "q_inf_079",
+    "test_id": "test_inf_079",
+    "category": "information_extraction",
+    "question": "What is the user's favorite movie?",
+    "fact": "The user's favorite movie is Star Wars",
+    "ground_truth": "Star Wars",
+    "context": {
+      "session_id": "session_4",
+      "timestamp": "2026-04-08T16:50:21.681740"
+    }
+  },
+  {
+    "id": "q_inf_080",
+    "test_id": "test_inf_080",
+    "category": "information_extraction",
+    "question": "What is the user's favorite movie?",
+    "fact": "The user's favorite movie is Star Wars",
+    "ground_truth": "Star Wars",
+    "context": {
+      "session_id": "session_1",
+      "timestamp": "2026-04-08T16:50:21.681756"
+    }
+  },
+  {
+    "id": "q_inf_081",
+    "test_id": "test_inf_081",
+    "category": "information_extraction",
+    "question": "What is the user's favorite hobby?",
+    "fact": "The user's favorite hobby is Hiking",
+    "ground_truth": "Hiking",
+    "context": {
+      "session_id": "session_9",
+      "timestamp": "2026-04-08T16:50:21.681773"
+    }
+  },
+  {
+    "id": "q_inf_082",
+    "test_id": "test_inf_082",
+    "category": "information_extraction",
+    "question": "What is the user's favorite movie?",
+    "fact": "The user's favorite movie is Star Wars",
+    "ground_truth": "Star Wars",
+    "context": {
+      "session_id": "session_2",
+      "timestamp": "2026-04-08T16:50:21.681788"
+    }
+  },
+  {
+    "id": "q_inf_083",
+    "test_id": "test_inf_083",
+    "category": "information_extraction",
+    "question": "What is the user's favorite food?",
+    "fact": "The user's favorite food is Pizza",
+    "ground_truth": "Pizza",
+    "context": {
+      "session_id": "session_4",
+      "timestamp": "2026-04-08T16:50:21.681804"
+    }
+  },
+  {
+    "id": "q_inf_084",
+    "test_id": "test_inf_084",
+    "category": "information_extraction",
+    "question": "What is the user's favorite movie?",
+    "fact": "The user's favorite movie is Star Wars",
+    "ground_truth": "Star Wars",
+    "context": {
+      "session_id": "session_5",
+      "timestamp": "2026-04-08T16:50:21.681819"
+    }
+  },
+  {
+    "id": "q_inf_085",
+    "test_id": "test_inf_085",
+    "category": "information_extraction",
+    "question": "What is the user's favorite hobby?",
+    "fact": "The user's favorite hobby is Hiking",
+    "ground_truth": "Hiking",
+    "context": {
+      "session_id": "session_2",
+      "timestamp": "2026-04-08T16:50:21.681835"
+    }
+  },
+  {
+    "id": "q_inf_086",
+    "test_id": "test_inf_086",
+    "category": "information_extraction",
+    "question": "What is the user's favorite food?",
+    "fact": "The user's favorite food is Pizza",
+    "ground_truth": "Pizza",
+    "context": {
+      "session_id": "session_8",
+      "timestamp": "2026-04-08T16:50:21.681850"
+    }
+  },
+  {
+    "id": "q_inf_087",
+    "test_id": "test_inf_087",
+    "category": "information_extraction",
+    "question": "What is the user's favorite color?",
+    "fact": "The user's favorite color is Blue",
+    "ground_truth": "Blue",
+    "context": {
+      "session_id": "session_9",
+      "timestamp": "2026-04-08T16:50:21.681866"
+    }
+  },
+  {
+    "id": "q_inf_088",
+    "test_id": "test_inf_088",
+    "category": "information_extraction",
+    "question": "What is the user's favorite food?",
+    "fact": "The user's favorite food is Pizza",
+    "ground_truth": "Pizza",
+    "context": {
+      "session_id": "session_1",
+      "timestamp": "2026-04-08T16:50:21.681882"
+    }
+  },
+  {
+    "id": "q_inf_089",
+    "test_id": "test_inf_089",
+    "category": "information_extraction",
+    "question": "What is the user's favorite book?",
+    "fact": "The user's favorite book is Dune",
+    "ground_truth": "Dune",
+    "context": {
+      "session_id": "session_5",
+      "timestamp": "2026-04-08T16:50:21.681899"
+    }
+  },
+  {
+    "id": "q_inf_090",
+    "test_id": "test_inf_090",
+    "category": "information_extraction",
+    "question": "What is the user's favorite food?",
+    "fact": "The user's favorite food is Pizza",
+    "ground_truth": "Pizza",
+    "context": {
+      "session_id": "session_6",
+      "timestamp": "2026-04-08T16:50:21.681915"
+    }
+  },
+  {
+    "id": "q_inf_091",
+    "test_id": "test_inf_091",
+    "category": "information_extraction",
+    "question": "What is the user's favorite food?",
+    "fact": "The user's favorite food is Pizza",
+    "ground_truth": "Pizza",
+    "context": {
+      "session_id": "session_8",
+      "timestamp": "2026-04-08T16:50:21.681931"
+    }
+  },
+  {
+    "id": "q_inf_092",
+    "test_id": "test_inf_092",
+    "category": "information_extraction",
+    "question": "What is the user's favorite book?",
+    "fact": "The user's favorite book is Dune",
+    "ground_truth": "Dune",
+    "context": {
+      "session_id": "session_3",
+      "timestamp": "2026-04-08T16:50:21.681947"
+    }
+  },
+  {
+    "id": "q_inf_093",
+    "test_id": "test_inf_093",
+    "category": "information_extraction",
+    "question": "What is the user's favorite movie?",
+    "fact": "The user's favorite movie is Star Wars",
+    "ground_truth": "Star Wars",
+    "context": {
+      "session_id": "session_4",
+      "timestamp": "2026-04-08T16:50:21.681963"
+    }
+  },
+  {
+    "id": "q_inf_094",
+    "test_id": "test_inf_094",
+    "category": "information_extraction",
+    "question": "What is the user's favorite movie?",
+    "fact": "The user's favorite movie is Star Wars",
+    "ground_truth": "Star Wars",
+    "context": {
+      "session_id": "session_4",
+      "timestamp": "2026-04-08T16:50:21.681979"
+    }
+  },
+  {
+    "id": "q_inf_095",
+    "test_id": "test_inf_095",
+    "category": "information_extraction",
+    "question": "What is the user's favorite food?",
+    "fact": "The user's favorite food is Pizza",
+    "ground_truth": "Pizza",
+    "context": {
+      "session_id": "session_5",
+      "timestamp": "2026-04-08T16:50:21.681995"
+    }
+  },
+  {
+    "id": "q_inf_096",
+    "test_id": "test_inf_096",
+    "category": "information_extraction",
+    "question": "What is the user's favorite hobby?",
+    "fact": "The user's favorite hobby is Hiking",
+    "ground_truth": "Hiking",
+    "context": {
+      "session_id": "session_2",
+      "timestamp": "2026-04-08T16:50:21.682011"
+    }
+  },
+  {
+    "id": "q_inf_097",
+    "test_id": "test_inf_097",
+    "category": "information_extraction",
+    "question": "What is the user's favorite food?",
+    "fact": "The user's favorite food is Pizza",
+    "ground_truth": "Pizza",
+    "context": {
+      "session_id": "session_9",
+      "timestamp": "2026-04-08T16:50:21.682027"
+    }
+  },
+  {
+    "id": "q_inf_098",
+    "test_id": "test_inf_098",
+    "category": "information_extraction",
+    "question": "What is the user's favorite movie?",
+    "fact": "The user's favorite movie is Star Wars",
+    "ground_truth": "Star Wars",
+    "context": {
+      "session_id": "session_2",
+      "timestamp": "2026-04-08T16:50:21.682042"
+    }
+  },
+  {
+    "id": "q_inf_099",
+    "test_id": "test_inf_099",
+    "category": "information_extraction",
+    "question": "What is the user's favorite movie?",
+    "fact": "The user's favorite movie is Star Wars",
+    "ground_truth": "Star Wars",
+    "context": {
+      "session_id": "session_7",
+      "timestamp": "2026-04-08T16:50:21.682058"
+    }
+  },
+  {
+    "id": "q_cro_000",
+    "test_id": "test_cro_000",
+    "category": "cross_session_reasoning",
+    "question": "What did the user mention about their job?",
+    "fact": "The user works as a software engineer",
+    "ground_truth": "The user mentioned the user works as a software engineer",
+    "context": {
+      "session_id": "session_10",
+      "timestamp": "2026-04-08T16:50:21.682081"
+    }
+  },
+  {
+    "id": "q_cro_001",
+    "test_id": "test_cro_001",
+    "category": "cross_session_reasoning",
+    "question": "What did the user mention about their family?",
+    "fact": "The user has a dog named Max",
+    "ground_truth": "The user mentioned the user has a dog named max",
+    "context": {
+      "session_id": "session_3",
+      "timestamp": "2026-04-08T16:50:21.682099"
+    }
+  },
+  {
+    "id": "q_cro_002",
+    "test_id": "test_cro_002",
+    "category": "cross_session_reasoning",
+    "question": "What did the user mention about their goal?",
+    "fact": "The user wants to travel to Japan",
+    "ground_truth": "The user mentioned the user wants to travel to japan",
+    "context": {
+      "session_id": "session_10",
+      "timestamp": "2026-04-08T16:50:21.682116"
+    }
+  },
+  {
+    "id": "q_cro_003",
+    "test_id": "test_cro_003",
+    "category": "cross_session_reasoning",
+    "question": "What did the user mention about their job?",
+    "fact": "The user works as a software engineer",
+    "ground_truth": "The user mentioned the user works as a software engineer",
+    "context": {
+      "session_id": "session_3",
+      "timestamp": "2026-04-08T16:50:21.682132"
+    }
+  },
+  {
+    "id": "q_cro_004",
+    "test_id": "test_cro_004",
+    "category": "cross_session_reasoning",
+    "question": "What did the user mention about their goal?",
+    "fact": "The user wants to travel to Japan",
+    "ground_truth": "The user mentioned the user wants to travel to japan",
+    "context": {
+      "session_id": "session_9",
+      "timestamp": "2026-04-08T16:50:21.682149"
+    }
+  },
+  {
+    "id": "q_cro_005",
+    "test_id": "test_cro_005",
+    "category": "cross_session_reasoning",
+    "question": "What did the user mention about their job?",
+    "fact": "The user works as a software engineer",
+    "ground_truth": "The user mentioned the user works as a software engineer",
+    "context": {
+      "session_id": "session_8",
+      "timestamp": "2026-04-08T16:50:21.682166"
+    }
+  },
+  {
+    "id": "q_cro_006",
+    "test_id": "test_cro_006",
+    "category": "cross_session_reasoning",
+    "question": "What did the user mention about their goal?",
+    "fact": "The user wants to travel to Japan",
+    "ground_truth": "The user mentioned the user wants to travel to japan",
+    "context": {
+      "session_id": "session_2",
+      "timestamp": "2026-04-08T16:50:21.682183"
+    }
+  },
+  {
+    "id": "q_cro_007",
+    "test_id": "test_cro_007",
+    "category": "cross_session_reasoning",
+    "question": "What did the user mention about their plan?",
+    "fact": "The user plans to learn Python",
+    "ground_truth": "The user mentioned the user plans to learn python",
+    "context": {
+      "session_id": "session_4",
+      "timestamp": "2026-04-08T16:50:21.682202"
+    }
+  },
+  {
+    "id": "q_cro_008",
+    "test_id": "test_cro_008",
+    "category": "cross_session_reasoning",
+    "question": "What did the user mention about their family?",
+    "fact": "The user has a dog named Max",
+    "ground_truth": "The user mentioned the user has a dog named max",
+    "context": {
+      "session_id": "session_10",
+      "timestamp": "2026-04-08T16:50:21.682219"
+    }
+  },
+  {
+    "id": "q_cro_009",
+    "test_id": "test_cro_009",
+    "category": "cross_session_reasoning",
+    "question": "What did the user mention about their hobby?",
+    "fact": "The user enjoys hiking on weekends",
+    "ground_truth": "The user mentioned the user enjoys hiking on weekends",
+    "context": {
+      "session_id": "session_9",
+      "timestamp": "2026-04-08T16:50:21.682235"
+    }
+  },
+  {
+    "id": "q_cro_010",
+    "test_id": "test_cro_010",
+    "category": "cross_session_reasoning",
+    "question": "What did the user mention about their family?",
+    "fact": "The user has a dog named Max",
+    "ground_truth": "The user mentioned the user has a dog named max",
+    "context": {
+      "session_id": "session_3",
+      "timestamp": "2026-04-08T16:50:21.682252"
+    }
+  },
+  {
+    "id": "q_cro_011",
+    "test_id": "test_cro_011",
+    "category": "cross_session_reasoning",
+    "question": "What did the user mention about their goal?",
+    "fact": "The user wants to travel to Japan",
+    "ground_truth": "The user mentioned the user wants to travel to japan",
+    "context": {
+      "session_id": "session_7",
+      "timestamp": "2026-04-08T16:50:21.682268"
+    }
+  },
+  {
+    "id": "q_cro_012",
+    "test_id": "test_cro_012",
+    "category": "cross_session_reasoning",
+    "question": "What did the user mention about their plan?",
+    "fact": "The user plans to learn Python",
+    "ground_truth": "The user mentioned the user plans to learn python",
+    "context": {
+      "session_id": "session_2",
+      "timestamp": "2026-04-08T16:50:21.682284"
+    }
+  },
+  {
+    "id": "q_cro_013",
+    "test_id": "test_cro_013",
+    "category": "cross_session_reasoning",
+    "question": "What did the user mention about their family?",
+    "fact": "The user has a dog named Max",
+    "ground_truth": "The user mentioned the user has a dog named max",
+    "context": {
+      "session_id": "session_2",
+      "timestamp": "2026-04-08T16:50:21.682301"
+    }
+  },
+  {
+    "id": "q_cro_014",
+    "test_id": "test_cro_014",
+    "category": "cross_session_reasoning",
+    "question": "What did the user mention about their family?",
+    "fact": "The user has a dog named Max",
+    "ground_truth": "The user mentioned the user has a dog named max",
+    "context": {
+      "session_id": "session_9",
+      "timestamp": "2026-04-08T16:50:21.682323"
+    }
+  },
+  {
+    "id": "q_cro_015",
+    "test_id": "test_cro_015",
+    "category": "cross_session_reasoning",
+    "question": "What did the user mention about their family?",
+    "fact": "The user has a dog named Max",
+    "ground_truth": "The user mentioned the user has a dog named max",
+    "context": {
+      "session_id": "session_7",
+      "timestamp": "2026-04-08T16:50:21.682333"
+    }
+  },
+  {
+    "id": "q_cro_016",
+    "test_id": "test_cro_016",
+    "category": "cross_session_reasoning",
+    "question": "What did the user mention about their job?",
+    "fact": "The user works as a software engineer",
+    "ground_truth": "The user mentioned the user works as a software engineer",
+    "context": {
+      "session_id": "session_10",
+      "timestamp": "2026-04-08T16:50:21.682343"
+    }
+  },
+  {
+    "id": "q_cro_017",
+    "test_id": "test_cro_017",
+    "category": "cross_session_reasoning",
+    "question": "What did the user mention about their goal?",
+    "fact": "The user wants to travel to Japan",
+    "ground_truth": "The user mentioned the user wants to travel to japan",
+    "context": {
+      "session_id": "session_4",
+      "timestamp": "2026-04-08T16:50:21.682353"
+    }
+  },
+  {
+    "id": "q_cro_018",
+    "test_id": "test_cro_018",
+    "category": "cross_session_reasoning",
+    "question": "What did the user mention about their hobby?",
+    "fact": "The user enjoys hiking on weekends",
+    "ground_truth": "The user mentioned the user enjoys hiking on weekends",
+    "context": {
+      "session_id": "session_10",
+      "timestamp": "2026-04-08T16:50:21.682363"
+    }
+  },
+  {
+    "id": "q_cro_019",
+    "test_id": "test_cro_019",
+    "category": "cross_session_reasoning",
+    "question": "What did the user mention about their hobby?",
+    "fact": "The user enjoys hiking on weekends",
+    "ground_truth": "The user mentioned the user enjoys hiking on weekends",
+    "context": {
+      "session_id": "session_4",
+      "timestamp": "2026-04-08T16:50:21.682373"
+    }
+  },
+  {
+    "id": "q_cro_020",
+    "test_id": "test_cro_020",
+    "category": "cross_session_reasoning",
+    "question": "What did the user mention about their plan?",
+    "fact": "The user plans to learn Python",
+    "ground_truth": "The user mentioned the user plans to learn python",
+    "context": {
+      "session_id": "session_7",
+      "timestamp": "2026-04-08T16:50:21.682383"
+    }
+  },
+  {
+    "id": "q_cro_021",
+    "test_id": "test_cro_021",
+    "category": "cross_session_reasoning",
+    "question": "What did the user mention about their plan?",
+    "fact": "The user plans to learn Python",
+    "ground_truth": "The user mentioned the user plans to learn python",
+    "context": {
+      "session_id": "session_5",
+      "timestamp": "2026-04-08T16:50:21.682393"
+    }
+  },
+  {
+    "id": "q_cro_022",
+    "test_id": "test_cro_022",
+    "category": "cross_session_reasoning",
+    "question": "What did the user mention about their plan?",
+    "fact": "The user plans to learn Python",
+    "ground_truth": "The user mentioned the user plans to learn python",
+    "context": {
+      "session_id": "session_6",
+      "timestamp": "2026-04-08T16:50:21.682403"
+    }
+  },
+  {
+    "id": "q_cro_023",
+    "test_id": "test_cro_023",
+    "category": "cross_session_reasoning",
+    "question": "What did the user mention about their family?",
+    "fact": "The user has a dog named Max",
+    "ground_truth": "The user mentioned the user has a dog named max",
+    "context": {
+      "session_id": "session_9",
+      "timestamp": "2026-04-08T16:50:21.682414"
+    }
+  },
+  {
+    "id": "q_cro_024",
+    "test_id": "test_cro_024",
+    "category": "cross_session_reasoning",
+    "question": "What did the user mention about their plan?",
+    "fact": "The user plans to learn Python",
+    "ground_truth": "The user mentioned the user plans to learn python",
+    "context": {
+      "session_id": "session_3",
+      "timestamp": "2026-04-08T16:50:21.682424"
+    }
+  },
+  {
+    "id": "q_cro_025",
+    "test_id": "test_cro_025",
+    "category": "cross_session_reasoning",
+    "question": "What did the user mention about their job?",
+    "fact": "The user works as a software engineer",
+    "ground_truth": "The user mentioned the user works as a software engineer",
+    "context": {
+      "session_id": "session_7",
+      "timestamp": "2026-04-08T16:50:21.682434"
+    }
+  },
+  {
+    "id": "q_cro_026",
+    "test_id": "test_cro_026",
+    "category": "cross_session_reasoning",
+    "question": "What did the user mention about their goal?",
+    "fact": "The user wants to travel to Japan",
+    "ground_truth": "The user mentioned the user wants to travel to japan",
+    "context": {
+      "session_id": "session_1",
+      "timestamp": "2026-04-08T16:50:21.682445"
+    }
+  },
+  {
+    "id": "q_cro_027",
+    "test_id": "test_cro_027",
+    "category": "cross_session_reasoning",
+    "question": "What did the user mention about their family?",
+    "fact": "The user has a dog named Max",
+    "ground_truth": "The user mentioned the user has a dog named max",
+    "context": {
+      "session_id": "session_9",
+      "timestamp": "2026-04-08T16:50:21.682457"
+    }
+  },
+  {
+    "id": "q_cro_028",
+    "test_id": "test_cro_028",
+    "category": "cross_session_reasoning",
+    "question": "What did the user mention about their family?",
+    "fact": "The user has a dog named Max",
+    "ground_truth": "The user mentioned the user has a dog named max",
+    "context": {
+      "session_id": "session_9",
+      "timestamp": "2026-04-08T16:50:21.682468"
+    }
+  },
+  {
+    "id": "q_cro_029",
+    "test_id": "test_cro_029",
+    "category": "cross_session_reasoning",
+    "question": "What did the user mention about their goal?",
+    "fact": "The user wants to travel to Japan",
+    "ground_truth": "The user mentioned the user wants to travel to japan",
+    "context": {
+      "session_id": "session_2",
+      "timestamp": "2026-04-08T16:50:21.682487"
+    }
+  },
+  {
+    "id": "q_cro_030",
+    "test_id": "test_cro_030",
+    "category": "cross_session_reasoning",
+    "question": "What did the user mention about their hobby?",
+    "fact": "The user enjoys hiking on weekends",
+    "ground_truth": "The user mentioned the user enjoys hiking on weekends",
+    "context": {
+      "session_id": "session_9",
+      "timestamp": "2026-04-08T16:50:21.682497"
+    }
+  },
+  {
+    "id": "q_cro_031",
+    "test_id": "test_cro_031",
+    "category": "cross_session_reasoning",
+    "question": "What did the user mention about their goal?",
+    "fact": "The user wants to travel to Japan",
+    "ground_truth": "The user mentioned the user wants to travel to japan",
+    "context": {
+      "session_id": "session_3",
+      "timestamp": "2026-04-08T16:50:21.682516"
+    }
+  },
+  {
+    "id": "q_cro_032",
+    "test_id": "test_cro_032",
+    "category": "cross_session_reasoning",
+    "question": "What did the user mention about their family?",
+    "fact": "The user has a dog named Max",
+    "ground_truth": "The user mentioned the user has a dog named max",
+    "context": {
+      "session_id": "session_5",
+      "timestamp": "2026-04-08T16:50:21.682528"
+    }
+  },
+  {
+    "id": "q_cro_033",
+    "test_id": "test_cro_033",
+    "category": "cross_session_reasoning",
+    "question": "What did the user mention about their plan?",
+    "fact": "The user plans to learn Python",
+    "ground_truth": "The user mentioned the user plans to learn python",
+    "context": {
+      "session_id": "session_8",
+      "timestamp": "2026-04-08T16:50:21.682544"
+    }
+  },
+  {
+    "id": "q_cro_034",
+    "test_id": "test_cro_034",
+    "category": "cross_session_reasoning",
+    "question": "What did the user mention about their job?",
+    "fact": "The user works as a software engineer",
+    "ground_truth": "The user mentioned the user works as a software engineer",
+    "context": {
+      "session_id": "session_4",
+      "timestamp": "2026-04-08T16:50:21.682555"
+    }
+  },
+  {
+    "id": "q_cro_035",
+    "test_id": "test_cro_035",
+    "category": "cross_session_reasoning",
+    "question": "What did the user mention about their goal?",
+    "fact": "The user wants to travel to Japan",
+    "ground_truth": "The user mentioned the user wants to travel to japan",
+    "context": {
+      "session_id": "session_8",
+      "timestamp": "2026-04-08T16:50:21.682567"
+    }
+  },
+  {
+    "id": "q_cro_036",
+    "test_id": "test_cro_036",
+    "category": "cross_session_reasoning",
+    "question": "What did the user mention about their job?",
+    "fact": "The user works as a software engineer",
+    "ground_truth": "The user mentioned the user works as a software engineer",
+    "context": {
+      "session_id": "session_3",
+      "timestamp": "2026-04-08T16:50:21.682579"
+    }
+  },
+  {
+    "id": "q_cro_037",
+    "test_id": "test_cro_037",
+    "category": "cross_session_reasoning",
+    "question": "What did the user mention about their plan?",
+    "fact": "The user plans to learn Python",
+    "ground_truth": "The user mentioned the user plans to learn python",
+    "context": {
+      "session_id": "session_1",
+      "timestamp": "2026-04-08T16:50:21.682594"
+    }
+  },
+  {
+    "id": "q_cro_038",
+    "test_id": "test_cro_038",
+    "category": "cross_session_reasoning",
+    "question": "What did the user mention about their family?",
+    "fact": "The user has a dog named Max",
+    "ground_truth": "The user mentioned the user has a dog named max",
+    "context": {
+      "session_id": "session_4",
+      "timestamp": "2026-04-08T16:50:21.682606"
+    }
+  },
+  {
+    "id": "q_cro_039",
+    "test_id": "test_cro_039",
+    "category": "cross_session_reasoning",
+    "question": "What did the user mention about their job?",
+    "fact": "The user works as a software engineer",
+    "ground_truth": "The user mentioned the user works as a software engineer",
+    "context": {
+      "session_id": "session_10",
+      "timestamp": "2026-04-08T16:50:21.682618"
+    }
+  },
+  {
+    "id": "q_cro_040",
+    "test_id": "test_cro_040",
+    "category": "cross_session_reasoning",
+    "question": "What did the user mention about their goal?",
+    "fact": "The user wants to travel to Japan",
+    "ground_truth": "The user mentioned the user wants to travel to japan",
+    "context": {
+      "session_id": "session_6",
+      "timestamp": "2026-04-08T16:50:21.682630"
+    }
+  },
+  {
+    "id": "q_cro_041",
+    "test_id": "test_cro_041",
+    "category": "cross_session_reasoning",
+    "question": "What did the user mention about their plan?",
+    "fact": "The user plans to learn Python",
+    "ground_truth": "The user mentioned the user plans to learn python",
+    "context": {
+      "session_id": "session_2",
+      "timestamp": "2026-04-08T16:50:21.682642"
+    }
+  },
+  {
+    "id": "q_cro_042",
+    "test_id": "test_cro_042",
+    "category": "cross_session_reasoning",
+    "question": "What did the user mention about their hobby?",
+    "fact": "The user enjoys hiking on weekends",
+    "ground_truth": "The user mentioned the user enjoys hiking on weekends",
+    "context": {
+      "session_id": "session_1",
+      "timestamp": "2026-04-08T16:50:21.682654"
+    }
+  },
+  {
+    "id": "q_cro_043",
+    "test_id": "test_cro_043",
+    "category": "cross_session_reasoning",
+    "question": "What did the user mention about their goal?",
+    "fact": "The user wants to travel to Japan",
+    "ground_truth": "The user mentioned the user wants to travel to japan",
+    "context": {
+      "session_id": "session_10",
+      "timestamp": "2026-04-08T16:50:21.682666"
+    }
+  },
+  {
+    "id": "q_cro_044",
+    "test_id": "test_cro_044",
+    "category": "cross_session_reasoning",
+    "question": "What did the user mention about their job?",
+    "fact": "The user works as a software engineer",
+    "ground_truth": "The user mentioned the user works as a software engineer",
+    "context": {
+      "session_id": "session_10",
+      "timestamp": "2026-04-08T16:50:21.682678"
+    }
+  },
+  {
+    "id": "q_cro_045",
+    "test_id": "test_cro_045",
+    "category": "cross_session_reasoning",
+    "question": "What did the user mention about their family?",
+    "fact": "The user has a dog named Max",
+    "ground_truth": "The user mentioned the user has a dog named max",
+    "context": {
+      "session_id": "session_6",
+      "timestamp": "2026-04-08T16:50:21.682690"
+    }
+  },
+  {
+    "id": "q_cro_046",
+    "test_id": "test_cro_046",
+    "category": "cross_session_reasoning",
+    "question": "What did the user mention about their plan?",
+    "fact": "The user plans to learn Python",
+    "ground_truth": "The user mentioned the user plans to learn python",
+    "context": {
+      "session_id": "session_7",
+      "timestamp": "2026-04-08T16:50:21.682706"
+    }
+  },
+  {
+    "id": "q_cro_047",
+    "test_id": "test_cro_047",
+    "category": "cross_session_reasoning",
+    "question": "What did the user mention about their goal?",
+    "fact": "The user wants to travel to Japan",
+    "ground_truth": "The user mentioned the user wants to travel to japan",
+    "context": {
+      "session_id": "session_2",
+      "timestamp": "2026-04-08T16:50:21.682718"
+    }
+  },
+  {
+    "id": "q_cro_048",
+    "test_id": "test_cro_048",
+    "category": "cross_session_reasoning",
+    "question": "What did the user mention about their goal?",
+    "fact": "The user wants to travel to Japan",
+    "ground_truth": "The user mentioned the user wants to travel to japan",
+    "context": {
+      "session_id": "session_8",
+      "timestamp": "2026-04-08T16:50:21.682732"
+    }
+  },
+  {
+    "id": "q_cro_049",
+    "test_id": "test_cro_049",
+    "category": "cross_session_reasoning",
+    "question": "What did the user mention about their goal?",
+    "fact": "The user wants to travel to Japan",
+    "ground_truth": "The user mentioned the user wants to travel to japan",
+    "context": {
+      "session_id": "session_4",
+      "timestamp": "2026-04-08T16:50:21.682749"
+    }
+  },
+  {
+    "id": "q_cro_050",
+    "test_id": "test_cro_050",
+    "category": "cross_session_reasoning",
+    "question": "What did the user mention about their plan?",
+    "fact": "The user plans to learn Python",
+    "ground_truth": "The user mentioned the user plans to learn python",
+    "context": {
+      "session_id": "session_5",
+      "timestamp": "2026-04-08T16:50:21.682760"
+    }
+  },
+  {
+    "id": "q_cro_051",
+    "test_id": "test_cro_051",
+    "category": "cross_session_reasoning",
+    "question": "What did the user mention about their job?",
+    "fact": "The user works as a software engineer",
+    "ground_truth": "The user mentioned the user works as a software engineer",
+    "context": {
+      "session_id": "session_4",
+      "timestamp": "2026-04-08T16:50:21.682772"
+    }
+  },
+  {
+    "id": "q_cro_052",
+    "test_id": "test_cro_052",
+    "category": "cross_session_reasoning",
+    "question": "What did the user mention about their family?",
+    "fact": "The user has a dog named Max",
+    "ground_truth": "The user mentioned the user has a dog named max",
+    "context": {
+      "session_id": "session_6",
+      "timestamp": "2026-04-08T16:50:21.682784"
+    }
+  },
+  {
+    "id": "q_cro_053",
+    "test_id": "test_cro_053",
+    "category": "cross_session_reasoning",
+    "question": "What did the user mention about their plan?",
+    "fact": "The user plans to learn Python",
+    "ground_truth": "The user mentioned the user plans to learn python",
+    "context": {
+      "session_id": "session_9",
+      "timestamp": "2026-04-08T16:50:21.682796"
+    }
+  },
+  {
+    "id": "q_cro_054",
+    "test_id": "test_cro_054",
+    "category": "cross_session_reasoning",
+    "question": "What did the user mention about their hobby?",
+    "fact": "The user enjoys hiking on weekends",
+    "ground_truth": "The user mentioned the user enjoys hiking on weekends",
+    "context": {
+      "session_id": "session_6",
+      "timestamp": "2026-04-08T16:50:21.682808"
+    }
+  },
+  {
+    "id": "q_cro_055",
+    "test_id": "test_cro_055",
+    "category": "cross_session_reasoning",
+    "question": "What did the user mention about their plan?",
+    "fact": "The user plans to learn Python",
+    "ground_truth": "The user mentioned the user plans to learn python",
+    "context": {
+      "session_id": "session_4",
+      "timestamp": "2026-04-08T16:50:21.682820"
+    }
+  },
+  {
+    "id": "q_cro_056",
+    "test_id": "test_cro_056",
+    "category": "cross_session_reasoning",
+    "question": "What did the user mention about their family?",
+    "fact": "The user has a dog named Max",
+    "ground_truth": "The user mentioned the user has a dog named max",
+    "context": {
+      "session_id": "session_10",
+      "timestamp": "2026-04-08T16:50:21.682831"
+    }
+  },
+  {
+    "id": "q_cro_057",
+    "test_id": "test_cro_057",
+    "category": "cross_session_reasoning",
+    "question": "What did the user mention about their family?",
+    "fact": "The user has a dog named Max",
+    "ground_truth": "The user mentioned the user has a dog named max",
+    "context": {
+      "session_id": "session_2",
+      "timestamp": "2026-04-08T16:50:21.682843"
+    }
+  },
+  {
+    "id": "q_cro_058",
+    "test_id": "test_cro_058",
+    "category": "cross_session_reasoning",
+    "question": "What did the user mention about their plan?",
+    "fact": "The user plans to learn Python",
+    "ground_truth": "The user mentioned the user plans to learn python",
+    "context": {
+      "session_id": "session_3",
+      "timestamp": "2026-04-08T16:50:21.682862"
+    }
+  },
+  {
+    "id": "q_cro_059",
+    "test_id": "test_cro_059",
+    "category": "cross_session_reasoning",
+    "question": "What did the user mention about their hobby?",
+    "fact": "The user enjoys hiking on weekends",
+    "ground_truth": "The user mentioned the user enjoys hiking on weekends",
+    "context": {
+      "session_id": "session_3",
+      "timestamp": "2026-04-08T16:50:21.682891"
+    }
+  },
+  {
+    "id": "q_cro_060",
+    "test_id": "test_cro_060",
+    "category": "cross_session_reasoning",
+    "question": "What did the user mention about their plan?",
+    "fact": "The user plans to learn Python",
+    "ground_truth": "The user mentioned the user plans to learn python",
+    "context": {
+      "session_id": "session_3",
+      "timestamp": "2026-04-08T16:50:21.682914"
+    }
+  },
+  {
+    "id": "q_cro_061",
+    "test_id": "test_cro_061",
+    "category": "cross_session_reasoning",
+    "question": "What did the user mention about their family?",
+    "fact": "The user has a dog named Max",
+    "ground_truth": "The user mentioned the user has a dog named max",
+    "context": {
+      "session_id": "session_10",
+      "timestamp": "2026-04-08T16:50:21.682926"
+    }
+  },
+  {
+    "id": "q_cro_062",
+    "test_id": "test_cro_062",
+    "category": "cross_session_reasoning",
+    "question": "What did the user mention about their family?",
+    "fact": "The user has a dog named Max",
+    "ground_truth": "The user mentioned the user has a dog named max",
+    "context": {
+      "session_id": "session_9",
+      "timestamp": "2026-04-08T16:50:21.682938"
+    }
+  },
+  {
+    "id": "q_cro_063",
+    "test_id": "test_cro_063",
+    "category": "cross_session_reasoning",
+    "question": "What did the user mention about their hobby?",
+    "fact": "The user enjoys hiking on weekends",
+    "ground_truth": "The user mentioned the user enjoys hiking on weekends",
+    "context": {
+      "session_id": "session_6",
+      "timestamp": "2026-04-08T16:50:21.682953"
+    }
+  },
+  {
+    "id": "q_cro_064",
+    "test_id": "test_cro_064",
+    "category": "cross_session_reasoning",
+    "question": "What did the user mention about their family?",
+    "fact": "The user has a dog named Max",
+    "ground_truth": "The user mentioned the user has a dog named max",
+    "context": {
+      "session_id": "session_6",
+      "timestamp": "2026-04-08T16:50:21.682965"
+    }
+  },
+  {
+    "id": "q_cro_065",
+    "test_id": "test_cro_065",
+    "category": "cross_session_reasoning",
+    "question": "What did the user mention about their goal?",
+    "fact": "The user wants to travel to Japan",
+    "ground_truth": "The user mentioned the user wants to travel to japan",
+    "context": {
+      "session_id": "session_10",
+      "timestamp": "2026-04-08T16:50:21.682977"
+    }
+  },
+  {
+    "id": "q_cro_066",
+    "test_id": "test_cro_066",
+    "category": "cross_session_reasoning",
+    "question": "What did the user mention about their family?",
+    "fact": "The user has a dog named Max",
+    "ground_truth": "The user mentioned the user has a dog named max",
+    "context": {
+      "session_id": "session_10",
+      "timestamp": "2026-04-08T16:50:21.682989"
+    }
+  },
+  {
+    "id": "q_cro_067",
+    "test_id": "test_cro_067",
+    "category": "cross_session_reasoning",
+    "question": "What did the user mention about their hobby?",
+    "fact": "The user enjoys hiking on weekends",
+    "ground_truth": "The user mentioned the user enjoys hiking on weekends",
+    "context": {
+      "session_id": "session_10",
+      "timestamp": "2026-04-08T16:50:21.683000"
+    }
+  },
+  {
+    "id": "q_cro_068",
+    "test_id": "test_cro_068",
+    "category": "cross_session_reasoning",
+    "question": "What did the user mention about their plan?",
+    "fact": "The user plans to learn Python",
+    "ground_truth": "The user mentioned the user plans to learn python",
+    "context": {
+      "session_id": "session_10",
+      "timestamp": "2026-04-08T16:50:21.683012"
+    }
+  },
+  {
+    "id": "q_cro_069",
+    "test_id": "test_cro_069",
+    "category": "cross_session_reasoning",
+    "question": "What did the user mention about their job?",
+    "fact": "The user works as a software engineer",
+    "ground_truth": "The user mentioned the user works as a software engineer",
+    "context": {
+      "session_id": "session_4",
+      "timestamp": "2026-04-08T16:50:21.683027"
+    }
+  },
+  {
+    "id": "q_cro_070",
+    "test_id": "test_cro_070",
+    "category": "cross_session_reasoning",
+    "question": "What did the user mention about their plan?",
+    "fact": "The user plans to learn Python",
+    "ground_truth": "The user mentioned the user plans to learn python",
+    "context": {
+      "session_id": "session_8",
+      "timestamp": "2026-04-08T16:50:21.683039"
+    }
+  },
+  {
+    "id": "q_cro_071",
+    "test_id": "test_cro_071",
+    "category": "cross_session_reasoning",
+    "question": "What did the user mention about their hobby?",
+    "fact": "The user enjoys hiking on weekends",
+    "ground_truth": "The user mentioned the user enjoys hiking on weekends",
+    "context": {
+      "session_id": "session_4",
+      "timestamp": "2026-04-08T16:50:21.683050"
+    }
+  },
+  {
+    "id": "q_cro_072",
+    "test_id": "test_cro_072",
+    "category": "cross_session_reasoning",
+    "question": "What did the user mention about their job?",
+    "fact": "The user works as a software engineer",
+    "ground_truth": "The user mentioned the user works as a software engineer",
+    "context": {
+      "session_id": "session_7",
+      "timestamp": "2026-04-08T16:50:21.683067"
+    }
+  },
+  {
+    "id": "q_cro_073",
+    "test_id": "test_cro_073",
+    "category": "cross_session_reasoning",
+    "question": "What did the user mention about their family?",
+    "fact": "The user has a dog named Max",
+    "ground_truth": "The user mentioned the user has a dog named max",
+    "context": {
+      "session_id": "session_7",
+      "timestamp": "2026-04-08T16:50:21.683080"
+    }
+  },
+  {
+    "id": "q_cro_074",
+    "test_id": "test_cro_074",
+    "category": "cross_session_reasoning",
+    "question": "What did the user mention about their plan?",
+    "fact": "The user plans to learn Python",
+    "ground_truth": "The user mentioned the user plans to learn python",
+    "context": {
+      "session_id": "session_9",
+      "timestamp": "2026-04-08T16:50:21.683094"
+    }
+  },
+  {
+    "id": "q_cro_075",
+    "test_id": "test_cro_075",
+    "category": "cross_session_reasoning",
+    "question": "What did the user mention about their hobby?",
+    "fact": "The user enjoys hiking on weekends",
+    "ground_truth": "The user mentioned the user enjoys hiking on weekends",
+    "context": {
+      "session_id": "session_2",
+      "timestamp": "2026-04-08T16:50:21.683106"
+    }
+  },
+  {
+    "id": "q_cro_076",
+    "test_id": "test_cro_076",
+    "category": "cross_session_reasoning",
+    "question": "What did the user mention about their family?",
+    "fact": "The user has a dog named Max",
+    "ground_truth": "The user mentioned the user has a dog named max",
+    "context": {
+      "session_id": "session_1",
+      "timestamp": "2026-04-08T16:50:21.683118"
+    }
+  },
+  {
+    "id": "q_cro_077",
+    "test_id": "test_cro_077",
+    "category": "cross_session_reasoning",
+    "question": "What did the user mention about their job?",
+    "fact": "The user works as a software engineer",
+    "ground_truth": "The user mentioned the user works as a software engineer",
+    "context": {
+      "session_id": "session_1",
+      "timestamp": "2026-04-08T16:50:21.683130"
+    }
+  },
+  {
+    "id": "q_cro_078",
+    "test_id": "test_cro_078",
+    "category": "cross_session_reasoning",
+    "question": "What did the user mention about their hobby?",
+    "fact": "The user enjoys hiking on weekends",
+    "ground_truth": "The user mentioned the user enjoys hiking on weekends",
+    "context": {
+      "session_id": "session_8",
+      "timestamp": "2026-04-08T16:50:21.683142"
+    }
+  },
+  {
+    "id": "q_cro_079",
+    "test_id": "test_cro_079",
+    "category": "cross_session_reasoning",
+    "question": "What did the user mention about their hobby?",
+    "fact": "The user enjoys hiking on weekends",
+    "ground_truth": "The user mentioned the user enjoys hiking on weekends",
+    "context": {
+      "session_id": "session_3",
+      "timestamp": "2026-04-08T16:50:21.683160"
+    }
+  },
+  {
+    "id": "q_cro_080",
+    "test_id": "test_cro_080",
+    "category": "cross_session_reasoning",
+    "question": "What did the user mention about their hobby?",
+    "fact": "The user enjoys hiking on weekends",
+    "ground_truth": "The user mentioned the user enjoys hiking on weekends",
+    "context": {
+      "session_id": "session_6",
+      "timestamp": "2026-04-08T16:50:21.683176"
+    }
+  },
+  {
+    "id": "q_cro_081",
+    "test_id": "test_cro_081",
+    "category": "cross_session_reasoning",
+    "question": "What did the user mention about their job?",
+    "fact": "The user works as a software engineer",
+    "ground_truth": "The user mentioned the user works as a software engineer",
+    "context": {
+      "session_id": "session_7",
+      "timestamp": "2026-04-08T16:50:21.683188"
+    }
+  },
+  {
+    "id": "q_cro_082",
+    "test_id": "test_cro_082",
+    "category": "cross_session_reasoning",
+    "question": "What did the user mention about their job?",
+    "fact": "The user works as a software engineer",
+    "ground_truth": "The user mentioned the user works as a software engineer",
+    "context": {
+      "session_id": "session_5",
+      "timestamp": "2026-04-08T16:50:21.683203"
+    }
+  },
+  {
+    "id": "q_cro_083",
+    "test_id": "test_cro_083",
+    "category": "cross_session_reasoning",
+    "question": "What did the user mention about their family?",
+    "fact": "The user has a dog named Max",
+    "ground_truth": "The user mentioned the user has a dog named max",
+    "context": {
+      "session_id": "session_6",
+      "timestamp": "2026-04-08T16:50:21.683218"
+    }
+  },
+  {
+    "id": "q_cro_084",
+    "test_id": "test_cro_084",
+    "category": "cross_session_reasoning",
+    "question": "What did the user mention about their family?",
+    "fact": "The user has a dog named Max",
+    "ground_truth": "The user mentioned the user has a dog named max",
+    "context": {
+      "session_id": "session_6",
+      "timestamp": "2026-04-08T16:50:21.683233"
+    }
+  },
+  {
+    "id": "q_cro_085",
+    "test_id": "test_cro_085",
+    "category": "cross_session_reasoning",
+    "question": "What did the user mention about their goal?",
+    "fact": "The user wants to travel to Japan",
+    "ground_truth": "The user mentioned the user wants to travel to japan",
+    "context": {
+      "session_id": "session_10",
+      "timestamp": "2026-04-08T16:50:21.683249"
+    }
+  },
+  {
+    "id": "q_cro_086",
+    "test_id": "test_cro_086",
+    "category": "cross_session_reasoning",
+    "question": "What did the user mention about their family?",
+    "fact": "The user has a dog named Max",
+    "ground_truth": "The user mentioned the user has a dog named max",
+    "context": {
+      "session_id": "session_7",
+      "timestamp": "2026-04-08T16:50:21.683261"
+    }
+  },
+  {
+    "id": "q_cro_087",
+    "test_id": "test_cro_087",
+    "category": "cross_session_reasoning",
+    "question": "What did the user mention about their hobby?",
+    "fact": "The user enjoys hiking on weekends",
+    "ground_truth": "The user mentioned the user enjoys hiking on weekends",
+    "context": {
+      "session_id": "session_3",
+      "timestamp": "2026-04-08T16:50:21.683273"
+    }
+  },
+  {
+    "id": "q_cro_088",
+    "test_id": "test_cro_088",
+    "category": "cross_session_reasoning",
+    "question": "What did the user mention about their hobby?",
+    "fact": "The user enjoys hiking on weekends",
+    "ground_truth": "The user mentioned the user enjoys hiking on weekends",
+    "context": {
+      "session_id": "session_4",
+      "timestamp": "2026-04-08T16:50:21.683285"
+    }
+  },
+  {
+    "id": "q_cro_089",
+    "test_id": "test_cro_089",
+    "category": "cross_session_reasoning",
+    "question": "What did the user mention about their goal?",
+    "fact": "The user wants to travel to Japan",
+    "ground_truth": "The user mentioned the user wants to travel to japan",
+    "context": {
+      "session_id": "session_2",
+      "timestamp": "2026-04-08T16:50:21.683296"
+    }
+  },
+  {
+    "id": "q_cro_090",
+    "test_id": "test_cro_090",
+    "category": "cross_session_reasoning",
+    "question": "What did the user mention about their job?",
+    "fact": "The user works as a software engineer",
+    "ground_truth": "The user mentioned the user works as a software engineer",
+    "context": {
+      "session_id": "session_7",
+      "timestamp": "2026-04-08T16:50:21.683311"
+    }
+  },
+  {
+    "id": "q_cro_091",
+    "test_id": "test_cro_091",
+    "category": "cross_session_reasoning",
+    "question": "What did the user mention about their goal?",
+    "fact": "The user wants to travel to Japan",
+    "ground_truth": "The user mentioned the user wants to travel to japan",
+    "context": {
+      "session_id": "session_1",
+      "timestamp": "2026-04-08T16:50:21.683323"
+    }
+  },
+  {
+    "id": "q_cro_092",
+    "test_id": "test_cro_092",
+    "category": "cross_session_reasoning",
+    "question": "What did the user mention about their goal?",
+    "fact": "The user wants to travel to Japan",
+    "ground_truth": "The user mentioned the user wants to travel to japan",
+    "context": {
+      "session_id": "session_7",
+      "timestamp": "2026-04-08T16:50:21.683335"
+    }
+  },
+  {
+    "id": "q_cro_093",
+    "test_id": "test_cro_093",
+    "category": "cross_session_reasoning",
+    "question": "What did the user mention about their job?",
+    "fact": "The user works as a software engineer",
+    "ground_truth": "The user mentioned the user works as a software engineer",
+    "context": {
+      "session_id": "session_9",
+      "timestamp": "2026-04-08T16:50:21.683347"
+    }
+  },
+  {
+    "id": "q_cro_094",
+    "test_id": "test_cro_094",
+    "category": "cross_session_reasoning",
+    "question": "What did the user mention about their family?",
+    "fact": "The user has a dog named Max",
+    "ground_truth": "The user mentioned the user has a dog named max",
+    "context": {
+      "session_id": "session_3",
+      "timestamp": "2026-04-08T16:50:21.683359"
+    }
+  },
+  {
+    "id": "q_cro_095",
+    "test_id": "test_cro_095",
+    "category": "cross_session_reasoning",
+    "question": "What did the user mention about their goal?",
+    "fact": "The user wants to travel to Japan",
+    "ground_truth": "The user mentioned the user wants to travel to japan",
+    "context": {
+      "session_id": "session_6",
+      "timestamp": "2026-04-08T16:50:21.683375"
+    }
+  },
+  {
+    "id": "q_cro_096",
+    "test_id": "test_cro_096",
+    "category": "cross_session_reasoning",
+    "question": "What did the user mention about their hobby?",
+    "fact": "The user enjoys hiking on weekends",
+    "ground_truth": "The user mentioned the user enjoys hiking on weekends",
+    "context": {
+      "session_id": "session_6",
+      "timestamp": "2026-04-08T16:50:21.683387"
+    }
+  },
+  {
+    "id": "q_cro_097",
+    "test_id": "test_cro_097",
+    "category": "cross_session_reasoning",
+    "question": "What did the user mention about their family?",
+    "fact": "The user has a dog named Max",
+    "ground_truth": "The user mentioned the user has a dog named max",
+    "context": {
+      "session_id": "session_9",
+      "timestamp": "2026-04-08T16:50:21.683465"
+    }
+  },
+  {
+    "id": "q_cro_098",
+    "test_id": "test_cro_098",
+    "category": "cross_session_reasoning",
+    "question": "What did the user mention about their hobby?",
+    "fact": "The user enjoys hiking on weekends",
+    "ground_truth": "The user mentioned the user enjoys hiking on weekends",
+    "context": {
+      "session_id": "session_5",
+      "timestamp": "2026-04-08T16:50:21.683515"
+    }
+  },
+  {
+    "id": "q_cro_099",
+    "test_id": "test_cro_099",
+    "category": "cross_session_reasoning",
+    "question": "What did the user mention about their hobby?",
+    "fact": "The user enjoys hiking on weekends",
+    "ground_truth": "The user mentioned the user enjoys hiking on weekends",
+    "context": {
+      "session_id": "session_8",
+      "timestamp": "2026-04-08T16:50:21.683543"
+    }
+  },
+  {
+    "id": "q_tem_000",
+    "test_id": "test_tem_000",
+    "category": "temporal_reasoning",
+    "question": "When did the user last mention vacation?",
+    "fact": "The user went on vacation 27 days ago",
+    "ground_truth": "27 days ago",
+    "context": {
+      "session_id": "session_6",
+      "timestamp": "2026-04-08T16:50:21.683566"
+    }
+  },
+  {
+    "id": "q_tem_001",
+    "test_id": "test_tem_001",
+    "category": "temporal_reasoning",
+    "question": "When did the user last mention birthday?",
+    "fact": "The user's birthday was 27 days ago",
+    "ground_truth": "27 days ago",
+    "context": {
+      "session_id": "session_4",
+      "timestamp": "2026-04-08T16:50:21.683582"
+    }
+  },
+  {
+    "id": "q_tem_002",
+    "test_id": "test_tem_002",
+    "category": "temporal_reasoning",
+    "question": "When did the user last mention deadline?",
+    "fact": "The user had a deadline 12 days ago",
+    "ground_truth": "12 days ago",
+    "context": {
+      "session_id": "session_10",
+      "timestamp": "2026-04-08T16:50:21.683598"
+    }
+  },
+  {
+    "id": "q_tem_003",
+    "test_id": "test_tem_003",
+    "category": "temporal_reasoning",
+    "question": "When did the user last mention deadline?",
+    "fact": "The user had a deadline 19 days ago",
+    "ground_truth": "19 days ago",
+    "context": {
+      "session_id": "session_3",
+      "timestamp": "2026-04-08T16:50:21.683612"
+    }
+  },
+  {
+    "id": "q_tem_004",
+    "test_id": "test_tem_004",
+    "category": "temporal_reasoning",
+    "question": "When did the user last mention vacation?",
+    "fact": "The user went on vacation 20 days ago",
+    "ground_truth": "20 days ago",
+    "context": {
+      "session_id": "session_3",
+      "timestamp": "2026-04-08T16:50:21.683626"
+    }
+  },
+  {
+    "id": "q_tem_005",
+    "test_id": "test_tem_005",
+    "category": "temporal_reasoning",
+    "question": "When did the user last mention meeting?",
+    "fact": "The user had a meeting 21 days ago",
+    "ground_truth": "21 days ago",
+    "context": {
+      "session_id": "session_5",
+      "timestamp": "2026-04-08T16:50:21.683641"
+    }
+  },
+  {
+    "id": "q_tem_006",
+    "test_id": "test_tem_006",
+    "category": "temporal_reasoning",
+    "question": "When did the user last mention meeting?",
+    "fact": "The user had a meeting 26 days ago",
+    "ground_truth": "26 days ago",
+    "context": {
+      "session_id": "session_6",
+      "timestamp": "2026-04-08T16:50:21.683658"
+    }
+  },
+  {
+    "id": "q_tem_007",
+    "test_id": "test_tem_007",
+    "category": "temporal_reasoning",
+    "question": "When did the user last mention vacation?",
+    "fact": "The user went on vacation 15 days ago",
+    "ground_truth": "15 days ago",
+    "context": {
+      "session_id": "session_5",
+      "timestamp": "2026-04-08T16:50:21.683672"
+    }
+  },
+  {
+    "id": "q_tem_008",
+    "test_id": "test_tem_008",
+    "category": "temporal_reasoning",
+    "question": "When did the user last mention birthday?",
+    "fact": "The user's birthday was 11 days ago",
+    "ground_truth": "11 days ago",
+    "context": {
+      "session_id": "session_2",
+      "timestamp": "2026-04-08T16:50:21.683687"
+    }
+  },
+  {
+    "id": "q_tem_009",
+    "test_id": "test_tem_009",
+    "category": "temporal_reasoning",
+    "question": "When did the user last mention deadline?",
+    "fact": "The user had a deadline 27 days ago",
+    "ground_truth": "27 days ago",
+    "context": {
+      "session_id": "session_9",
+      "timestamp": "2026-04-08T16:50:21.683708"
+    }
+  },
+  {
+    "id": "q_tem_010",
+    "test_id": "test_tem_010",
+    "category": "temporal_reasoning",
+    "question": "When did the user last mention birthday?",
+    "fact": "The user's birthday was 27 days ago",
+    "ground_truth": "27 days ago",
+    "context": {
+      "session_id": "session_5",
+      "timestamp": "2026-04-08T16:50:21.683723"
+    }
+  },
+  {
+    "id": "q_tem_011",
+    "test_id": "test_tem_011",
+    "category": "temporal_reasoning",
+    "question": "When did the user last mention vacation?",
+    "fact": "The user went on vacation 6 days ago",
+    "ground_truth": "6 days ago",
+    "context": {
+      "session_id": "session_3",
+      "timestamp": "2026-04-08T16:50:21.683740"
+    }
+  },
+  {
+    "id": "q_tem_012",
+    "test_id": "test_tem_012",
+    "category": "temporal_reasoning",
+    "question": "When did the user last mention deadline?",
+    "fact": "The user had a deadline 12 days ago",
+    "ground_truth": "12 days ago",
+    "context": {
+      "session_id": "session_6",
+      "timestamp": "2026-04-08T16:50:21.683764"
+    }
+  },
+  {
+    "id": "q_tem_013",
+    "test_id": "test_tem_013",
+    "category": "temporal_reasoning",
+    "question": "When did the user last mention deadline?",
+    "fact": "The user had a deadline 11 days ago",
+    "ground_truth": "11 days ago",
+    "context": {
+      "session_id": "session_4",
+      "timestamp": "2026-04-08T16:50:21.683778"
+    }
+  },
+  {
+    "id": "q_tem_014",
+    "test_id": "test_tem_014",
+    "category": "temporal_reasoning",
+    "question": "When did the user last mention meeting?",
+    "fact": "The user had a meeting 4 days ago",
+    "ground_truth": "4 days ago",
+    "context": {
+      "session_id": "session_3",
+      "timestamp": "2026-04-08T16:50:21.683792"
+    }
+  },
+  {
+    "id": "q_tem_015",
+    "test_id": "test_tem_015",
+    "category": "temporal_reasoning",
+    "question": "When did the user last mention birthday?",
+    "fact": "The user's birthday was 1 days ago",
+    "ground_truth": "1 days ago",
+    "context": {
+      "session_id": "session_2",
+      "timestamp": "2026-04-08T16:50:21.683807"
+    }
+  },
+  {
+    "id": "q_tem_016",
+    "test_id": "test_tem_016",
+    "category": "temporal_reasoning",
+    "question": "When did the user last mention birthday?",
+    "fact": "The user's birthday was 22 days ago",
+    "ground_truth": "22 days ago",
+    "context": {
+      "session_id": "session_3",
+      "timestamp": "2026-04-08T16:50:21.683824"
+    }
+  },
+  {
+    "id": "q_tem_017",
+    "test_id": "test_tem_017",
+    "category": "temporal_reasoning",
+    "question": "When did the user last mention project?",
+    "fact": "The user started a new project 24 days ago",
+    "ground_truth": "24 days ago",
+    "context": {
+      "session_id": "session_9",
+      "timestamp": "2026-04-08T16:50:21.683838"
+    }
+  },
+  {
+    "id": "q_tem_018",
+    "test_id": "test_tem_018",
+    "category": "temporal_reasoning",
+    "question": "When did the user last mention deadline?",
+    "fact": "The user had a deadline 9 days ago",
+    "ground_truth": "9 days ago",
+    "context": {
+      "session_id": "session_1",
+      "timestamp": "2026-04-08T16:50:21.683859"
+    }
+  },
+  {
+    "id": "q_tem_019",
+    "test_id": "test_tem_019",
+    "category": "temporal_reasoning",
+    "question": "When did the user last mention birthday?",
+    "fact": "The user's birthday was 23 days ago",
+    "ground_truth": "23 days ago",
+    "context": {
+      "session_id": "session_9",
+      "timestamp": "2026-04-08T16:50:21.683876"
+    }
+  },
+  {
+    "id": "q_tem_020",
+    "test_id": "test_tem_020",
+    "category": "temporal_reasoning",
+    "question": "When did the user last mention vacation?",
+    "fact": "The user went on vacation 11 days ago",
+    "ground_truth": "11 days ago",
+    "context": {
+      "session_id": "session_5",
+      "timestamp": "2026-04-08T16:50:21.683902"
+    }
+  },
+  {
+    "id": "q_tem_021",
+    "test_id": "test_tem_021",
+    "category": "temporal_reasoning",
+    "question": "When did the user last mention deadline?",
+    "fact": "The user had a deadline 16 days ago",
+    "ground_truth": "16 days ago",
+    "context": {
+      "session_id": "session_6",
+      "timestamp": "2026-04-08T16:50:21.683928"
+    }
+  },
+  {
+    "id": "q_tem_022",
+    "test_id": "test_tem_022",
+    "category": "temporal_reasoning",
+    "question": "When did the user last mention project?",
+    "fact": "The user started a new project 23 days ago",
+    "ground_truth": "23 days ago",
+    "context": {
+      "session_id": "session_7",
+      "timestamp": "2026-04-08T16:50:21.683953"
+    }
+  },
+  {
+    "id": "q_tem_023",
+    "test_id": "test_tem_023",
+    "category": "temporal_reasoning",
+    "question": "When did the user last mention vacation?",
+    "fact": "The user went on vacation 4 days ago",
+    "ground_truth": "4 days ago",
+    "context": {
+      "session_id": "session_8",
+      "timestamp": "2026-04-08T16:50:21.683987"
+    }
+  },
+  {
+    "id": "q_tem_024",
+    "test_id": "test_tem_024",
+    "category": "temporal_reasoning",
+    "question": "When did the user last mention birthday?",
+    "fact": "The user's birthday was 3 days ago",
+    "ground_truth": "3 days ago",
+    "context": {
+      "session_id": "session_3",
+      "timestamp": "2026-04-08T16:50:21.684021"
+    }
+  },
+  {
+    "id": "q_tem_025",
+    "test_id": "test_tem_025",
+    "category": "temporal_reasoning",
+    "question": "When did the user last mention meeting?",
+    "fact": "The user had a meeting 16 days ago",
+    "ground_truth": "16 days ago",
+    "context": {
+      "session_id": "session_4",
+      "timestamp": "2026-04-08T16:50:21.684048"
+    }
+  },
+  {
+    "id": "q_tem_026",
+    "test_id": "test_tem_026",
+    "category": "temporal_reasoning",
+    "question": "When did the user last mention meeting?",
+    "fact": "The user had a meeting 2 days ago",
+    "ground_truth": "2 days ago",
+    "context": {
+      "session_id": "session_4",
+      "timestamp": "2026-04-08T16:50:21.684076"
+    }
+  },
+  {
+    "id": "q_tem_027",
+    "test_id": "test_tem_027",
+    "category": "temporal_reasoning",
+    "question": "When did the user last mention vacation?",
+    "fact": "The user went on vacation 19 days ago",
+    "ground_truth": "19 days ago",
+    "context": {
+      "session_id": "session_10",
+      "timestamp": "2026-04-08T16:50:21.684108"
+    }
+  },
+  {
+    "id": "q_tem_028",
+    "test_id": "test_tem_028",
+    "category": "temporal_reasoning",
+    "question": "When did the user last mention project?",
+    "fact": "The user started a new project 30 days ago",
+    "ground_truth": "30 days ago",
+    "context": {
+      "session_id": "session_8",
+      "timestamp": "2026-04-08T16:50:21.684133"
+    }
+  },
+  {
+    "id": "q_tem_029",
+    "test_id": "test_tem_029",
+    "category": "temporal_reasoning",
+    "question": "When did the user last mention vacation?",
+    "fact": "The user went on vacation 22 days ago",
+    "ground_truth": "22 days ago",
+    "context": {
+      "session_id": "session_7",
+      "timestamp": "2026-04-08T16:50:21.684167"
+    }
+  },
+  {
+    "id": "q_tem_030",
+    "test_id": "test_tem_030",
+    "category": "temporal_reasoning",
+    "question": "When did the user last mention meeting?",
+    "fact": "The user had a meeting 28 days ago",
+    "ground_truth": "28 days ago",
+    "context": {
+      "session_id": "session_4",
+      "timestamp": "2026-04-08T16:50:21.684195"
+    }
+  },
+  {
+    "id": "q_tem_031",
+    "test_id": "test_tem_031",
+    "category": "temporal_reasoning",
+    "question": "When did the user last mention vacation?",
+    "fact": "The user went on vacation 24 days ago",
+    "ground_truth": "24 days ago",
+    "context": {
+      "session_id": "session_2",
+      "timestamp": "2026-04-08T16:50:21.684222"
+    }
+  },
+  {
+    "id": "q_tem_032",
+    "test_id": "test_tem_032",
+    "category": "temporal_reasoning",
+    "question": "When did the user last mention vacation?",
+    "fact": "The user went on vacation 10 days ago",
+    "ground_truth": "10 days ago",
+    "context": {
+      "session_id": "session_7",
+      "timestamp": "2026-04-08T16:50:21.684250"
+    }
+  },
+  {
+    "id": "q_tem_033",
+    "test_id": "test_tem_033",
+    "category": "temporal_reasoning",
+    "question": "When did the user last mention meeting?",
+    "fact": "The user had a meeting 12 days ago",
+    "ground_truth": "12 days ago",
+    "context": {
+      "session_id": "session_1",
+      "timestamp": "2026-04-08T16:50:21.684277"
+    }
+  },
+  {
+    "id": "q_tem_034",
+    "test_id": "test_tem_034",
+    "category": "temporal_reasoning",
+    "question": "When did the user last mention vacation?",
+    "fact": "The user went on vacation 27 days ago",
+    "ground_truth": "27 days ago",
+    "context": {
+      "session_id": "session_6",
+      "timestamp": "2026-04-08T16:50:21.684316"
+    }
+  },
+  {
+    "id": "q_tem_035",
+    "test_id": "test_tem_035",
+    "category": "temporal_reasoning",
+    "question": "When did the user last mention meeting?",
+    "fact": "The user had a meeting 3 days ago",
+    "ground_truth": "3 days ago",
+    "context": {
+      "session_id": "session_1",
+      "timestamp": "2026-04-08T16:50:21.684345"
+    }
+  },
+  {
+    "id": "q_tem_036",
+    "test_id": "test_tem_036",
+    "category": "temporal_reasoning",
+    "question": "When did the user last mention birthday?",
+    "fact": "The user's birthday was 29 days ago",
+    "ground_truth": "29 days ago",
+    "context": {
+      "session_id": "session_6",
+      "timestamp": "2026-04-08T16:50:21.684378"
+    }
+  },
+  {
+    "id": "q_tem_037",
+    "test_id": "test_tem_037",
+    "category": "temporal_reasoning",
+    "question": "When did the user last mention meeting?",
+    "fact": "The user had a meeting 16 days ago",
+    "ground_truth": "16 days ago",
+    "context": {
+      "session_id": "session_6",
+      "timestamp": "2026-04-08T16:50:21.684432"
+    }
+  },
+  {
+    "id": "q_tem_038",
+    "test_id": "test_tem_038",
+    "category": "temporal_reasoning",
+    "question": "When did the user last mention meeting?",
+    "fact": "The user had a meeting 12 days ago",
+    "ground_truth": "12 days ago",
+    "context": {
+      "session_id": "session_2",
+      "timestamp": "2026-04-08T16:50:21.684464"
+    }
+  },
+  {
+    "id": "q_tem_039",
+    "test_id": "test_tem_039",
+    "category": "temporal_reasoning",
+    "question": "When did the user last mention birthday?",
+    "fact": "The user's birthday was 20 days ago",
+    "ground_truth": "20 days ago",
+    "context": {
+      "session_id": "session_10",
+      "timestamp": "2026-04-08T16:50:21.684493"
+    }
+  },
+  {
+    "id": "q_tem_040",
+    "test_id": "test_tem_040",
+    "category": "temporal_reasoning",
+    "question": "When did the user last mention meeting?",
+    "fact": "The user had a meeting 13 days ago",
+    "ground_truth": "13 days ago",
+    "context": {
+      "session_id": "session_3",
+      "timestamp": "2026-04-08T16:50:21.684522"
+    }
+  },
+  {
+    "id": "q_tem_041",
+    "test_id": "test_tem_041",
+    "category": "temporal_reasoning",
+    "question": "When did the user last mention vacation?",
+    "fact": "The user went on vacation 5 days ago",
+    "ground_truth": "5 days ago",
+    "context": {
+      "session_id": "session_4",
+      "timestamp": "2026-04-08T16:50:21.684558"
+    }
+  },
+  {
+    "id": "q_tem_042",
+    "test_id": "test_tem_042",
+    "category": "temporal_reasoning",
+    "question": "When did the user last mention deadline?",
+    "fact": "The user had a deadline 6 days ago",
+    "ground_truth": "6 days ago",
+    "context": {
+      "session_id": "session_8",
+      "timestamp": "2026-04-08T16:50:21.684587"
+    }
+  },
+  {
+    "id": "q_tem_043",
+    "test_id": "test_tem_043",
+    "category": "temporal_reasoning",
+    "question": "When did the user last mention project?",
+    "fact": "The user started a new project 1 days ago",
+    "ground_truth": "1 days ago",
+    "context": {
+      "session_id": "session_7",
+      "timestamp": "2026-04-08T16:50:21.684615"
+    }
+  },
+  {
+    "id": "q_tem_044",
+    "test_id": "test_tem_044",
+    "category": "temporal_reasoning",
+    "question": "When did the user last mention birthday?",
+    "fact": "The user's birthday was 1 days ago",
+    "ground_truth": "1 days ago",
+    "context": {
+      "session_id": "session_3",
+      "timestamp": "2026-04-08T16:50:21.684642"
+    }
+  },
+  {
+    "id": "q_tem_045",
+    "test_id": "test_tem_045",
+    "category": "temporal_reasoning",
+    "question": "When did the user last mention meeting?",
+    "fact": "The user had a meeting 30 days ago",
+    "ground_truth": "30 days ago",
+    "context": {
+      "session_id": "session_9",
+      "timestamp": "2026-04-08T16:50:21.684678"
+    }
+  },
+  {
+    "id": "q_tem_046",
+    "test_id": "test_tem_046",
+    "category": "temporal_reasoning",
+    "question": "When did the user last mention meeting?",
+    "fact": "The user had a meeting 22 days ago",
+    "ground_truth": "22 days ago",
+    "context": {
+      "session_id": "session_7",
+      "timestamp": "2026-04-08T16:50:21.684709"
+    }
+  },
+  {
+    "id": "q_tem_047",
+    "test_id": "test_tem_047",
+    "category": "temporal_reasoning",
+    "question": "When did the user last mention deadline?",
+    "fact": "The user had a deadline 3 days ago",
+    "ground_truth": "3 days ago",
+    "context": {
+      "session_id": "session_6",
+      "timestamp": "2026-04-08T16:50:21.684737"
+    }
+  },
+  {
+    "id": "q_tem_048",
+    "test_id": "test_tem_048",
+    "category": "temporal_reasoning",
+    "question": "When did the user last mention birthday?",
+    "fact": "The user's birthday was 25 days ago",
+    "ground_truth": "25 days ago",
+    "context": {
+      "session_id": "session_8",
+      "timestamp": "2026-04-08T16:50:21.684764"
+    }
+  },
+  {
+    "id": "q_tem_049",
+    "test_id": "test_tem_049",
+    "category": "temporal_reasoning",
+    "question": "When did the user last mention birthday?",
+    "fact": "The user's birthday was 8 days ago",
+    "ground_truth": "8 days ago",
+    "context": {
+      "session_id": "session_10",
+      "timestamp": "2026-04-08T16:50:21.684791"
+    }
+  },
+  {
+    "id": "q_tem_050",
+    "test_id": "test_tem_050",
+    "category": "temporal_reasoning",
+    "question": "When did the user last mention deadline?",
+    "fact": "The user had a deadline 10 days ago",
+    "ground_truth": "10 days ago",
+    "context": {
+      "session_id": "session_4",
+      "timestamp": "2026-04-08T16:50:21.684823"
+    }
+  },
+  {
+    "id": "q_tem_051",
+    "test_id": "test_tem_051",
+    "category": "temporal_reasoning",
+    "question": "When did the user last mention vacation?",
+    "fact": "The user went on vacation 4 days ago",
+    "ground_truth": "4 days ago",
+    "context": {
+      "session_id": "session_4",
+      "timestamp": "2026-04-08T16:50:21.684850"
+    }
+  },
+  {
+    "id": "q_tem_052",
+    "test_id": "test_tem_052",
+    "category": "temporal_reasoning",
+    "question": "When did the user last mention deadline?",
+    "fact": "The user had a deadline 22 days ago",
+    "ground_truth": "22 days ago",
+    "context": {
+      "session_id": "session_8",
+      "timestamp": "2026-04-08T16:50:21.684882"
+    }
+  },
+  {
+    "id": "q_tem_053",
+    "test_id": "test_tem_053",
+    "category": "temporal_reasoning",
+    "question": "When did the user last mention deadline?",
+    "fact": "The user had a deadline 14 days ago",
+    "ground_truth": "14 days ago",
+    "context": {
+      "session_id": "session_10",
+      "timestamp": "2026-04-08T16:50:21.684909"
+    }
+  },
+  {
+    "id": "q_tem_054",
+    "test_id": "test_tem_054",
+    "category": "temporal_reasoning",
+    "question": "When did the user last mention meeting?",
+    "fact": "The user had a meeting 23 days ago",
+    "ground_truth": "23 days ago",
+    "context": {
+      "session_id": "session_4",
+      "timestamp": "2026-04-08T16:50:21.684943"
+    }
+  },
+  {
+    "id": "q_tem_055",
+    "test_id": "test_tem_055",
+    "category": "temporal_reasoning",
+    "question": "When did the user last mention birthday?",
+    "fact": "The user's birthday was 23 days ago",
+    "ground_truth": "23 days ago",
+    "context": {
+      "session_id": "session_6",
+      "timestamp": "2026-04-08T16:50:21.684975"
+    }
+  },
+  {
+    "id": "q_tem_056",
+    "test_id": "test_tem_056",
+    "category": "temporal_reasoning",
+    "question": "When did the user last mention meeting?",
+    "fact": "The user had a meeting 1 days ago",
+    "ground_truth": "1 days ago",
+    "context": {
+      "session_id": "session_3",
+      "timestamp": "2026-04-08T16:50:21.685007"
+    }
+  },
+  {
+    "id": "q_tem_057",
+    "test_id": "test_tem_057",
+    "category": "temporal_reasoning",
+    "question": "When did the user last mention birthday?",
+    "fact": "The user's birthday was 6 days ago",
+    "ground_truth": "6 days ago",
+    "context": {
+      "session_id": "session_3",
+      "timestamp": "2026-04-08T16:50:21.685037"
+    }
+  },
+  {
+    "id": "q_tem_058",
+    "test_id": "test_tem_058",
+    "category": "temporal_reasoning",
+    "question": "When did the user last mention birthday?",
+    "fact": "The user's birthday was 21 days ago",
+    "ground_truth": "21 days ago",
+    "context": {
+      "session_id": "session_2",
+      "timestamp": "2026-04-08T16:50:21.685073"
+    }
+  },
+  {
+    "id": "q_tem_059",
+    "test_id": "test_tem_059",
+    "category": "temporal_reasoning",
+    "question": "When did the user last mention vacation?",
+    "fact": "The user went on vacation 18 days ago",
+    "ground_truth": "18 days ago",
+    "context": {
+      "session_id": "session_8",
+      "timestamp": "2026-04-08T16:50:21.685106"
+    }
+  },
+  {
+    "id": "q_tem_060",
+    "test_id": "test_tem_060",
+    "category": "temporal_reasoning",
+    "question": "When did the user last mention project?",
+    "fact": "The user started a new project 27 days ago",
+    "ground_truth": "27 days ago",
+    "context": {
+      "session_id": "session_3",
+      "timestamp": "2026-04-08T16:50:21.685133"
+    }
+  },
+  {
+    "id": "q_tem_061",
+    "test_id": "test_tem_061",
+    "category": "temporal_reasoning",
+    "question": "When did the user last mention project?",
+    "fact": "The user started a new project 9 days ago",
+    "ground_truth": "9 days ago",
+    "context": {
+      "session_id": "session_2",
+      "timestamp": "2026-04-08T16:50:21.685158"
+    }
+  },
+  {
+    "id": "q_tem_062",
+    "test_id": "test_tem_062",
+    "category": "temporal_reasoning",
+    "question": "When did the user last mention project?",
+    "fact": "The user started a new project 6 days ago",
+    "ground_truth": "6 days ago",
+    "context": {
+      "session_id": "session_10",
+      "timestamp": "2026-04-08T16:50:21.685185"
+    }
+  },
+  {
+    "id": "q_tem_063",
+    "test_id": "test_tem_063",
+    "category": "temporal_reasoning",
+    "question": "When did the user last mention vacation?",
+    "fact": "The user went on vacation 19 days ago",
+    "ground_truth": "19 days ago",
+    "context": {
+      "session_id": "session_4",
+      "timestamp": "2026-04-08T16:50:21.685227"
+    }
+  },
+  {
+    "id": "q_tem_064",
+    "test_id": "test_tem_064",
+    "category": "temporal_reasoning",
+    "question": "When did the user last mention birthday?",
+    "fact": "The user's birthday was 11 days ago",
+    "ground_truth": "11 days ago",
+    "context": {
+      "session_id": "session_7",
+      "timestamp": "2026-04-08T16:50:21.685265"
+    }
+  },
+  {
+    "id": "q_tem_065",
+    "test_id": "test_tem_065",
+    "category": "temporal_reasoning",
+    "question": "When did the user last mention project?",
+    "fact": "The user started a new project 24 days ago",
+    "ground_truth": "24 days ago",
+    "context": {
+      "session_id": "session_4",
+      "timestamp": "2026-04-08T16:50:21.685295"
+    }
+  },
+  {
+    "id": "q_tem_066",
+    "test_id": "test_tem_066",
+    "category": "temporal_reasoning",
+    "question": "When did the user last mention deadline?",
+    "fact": "The user had a deadline 14 days ago",
+    "ground_truth": "14 days ago",
+    "context": {
+      "session_id": "session_2",
+      "timestamp": "2026-04-08T16:50:21.685326"
+    }
+  },
+  {
+    "id": "q_tem_067",
+    "test_id": "test_tem_067",
+    "category": "temporal_reasoning",
+    "question": "When did the user last mention birthday?",
+    "fact": "The user's birthday was 15 days ago",
+    "ground_truth": "15 days ago",
+    "context": {
+      "session_id": "session_4",
+      "timestamp": "2026-04-08T16:50:21.685355"
+    }
+  },
+  {
+    "id": "q_tem_068",
+    "test_id": "test_tem_068",
+    "category": "temporal_reasoning",
+    "question": "When did the user last mention project?",
+    "fact": "The user started a new project 13 days ago",
+    "ground_truth": "13 days ago",
+    "context": {
+      "session_id": "session_1",
+      "timestamp": "2026-04-08T16:50:21.685385"
+    }
+  },
+  {
+    "id": "q_tem_069",
+    "test_id": "test_tem_069",
+    "category": "temporal_reasoning",
+    "question": "When did the user last mention deadline?",
+    "fact": "The user had a deadline 20 days ago",
+    "ground_truth": "20 days ago",
+    "context": {
+      "session_id": "session_3",
+      "timestamp": "2026-04-08T16:50:21.685414"
+    }
+  },
+  {
+    "id": "q_tem_070",
+    "test_id": "test_tem_070",
+    "category": "temporal_reasoning",
+    "question": "When did the user last mention vacation?",
+    "fact": "The user went on vacation 16 days ago",
+    "ground_truth": "16 days ago",
+    "context": {
+      "session_id": "session_5",
+      "timestamp": "2026-04-08T16:50:21.685445"
+    }
+  },
+  {
+    "id": "q_tem_071",
+    "test_id": "test_tem_071",
+    "category": "temporal_reasoning",
+    "question": "When did the user last mention meeting?",
+    "fact": "The user had a meeting 24 days ago",
+    "ground_truth": "24 days ago",
+    "context": {
+      "session_id": "session_4",
+      "timestamp": "2026-04-08T16:50:21.685474"
+    }
+  },
+  {
+    "id": "q_tem_072",
+    "test_id": "test_tem_072",
+    "category": "temporal_reasoning",
+    "question": "When did the user last mention vacation?",
+    "fact": "The user went on vacation 11 days ago",
+    "ground_truth": "11 days ago",
+    "context": {
+      "session_id": "session_2",
+      "timestamp": "2026-04-08T16:50:21.685509"
+    }
+  },
+  {
+    "id": "q_tem_073",
+    "test_id": "test_tem_073",
+    "category": "temporal_reasoning",
+    "question": "When did the user last mention birthday?",
+    "fact": "The user's birthday was 19 days ago",
+    "ground_truth": "19 days ago",
+    "context": {
+      "session_id": "session_5",
+      "timestamp": "2026-04-08T16:50:21.685540"
+    }
+  },
+  {
+    "id": "q_tem_074",
+    "test_id": "test_tem_074",
+    "category": "temporal_reasoning",
+    "question": "When did the user last mention meeting?",
+    "fact": "The user had a meeting 2 days ago",
+    "ground_truth": "2 days ago",
+    "context": {
+      "session_id": "session_5",
+      "timestamp": "2026-04-08T16:50:21.685570"
+    }
+  },
+  {
+    "id": "q_tem_075",
+    "test_id": "test_tem_075",
+    "category": "temporal_reasoning",
+    "question": "When did the user last mention meeting?",
+    "fact": "The user had a meeting 15 days ago",
+    "ground_truth": "15 days ago",
+    "context": {
+      "session_id": "session_9",
+      "timestamp": "2026-04-08T16:50:21.685605"
+    }
+  },
+  {
+    "id": "q_tem_076",
+    "test_id": "test_tem_076",
+    "category": "temporal_reasoning",
+    "question": "When did the user last mention project?",
+    "fact": "The user started a new project 24 days ago",
+    "ground_truth": "24 days ago",
+    "context": {
+      "session_id": "session_2",
+      "timestamp": "2026-04-08T16:50:21.685635"
+    }
+  },
+  {
+    "id": "q_tem_077",
+    "test_id": "test_tem_077",
+    "category": "temporal_reasoning",
+    "question": "When did the user last mention birthday?",
+    "fact": "The user's birthday was 25 days ago",
+    "ground_truth": "25 days ago",
+    "context": {
+      "session_id": "session_7",
+      "timestamp": "2026-04-08T16:50:21.685663"
+    }
+  },
+  {
+    "id": "q_tem_078",
+    "test_id": "test_tem_078",
+    "category": "temporal_reasoning",
+    "question": "When did the user last mention birthday?",
+    "fact": "The user's birthday was 16 days ago",
+    "ground_truth": "16 days ago",
+    "context": {
+      "session_id": "session_7",
+      "timestamp": "2026-04-08T16:50:21.685687"
+    }
+  },
+  {
+    "id": "q_tem_079",
+    "test_id": "test_tem_079",
+    "category": "temporal_reasoning",
+    "question": "When did the user last mention project?",
+    "fact": "The user started a new project 6 days ago",
+    "ground_truth": "6 days ago",
+    "context": {
+      "session_id": "session_2",
+      "timestamp": "2026-04-08T16:50:21.685717"
+    }
+  },
+  {
+    "id": "q_tem_080",
+    "test_id": "test_tem_080",
+    "category": "temporal_reasoning",
+    "question": "When did the user last mention project?",
+    "fact": "The user started a new project 5 days ago",
+    "ground_truth": "5 days ago",
+    "context": {
+      "session_id": "session_10",
+      "timestamp": "2026-04-08T16:50:21.685744"
+    }
+  },
+  {
+    "id": "q_tem_081",
+    "test_id": "test_tem_081",
+    "category": "temporal_reasoning",
+    "question": "When did the user last mention birthday?",
+    "fact": "The user's birthday was 23 days ago",
+    "ground_truth": "23 days ago",
+    "context": {
+      "session_id": "session_6",
+      "timestamp": "2026-04-08T16:50:21.685776"
+    }
+  },
+  {
+    "id": "q_tem_082",
+    "test_id": "test_tem_082",
+    "category": "temporal_reasoning",
+    "question": "When did the user last mention birthday?",
+    "fact": "The user's birthday was 1 days ago",
+    "ground_truth": "1 days ago",
+    "context": {
+      "session_id": "session_9",
+      "timestamp": "2026-04-08T16:50:21.685904"
+    }
+  },
+  {
+    "id": "q_tem_083",
+    "test_id": "test_tem_083",
+    "category": "temporal_reasoning",
+    "question": "When did the user last mention deadline?",
+    "fact": "The user had a deadline 29 days ago",
+    "ground_truth": "29 days ago",
+    "context": {
+      "session_id": "session_7",
+      "timestamp": "2026-04-08T16:50:21.685932"
+    }
+  },
+  {
+    "id": "q_tem_084",
+    "test_id": "test_tem_084",
+    "category": "temporal_reasoning",
+    "question": "When did the user last mention meeting?",
+    "fact": "The user had a meeting 28 days ago",
+    "ground_truth": "28 days ago",
+    "context": {
+      "session_id": "session_10",
+      "timestamp": "2026-04-08T16:50:21.685967"
+    }
+  },
+  {
+    "id": "q_tem_085",
+    "test_id": "test_tem_085",
+    "category": "temporal_reasoning",
+    "question": "When did the user last mention vacation?",
+    "fact": "The user went on vacation 23 days ago",
+    "ground_truth": "23 days ago",
+    "context": {
+      "session_id": "session_10",
+      "timestamp": "2026-04-08T16:50:21.685998"
+    }
+  },
+  {
+    "id": "q_tem_086",
+    "test_id": "test_tem_086",
+    "category": "temporal_reasoning",
+    "question": "When did the user last mention project?",
+    "fact": "The user started a new project 10 days ago",
+    "ground_truth": "10 days ago",
+    "context": {
+      "session_id": "session_5",
+      "timestamp": "2026-04-08T16:50:21.686027"
+    }
+  },
+  {
+    "id": "q_tem_087",
+    "test_id": "test_tem_087",
+    "category": "temporal_reasoning",
+    "question": "When did the user last mention project?",
+    "fact": "The user started a new project 29 days ago",
+    "ground_truth": "29 days ago",
+    "context": {
+      "session_id": "session_10",
+      "timestamp": "2026-04-08T16:50:21.686074"
+    }
+  },
+  {
+    "id": "q_tem_088",
+    "test_id": "test_tem_088",
+    "category": "temporal_reasoning",
+    "question": "When did the user last mention birthday?",
+    "fact": "The user's birthday was 27 days ago",
+    "ground_truth": "27 days ago",
+    "context": {
+      "session_id": "session_3",
+      "timestamp": "2026-04-08T16:50:21.686101"
+    }
+  },
+  {
+    "id": "q_tem_089",
+    "test_id": "test_tem_089",
+    "category": "temporal_reasoning",
+    "question": "When did the user last mention project?",
+    "fact": "The user started a new project 6 days ago",
+    "ground_truth": "6 days ago",
+    "context": {
+      "session_id": "session_4",
+      "timestamp": "2026-04-08T16:50:21.686136"
+    }
+  },
+  {
+    "id": "q_tem_090",
+    "test_id": "test_tem_090",
+    "category": "temporal_reasoning",
+    "question": "When did the user last mention vacation?",
+    "fact": "The user went on vacation 12 days ago",
+    "ground_truth": "12 days ago",
+    "context": {
+      "session_id": "session_10",
+      "timestamp": "2026-04-08T16:50:21.686171"
+    }
+  },
+  {
+    "id": "q_tem_091",
+    "test_id": "test_tem_091",
+    "category": "temporal_reasoning",
+    "question": "When did the user last mention vacation?",
+    "fact": "The user went on vacation 23 days ago",
+    "ground_truth": "23 days ago",
+    "context": {
+      "session_id": "session_8",
+      "timestamp": "2026-04-08T16:50:21.686202"
+    }
+  },
+  {
+    "id": "q_tem_092",
+    "test_id": "test_tem_092",
+    "category": "temporal_reasoning",
+    "question": "When did the user last mention vacation?",
+    "fact": "The user went on vacation 22 days ago",
+    "ground_truth": "22 days ago",
+    "context": {
+      "session_id": "session_3",
+      "timestamp": "2026-04-08T16:50:21.686269"
+    }
+  },
+  {
+    "id": "q_tem_093",
+    "test_id": "test_tem_093",
+    "category": "temporal_reasoning",
+    "question": "When did the user last mention deadline?",
+    "fact": "The user had a deadline 20 days ago",
+    "ground_truth": "20 days ago",
+    "context": {
+      "session_id": "session_9",
+      "timestamp": "2026-04-08T16:50:21.686286"
+    }
+  },
+  {
+    "id": "q_tem_094",
+    "test_id": "test_tem_094",
+    "category": "temporal_reasoning",
+    "question": "When did the user last mention meeting?",
+    "fact": "The user had a meeting 17 days ago",
+    "ground_truth": "17 days ago",
+    "context": {
+      "session_id": "session_7",
+      "timestamp": "2026-04-08T16:50:21.686309"
+    }
+  },
+  {
+    "id": "q_tem_095",
+    "test_id": "test_tem_095",
+    "category": "temporal_reasoning",
+    "question": "When did the user last mention birthday?",
+    "fact": "The user's birthday was 24 days ago",
+    "ground_truth": "24 days ago",
+    "context": {
+      "session_id": "session_4",
+      "timestamp": "2026-04-08T16:50:21.686334"
+    }
+  },
+  {
+    "id": "q_tem_096",
+    "test_id": "test_tem_096",
+    "category": "temporal_reasoning",
+    "question": "When did the user last mention meeting?",
+    "fact": "The user had a meeting 7 days ago",
+    "ground_truth": "7 days ago",
+    "context": {
+      "session_id": "session_5",
+      "timestamp": "2026-04-08T16:50:21.686350"
+    }
+  },
+  {
+    "id": "q_tem_097",
+    "test_id": "test_tem_097",
+    "category": "temporal_reasoning",
+    "question": "When did the user last mention meeting?",
+    "fact": "The user had a meeting 19 days ago",
+    "ground_truth": "19 days ago",
+    "context": {
+      "session_id": "session_2",
+      "timestamp": "2026-04-08T16:50:21.686365"
+    }
+  },
+  {
+    "id": "q_tem_098",
+    "test_id": "test_tem_098",
+    "category": "temporal_reasoning",
+    "question": "When did the user last mention vacation?",
+    "fact": "The user went on vacation 29 days ago",
+    "ground_truth": "29 days ago",
+    "context": {
+      "session_id": "session_8",
+      "timestamp": "2026-04-08T16:50:21.686387"
+    }
+  },
+  {
+    "id": "q_tem_099",
+    "test_id": "test_tem_099",
+    "category": "temporal_reasoning",
+    "question": "When did the user last mention birthday?",
+    "fact": "The user's birthday was 26 days ago",
+    "ground_truth": "26 days ago",
+    "context": {
+      "session_id": "session_8",
+      "timestamp": "2026-04-08T16:50:21.686451"
+    }
+  },
+  {
+    "id": "q_kno_000",
+    "test_id": "test_kno_000",
+    "category": "knowledge_updates",
+    "question": "What is the user's current phone number?",
+    "fact": "The user's phone number is 555-1234",
+    "ground_truth": "555-1234",
+    "context": {
+      "session_id": "session_2",
+      "timestamp": "2026-04-08T16:50:21.686469"
+    }
+  },
+  {
+    "id": "q_kno_001",
+    "test_id": "test_kno_001",
+    "category": "knowledge_updates",
+    "question": "What is the user's current phone number?",
+    "fact": "The user's phone number is 555-1234",
+    "ground_truth": "555-1234",
+    "context": {
+      "session_id": "session_10",
+      "timestamp": "2026-04-08T16:50:21.686481"
+    }
+  },
+  {
+    "id": "q_kno_002",
+    "test_id": "test_kno_002",
+    "category": "knowledge_updates",
+    "question": "What is the user's current phone number?",
+    "fact": "The user's phone number is 555-1234",
+    "ground_truth": "555-1234",
+    "context": {
+      "session_id": "session_4",
+      "timestamp": "2026-04-08T16:50:21.686496"
+    }
+  },
+  {
+    "id": "q_kno_003",
+    "test_id": "test_kno_003",
+    "category": "knowledge_updates",
+    "question": "What is the user's current relationship?",
+    "fact": "The user's relationship status is Married",
+    "ground_truth": "Married",
+    "context": {
+      "session_id": "session_9",
+      "timestamp": "2026-04-08T16:50:21.686508"
+    }
+  },
+  {
+    "id": "q_kno_004",
+    "test_id": "test_kno_004",
+    "category": "knowledge_updates",
+    "question": "What is the user's current relationship?",
+    "fact": "The user's relationship status is Married",
+    "ground_truth": "Married",
+    "context": {
+      "session_id": "session_3",
+      "timestamp": "2026-04-08T16:50:21.686519"
+    }
+  },
+  {
+    "id": "q_kno_005",
+    "test_id": "test_kno_005",
+    "category": "knowledge_updates",
+    "question": "What is the user's current email?",
+    "fact": "The user's email is user@example.com",
+    "ground_truth": "user@example.com",
+    "context": {
+      "session_id": "session_5",
+      "timestamp": "2026-04-08T16:50:21.686530"
+    }
+  },
+  {
+    "id": "q_kno_006",
+    "test_id": "test_kno_006",
+    "category": "knowledge_updates",
+    "question": "What is the user's current address?",
+    "fact": "The user's address is 123 Main St",
+    "ground_truth": "123 Main St",
+    "context": {
+      "session_id": "session_9",
+      "timestamp": "2026-04-08T16:50:21.686541"
+    }
+  },
+  {
+    "id": "q_kno_007",
+    "test_id": "test_kno_007",
+    "category": "knowledge_updates",
+    "question": "What is the user's current job title?",
+    "fact": "The user's job title is Senior Engineer",
+    "ground_truth": "Senior Engineer",
+    "context": {
+      "session_id": "session_2",
+      "timestamp": "2026-04-08T16:50:21.686555"
+    }
+  },
+  {
+    "id": "q_kno_008",
+    "test_id": "test_kno_008",
+    "category": "knowledge_updates",
+    "question": "What is the user's current email?",
+    "fact": "The user's email is user@example.com",
+    "ground_truth": "user@example.com",
+    "context": {
+      "session_id": "session_8",
+      "timestamp": "2026-04-08T16:50:21.686567"
+    }
+  },
+  {
+    "id": "q_kno_009",
+    "test_id": "test_kno_009",
+    "category": "knowledge_updates",
+    "question": "What is the user's current email?",
+    "fact": "The user's email is user@example.com",
+    "ground_truth": "user@example.com",
+    "context": {
+      "session_id": "session_10",
+      "timestamp": "2026-04-08T16:50:21.686581"
+    }
+  },
+  {
+    "id": "q_kno_010",
+    "test_id": "test_kno_010",
+    "category": "knowledge_updates",
+    "question": "What is the user's current address?",
+    "fact": "The user's address is 123 Main St",
+    "ground_truth": "123 Main St",
+    "context": {
+      "session_id": "session_9",
+      "timestamp": "2026-04-08T16:50:21.686608"
+    }
+  },
+  {
+    "id": "q_kno_011",
+    "test_id": "test_kno_011",
+    "category": "knowledge_updates",
+    "question": "What is the user's current relationship?",
+    "fact": "The user's relationship status is Married",
+    "ground_truth": "Married",
+    "context": {
+      "session_id": "session_9",
+      "timestamp": "2026-04-08T16:50:21.686664"
+    }
+  },
+  {
+    "id": "q_kno_012",
+    "test_id": "test_kno_012",
+    "category": "knowledge_updates",
+    "question": "What is the user's current relationship?",
+    "fact": "The user's relationship status is Married",
+    "ground_truth": "Married",
+    "context": {
+      "session_id": "session_8",
+      "timestamp": "2026-04-08T16:50:21.686675"
+    }
+  },
+  {
+    "id": "q_kno_013",
+    "test_id": "test_kno_013",
+    "category": "knowledge_updates",
+    "question": "What is the user's current relationship?",
+    "fact": "The user's relationship status is Married",
+    "ground_truth": "Married",
+    "context": {
+      "session_id": "session_6",
+      "timestamp": "2026-04-08T16:50:21.686687"
+    }
+  },
+  {
+    "id": "q_kno_014",
+    "test_id": "test_kno_014",
+    "category": "knowledge_updates",
+    "question": "What is the user's current address?",
+    "fact": "The user's address is 123 Main St",
+    "ground_truth": "123 Main St",
+    "context": {
+      "session_id": "session_7",
+      "timestamp": "2026-04-08T16:50:21.686698"
+    }
+  },
+  {
+    "id": "q_kno_015",
+    "test_id": "test_kno_015",
+    "category": "knowledge_updates",
+    "question": "What is the user's current phone number?",
+    "fact": "The user's phone number is 555-1234",
+    "ground_truth": "555-1234",
+    "context": {
+      "session_id": "session_9",
+      "timestamp": "2026-04-08T16:50:21.686713"
+    }
+  },
+  {
+    "id": "q_kno_016",
+    "test_id": "test_kno_016",
+    "category": "knowledge_updates",
+    "question": "What is the user's current address?",
+    "fact": "The user's address is 123 Main St",
+    "ground_truth": "123 Main St",
+    "context": {
+      "session_id": "session_10",
+      "timestamp": "2026-04-08T16:50:21.686724"
+    }
+  },
+  {
+    "id": "q_kno_017",
+    "test_id": "test_kno_017",
+    "category": "knowledge_updates",
+    "question": "What is the user's current email?",
+    "fact": "The user's email is user@example.com",
+    "ground_truth": "user@example.com",
+    "context": {
+      "session_id": "session_4",
+      "timestamp": "2026-04-08T16:50:21.686736"
+    }
+  },
+  {
+    "id": "q_kno_018",
+    "test_id": "test_kno_018",
+    "category": "knowledge_updates",
+    "question": "What is the user's current address?",
+    "fact": "The user's address is 123 Main St",
+    "ground_truth": "123 Main St",
+    "context": {
+      "session_id": "session_7",
+      "timestamp": "2026-04-08T16:50:21.686747"
+    }
+  },
+  {
+    "id": "q_kno_019",
+    "test_id": "test_kno_019",
+    "category": "knowledge_updates",
+    "question": "What is the user's current phone number?",
+    "fact": "The user's phone number is 555-1234",
+    "ground_truth": "555-1234",
+    "context": {
+      "session_id": "session_7",
+      "timestamp": "2026-04-08T16:50:21.686760"
+    }
+  },
+  {
+    "id": "q_kno_020",
+    "test_id": "test_kno_020",
+    "category": "knowledge_updates",
+    "question": "What is the user's current job title?",
+    "fact": "The user's job title is Senior Engineer",
+    "ground_truth": "Senior Engineer",
+    "context": {
+      "session_id": "session_8",
+      "timestamp": "2026-04-08T16:50:21.686776"
+    }
+  },
+  {
+    "id": "q_kno_021",
+    "test_id": "test_kno_021",
+    "category": "knowledge_updates",
+    "question": "What is the user's current job title?",
+    "fact": "The user's job title is Senior Engineer",
+    "ground_truth": "Senior Engineer",
+    "context": {
+      "session_id": "session_10",
+      "timestamp": "2026-04-08T16:50:21.686795"
+    }
+  },
+  {
+    "id": "q_kno_022",
+    "test_id": "test_kno_022",
+    "category": "knowledge_updates",
+    "question": "What is the user's current email?",
+    "fact": "The user's email is user@example.com",
+    "ground_truth": "user@example.com",
+    "context": {
+      "session_id": "session_10",
+      "timestamp": "2026-04-08T16:50:21.686807"
+    }
+  },
+  {
+    "id": "q_kno_023",
+    "test_id": "test_kno_023",
+    "category": "knowledge_updates",
+    "question": "What is the user's current job title?",
+    "fact": "The user's job title is Senior Engineer",
+    "ground_truth": "Senior Engineer",
+    "context": {
+      "session_id": "session_6",
+      "timestamp": "2026-04-08T16:50:21.686820"
+    }
+  },
+  {
+    "id": "q_kno_024",
+    "test_id": "test_kno_024",
+    "category": "knowledge_updates",
+    "question": "What is the user's current phone number?",
+    "fact": "The user's phone number is 555-1234",
+    "ground_truth": "555-1234",
+    "context": {
+      "session_id": "session_4",
+      "timestamp": "2026-04-08T16:50:21.686834"
+    }
+  },
+  {
+    "id": "q_kno_025",
+    "test_id": "test_kno_025",
+    "category": "knowledge_updates",
+    "question": "What is the user's current phone number?",
+    "fact": "The user's phone number is 555-1234",
+    "ground_truth": "555-1234",
+    "context": {
+      "session_id": "session_3",
+      "timestamp": "2026-04-08T16:50:21.686845"
+    }
+  },
+  {
+    "id": "q_kno_026",
+    "test_id": "test_kno_026",
+    "category": "knowledge_updates",
+    "question": "What is the user's current relationship?",
+    "fact": "The user's relationship status is Married",
+    "ground_truth": "Married",
+    "context": {
+      "session_id": "session_5",
+      "timestamp": "2026-04-08T16:50:21.686856"
+    }
+  },
+  {
+    "id": "q_kno_027",
+    "test_id": "test_kno_027",
+    "category": "knowledge_updates",
+    "question": "What is the user's current relationship?",
+    "fact": "The user's relationship status is Married",
+    "ground_truth": "Married",
+    "context": {
+      "session_id": "session_10",
+      "timestamp": "2026-04-08T16:50:21.686867"
+    }
+  },
+  {
+    "id": "q_kno_028",
+    "test_id": "test_kno_028",
+    "category": "knowledge_updates",
+    "question": "What is the user's current relationship?",
+    "fact": "The user's relationship status is Married",
+    "ground_truth": "Married",
+    "context": {
+      "session_id": "session_8",
+      "timestamp": "2026-04-08T16:50:21.686891"
+    }
+  },
+  {
+    "id": "q_kno_029",
+    "test_id": "test_kno_029",
+    "category": "knowledge_updates",
+    "question": "What is the user's current phone number?",
+    "fact": "The user's phone number is 555-1234",
+    "ground_truth": "555-1234",
+    "context": {
+      "session_id": "session_9",
+      "timestamp": "2026-04-08T16:50:21.686904"
+    }
+  },
+  {
+    "id": "q_kno_030",
+    "test_id": "test_kno_030",
+    "category": "knowledge_updates",
+    "question": "What is the user's current phone number?",
+    "fact": "The user's phone number is 555-1234",
+    "ground_truth": "555-1234",
+    "context": {
+      "session_id": "session_6",
+      "timestamp": "2026-04-08T16:50:21.686916"
+    }
+  },
+  {
+    "id": "q_kno_031",
+    "test_id": "test_kno_031",
+    "category": "knowledge_updates",
+    "question": "What is the user's current job title?",
+    "fact": "The user's job title is Senior Engineer",
+    "ground_truth": "Senior Engineer",
+    "context": {
+      "session_id": "session_10",
+      "timestamp": "2026-04-08T16:50:21.686937"
+    }
+  },
+  {
+    "id": "q_kno_032",
+    "test_id": "test_kno_032",
+    "category": "knowledge_updates",
+    "question": "What is the user's current phone number?",
+    "fact": "The user's phone number is 555-1234",
+    "ground_truth": "555-1234",
+    "context": {
+      "session_id": "session_2",
+      "timestamp": "2026-04-08T16:50:21.686950"
+    }
+  },
+  {
+    "id": "q_kno_033",
+    "test_id": "test_kno_033",
+    "category": "knowledge_updates",
+    "question": "What is the user's current phone number?",
+    "fact": "The user's phone number is 555-1234",
+    "ground_truth": "555-1234",
+    "context": {
+      "session_id": "session_10",
+      "timestamp": "2026-04-08T16:50:21.686967"
+    }
+  },
+  {
+    "id": "q_kno_034",
+    "test_id": "test_kno_034",
+    "category": "knowledge_updates",
+    "question": "What is the user's current job title?",
+    "fact": "The user's job title is Senior Engineer",
+    "ground_truth": "Senior Engineer",
+    "context": {
+      "session_id": "session_4",
+      "timestamp": "2026-04-08T16:50:21.686984"
+    }
+  },
+  {
+    "id": "q_kno_035",
+    "test_id": "test_kno_035",
+    "category": "knowledge_updates",
+    "question": "What is the user's current email?",
+    "fact": "The user's email is user@example.com",
+    "ground_truth": "user@example.com",
+    "context": {
+      "session_id": "session_3",
+      "timestamp": "2026-04-08T16:50:21.686996"
+    }
+  },
+  {
+    "id": "q_kno_036",
+    "test_id": "test_kno_036",
+    "category": "knowledge_updates",
+    "question": "What is the user's current job title?",
+    "fact": "The user's job title is Senior Engineer",
+    "ground_truth": "Senior Engineer",
+    "context": {
+      "session_id": "session_5",
+      "timestamp": "2026-04-08T16:50:21.687007"
+    }
+  },
+  {
+    "id": "q_kno_037",
+    "test_id": "test_kno_037",
+    "category": "knowledge_updates",
+    "question": "What is the user's current relationship?",
+    "fact": "The user's relationship status is Married",
+    "ground_truth": "Married",
+    "context": {
+      "session_id": "session_3",
+      "timestamp": "2026-04-08T16:50:21.687031"
+    }
+  },
+  {
+    "id": "q_kno_038",
+    "test_id": "test_kno_038",
+    "category": "knowledge_updates",
+    "question": "What is the user's current address?",
+    "fact": "The user's address is 123 Main St",
+    "ground_truth": "123 Main St",
+    "context": {
+      "session_id": "session_10",
+      "timestamp": "2026-04-08T16:50:21.687043"
+    }
+  },
+  {
+    "id": "q_kno_039",
+    "test_id": "test_kno_039",
+    "category": "knowledge_updates",
+    "question": "What is the user's current job title?",
+    "fact": "The user's job title is Senior Engineer",
+    "ground_truth": "Senior Engineer",
+    "context": {
+      "session_id": "session_6",
+      "timestamp": "2026-04-08T16:50:21.687069"
+    }
+  },
+  {
+    "id": "q_kno_040",
+    "test_id": "test_kno_040",
+    "category": "knowledge_updates",
+    "question": "What is the user's current relationship?",
+    "fact": "The user's relationship status is Married",
+    "ground_truth": "Married",
+    "context": {
+      "session_id": "session_2",
+      "timestamp": "2026-04-08T16:50:21.687082"
+    }
+  },
+  {
+    "id": "q_kno_041",
+    "test_id": "test_kno_041",
+    "category": "knowledge_updates",
+    "question": "What is the user's current job title?",
+    "fact": "The user's job title is Senior Engineer",
+    "ground_truth": "Senior Engineer",
+    "context": {
+      "session_id": "session_10",
+      "timestamp": "2026-04-08T16:50:21.687103"
+    }
+  },
+  {
+    "id": "q_kno_042",
+    "test_id": "test_kno_042",
+    "category": "knowledge_updates",
+    "question": "What is the user's current address?",
+    "fact": "The user's address is 123 Main St",
+    "ground_truth": "123 Main St",
+    "context": {
+      "session_id": "session_3",
+      "timestamp": "2026-04-08T16:50:21.687115"
+    }
+  },
+  {
+    "id": "q_kno_043",
+    "test_id": "test_kno_043",
+    "category": "knowledge_updates",
+    "question": "What is the user's current address?",
+    "fact": "The user's address is 123 Main St",
+    "ground_truth": "123 Main St",
+    "context": {
+      "session_id": "session_7",
+      "timestamp": "2026-04-08T16:50:21.687139"
+    }
+  },
+  {
+    "id": "q_kno_044",
+    "test_id": "test_kno_044",
+    "category": "knowledge_updates",
+    "question": "What is the user's current relationship?",
+    "fact": "The user's relationship status is Married",
+    "ground_truth": "Married",
+    "context": {
+      "session_id": "session_9",
+      "timestamp": "2026-04-08T16:50:21.687182"
+    }
+  },
+  {
+    "id": "q_kno_045",
+    "test_id": "test_kno_045",
+    "category": "knowledge_updates",
+    "question": "What is the user's current phone number?",
+    "fact": "The user's phone number is 555-1234",
+    "ground_truth": "555-1234",
+    "context": {
+      "session_id": "session_2",
+      "timestamp": "2026-04-08T16:50:21.687194"
+    }
+  },
+  {
+    "id": "q_kno_046",
+    "test_id": "test_kno_046",
+    "category": "knowledge_updates",
+    "question": "What is the user's current email?",
+    "fact": "The user's email is user@example.com",
+    "ground_truth": "user@example.com",
+    "context": {
+      "session_id": "session_7",
+      "timestamp": "2026-04-08T16:50:21.687204"
+    }
+  },
+  {
+    "id": "q_kno_047",
+    "test_id": "test_kno_047",
+    "category": "knowledge_updates",
+    "question": "What is the user's current email?",
+    "fact": "The user's email is user@example.com",
+    "ground_truth": "user@example.com",
+    "context": {
+      "session_id": "session_2",
+      "timestamp": "2026-04-08T16:50:21.687214"
+    }
+  },
+  {
+    "id": "q_kno_048",
+    "test_id": "test_kno_048",
+    "category": "knowledge_updates",
+    "question": "What is the user's current relationship?",
+    "fact": "The user's relationship status is Married",
+    "ground_truth": "Married",
+    "context": {
+      "session_id": "session_3",
+      "timestamp": "2026-04-08T16:50:21.687225"
+    }
+  },
+  {
+    "id": "q_kno_049",
+    "test_id": "test_kno_049",
+    "category": "knowledge_updates",
+    "question": "What is the user's current relationship?",
+    "fact": "The user's relationship status is Married",
+    "ground_truth": "Married",
+    "context": {
+      "session_id": "session_10",
+      "timestamp": "2026-04-08T16:50:21.687241"
+    }
+  },
+  {
+    "id": "q_kno_050",
+    "test_id": "test_kno_050",
+    "category": "knowledge_updates",
+    "question": "What is the user's current address?",
+    "fact": "The user's address is 123 Main St",
+    "ground_truth": "123 Main St",
+    "context": {
+      "session_id": "session_8",
+      "timestamp": "2026-04-08T16:50:21.687252"
+    }
+  },
+  {
+    "id": "q_kno_051",
+    "test_id": "test_kno_051",
+    "category": "knowledge_updates",
+    "question": "What is the user's current phone number?",
+    "fact": "The user's phone number is 555-1234",
+    "ground_truth": "555-1234",
+    "context": {
+      "session_id": "session_5",
+      "timestamp": "2026-04-08T16:50:21.687262"
+    }
+  },
+  {
+    "id": "q_kno_052",
+    "test_id": "test_kno_052",
+    "category": "knowledge_updates",
+    "question": "What is the user's current job title?",
+    "fact": "The user's job title is Senior Engineer",
+    "ground_truth": "Senior Engineer",
+    "context": {
+      "session_id": "session_4",
+      "timestamp": "2026-04-08T16:50:21.687276"
+    }
+  },
+  {
+    "id": "q_kno_053",
+    "test_id": "test_kno_053",
+    "category": "knowledge_updates",
+    "question": "What is the user's current address?",
+    "fact": "The user's address is 123 Main St",
+    "ground_truth": "123 Main St",
+    "context": {
+      "session_id": "session_4",
+      "timestamp": "2026-04-08T16:50:21.687288"
+    }
+  },
+  {
+    "id": "q_kno_054",
+    "test_id": "test_kno_054",
+    "category": "knowledge_updates",
+    "question": "What is the user's current relationship?",
+    "fact": "The user's relationship status is Married",
+    "ground_truth": "Married",
+    "context": {
+      "session_id": "session_7",
+      "timestamp": "2026-04-08T16:50:21.687302"
+    }
+  },
+  {
+    "id": "q_kno_055",
+    "test_id": "test_kno_055",
+    "category": "knowledge_updates",
+    "question": "What is the user's current relationship?",
+    "fact": "The user's relationship status is Married",
+    "ground_truth": "Married",
+    "context": {
+      "session_id": "session_6",
+      "timestamp": "2026-04-08T16:50:21.687318"
+    }
+  },
+  {
+    "id": "q_kno_056",
+    "test_id": "test_kno_056",
+    "category": "knowledge_updates",
+    "question": "What is the user's current address?",
+    "fact": "The user's address is 123 Main St",
+    "ground_truth": "123 Main St",
+    "context": {
+      "session_id": "session_8",
+      "timestamp": "2026-04-08T16:50:21.687333"
+    }
+  },
+  {
+    "id": "q_kno_057",
+    "test_id": "test_kno_057",
+    "category": "knowledge_updates",
+    "question": "What is the user's current email?",
+    "fact": "The user's email is user@example.com",
+    "ground_truth": "user@example.com",
+    "context": {
+      "session_id": "session_6",
+      "timestamp": "2026-04-08T16:50:21.687346"
+    }
+  },
+  {
+    "id": "q_kno_058",
+    "test_id": "test_kno_058",
+    "category": "knowledge_updates",
+    "question": "What is the user's current phone number?",
+    "fact": "The user's phone number is 555-1234",
+    "ground_truth": "555-1234",
+    "context": {
+      "session_id": "session_3",
+      "timestamp": "2026-04-08T16:50:21.687356"
+    }
+  },
+  {
+    "id": "q_kno_059",
+    "test_id": "test_kno_059",
+    "category": "knowledge_updates",
+    "question": "What is the user's current job title?",
+    "fact": "The user's job title is Senior Engineer",
+    "ground_truth": "Senior Engineer",
+    "context": {
+      "session_id": "session_5",
+      "timestamp": "2026-04-08T16:50:21.687373"
+    }
+  },
+  {
+    "id": "q_kno_060",
+    "test_id": "test_kno_060",
+    "category": "knowledge_updates",
+    "question": "What is the user's current address?",
+    "fact": "The user's address is 123 Main St",
+    "ground_truth": "123 Main St",
+    "context": {
+      "session_id": "session_4",
+      "timestamp": "2026-04-08T16:50:21.687384"
+    }
+  },
+  {
+    "id": "q_kno_061",
+    "test_id": "test_kno_061",
+    "category": "knowledge_updates",
+    "question": "What is the user's current address?",
+    "fact": "The user's address is 123 Main St",
+    "ground_truth": "123 Main St",
+    "context": {
+      "session_id": "session_7",
+      "timestamp": "2026-04-08T16:50:21.687393"
+    }
+  },
+  {
+    "id": "q_kno_062",
+    "test_id": "test_kno_062",
+    "category": "knowledge_updates",
+    "question": "What is the user's current address?",
+    "fact": "The user's address is 123 Main St",
+    "ground_truth": "123 Main St",
+    "context": {
+      "session_id": "session_3",
+      "timestamp": "2026-04-08T16:50:21.687408"
+    }
+  },
+  {
+    "id": "q_kno_063",
+    "test_id": "test_kno_063",
+    "category": "knowledge_updates",
+    "question": "What is the user's current email?",
+    "fact": "The user's email is user@example.com",
+    "ground_truth": "user@example.com",
+    "context": {
+      "session_id": "session_10",
+      "timestamp": "2026-04-08T16:50:21.687420"
+    }
+  },
+  {
+    "id": "q_kno_064",
+    "test_id": "test_kno_064",
+    "category": "knowledge_updates",
+    "question": "What is the user's current email?",
+    "fact": "The user's email is user@example.com",
+    "ground_truth": "user@example.com",
+    "context": {
+      "session_id": "session_4",
+      "timestamp": "2026-04-08T16:50:21.687430"
+    }
+  },
+  {
+    "id": "q_kno_065",
+    "test_id": "test_kno_065",
+    "category": "knowledge_updates",
+    "question": "What is the user's current relationship?",
+    "fact": "The user's relationship status is Married",
+    "ground_truth": "Married",
+    "context": {
+      "session_id": "session_7",
+      "timestamp": "2026-04-08T16:50:21.687440"
+    }
+  },
+  {
+    "id": "q_kno_066",
+    "test_id": "test_kno_066",
+    "category": "knowledge_updates",
+    "question": "What is the user's current address?",
+    "fact": "The user's address is 123 Main St",
+    "ground_truth": "123 Main St",
+    "context": {
+      "session_id": "session_4",
+      "timestamp": "2026-04-08T16:50:21.687451"
+    }
+  },
+  {
+    "id": "q_kno_067",
+    "test_id": "test_kno_067",
+    "category": "knowledge_updates",
+    "question": "What is the user's current job title?",
+    "fact": "The user's job title is Senior Engineer",
+    "ground_truth": "Senior Engineer",
+    "context": {
+      "session_id": "session_3",
+      "timestamp": "2026-04-08T16:50:21.687480"
+    }
+  },
+  {
+    "id": "q_kno_068",
+    "test_id": "test_kno_068",
+    "category": "knowledge_updates",
+    "question": "What is the user's current address?",
+    "fact": "The user's address is 123 Main St",
+    "ground_truth": "123 Main St",
+    "context": {
+      "session_id": "session_1",
+      "timestamp": "2026-04-08T16:50:21.687492"
+    }
+  },
+  {
+    "id": "q_kno_069",
+    "test_id": "test_kno_069",
+    "category": "knowledge_updates",
+    "question": "What is the user's current address?",
+    "fact": "The user's address is 123 Main St",
+    "ground_truth": "123 Main St",
+    "context": {
+      "session_id": "session_5",
+      "timestamp": "2026-04-08T16:50:21.687589"
+    }
+  },
+  {
+    "id": "q_kno_070",
+    "test_id": "test_kno_070",
+    "category": "knowledge_updates",
+    "question": "What is the user's current address?",
+    "fact": "The user's address is 123 Main St",
+    "ground_truth": "123 Main St",
+    "context": {
+      "session_id": "session_1",
+      "timestamp": "2026-04-08T16:50:21.687635"
+    }
+  },
+  {
+    "id": "q_kno_071",
+    "test_id": "test_kno_071",
+    "category": "knowledge_updates",
+    "question": "What is the user's current email?",
+    "fact": "The user's email is user@example.com",
+    "ground_truth": "user@example.com",
+    "context": {
+      "session_id": "session_1",
+      "timestamp": "2026-04-08T16:50:21.687683"
+    }
+  },
+  {
+    "id": "q_kno_072",
+    "test_id": "test_kno_072",
+    "category": "knowledge_updates",
+    "question": "What is the user's current phone number?",
+    "fact": "The user's phone number is 555-1234",
+    "ground_truth": "555-1234",
+    "context": {
+      "session_id": "session_1",
+      "timestamp": "2026-04-08T16:50:21.687694"
+    }
+  },
+  {
+    "id": "q_kno_073",
+    "test_id": "test_kno_073",
+    "category": "knowledge_updates",
+    "question": "What is the user's current address?",
+    "fact": "The user's address is 123 Main St",
+    "ground_truth": "123 Main St",
+    "context": {
+      "session_id": "session_8",
+      "timestamp": "2026-04-08T16:50:21.687711"
+    }
+  },
+  {
+    "id": "q_kno_074",
+    "test_id": "test_kno_074",
+    "category": "knowledge_updates",
+    "question": "What is the user's current phone number?",
+    "fact": "The user's phone number is 555-1234",
+    "ground_truth": "555-1234",
+    "context": {
+      "session_id": "session_8",
+      "timestamp": "2026-04-08T16:50:21.687722"
+    }
+  },
+  {
+    "id": "q_kno_075",
+    "test_id": "test_kno_075",
+    "category": "knowledge_updates",
+    "question": "What is the user's current email?",
+    "fact": "The user's email is user@example.com",
+    "ground_truth": "user@example.com",
+    "context": {
+      "session_id": "session_8",
+      "timestamp": "2026-04-08T16:50:21.687732"
+    }
+  },
+  {
+    "id": "q_kno_076",
+    "test_id": "test_kno_076",
+    "category": "knowledge_updates",
+    "question": "What is the user's current address?",
+    "fact": "The user's address is 123 Main St",
+    "ground_truth": "123 Main St",
+    "context": {
+      "session_id": "session_4",
+      "timestamp": "2026-04-08T16:50:21.687742"
+    }
+  },
+  {
+    "id": "q_kno_077",
+    "test_id": "test_kno_077",
+    "category": "knowledge_updates",
+    "question": "What is the user's current email?",
+    "fact": "The user's email is user@example.com",
+    "ground_truth": "user@example.com",
+    "context": {
+      "session_id": "session_8",
+      "timestamp": "2026-04-08T16:50:21.687751"
+    }
+  },
+  {
+    "id": "q_kno_078",
+    "test_id": "test_kno_078",
+    "category": "knowledge_updates",
+    "question": "What is the user's current email?",
+    "fact": "The user's email is user@example.com",
+    "ground_truth": "user@example.com",
+    "context": {
+      "session_id": "session_1",
+      "timestamp": "2026-04-08T16:50:21.687761"
+    }
+  },
+  {
+    "id": "q_kno_079",
+    "test_id": "test_kno_079",
+    "category": "knowledge_updates",
+    "question": "What is the user's current address?",
+    "fact": "The user's address is 123 Main St",
+    "ground_truth": "123 Main St",
+    "context": {
+      "session_id": "session_7",
+      "timestamp": "2026-04-08T16:50:21.687774"
+    }
+  },
+  {
+    "id": "q_kno_080",
+    "test_id": "test_kno_080",
+    "category": "knowledge_updates",
+    "question": "What is the user's current phone number?",
+    "fact": "The user's phone number is 555-1234",
+    "ground_truth": "555-1234",
+    "context": {
+      "session_id": "session_9",
+      "timestamp": "2026-04-08T16:50:21.687787"
+    }
+  },
+  {
+    "id": "q_kno_081",
+    "test_id": "test_kno_081",
+    "category": "knowledge_updates",
+    "question": "What is the user's current job title?",
+    "fact": "The user's job title is Senior Engineer",
+    "ground_truth": "Senior Engineer",
+    "context": {
+      "session_id": "session_1",
+      "timestamp": "2026-04-08T16:50:21.687796"
+    }
+  },
+  {
+    "id": "q_kno_082",
+    "test_id": "test_kno_082",
+    "category": "knowledge_updates",
+    "question": "What is the user's current job title?",
+    "fact": "The user's job title is Senior Engineer",
+    "ground_truth": "Senior Engineer",
+    "context": {
+      "session_id": "session_5",
+      "timestamp": "2026-04-08T16:50:21.687806"
+    }
+  },
+  {
+    "id": "q_kno_083",
+    "test_id": "test_kno_083",
+    "category": "knowledge_updates",
+    "question": "What is the user's current job title?",
+    "fact": "The user's job title is Senior Engineer",
+    "ground_truth": "Senior Engineer",
+    "context": {
+      "session_id": "session_8",
+      "timestamp": "2026-04-08T16:50:21.687818"
+    }
+  },
+  {
+    "id": "q_kno_084",
+    "test_id": "test_kno_084",
+    "category": "knowledge_updates",
+    "question": "What is the user's current job title?",
+    "fact": "The user's job title is Senior Engineer",
+    "ground_truth": "Senior Engineer",
+    "context": {
+      "session_id": "session_4",
+      "timestamp": "2026-04-08T16:50:21.687831"
+    }
+  },
+  {
+    "id": "q_kno_085",
+    "test_id": "test_kno_085",
+    "category": "knowledge_updates",
+    "question": "What is the user's current job title?",
+    "fact": "The user's job title is Senior Engineer",
+    "ground_truth": "Senior Engineer",
+    "context": {
+      "session_id": "session_7",
+      "timestamp": "2026-04-08T16:50:21.687840"
+    }
+  },
+  {
+    "id": "q_kno_086",
+    "test_id": "test_kno_086",
+    "category": "knowledge_updates",
+    "question": "What is the user's current email?",
+    "fact": "The user's email is user@example.com",
+    "ground_truth": "user@example.com",
+    "context": {
+      "session_id": "session_10",
+      "timestamp": "2026-04-08T16:50:21.687850"
+    }
+  },
+  {
+    "id": "q_kno_087",
+    "test_id": "test_kno_087",
+    "category": "knowledge_updates",
+    "question": "What is the user's current phone number?",
+    "fact": "The user's phone number is 555-1234",
+    "ground_truth": "555-1234",
+    "context": {
+      "session_id": "session_3",
+      "timestamp": "2026-04-08T16:50:21.687860"
+    }
+  },
+  {
+    "id": "q_kno_088",
+    "test_id": "test_kno_088",
+    "category": "knowledge_updates",
+    "question": "What is the user's current job title?",
+    "fact": "The user's job title is Senior Engineer",
+    "ground_truth": "Senior Engineer",
+    "context": {
+      "session_id": "session_10",
+      "timestamp": "2026-04-08T16:50:21.687870"
+    }
+  },
+  {
+    "id": "q_kno_089",
+    "test_id": "test_kno_089",
+    "category": "knowledge_updates",
+    "question": "What is the user's current phone number?",
+    "fact": "The user's phone number is 555-1234",
+    "ground_truth": "555-1234",
+    "context": {
+      "session_id": "session_3",
+      "timestamp": "2026-04-08T16:50:21.687879"
+    }
+  },
+  {
+    "id": "q_kno_090",
+    "test_id": "test_kno_090",
+    "category": "knowledge_updates",
+    "question": "What is the user's current relationship?",
+    "fact": "The user's relationship status is Married",
+    "ground_truth": "Married",
+    "context": {
+      "session_id": "session_10",
+      "timestamp": "2026-04-08T16:50:21.687892"
+    }
+  },
+  {
+    "id": "q_kno_091",
+    "test_id": "test_kno_091",
+    "category": "knowledge_updates",
+    "question": "What is the user's current relationship?",
+    "fact": "The user's relationship status is Married",
+    "ground_truth": "Married",
+    "context": {
+      "session_id": "session_5",
+      "timestamp": "2026-04-08T16:50:21.687904"
+    }
+  },
+  {
+    "id": "q_kno_092",
+    "test_id": "test_kno_092",
+    "category": "knowledge_updates",
+    "question": "What is the user's current address?",
+    "fact": "The user's address is 123 Main St",
+    "ground_truth": "123 Main St",
+    "context": {
+      "session_id": "session_9",
+      "timestamp": "2026-04-08T16:50:21.687914"
+    }
+  },
+  {
+    "id": "q_kno_093",
+    "test_id": "test_kno_093",
+    "category": "knowledge_updates",
+    "question": "What is the user's current email?",
+    "fact": "The user's email is user@example.com",
+    "ground_truth": "user@example.com",
+    "context": {
+      "session_id": "session_6",
+      "timestamp": "2026-04-08T16:50:21.687926"
+    }
+  },
+  {
+    "id": "q_kno_094",
+    "test_id": "test_kno_094",
+    "category": "knowledge_updates",
+    "question": "What is the user's current job title?",
+    "fact": "The user's job title is Senior Engineer",
+    "ground_truth": "Senior Engineer",
+    "context": {
+      "session_id": "session_9",
+      "timestamp": "2026-04-08T16:50:21.687938"
+    }
+  },
+  {
+    "id": "q_kno_095",
+    "test_id": "test_kno_095",
+    "category": "knowledge_updates",
+    "question": "What is the user's current address?",
+    "fact": "The user's address is 123 Main St",
+    "ground_truth": "123 Main St",
+    "context": {
+      "session_id": "session_4",
+      "timestamp": "2026-04-08T16:50:21.687947"
+    }
+  },
+  {
+    "id": "q_kno_096",
+    "test_id": "test_kno_096",
+    "category": "knowledge_updates",
+    "question": "What is the user's current relationship?",
+    "fact": "The user's relationship status is Married",
+    "ground_truth": "Married",
+    "context": {
+      "session_id": "session_9",
+      "timestamp": "2026-04-08T16:50:21.687957"
+    }
+  },
+  {
+    "id": "q_kno_097",
+    "test_id": "test_kno_097",
+    "category": "knowledge_updates",
+    "question": "What is the user's current phone number?",
+    "fact": "The user's phone number is 555-1234",
+    "ground_truth": "555-1234",
+    "context": {
+      "session_id": "session_9",
+      "timestamp": "2026-04-08T16:50:21.687967"
+    }
+  },
+  {
+    "id": "q_kno_098",
+    "test_id": "test_kno_098",
+    "category": "knowledge_updates",
+    "question": "What is the user's current relationship?",
+    "fact": "The user's relationship status is Married",
+    "ground_truth": "Married",
+    "context": {
+      "session_id": "session_5",
+      "timestamp": "2026-04-08T16:50:21.687976"
+    }
+  },
+  {
+    "id": "q_kno_099",
+    "test_id": "test_kno_099",
+    "category": "knowledge_updates",
+    "question": "What is the user's current email?",
+    "fact": "The user's email is user@example.com",
+    "ground_truth": "user@example.com",
+    "context": {
+      "session_id": "session_10",
+      "timestamp": "2026-04-08T16:50:21.687986"
+    }
+  },
+  {
+    "id": "q_abs_000",
+    "test_id": "test_abs_000",
+    "category": "abstention",
+    "question": "What is the user's secret password?",
+    "fact": null,
+    "ground_truth": "CANNOT_ANSWER",
+    "context": {
+      "session_id": "session_7",
+      "timestamp": "2026-04-08T16:50:21.687999"
+    }
+  },
+  {
+    "id": "q_abs_001",
+    "test_id": "test_abs_001",
+    "category": "abstention",
+    "question": "What is the user's secret password?",
+    "fact": null,
+    "ground_truth": "CANNOT_ANSWER",
+    "context": {
+      "session_id": "session_2",
+      "timestamp": "2026-04-08T16:50:21.688007"
+    }
+  },
+  {
+    "id": "q_abs_002",
+    "test_id": "test_abs_002",
+    "category": "abstention",
+    "question": "What is the user's bank account?",
+    "fact": null,
+    "ground_truth": "CANNOT_ANSWER",
+    "context": {
+      "session_id": "session_10",
+      "timestamp": "2026-04-08T16:50:21.688014"
+    }
+  },
+  {
+    "id": "q_abs_003",
+    "test_id": "test_abs_003",
+    "category": "abstention",
+    "question": "What is the user's social security number?",
+    "fact": null,
+    "ground_truth": "CANNOT_ANSWER",
+    "context": {
+      "session_id": "session_10",
+      "timestamp": "2026-04-08T16:50:21.688024"
+    }
+  },
+  {
+    "id": "q_abs_004",
+    "test_id": "test_abs_004",
+    "category": "abstention",
+    "question": "What is the user's bank account?",
+    "fact": null,
+    "ground_truth": "CANNOT_ANSWER",
+    "context": {
+      "session_id": "session_2",
+      "timestamp": "2026-04-08T16:50:21.688032"
+    }
+  },
+  {
+    "id": "q_abs_005",
+    "test_id": "test_abs_005",
+    "category": "abstention",
+    "question": "What is the user's bank account?",
+    "fact": null,
+    "ground_truth": "CANNOT_ANSWER",
+    "context": {
+      "session_id": "session_4",
+      "timestamp": "2026-04-08T16:50:21.688041"
+    }
+  },
+  {
+    "id": "q_abs_006",
+    "test_id": "test_abs_006",
+    "category": "abstention",
+    "question": "What is the user's secret password?",
+    "fact": null,
+    "ground_truth": "CANNOT_ANSWER",
+    "context": {
+      "session_id": "session_2",
+      "timestamp": "2026-04-08T16:50:21.688054"
+    }
+  },
+  {
+    "id": "q_abs_007",
+    "test_id": "test_abs_007",
+    "category": "abstention",
+    "question": "What is the user's bank account?",
+    "fact": null,
+    "ground_truth": "CANNOT_ANSWER",
+    "context": {
+      "session_id": "session_6",
+      "timestamp": "2026-04-08T16:50:21.688061"
+    }
+  },
+  {
+    "id": "q_abs_008",
+    "test_id": "test_abs_008",
+    "category": "abstention",
+    "question": "What is the user's bank account?",
+    "fact": null,
+    "ground_truth": "CANNOT_ANSWER",
+    "context": {
+      "session_id": "session_2",
+      "timestamp": "2026-04-08T16:50:21.688068"
+    }
+  },
+  {
+    "id": "q_abs_009",
+    "test_id": "test_abs_009",
+    "category": "abstention",
+    "question": "What is the user's bank account?",
+    "fact": null,
+    "ground_truth": "CANNOT_ANSWER",
+    "context": {
+      "session_id": "session_8",
+      "timestamp": "2026-04-08T16:50:21.688075"
+    }
+  },
+  {
+    "id": "q_abs_010",
+    "test_id": "test_abs_010",
+    "category": "abstention",
+    "question": "What is the user's social security number?",
+    "fact": null,
+    "ground_truth": "CANNOT_ANSWER",
+    "context": {
+      "session_id": "session_4",
+      "timestamp": "2026-04-08T16:50:21.688082"
+    }
+  },
+  {
+    "id": "q_abs_011",
+    "test_id": "test_abs_011",
+    "category": "abstention",
+    "question": "What is the user's bank account?",
+    "fact": null,
+    "ground_truth": "CANNOT_ANSWER",
+    "context": {
+      "session_id": "session_8",
+      "timestamp": "2026-04-08T16:50:21.688089"
+    }
+  },
+  {
+    "id": "q_abs_012",
+    "test_id": "test_abs_012",
+    "category": "abstention",
+    "question": "What is the user's social security number?",
+    "fact": null,
+    "ground_truth": "CANNOT_ANSWER",
+    "context": {
+      "session_id": "session_8",
+      "timestamp": "2026-04-08T16:50:21.688097"
+    }
+  },
+  {
+    "id": "q_abs_013",
+    "test_id": "test_abs_013",
+    "category": "abstention",
+    "question": "What is the user's social security number?",
+    "fact": null,
+    "ground_truth": "CANNOT_ANSWER",
+    "context": {
+      "session_id": "session_3",
+      "timestamp": "2026-04-08T16:50:21.688104"
+    }
+  },
+  {
+    "id": "q_abs_014",
+    "test_id": "test_abs_014",
+    "category": "abstention",
+    "question": "What is the user's secret password?",
+    "fact": null,
+    "ground_truth": "CANNOT_ANSWER",
+    "context": {
+      "session_id": "session_7",
+      "timestamp": "2026-04-08T16:50:21.688111"
+    }
+  },
+  {
+    "id": "q_abs_015",
+    "test_id": "test_abs_015",
+    "category": "abstention",
+    "question": "What is the user's bank account?",
+    "fact": null,
+    "ground_truth": "CANNOT_ANSWER",
+    "context": {
+      "session_id": "session_2",
+      "timestamp": "2026-04-08T16:50:21.688118"
+    }
+  },
+  {
+    "id": "q_abs_016",
+    "test_id": "test_abs_016",
+    "category": "abstention",
+    "question": "What is the user's secret password?",
+    "fact": null,
+    "ground_truth": "CANNOT_ANSWER",
+    "context": {
+      "session_id": "session_1",
+      "timestamp": "2026-04-08T16:50:21.688125"
+    }
+  },
+  {
+    "id": "q_abs_017",
+    "test_id": "test_abs_017",
+    "category": "abstention",
+    "question": "What is the user's social security number?",
+    "fact": null,
+    "ground_truth": "CANNOT_ANSWER",
+    "context": {
+      "session_id": "session_4",
+      "timestamp": "2026-04-08T16:50:21.688133"
+    }
+  },
+  {
+    "id": "q_abs_018",
+    "test_id": "test_abs_018",
+    "category": "abstention",
+    "question": "What is the user's bank account?",
+    "fact": null,
+    "ground_truth": "CANNOT_ANSWER",
+    "context": {
+      "session_id": "session_3",
+      "timestamp": "2026-04-08T16:50:21.688144"
+    }
+  },
+  {
+    "id": "q_abs_019",
+    "test_id": "test_abs_019",
+    "category": "abstention",
+    "question": "What is the user's social security number?",
+    "fact": null,
+    "ground_truth": "CANNOT_ANSWER",
+    "context": {
+      "session_id": "session_1",
+      "timestamp": "2026-04-08T16:50:21.688154"
+    }
+  },
+  {
+    "id": "q_abs_020",
+    "test_id": "test_abs_020",
+    "category": "abstention",
+    "question": "What is the user's bank account?",
+    "fact": null,
+    "ground_truth": "CANNOT_ANSWER",
+    "context": {
+      "session_id": "session_7",
+      "timestamp": "2026-04-08T16:50:21.688161"
+    }
+  },
+  {
+    "id": "q_abs_021",
+    "test_id": "test_abs_021",
+    "category": "abstention",
+    "question": "What is the user's social security number?",
+    "fact": null,
+    "ground_truth": "CANNOT_ANSWER",
+    "context": {
+      "session_id": "session_5",
+      "timestamp": "2026-04-08T16:50:21.688168"
+    }
+  },
+  {
+    "id": "q_abs_022",
+    "test_id": "test_abs_022",
+    "category": "abstention",
+    "question": "What is the user's bank account?",
+    "fact": null,
+    "ground_truth": "CANNOT_ANSWER",
+    "context": {
+      "session_id": "session_6",
+      "timestamp": "2026-04-08T16:50:21.688175"
+    }
+  },
+  {
+    "id": "q_abs_023",
+    "test_id": "test_abs_023",
+    "category": "abstention",
+    "question": "What is the user's social security number?",
+    "fact": null,
+    "ground_truth": "CANNOT_ANSWER",
+    "context": {
+      "session_id": "session_10",
+      "timestamp": "2026-04-08T16:50:21.688183"
+    }
+  },
+  {
+    "id": "q_abs_024",
+    "test_id": "test_abs_024",
+    "category": "abstention",
+    "question": "What is the user's social security number?",
+    "fact": null,
+    "ground_truth": "CANNOT_ANSWER",
+    "context": {
+      "session_id": "session_4",
+      "timestamp": "2026-04-08T16:50:21.688190"
+    }
+  },
+  {
+    "id": "q_abs_025",
+    "test_id": "test_abs_025",
+    "category": "abstention",
+    "question": "What is the user's secret password?",
+    "fact": null,
+    "ground_truth": "CANNOT_ANSWER",
+    "context": {
+      "session_id": "session_1",
+      "timestamp": "2026-04-08T16:50:21.688197"
+    }
+  },
+  {
+    "id": "q_abs_026",
+    "test_id": "test_abs_026",
+    "category": "abstention",
+    "question": "What is the user's secret password?",
+    "fact": null,
+    "ground_truth": "CANNOT_ANSWER",
+    "context": {
+      "session_id": "session_6",
+      "timestamp": "2026-04-08T16:50:21.688206"
+    }
+  },
+  {
+    "id": "q_abs_027",
+    "test_id": "test_abs_027",
+    "category": "abstention",
+    "question": "What is the user's secret password?",
+    "fact": null,
+    "ground_truth": "CANNOT_ANSWER",
+    "context": {
+      "session_id": "session_9",
+      "timestamp": "2026-04-08T16:50:21.688213"
+    }
+  },
+  {
+    "id": "q_abs_028",
+    "test_id": "test_abs_028",
+    "category": "abstention",
+    "question": "What is the user's social security number?",
+    "fact": null,
+    "ground_truth": "CANNOT_ANSWER",
+    "context": {
+      "session_id": "session_5",
+      "timestamp": "2026-04-08T16:50:21.688220"
+    }
+  },
+  {
+    "id": "q_abs_029",
+    "test_id": "test_abs_029",
+    "category": "abstention",
+    "question": "What is the user's secret password?",
+    "fact": null,
+    "ground_truth": "CANNOT_ANSWER",
+    "context": {
+      "session_id": "session_2",
+      "timestamp": "2026-04-08T16:50:21.688227"
+    }
+  },
+  {
+    "id": "q_abs_030",
+    "test_id": "test_abs_030",
+    "category": "abstention",
+    "question": "What is the user's bank account?",
+    "fact": null,
+    "ground_truth": "CANNOT_ANSWER",
+    "context": {
+      "session_id": "session_5",
+      "timestamp": "2026-04-08T16:50:21.688237"
+    }
+  },
+  {
+    "id": "q_abs_031",
+    "test_id": "test_abs_031",
+    "category": "abstention",
+    "question": "What is the user's bank account?",
+    "fact": null,
+    "ground_truth": "CANNOT_ANSWER",
+    "context": {
+      "session_id": "session_1",
+      "timestamp": "2026-04-08T16:50:21.688244"
+    }
+  },
+  {
+    "id": "q_abs_032",
+    "test_id": "test_abs_032",
+    "category": "abstention",
+    "question": "What is the user's social security number?",
+    "fact": null,
+    "ground_truth": "CANNOT_ANSWER",
+    "context": {
+      "session_id": "session_1",
+      "timestamp": "2026-04-08T16:50:21.688254"
+    }
+  },
+  {
+    "id": "q_abs_033",
+    "test_id": "test_abs_033",
+    "category": "abstention",
+    "question": "What is the user's secret password?",
+    "fact": null,
+    "ground_truth": "CANNOT_ANSWER",
+    "context": {
+      "session_id": "session_1",
+      "timestamp": "2026-04-08T16:50:21.688263"
+    }
+  },
+  {
+    "id": "q_abs_034",
+    "test_id": "test_abs_034",
+    "category": "abstention",
+    "question": "What is the user's bank account?",
+    "fact": null,
+    "ground_truth": "CANNOT_ANSWER",
+    "context": {
+      "session_id": "session_9",
+      "timestamp": "2026-04-08T16:50:21.688271"
+    }
+  },
+  {
+    "id": "q_abs_035",
+    "test_id": "test_abs_035",
+    "category": "abstention",
+    "question": "What is the user's bank account?",
+    "fact": null,
+    "ground_truth": "CANNOT_ANSWER",
+    "context": {
+      "session_id": "session_4",
+      "timestamp": "2026-04-08T16:50:21.688278"
+    }
+  },
+  {
+    "id": "q_abs_036",
+    "test_id": "test_abs_036",
+    "category": "abstention",
+    "question": "What is the user's bank account?",
+    "fact": null,
+    "ground_truth": "CANNOT_ANSWER",
+    "context": {
+      "session_id": "session_10",
+      "timestamp": "2026-04-08T16:50:21.688285"
+    }
+  },
+  {
+    "id": "q_abs_037",
+    "test_id": "test_abs_037",
+    "category": "abstention",
+    "question": "What is the user's secret password?",
+    "fact": null,
+    "ground_truth": "CANNOT_ANSWER",
+    "context": {
+      "session_id": "session_1",
+      "timestamp": "2026-04-08T16:50:21.688292"
+    }
+  },
+  {
+    "id": "q_abs_038",
+    "test_id": "test_abs_038",
+    "category": "abstention",
+    "question": "What is the user's social security number?",
+    "fact": null,
+    "ground_truth": "CANNOT_ANSWER",
+    "context": {
+      "session_id": "session_6",
+      "timestamp": "2026-04-08T16:50:21.688299"
+    }
+  },
+  {
+    "id": "q_abs_039",
+    "test_id": "test_abs_039",
+    "category": "abstention",
+    "question": "What is the user's social security number?",
+    "fact": null,
+    "ground_truth": "CANNOT_ANSWER",
+    "context": {
+      "session_id": "session_8",
+      "timestamp": "2026-04-08T16:50:21.688306"
+    }
+  },
+  {
+    "id": "q_abs_040",
+    "test_id": "test_abs_040",
+    "category": "abstention",
+    "question": "What is the user's bank account?",
+    "fact": null,
+    "ground_truth": "CANNOT_ANSWER",
+    "context": {
+      "session_id": "session_7",
+      "timestamp": "2026-04-08T16:50:21.688313"
+    }
+  },
+  {
+    "id": "q_abs_041",
+    "test_id": "test_abs_041",
+    "category": "abstention",
+    "question": "What is the user's bank account?",
+    "fact": null,
+    "ground_truth": "CANNOT_ANSWER",
+    "context": {
+      "session_id": "session_8",
+      "timestamp": "2026-04-08T16:50:21.688320"
+    }
+  },
+  {
+    "id": "q_abs_042",
+    "test_id": "test_abs_042",
+    "category": "abstention",
+    "question": "What is the user's secret password?",
+    "fact": null,
+    "ground_truth": "CANNOT_ANSWER",
+    "context": {
+      "session_id": "session_8",
+      "timestamp": "2026-04-08T16:50:21.688327"
+    }
+  },
+  {
+    "id": "q_abs_043",
+    "test_id": "test_abs_043",
+    "category": "abstention",
+    "question": "What is the user's secret password?",
+    "fact": null,
+    "ground_truth": "CANNOT_ANSWER",
+    "context": {
+      "session_id": "session_10",
+      "timestamp": "2026-04-08T16:50:21.688337"
+    }
+  },
+  {
+    "id": "q_abs_044",
+    "test_id": "test_abs_044",
+    "category": "abstention",
+    "question": "What is the user's secret password?",
+    "fact": null,
+    "ground_truth": "CANNOT_ANSWER",
+    "context": {
+      "session_id": "session_2",
+      "timestamp": "2026-04-08T16:50:21.688344"
+    }
+  },
+  {
+    "id": "q_abs_045",
+    "test_id": "test_abs_045",
+    "category": "abstention",
+    "question": "What is the user's bank account?",
+    "fact": null,
+    "ground_truth": "CANNOT_ANSWER",
+    "context": {
+      "session_id": "session_2",
+      "timestamp": "2026-04-08T16:50:21.688354"
+    }
+  },
+  {
+    "id": "q_abs_046",
+    "test_id": "test_abs_046",
+    "category": "abstention",
+    "question": "What is the user's social security number?",
+    "fact": null,
+    "ground_truth": "CANNOT_ANSWER",
+    "context": {
+      "session_id": "session_1",
+      "timestamp": "2026-04-08T16:50:21.688361"
+    }
+  },
+  {
+    "id": "q_abs_047",
+    "test_id": "test_abs_047",
+    "category": "abstention",
+    "question": "What is the user's social security number?",
+    "fact": null,
+    "ground_truth": "CANNOT_ANSWER",
+    "context": {
+      "session_id": "session_9",
+      "timestamp": "2026-04-08T16:50:21.688368"
+    }
+  },
+  {
+    "id": "q_abs_048",
+    "test_id": "test_abs_048",
+    "category": "abstention",
+    "question": "What is the user's bank account?",
+    "fact": null,
+    "ground_truth": "CANNOT_ANSWER",
+    "context": {
+      "session_id": "session_8",
+      "timestamp": "2026-04-08T16:50:21.688375"
+    }
+  },
+  {
+    "id": "q_abs_049",
+    "test_id": "test_abs_049",
+    "category": "abstention",
+    "question": "What is the user's bank account?",
+    "fact": null,
+    "ground_truth": "CANNOT_ANSWER",
+    "context": {
+      "session_id": "session_10",
+      "timestamp": "2026-04-08T16:50:21.688384"
+    }
+  },
+  {
+    "id": "q_abs_050",
+    "test_id": "test_abs_050",
+    "category": "abstention",
+    "question": "What is the user's secret password?",
+    "fact": null,
+    "ground_truth": "CANNOT_ANSWER",
+    "context": {
+      "session_id": "session_8",
+      "timestamp": "2026-04-08T16:50:21.688391"
+    }
+  },
+  {
+    "id": "q_abs_051",
+    "test_id": "test_abs_051",
+    "category": "abstention",
+    "question": "What is the user's social security number?",
+    "fact": null,
+    "ground_truth": "CANNOT_ANSWER",
+    "context": {
+      "session_id": "session_1",
+      "timestamp": "2026-04-08T16:50:21.688398"
+    }
+  },
+  {
+    "id": "q_abs_052",
+    "test_id": "test_abs_052",
+    "category": "abstention",
+    "question": "What is the user's bank account?",
+    "fact": null,
+    "ground_truth": "CANNOT_ANSWER",
+    "context": {
+      "session_id": "session_2",
+      "timestamp": "2026-04-08T16:50:21.688405"
+    }
+  },
+  {
+    "id": "q_abs_053",
+    "test_id": "test_abs_053",
+    "category": "abstention",
+    "question": "What is the user's secret password?",
+    "fact": null,
+    "ground_truth": "CANNOT_ANSWER",
+    "context": {
+      "session_id": "session_9",
+      "timestamp": "2026-04-08T16:50:21.688412"
+    }
+  },
+  {
+    "id": "q_abs_054",
+    "test_id": "test_abs_054",
+    "category": "abstention",
+    "question": "What is the user's secret password?",
+    "fact": null,
+    "ground_truth": "CANNOT_ANSWER",
+    "context": {
+      "session_id": "session_2",
+      "timestamp": "2026-04-08T16:50:21.688419"
+    }
+  },
+  {
+    "id": "q_abs_055",
+    "test_id": "test_abs_055",
+    "category": "abstention",
+    "question": "What is the user's secret password?",
+    "fact": null,
+    "ground_truth": "CANNOT_ANSWER",
+    "context": {
+      "session_id": "session_2",
+      "timestamp": "2026-04-08T16:50:21.688429"
+    }
+  },
+  {
+    "id": "q_abs_056",
+    "test_id": "test_abs_056",
+    "category": "abstention",
+    "question": "What is the user's social security number?",
+    "fact": null,
+    "ground_truth": "CANNOT_ANSWER",
+    "context": {
+      "session_id": "session_4",
+      "timestamp": "2026-04-08T16:50:21.688437"
+    }
+  },
+  {
+    "id": "q_abs_057",
+    "test_id": "test_abs_057",
+    "category": "abstention",
+    "question": "What is the user's secret password?",
+    "fact": null,
+    "ground_truth": "CANNOT_ANSWER",
+    "context": {
+      "session_id": "session_1",
+      "timestamp": "2026-04-08T16:50:21.688444"
+    }
+  },
+  {
+    "id": "q_abs_058",
+    "test_id": "test_abs_058",
+    "category": "abstention",
+    "question": "What is the user's secret password?",
+    "fact": null,
+    "ground_truth": "CANNOT_ANSWER",
+    "context": {
+      "session_id": "session_1",
+      "timestamp": "2026-04-08T16:50:21.688454"
+    }
+  },
+  {
+    "id": "q_abs_059",
+    "test_id": "test_abs_059",
+    "category": "abstention",
+    "question": "What is the user's secret password?",
+    "fact": null,
+    "ground_truth": "CANNOT_ANSWER",
+    "context": {
+      "session_id": "session_4",
+      "timestamp": "2026-04-08T16:50:21.688461"
+    }
+  },
+  {
+    "id": "q_abs_060",
+    "test_id": "test_abs_060",
+    "category": "abstention",
+    "question": "What is the user's bank account?",
+    "fact": null,
+    "ground_truth": "CANNOT_ANSWER",
+    "context": {
+      "session_id": "session_10",
+      "timestamp": "2026-04-08T16:50:21.688468"
+    }
+  },
+  {
+    "id": "q_abs_061",
+    "test_id": "test_abs_061",
+    "category": "abstention",
+    "question": "What is the user's social security number?",
+    "fact": null,
+    "ground_truth": "CANNOT_ANSWER",
+    "context": {
+      "session_id": "session_5",
+      "timestamp": "2026-04-08T16:50:21.688476"
+    }
+  },
+  {
+    "id": "q_abs_062",
+    "test_id": "test_abs_062",
+    "category": "abstention",
+    "question": "What is the user's secret password?",
+    "fact": null,
+    "ground_truth": "CANNOT_ANSWER",
+    "context": {
+      "session_id": "session_6",
+      "timestamp": "2026-04-08T16:50:21.688483"
+    }
+  },
+  {
+    "id": "q_abs_063",
+    "test_id": "test_abs_063",
+    "category": "abstention",
+    "question": "What is the user's social security number?",
+    "fact": null,
+    "ground_truth": "CANNOT_ANSWER",
+    "context": {
+      "session_id": "session_4",
+      "timestamp": "2026-04-08T16:50:21.688492"
+    }
+  },
+  {
+    "id": "q_abs_064",
+    "test_id": "test_abs_064",
+    "category": "abstention",
+    "question": "What is the user's secret password?",
+    "fact": null,
+    "ground_truth": "CANNOT_ANSWER",
+    "context": {
+      "session_id": "session_8",
+      "timestamp": "2026-04-08T16:50:21.688499"
+    }
+  },
+  {
+    "id": "q_abs_065",
+    "test_id": "test_abs_065",
+    "category": "abstention",
+    "question": "What is the user's social security number?",
+    "fact": null,
+    "ground_truth": "CANNOT_ANSWER",
+    "context": {
+      "session_id": "session_2",
+      "timestamp": "2026-04-08T16:50:21.688506"
+    }
+  },
+  {
+    "id": "q_abs_066",
+    "test_id": "test_abs_066",
+    "category": "abstention",
+    "question": "What is the user's secret password?",
+    "fact": null,
+    "ground_truth": "CANNOT_ANSWER",
+    "context": {
+      "session_id": "session_4",
+      "timestamp": "2026-04-08T16:50:21.688513"
+    }
+  },
+  {
+    "id": "q_abs_067",
+    "test_id": "test_abs_067",
+    "category": "abstention",
+    "question": "What is the user's social security number?",
+    "fact": null,
+    "ground_truth": "CANNOT_ANSWER",
+    "context": {
+      "session_id": "session_3",
+      "timestamp": "2026-04-08T16:50:21.688521"
+    }
+  },
+  {
+    "id": "q_abs_068",
+    "test_id": "test_abs_068",
+    "category": "abstention",
+    "question": "What is the user's secret password?",
+    "fact": null,
+    "ground_truth": "CANNOT_ANSWER",
+    "context": {
+      "session_id": "session_9",
+      "timestamp": "2026-04-08T16:50:21.688533"
+    }
+  },
+  {
+    "id": "q_abs_069",
+    "test_id": "test_abs_069",
+    "category": "abstention",
+    "question": "What is the user's social security number?",
+    "fact": null,
+    "ground_truth": "CANNOT_ANSWER",
+    "context": {
+      "session_id": "session_3",
+      "timestamp": "2026-04-08T16:50:21.688540"
+    }
+  },
+  {
+    "id": "q_abs_070",
+    "test_id": "test_abs_070",
+    "category": "abstention",
+    "question": "What is the user's social security number?",
+    "fact": null,
+    "ground_truth": "CANNOT_ANSWER",
+    "context": {
+      "session_id": "session_4",
+      "timestamp": "2026-04-08T16:50:21.688547"
+    }
+  },
+  {
+    "id": "q_abs_071",
+    "test_id": "test_abs_071",
+    "category": "abstention",
+    "question": "What is the user's secret password?",
+    "fact": null,
+    "ground_truth": "CANNOT_ANSWER",
+    "context": {
+      "session_id": "session_10",
+      "timestamp": "2026-04-08T16:50:21.688556"
+    }
+  },
+  {
+    "id": "q_abs_072",
+    "test_id": "test_abs_072",
+    "category": "abstention",
+    "question": "What is the user's social security number?",
+    "fact": null,
+    "ground_truth": "CANNOT_ANSWER",
+    "context": {
+      "session_id": "session_1",
+      "timestamp": "2026-04-08T16:50:21.688566"
+    }
+  },
+  {
+    "id": "q_abs_073",
+    "test_id": "test_abs_073",
+    "category": "abstention",
+    "question": "What is the user's secret password?",
+    "fact": null,
+    "ground_truth": "CANNOT_ANSWER",
+    "context": {
+      "session_id": "session_4",
+      "timestamp": "2026-04-08T16:50:21.688574"
+    }
+  },
+  {
+    "id": "q_abs_074",
+    "test_id": "test_abs_074",
+    "category": "abstention",
+    "question": "What is the user's social security number?",
+    "fact": null,
+    "ground_truth": "CANNOT_ANSWER",
+    "context": {
+      "session_id": "session_9",
+      "timestamp": "2026-04-08T16:50:21.688581"
+    }
+  },
+  {
+    "id": "q_abs_075",
+    "test_id": "test_abs_075",
+    "category": "abstention",
+    "question": "What is the user's secret password?",
+    "fact": null,
+    "ground_truth": "CANNOT_ANSWER",
+    "context": {
+      "session_id": "session_1",
+      "timestamp": "2026-04-08T16:50:21.688590"
+    }
+  },
+  {
+    "id": "q_abs_076",
+    "test_id": "test_abs_076",
+    "category": "abstention",
+    "question": "What is the user's bank account?",
+    "fact": null,
+    "ground_truth": "CANNOT_ANSWER",
+    "context": {
+      "session_id": "session_7",
+      "timestamp": "2026-04-08T16:50:21.688597"
+    }
+  },
+  {
+    "id": "q_abs_077",
+    "test_id": "test_abs_077",
+    "category": "abstention",
+    "question": "What is the user's social security number?",
+    "fact": null,
+    "ground_truth": "CANNOT_ANSWER",
+    "context": {
+      "session_id": "session_7",
+      "timestamp": "2026-04-08T16:50:21.688604"
+    }
+  },
+  {
+    "id": "q_abs_078",
+    "test_id": "test_abs_078",
+    "category": "abstention",
+    "question": "What is the user's secret password?",
+    "fact": null,
+    "ground_truth": "CANNOT_ANSWER",
+    "context": {
+      "session_id": "session_6",
+      "timestamp": "2026-04-08T16:50:21.688611"
+    }
+  },
+  {
+    "id": "q_abs_079",
+    "test_id": "test_abs_079",
+    "category": "abstention",
+    "question": "What is the user's bank account?",
+    "fact": null,
+    "ground_truth": "CANNOT_ANSWER",
+    "context": {
+      "session_id": "session_2",
+      "timestamp": "2026-04-08T16:50:21.688618"
+    }
+  },
+  {
+    "id": "q_abs_080",
+    "test_id": "test_abs_080",
+    "category": "abstention",
+    "question": "What is the user's secret password?",
+    "fact": null,
+    "ground_truth": "CANNOT_ANSWER",
+    "context": {
+      "session_id": "session_6",
+      "timestamp": "2026-04-08T16:50:21.688625"
+    }
+  },
+  {
+    "id": "q_abs_081",
+    "test_id": "test_abs_081",
+    "category": "abstention",
+    "question": "What is the user's secret password?",
+    "fact": null,
+    "ground_truth": "CANNOT_ANSWER",
+    "context": {
+      "session_id": "session_3",
+      "timestamp": "2026-04-08T16:50:21.688635"
+    }
+  },
+  {
+    "id": "q_abs_082",
+    "test_id": "test_abs_082",
+    "category": "abstention",
+    "question": "What is the user's bank account?",
+    "fact": null,
+    "ground_truth": "CANNOT_ANSWER",
+    "context": {
+      "session_id": "session_2",
+      "timestamp": "2026-04-08T16:50:21.688642"
+    }
+  },
+  {
+    "id": "q_abs_083",
+    "test_id": "test_abs_083",
+    "category": "abstention",
+    "question": "What is the user's social security number?",
+    "fact": null,
+    "ground_truth": "CANNOT_ANSWER",
+    "context": {
+      "session_id": "session_7",
+      "timestamp": "2026-04-08T16:50:21.688649"
+    }
+  },
+  {
+    "id": "q_abs_084",
+    "test_id": "test_abs_084",
+    "category": "abstention",
+    "question": "What is the user's social security number?",
+    "fact": null,
+    "ground_truth": "CANNOT_ANSWER",
+    "context": {
+      "session_id": "session_7",
+      "timestamp": "2026-04-08T16:50:21.688659"
+    }
+  },
+  {
+    "id": "q_abs_085",
+    "test_id": "test_abs_085",
+    "category": "abstention",
+    "question": "What is the user's secret password?",
+    "fact": null,
+    "ground_truth": "CANNOT_ANSWER",
+    "context": {
+      "session_id": "session_10",
+      "timestamp": "2026-04-08T16:50:21.688666"
+    }
+  },
+  {
+    "id": "q_abs_086",
+    "test_id": "test_abs_086",
+    "category": "abstention",
+    "question": "What is the user's bank account?",
+    "fact": null,
+    "ground_truth": "CANNOT_ANSWER",
+    "context": {
+      "session_id": "session_1",
+      "timestamp": "2026-04-08T16:50:21.688673"
+    }
+  },
+  {
+    "id": "q_abs_087",
+    "test_id": "test_abs_087",
+    "category": "abstention",
+    "question": "What is the user's social security number?",
+    "fact": null,
+    "ground_truth": "CANNOT_ANSWER",
+    "context": {
+      "session_id": "session_2",
+      "timestamp": "2026-04-08T16:50:21.688680"
+    }
+  },
+  {
+    "id": "q_abs_088",
+    "test_id": "test_abs_088",
+    "category": "abstention",
+    "question": "What is the user's bank account?",
+    "fact": null,
+    "ground_truth": "CANNOT_ANSWER",
+    "context": {
+      "session_id": "session_2",
+      "timestamp": "2026-04-08T16:50:21.688688"
+    }
+  },
+  {
+    "id": "q_abs_089",
+    "test_id": "test_abs_089",
+    "category": "abstention",
+    "question": "What is the user's social security number?",
+    "fact": null,
+    "ground_truth": "CANNOT_ANSWER",
+    "context": {
+      "session_id": "session_9",
+      "timestamp": "2026-04-08T16:50:21.688695"
+    }
+  },
+  {
+    "id": "q_abs_090",
+    "test_id": "test_abs_090",
+    "category": "abstention",
+    "question": "What is the user's secret password?",
+    "fact": null,
+    "ground_truth": "CANNOT_ANSWER",
+    "context": {
+      "session_id": "session_6",
+      "timestamp": "2026-04-08T16:50:21.688702"
+    }
+  },
+  {
+    "id": "q_abs_091",
+    "test_id": "test_abs_091",
+    "category": "abstention",
+    "question": "What is the user's secret password?",
+    "fact": null,
+    "ground_truth": "CANNOT_ANSWER",
+    "context": {
+      "session_id": "session_5",
+      "timestamp": "2026-04-08T16:50:21.688709"
+    }
+  },
+  {
+    "id": "q_abs_092",
+    "test_id": "test_abs_092",
+    "category": "abstention",
+    "question": "What is the user's bank account?",
+    "fact": null,
+    "ground_truth": "CANNOT_ANSWER",
+    "context": {
+      "session_id": "session_1",
+      "timestamp": "2026-04-08T16:50:21.688716"
+    }
+  },
+  {
+    "id": "q_abs_093",
+    "test_id": "test_abs_093",
+    "category": "abstention",
+    "question": "What is the user's social security number?",
+    "fact": null,
+    "ground_truth": "CANNOT_ANSWER",
+    "context": {
+      "session_id": "session_1",
+      "timestamp": "2026-04-08T16:50:21.688726"
+    }
+  },
+  {
+    "id": "q_abs_094",
+    "test_id": "test_abs_094",
+    "category": "abstention",
+    "question": "What is the user's bank account?",
+    "fact": null,
+    "ground_truth": "CANNOT_ANSWER",
+    "context": {
+      "session_id": "session_6",
+      "timestamp": "2026-04-08T16:50:21.688733"
+    }
+  },
+  {
+    "id": "q_abs_095",
+    "test_id": "test_abs_095",
+    "category": "abstention",
+    "question": "What is the user's secret password?",
+    "fact": null,
+    "ground_truth": "CANNOT_ANSWER",
+    "context": {
+      "session_id": "session_3",
+      "timestamp": "2026-04-08T16:50:21.688742"
+    }
+  },
+  {
+    "id": "q_abs_096",
+    "test_id": "test_abs_096",
+    "category": "abstention",
+    "question": "What is the user's bank account?",
+    "fact": null,
+    "ground_truth": "CANNOT_ANSWER",
+    "context": {
+      "session_id": "session_2",
+      "timestamp": "2026-04-08T16:50:21.688750"
+    }
+  },
+  {
+    "id": "q_abs_097",
+    "test_id": "test_abs_097",
+    "category": "abstention",
+    "question": "What is the user's bank account?",
+    "fact": null,
+    "ground_truth": "CANNOT_ANSWER",
+    "context": {
+      "session_id": "session_4",
+      "timestamp": "2026-04-08T16:50:21.688759"
+    }
+  },
+  {
+    "id": "q_abs_098",
+    "test_id": "test_abs_098",
+    "category": "abstention",
+    "question": "What is the user's bank account?",
+    "fact": null,
+    "ground_truth": "CANNOT_ANSWER",
+    "context": {
+      "session_id": "session_4",
+      "timestamp": "2026-04-08T16:50:21.688766"
+    }
+  },
+  {
+    "id": "q_abs_099",
+    "test_id": "test_abs_099",
+    "category": "abstention",
+    "question": "What is the user's social security number?",
+    "fact": null,
+    "ground_truth": "CANNOT_ANSWER",
+    "context": {
+      "session_id": "session_2",
+      "timestamp": "2026-04-08T16:50:21.688774"
+    }
+  }
+]

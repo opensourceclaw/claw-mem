@@ -5,6 +5,56 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.3.0] - 2026-04-27
+
+### Added
+
+- **Write-Time Gating** (写时门控)
+  - `GatingFilter` - 基于重要性评分决定是否存储
+  - `AdaptiveThreshold` - 根据记忆数量动态调整阈值
+  - `SalienceScorer` - 多维度显著性评分 (来源声誉40%, 新颖性30%, 可靠性30%)
+  - 支持自定义评分函数
+
+- **MemoryManager Integration**:
+  - `enable_gating` 参数启用写时门控
+  - `gating_threshold` 设置显著性阈值
+  - 自动判断存储层级 (active/cold)
+  - 冷存储跳过索引以优化性能
+  - `get_gating_stats()` 获取门控统计
+
+- **New Module**: `claw_mem.gating`
+  - `write_time_gating.py` - 核心门控类
+  - `GatingResult`, `GatingFilterResult` - 结果数据结构
+  - `InMemoryStorage`, `DiskStorage` - 分层存储
+  - `VersionChain` - 版本链管理
+
+### Tests
+
+- 82 tests (all passing)
+- Gating 模块覆盖率: ~85%
+- 集成测试: 16 tests
+
+### Performance
+
+- 门控过滤延迟: < 10ms
+- 自适应阈值延迟: < 1ms
+- MemoryManager store 延迟: < 50ms
+
+### Architecture
+
+```
+WriteTimeGating
+├── SalienceScorer (显著性评分)
+│   ├── Source Reputation (40%)
+│   ├── Novelty (30%)
+│   └── Reliability (30%)
+├── GatingFilter (门控过滤器)
+├── AdaptiveThreshold (自适应阈值)
+└── Storage Tiers
+    ├── Active Memory (高显著性)
+    └── Cold Storage (低显著性)
+```
+
 ## [2.2.0] - 2026-04-23
 
 ### Added
