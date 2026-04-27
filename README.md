@@ -34,7 +34,7 @@ claw-mem is a **Local-First** memory system for OpenClaw, featuring:
 npx clawhub@latest install opensourceclaw-claw-mem
 
 # Install Python package
-pip install git+https://github.com/opensourceclaw/claw-mem.git
+pip3 install git+https://github.com/opensourceclaw/claw-mem.git
 ```
 
 ### Option 2: From GitHub
@@ -43,13 +43,13 @@ pip install git+https://github.com/opensourceclaw/claw-mem.git
 # Clone and install
 git clone https://github.com/opensourceclaw/claw-mem.git
 cd claw-mem
-pip install -e .
+pip3 install -e .
 ```
 
 ### Option 3: Direct pip install
 
 ```bash
-pip install git+https://github.com/opensourceclaw/claw-mem.git
+pip3 install git+https://github.com/opensourceclaw/claw-mem.git
 ```
 
 ## 🚀 Quick Start
@@ -58,7 +58,7 @@ pip install git+https://github.com/opensourceclaw/claw-mem.git
 
 ```bash
 # Install Python package
-pip install git+https://github.com/opensourceclaw/claw-mem.git
+pip3 install git+https://github.com/opensourceclaw/claw-mem.git
 
 # Or via ClawHub
 npx clawhub@latest install opensourceclaw-claw-mem
