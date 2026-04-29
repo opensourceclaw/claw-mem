@@ -221,7 +221,7 @@ success = manager.gating.promote(item_id='abc123', target_tier='active')
 
 ## GatingFilter (v2.3.0)
 
-基于 ImportanceScorer 的门控过滤器。
+基于 ImportanceScorer 的门控过滤器.
 
 ### Constructor
 
@@ -242,7 +242,7 @@ GatingFilter(
 
 #### should_store(memory: Dict) -> GatingFilterResult
 
-判断是否应该存储。
+判断是否应该存储.
 
 ```python
 from claw_mem.gating import GatingFilter
@@ -263,7 +263,7 @@ print(result.reason)  # "High importance (1.50 >= 1.00): type=semantic, source=u
 
 #### set_threshold(threshold: float)
 
-设置新阈值。
+设置新阈值.
 
 ```python
 filter.set_threshold(1.5)
@@ -273,7 +273,7 @@ filter.set_threshold(1.5)
 
 ## AdaptiveThreshold (v2.3.0)
 
-自适应阈值 - 根据记忆数量动态调整。
+自适应阈值 - 根据记忆数量动态调整.
 
 ### Constructor
 
@@ -291,7 +291,7 @@ AdaptiveThreshold(
 
 #### get_threshold(current_memory_count: int) -> float
 
-根据当前记忆数量计算阈值。
+根据当前记忆数量计算阈值.
 
 ```python
 from claw_mem.gating import AdaptiveThreshold
@@ -303,16 +303,16 @@ adapter = AdaptiveThreshold(
     memory_capacity=1000
 )
 
-# 记忆少时，阈值较低
+# 记忆少时,阈值较低
 threshold = adapter.get_threshold(100)  # ~0.6
 
-# 记忆多时，阈值较高
+# 记忆多时,阈值较高
 threshold = adapter.get_threshold(900)  # ~1.3
 ```
 
 #### get_stats(current_memory_count: int) -> Dict
 
-获取统计信息。
+获取统计信息.
 
 ```python
 stats = adapter.get_stats(500)
@@ -335,7 +335,7 @@ stats = adapter.get_stats(500)
 from claw_mem import MemoryManager
 from claw_mem.gating import GatingFilter, AdaptiveThreshold
 
-# 创建 MemoryManager，启用写时门控
+# 创建 MemoryManager,启用写时门控
 mm = MemoryManager(
     workspace='./workspace',
     enable_gating=True,

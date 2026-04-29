@@ -17,7 +17,7 @@ class TestMemoryManagerIntegration:
 
     def test_gating_in_memory_manager(self):
         """测试 WriteTimeGating 集成到 MemoryManager"""
-        # 创建 MemoryManager，启用 gating
+        # 创建 MemoryManager,启用 gating
         manager = MemoryManager(enable_gating=True, auto_detect=False)
 
         # 验证 gating 启用
@@ -55,8 +55,8 @@ class TestMemoryManagerIntegration:
         """测试 gating 统计信息"""
         manager = MemoryManager(enable_gating=True, auto_detect=False)
 
-        # 写入一些记忆（会触发 gating 评分）
-        # 注意：gating 是在 gating.write 中生效，不是 store
+        # 写入一些记忆(会触发 gating 评分)
+        # 注意:gating 是在 gating.write 中生效,不是 store
         # 所以我们直接测试 gating
         manager.gating.write({
             'content': '重要决策',
@@ -77,13 +77,13 @@ class TestEndToEnd:
     """端到端测试"""
 
     def test_full_workflow_with_gating(self):
-        """测试完整工作流（启用 gating）"""
+        """测试完整工作流(启用 gating)"""
         # 1. 创建 manager
         manager = MemoryManager(enable_gating=True, gating_threshold=0.6, auto_detect=False)
 
-        # 2. 写入记忆（通过 gating）
+        # 2. 写入记忆(通过 gating)
         high_item = {
-            'content': '重要决策：使用 Python 作为主要开发语言',
+            'content': '重要决策:使用 Python 作为主要开发语言',
             'source': 'user',
             'context': {'topic': '技术选型'},
             'verified': True

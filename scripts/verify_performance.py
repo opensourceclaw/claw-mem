@@ -150,7 +150,7 @@ def test_performance():
     
     # Test 5: Long text query
     print("\n5. Testing long text query...")
-    long_query = "用户偏好使用中文交流，claw-mem 仓库地址是 https://github.com/opensourceclaw/claw-mem，Peter Cheng 是项目负责人" * 10
+    long_query = "用户偏好使用中文交流,claw-mem 仓库地址是 https://github.com/opensourceclaw/claw-mem,Peter Cheng 是项目负责人" * 10
     
     start = time.time()
     result = retriever.search(long_query, **storages)

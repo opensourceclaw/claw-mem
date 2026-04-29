@@ -23,7 +23,7 @@
 |------|------|--------|
 | **写时门控** | Write-Time Gating - 写入时智能判断重要性 | P0 |
 | **记忆压缩** | Memory Compression - 长对话记忆压缩 | P1 |
-| **多模态记忆** | Multimodal Memory - 支持图像、文件等 | P2 |
+| **多模态记忆** | Multimodal Memory - 支持图像,文件等 | P2 |
 
 ### 2.2 技术方向
 

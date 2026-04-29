@@ -10,16 +10,16 @@
 
 ### Release Title 格式
 
-**规则：** `项目名称 vx.x.x`
+**规则:** `项目名称 vx.x.x`
 
-**示例：**
+**示例:**
 - ✅ `claw-mem v1.0.5`
 - ✅ `claw-rl v0.6.0`
 - ✅ `NeoClaw v0.6.0`
 - ❌ `claw-mem v1.0.5: Metadata Support` (不要描述)
 - ❌ `NeoClaw v0.6.0 - Service Layer` (不要描述)
 
-**说明：**
+**说明:**
 - Title 仅包含项目名称和版本号
 - 不要有任何额外描述
 - 描述内容放在 Release Notes (body) 中
@@ -54,14 +54,14 @@ Test info here
 
 ### 不包含 PyPI 上传
 
-**规则：** Python 项目不上传 PyPI
+**规则:** Python 项目不上传 PyPI
 
-**说明：**
+**说明:**
 - 仅发布 GitHub Release
 - 不上传到 PyPI
 - 用户通过 GitHub 安装
 
-**安装方式：**
+**安装方式:**
 ```bash
 # 从 GitHub 安装
 pip install git+https://github.com/opensourceclaw/claw-mem.git@v1.0.5
@@ -108,7 +108,7 @@ gh release view vx.x.x
 
 ### Semantic Versioning
 
-格式：`主版本号。次版本号。修订号`
+格式:`主版本号.次版本号.修订号`
 
 | 变更类型 | 版本更新 | 示例 |
 |---------|---------|------|

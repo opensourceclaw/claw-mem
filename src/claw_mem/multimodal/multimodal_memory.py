@@ -1,7 +1,7 @@
 """
 Multimodal Memory Module for claw-mem v2.4.0
 
-支持图像、文件等多模态记忆存储。
+支持图像,文件等多模态记忆存储.
 """
 
 from typing import Optional, Dict, Any, List
@@ -49,7 +49,7 @@ class MultimodalMemoryStore:
     """
     多模态记忆存储
 
-    支持图像、文件等非文本内容的记忆存储。
+    支持图像,文件等非文本内容的记忆存储.
     """
 
     def __init__(self, base_path: str = "./workspace/multimodal"):

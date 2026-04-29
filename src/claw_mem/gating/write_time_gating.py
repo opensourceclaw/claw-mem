@@ -2,7 +2,7 @@
 Write-Time Gating - 写时门控
 
 来源: Selective Memory 论文
-核心思想: 只storage显著信息，avoid记忆冗余
+核心思想: 只storage显著信息,avoid记忆冗余
 
 References:
     - Selective Memory: Learning what to remember
@@ -37,8 +37,8 @@ class GatingFilterResult:
 class GatingFilter:
     """门控过滤器 - 基于重要性评分决定是否存储
 
-    使用 ImportanceScorer 计算记忆重要性，
-    根据阈值决定是否存储到主存储。
+    使用 ImportanceScorer 计算记忆重要性,
+    根据阈值决定是否存储到主存储.
 
     Example:
         >>> from claw_mem.gating import GatingFilter
@@ -81,7 +81,7 @@ class GatingFilter:
         self.threshold = threshold
         self.custom_score_func = custom_score_func
 
-        # 如果没有提供scorer，使用内置评分
+        # 如果没有提供scorer,使用内置评分
         if self.scorer is None and self.custom_score_func is None:
             self.scorer = _DefaultImportanceScorer()
 
@@ -89,7 +89,7 @@ class GatingFilter:
         """判断是否应该存储
 
         Args:
-            memory: 记忆字典，包含:
+            memory: 记忆字典,包含:
                 - memory_type: 记忆类型 (semantic/procedural/episodic)
                 - access_count: 访问次数
                 - accessed_at: 上次访问时间
@@ -201,8 +201,8 @@ class MemoryImportance:
 class AdaptiveThreshold:
     """自适应阈值 - 根据记忆数量动态调整
 
-    当记忆数量较多时，提高阈值以过滤低重要性记忆；
-    当记忆数量较少时，降低阈值以保留更多记忆。
+    当记忆数量较多时,提高阈值以过滤低重要性记忆;
+    当记忆数量较少时,降低阈值以保留更多记忆.
 
     Example:
         >>> from claw_mem.gating import AdaptiveThreshold
@@ -236,7 +236,7 @@ class AdaptiveThreshold:
             min_threshold: 最小阈值
             max_threshold: 最大阈值
             memory_capacity: 记忆容量参考值
-            scale_factor: 缩放因子，控制阈值变化速度
+            scale_factor: 缩放因子,控制阈值变化速度
         """
         self.base_threshold = base_threshold
         self.min_threshold = min_threshold
@@ -257,11 +257,11 @@ class AdaptiveThreshold:
         usage_ratio = current_memory_count / self.memory_capacity
 
         # 使用 sigmoid 函数平滑过渡
-        # 当 usage_ratio = 0.5 时，threshold = base_threshold
-        # 当 usage_ratio 接近 0 时，threshold 接近 min_threshold
-        # 当 usage_ratio 接近 1 时，threshold 接近 max_threshold
+        # 当 usage_ratio = 0.5 时,threshold = base_threshold
+        # 当 usage_ratio 接近 0 时,threshold 接近 min_threshold
+        # 当 usage_ratio 接近 1 时,threshold 接近 max_threshold
 
-        # 调整偏移，使 base_threshold 在 usage_ratio=0.5 时
+        # 调整偏移,使 base_threshold 在 usage_ratio=0.5 时
         adjusted = (usage_ratio - 0.5) * self.scale_factor * 2
         threshold = self.base_threshold + adjusted
 
@@ -330,7 +330,7 @@ class InMemoryStorage:
 
 
 class DiskStorage:
-    """冷storage（磁盘）"""
+    """冷storage(磁盘)"""
 
     def __init__(self, storage_path: str = "/tmp/claw-mem-cold"):
         import os
@@ -432,7 +432,7 @@ class WriteTimeGating:
     ):
         """
         Args:
-            threshold: 显著性阈值，默认 0.6
+            threshold: 显著性阈值,默认 0.6
             active_memory: 活跃记忆storage
             cold_storage: 冷storage
         """
@@ -446,7 +446,7 @@ class WriteTimeGating:
         """写入记忆项
 
         Args:
-            item: 记忆项，包含:
+            item: 记忆项,包含:
                 - content: 内容
                 - source: 来源 (user/agent/system)
                 - context: 上下文
@@ -487,7 +487,7 @@ class WriteTimeGating:
         )
 
     def should_store(self, item: Dict[str, Any]) -> bool:
-        """判断是否shouldstorage（预check）
+        """判断是否shouldstorage(预check)
 
         Args:
             item: 记忆项
@@ -554,7 +554,7 @@ class SalienceScorer:
     ):
         """
         Args:
-            weights: 各维度权重，默认:
+            weights: 各维度权重,默认:
                 - source_reputation: 0.4
                 - novelty: 0.3
                 - reliability: 0.3
@@ -610,7 +610,7 @@ class SalienceScorer:
         if not self.recent_items:
             return 1.0  # 第一个项目最具新颖性
 
-        # 简单实现：计算与最近内容的相似度
+        # 简单实现:计算与最近内容的相似度
         # 实际实现可以使用更复杂的算法
         similarities = [
             self._simple_similarity(content, recent)
@@ -619,7 +619,7 @@ class SalienceScorer:
 
         avg_similarity = sum(similarities) / len(similarities)
 
-        # 相似度越低，新颖性越高
+        # 相似度越低,新颖性越高
         novelty = 1.0 - avg_similarity
 
         return max(0.0, min(1.0, novelty))
@@ -627,7 +627,7 @@ class SalienceScorer:
     def _reliability(self, item: Dict[str, Any]) -> float:
         """可靠性评分
 
-        基于来源、validate状态、上下文完整性
+        基于来源,validate状态,上下文完整性
         """
         score = 0.5  # 基础分
 
@@ -648,7 +648,7 @@ class SalienceScorer:
         return max(0.0, min(1.0, score))
 
     def _simple_similarity(self, text1: str, text2: str) -> float:
-        """简单相似度计算（基于词重叠）"""
+        """简单相似度计算(基于词重叠)"""
         words1 = set(text1.lower().split())
         words2 = set(text2.lower().split())
 

@@ -69,7 +69,7 @@ class ValueBackup:
 
         Args:
             value_store: uservaluesstorage
-            backup_dir: backup目录，默认 ~/.claw_mem/backups/
+            backup_dir: backup目录,默认 ~/.claw_mem/backups/
         """
         self.value_store = value_store or UserValueStore()
 
@@ -87,7 +87,7 @@ class ValueBackup:
 
         Args:
             user_id: user ID
-            path: export路径，if为 None 则自动生成
+            path: export路径,if为 None 则自动生成
 
         Returns:
             BackupMetadata: backup元数据
@@ -160,7 +160,7 @@ class ValueBackup:
 
         # checkuserID匹配
         if imported_values.get("user_id") != user_id:
-            # 允许import不同user的values（创建新user）
+            # 允许import不同user的values(创建新user)
             pass
 
         # get现有values
@@ -187,7 +187,7 @@ class ValueBackup:
         """列出backup文件
 
         Args:
-            user_id: user ID，if为 None 则列出所有user的backup
+            user_id: user ID,if为 None 则列出所有user的backup
 
         Returns:
             List[BackupMetadata]: backup元数据列表

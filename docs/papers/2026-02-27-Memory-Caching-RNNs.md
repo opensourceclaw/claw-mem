@@ -9,7 +9,7 @@
 
 ## 核心贡献
 
-> "我们引入 Memory Caching，通过缓存记忆状态检查点，使 RNN 的有效记忆容量随序列长度增长。"
+> "我们引入 Memory Caching,通过缓存记忆状态检查点,使 RNN 的有效记忆容量随序列长度增长."
 
 **关键结果**:
 - 复杂度: O(NL) — RNN O(L) 和 Transformer O(L²) 之间

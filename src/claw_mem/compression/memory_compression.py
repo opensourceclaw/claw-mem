@@ -1,7 +1,7 @@
 """
 Memory Compression Module for claw-mem v2.4.0
 
-提供长对话记忆压缩功能，压缩率 > 50%，保持关键信息。
+提供长对话记忆压缩功能,压缩率 > 50%,保持关键信息.
 """
 
 from typing import List, Dict, Any, Optional, Tuple
@@ -33,7 +33,7 @@ class KeyInformationExtractor:
     """
     关键信息提取器
 
-    从文本中提取关键信息：
+    从文本中提取关键信息:
     - 决策
     - 承诺
     - 重要事实
@@ -82,7 +82,7 @@ class MemoryCompressor:
     """
     记忆压缩器
 
-    支持多种压缩级别，保留关键信息。
+    支持多种压缩级别,保留关键信息.
     """
 
     def __init__(
@@ -143,7 +143,7 @@ class MemoryCompressor:
         )
 
     def _compress_light(self, content: str) -> str:
-        """轻度压缩：移除多余空白和短词"""
+        """轻度压缩:移除多余空白和短词"""
         # Remove extra whitespace
         lines = content.split('\n')
         cleaned = [line.strip() for line in lines if line.strip()]
@@ -153,7 +153,7 @@ class MemoryCompressor:
         return '\n'.join(result)
 
     def _compress_medium(self, content: str) -> str:
-        """中度压缩：移除重复和低信息量内容"""
+        """中度压缩:移除重复和低信息量内容"""
         lines = content.split('\n')
         cleaned = [line.strip() for line in lines if line.strip()]
 
@@ -171,12 +171,12 @@ class MemoryCompressor:
         return '\n'.join(result)
 
     def _compress_aggressive(self, content: str) -> str:
-        """激进压缩：只保留关键信息"""
+        """激进压缩:只保留关键信息"""
         # First extract key information
         key_info = self._extractor.extract(content)
 
         # Get all key sentences
-        sentences = re.split(r'[.!?。！？\n]', content)
+        sentences = re.split(r'[.!?.!?\n]', content)
         key_sentences = []
 
         for sentence in sentences:

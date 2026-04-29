@@ -1,11 +1,11 @@
 """
 Write-Time Gating Module - 写时门控模块
 
-基于 Selective Memory 论文实现的智能记忆storage系统。
+基于 Selective Memory 论文实现的智能记忆storage系统.
 
 核心思想:
-    只storage显著信息，avoid记忆冗余。
-    通过多维度显著性评分，决定记忆的storage层级。
+    只storage显著信息,avoid记忆冗余.
+    通过多维度显著性评分,决定记忆的storage层级.
 
 架构:
     ┌─────────────────────────────────────┐

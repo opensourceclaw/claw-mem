@@ -20,7 +20,7 @@
 9. 发布验证 ✅
 ```
 
-**注意：** 根据 RELEASE_RULES.md 规范，本项目不上传 PyPI，仅发布 GitHub Release。
+**注意:** 根据 RELEASE_RULES.md 规范,本项目不上传 PyPI,仅发布 GitHub Release.
 
 ---
 
@@ -32,9 +32,9 @@
 - [x] 代码审查通过
 
 ### 2. 测试通过 ✅
-- [x] 功能测试：5/5 通过
-- [x] 性能测试：6/6 通过
-- [x] 测试覆盖率：100%
+- [x] 功能测试:5/5 通过
+- [x] 性能测试:6/6 通过
+- [x] 测试覆盖率:100%
 
 ### 3. 文档完整 ✅
 - [x] CHANGELOG.md 更新
@@ -63,15 +63,15 @@
 ### 7. 创建 Tag ✅
 ```bash
 ✅ Tag: v0.7.0
-✅ 类型：annotated tag
-✅ 推送：origin/v0.7.0 (成功)
+✅ 类型:annotated tag
+✅ 推送:origin/v0.7.0 (成功)
 ```
 
 ### 8. GitHub Release ✅
 ```bash
 ✅ Release: claw-mem v0.7.0 - Persistent Memory
 ✅ URL: https://github.com/opensourceclaw/claw-mem/releases/tag/v0.7.0
-✅ Notes: 100% 英文，符合 Apache 标准
+✅ Notes: 100% 英文,符合 Apache 标准
 ```
 
 ---
@@ -132,7 +132,7 @@
 ### 当前状态
 ```
 🟢 GitHub Release: 已发布
-🟢 验证：完成
+🟢 验证:完成
 ```
 
 ### 完成度
@@ -142,6 +142,6 @@
 
 ---
 
-*检查时间：2026-03-19 17:40*  
-*状态：待评审确认*  
-*下一步：等待 Peter 决策*
+*检查时间:2026-03-19 17:40*  
+*状态:待评审确认*  
+*下一步:等待 Peter 决策*

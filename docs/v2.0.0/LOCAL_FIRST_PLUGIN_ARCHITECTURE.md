@@ -1,8 +1,8 @@
 # claw-mem v2.0.0 Local-First Plugin 架构设计
 
-**设计时间：** 2026-03-30 23:20  
-**设计原则：** Local-First, Zero Network Overhead, Minimal Latency  
-**参考架构：** Mem0 (Python Core + TypeScript Wrapper)
+**设计时间:** 2026-03-30 23:20  
+**设计原则:** Local-First, Zero Network Overhead, Minimal Latency  
+**参考架构:** Mem0 (Python Core + TypeScript Wrapper)
 
 ---
 
@@ -10,7 +10,7 @@
 
 ### Local-First 设计理念
 
-**与 Mem0 的关键区别：**
+**与 Mem0 的关键区别:**
 
 | 特性 | Mem0 (Cloud-First) | claw-mem (Local-First) |
 |------|-------------------|------------------------|
@@ -20,8 +20,8 @@
 | **部署** | 需要云服务 | 完全本地 |
 | **数据** | 云端存储 | 本地存储 |
 
-**设计目标：**
-1. ✅ **零网络开销** - 不走 HTTP，直接本地调用
+**设计目标:**
+1. ✅ **零网络开销** - 不走 HTTP,直接本地调用
 2. ✅ **最小延迟** - 目标 <5ms
 3. ✅ **完全本地** - 不依赖云服务
 4. ✅ **简单部署** - 一个 Python 环境即可
@@ -32,9 +32,9 @@
 
 ### 方案对比
 
-#### 方案 A: Python 子进程 + stdio（推荐）
+#### 方案 A: Python 子进程 + stdio(推荐)
 
-**架构：**
+**架构:**
 ```
 ┌─────────────────────────────────────┐
 │   OpenClaw Plugin (TypeScript)      │
@@ -62,13 +62,13 @@
 └─────────────────────────────────────┘
 ```
 
-**优势：**
-- ✅ 最小延迟（~1-5ms）
+**优势:**
+- ✅ 最小延迟(~1-5ms)
 - ✅ 零网络开销
 - ✅ 简单可靠
 - ✅ 易于调试
 
-**劣势：**
+**劣势:**
 - ⚠️ 需要维护子进程生命周期
 - ⚠️ 需要处理进程崩溃重启
 
@@ -76,7 +76,7 @@
 
 #### 方案 B: Node.js Native Addon
 
-**架构：**
+**架构:**
 ```
 TypeScript Plugin
     ↓ require()
@@ -85,11 +85,11 @@ Node.js Native Addon (C++)
 claw-mem Python Core
 ```
 
-**优势：**
-- ✅ 极低延迟（<1ms）
+**优势:**
+- ✅ 极低延迟(<1ms)
 - ✅ 直接函数调用
 
-**劣势：**
+**劣势:**
 - ⚠️ 需要编译 C++ 代码
 - ⚠️ 跨平台复杂
 - ⚠️ 开发难度高
@@ -98,7 +98,7 @@ claw-mem Python Core
 
 #### 方案 C: Python HTTP Server (Local)
 
-**架构：**
+**架构:**
 ```
 TypeScript Plugin
     ↓ HTTP (localhost)
@@ -107,24 +107,24 @@ Python HTTP Server (FastAPI)
 claw-mem Python Core
 ```
 
-**优势：**
+**优势:**
 - ✅ 简单实现
 - ✅ 易于调试
 
-**劣势：**
-- ⚠️ HTTP 开销（~5-10ms）
+**劣势:**
+- ⚠️ HTTP 开销(~5-10ms)
 - ⚠️ 需要端口管理
 - ⚠️ 需要处理服务器生命周期
 
 ---
 
-## 🎯 推荐方案：Python 子进程 + stdio JSON-RPC
+## 🎯 推荐方案:Python 子进程 + stdio JSON-RPC
 
 ### 详细设计
 
 #### 1. Python Bridge 实现
 
-**文件：** `claw_mem/bridge.py`
+**文件:** `claw_mem/bridge.py`
 
 ```python
 #!/usr/bin/env python3
@@ -304,7 +304,7 @@ if __name__ == "__main__":
 
 #### 2. TypeScript Plugin 实现
 
-**文件：** `claw_mem_plugin/index.ts`
+**文件:** `claw_mem_plugin/index.ts`
 
 ```typescript
 import { spawn, ChildProcess } from 'child_process';
@@ -628,7 +628,7 @@ function extractFactsFromEvent(event: any): string[] {
 | **Get** | ~50ms | ~10-20ms | **~1-2ms** |
 | **初始化** | ~500ms | ~200ms | **~50ms** |
 
-**优势来源：**
+**优势来源:**
 1. ✅ **零网络开销** - 不走 HTTP
 2. ✅ **进程间通信** - stdio 比 HTTP 快 10-50 倍
 3. ✅ **本地存储** - SQLite 比 HTTP API 快 100 倍
@@ -703,7 +703,7 @@ claw-mem/
 │   │   ├── episodic.py
 │   │   ├── semantic.py
 │   │   └── procedural.py
-│   └── bridge.py                # ← 新增：Bridge
+│   └── bridge.py                # ← 新增:Bridge
 ├── claw_mem_plugin/             # TypeScript Plugin
 │   ├── index.ts                 # Plugin 入口
 │   ├── bridge.ts                # Bridge 客户端
@@ -717,7 +717,7 @@ claw-mem/
 
 ## 🚀 实施计划
 
-### Phase 1: Python Bridge（1 周）
+### Phase 1: Python Bridge(1 周)
 
 **Day 1-2: Bridge 实现**
 - 实现 `claw_mem/bridge.py`
@@ -733,7 +733,7 @@ claw-mem/
 - API 文档
 - 使用指南
 
-### Phase 2: TypeScript Plugin（1 周）
+### Phase 2: TypeScript Plugin(1 周)
 
 **Day 1-2: Plugin 实现**
 - 实现 `claw_mem_plugin/index.ts`
@@ -749,7 +749,7 @@ claw-mem/
 - 集成测试
 - 端到端测试
 
-### Phase 3: 发布（2 天）
+### Phase 3: 发布(2 天)
 
 **Day 1: 打包**
 - Python 包发布
@@ -766,9 +766,9 @@ claw-mem/
 
 ### Local-First 优势
 
-1. ✅ **零网络开销** - 不走 HTTP，直接 stdio
-2. ✅ **极低延迟** - ~1-5ms，比 HTTP 快 10-50 倍
-3. ✅ **完全本地** - 不依赖云服务，数据隐私
+1. ✅ **零网络开销** - 不走 HTTP,直接 stdio
+2. ✅ **极低延迟** - ~1-5ms,比 HTTP 快 10-50 倍
+3. ✅ **完全本地** - 不依赖云服务,数据隐私
 4. ✅ **简单部署** - 一个 Python 环境即可
 5. ✅ **高可靠性** - 无网络故障风险
 
@@ -787,16 +787,16 @@ claw-mem/
 
 ## 🎯 最终建议
 
-**推荐：Python 子进程 + stdio JSON-RPC**
+**推荐:Python 子进程 + stdio JSON-RPC**
 
-**理由：**
+**理由:**
 1. ✅ **最佳性能** - ~1-5ms 延迟
 2. ✅ **完全本地** - Local-First 设计
 3. ✅ **简单可靠** - stdio 通信最简单
 4. ✅ **易于调试** - 可独立测试 Bridge
 5. ✅ **复用代码** - Python 核心完全复用
 
-**下一步行动：**
+**下一步行动:**
 1. 实现 Python Bridge
 2. 实现 TypeScript Plugin
 3. 性能测试
@@ -804,6 +804,6 @@ claw-mem/
 
 ---
 
-**创建时间：** 2026-03-30 23:20  
-**创建者：** Friday (AI Assistant)  
-**状态：** 设计完成
+**创建时间:** 2026-03-30 23:20  
+**创建者:** Friday (AI Assistant)  
+**状态:** 设计完成

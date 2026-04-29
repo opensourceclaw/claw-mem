@@ -76,7 +76,7 @@ class TestEpisodeNode:
     def test_create_episode_node(self):
         node = EpisodeNode(
             id="ep_1",
-            content="用户说：你好",
+            content="用户说:你好",
             sequence_id=0,
             speaker="user"
         )

@@ -15,10 +15,10 @@
 """
 Concept-Mediated Graph - 概念介导知识图谱
 
-基于 GAAMA 论文实现的四节点五边图谱结构。
+基于 GAAMA 论文实现的四节点五边图谱结构.
 
 核心功能:
-1. 添加对话（自动构建图谱）
+1. 添加对话(自动构建图谱)
 2. 提取事实和概念
 3. 生成反思
 4. 混合检索
@@ -56,7 +56,7 @@ class Embedder(Callable):
 
 
 class DummyEmbedder(Embedder):
-    """虚拟嵌入器（用于测试）"""
+    """虚拟嵌入器(用于测试)"""
 
     def __init__(self, dimension: int = 384):
         self.dimension = dimension
@@ -113,10 +113,10 @@ class ConceptMediatedGraph:
         Args:
             storage: 图谱storage后端
             embedder: 向量嵌入器
-            extractor: 提取器（用于提取事实和概念）
+            extractor: 提取器(用于提取事实和概念)
         """
         self.storage = storage or InMemoryGraphStorage()
-        self.embedder = embedder  # 允许 None，不自动创建 DummyEmbedder
+        self.embedder = embedder  # 允许 None,不自动创建 DummyEmbedder
         self.extractor = extractor or DummyExtractor()
 
     def add_conversation(
@@ -124,22 +124,22 @@ class ConceptMediatedGraph:
         turns: List[Dict[str, Any]],
         session_id: Optional[str] = None
     ) -> List[str]:
-        """添加对话，自动构建图谱
+        """添加对话,自动构建图谱
 
         Args:
-            turns: 对话轮次列表，每个包含:
+            turns: 对话轮次列表,每个包含:
                 - speaker: 发言者
                 - content: 内容
-                - timestamp: 时间戳（可选）
-            session_id: 会话 ID（可选）
+                - timestamp: 时间戳(可选)
+            session_id: 会话 ID(可选)
 
         Returns:
             List[str]: 创建的 Episode 节点 ID 列表
 
         流程:
         1. 创建 Episode 节点
-        2. 提取 Fact 节点（if有 LLM）
-        3. 提取 Concept 节点（if有 LLM）
+        2. 提取 Fact 节点(if有 LLM)
+        3. 提取 Concept 节点(if有 LLM)
         4. 建立边关系
         """
         episode_ids = []
@@ -399,7 +399,7 @@ class ConceptMediatedGraph:
                 - alpha=1: 纯语义检索
                 - alpha=0: 纯 PPR
                 - alpha=0.5: 混合
-            node_types: 过滤节点类型（可选）
+            node_types: 过滤节点类型(可选)
 
         Returns:
             List[RetrievalResult]: 检索结果
@@ -427,7 +427,7 @@ class ConceptMediatedGraph:
                     score = self._cosine_similarity(query_embedding, node.embedding)
                     semantic_scores[node.id] = score
 
-        # PPR 检索（简化版：基于节点度数）
+        # PPR 检索(简化版:基于节点度数)
         ppr_scores: Dict[str, float] = {}
         if alpha < 1:
             degree_dict = self._compute_ppr_scores(all_nodes)
@@ -482,7 +482,7 @@ class ConceptMediatedGraph:
         return str(uuid.uuid4())
 
     def _extract_facts(self, turns: List[Dict]) -> List[str]:
-        """提取事实（使用 LLM）"""
+        """提取事实(使用 LLM)"""
         if not self.extractor:
             return []
 
@@ -494,7 +494,7 @@ class ConceptMediatedGraph:
             return []
 
     def _extract_concepts(self, turns: List[Dict]) -> List[str]:
-        """提取概念（使用 LLM）"""
+        """提取概念(使用 LLM)"""
         if not self.extractor:
             return []
 
@@ -521,7 +521,7 @@ class ConceptMediatedGraph:
             return 0.0
 
     def _compute_ppr_scores(self, nodes: List[Node]) -> Dict[str, float]:
-        """计算 PPR 分数（简化版：基于节点度数）"""
+        """计算 PPR 分数(简化版:基于节点度数)"""
         scores = {}
         for node in nodes:
             neighbors = self.storage.get_neighbors(node.id)

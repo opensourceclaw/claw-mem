@@ -16,10 +16,10 @@
 Graph Nodes - 概念介导图谱节点类型
 
 基于 GAAMA 论文的四节点类型:
-- Episode: 对话片段、事件序列
-- Fact: 提取的事实、知识
-- Reflection: 总结、洞察、模式
-- Concept: 抽象概念、主题
+- Episode: 对话片段,事件序列
+- Fact: 提取的事实,知识
+- Reflection: 总结,洞察,模式
+- Concept: 抽象概念,主题
 """
 
 from enum import Enum
@@ -85,7 +85,7 @@ class Node:
 
 @dataclass
 class EpisodeNode:
-    """情景节点 - 对话片段、事件序列
+    """情景节点 - 对话片段,事件序列
 
     属性:
         sequence_id: 在对话中的序号
@@ -200,7 +200,7 @@ class FactNode:
 
 @dataclass
 class ReflectionNode:
-    """反思节点 - 总结、洞察、模式
+    """反思节点 - 总结,洞察,模式
 
     属性:
         summary_type: 反思类型 (general/pattern/insight)
@@ -254,7 +254,7 @@ class ReflectionNode:
 
 @dataclass
 class ConceptNode:
-    """概念节点 - 抽象概念、主题
+    """概念节点 - 抽象概念,主题
 
     属性:
         category: 概念类don't (general/topic/entity/action)
@@ -307,7 +307,7 @@ class ConceptNode:
 
 
 def create_node(node_type: NodeType, content: str, **kwargs) -> Any:
-    """工厂函数：创建节点
+    """工厂函数:创建节点
 
     Args:
         node_type: 节点类型
@@ -318,7 +318,7 @@ def create_node(node_type: NodeType, content: str, **kwargs) -> Any:
         节点实例
 
     Example:
-        >>> node = create_node(NodeType.EPISODE, "user说：你好", speaker="user")
+        >>> node = create_node(NodeType.EPISODE, "user说:你好", speaker="user")
     """
     node_id = kwargs.pop('id', f"{node_type.value}_{int(time.time() * 1000000)}")
 

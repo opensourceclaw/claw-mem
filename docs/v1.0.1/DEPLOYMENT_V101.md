@@ -400,7 +400,7 @@ chmod +x scripts/deploy_v101.sh
 ---
 
 ## 🎉 Ready to Deploy!
-## 准备部署！
+## 准备部署!
 
 **All prerequisites met:**
 - ✅ GitHub Release v1.0.1 created

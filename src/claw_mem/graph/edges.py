@@ -97,7 +97,7 @@ class Edge:
 class NextEdge(Edge):
     """情景序列边 - Episode → Episode
 
-    表示对话中连续的情景关系。
+    表示对话中连续的情景关系.
     """
     def __init__(self, source_id: str, target_id: str, **kwargs):
         super().__init__(source_id, target_id, EdgeType.NEXT, **kwargs)
@@ -107,7 +107,7 @@ class NextEdge(Edge):
 class DerivedFromEdge(Edge):
     """事实来源边 - Fact → Episode
 
-    表示事实是从哪个情景中提取的。
+    表示事实是从哪个情景中提取的.
     """
     def __init__(self, source_id: str, target_id: str, **kwargs):
         super().__init__(source_id, target_id, EdgeType.DERIVED_FROM, **kwargs)
@@ -117,7 +117,7 @@ class DerivedFromEdge(Edge):
 class SynthesizedFromEdge(Edge):
     """反思来源边 - Reflection → Episode/Fact
 
-    表示反思是从哪些节点综合得出的。
+    表示反思是从哪些节点综合得出的.
     """
     source_node_ids: List[str] = field(default_factory=list)
 
@@ -130,7 +130,7 @@ class SynthesizedFromEdge(Edge):
 class RelatedToEdge(Edge):
     """相关关系边 - 任意节点间
 
-    表示两个节点之间的相关关系（无向边）。
+    表示两个节点之间的相关关系(无向边).
     """
     def __init__(self, source_id: str, target_id: str, **kwargs):
         super().__init__(source_id, target_id, EdgeType.RELATED_TO, **kwargs)
@@ -140,7 +140,7 @@ class RelatedToEdge(Edge):
 class HasConceptEdge(Edge):
     """概念关联边 - 任意节点 → Concept
 
-    表示节点关联到某个概念。
+    表示节点关联到某个概念.
     """
     def __init__(self, source_id: str, target_id: str, **kwargs):
         super().__init__(source_id, target_id, EdgeType.HAS_CONCEPT, **kwargs)
@@ -152,7 +152,7 @@ def create_edge(
     target_id: str,
     **kwargs
 ) -> Edge:
-    """工厂函数：创建边
+    """工厂函数:创建边
 
     Args:
         edge_type: 边类型

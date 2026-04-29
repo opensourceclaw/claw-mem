@@ -18,7 +18,7 @@ LLM Extractors - LLM 驱动的事实和概念提取器
 支持:
 - LLM 驱动的智能提取
 - 基于rule的备用提取
-- 空提取器（用于测试）
+- 空提取器(用于测试)
 """
 
 from typing import List, Dict, Any, Optional
@@ -43,14 +43,14 @@ class BaseExtractor(ABC):
 class LLMExtractor(BaseExtractor):
     """LLM 驱动的提取器
 
-    支持多种 LLM 客户端（OpenAI, Anthropic, 本地模型等）。
-    无 LLM 时使用基于rule的备用方案。
+    支持多种 LLM 客户端(OpenAI, Anthropic, 本地模型等).
+    无 LLM 时使用基于rule的备用方案.
     """
 
     def __init__(self, llm_client: Any = None):
         """
         Args:
-            llm_client: LLM 客户端（支持 .generate(prompt) 方法）
+            llm_client: LLM 客户端(支持 .generate(prompt) 方法)
         """
         self.llm = llm_client
 
@@ -133,48 +133,48 @@ class LLMExtractor(BaseExtractor):
 
     def _build_facts_prompt(self, text: str) -> str:
         """构建事实提取提示"""
-        return f"""从以下文本中提取关键事实。
+        return f"""从以下文本中提取关键事实.
 
-要求：
+要求:
 1. 每行一个事实
-2. 只提取客观事实，don't推断
+2. 只提取客观事实,don't推断
 3. 保持简洁
 
-文本：
+文本:
 {text}
 
-事实列表："""
+事实列表:"""
 
     def _build_concepts_prompt(self, text: str) -> str:
         """构建概念提取提示"""
-        return f"""从以下文本中提取核心概念。
+        return f"""从以下文本中提取核心概念.
 
-要求：
+要求:
 1. 每行一个概念
-2. 提取关键词、主题、实体
+2. 提取关键词,主题,实体
 3. 保持简洁
 
-文本：
+文本:
 {text}
 
-概念列表："""
+概念列表:"""
 
     def _build_reflection_prompt(self, nodes: List[Any]) -> str:
         """构建反思生成提示"""
         node_contents = "\n".join([f"- {n.content}" for n in nodes[:10]])
-        return f"""基于以下记忆节点，生成一个简短的反思总结：
+        return f"""基于以下记忆节点,生成一个简短的反思总结:
 
 {node_contents}
 
-反思："""
+反思:"""
 
     def _extract_facts_rule_based(self, text: str) -> List[str]:
-        """基于rule的事实提取（备用方案）
+        """基于rule的事实提取(备用方案)
 
-        按句子分割文本，提取完整句子作为事实。
+        按句子分割文本,提取完整句子作为事实.
         """
         # 按常见分隔符分割
-        sentences = re.split(r'[。！？.!?\n]+', text)
+        sentences = re.split(r'[.!?.!?\n]+', text)
         facts = []
         for s in sentences:
             s = s.strip()
@@ -184,14 +184,14 @@ class LLMExtractor(BaseExtractor):
         return facts[:5]  # 最多5个
 
     def _extract_concepts_rule_based(self, text: str) -> List[str]:
-        """基于rule的概念提取（备用方案）
+        """基于rule的概念提取(备用方案)
 
-        提取中文词语（2-4字）和英文单词作为概念。
+        提取中文词语(2-4字)和英文单词作为概念.
         """
-        # 中文词语（2-4字）
+        # 中文词语(2-4字)
         chinese = re.findall(r'[\u4e00-\u9fa5]{2,4}', text)
 
-        # 英文单词（3+字母）
+        # 英文单词(3+字母)
         english = re.findall(r'[a-zA-Z]{3,}', text)
 
         # 合并去重
@@ -199,19 +199,19 @@ class LLMExtractor(BaseExtractor):
         return concepts[:10]  # 最多10个
 
     def _generate_reflection_rule_based(self, nodes: List[Any]) -> str:
-        """基于rule的反思生成（备用方案）"""
+        """基于rule的反思生成(备用方案)"""
         if not nodes:
             return "无足够信息生成反思"
 
-        # 简单策略：取最新的节点内容
+        # 简单策略:取最新的节点内容
         latest = nodes[-1] if nodes else None
         if latest:
-            return f"回顾：{latest.content[:100]}"
+            return f"回顾:{latest.content[:100]}"
         return "无足够信息生成反思"
 
 
 class DummyExtractor(BaseExtractor):
-    """空提取器（用于测试）"""
+    """空提取器(用于测试)"""
 
     def extract_facts(self, text: str) -> List[str]:
         """返回空列表"""
@@ -223,9 +223,9 @@ class DummyExtractor(BaseExtractor):
 
 
 class KeywordExtractor(BaseExtractor):
-    """关键词提取器（轻量级方案）
+    """关键词提取器(轻量级方案)
 
-    不依赖 LLM，使用关键词提取算法。
+    不依赖 LLM,使用关键词提取算法.
     """
 
     def __init__(self):

@@ -43,7 +43,7 @@ class TestWriteTimeGating:
         })
 
         assert result.stored is True
-        # 结果可能是 active 或 cold，取决于评分
+        # 结果可能是 active 或 cold,取决于评分
 
     def test_threshold_adjustment(self):
         """Test threshold adjustment"""

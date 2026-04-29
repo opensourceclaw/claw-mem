@@ -36,7 +36,7 @@ def generate_test_memories(count: int):
     for i in range(count):
         memories.append({
             "id": f"mem_{i:06d}",
-            "content": f"这是第 {i} 条测试记忆，包含一些内容用于测试索引加载性能。用户偏好使用中文交流，claw-mem 仓库地址是 https://github.com/opensourceclaw/claw-mem",
+            "content": f"这是第 {i} 条测试记忆,包含一些内容用于测试索引加载性能.用户偏好使用中文交流,claw-mem 仓库地址是 https://github.com/opensourceclaw/claw-mem",
             "tags": ["测试", "性能"],
             "timestamp": "2026-03-21",
         })

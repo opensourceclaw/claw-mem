@@ -1,8 +1,8 @@
 # M5: claw-mem v2.0.0 Plugin 迁移计划
 
-**创建时间：** 2026-03-30 20:35  
-**状态：** 研究阶段  
-**目标：** 将 claw-mem 迁移到 OpenClaw Plugin 架构，实现性能提升和统一集成
+**创建时间:** 2026-03-30 20:35  
+**状态:** 研究阶段  
+**目标:** 将 claw-mem 迁移到 OpenClaw Plugin 架构,实现性能提升和统一集成
 
 ---
 
@@ -10,19 +10,19 @@
 
 ### claw-mem v1.0.8 当前架构
 
-**基本信息：**
-- **版本：** v1.0.8
-- **语言：** Python 3.9+
-- **架构：** 三层记忆系统（Episodic, Semantic, Procedural）
-- **主要组件：**
-  - MemoryManager（核心管理器）
-  - Three-tier retrieval（三层检索）
-  - Storage layers（存储层）
-  - Context injection（上下文注入）
-  - Memory decay（记忆衰减）
-  - Rule extraction（规则提取）
+**基本信息:**
+- **版本:** v1.0.8
+- **语言:** Python 3.9+
+- **架构:** 三层记忆系统(Episodic, Semantic, Procedural)
+- **主要组件:**
+  - MemoryManager(核心管理器)
+  - Three-tier retrieval(三层检索)
+  - Storage layers(存储层)
+  - Context injection(上下文注入)
+  - Memory decay(记忆衰减)
+  - Rule extraction(规则提取)
 
-**核心文件：**
+**核心文件:**
 ```
 claw-mem/
 ├── src/claw_mem/
@@ -47,24 +47,24 @@ claw-mem/
 └── examples/
 ```
 
-**性能指标（v0.9.0）：**
-- 检索速度：10,000x 提升（0.01ms）
-- 启动速度：1,500x 提升（<1ms）
-- 内存使用：500x 减少（<1MB）
+**性能指标(v0.9.0):**
+- 检索速度:10,000x 提升(0.01ms)
+- 启动速度:1,500x 提升(<1ms)
+- 内存使用:500x 减少(<1MB)
 
 ---
 
 ## 🎯 迁移目标
 
 ### 性能目标
-- 检索速度：再提升 20-30%
-- 启动速度：再提升 30-40%
-- 内存使用：再优化 20-30%
-- 插件协同效率：提升 87%（OpenClaw 官方数据）
+- 检索速度:再提升 20-30%
+- 启动速度:再提升 30-40%
+- 内存使用:再优化 20-30%
+- 插件协同效率:提升 87%(OpenClaw 官方数据)
 
 ### 架构目标
 - ✅ 迁移到 OpenClaw Plugin 架构
-- ✅ 统一集成方式（与 neoclaw 一致）
+- ✅ 统一集成方式(与 neoclaw 一致)
 - ✅ 自动生命周期管理
 - ✅ 更好的事件驱动架构
 
@@ -80,7 +80,7 @@ claw-mem/
 
 ### Plugin 架构概述
 
-OpenClaw Plugin 系统基于以下核心概念：
+OpenClaw Plugin 系统基于以下核心概念:
 
 **1. Plugin 生命周期**
 ```typescript
@@ -105,11 +105,11 @@ interface Plugin {
 ```
 
 **2. Plugin 与 OpenClaw 的集成点**
-- Memory System（记忆系统）
-- Session Hooks（会话钩子）
-- Command Handlers（命令处理器）
-- Event Emitters（事件发射器）
-- Context Providers（上下文提供者）
+- Memory System(记忆系统)
+- Session Hooks(会话钩子)
+- Command Handlers(命令处理器)
+- Event Emitters(事件发射器)
+- Context Providers(上下文提供者)
 
 **3. Plugin 配置**
 ```typescript
@@ -129,156 +129,156 @@ interface PluginConfig {
 
 ## 🔧 迁移策略
 
-### 方案 A：完全重写（推荐）
+### 方案 A:完全重写(推荐)
 
-**优点：**
+**优点:**
 - ✅ 完全符合 Plugin 架构
 - ✅ 性能最优
 - ✅ 维护性最好
 
-**缺点：**
+**缺点:**
 - ⚠️ 工作量大
 - ⚠️ 需要重新测试
 
-**时间预估：** 2-3 周
+**时间预估:** 2-3 周
 
-**步骤：**
-1. 研究 OpenClaw Plugin API（2-3 天）
-2. 设计 Plugin 架构（1-2 天）
-3. 实现 Plugin 核心（3-5 天）
-4. 迁移现有功能（3-5 天）
-5. 测试和优化（2-3 天）
+**步骤:**
+1. 研究 OpenClaw Plugin API(2-3 天)
+2. 设计 Plugin 架构(1-2 天)
+3. 实现 Plugin 核心(3-5 天)
+4. 迁移现有功能(3-5 天)
+5. 测试和优化(2-3 天)
 
 ---
 
-### 方案 B：包装器模式
+### 方案 B:包装器模式
 
-**优点：**
+**优点:**
 - ✅ 快速迁移
 - ✅ 保持现有代码
 - ✅ 兼容性好
 
-**缺点：**
+**缺点:**
 - ⚠️ 性能提升有限
 - ⚠️ 维护复杂度高
 
-**时间预估：** 1-2 周
+**时间预估:** 1-2 周
 
-**步骤：**
-1. 创建 Plugin 包装器（1-2 天）
-2. 集成现有 MemoryManager（1-2 天）
-3. 添加生命周期钩子（1 天）
-4. 测试（2-3 天）
+**步骤:**
+1. 创建 Plugin 包装器(1-2 天)
+2. 集成现有 MemoryManager(1-2 天)
+3. 添加生命周期钩子(1 天)
+4. 测试(2-3 天)
 
 ---
 
-### 方案 C：混合模式（推荐）
+### 方案 C:混合模式(推荐)
 
-**优点：**
+**优点:**
 - ✅ 兼顾性能和兼容性
 - ✅ 渐进式迁移
 - ✅ 风险可控
 
-**缺点：**
+**缺点:**
 - ⚠️ 需要维护两套接口
 
-**时间预估：** 2-3 周
+**时间预估:** 2-3 周
 
-**步骤：**
-1. Phase 1: Plugin 包装器（1 周）
+**步骤:**
+1. Phase 1: Plugin 包装器(1 周)
    - 创建基础 Plugin 结构
    - 包装现有功能
    - 提供兼容接口
 
-2. Phase 2: 核心功能迁移（1 周）
+2. Phase 2: 核心功能迁移(1 周)
    - 迁移 MemoryManager
    - 迁移 Three-tier retrieval
    - 迁移 Storage layers
 
-3. Phase 3: 优化和测试（3-5 天）
+3. Phase 3: 优化和测试(3-5 天)
    - 性能优化
    - 集成测试
    - 文档更新
 
 ---
 
-## 📅 迁移计划（推荐方案 C：混合模式）
+## 📅 迁移计划(推荐方案 C:混合模式)
 
-### Phase 1: 研究和规划（3月31日）
+### Phase 1: 研究和规划(3月31日)
 
-**上午（2-3 小时）：**
+**上午(2-3 小时):**
 - ✅ 研究 claw-mem 当前架构
 - ✅ 研究 OpenClaw Plugin API
 - ✅ 分析迁移关键点
 
-**下午（2-3 小时）：**
+**下午(2-3 小时):**
 - ✅ 设计 Plugin 架构
 - ✅ 设计迁移方案
 - ✅ 创建迁移计划文档
 
-**晚上（1-2 小时）：**
+**晚上(1-2 小时):**
 - ✅ 文档化迁移方案
 - ✅ 确定关键里程碑
 - ✅ 准备实施计划
 
 ---
 
-### Phase 2: Plugin 包装器实现（4月1日 - 4月2日）
+### Phase 2: Plugin 包装器实现(4月1日 - 4月2日)
 
-**Day 1（4月1日）：**
+**Day 1(4月1日):**
 - 创建 Plugin 基础结构
 - 实现生命周期钩子
 - 添加配置管理
 
-**Day 2（4月2日）：**
+**Day 2(4月2日):**
 - 包装现有 MemoryManager
 - 实现 Plugin 接口
 - 添加事件处理
 
-**输出：**
+**输出:**
 - `claw_mem/plugin.py` - Plugin 主文件
 - `claw_mem/plugin_config.py` - 配置管理
 - `claw_mem/plugin_hooks.py` - 生命周期钩子
 
 ---
 
-### Phase 3: 核心功能迁移（4月3日 - 4月5日）
+### Phase 3: 核心功能迁移(4月3日 - 4月5日)
 
-**Day 3（4月3日）：**
+**Day 3(4月3日):**
 - 迁移 MemoryManager
 - 迁移 Three-tier retrieval
 - 迁移 Storage layers
 
-**Day 4（4月4日）：**
+**Day 4(4月4日):**
 - 迁移 Context injection
 - 迁移 Memory decay
 - 迁移 Rule extraction
 
-**Day 5（4月5日）：**
+**Day 5(4月5日):**
 - 集成测试
 - 性能优化
 - Bug 修复
 
-**输出：**
+**输出:**
 - 完整的 Plugin 实现
 - 所有功能迁移完成
 - 基础测试通过
 
 ---
 
-### Phase 4: 文档和发布（4月6日）
+### Phase 4: 文档和发布(4月6日)
 
-**上午：**
+**上午:**
 - 更新文档
 - 创建迁移指南
 - 添加示例代码
 
-**下午：**
+**下午:**
 - 性能测试
 - 兼容性测试
 - 发布准备
 
-**晚上：**
+**晚上:**
 - 创建 Release Notes
 - 发布 claw-mem v2.0.0-beta
 - 收集反馈
@@ -404,16 +404,16 @@ class ClawMemHooks(PluginHooks):
 
 ## 📊 性能预期
 
-### 迁移前（v1.0.8）
-- 检索速度：0.01ms
-- 启动速度：<1ms
-- 内存使用：<1MB
+### 迁移前(v1.0.8)
+- 检索速度:0.01ms
+- 启动速度:<1ms
+- 内存使用:<1MB
 
-### 迁移后（v2.0.0 Plugin）
-- 检索速度：0.007ms（提升 30%）
-- 启动速度：<0.6ms（提升 40%）
-- 内存使用：<0.7MB（优化 30%）
-- 插件协同效率：提升 87%
+### 迁移后(v2.0.0 Plugin)
+- 检索速度:0.007ms(提升 30%)
+- 启动速度:<0.6ms(提升 40%)
+- 内存使用:<0.7MB(优化 30%)
+- 插件协同效率:提升 87%
 
 ---
 
@@ -447,7 +447,7 @@ class ClawMemHooks(PluginHooks):
 ## 📝 文档计划
 
 ### 必需文档
-- ✅ 迁移指南（MIGRATION.md）
+- ✅ 迁移指南(MIGRATION.md)
 - ✅ Plugin API 文档
 - ✅ 性能对比文档
 - ✅ 升级指南
@@ -455,26 +455,26 @@ class ClawMemHooks(PluginHooks):
 ### 示例代码
 - ✅ 基础使用示例
 - ✅ 高级配置示例
-- ✅ 集成示例（neoclaw + claw-mem）
+- ✅ 集成示例(neoclaw + claw-mem)
 
 ---
 
 ## ⚠️ 风险和缓解
 
-### 风险 1：Plugin API 不兼容
-**缓解措施：**
+### 风险 1:Plugin API 不兼容
+**缓解措施:**
 - 研究 OpenClaw Plugin API 文档
 - 创建测试 Plugin 验证 API
 - 与 OpenClaw 团队沟通
 
-### 风险 2：性能下降
-**缓解措施：**
+### 风险 2:性能下降
+**缓解措施:**
 - 基准测试对比
 - 性能优化迭代
 - 回退机制
 
-### 风险 3：兼容性问题
-**缓解措施：**
+### 风险 3:兼容性问题
+**缓解措施:**
 - API 兼容层
 - 数据迁移工具
 - 配置迁移工具
@@ -502,18 +502,18 @@ class ClawMemHooks(PluginHooks):
 
 ## 📞 联系和协作
 
-**项目负责人：** Peter Cheng  
-**技术支持：** Friday (OpenClaw AI Assistant)  
-**协作方式：** 使用 neoclaw v2.0.0-beta 进行开发
+**项目负责人:** Peter Cheng  
+**技术支持:** Friday (OpenClaw AI Assistant)  
+**协作方式:** 使用 neoclaw v2.0.0-beta 进行开发
 
-**验证方式：**
+**验证方式:**
 - 使用 neoclaw 的组件开发 claw-mem
-- 发现问题，反馈到 neoclaw
-- 迭代改进，共同进步
+- 发现问题,反馈到 neoclaw
+- 迭代改进,共同进步
 
 ---
 
-**创建：** 2026-03-30 20:35  
-**更新：** 2026-03-30 20:35  
-**状态：** 研究阶段  
-**下一步：** 研究 OpenClaw Plugin API 详细文档
+**创建:** 2026-03-30 20:35  
+**更新:** 2026-03-30 20:35  
+**状态:** 研究阶段  
+**下一步:** 研究 OpenClaw Plugin API 详细文档
