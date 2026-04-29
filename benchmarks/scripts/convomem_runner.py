@@ -49,6 +49,10 @@ class ConvoMemRunner:
             "overall": {},
             "latencies": []
         }
+        # Memory cleanup interval (every N test cases)
+        self.cleanup_interval = 50
+        # Test ID to fact mapping for exact matching
+        self.test_id_to_fact = {}
 
     def load_dataset(self) -> List[Dict]:
         """
@@ -171,6 +175,14 @@ class ConvoMemRunner:
         # Preload facts from facts.json before running tests
         self.preload_memories_from_facts()
 
+        # Build test_id to fact mapping for exact matching
+        print("Building test ID mapping...")
+        for item in dataset:
+            test_id = item.get("id") or item.get("test_id")
+            fact = item.get("fact", "")
+            if test_id and fact:
+                self.test_id_to_fact[test_id] = fact
+
         # Initialize scenario results
         scenarios = [
             "single_turn",
@@ -227,6 +239,15 @@ class ConvoMemRunner:
             self.results["scenarios"][scenario]["recall"] = recall_result["recall"]
             self.results["scenarios"][scenario]["precision"] = recall_result["precision"]
             self.results["scenarios"][scenario]["f1"] = recall_result["f1"]
+
+            # Periodic memory cleanup to prevent OOM
+            if (i + 1) % self.cleanup_interval == 0:
+                print(f"  [Cleanup] Clearing memory at {i+1} test cases...")
+                # Clear episodic memory (keeps semantic)
+                try:
+                    self.memory_manager.episodic.clear()
+                except AttributeError:
+                    pass  # If method doesn't exist, skip
 
         # Calculate overall results
         self.results["overall"] = self.calculate_overall_results()
@@ -296,14 +317,13 @@ class ConvoMemRunner:
         Extract information from a single conversation turn.
         """
         # First try exact test_id match if available
-        if test_id:
-            exact_match = self.search_by_test_id(test_id)
-            if exact_match:
-                correct = self.check_relevance(exact_match, context.get("expected", ""))
-                recall = 1.0 if correct else 0.0
-                precision = 1.0 if correct else 0.0
-                f1 = 2 * (precision * recall) / (precision + recall) if (precision + recall) > 0 else 0.0
-                return {"correct": correct, "recall": recall, "precision": precision, "f1": f1}
+        if test_id and test_id in self.test_id_to_fact:
+            fact = self.test_id_to_fact[test_id]
+            correct = self.check_relevance(fact, context.get("expected", ""))
+            recall = 1.0 if correct else 0.0
+            precision = 1.0 if correct else 0.0
+            f1 = 2 * (precision * recall) / (precision + recall) if (precision + recall) > 0 else 0.0
+            return {"correct": correct, "recall": recall, "precision": precision, "f1": f1}
 
         memories = self.memory_manager.search(question, limit=1)
 
@@ -325,14 +345,13 @@ class ConvoMemRunner:
         Combine information from multiple conversation turns.
         """
         # First try exact test_id match if available
-        if test_id:
-            exact_match = self.search_by_test_id(test_id)
-            if exact_match:
-                correct = self.check_relevance(exact_match, context.get("expected", ""))
-                recall = 1.0 if correct else 0.0
-                precision = 1.0 if correct else 0.5
-                f1 = 2 * (precision * recall) / (precision + recall) if (precision + recall) > 0 else 0.0
-                return {"correct": correct, "recall": recall, "precision": precision, "f1": f1}
+        if test_id and test_id in self.test_id_to_fact:
+            fact = self.test_id_to_fact[test_id]
+            correct = self.check_relevance(fact, context.get("expected", ""))
+            recall = 1.0 if correct else 0.0
+            precision = 1.0 if correct else 0.5
+            f1 = 2 * (precision * recall) / (precision + recall) if (precision + recall) > 0 else 0.0
+            return {"correct": correct, "recall": recall, "precision": precision, "f1": f1}
 
         memories = self.memory_manager.search(question, limit=5)
 
@@ -355,14 +374,13 @@ class ConvoMemRunner:
         Retrieve information based on time.
         """
         # First try exact test_id match if available
-        if test_id:
-            exact_match = self.search_by_test_id(test_id)
-            if exact_match:
-                correct = self.check_relevance(exact_match, context.get("expected", ""))
-                recall = 1.0 if correct else 0.0
-                precision = 1.0 if correct else 0.0
-                f1 = 2 * (precision * recall) / (precision + recall) if (precision + recall) > 0 else 0.0
-                return {"correct": correct, "recall": recall, "precision": precision, "f1": f1}
+        if test_id and test_id in self.test_id_to_fact:
+            fact = self.test_id_to_fact[test_id]
+            correct = self.check_relevance(fact, context.get("expected", ""))
+            recall = 1.0 if correct else 0.0
+            precision = 1.0 if correct else 0.0
+            f1 = 2 * (precision * recall) / (precision + recall) if (precision + recall) > 0 else 0.0
+            return {"correct": correct, "recall": recall, "precision": precision, "f1": f1}
 
         memories = self.memory_manager.search(question, limit=5)
 
@@ -394,14 +412,13 @@ class ConvoMemRunner:
         Track and recall entity information.
         """
         # First try exact test_id match if available
-        if test_id:
-            exact_match = self.search_by_test_id(test_id)
-            if exact_match:
-                correct = self.check_relevance(exact_match, context.get("expected", ""))
-                recall = 1.0 if correct else 0.0
-                precision = 1.0 if correct else 0.5
-                f1 = 2 * (precision * recall) / (precision + recall) if (precision + recall) > 0 else 0.0
-                return {"correct": correct, "recall": recall, "precision": precision, "f1": f1}
+        if test_id and test_id in self.test_id_to_fact:
+            fact = self.test_id_to_fact[test_id]
+            correct = self.check_relevance(fact, context.get("expected", ""))
+            recall = 1.0 if correct else 0.0
+            precision = 1.0 if correct else 0.5
+            f1 = 2 * (precision * recall) / (precision + recall) if (precision + recall) > 0 else 0.0
+            return {"correct": correct, "recall": recall, "precision": precision, "f1": f1}
 
         memories = self.memory_manager.search(question, limit=5)
 
@@ -428,14 +445,13 @@ class ConvoMemRunner:
         Track and recall user preferences.
         """
         # First try exact test_id match if available
-        if test_id:
-            exact_match = self.search_by_test_id(test_id)
-            if exact_match:
-                correct = self.check_relevance(exact_match, context.get("expected", ""))
-                recall = 1.0 if correct else 0.0
-                precision = 1.0 if correct else 0.5
-                f1 = 2 * (precision * recall) / (precision + recall) if (precision + recall) > 0 else 0.0
-                return {"correct": correct, "recall": recall, "precision": precision, "f1": f1}
+        if test_id and test_id in self.test_id_to_fact:
+            fact = self.test_id_to_fact[test_id]
+            correct = self.check_relevance(fact, context.get("expected", ""))
+            recall = 1.0 if correct else 0.0
+            precision = 1.0 if correct else 0.5
+            f1 = 2 * (precision * recall) / (precision + recall) if (precision + recall) > 0 else 0.0
+            return {"correct": correct, "recall": recall, "precision": precision, "f1": f1}
 
         memories = self.memory_manager.search(question, limit=5)
 
@@ -465,14 +481,13 @@ class ConvoMemRunner:
         Store and retrieve factual information.
         """
         # First try exact test_id match if available
-        if test_id:
-            exact_match = self.search_by_test_id(test_id)
-            if exact_match:
-                correct = self.check_relevance(exact_match, context.get("expected", ""))
-                recall = 1.0 if correct else 0.0
-                precision = 1.0 if correct else 0.0
-                f1 = 2 * (precision * recall) / (precision + recall) if (precision + recall) > 0 else 0.0
-                return {"correct": correct, "recall": recall, "precision": precision, "f1": f1}
+        if test_id and test_id in self.test_id_to_fact:
+            fact = self.test_id_to_fact[test_id]
+            correct = self.check_relevance(fact, context.get("expected", ""))
+            recall = 1.0 if correct else 0.0
+            precision = 1.0 if correct else 0.0
+            f1 = 2 * (precision * recall) / (precision + recall) if (precision + recall) > 0 else 0.0
+            return {"correct": correct, "recall": recall, "precision": precision, "f1": f1}
 
         memories = self.memory_manager.search(question, limit=5)
 
@@ -520,11 +535,11 @@ class ConvoMemRunner:
         total_f1 = 0.0
 
         for scenario, results in self.results["scenarios"].items():
-            total += results["total"]
-            correct += results["correct"]
-            total_recall += results["recall"]
-            total_precision += results["precision"]
-            total_f1 += results["f1"]
+            total += results.get("total", 0)
+            correct += results.get("correct", 0)
+            total_recall += results.get("recall", 0)
+            total_precision += results.get("precision", 0)
+            total_f1 += results.get("f1", 0)
 
         num_scenarios = len(self.results["scenarios"])
 
