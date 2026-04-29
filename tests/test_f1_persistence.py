@@ -42,12 +42,12 @@ def test_index_persistence():
     # Sample memories for testing
     test_memories = [
         {"id": "1", "content": "用户询问上海明天的天气"},
-        {"id": "2", "content": "用户偏好简洁的回答，不喜欢冗长解释"},
+        {"id": "2", "content": "用户偏好简洁的回答,不喜欢冗长解释"},
         {"id": "3", "content": "Python 是一种编程语言"},
         {"id": "4", "content": "Python 可以用于数据分析"},
         {"id": "5", "content": "用户喜欢早上 9 点开始工作"},
-        {"id": "6", "content": "上次查询天气时忘记考虑时区，导致时间错误"},
-        {"id": "7", "content": "帮我查一下上海明天的天气，我准备去出差"},
+        {"id": "6", "content": "上次查询天气时忘记考虑时区,导致时间错误"},
+        {"id": "7", "content": "帮我查一下上海明天的天气,我准备去出差"},
         {"id": "8", "content": "claw-mem v0.7.0 支持索引持久化"},
         {"id": "9", "content": "索引持久化可以显著减少启动时间"},
         {"id": "10", "content": "懒加载机制让首次搜索时才加载索引"},

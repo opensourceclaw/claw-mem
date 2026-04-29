@@ -40,7 +40,7 @@ class TestMemoryManagerGraphIntegration:
 
     def test_backward_compatibility(self):
         """测试向后兼容"""
-        # 不启用 graph 时，行为不变
+        # 不启用 graph 时,行为不变
         manager = MemoryManager(enable_gating=False)
 
         # 可以正常存储和检索

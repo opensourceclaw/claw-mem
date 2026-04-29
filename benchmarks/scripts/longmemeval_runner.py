@@ -51,7 +51,7 @@ class LongMemEvalRunner:
             "latencies": [],
             "details": []
         }
-        # 内存中的 test_id -> fact 映射，用于精确匹配
+        # 内存中的 test_id -> fact 映射,用于精确匹配
         self.test_id_to_fact = {}
 
     def load_test_data(self) -> List[Dict]:
@@ -131,7 +131,7 @@ class LongMemEvalRunner:
             return None
 
         try:
-            # 需要覆盖默认 limit，使用 keyword 模式获取所有记忆
+            # 需要覆盖默认 limit,使用 keyword 模式获取所有记忆
             # 使用空查询获取所有记忆
             results = self.memory_manager.search("", limit=10000, mode="keyword")
 
@@ -187,7 +187,7 @@ class LongMemEvalRunner:
                 }
             )
 
-            # 添加到内存映射，用于精确查找
+            # 添加到内存映射,用于精确查找
             self.test_id_to_fact[item.get("id")] = fact
             self.test_id_to_fact[item.get("test_id")] = fact
 
@@ -379,11 +379,11 @@ class LongMemEvalRunner:
         Temporal reasoning task.
         Answer questions requiring time-based reasoning.
 
-        策略：优先使用内存中的 test_id 映射
+        策略:优先使用内存中的 test_id 映射
         """
         import re
 
-        # 优先使用内存中的 test_id 映射（最可靠）
+        # 优先使用内存中的 test_id 映射(最可靠)
         if test_id and test_id in self.test_id_to_fact:
             fact = self.test_id_to_fact[test_id]
             temporal_patterns = [

@@ -8,7 +8,7 @@
 
 ## 📋 执行策略
 
-### Friday 负责的工作（Day 1-2）
+### Friday 负责的工作(Day 1-2)
 
 1. **研究基准测试** ✅
    - LongMemEval 论文研究
@@ -25,7 +25,7 @@
    - 编写测试脚本框架
    - 配置测试环境
 
-### JARVIS 负责的工作（Day 3-4）
+### JARVIS 负责的工作(Day 3-4)
 
 1. **测试执行**
    - 运行 LongMemEval 测试
@@ -380,7 +380,7 @@ python benchmarks/scripts/generate_report.py
 
 ### 测试执行请求
 
-当准备好测试集后，Friday 向 JARVIS 发送执行请求：
+当准备好测试集后,Friday 向 JARVIS 发送执行请求:
 
 ```markdown
 # JARVIS 测试执行请求
@@ -392,9 +392,9 @@ python benchmarks/scripts/generate_report.py
 
 ## 测试范围
 
-1. **LongMemEval** - 500 个问题，5 大任务
-2. **LoCoMo** - 数百轮对话，3 大任务
-3. **ConvoMem** - 75,336 个问答对，6 大场景
+1. **LongMemEval** - 500 个问题,5 大任务
+2. **LoCoMo** - 数百轮对话,3 大任务
+3. **ConvoMem** - 75,336 个问答对,6 大场景
 
 ## 测试目标
 
@@ -420,7 +420,7 @@ python benchmarks/scripts/generate_report.py
 
 ## 输出格式
 
-请提供：
+请提供:
 1. 测试结果 JSON
 2. 性能分析报告
 3. 瓶颈识别
@@ -434,7 +434,7 @@ python benchmarks/scripts/generate_report.py
 
 ### 期望输出
 
-JARVIS 应提供：
+JARVIS 应提供:
 
 1. **测试结果 JSON**
    ```json
@@ -519,5 +519,5 @@ JARVIS 应提供：
 
 **创建日期:** 2026-04-08
 **最后更新:** 2026-04-08
-**状态:** Day 1 完成，准备 Day 2
+**状态:** Day 1 完成,准备 Day 2
 **协作模式:** Friday (设计) + JARVIS (执行)

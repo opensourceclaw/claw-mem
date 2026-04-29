@@ -89,7 +89,7 @@ class GraphStorage:
 class InMemoryGraphStorage(GraphStorage):
     """内存图谱storage
 
-    适用于小规模图谱，数据storage在内存中。
+    适用于小规模图谱,数据storage在内存中.
     """
 
     def __init__(self):
@@ -234,7 +234,7 @@ class InMemoryGraphStorage(GraphStorage):
 class FileGraphStorage(InMemoryGraphStorage):
     """文件图谱storage
 
-    支持持久化到 JSON 文件。
+    支持持久化到 JSON 文件.
     """
 
     def __init__(self, file_path: str = "graph.json"):

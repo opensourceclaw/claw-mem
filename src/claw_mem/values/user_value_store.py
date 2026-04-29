@@ -64,7 +64,7 @@ class UserValueStore:
         """initializestorage
 
         Args:
-            storage_path: storage路径，默认 ~/.claw_mem/values/
+            storage_path: storage路径,默认 ~/.claw_mem/values/
         """
         if storage_path is None:
             storage_path = Path.home() / ".claw_mem" / "values"
@@ -145,7 +145,7 @@ class UserValueStore:
             user_id: user ID
 
         Returns:
-            Optional[UserValue]: uservalues，if不存在返回 None
+            Optional[UserValue]: uservalues,if不存在返回 None
         """
         if user_id in self._cache:
             return self._cache[user_id]

@@ -14,7 +14,7 @@ class TestWriteTimeGatingEdgeCases:
         """测试空输入"""
         gating = WriteTimeGating()
         result = gating.write({})
-        # 应该能处理空输入，不崩溃
+        # 应该能处理空输入,不崩溃
         assert result.stored is True
 
     def test_none_content(self):

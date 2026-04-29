@@ -75,12 +75,12 @@ class BackupManager:
         backup_path = Path(backup_path).expanduser().resolve()
         
         if not backup_path.exists():
-            return {"success": False, "error": f"Backup file does not exist：{backup_path}"}
+            return {"success": False, "error": f"Backup file does not exist:{backup_path}"}
         
         if verify_first:
             verify_result = self.verify(backup_path)
             if not verify_result["valid"]:
-                return {"success": False, "error": f"Backup verification failed：{verify_result.get('error', 'Unknown')}"}
+                return {"success": False, "error": f"Backup verification failed:{verify_result.get('error', 'Unknown')}"}
         
         restored_files = []
         with ZipFile(backup_path, 'r') as zipf:
@@ -163,9 +163,9 @@ def restore_command(workspace: str, backup_path: str):
     if result["success"]:
         print("✅ Restore successful!")
         print(f"   Restored files: {result['restored_files']}")
-        print(f"   backup时间：{result['backup_timestamp']}")
+        print(f"   backup时间:{result['backup_timestamp']}")
     else:
-        print(f"❌ restore失败：{result.get('error')}")
+        print(f"❌ restore失败:{result.get('error')}")
 
 
 def list_command(workspace: str):

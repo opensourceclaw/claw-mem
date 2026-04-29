@@ -25,13 +25,13 @@ class TestConceptMediatedGraph:
 
     def test_add_single_episode(self):
         node_id = self.graph.add_episode(
-            content="用户说：你好",
+            content="用户说:你好",
             speaker="user"
         )
         assert node_id is not None
         node = self.graph.get_node(node_id)
         assert node is not None
-        assert node.content == "用户说：你好"
+        assert node.content == "用户说:你好"
 
     def test_add_conversation(self):
         turns = [

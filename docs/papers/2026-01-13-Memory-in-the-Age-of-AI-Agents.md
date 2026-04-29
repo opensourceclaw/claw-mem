@@ -10,7 +10,7 @@
 
 ## 核心贡献
 
-> "我们从 Forms、Functions、Dynamics 三个统一视角审视 Agent 记忆，提供当前最全面的研究图景。"
+> "我们从 Forms,Functions,Dynamics 三个统一视角审视 Agent 记忆,提供当前最全面的研究图景."
 
 **三大视角**:
 - **Forms**: Token-level, Parametric, Latent
@@ -73,7 +73,7 @@
 
 ### 超越传统分类
 
-> "传统的长/短期记忆分类已不足以捕捉当代 Agent 记忆系统的多样性和动态性。"
+> "传统的长/短期记忆分类已不足以捕捉当代 Agent 记忆系统的多样性和动态性."
 
 ---
 

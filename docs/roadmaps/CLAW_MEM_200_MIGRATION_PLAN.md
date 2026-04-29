@@ -14,7 +14,7 @@
 
 **Proposal:** Migrate claw-mem from Skill format to OpenClaw Plugin SDK 2.0 format for version 2.0.0.
 
-**建议:** 将 claw-mem 从 Skill 格式迁移到 OpenClaw 插件 SDK 2.0 格式，用于 2.0.0 版本。
+**建议:** 将 claw-mem 从 Skill 格式迁移到 OpenClaw 插件 SDK 2.0 格式,用于 2.0.0 版本.
 
 **Benefits:**
 - ✅ Better integration with OpenClaw
@@ -281,7 +281,7 @@ claw-mem 2.0.0 (OpenClaw Plugin SDK 2.0):
 ## 建议
 
 ### Recommendation: **PROCEED WITH MIGRATION**
-### 建议：**进行迁移**
+### 建议:**进行迁移**
 
 **Reasons:**
 1. ✅ **Strategic alignment** - Aligns with OpenClaw roadmap
@@ -396,7 +396,7 @@ claw-mem 2.0.0 (OpenClaw Plugin SDK 2.0):
 
 **Peter, please decide:**
 
-**彼得，请决定:**
+**彼得,请决定:**
 
 - [ ] **A)** Proceed with migration to Plugin SDK 2.0 (Recommended)
 - [ ] **B)** Stay with current Skill format for now

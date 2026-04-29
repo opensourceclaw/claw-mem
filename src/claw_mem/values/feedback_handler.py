@@ -129,7 +129,7 @@ class FeedbackHandler:
         suggestion.status = FeedbackStatus.ACCEPTED if accepted else FeedbackStatus.REJECTED
         suggestion.responded_at = datetime.now(timezone.utc)
 
-        # if接受，update到valuesstorage
+        # if接受,update到valuesstorage
         if accepted:
             user_id = suggestion.user_id
 
@@ -138,7 +138,7 @@ class FeedbackHandler:
 
             elif suggestion.suggestion_type == "preference":
                 # preferenceneedparse key-value
-                # 简化：假设 content 格式为 "key:value"
+                # 简化:假设 content 格式为 "key:value"
                 if ":" in suggestion.content:
                     key, value = suggestion.content.split(":", 1)
                     self.value_store.save_preference(user_id, key.strip(), value.strip())
@@ -215,7 +215,7 @@ class FeedbackHandler:
         """清除过期的建议
 
         Args:
-            max_age_hours: 最大保留时间（小时）
+            max_age_hours: 最大保留时间(小时)
 
         Returns:
             int: 清除的数量

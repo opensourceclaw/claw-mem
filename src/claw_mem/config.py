@@ -184,34 +184,34 @@ class ConfigDetector:
 # ============================================================================
 
 if __name__ == "__main__":
-    # Example 1：自动检测
+    # Example 1:自动检测
     try:
         workspace = ConfigDetector.detect_workspace()
-        print(f"✅ 检测到工作区：{workspace}")
+        print(f"✅ 检测到工作区:{workspace}")
     except WorkspaceNotFoundError as e:
         print(e)
     
     print()
     
-    # Example 2：get工作区信息
+    # Example 2:get工作区信息
     try:
         workspace = ConfigDetector.detect_workspace()
         info = ConfigDetector.get_workspace_info(workspace)
         
         print("工作区信息:")
-        print(f"  路径：{info['path']}")
-        print(f"  存在：{info['exists']}")
-        print(f"  有效：{info['is_valid']}")
-        print(f"  特征文件：{', '.join(info['markers_found'])}")
-        print(f"  记忆文件：{', '.join(info['memory_files'][:5])}")
+        print(f"  路径:{info['path']}")
+        print(f"  存在:{info['exists']}")
+        print(f"  有效:{info['is_valid']}")
+        print(f"  特征文件:{', '.join(info['markers_found'])}")
+        print(f"  记忆文件:{', '.join(info['memory_files'][:5])}")
     except WorkspaceNotFoundError:
-        print("未找到工作区，无法get信息")
+        print("未找到工作区,无法get信息")
     
     print()
     
-    # Example 3：建议工作区
+    # Example 3:建议工作区
     suggested = ConfigDetector.suggest_workspace()
     if suggested:
-        print(f"💡 建议的工作区：{suggested}")
+        print(f"💡 建议的工作区:{suggested}")
     else:
         print("❌ 无法创建建议的工作区")

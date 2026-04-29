@@ -26,7 +26,7 @@
 ✅ claw-mem 没有使用 registerContextEngine
 ```
 
-**说明:** claw-mem Plugin 没有使用 Context Engine API，不存在此风险。
+**说明:** claw-mem Plugin 没有使用 Context Engine API,不存在此风险.
 
 ### 2. Hook 事件名称
 
@@ -35,8 +35,8 @@
 ```
 
 **使用的事件:**
-- `before_agent_start` ✅ (有效事件，被 memory-lancedb 使用)
-- `agent_end` ✅ (有效事件，被 memory-lancedb 使用)
+- `before_agent_start` ✅ (有效事件,被 memory-lancedb 使用)
+- `agent_end` ✅ (有效事件,被 memory-lancedb 使用)
 
 **证据:**
 ```bash
@@ -55,7 +55,7 @@ memory-lancedb/index.js:7023:  api.on("agent_end", async (event) => {
 }
 ```
 
-**说明:** claw-mem 使用 `memory` kind，不使用 `context-engine`，不存在 Context Engine 注册风险。
+**说明:** claw-mem 使用 `memory` kind,不使用 `context-engine`,不存在 Context Engine 注册风险.
 
 ### 4. TypeScript 编译
 
@@ -66,7 +66,7 @@ drwx------   13 liantian  staff     416 Mar 31 06:43 .
 -rw-------    1 liantian  staff   16628 Mar 31 06:39 index.js  # ✅ 已编译
 ```
 
-**说明:** TypeScript 已编译，不存在编译错误。
+**说明:** TypeScript 已编译,不存在编译错误.
 
 ### 5. Bridge 可用性
 
@@ -77,7 +77,7 @@ $ python3 -c "from claw_mem.bridge import ClawMemBridge; print('✅ 导入成功
 ✅ 导入成功
 ```
 
-**说明:** Python Bridge 可以正常导入。
+**说明:** Python Bridge 可以正常导入.
 
 ---
 
@@ -96,7 +96,7 @@ $ python3 -c "from claw_mem.bridge import ClawMemBridge; print('✅ 导入成功
 
 ## ✅ 验证结论
 
-**claw-mem Plugin 配置添加风险：低**
+**claw-mem Plugin 配置添加风险:低**
 
 **原因:**
 1. ✅ 没有使用 `registerContextEngine` API
@@ -154,7 +154,7 @@ $ python3 -c "from claw_mem.bridge import ClawMemBridge; print('✅ 导入成功
 
 **请示 Peter Cheng:**
 
-是否执行以下行动？
+是否执行以下行动?
 
 1. **备份当前配置**
    ```bash
@@ -176,7 +176,7 @@ $ python3 -c "from claw_mem.bridge import ClawMemBridge; print('✅ 导入成功
    openclaw logs --follow | grep -E "claw-mem|claw-rl|bridge"
    ```
 
-**风险评估:** 低风险，但建议按照 Harness Engineering 准则执行。
+**风险评估:** 低风险,但建议按照 Harness Engineering 准则执行.
 
 ---
 

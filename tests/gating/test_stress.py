@@ -112,7 +112,7 @@ class TestStress:
         print(f"✅ No errors, all 2000 writes succeeded")
 
     def test_mixed_operations(self):
-        """测试混合操作（写入 + 检索）"""
+        """测试混合操作(写入 + 检索)"""
         manager = MemoryManager(enable_gating=True)
 
         # 写入

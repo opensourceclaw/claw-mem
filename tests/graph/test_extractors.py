@@ -24,7 +24,7 @@ class TestLLMExtractor:
         """测试无 LLM 时的提取器"""
         extractor = LLMExtractor(llm_client=None)
 
-        text = "用户决定使用 Python 开发项目。系统已完成部署。"
+        text = "用户决定使用 Python 开发项目.系统已完成部署."
 
         facts = extractor.extract_facts(text)
 
@@ -36,7 +36,7 @@ class TestLLMExtractor:
         """测试无 LLM 时提取概念"""
         extractor = LLMExtractor(llm_client=None)
 
-        text = "用户决定使用 Python 开发项目。系统已完成部署。"
+        text = "用户决定使用 Python 开发项目.系统已完成部署."
 
         concepts = extractor.extract_concepts(text)
 
@@ -63,7 +63,7 @@ class TestLLMExtractor:
         """测试中文事实提取"""
         extractor = LLMExtractor(llm_client=None)
 
-        text = "今天天气很好。用户去公园散步。公园里有很多花。"
+        text = "今天天气很好.用户去公园散步.公园里有很多花."
 
         facts = extractor.extract_facts(text)
 
@@ -73,7 +73,7 @@ class TestLLMExtractor:
         """测试中文概念提取"""
         extractor = LLMExtractor(llm_client=None)
 
-        text = "Python 是一种编程语言。JavaScript 用于网页开发。"
+        text = "Python 是一种编程语言.JavaScript 用于网页开发."
 
         concepts = extractor.extract_concepts(text)
 
@@ -86,8 +86,8 @@ class TestLLMExtractor:
         extractor = LLMExtractor(llm_client=None)
 
         nodes = [
-            EpisodeNode(id="1", content="用户说：你好"),
-            EpisodeNode(id="2", content="Agent 回答：你好"),
+            EpisodeNode(id="1", content="用户说:你好"),
+            EpisodeNode(id="2", content="Agent 回答:你好"),
         ]
 
         reflection = extractor.generate_reflection(nodes)
@@ -123,7 +123,7 @@ class TestKeywordExtractor:
         """测试事实提取"""
         extractor = KeywordExtractor()
 
-        text = "用户决定使用 Python 开发项目。系统已完成部署。"
+        text = "用户决定使用 Python 开发项目.系统已完成部署."
 
         facts = extractor.extract_facts(text)
 
@@ -133,7 +133,7 @@ class TestKeywordExtractor:
         """测试概念提取"""
         extractor = KeywordExtractor()
 
-        text = "Python 是一种编程语言。JavaScript 用于网页开发。"
+        text = "Python 是一种编程语言.JavaScript 用于网页开发."
 
         concepts = extractor.extract_concepts(text)
 

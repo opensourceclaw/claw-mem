@@ -154,7 +154,7 @@ try:
 except WorkspaceNotFoundError as e:
     print(e)
     # [错误] 未找到 OpenClaw 工作区
-    # [建议] 请确认已正确安装 OpenClaw，或手动指定工作区路径
+    # [建议] 请确认已正确安装 OpenClaw,或手动指定工作区路径
     # [错误码] WORKSPACE_NOT_FOUND
 ```
 

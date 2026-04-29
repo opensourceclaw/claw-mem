@@ -21,7 +21,7 @@ claw-mem v0.6.0+ supports hybrid Chinese/English tokenization for optimal search
 ### Chinese Text
 - **With Jieba**: Word-based tokenization (recommended)
 - **Without Jieba**: Character-level tokenization (fallback)
-- Stopword removal (的，了，是，在，etc.)
+- Stopword removal (的,了,是,在,etc.)
 
 ---
 
@@ -150,9 +150,9 @@ above, below
 
 ### Chinese Stopwords
 ```
-的，了，是，在，和，就，都，而，及，与，着，
-也，还，个，这，那，他，她，它，我，你，们，
-此，其，或，等，能够，可以
+的,了,是,在,和,就,都,而,及,与,着,
+也,还,个,这,那,他,她,它,我,你,们,
+此,其,或,等,能够,可以
 ```
 
 ---

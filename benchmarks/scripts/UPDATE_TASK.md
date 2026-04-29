@@ -1,11 +1,11 @@
-# 任务：更新基准测试 Runners 支持精确 ID 匹配
+# 任务:更新基准测试 Runners 支持精确 ID 匹配
 
 **项目:** claw-mem
 **路径:** /Users/liantian/workspace/osprojects/claw-mem/benchmarks/scripts/
 
 ## 目标
 
-更新三个基准测试 runner，支持精确 ID 匹配和测试数据预加载。
+更新三个基准测试 runner,支持精确 ID 匹配和测试数据预加载.
 
 ## 需要修改的文件
 
@@ -59,7 +59,7 @@ def search_by_test_id(memory_manager, query: str, test_id: str, limit: int = 100
 
 ### 3. 修改测试流程
 
-在 `run_test()` 或 `run_evaluation()` 开始时调用预加载：
+在 `run_test()` 或 `run_evaluation()` 开始时调用预加载:
 
 ```python
 # 预加载测试数据
@@ -70,7 +70,7 @@ if facts_file.exists():
 
 ### 4. 使用精确匹配
 
-在评估问题时使用精确匹配：
+在评估问题时使用精确匹配:
 
 ```python
 def evaluate_question(self, question: str, test_id: str, category: str) -> str:
@@ -102,15 +102,15 @@ def evaluate_question(self, question: str, test_id: str, category: str) -> str:
 
 ## 预期结果
 
-运行测试后，准确率应从 0-33% 提升至 95%+。
+运行测试后,准确率应从 0-33% 提升至 95%+.
 
 ## 注意事项
 
 1. 保持与现有代码风格的兼容性
 2. 添加适当的错误处理
 3. 保持原有的报告生成逻辑
-4. 不要删除原有的搜索功能，只是添加精确匹配选项
+4. 不要删除原有的搜索功能,只是添加精确匹配选项
 
 ---
 
-请开始更新这些文件，确保精确 ID 匹配功能正常工作。
+请开始更新这些文件,确保精确 ID 匹配功能正常工作.

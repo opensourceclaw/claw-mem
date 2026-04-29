@@ -131,7 +131,7 @@ class RuleExtractor:
         """Load rules from file (simplified)"""
         if not self.rules_file.exists():
             return
-        # 简化实现：暂不parse
+        # 简化实现:暂不parse
     
     def check_before_operation(self, operation: str, context: Dict) -> Tuple[bool, str]:
         """操作前check所有适用rule"""
@@ -148,7 +148,7 @@ class RuleExtractor:
                 if '==' in rule.condition:
                     forbidden_tool = rule.condition.split("'")[1]
                     if tool == forbidden_tool:
-                        return False, f"禁止使用工具：{forbidden_tool}"
+                        return False, f"禁止使用工具:{forbidden_tool}"
         
         return True, "所有rulecheck通过"
     
@@ -175,7 +175,7 @@ if __name__ == "__main__":
     print("测试 1: 提取禁止路径rule")
     rule = extractor.extract("don't创建文件到 ~/.openclaw/workspace/")
     if rule:
-        print(f"  ✅ 提取成功：{rule.rule_type} - {rule.condition}")
+        print(f"  ✅ 提取成功:{rule.rule_type} - {rule.condition}")
     else:
         print(f"  ❌ 提取失败")
     
@@ -183,7 +183,7 @@ if __name__ == "__main__":
     print("\n测试 2: 提取preferencerule")
     rule = extractor.extract("我preference使用中文")
     if rule:
-        print(f"  ✅ 提取成功：{rule.rule_type} - {rule.condition}")
+        print(f"  ✅ 提取成功:{rule.rule_type} - {rule.condition}")
     else:
         print(f"  ❌ 提取失败")
     
@@ -193,10 +193,10 @@ if __name__ == "__main__":
         "file_write",
         {'path': '/Users/liantian/workspace/test.md'}
     )
-    print(f"  允许：{allowed}, 消息：{msg}")
+    print(f"  允许:{allowed}, 消息:{msg}")
     
     # Test 4
     print("\n测试 4: rule统计")
     stats = extractor.get_statistics()
-    print(f"  总rule数：{stats['total_rules']}")
-    print(f"  按类型：{stats['by_type']}")
+    print(f"  总rule数:{stats['total_rules']}")
+    print(f"  按类型:{stats['by_type']}")

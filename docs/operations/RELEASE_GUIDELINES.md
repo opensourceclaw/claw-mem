@@ -34,7 +34,7 @@ claw-mem v1.0.0 [Stable]  ❌
 ```
 
 **Rule:** **Only `claw-mem vx.x.x`, no additional text!**
-**规则:** **仅 `claw-mem vx.x.x`，不加任何额外文字！**
+**规则:** **仅 `claw-mem vx.x.x`,不加任何额外文字!**
 
 ---
 

@@ -44,7 +44,7 @@ class TestGatingFilter:
 
         result = filter.should_store(memory)
 
-        # 可能存储或不存储，取决于评分
+        # 可能存储或不存储,取决于评分
 
     def test_threshold_boundary(self):
         """Test threshold boundary"""
@@ -55,7 +55,7 @@ class TestGatingFilter:
 
         result = filter.should_store(memory)
 
-        # 应该存储（>= 阈值）
+        # 应该存储(>= 阈值)
         assert result.should_store is True
 
     def test_set_threshold(self):
@@ -106,7 +106,7 @@ class TestAdaptiveThreshold:
 
         threshold = adapter.get_threshold(current_memory_count=100)
 
-        # 记忆少时，阈值应该接近或低于基础阈值
+        # 记忆少时,阈值应该接近或低于基础阈值
         assert threshold <= 1.0
 
     def test_high_memory_count(self):
@@ -120,7 +120,7 @@ class TestAdaptiveThreshold:
 
         threshold = adapter.get_threshold(current_memory_count=900)
 
-        # 记忆多时，阈值应该高于基础阈值
+        # 记忆多时,阈值应该高于基础阈值
         assert threshold >= 1.0
 
     def test_boundary_memory_count(self):
