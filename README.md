@@ -135,6 +135,115 @@ mm = MemoryManager(
 | `enable_multimodal` | bool | `False` | Enable multimodal support (v2.4.0+) |
 | `search_mode` | str | `"hybrid"` | Search mode: basic, smart, enhanced_smart |
 
+---
+
+## 🔌 OpenClaw Plugin Installation (v2.5.0+)
+
+claw-mem can replace OpenClaw's built-in memory system as a plugin.
+
+### Prerequisites
+
+- **OpenClaw**: 2026.4.0 or higher
+- **Python**: 3.10+ with claw-mem installed
+
+```bash
+# Install claw-mem first
+pip3 install git+https://github.com/opensourceclaw/claw-mem.git
+```
+
+### Step 1: Install the Plugin
+
+```bash
+# Install from npm
+npm install -g @opensourceclaw/openclaw-claw-mem
+
+# Or install from source
+cd /path/to/claw-mem
+npm install
+openclaw plugins install ./dist
+```
+
+### Step 2: Configure OpenClaw
+
+Edit your `~/.openclaw/openclaw.json`:
+
+```json
+{
+  "plugins": {
+    "allow": [
+      "claw-mem",
+      "memory-core",
+      "acpx",
+      "bonjour",
+      "browser",
+      "device-pair",
+      "phone-control",
+      "talk-voice"
+    ],
+    "slots": {
+      "memory": "claw-mem"
+    }
+  }
+}
+```
+
+### Step 3: Restart Gateway
+
+```bash
+openclaw gateway restart
+```
+
+### Verification
+
+Check that claw-mem is loaded:
+
+```bash
+tail -1 ~/.openclaw/logs/gateway.log
+# Should show: http server listening (X plugins: ..., claw-mem, ...)
+```
+
+Or use the doctor command:
+
+```bash
+openclaw doctor
+```
+
+### Plugin Configuration Options
+
+| Option | Type | Default | Description |
+|--------|------|---------|-------------|
+| `pythonPath` | string | `"python3"` | Python executable path |
+| `bridgePath` | string | `"-m claw_mem.bridge"` | Bridge module path |
+| `workspaceDir` | string | (OpenClaw workspace) | Workspace directory |
+| `autoRecall` | boolean | `true` | Auto-inject memories before agent starts |
+| `autoCapture` | boolean | `true` | Auto-store memories after agent ends |
+| `topK` | number | `10` | Max memories to recall |
+
+Example with custom config:
+
+```json
+{
+  "plugins": {
+    "entries": {
+      "claw-mem": {
+        "enabled": true,
+        "config": {
+          "pythonPath": "python3",
+          "autoRecall": true,
+          "autoCapture": true,
+          "topK": 10
+        }
+      }
+    },
+    "slots": {
+      "memory": "claw-mem"
+    }
+  }
+}
+```
+
+---
+
 ## 📊 Performance
 
 | Operation | Latency | Evaluation |
