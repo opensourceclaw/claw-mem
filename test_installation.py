@@ -23,7 +23,7 @@ print(f"   ✅ 写入成功: {result}")
 # 写入更多数据
 print("\n3. 写入更多数据...")
 manager.store(
-    content="重要决策：使用 Python 作为主要开发语言",
+    content="重要决策:使用 Python 作为主要开发语言",
     memory_type="semantic",
     metadata={"source": "user", "verified": True}
 )
@@ -49,5 +49,5 @@ if results:
     print(f"   第一条: {results[0]['content'][:50]}...")
 
 print("\n" + "=" * 60)
-print("✅ claw-mem v2.1.0 部署验证成功！")
+print("✅ claw-mem v2.1.0 部署验证成功!")
 print("=" * 60)

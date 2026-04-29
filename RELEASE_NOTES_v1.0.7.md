@@ -47,7 +47,7 @@ claw-mem v1.0.7 introduces simple markdown-based memory linking and tagging syst
 # 投资决策
 
 ## 内容
-担心投资收益不够女儿上学用。
+担心投资收益不够女儿上学用.
 
 ## 标签
 #投资 #教育金 #焦虑
