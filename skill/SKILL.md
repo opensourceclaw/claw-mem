@@ -12,7 +12,7 @@ Local-first memory system with three memory layers and intelligent retrieval.
 ## Prerequisites
 
 ```bash
-pip install git+https://github.com/opensourceclaw/claw-mem.git
+pip3 install git+https://github.com/opensourceclaw/claw-mem.git
 ```
 
 ## Quick Start

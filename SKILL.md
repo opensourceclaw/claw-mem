@@ -17,7 +17,7 @@ metadata: {"clawdbot":{"emoji":"🧠","requires":{"bins":["python3"]},"primaryEn
 ```bash
 git clone https://github.com/opensourceclaw/claw-mem/claw-mem.git ~/.openclaw/workspace/skills/claw-mem
 cd ~/.openclaw/workspace/skills/claw-mem
-pip install -e .
+pip3 install -e .
 ```
 
 ### Enable
@@ -176,7 +176,7 @@ Community contributions are welcome!
 ```bash
 git clone https://github.com/opensourceclaw/claw-mem/claw-mem.git
 cd claw-mem
-pip install -e ".[dev]"
+pip3 install -e ".[dev]"
 pytest
 ```
 
