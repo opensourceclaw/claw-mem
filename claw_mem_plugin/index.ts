@@ -375,22 +375,26 @@ function extractFactsFromEvent(event: any): string[] {
   if (event?.messages && Array.isArray(event.messages)) {
     for (const message of event.messages) {
       // Simple heuristic: extract user messages
-      if (message.role === 'user' && message.content) {
-        const content = message.content.toLowerCase();
-        
+      if (message.role === 'user') {
+        const textContent = typeof message.content === 'string'
+          ? message.content
+          : String(message.content || '');
+        if (!textContent) continue;
+        const lowerContent = textContent.toLowerCase();
+
         // Check for preference patterns
-        if (content.includes('prefer') || content.includes('like') || content.includes('want')) {
-          facts.push(message.content);
+        if (lowerContent.includes('prefer') || lowerContent.includes('like') || lowerContent.includes('want')) {
+          facts.push(textContent);
         }
-        
+
         // Check for important facts
-        if (content.includes('important') || content.includes('remember') || content.includes('note')) {
-          facts.push(message.content);
+        if (lowerContent.includes('important') || lowerContent.includes('remember') || lowerContent.includes('note')) {
+          facts.push(textContent);
         }
-        
+
         // Check for decisions
-        if (content.includes('decided') || content.includes('chose') || content.includes('selected')) {
-          facts.push(message.content);
+        if (lowerContent.includes('decided') || lowerContent.includes('chose') || lowerContent.includes('selected')) {
+          facts.push(textContent);
         }
       }
     }

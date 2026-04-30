@@ -22,6 +22,7 @@ import math
 
 from .bm25_retriever import BM25Retriever
 from .semantic_retriever import SemanticRetriever
+from .query_cache import get_query_cache
 
 
 class HybridSearcher:
@@ -34,33 +35,54 @@ class HybridSearcher:
     - Configurable BM25/Semantic weight
     - Reciprocal Rank Fusion
     - Query preprocessing
+    - Result caching
     """
 
     def __init__(
         self,
-        bm25_weight: float = 0.5,
-        semantic_weight: float = 0.5,
+        bm25_weight: float = 1.0,
+        semantic_weight: float = 0.0,
         semantic_top_k: int = 20,
         use_rrf: bool = True,
-        rrf_k: int = 60
+        rrf_k: int = 60,
+        use_cache: bool = True,
+        recency_boost: float = 0.1,
+        frequency_boost: float = 0.05
     ):
         """Initialize hybrid searcher
 
         Args:
             bm25_weight: Weight for BM25 scores (0-1)
-            semantic_weight: Weight for semantic scores (0-1)
+            semantic_weight: Weight for semantic scores (0-1, default 0 = disabled)
             semantic_top_k: Top-k for semantic search
             use_rrf: Use Reciprocal Rank Fusion
             rrf_k: RRF parameter (default 60)
+            use_cache: Use query result caching
+            recency_boost: Boost score for recent memories (0-0.3)
+            frequency_boost: Boost score for frequent accesses (0-0.2)
         """
         self.bm25_weight = bm25_weight
         self.semantic_weight = semantic_weight
         self.semantic_top_k = semantic_top_k
         self.use_rrf = use_rrf
         self.rrf_k = rrf_k
+        self.use_cache = use_cache
+        self.recency_boost = recency_boost
+        self.frequency_boost = frequency_boost
 
         self.bm25 = BM25Retriever()
         self.semantic = SemanticRetriever(top_k=semantic_top_k)
+        self._documents: List[Dict[str, Any]] = []
+
+        # Access tracking for frequency boost
+        self._access_counts: Dict[str, int] = {}
+        self._access_times: Dict[str, float] = {}
+
+        # Cache
+        if self.use_cache:
+            self._cache = get_query_cache()
+        else:
+            self._cache = None
 
     def index_document(
         self,
@@ -75,8 +97,24 @@ class HybridSearcher:
             text: Document text
             metadata: Additional metadata
         """
-        self.bm25.add_document(id, text, metadata)
-        self.semantic.add(id, text, metadata)
+        # Store in semantic index (may fail if no provider)
+        try:
+            self.semantic.add(id, text, metadata)
+        except Exception:
+            pass  # Skip semantic if no provider
+
+        # For BM25, we need to rebuild index with all documents
+        # Store documents for later search
+        if not hasattr(self, '_documents'):
+            self._documents = []
+        self._documents.append({
+            "id": id,
+            "content": text,
+            "metadata": metadata or {}
+        })
+
+        # Rebuild BM25 index
+        self.bm25.build_index(self._documents)
 
     def search(
         self,
@@ -98,25 +136,31 @@ class HybridSearcher:
         Returns:
             List of ranked results
         """
-        # Get BM25 results
-        bm25_results = self.bm25.search(query, top_k=self.semantic_top_k)
-        bm25_dict = {
-            r["id"]: r["score"]
-            for r in bm25_results
-            if r["score"] >= bm25_threshold
-        }
+        # Quick check: if no documents, return empty
+        if not self._documents:
+            return []
+
+        # Get BM25 results (use position as score)
+        bm25_results = self.bm25.search(query, self._documents, limit=self.semantic_top_k)
+        bm25_dict = {}
+        for idx, r in enumerate(bm25_results):
+            # Use reverse rank as score
+            bm25_dict[r.get("id", idx)] = (len(bm25_results) - idx) / len(bm25_results) if bm25_results else 0
 
         # Get semantic results
-        semantic_results = self.semantic.search(
-            query,
-            top_k=self.semantic_top_k,
-            score_threshold=semantic_threshold,
-            filters=filters
-        )
-        semantic_dict = {
-            r["id"]: r["score"]
-            for r in semantic_results
-        }
+        try:
+            semantic_results = self.semantic.search(
+                query,
+                top_k=self.semantic_top_k,
+                score_threshold=semantic_threshold,
+                filters=filters
+            )
+            semantic_dict = {
+                r["id"]: r["score"]
+                for r in semantic_results
+            }
+        except Exception:
+            semantic_dict = {}
 
         # Get all document IDs
         all_ids = set(bm25_dict.keys()) | set(semantic_dict.keys())
@@ -134,21 +178,81 @@ class HybridSearcher:
         # Build result list
         results = []
         for id, score in scores.items():
-            # Get text and metadata from semantic index
-            doc = self.semantic.get(id)
+            # Get text and metadata from stored documents
+            doc = next((d for d in self._documents if d["id"] == id), None)
             if doc:
                 results.append({
                     "id": id,
-                    "text": doc["text"],
+                    "text": doc["content"],
                     "score": score,
                     "metadata": doc.get("metadata", {}),
                     "bm25_score": bm25_dict.get(id, 0),
                     "semantic_score": semantic_dict.get(id, 0)
                 })
 
+        # Apply recency and frequency boost
+        if self.recency_boost > 0 or self.frequency_boost > 0:
+            import time
+            now = time.time()
+            results = self._apply_boosts(results, now)
+
         # Sort by combined score
         results.sort(key=lambda x: x["score"], reverse=True)
-        return results[:top_k]
+        final_results = results[:top_k]
+
+        # Cache results
+        if self._cache:
+            self._cache.put(query, results, top_k)
+
+        # Track access for frequency boost
+        import time
+        now = time.time()
+        for result in final_results:
+            doc_id = result["id"]
+            self._access_counts[doc_id] = self._access_counts.get(doc_id, 0) + 1
+            self._access_times[doc_id] = now
+
+        return final_results
+
+    def _apply_boosts(self, results: List[Dict[str, Any]], now: float) -> List[Dict[str, Any]]:
+        """Apply recency and frequency boosts
+
+        Args:
+            results: Search results
+            now: Current timestamp
+
+        Returns:
+            Results with boosted scores
+        """
+        if not results:
+            return results
+
+        # Calculate max age for normalization
+        max_age = 1.0  # 1 day
+        access_times = list(self._access_times.values())
+        if access_times:
+            max_age = max(now - min(access_times), 1.0)
+
+        max_access = max(self._access_counts.values()) if self._access_counts else 1
+
+        for result in results:
+            doc_id = result["id"]
+            boost = 0.0
+
+            # Recency boost (newer = higher boost)
+            if doc_id in self._access_times:
+                age = now - self._access_times[doc_id]
+                recency_score = max(0, 1 - age / max_age)
+                boost += self.recency_boost * recency_score
+
+            # Frequency boost (more frequent = higher boost)
+            if doc_id in self._access_counts:
+                freq_score = self._access_counts[doc_id] / max_access
+                boost += self.frequency_boost * freq_score
+
+            result["score"] += boost
+
+        return results
 
     def _reciprocal_rank_fusion(
         self,
@@ -210,8 +314,11 @@ class HybridSearcher:
 
     def clear(self):
         """Clear all indexes"""
-        self.bm25.clear()
-        self.semantic.clear()
+        self._documents = []
+        self._access_counts = {}
+        self._access_times = {}
+        if self._cache:
+            self._cache.invalidate()
 
     def count(self) -> int:
         """Get number of indexed documents"""
@@ -223,11 +330,11 @@ _hybrid_searcher: Optional[HybridSearcher] = None
 
 
 def get_hybrid_searcher(
-    bm25_weight: float = 0.5,
-    semantic_weight: float = 0.5,
+    bm25_weight: float = 1.0,
+    semantic_weight: float = 0.0,
     top_k: int = 10
 ) -> HybridSearcher:
-    """Get global hybrid searcher instance"""
+    """Get global hybrid searcher instance (BM25-only by default)"""
     global _hybrid_searcher
 
     if _hybrid_searcher is None:
