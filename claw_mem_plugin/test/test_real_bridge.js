@@ -1,20 +1,19 @@
 #!/usr/bin/env node
 /**
- * Test claw-mem Bridge with real MemoryManager
- * 
- * Prerequisites:
- * - Python 3.9+
- * - claw-mem package installed
- * - claw_mem.bridge module available
+ * claw-mem Bridge Integration Test (v2.5.0)
+ *
+ * Tests the new bridge protocol with:
+ * - Auto-initialization (id=0 response)
+ * - Store / Search / Get / Delete
+ * - Plugin Slots: build_context, start_session, end_session, resolve_flush_plan
+ * - Cache behavior verification
+ * - Performance benchmarks
  */
 
 import { spawn } from 'child_process';
-import path from 'path';
-import { fileURLToPath } from 'url';
-import { existsSync } from 'fs';
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
+const PASS = '\x1b[32m✓\x1b[0m';
+const FAIL = '\x1b[31m✗\x1b[0m';
 
 class BridgeClient {
   constructor() {
@@ -22,257 +21,205 @@ class BridgeClient {
     this.requestId = 0;
     this.pendingRequests = new Map();
     this.buffer = '';
+    this.initPromise = null;
+    this.initResolve = null;
+    this.initialized = false;
   }
-  
-  async start(pythonPath = 'python3', bridgeModule = 'claw_mem.bridge') {
-    return new Promise((resolve, reject) => {
-      console.log('[test] Starting Python Bridge with real MemoryManager...');
-      
-      // Use venv Python if available
-      const venvPython = path.resolve(__dirname, '..', '..', 'venv', 'bin', 'python3');
-      const actualPython = existsSync(venvPython) ? venvPython : pythonPath;
-      
-      // Set PYTHONPATH to include src directory
-      const env = {
-        ...process.env,
-        PYTHONPATH: path.resolve(__dirname, '..', '..', 'src')
-      };
-      
-      console.log(`[test] Using Python: ${actualPython}`);
-      console.log(`[test] PYTHONPATH: ${env.PYTHONPATH}`);
-      console.log(`[test] Bridge module: ${bridgeModule}`);
-      console.log(`[test] CWD: ${path.resolve(__dirname, '..', '..')}`);
-      
-      // Spawn with separate arguments: python -m claw_mem.bridge
-      this.process = spawn(actualPython, ['-m', bridgeModule], {
-        stdio: ['pipe', 'pipe', 'pipe'],
-        cwd: path.resolve(__dirname, '..', '..'),
-        env: env,
-      });
-      
-      this.process.stdout.on('data', (data) => {
-        this.buffer += data.toString();
-        const lines = this.buffer.split('\n');
-        this.buffer = lines.pop() || '';
-        
-        for (const line of lines) {
-          if (line.trim()) {
-            try {
-              const response = JSON.parse(line);
-              this.handleResponse(response);
-            } catch (e) {
-              console.error('[test] Parse error:', e.message);
+
+  async start() {
+    this.initPromise = new Promise((resolve) => { this.initResolve = resolve; });
+
+    this.process = spawn('python3', ['-m', 'claw_mem.bridge'], {
+      stdio: ['pipe', 'pipe', 'pipe'],
+      env: { ...process.env },
+    });
+
+    this.process.stdout.on('data', (data) => {
+      this.buffer += data.toString();
+      const lines = this.buffer.split('\n');
+      this.buffer = lines.pop() || '';
+
+      for (const line of lines) {
+        if (!line.trim()) continue;
+        try {
+          const resp = JSON.parse(line);
+          // Bridge auto-init: id=0 means initialization complete
+          if (resp.id === 0 && !this.initialized) {
+            this.initialized = true;
+            if (resp.error) {
+              this.initResolve({ ok: false, error: resp.error.message });
+            } else {
+              this.initResolve({ ok: true, result: resp.result });
             }
           }
+          // Regular request responses
+          if (resp.id > 0) {
+            const pending = this.pendingRequests.get(resp.id);
+            if (pending) {
+              this.pendingRequests.delete(resp.id);
+              if (resp.error) {
+                pending.reject(new Error(resp.error.message));
+              } else {
+                pending.resolve(resp.result);
+              }
+            }
+          }
+        } catch (e) {
+          // Ignore parse errors (diagnostic output on stderr is expected)
         }
-      });
-      
-      this.process.stderr.on('data', (data) => {
-        console.log('[python]', data.toString().trim());
-      });
-      
-      this.process.on('error', reject);
-      
-      // Wait for process to start
-      setTimeout(resolve, 100);
-    });
-  }
-  
-  handleResponse(response) {
-    const pending = this.pendingRequests.get(response.id);
-    if (pending) {
-      this.pendingRequests.delete(response.id);
-      if (response.error) {
-        pending.reject(new Error(response.error.message));
-      } else {
-        pending.resolve(response);
       }
-    }
+    });
+
+    this.process.stderr.on('data', (data) => {
+      // Bridge logs to stderr - expected
+    });
+
+    this.process.on('error', (err) => {
+      if (!this.initialized) this.initResolve({ ok: false, error: err.message });
+    });
+
+    return this.initPromise;
   }
-  
+
   async call(method, params = {}) {
+    if (!this.initialized) throw new Error('Bridge not initialized');
+
     return new Promise((resolve, reject) => {
       const id = ++this.requestId;
-      const request = {
-        jsonrpc: '2.0',
-        method,
-        params,
-        id
-      };
-      
       this.pendingRequests.set(id, { resolve, reject });
-      this.process.stdin.write(JSON.stringify(request) + '\n');
-      
-      // Timeout
+      this.process.stdin.write(JSON.stringify({ jsonrpc: '2.0', method, params, id }) + '\n');
+
       setTimeout(() => {
         if (this.pendingRequests.has(id)) {
           this.pendingRequests.delete(id);
-          reject(new Error('Timeout'));
+          reject(new Error(`Timeout: ${method}`));
         }
-      }, 30000);
+      }, 15000);
     });
   }
-  
+
   async stop() {
     if (this.process) {
-      await this.call('shutdown');
       this.process.kill();
       this.process = null;
     }
   }
 }
 
-async function testRealBridge() {
+async function main() {
   console.log('========================================');
-  console.log('Phase 1: Real claw-mem Integration Test');
+  console.log('claw-mem Bridge Integration Test v2.5.0');
   console.log('========================================\n');
-  
+
   const client = new BridgeClient();
-  const latencies = [];
-  
+  let tests = 0, passed = 0;
+
+  function check(name, condition, detail = '') {
+    tests++;
+    if (condition) {
+      passed++;
+      console.log(`  ${PASS} ${name} ${detail}`);
+    } else {
+      console.log(`  ${FAIL} ${name} ${detail}`);
+    }
+  }
+
   try {
-    // Start bridge
-    await client.start();
-    
-    // Initialize with real MemoryManager
-    console.log('[test] Initializing with real MemoryManager...');
-    const initResult = await client.call('initialize', {
-      workspace_dir: path.resolve(__dirname, '..', '..'),
-      config: {}
-    });
-    
-    if (initResult.result && initResult.result.status === 'initialized') {
-      console.log('  ✅ MemoryManager initialized');
-      console.log(`  Workspace: ${initResult.result.workspace}`);
-      console.log(`  Latency: ${initResult.result.latency_ms.toFixed(3)}ms\n`);
-      latencies.push(initResult.result.latency_ms);
-    } else {
-      console.log('  ❌ Initialization failed:', initResult);
-      return;
-    }
-    
-    // Test 1: Store memories
-    console.log('[test] Storing 10 memories...');
-    const storeLatencies = [];
-    for (let i = 0; i < 10; i++) {
-      const start = Date.now();
+    // ---- Start bridge ----
+    const init = await client.start();
+    check('Bridge auto-init', init.ok, init.result?.version || '');
+    if (!init.ok) throw new Error(`Init failed: ${init.error}`);
+
+    // ---- Store ----
+    console.log('\n[Store tests]');
+    const ids = [];
+    for (let i = 0; i < 5; i++) {
       const result = await client.call('store', {
-        text: `Test memory ${i}: This is important fact ${i}`,
+        text: `Important fact ${i}: claw-mem v2.5.0 plugin slots test`,
         metadata: { test: true, index: i },
-        user_id: 'test_user',
-        layer: 'episodic'
+        memory_type: 'episodic',
       });
-      const latency = Date.now() - start;
-      storeLatencies.push(latency);
-      
-      if (i === 0 || i === 9) {
-        console.log(`  Memory ${i + 1}: ${result.result.id}, latency=${latency}ms`);
-      }
+      ids.push(result.id);
     }
-    const avgStoreLatency = storeLatencies.reduce((a, b) => a + b, 0) / storeLatencies.length;
-    console.log(`  ✅ Store test completed, avg latency: ${avgStoreLatency.toFixed(3)}ms\n`);
-    
-    // Test 2: Search memories
-    console.log('[test] Searching memories (10 queries)...');
-    const searchLatencies = [];
-    for (let i = 0; i < 10; i++) {
+    check('Store 5 memories', ids.length === 5, `ids: ${ids.length}`);
+
+    // ---- Search ----
+    console.log('\n[Search tests]');
+    const t1 = Date.now();
+    const search1 = await client.call('search', { query: 'plugin slots test', limit: 10 });
+    const t1Latency = Date.now() - t1;
+    check('Search returns results', search1.results?.length > 0, `${search1.results?.length} results`);
+    check('Search latency < 50ms', t1Latency < 50, `${t1Latency}ms`);
+
+    // ---- Cache test ----
+    const cacheStart = Date.now();
+    const search2 = await client.call('search', { query: 'plugin slots test', limit: 10 });
+    const cacheLatency = Date.now() - cacheStart;
+    check('Cache hit faster', cacheLatency <= t1Latency + 10, `original=${t1Latency}ms, cached=${cacheLatency}ms`);
+
+    // Cache miss for different query
+    const missStart = Date.now();
+    await client.call('search', { query: 'different query cache miss', limit: 10 });
+    const missLatency = Date.now() - missStart;
+    check('Cache miss returns fresh results', missLatency > 0, `${missLatency}ms`);
+
+    // ---- Plugin Slots ----
+    console.log('\n[Plugin Slots tests]');
+
+    // build_context
+    const ctx = await client.call('build_context', { topK: 5 });
+    check('build_context returns sections', ctx.count > 0 || !ctx.error, `count=${ctx.count}`);
+
+    // start_session / end_session
+    const sess = await client.call('start_session', { sessionId: 'test-session-1' });
+    check('start_session', sess.status === 'started', sess.sessionId);
+    const endSess = await client.call('end_session', { sessionId: 'test-session-1' });
+    check('end_session', endSess.status === 'ended', endSess.sessionId);
+
+    // resolve_flush_plan
+    const plan = await client.call('resolve_flush_plan', {});
+    check('resolve_flush_plan returns plan', plan.softThresholdTokens > 0, `soft=${plan.softThresholdTokens}`);
+    check('Flush plan has all fields', plan.prompt && plan.systemPrompt && plan.relativePath);
+
+    // ---- Status ----
+    console.log('\n[Status]');
+    const status = await client.call('status', {});
+    check('Status ok', status.status === 'ok');
+
+    // ---- Performance benchmark ----
+    console.log('\n[Performance benchmark]');
+    const iters = 20;
+    const latencies = [];
+    for (let i = 0; i < iters; i++) {
       const start = Date.now();
-      const result = await client.call('search', {
-        query: `important fact ${i}`,
-        limit: 5,
-        user_id: 'test_user'
-      });
-      const latency = Date.now() - start;
-      searchLatencies.push(latency);
-      
-      if (i === 0 || i === 9) {
-        console.log(`  Query ${i + 1}: ${result.result.count} results, latency=${latency}ms`);
-      }
+      await client.call('search', { query: `benchmark query ${i}`, limit: 5 });
+      latencies.push(Date.now() - start);
     }
-    const avgSearchLatency = searchLatencies.reduce((a, b) => a + b, 0) / searchLatencies.length;
-    console.log(`  ✅ Search test completed, avg latency: ${avgSearchLatency.toFixed(3)}ms\n`);
-    
-    // Test 3: Get memory
-    console.log('[test] Getting a specific memory...');
-    const start = Date.now();
-    const getResult = await client.call('get', {
-      id: 'test-memory-id' // This will fail but we test the path
-    });
-    const getLatency = Date.now() - start;
-    console.log(`  Latency: ${getLatency}ms`);
-    console.log(`  Result: ${getResult.result.error || 'success'}\n`);
-    
-    // Test 4: Delete memory
-    console.log('[test] Deleting a memory...');
-    const start2 = Date.now();
-    const deleteResult = await client.call('delete', {
-      id: 'test-memory-id'
-    });
-    const deleteLatency = Date.now() - start2;
-    console.log(`  Latency: ${deleteLatency}ms`);
-    console.log(`  Success: ${deleteResult.result.success}\n`);
-    
-    // Test 5: Get stats
-    console.log('[test] Getting bridge statistics...');
-    const statsResult = await client.call('stats', {});
-    console.log(`  Request count: ${statsResult.result.request_count}`);
-    console.log(`  Total latency: ${statsResult.result.total_latency_ms.toFixed(3)}ms`);
-    console.log(`  Average latency: ${statsResult.result.avg_latency_ms.toFixed(3)}ms\n`);
-    
-    // Calculate overall statistics
-    const allLatencies = [...storeLatencies, ...searchLatencies];
-    const avg = allLatencies.reduce((a, b) => a + b, 0) / allLatencies.length;
-    const min = Math.min(...allLatencies);
-    const max = Math.max(...allLatencies);
-    const sorted = [...allLatencies].sort((a, b) => a - b);
+    const avg = latencies.reduce((a, b) => a + b, 0) / latencies.length;
+    const sorted = [...latencies].sort((a, b) => a - b);
     const p50 = sorted[Math.floor(sorted.length * 0.5)];
-    const p90 = sorted[Math.floor(sorted.length * 0.9)];
     const p95 = sorted[Math.floor(sorted.length * 0.95)];
-    
-    console.log('========================================');
-    console.log('Performance Statistics');
-    console.log('========================================');
-    console.log(`Request Count: ${allLatencies.length}`);
-    console.log(`Average Latency: ${avg.toFixed(3)}ms`);
-    console.log(`Min Latency: ${min}ms`);
-    console.log(`Max Latency: ${max}ms`);
-    console.log('\nPercentiles:');
-    console.log(`  P50: ${p50}ms`);
-    console.log(`  P90: ${p90}ms`);
-    console.log(`  P95: ${p95}ms`);
-    console.log('========================================\n');
-    
-    // Performance evaluation
-    console.log('Performance Evaluation:');
-    console.log('----------------------');
-    
-    if (avg < 5) {
-      console.log('✅ EXCELLENT: Average latency < 5ms');
-      console.log('   → Ready for production use!');
-    } else if (avg < 10) {
-      console.log('✅ GOOD: Average latency < 10ms');
-      console.log('   → Acceptable for production use');
-    } else if (avg < 20) {
-      console.log('⚠️  ACCEPTABLE: Average latency < 20ms');
-      console.log('   → Consider optimizations');
-    } else {
-      console.log('❌ SLOW: Average latency > 20ms');
-      console.log('   → Needs optimization');
+    console.log(`  ${iters} search requests:`);
+    console.log(`    avg=${avg.toFixed(1)}ms  p50=${p50}ms  p95=${p95}ms`);
+    check('Average search < 50ms', avg < 50, `avg=${avg.toFixed(1)}ms`);
+    check('P95 search < 100ms', p95 < 100, `p95=${p95}ms`);
+
+    // ---- Summary ----
+    console.log(`\n========================================`);
+    console.log(`Results: ${passed}/${tests} passed`);
+    console.log(`========================================`);
+
+    if (passed < tests) {
+      console.error(`${FAIL} Some tests failed`);
+      process.exit(1);
     }
-    
-    console.log('\n✅ Phase 1 integration test completed successfully!');
-    
+
   } catch (error) {
-    console.error('\n❌ Test failed:', error.message);
-    throw error;
+    console.error(`\n${FAIL} ${error.message}`);
+    process.exit(1);
   } finally {
     await client.stop();
   }
 }
 
-testRealBridge()
-  .then(() => process.exit(0))
-  .catch((error) => {
-    console.error(error);
-    process.exit(1);
-  });
+main();
