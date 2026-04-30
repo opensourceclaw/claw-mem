@@ -69,7 +69,7 @@ interface OpenClawPluginApi {
     debug?: (...args: any[]) => void;
   };
 
-  registerTool(tool: any, handler: (params: any) => Promise<any>): void;
+  registerTool(factory: (ctx: any) => any, opts?: { names: string[] }): void;
   on(eventName: string, handler: (event: any, ctx: any) => Promise<any | void>): void;
   registerService(service: { id: string; start: () => Promise<void>; stop: () => Promise<void> }): void;
 
@@ -565,103 +565,83 @@ const plugin: PluginDefinition = {
     });
 
     // ========================================================================
-    // Register Tools
+    // Register Tools (factory pattern: (ctx) => ({ name, description, parameters, execute }))
     // ========================================================================
-    
-    api.registerTool(
-      {
-        name: 'memory_search',
-        label: 'Memory Search',
-        description: 'Search through memories stored in claw-mem. Use when you need context about past conversations, decisions, or learned information.',
-        parameters: {
-          type: 'object',
-          properties: {
-            query: { type: 'string', description: 'Search query' },
-            limit: { type: 'number', description: 'Max results', default: config.topK },
-          },
-          required: ['query'],
+
+    api.registerTool((_ctx: any) => ({
+      name: 'memory_search',
+      description: 'Search through memories stored in claw-mem. Use when you need context about past conversations, decisions, or learned information.',
+      parameters: {
+        type: 'object',
+        properties: {
+          query: { type: 'string', description: 'Search query' },
+          limit: { type: 'number', description: 'Max results', default: config.topK },
         },
+        required: ['query'],
       },
-      async (params: any) => {
-        if (!bridge.isReady()) {
-          return { error: 'Bridge not initialized' };
-        }
-        
+      execute: async (_toolCallId: string, params: any) => {
+        if (!bridge.isReady()) return { error: 'Bridge not initialized' };
         try {
-          const result = await bridge.call('search', params);
-          return result;
+          return await bridge.call('search', params);
         } catch (error) {
           api.logger.error('[claw-mem] Search error:', error);
           return { error: (error as Error).message };
         }
-      }
-    );
-    
-    api.registerTool(
-      {
-        name: 'memory_store',
-        label: 'Memory Store',
-        description: 'Store important information in claw-mem. Use for important facts, decisions, user preferences, or anything worth remembering.',
-        parameters: {
-          type: 'object',
-          properties: {
-            text: { type: 'string', description: 'Information to remember' },
-            metadata: { type: 'object' },
-            memory_type: { type: 'string', description: 'Memory type: episodic, semantic, or procedural', default: 'episodic' },
-          },
-          required: ['text'],
-        },
       },
-      async (params: any) => {
-        if (!bridge.isReady()) {
-          return { error: 'Bridge not initialized' };
-        }
-        
+    }), { names: ['memory_search'] });
+
+    api.registerTool((_ctx: any) => ({
+      name: 'memory_store',
+      description: 'Store important information in claw-mem. Use for important facts, decisions, user preferences, or anything worth remembering.',
+      parameters: {
+        type: 'object',
+        properties: {
+          text: { type: 'string', description: 'Information to remember' },
+          metadata: { type: 'object' },
+          memory_type: { type: 'string', description: 'Memory type: episodic, semantic, or procedural', default: 'episodic' },
+        },
+        required: ['text'],
+      },
+      execute: async (_toolCallId: string, params: any) => {
+        if (!bridge.isReady()) return { error: 'Bridge not initialized' };
         try {
-          const result = await bridge.call('store', params);
-          return result;
+          return await bridge.call('store', params);
         } catch (error) {
           api.logger.error('[claw-mem] Store error:', error);
           return { error: (error as Error).message };
         }
-      }
-    );
-    
-    api.registerTool(
-      {
-        name: 'memory_get',
-        label: 'Memory Get',
-        description: 'Get a specific memory by ID. Note: This operation is not supported by the current MemoryManager. Use memory_search instead.',
-        parameters: {
-          type: 'object',
-          properties: {
-            id: { type: 'string', description: 'Memory ID' },
-          },
-          required: ['id'],
-        },
       },
-      async (params: any) => {
+    }), { names: ['memory_store'] });
+
+    api.registerTool((_ctx: any) => ({
+      name: 'memory_get',
+      description: 'Get a specific memory by ID. Note: This operation is not supported by the current MemoryManager. Use memory_search instead.',
+      parameters: {
+        type: 'object',
+        properties: {
+          id: { type: 'string', description: 'Memory ID' },
+        },
+        required: ['id'],
+      },
+      execute: async (_toolCallId: string, _params: any) => {
         return { error: 'MemoryManager does not support get() method. Use memory_search instead.' };
-      }
-    );
-    
-    api.registerTool(
-      {
-        name: 'memory_forget',
-        label: 'Memory Forget',
-        description: 'Delete a memory by ID. Note: This operation is not supported by the current MemoryManager.',
-        parameters: {
-          type: 'object',
-          properties: {
-            id: { type: 'string', description: 'Memory ID to delete' },
-          },
-          required: ['id'],
-        },
       },
-      async (params: any) => {
+    }), { names: ['memory_get'] });
+
+    api.registerTool((_ctx: any) => ({
+      name: 'memory_forget',
+      description: 'Delete a memory by ID. Note: This operation is not supported by the current MemoryManager.',
+      parameters: {
+        type: 'object',
+        properties: {
+          id: { type: 'string', description: 'Memory ID to delete' },
+        },
+        required: ['id'],
+      },
+      execute: async (_toolCallId: string, _params: any) => {
         return { error: 'MemoryManager does not support delete() method.' };
-      }
-    );
+      },
+    }), { names: ['memory_forget'] });
     
     // ========================================================================
     // Register Hooks (DEPRECATED - replaced by registerMemoryCapability)
