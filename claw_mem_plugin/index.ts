@@ -66,12 +66,65 @@ interface OpenClawPluginApi {
     info: (...args: any[]) => void;
     error: (...args: any[]) => void;
     warn: (...args: any[]) => void;
-    debug: (...args: any[]) => void;
+    debug?: (...args: any[]) => void;
   };
-  
+
   registerTool(tool: any, handler: (params: any) => Promise<any>): void;
   on(eventName: string, handler: (event: any, ctx: any) => Promise<any | void>): void;
   registerService(service: { id: string; start: () => Promise<void>; stop: () => Promise<void> }): void;
+
+  // Plugin Slots API (v2.5.0+)
+  registerMemoryCapability(capability: MemoryPluginCapability): void;
+}
+
+/**
+ * Memory Plugin Capability (matching OpenClaw SDK)
+ */
+interface MemoryPluginCapability {
+  promptBuilder?: MemoryPromptSectionBuilder;
+  flushPlanResolver?: MemoryFlushPlanResolver;
+  runtime?: MemoryPluginRuntime;
+}
+
+type MemoryPromptSectionBuilder = (params: {
+  availableTools: Set<string>;
+  citationsMode?: string;
+}) => Promise<string[]>;
+
+interface MemoryFlushPlan {
+  softThresholdTokens: number;
+  forceFlushTranscriptBytes: number;
+  reserveTokensFloor: number;
+  prompt: string;
+  systemPrompt: string;
+  relativePath: string;
+}
+
+type MemoryFlushPlanResolver = (params: {
+  cfg?: any;
+  nowMs?: number;
+}) => MemoryFlushPlan | null;
+
+interface MemoryPluginRuntime {
+  getMemorySearchManager(params: {
+    cfg: any;
+    agentId: string;
+    purpose?: string;
+  }): Promise<{ manager: any | null; error?: string }>;
+  resolveMemoryBackendConfig(params: {
+    cfg: any;
+    agentId: string;
+  }): { backend: string };
+  closeAllMemorySearchManagers?(): Promise<void>;
+}
+
+interface MemorySearchResult {
+  path: string;
+  startLine: number;
+  endLine: number;
+  score: number;
+  snippet: string;
+  source: string;
 }
 
 /**
@@ -137,18 +190,19 @@ class ClawMemBridge {
         this.logger.info(`[claw-mem bridge] Starting with ${pythonPath} -m ${bridgeModule}`);
       }
       
-      // Set PYTHONPATH to include src directory
+      // Set PYTHONPATH only if workspaceDir is explicitly configured
       const workspaceDir = this.config.workspaceDir || process.cwd();
-      const srcDir = path.join(workspaceDir, 'src');
-      
+      const env: Record<string, string> = { ...process.env as Record<string, string> };
+      if (this.config.workspaceDir) {
+        const srcDir = path.join(workspaceDir, 'src');
+        env.PYTHONPATH = srcDir;
+      }
+
       // Spawn Python Bridge process with separate arguments
       this.process = spawn(pythonPath, ['-m', bridgeModule], {
         stdio: ['pipe', 'pipe', 'pipe'],
         cwd: workspaceDir,
-        env: {
-          ...process.env,
-          PYTHONPATH: srcDir,
-        },
+        env,
       });
       
       // Handle stdout (responses)
@@ -200,19 +254,21 @@ class ClawMemBridge {
         reject(err);
       });
       
-      // Initialize bridge
-      this.call('initialize', { config: this.config })
-        .then(() => {
+      // Bridge auto-initializes in __init__ and sends id=0 response.
+      // Wait for that response instead of sending a separate initialize call.
+      this.pendingRequests.set(0, {
+        resolve: () => {
           this.ready = true;
           this.starting = false;
           this.logger.info('[claw-mem bridge] Started successfully');
           resolve();
-        })
-        .catch((err) => {
-          this.logger.error('[claw-mem bridge] Failed to initialize:', err);
+        },
+        reject: (err: Error) => {
           this.starting = false;
+          this.logger.error('[claw-mem bridge] Failed to initialize:', err);
           reject(err);
-        });
+        },
+      });
     });
   }
   
@@ -241,7 +297,7 @@ class ClawMemBridge {
       this.process.stdin.write(requestStr);
       
       if (this.config.debug) {
-        this.logger.debug(`[claw-mem bridge] → ${requestStr.trim()}`);
+        this.logger.debug?.(`[claw-mem bridge] → ${requestStr.trim()}`);
       }
       
       // Timeout after 30 seconds
@@ -345,16 +401,18 @@ function extractFactsFromEvent(event: any): string[] {
 }
 
 // ============================================================================
-// Plugin Definition
+// Plugin Entry
+// Uses plain object export. At runtime OpenClaw >= 2026.4.x calls
+// registerMemoryCapability on the actual API object.
 // ============================================================================
 
 const plugin: PluginDefinition = {
   id: 'claw-mem',
   name: 'Claw Memory System',
-  description: 'Three-tier memory system for OpenClaw (Local-First)',
-  version: '2.0.0',
+  description: 'Three-tier memory system for OpenClaw (Local-First) - Plugin Slots Enabled',
+  version: '2.5.0',
   kind: 'memory',
-  
+
   configSchema: {
     type: 'object',
     properties: {
@@ -367,7 +425,7 @@ const plugin: PluginDefinition = {
       debug: { type: 'boolean', default: false },
     },
   },
-  
+
   register(api: OpenClawPluginApi) {
     const config: ClawMemConfig = {
       pythonPath: api.pluginConfig?.pythonPath as string | undefined,
@@ -381,7 +439,131 @@ const plugin: PluginDefinition = {
     
     const bridge = new ClawMemBridge(config, api.logger);
     let currentSessionId: string | undefined;
-    
+
+    // ========================================================================
+    // Register Memory Capability (Plugin Slots - v2.5.0+)
+    // Uses (api as any) for registerMemoryCapability which exists at
+    // runtime on OpenClaw >= 2026.4.x APIs but not in our local type stubs.
+    // ========================================================================
+
+    (api as any).registerMemoryCapability({
+      // promptBuilder: Build memory context before each agent turn
+      promptBuilder: async (params: { availableTools: Set<string>; citationsMode?: string }) => {
+        if (!bridge.isReady()) return [];
+
+        try {
+          const result = await bridge.call('build_context', {
+            topK: config.topK,
+            query: 'important recent context',
+          });
+
+          if (result?.context && Array.isArray(result.context)) {
+            api.logger.debug?.(`[claw-mem] promptBuilder: ${result.context.length} section(s) injected`);
+            return result.context as string[];
+          }
+        } catch (error) {
+          api.logger.warn('[claw-mem] promptBuilder failed, skipping memory injection:', error);
+        }
+
+        return [];
+      },
+
+      // flushPlanResolver: Compaction strategy for session compression
+      flushPlanResolver: (_params: { cfg?: any; nowMs?: number }) => {
+        const ts = new Date().toISOString().replace(/[:.]/g, '-').slice(0, 19);
+        return {
+          softThresholdTokens: 100000,
+          forceFlushTranscriptBytes: 500000,
+          reserveTokensFloor: 20000,
+          prompt: 'Below is a conversation transcript. Summarize it concisely, preserving key context, decisions, user preferences, and action items. Remove redundancy while retaining all essential information.',
+          systemPrompt: 'You are a conversation summarizer for an AI memory system. Extract and preserve essential information. Be concise.',
+          relativePath: `compaction/flush-${ts}.md`,
+        };
+      },
+
+      // runtime: Memory search manager and backend configuration
+      runtime: {
+        getMemorySearchManager: async (params: { cfg: any; agentId: string; purpose?: string }) => {
+          if (!bridge.isReady()) {
+            return { manager: null, error: 'claw-mem bridge not initialized' };
+          }
+
+          // Start memory session for this agent
+          try {
+            await bridge.call('start_session', { sessionId: params.agentId });
+            api.logger.debug?.(`[claw-mem] Memory session started: ${params.agentId}`);
+          } catch (error) {
+            api.logger.warn('[claw-mem] Failed to start memory session:', error);
+          }
+
+          const manager = {
+            search: async (
+              query: string,
+              opts?: { maxResults?: number; minScore?: number; sessionKey?: string }
+            ): Promise<MemorySearchResult[]> => {
+              try {
+                const result = await bridge.call('search', {
+                  query,
+                  limit: opts?.maxResults ?? config.topK,
+                });
+
+                if (!result?.memories) return [];
+
+                return result.memories
+                  .filter((m: any) => !opts?.minScore || m.score >= opts.minScore)
+                  .map((m: any): MemorySearchResult => ({
+                    path: `memory://${m.id}`,
+                    startLine: 0,
+                    endLine: 0,
+                    score: m.score || 0,
+                    snippet: (m.content || '').slice(0, 500),
+                    source: 'memory',
+                  }));
+              } catch (error) {
+                api.logger.error('[claw-mem] MemorySearchManager.search error:', error);
+                return [];
+              }
+            },
+
+            readFile: async (_params: { relPath: string; from?: number; lines?: number }) => {
+              return { text: '', path: _params.relPath };
+            },
+
+            status: () => ({
+              backend: 'builtin',
+              workspace: config.workspaceDir || '',
+            }),
+
+            probeEmbeddingAvailability: async () => null,
+            probeVectorAvailability: async () => false,
+
+            close: async () => {
+              try {
+                await bridge.call('end_session', { sessionId: params.agentId });
+                api.logger.debug?.(`[claw-mem] Memory session ended: ${params.agentId}`);
+              } catch (error) {
+                api.logger.warn('[claw-mem] Failed to end memory session:', error);
+              }
+            },
+          };
+
+          return { manager };
+        },
+
+        resolveMemoryBackendConfig: (_params: { cfg: any; agentId: string }) => ({
+          backend: 'builtin' as const,
+        }),
+
+        closeAllMemorySearchManagers: async () => {
+          try {
+            await bridge.call('end_session', {});
+          } catch (error) {
+            api.logger.warn('[claw-mem] Failed to close all memory sessions:', error);
+          }
+        },
+      },
+    });
+
     // ========================================================================
     // Register Tools
     // ========================================================================
@@ -482,9 +664,10 @@ const plugin: PluginDefinition = {
     );
     
     // ========================================================================
-    // Register Hooks
+    // Register Hooks (DEPRECATED - replaced by registerMemoryCapability)
+    // Kept for backward compatibility with OpenClaw < 2026.4.x
     // ========================================================================
-    
+
     // Auto-recall: inject memories before agent starts
     if (config.autoRecall) {
       api.on('before_agent_start', async (event: any, ctx: any) => {
