@@ -49,17 +49,18 @@ class ClawMemBridge {
             if (this.config.debug) {
                 this.logger.info(`[claw-mem bridge] Starting with ${pythonPath} -m ${bridgeModule}`);
             }
-            // Set PYTHONPATH to include src directory
+            // Set PYTHONPATH only if workspaceDir is explicitly configured
             const workspaceDir = this.config.workspaceDir || process.cwd();
-            const srcDir = path.join(workspaceDir, 'src');
+            const env = { ...process.env };
+            if (this.config.workspaceDir) {
+                const srcDir = path.join(workspaceDir, 'src');
+                env.PYTHONPATH = srcDir;
+            }
             // Spawn Python Bridge process with separate arguments
             this.process = spawn(pythonPath, ['-m', bridgeModule], {
                 stdio: ['pipe', 'pipe', 'pipe'],
                 cwd: workspaceDir,
-                env: {
-                    ...process.env,
-                    PYTHONPATH: srcDir,
-                },
+                env,
             });
             // Handle stdout (responses)
             this.process.stdout?.on('data', (data) => {
@@ -105,18 +106,20 @@ class ClawMemBridge {
                 this.starting = false;
                 reject(err);
             });
-            // Initialize bridge
-            this.call('initialize', { config: this.config })
-                .then(() => {
-                this.ready = true;
-                this.starting = false;
-                this.logger.info('[claw-mem bridge] Started successfully');
-                resolve();
-            })
-                .catch((err) => {
-                this.logger.error('[claw-mem bridge] Failed to initialize:', err);
-                this.starting = false;
-                reject(err);
+            // Bridge auto-initializes in __init__ and sends id=0 response.
+            // Wait for that response instead of sending a separate initialize call.
+            this.pendingRequests.set(0, {
+                resolve: () => {
+                    this.ready = true;
+                    this.starting = false;
+                    this.logger.info('[claw-mem bridge] Started successfully');
+                    resolve();
+                },
+                reject: (err) => {
+                    this.starting = false;
+                    this.logger.error('[claw-mem bridge] Failed to initialize:', err);
+                    reject(err);
+                },
             });
         });
     }
@@ -141,7 +144,7 @@ class ClawMemBridge {
             const requestStr = JSON.stringify(request) + '\n';
             this.process.stdin.write(requestStr);
             if (this.config.debug) {
-                this.logger.debug(`[claw-mem bridge] → ${requestStr.trim()}`);
+                this.logger.debug?.(`[claw-mem bridge] → ${requestStr.trim()}`);
             }
             // Timeout after 30 seconds
             setTimeout(() => {
@@ -211,19 +214,24 @@ function extractFactsFromEvent(event) {
     if (event?.messages && Array.isArray(event.messages)) {
         for (const message of event.messages) {
             // Simple heuristic: extract user messages
-            if (message.role === 'user' && message.content) {
-                const content = message.content.toLowerCase();
+            if (message.role === 'user') {
+                const textContent = typeof message.content === 'string'
+                    ? message.content
+                    : String(message.content || '');
+                if (!textContent)
+                    continue;
+                const lowerContent = textContent.toLowerCase();
                 // Check for preference patterns
-                if (content.includes('prefer') || content.includes('like') || content.includes('want')) {
-                    facts.push(message.content);
+                if (lowerContent.includes('prefer') || lowerContent.includes('like') || lowerContent.includes('want')) {
+                    facts.push(textContent);
                 }
                 // Check for important facts
-                if (content.includes('important') || content.includes('remember') || content.includes('note')) {
-                    facts.push(message.content);
+                if (lowerContent.includes('important') || lowerContent.includes('remember') || lowerContent.includes('note')) {
+                    facts.push(textContent);
                 }
                 // Check for decisions
-                if (content.includes('decided') || content.includes('chose') || content.includes('selected')) {
-                    facts.push(message.content);
+                if (lowerContent.includes('decided') || lowerContent.includes('chose') || lowerContent.includes('selected')) {
+                    facts.push(textContent);
                 }
             }
         }
@@ -232,13 +240,15 @@ function extractFactsFromEvent(event) {
     return facts.slice(0, 3);
 }
 // ============================================================================
-// Plugin Definition
+// Plugin Entry
+// Uses plain object export. At runtime OpenClaw >= 2026.4.x calls
+// registerMemoryCapability on the actual API object.
 // ============================================================================
 const plugin = {
     id: 'claw-mem',
     name: 'Claw Memory System',
-    description: 'Three-tier memory system for OpenClaw (Local-First)',
-    version: '2.0.0',
+    description: 'Three-tier memory system for OpenClaw (Local-First) - Plugin Slots Enabled',
+    version: '2.5.0',
     kind: 'memory',
     configSchema: {
         type: 'object',
@@ -265,11 +275,120 @@ const plugin = {
         const bridge = new ClawMemBridge(config, api.logger);
         let currentSessionId;
         // ========================================================================
-        // Register Tools
+        // Register Memory Capability (Plugin Slots - v2.5.0+)
+        // Uses (api as any) for registerMemoryCapability which exists at
+        // runtime on OpenClaw >= 2026.4.x APIs but not in our local type stubs.
         // ========================================================================
-        api.registerTool({
+        api.registerMemoryCapability({
+            // promptBuilder: Build memory context before each agent turn
+            promptBuilder: async (params) => {
+                if (!bridge.isReady())
+                    return [];
+                try {
+                    const result = await bridge.call('build_context', {
+                        topK: config.topK,
+                        query: 'important recent context',
+                    });
+                    if (result?.context && Array.isArray(result.context)) {
+                        api.logger.debug?.(`[claw-mem] promptBuilder: ${result.context.length} section(s) injected`);
+                        return result.context;
+                    }
+                }
+                catch (error) {
+                    api.logger.warn('[claw-mem] promptBuilder failed, skipping memory injection:', error);
+                }
+                return [];
+            },
+            // flushPlanResolver: Compaction strategy for session compression
+            flushPlanResolver: (_params) => {
+                const ts = new Date().toISOString().replace(/[:.]/g, '-').slice(0, 19);
+                return {
+                    softThresholdTokens: 100000,
+                    forceFlushTranscriptBytes: 500000,
+                    reserveTokensFloor: 20000,
+                    prompt: 'Below is a conversation transcript. Summarize it concisely, preserving key context, decisions, user preferences, and action items. Remove redundancy while retaining all essential information.',
+                    systemPrompt: 'You are a conversation summarizer for an AI memory system. Extract and preserve essential information. Be concise.',
+                    relativePath: `compaction/flush-${ts}.md`,
+                };
+            },
+            // runtime: Memory search manager and backend configuration
+            runtime: {
+                getMemorySearchManager: async (params) => {
+                    if (!bridge.isReady()) {
+                        return { manager: null, error: 'claw-mem bridge not initialized' };
+                    }
+                    // Start memory session for this agent
+                    try {
+                        await bridge.call('start_session', { sessionId: params.agentId });
+                        api.logger.debug?.(`[claw-mem] Memory session started: ${params.agentId}`);
+                    }
+                    catch (error) {
+                        api.logger.warn('[claw-mem] Failed to start memory session:', error);
+                    }
+                    const manager = {
+                        search: async (query, opts) => {
+                            try {
+                                const result = await bridge.call('search', {
+                                    query,
+                                    limit: opts?.maxResults ?? config.topK,
+                                });
+                                if (!result?.memories)
+                                    return [];
+                                return result.memories
+                                    .filter((m) => !opts?.minScore || m.score >= opts.minScore)
+                                    .map((m) => ({
+                                    path: `memory://${m.id}`,
+                                    startLine: 0,
+                                    endLine: 0,
+                                    score: m.score || 0,
+                                    snippet: (m.content || '').slice(0, 500),
+                                    source: 'memory',
+                                }));
+                            }
+                            catch (error) {
+                                api.logger.error('[claw-mem] MemorySearchManager.search error:', error);
+                                return [];
+                            }
+                        },
+                        readFile: async (_params) => {
+                            return { text: '', path: _params.relPath };
+                        },
+                        status: () => ({
+                            backend: 'builtin',
+                            workspace: config.workspaceDir || '',
+                        }),
+                        probeEmbeddingAvailability: async () => null,
+                        probeVectorAvailability: async () => false,
+                        close: async () => {
+                            try {
+                                await bridge.call('end_session', { sessionId: params.agentId });
+                                api.logger.debug?.(`[claw-mem] Memory session ended: ${params.agentId}`);
+                            }
+                            catch (error) {
+                                api.logger.warn('[claw-mem] Failed to end memory session:', error);
+                            }
+                        },
+                    };
+                    return { manager };
+                },
+                resolveMemoryBackendConfig: (_params) => ({
+                    backend: 'builtin',
+                }),
+                closeAllMemorySearchManagers: async () => {
+                    try {
+                        await bridge.call('end_session', {});
+                    }
+                    catch (error) {
+                        api.logger.warn('[claw-mem] Failed to close all memory sessions:', error);
+                    }
+                },
+            },
+        });
+        // ========================================================================
+        // Register Tools (factory pattern: (ctx) => ({ name, description, parameters, execute }))
+        // ========================================================================
+        api.registerTool((_ctx) => ({
             name: 'memory_search',
-            label: 'Memory Search',
             description: 'Search through memories stored in claw-mem. Use when you need context about past conversations, decisions, or learned information.',
             parameters: {
                 type: 'object',
@@ -279,22 +398,20 @@ const plugin = {
                 },
                 required: ['query'],
             },
-        }, async (params) => {
-            if (!bridge.isReady()) {
-                return { error: 'Bridge not initialized' };
-            }
-            try {
-                const result = await bridge.call('search', params);
-                return result;
-            }
-            catch (error) {
-                api.logger.error('[claw-mem] Search error:', error);
-                return { error: error.message };
-            }
-        });
-        api.registerTool({
+            execute: async (_toolCallId, params) => {
+                if (!bridge.isReady())
+                    return { error: 'Bridge not initialized' };
+                try {
+                    return await bridge.call('search', params);
+                }
+                catch (error) {
+                    api.logger.error('[claw-mem] Search error:', error);
+                    return { error: error.message };
+                }
+            },
+        }), { names: ['memory_search'] });
+        api.registerTool((_ctx) => ({
             name: 'memory_store',
-            label: 'Memory Store',
             description: 'Store important information in claw-mem. Use for important facts, decisions, user preferences, or anything worth remembering.',
             parameters: {
                 type: 'object',
@@ -305,22 +422,20 @@ const plugin = {
                 },
                 required: ['text'],
             },
-        }, async (params) => {
-            if (!bridge.isReady()) {
-                return { error: 'Bridge not initialized' };
-            }
-            try {
-                const result = await bridge.call('store', params);
-                return result;
-            }
-            catch (error) {
-                api.logger.error('[claw-mem] Store error:', error);
-                return { error: error.message };
-            }
-        });
-        api.registerTool({
+            execute: async (_toolCallId, params) => {
+                if (!bridge.isReady())
+                    return { error: 'Bridge not initialized' };
+                try {
+                    return await bridge.call('store', params);
+                }
+                catch (error) {
+                    api.logger.error('[claw-mem] Store error:', error);
+                    return { error: error.message };
+                }
+            },
+        }), { names: ['memory_store'] });
+        api.registerTool((_ctx) => ({
             name: 'memory_get',
-            label: 'Memory Get',
             description: 'Get a specific memory by ID. Note: This operation is not supported by the current MemoryManager. Use memory_search instead.',
             parameters: {
                 type: 'object',
@@ -329,12 +444,12 @@ const plugin = {
                 },
                 required: ['id'],
             },
-        }, async (params) => {
-            return { error: 'MemoryManager does not support get() method. Use memory_search instead.' };
-        });
-        api.registerTool({
+            execute: async (_toolCallId, _params) => {
+                return { error: 'MemoryManager does not support get() method. Use memory_search instead.' };
+            },
+        }), { names: ['memory_get'] });
+        api.registerTool((_ctx) => ({
             name: 'memory_forget',
-            label: 'Memory Forget',
             description: 'Delete a memory by ID. Note: This operation is not supported by the current MemoryManager.',
             parameters: {
                 type: 'object',
@@ -343,11 +458,13 @@ const plugin = {
                 },
                 required: ['id'],
             },
-        }, async (params) => {
-            return { error: 'MemoryManager does not support delete() method.' };
-        });
+            execute: async (_toolCallId, _params) => {
+                return { error: 'MemoryManager does not support delete() method.' };
+            },
+        }), { names: ['memory_forget'] });
         // ========================================================================
-        // Register Hooks
+        // Register Hooks (DEPRECATED - replaced by registerMemoryCapability)
+        // Kept for backward compatibility with OpenClaw < 2026.4.x
         // ========================================================================
         // Auto-recall: inject memories before agent starts
         if (config.autoRecall) {

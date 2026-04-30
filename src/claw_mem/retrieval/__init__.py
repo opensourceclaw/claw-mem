@@ -5,6 +5,7 @@ from .embedding_service import EmbeddingService, get_embedding_service
 from .semantic_retriever import SemanticRetriever, get_semantic_retriever
 from .hybrid_searcher import HybridSearcher, get_hybrid_searcher
 from .bm25_retriever import BM25Retriever
+from .query_cache import QueryCache, get_query_cache
 
 __all__ = [
     'EmbeddingService',
@@ -14,4 +15,6 @@ __all__ = [
     'HybridSearcher',
     'get_hybrid_searcher',
     'BM25Retriever',
+    'QueryCache',
+    'get_query_cache',
 ]
