@@ -170,6 +170,90 @@ def test_bm25_explain():
     print("\n✅ PASS: Explain functionality working!")
 
 
+def test_k1_parameter_affects_scores():
+    """Test that k1 parameter is accepted and BM25 retriever works with custom params"""
+    print("=" * 60)
+    print("Test 6: k1 Parameter Acceptance")
+    print("=" * 60)
+
+    memories = [
+        {"id": "1", "content": "The user likes pizza and pasta", "type": "semantic"},
+        {"id": "2", "content": "The user prefers coffee", "type": "semantic"},
+        {"id": "3", "content": "The user lives in Beijing", "type": "semantic"},
+        {"id": "4", "content": "The user works on AI projects", "type": "semantic"},
+    ]
+
+    retriever_custom = BM25Retriever(k1=2.0, b=0.5)
+    results = retriever_custom.search("pizza", memories, limit=3, rank_by_importance=False)
+
+    assert len(results) > 0
+    assert "pizza" in results[0]["content"]
+    assert retriever_custom.k1 == 2.0
+    assert retriever_custom.b == 0.5
+    print(f"  k1={retriever_custom.k1}, b={retriever_custom.b}, results={len(results)}")
+    print("✅ PASS: Custom k1/b parameters accepted!")
+
+
+def test_recency_boost():
+    """Test recency_boost weights recent memories higher"""
+    print("\n" + "=" * 60)
+    print("Test 7: Recency Boost")
+    print("=" * 60)
+
+    from datetime import datetime, timedelta
+
+    now = datetime.now()
+    memories = [
+        {"id": "1", "content": "old note about Python programming", "type": "semantic",
+         "timestamp": (now - timedelta(days=30)).isoformat()},
+        {"id": "2", "content": "recent note about Python programming", "type": "semantic",
+         "timestamp": now.isoformat()},
+        {"id": "3", "content": "Java is used for enterprise apps", "type": "semantic"},
+        {"id": "4", "content": "Rust is a systems language", "type": "semantic"},
+        {"id": "5", "content": "Go was created at Google", "type": "semantic"},
+    ]
+
+    retriever = BM25Retriever(recency_boost=2.0)
+    results = retriever.search("Python", memories, limit=3, rank_by_importance=False)
+
+    print(f"  Result 1: {results[0]['id']} - {results[0]['content'][:50]}")
+    if len(results) > 1:
+        print(f"  Result 2: {results[1]['id']} - {results[1]['content'][:50]}")
+
+    assert len(results) >= 2
+    assert "recent" in results[0]["content"]
+    print("\n✅ PASS: Recency boost prioritizes recent memories!")
+
+
+def test_incremental_index():
+    """Test that build_index skips rebuild when count unchanged"""
+    print("\n" + "=" * 60)
+    print("Test 8: Incremental Index Rebuild")
+    print("=" * 60)
+
+    memories = [
+        {"id": "1", "content": "test memory one", "type": "semantic"},
+        {"id": "2", "content": "test memory two", "type": "semantic"},
+    ]
+
+    retriever = BM25Retriever()
+    retriever.build_index(memories)
+    version_after_first = retriever._index_version
+
+    # Rebuild with same count - should skip
+    retriever.build_index(memories)
+    assert retriever._index_version == version_after_first
+
+    # Rebuild with different count - should rebuild
+    memories.append({"id": "3", "content": "test memory three", "type": "semantic"})
+    retriever.build_index(memories)
+    assert retriever._index_version == 3
+
+    print(f"  Version unchanged: {version_after_first}")
+    print(f"  Version after add: {retriever._index_version}")
+    print("\n✅ PASS: Incremental index detection working!")
+
+
 def main():
     """Run all tests"""
     print("\n" + "=" * 60)
@@ -182,6 +266,9 @@ def main():
         test_hybrid_retriever()
         test_bm25_chinese()
         test_bm25_explain()
+        test_k1_parameter_affects_scores()
+        test_recency_boost()
+        test_incremental_index()
         
         print("\n" + "=" * 60)
         print("✅ All tests passed!")

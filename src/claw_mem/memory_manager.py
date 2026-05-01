@@ -63,7 +63,10 @@ class MemoryManager:
     
     def __init__(self, workspace: Optional[str] = None, auto_detect: bool = True,
                  enable_gating: bool = False, gating_threshold: float = 0.6,
-                 enable_graph: bool = False):
+                 enable_graph: bool = False,
+                 bm25_k1: float = 1.5, bm25_b: float = 0.75,
+                 bm25_weight: float = 0.7, keyword_weight: float = 0.3,
+                 recency_boost: float = 1.0, frequency_boost: float = 1.0):
         """
         Initialize Memory Manager
 
@@ -73,6 +76,12 @@ class MemoryManager:
             enable_gating: Enable Write-Time Gating (default: False)
             gating_threshold: Salience threshold for gating (default: 0.6)
             enable_graph: Enable Concept-Mediated Graph (default: False)
+            bm25_k1: BM25 k1 parameter (default 1.5)
+            bm25_b: BM25 b parameter (default 0.75)
+            bm25_weight: BM25 weight in hybrid search (default 0.7)
+            keyword_weight: Keyword weight in hybrid search (default 0.3)
+            recency_boost: Recency boost multiplier (default 1.0 = off)
+            frequency_boost: Frequency boost multiplier (default 1.0 = off)
         """
         # Auto-detect workspace if not provided
         if workspace is None and auto_detect:
@@ -92,8 +101,15 @@ class MemoryManager:
         
         # Initialize utilities
         self.retriever = KeywordRetriever()
-        self.bm25_retriever = BM25Retriever()
-        self.hybrid_retriever = HybridBM25Retriever()
+        self.bm25_retriever = BM25Retriever(
+            k1=bm25_k1, b=bm25_b,
+            recency_boost=recency_boost, frequency_boost=frequency_boost
+        )
+        self.hybrid_retriever = HybridBM25Retriever(
+            k1=bm25_k1, b=bm25_b,
+            bm25_weight=bm25_weight, keyword_weight=keyword_weight,
+            recency_boost=recency_boost, frequency_boost=frequency_boost
+        )
         self.entity_retriever = EntityEnhancedRetriever(use_spacy=False)  # Fallback mode
         self.hybrid_entity_retriever = HybridEntityRetriever(use_spacy=False)  # Fallback mode
         self.heuristic_retriever = HeuristicRetriever()
