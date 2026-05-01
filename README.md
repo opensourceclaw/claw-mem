@@ -8,7 +8,7 @@
 
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
 [![Python](https://img.shields.io/badge/Python-3.10%2B-brightgreen.svg)](https://www.python.org/)
-[![Version](https://img.shields.io/badge/Version-2.6.0-blue.svg)](https://github.com/opensourceclaw/claw-mem)
+[![Version](https://img.shields.io/badge/Version-2.8.0-blue.svg)](https://github.com/opensourceclaw/claw-mem)
 
 </div>
 
@@ -419,6 +419,10 @@ print(f"Cache hit rate: {cache.get_stats().hit_rate:.1%}")
 ---
 
 ## 📝 Changelog
+### v2.8.0 (2026-05-01)
+- P2-1: Startup speed optimization - Constructor <1ms (lazy loading)
+- P2-2: Layered context injection - Token savings 25-77%
+- Version alignment with Project Neo v2.8.0
 
 ### v2.6.0 (2026-05-01)
 
