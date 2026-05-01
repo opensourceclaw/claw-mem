@@ -17,9 +17,14 @@ BM25 Retriever
 
 Provides BM25-based search functionality for improved relevance ranking.
 Part of the hybrid search strategy for MVP stage.
+
+v2.7.0: Added configurable parameters, recency_boost, frequency_boost,
+and version-based incremental rebuild detection.
 """
 
 import re
+import time as _time
+from datetime import datetime
 from typing import List, Dict, Optional, Tuple
 from rank_bm25 import BM25Okapi
 from ..importance import ImportanceScorer
@@ -28,25 +33,30 @@ from ..importance import ImportanceScorer
 class BM25Retriever:
     """
     BM25 Retriever
-    
+
     Uses BM25 algorithm for better relevance ranking compared to simple keyword matching.
     Supports both English and Chinese text.
+
+    v2.7.0 parameters:
+        k1: BM25 term frequency saturation (default 1.5)
+        b: BM25 document length normalization (default 0.75)
+        recency_boost: Weight multiplier for recent memories (default 1.0 = off)
+        frequency_boost: Weight multiplier for frequently accessed memories (default 1.0 = off)
     """
-    
-    def __init__(self, k1: float = 1.5, b: float = 0.75):
-        """
-        Initialize BM25 retriever.
-        
-        Args:
-            k1: BM25 k1 parameter (term frequency saturation)
-            b: BM25 b parameter (document length normalization)
-        """
+
+    def __init__(self, k1: float = 1.5, b: float = 0.75,
+                 recency_boost: float = 1.0, frequency_boost: float = 1.0):
         self.k1 = k1
         self.b = b
+        self.recency_boost = recency_boost
+        self.frequency_boost = frequency_boost
         self.scorer = ImportanceScorer()
         self._corpus: List[List[str]] = []
         self._memories: List[Dict] = []
         self._bm25: Optional[BM25Okapi] = None
+        self._index_version: int = -1  # Version counter for incremental rebuild detection
+        self._access_counts: Dict[str, int] = {}
+        self._access_times: Dict[str, float] = {}
     
     def tokenize(self, text: str) -> List[str]:
         """
@@ -72,27 +82,55 @@ class BM25Retriever:
         
         return tokens
     
-    def build_index(self, memories: List[Dict]) -> None:
+    def build_index(self, memories: List[Dict], force: bool = False) -> None:
         """
         Build BM25 index from memories.
-        
+
+        Uses version-based incremental detection: only rebuilds when memory
+        count changes, avoiding redundant rebuilds on identical inputs.
+
         Args:
             memories: List of memory records
+            force: Force rebuild even if count unchanged
         """
+        new_version = len(memories)
+        if not force and self._bm25 and new_version == self._index_version:
+            return  # No change, skip rebuild
+
         self._memories = memories
+        self._index_version = new_version
         self._corpus = []
-        
+
         for memory in memories:
             content = memory.get("content", "")
             tags = " ".join(memory.get("tags", []))
-            # Combine content and tags for indexing
             text = f"{content} {tags}"
             tokens = self.tokenize(text)
             self._corpus.append(tokens)
-        
-        # Build BM25 index
+
         if self._corpus:
             self._bm25 = BM25Okapi(self._corpus, k1=self.k1, b=self.b)
+
+    def _apply_boosts(self, result: Dict, bm25_score: float) -> float:
+        """Apply recency and frequency boosts to a BM25 score."""
+        score = bm25_score
+        if self.recency_boost > 1.0:
+            ts = result.get("timestamp")
+            if ts:
+                try:
+                    dt = datetime.fromisoformat(str(ts).replace("Z", "+00:00"))
+                    days_ago = (_time.time() - dt.timestamp()) / 86400
+                    if days_ago < 1:
+                        score *= self.recency_boost
+                    elif days_ago < 7:
+                        score *= 1.0 + (self.recency_boost - 1.0) * 0.5
+                except (ValueError, TypeError):
+                    pass
+        if self.frequency_boost > 1.0:
+            count = result.get("access_count", 0)
+            if count > 3:
+                score *= self.frequency_boost
+        return score
     
     def search(self, query: str, memories: List[Dict], limit: int = 10,
                rank_by_importance: bool = True,
@@ -110,31 +148,31 @@ class BM25Retriever:
         Returns:
             List[Dict]: Memory records sorted by relevance
         """
-        # Build index if not built or memories changed
-        if not self._bm25 or len(memories) != len(self._memories):
-            self.build_index(memories)
-        
+        # Build index with version-based incremental detection
+        self.build_index(memories)
+
         if not self._bm25 or not self._corpus:
             return []
-        
+
         # Tokenize query
         query_tokens = self.tokenize(query)
-        
+
         if not query_tokens:
             return []
-        
+
         # Get BM25 scores
         scores = self._bm25.get_scores(query_tokens)
-        
-        # Create scored results
+
+        # Create scored results with optional recency/frequency boosts
         scored_results = []
         for idx, score in enumerate(scores):
             if score > min_score:
                 memory = self._memories[idx].copy()
-                memory["_bm25_score"] = float(score)
+                boosted = self._apply_boosts(memory, float(score))
+                memory["_bm25_score"] = boosted
                 scored_results.append(memory)
-        
-        # Sort by BM25 score
+
+        # Sort by (boosted) BM25 score
         scored_results.sort(key=lambda x: x.get("_bm25_score", 0), reverse=True)
         
         # Apply importance ranking if enabled
@@ -230,17 +268,24 @@ class HybridBM25Retriever:
     """
     
     def __init__(self, k1: float = 1.5, b: float = 0.75,
-                 bm25_weight: float = 0.7, keyword_weight: float = 0.3):
+                 bm25_weight: float = 0.7, keyword_weight: float = 0.3,
+                 recency_boost: float = 1.0, frequency_boost: float = 1.0):
         """
         Initialize hybrid retriever.
-        
+
         Args:
             k1: BM25 k1 parameter
             b: BM25 b parameter
             bm25_weight: Weight for BM25 scores
             keyword_weight: Weight for keyword matching
+            recency_boost: Weight multiplier for recent memories
+            frequency_boost: Weight multiplier for frequently accessed memories
         """
-        self.bm25_retriever = BM25Retriever(k1=k1, b=b)
+        self.bm25_retriever = BM25Retriever(
+            k1=k1, b=b,
+            recency_boost=recency_boost,
+            frequency_boost=frequency_boost
+        )
         self.bm25_weight = bm25_weight
         self.keyword_weight = keyword_weight
     
