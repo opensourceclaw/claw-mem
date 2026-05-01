@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "claw-mem"
-version = "2.5.0"
+version = "2.6.0"
 description = "Intelligent Memory System for AI Agents with Write-Time Gating and Concept-Mediated Graph"
 readme = "README.md"
 license = {text = "Apache-2.0"}

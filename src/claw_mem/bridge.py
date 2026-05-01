@@ -90,7 +90,7 @@ class ClawMemBridge:
             sys.stdout = _saved_stdout
 
         if init_ok:
-            self._respond(0, {"status": "ok", "message": "initialized", "version": "2.5.0"})
+            self._respond(0, {"status": "ok", "message": "initialized", "version": "2.6.0"})
 
     def _respond(self, request_id: Any, result: Any, error_code: Optional[int] = None):
         """Send a JSON-RPC response directly to the real stdout (one line)."""
@@ -309,7 +309,7 @@ class ClawMemBridge:
 
     def run(self):
         """Main loop: read JSON-RPC lines from stdin, respond on stdout."""
-        self._log("Starting v2.5.0...")
+        self._log("Starting v2.6.0...")
 
         for line in sys.stdin:
             line = line.strip()
