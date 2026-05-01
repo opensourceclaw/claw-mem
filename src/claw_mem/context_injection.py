@@ -30,6 +30,25 @@ from dataclasses import dataclass
 
 
 @dataclass
+class ContentLayer:
+    """A content layer definition for tiered context injection."""
+    name: str
+    files: List[str]
+    always_load: bool = False
+
+    def matches(self, context_filter: str) -> bool:
+        """Check if this layer should be loaded for the given context."""
+        if self.always_load:
+            return True
+        if not context_filter:
+            return False
+        ctx_lower = context_filter.lower()
+        return any(f.lower().replace('.md', '') in ctx_lower
+                   or f.lower() in ctx_lower
+                   for f in self.files)
+
+
+@dataclass
 class InjectedContext:
     """Result of context injection"""
     formatted_text: str
@@ -430,6 +449,59 @@ class ContextInjector:
 """
 
         return full_prompt
+
+
+DEFAULT_CONTEXT_LAYERS = [
+    ContentLayer("core", ["SOUL.md", "IDENTITY.md", "CONSTITUTION.md"], always_load=True),
+    ContentLayer("preferences", ["MEMORY.md", "PREFERENCES.md"], always_load=True),
+    ContentLayer("relevant", ["memory_search", "search_results"], always_load=False),
+    ContentLayer("history", ["recent", "session"], always_load=False),
+]
+
+
+def estimate_tokens(text: str) -> int:
+    """Rough token count estimation (~4 chars per token for CJK/English mix)."""
+    return max(1, len(text) // 4)
+
+
+class LayeredContextFormatter:
+    """Tiered context formatter that loads content by layer to reduce tokens."""
+
+    def __init__(self, max_char_length: int = 2000):
+        self.max_char_length = max_char_length
+        self.layers = DEFAULT_CONTEXT_LAYERS
+
+    def format(self, context_filter: str = "") -> str:
+        """Build context string from matching layers, respecting max length."""
+        sections = []
+        for layer in self.layers:
+            if layer.matches(context_filter):
+                sections.append(f"## {layer.name}")
+                sections.append(f"(files: {', '.join(layer.files)})")
+
+        header = "--- Layered Context ---"
+        footer = "--- End Context ---"
+        full = header + "\n" + "\n".join(sections) + "\n" + footer
+
+        if len(full) > self.max_char_length:
+            full = full[:self.max_char_length - 3] + "..."
+
+        return full
+
+    def token_report(self, context_filter: str) -> dict:
+        """Report token usage with and without layering."""
+        full_text = self.format("")  # All layers
+        layered_text = self.format(context_filter)
+        full_tokens = estimate_tokens(full_text)
+        layered_tokens = estimate_tokens(layered_text)
+        saved = max(0, full_tokens - layered_tokens)
+        return {
+            "full_tokens": full_tokens,
+            "layered_tokens": layered_tokens,
+            "saved_tokens": saved,
+            "savings_pct": saved / max(1, full_tokens) * 100,
+            "layers_active": [l.name for l in self.layers if l.matches(context_filter)],
+        }
 
 
 def format_memory_context(memories: List[Dict],
