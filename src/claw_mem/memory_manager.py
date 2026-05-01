@@ -93,64 +93,39 @@ class MemoryManager:
         self.workspace = Path(workspace).expanduser()
         self.session_id: Optional[str] = None
         self.session_start: Optional[datetime] = None
-        
-        # Initialize storage layers
-        self.episodic = EpisodicStorage(self.workspace)
-        self.semantic = SemanticStorage(self.workspace)
-        self.procedural = ProceduralStorage(self.workspace)
-        
-        # Initialize utilities
-        self.retriever = KeywordRetriever()
-        self.bm25_retriever = BM25Retriever(
-            k1=bm25_k1, b=bm25_b,
-            recency_boost=recency_boost, frequency_boost=frequency_boost
-        )
-        self.hybrid_retriever = HybridBM25Retriever(
-            k1=bm25_k1, b=bm25_b,
-            bm25_weight=bm25_weight, keyword_weight=keyword_weight,
-            recency_boost=recency_boost, frequency_boost=frequency_boost
-        )
-        self.entity_retriever = EntityEnhancedRetriever(use_spacy=False)  # Fallback mode
-        self.hybrid_entity_retriever = HybridEntityRetriever(use_spacy=False)  # Fallback mode
-        self.heuristic_retriever = HeuristicRetriever()
-        self.smart_retriever = SmartRetriever()
-        self.enhanced_smart_retriever = EnhancedSmartRetriever()
-        self.three_tier_retriever = ThreeTierRetriever(self.workspace)
-        self.session_startup_hook = SessionStartupHook(self.three_tier_retriever)
-        self.validator = WriteValidator()
-        self.checkpoint = CheckpointManager(self.workspace)
-        self.audit = AuditLogger(self.workspace)
-        self.importance_scorer = ImportanceScorer()
-        
-        # Initialize memory fix plugin (F000)
-        self.memory_fix = MemoryFixPlugin(self.workspace)
-        
-        # Initialize memory decay (F102)
-        self.memory_decay = MemoryDecay(self.workspace)
-        
-        # Initialize rule extractor (F101)
-        self.rule_extractor = RuleExtractor(self.workspace)
 
-        # Initialize Write-Time Gating (v2.1.0)
+        # Store BM25 config for lazy initialization
+        self._bm25_k1 = bm25_k1; self._bm25_b = bm25_b
+        self._bm25_weight = bm25_weight; self._keyword_weight = keyword_weight
+        self._recency_boost = recency_boost; self._frequency_boost = frequency_boost
+
+        # Lightweight working state (kept eager)
+        self.working_cache = WorkingMemoryCache(max_size=100, ttl_seconds=300)
+        self.working_memory: List[Dict] = []
+        self.index = InMemoryIndex(ngram_size=3, enable_persistence=True)
+
+        # Lazy-initialized caches
+        self._episodic = None; self._semantic = None; self._procedural = None
+        self._retriever = None; self._bm25_retriever = None; self._hybrid_retriever = None
+        self._entity_retriever = None; self._hybrid_entity_retriever = None
+        self._heuristic_retriever = None; self._smart_retriever = None
+        self._enhanced_smart_retriever = None; self._three_tier_retriever = None
+        self._session_startup_hook = None
+        self._validator = None; self._checkpoint = None; self._audit = None
+        self._importance_scorer = None
+        self._memory_fix = None; self._memory_decay = None; self._rule_extractor = None
+
+        # Write-Time Gating (lazy init)
         self.enable_gating = enable_gating
         self.gating_threshold = gating_threshold
-        self.gating = WriteTimeGating(threshold=gating_threshold) if enable_gating else None
+        self._gating = None
 
-        # Initialize Concept-Mediated Graph (v2.2.0)
+        # Concept-Mediated Graph (lazy init)
         self.enable_graph = enable_graph
-        self.graph = None
-        if enable_graph:
-            from claw_mem.graph import ConceptMediatedGraph, DummyEmbedder, KeywordExtractor
-            self.graph = ConceptMediatedGraph(
-                embedder=DummyEmbedder(),
-                extractor=KeywordExtractor()
-            )
+        self._graph = None
 
-        # Search mode: "keyword" | "bm25" | "hybrid" | "entity" | "hybrid_entity" | "heuristic" | "smart" | "enhanced_smart"
+        # Search mode
         self.search_mode = os.environ.get('CLAW_MEM_SEARCH_MODE', 'enhanced_smart')
-        
-        # Validate session memory on startup
-        self._validate_session_memory()
     
     def _validate_session_memory(self):
         """Validate memory at session start (F000 fix)"""
@@ -174,7 +149,148 @@ class MemoryManager:
         # Only print if not in silent mode (e.g., when used as a bridge)
         if not os.environ.get('CLAW_MEM_SILENT'):
             _log(f"🧠 claw-mem initialized, workspace: {self.workspace}")
-    
+
+    # ── Lazy properties for deferred initialization ──
+
+    @property
+    def episodic(self):
+        if self._episodic is None:
+            self._episodic = EpisodicStorage(self.workspace)
+        return self._episodic
+
+    @property
+    def semantic(self):
+        if self._semantic is None:
+            self._semantic = SemanticStorage(self.workspace)
+        return self._semantic
+
+    @property
+    def procedural(self):
+        if self._procedural is None:
+            self._procedural = ProceduralStorage(self.workspace)
+        return self._procedural
+
+    @property
+    def bm25_retriever(self):
+        if self._bm25_retriever is None:
+            self._bm25_retriever = BM25Retriever(
+                k1=self._bm25_k1, b=self._bm25_b,
+                recency_boost=self._recency_boost, frequency_boost=self._frequency_boost)
+        return self._bm25_retriever
+
+    @property
+    def hybrid_retriever(self):
+        if self._hybrid_retriever is None:
+            self._hybrid_retriever = HybridBM25Retriever(
+                k1=self._bm25_k1, b=self._bm25_b,
+                bm25_weight=self._bm25_weight, keyword_weight=self._keyword_weight,
+                recency_boost=self._recency_boost, frequency_boost=self._frequency_boost)
+        return self._hybrid_retriever
+
+    @property
+    def retriever(self):
+        if self._retriever is None:
+            self._retriever = KeywordRetriever()
+        return self._retriever
+
+    @property
+    def entity_retriever(self):
+        if self._entity_retriever is None:
+            self._entity_retriever = EntityEnhancedRetriever(use_spacy=False)
+        return self._entity_retriever
+
+    @property
+    def hybrid_entity_retriever(self):
+        if self._hybrid_entity_retriever is None:
+            self._hybrid_entity_retriever = HybridEntityRetriever(use_spacy=False)
+        return self._hybrid_entity_retriever
+
+    @property
+    def heuristic_retriever(self):
+        if self._heuristic_retriever is None:
+            self._heuristic_retriever = HeuristicRetriever()
+        return self._heuristic_retriever
+
+    @property
+    def smart_retriever(self):
+        if self._smart_retriever is None:
+            self._smart_retriever = SmartRetriever()
+        return self._smart_retriever
+
+    @property
+    def enhanced_smart_retriever(self):
+        if self._enhanced_smart_retriever is None:
+            self._enhanced_smart_retriever = EnhancedSmartRetriever()
+        return self._enhanced_smart_retriever
+
+    @property
+    def three_tier_retriever(self):
+        if self._three_tier_retriever is None:
+            self._three_tier_retriever = ThreeTierRetriever(self.workspace)
+        return self._three_tier_retriever
+
+    @property
+    def session_startup_hook(self):
+        if self._session_startup_hook is None:
+            self._session_startup_hook = SessionStartupHook(self.three_tier_retriever)
+        return self._session_startup_hook
+
+    @property
+    def validator(self):
+        if self._validator is None:
+            self._validator = WriteValidator()
+        return self._validator
+
+    @property
+    def checkpoint(self):
+        if self._checkpoint is None:
+            self._checkpoint = CheckpointManager(self.workspace)
+        return self._checkpoint
+
+    @property
+    def audit(self):
+        if self._audit is None:
+            self._audit = AuditLogger(self.workspace)
+        return self._audit
+
+    @property
+    def importance_scorer(self):
+        if self._importance_scorer is None:
+            self._importance_scorer = ImportanceScorer()
+        return self._importance_scorer
+
+    @property
+    def memory_fix(self):
+        if self._memory_fix is None:
+            self._memory_fix = MemoryFixPlugin(self.workspace)
+        return self._memory_fix
+
+    @property
+    def memory_decay(self):
+        if self._memory_decay is None:
+            self._memory_decay = MemoryDecay(self.workspace)
+        return self._memory_decay
+
+    @property
+    def rule_extractor(self):
+        if self._rule_extractor is None:
+            self._rule_extractor = RuleExtractor(self.workspace)
+        return self._rule_extractor
+
+    @property
+    def gating(self):
+        if self._gating is None and self.enable_gating:
+            self._gating = WriteTimeGating(threshold=self.gating_threshold)
+        return self._gating
+
+    @property
+    def graph(self):
+        if self._graph is None and self.enable_graph:
+            from claw_mem.graph import ConceptMediatedGraph, DummyEmbedder, KeywordExtractor
+            self._graph = ConceptMediatedGraph(
+                embedder=DummyEmbedder(), extractor=KeywordExtractor())
+        return self._graph
+
     def start_session(self, session_id: str, initial_context: Optional[str] = None) -> None:
         """
         Start new session
