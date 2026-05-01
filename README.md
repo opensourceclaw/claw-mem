@@ -468,8 +468,6 @@ print(f"Cache hit rate: {cache.get_stats().hit_rate:.1%}")
 | **SuperMemory** | Hybrid RAG | Vector + LLM fact extraction + multi-data source |
 | **MemOS** | Layered Memory Architecture | STM/MTM/LPM + Forgetting curve + MemGPT style |
 
-See: [claw-mem vs Hindsight Comparison](docs/comparison/hindsight_comparison.md)
-
 ---
 
 ## 🧪 Testing
