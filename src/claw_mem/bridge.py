@@ -227,21 +227,40 @@ class ClawMemBridge:
         }
 
     def _handle_build_context(self, params: Dict) -> Dict:
-        """Build memory context for prompt injection (Plugin Slots promptBuilder)"""
+        """Build layered memory context for prompt injection (v2.7.0 tiered)"""
         try:
             top_k = params.get("topK", 10)
-            query = params.get("query", "important recent context")
+            query = params.get("query", "")
 
-            results = self.memory_manager.search(query=query, limit=top_k)
+            from claw_mem.context_injection import (
+                format_memory_context,
+                LayeredContextFormatter,
+            )
+
+            # Use layered context formatter to determine which layers to load
+            layered = LayeredContextFormatter()
+            token_info = layered.token_report(query)
+
+            # Only search memories for non-core layers when context is meaningful
+            results = self.memory_manager.search(
+                query=query if query else "important recent context",
+                limit=top_k
+            )
+
             if not results:
-                return {"context": [], "count": 0}
+                return {
+                    "context": [layered.format(query)],
+                    "count": 0,
+                    "token_info": token_info,
+                }
 
-            from claw_mem.context_injection import format_memory_context
             context_str = format_memory_context(results, max_length=4000)
+            layer_context = layered.format(query)
 
             return {
-                "context": [context_str] if context_str else [],
-                "count": len(results)
+                "context": [layer_context, context_str] if context_str else [layer_context],
+                "count": len(results),
+                "token_info": token_info,
             }
         except Exception as e:
             return {"context": [], "count": 0, "error": str(e)}
