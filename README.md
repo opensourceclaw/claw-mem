@@ -47,15 +47,17 @@ claw-mem is an **intelligent memory system** for AI Agents with the following co
 python3 --version
 ```
 
-### Method 1: Via ClawHub (Recommended)
+### Method 1: Via ClawHub (Recommended - Plugin)
 
 ```bash
 # Install ClawHub if not installed
 npm install -g clawhub
 
-# Install claw-mem skill
+# Install claw-mem as OpenClaw plugin
 npx clawhub@latest install opensourceclaw-claw-mem
 ```
+
+> **Note**: claw-mem is installed as an **OpenClaw Plugin** (not Skill), replacing the built-in memory system.
 
 ### Method 2: From Source
 
@@ -85,7 +87,7 @@ pip3 install git+https://github.com/opensourceclaw/claw-mem.git@v2.6.1
 # Install ClawHub (if not installed)
 npm install -g clawhub
 
-# Install claw-mem skill
+# Install claw-mem plugin
 npx clawhub@latest install opensourceclaw-claw-mem
 ```
 
