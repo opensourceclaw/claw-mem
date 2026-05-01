@@ -466,9 +466,15 @@ const plugin = {
         // Register Hooks (DEPRECATED - replaced by registerMemoryCapability)
         // Kept for backward compatibility with OpenClaw < 2026.4.x
         // ========================================================================
+        // Debug: Log all events to debug hook triggering
+        api.on('*', async (event, ctx) => {
+            api.logger.debug?.(`[claw-mem] Event received: ${event}, session: ${ctx?.sessionKey}`);
+        });
         // Auto-recall: inject memories before agent starts
         if (config.autoRecall) {
+            api.logger.info('[claw-mem] Registering before_agent_start hook, autoRecall:', config.autoRecall);
             api.on('before_agent_start', async (event, ctx) => {
+                api.logger.info('[claw-mem] before_agent_start triggered, session:', ctx.sessionKey);
                 currentSessionId = ctx.sessionKey;
                 // Extract query from event
                 const query = extractQueryFromEvent(event);
@@ -503,7 +509,9 @@ const plugin = {
         }
         // Auto-capture: store memories after agent ends
         if (config.autoCapture) {
+            api.logger.info('[claw-mem] Registering agent_end hook, autoCapture:', config.autoCapture);
             api.on('agent_end', async (event, ctx) => {
+                api.logger.info('[claw-mem] agent_end triggered, session:', ctx.sessionKey);
                 // Extract facts from conversation
                 const facts = extractFactsFromEvent(event);
                 // Store each fact
