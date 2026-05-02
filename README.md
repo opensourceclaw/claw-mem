@@ -41,10 +41,14 @@ claw-mem is an **intelligent memory system** for AI Agents with the following co
 
 - **Python**: 3.10 or higher
 - **pip**: Latest version recommended
+- **(Optional) jieba**: For better Chinese tokenization
 
 ```bash
 # Check Python version
 python3 --version
+
+# Install jieba for better Chinese text processing (recommended)
+pip3 install jieba
 ```
 
 ### Method 1: Via ClawHub (Recommended - Plugin)
@@ -68,6 +72,9 @@ cd claw-mem
 
 # Install in development mode (recommended)
 pip3 install -e .
+
+# Install with Chinese support (recommended for Chinese text)
+pip3 install -e ".[zh]"
 
 # Or install all dependencies
 pip3 install -e ".[all]"
