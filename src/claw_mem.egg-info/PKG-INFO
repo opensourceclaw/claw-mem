@@ -1,6 +1,6 @@
 Metadata-Version: 2.4
 Name: claw-mem
-Version: 2.6.0
+Version: 2.9.1
 Summary: Intelligent Memory System for AI Agents with Write-Time Gating and Concept-Mediated Graph
 Author: Peter Cheng
 License: Apache-2.0
@@ -41,7 +41,7 @@ Dynamic: license-file
 
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
 [![Python](https://img.shields.io/badge/Python-3.10%2B-brightgreen.svg)](https://www.python.org/)
-[![Version](https://img.shields.io/badge/Version-2.6.0-blue.svg)](https://github.com/opensourceclaw/claw-mem)
+[![Version](https://img.shields.io/badge/Version-2.9.1-blue.svg)](https://github.com/opensourceclaw/claw-mem)
 
 </div>
 
@@ -74,21 +74,27 @@ claw-mem is an **intelligent memory system** for AI Agents with the following co
 
 - **Python**: 3.10 or higher
 - **pip**: Latest version recommended
+- **(Optional) jieba**: For better Chinese tokenization
 
 ```bash
 # Check Python version
 python3 --version
+
+# Install jieba for better Chinese text processing (recommended)
+pip3 install jieba
 ```
 
-### Method 1: Via pip (Recommended)
+### Method 1: Via ClawHub (Recommended - Plugin)
 
 ```bash
-# Install latest version from GitHub
-pip3 install git+https://github.com/opensourceclaw/claw-mem.git
+# Install ClawHub if not installed
+npm install -g clawhub
 
-# Or install specific version
-pip3 install git+https://github.com/opensourceclaw/claw-mem.git@v2.6.0
+# Install claw-mem as OpenClaw plugin
+npx clawhub@latest install opensourceclaw-claw-mem
 ```
+
+> **Note**: claw-mem is installed as an **OpenClaw Plugin** (not Skill), replacing the built-in memory system.
 
 ### Method 2: From Source
 
@@ -100,17 +106,28 @@ cd claw-mem
 # Install in development mode (recommended)
 pip3 install -e .
 
+# Install with Chinese support (recommended for Chinese text)
+pip3 install -e ".[zh]"
+
 # Or install all dependencies
 pip3 install -e ".[all]"
 ```
 
-### Method 3: Via ClawHub
+### Method 3: Via pip (GitHub)
+
+```bash
+# Install latest version from GitHub (requires git)
+pip3 install git+https://github.com/opensourceclaw/claw-mem.git
+
+# Or install specific version
+pip3 install git+https://github.com/opensourceclaw/claw-mem.git@v2.6.1
+```
 
 ```bash
 # Install ClawHub (if not installed)
 npm install -g clawhub
 
-# Install claw-mem skill
+# Install claw-mem plugin
 npx clawhub@latest install opensourceclaw-claw-mem
 ```
 
@@ -190,8 +207,12 @@ claw-mem can replace OpenClaw's built-in memory system as a plugin.
 - **Python**: 3.10+ with claw-mem installed
 
 ```bash
-# Install claw-mem first
-pip3 install git+https://github.com/opensourceclaw/claw-mem.git
+# Install claw-mem first (via ClawHub)
+npx clawhub@latest install opensourceclaw-claw-mem
+
+# Or from source
+cd /path/to/claw-mem
+pip3 install -e .
 ```
 
 ### Step 1: Install Plugin
@@ -438,6 +459,15 @@ print(f"Cache hit rate: {cache.get_stats().hit_rate:.1%}")
 ---
 
 ## 📝 Changelog
+### v2.9.1 (2026-05-03)
+- Reflection module: reflect(), get_beliefs() for belief synthesis
+- Temporal module: time-aware search with decay functions
+- Fix version to v2.9.1
+
+### v2.8.0 (2026-05-01)
+- P2-1: Startup speed optimization - Constructor <1ms (lazy loading)
+- P2-2: Layered context injection - Token savings 25-77%
+- Version alignment with Project Neo v2.8.0
 
 ### v2.6.0 (2026-05-01)
 
@@ -500,8 +530,6 @@ print(f"Cache hit rate: {cache.get_stats().hit_rate:.1%}")
 | **Mem0** | Cloud Memory Service | Vector search + Mem0g graph enhancement |
 | **SuperMemory** | Hybrid RAG | Vector + LLM fact extraction + multi-data source |
 | **MemOS** | Layered Memory Architecture | STM/MTM/LPM + Forgetting curve + MemGPT style |
-
-See: [claw-mem vs Hindsight Comparison](docs/comparison/hindsight_comparison.md)
 
 ---
 

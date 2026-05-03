@@ -79,5 +79,6 @@
   "tests/test_retrieval_extended.py::TestBM25RetrieverExtended::test_bm25_search_ranking": true,
   "tests/test_importance_extended.py::TestImportanceScorer::test_get_high_priority_memories": true,
   "tests/test_importance_extended.py::TestImportanceScorer::test_get_high_priority_memories_with_limit": true,
-  "tests/test_storage_index_extended.py::TestInMemoryIndexTokenization::test_is_chinese_text": true
+  "tests/test_storage_index_extended.py::TestInMemoryIndexTokenization::test_is_chinese_text": true,
+  "tests/test_integration_v090.py::test_scenario_2_large_dataset": true
 }
