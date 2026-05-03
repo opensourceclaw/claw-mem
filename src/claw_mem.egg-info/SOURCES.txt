@@ -33,6 +33,15 @@ src/claw_mem.egg-info/top_level.txt
 src/claw_mem/compression/__init__.py
 src/claw_mem/compression/f5_v2.py
 src/claw_mem/compression/memory_compression.py
+src/claw_mem/consolidation/__init__.py
+src/claw_mem/consolidation/daemon.py
+src/claw_mem/consolidation/experience_classifier.py
+src/claw_mem/consolidation/experience_queue.py
+src/claw_mem/consolidation/injection_detector.py
+src/claw_mem/consolidation/weight_consolidator.py
+src/claw_mem/consolidation/strategies/__init__.py
+src/claw_mem/consolidation/strategies/ewc_strategy.py
+src/claw_mem/consolidation/strategies/lora_strategy.py
 src/claw_mem/gating/__init__.py
 src/claw_mem/gating/write_time_gating.py
 src/claw_mem/graph/__init__.py
@@ -93,6 +102,7 @@ tests/test_atomic_writer.py
 tests/test_bm25_retriever.py
 tests/test_config_extended.py
 tests/test_config_manager_extended.py
+tests/test_consolidation.py
 tests/test_context_injection.py
 tests/test_context_injection_extended.py
 tests/test_context_manager.py

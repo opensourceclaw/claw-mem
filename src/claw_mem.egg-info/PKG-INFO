@@ -1,6 +1,6 @@
 Metadata-Version: 2.4
 Name: claw-mem
-Version: 2.9.1
+Version: 2.10.0
 Summary: Intelligent Memory System for AI Agents with Write-Time Gating and Concept-Mediated Graph
 Author: Peter Cheng
 License: Apache-2.0
