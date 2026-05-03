@@ -45,6 +45,8 @@ from .memory_fix_plugin import MemoryFixPlugin
 from .memory_decay import MemoryDecay
 from .rule_extractor import RuleExtractor
 from .gating import WriteTimeGating
+from .reflection import ReflectionOrchestrator, ReflectionResult
+from .temporal import TimeWeightCalculator, TimeWeightConfig
 import time
 
 
@@ -143,6 +145,8 @@ class MemoryManager:
         self._query_cache = None
         self._synonym_expander = None
         self._search_stats = None
+        self._reflection = None  # v2.9.1
+        self._time_weight = None  # v2.9.1
     
     def _validate_session_memory(self):
         """Validate memory at session start (F000 fix)"""
@@ -329,6 +333,20 @@ class MemoryManager:
             self._search_stats = get_search_stats()
         return self._search_stats
 
+    @property
+    def reflection(self) -> Optional[ReflectionOrchestrator]:
+        """v2.9.1: Reflection orchestrator."""
+        if self._reflection is None:
+            self._reflection = ReflectionOrchestrator()
+        return self._reflection
+
+    @property
+    def time_weight_calc(self) -> Optional[TimeWeightCalculator]:
+        """v2.9.1: Time-aware weight calculator."""
+        if self._time_weight is None:
+            self._time_weight = TimeWeightCalculator()
+        return self._time_weight
+
     def get_search_statistics(self) -> Optional[Dict]:
         """Get search performance statistics (v2.9.0).
 
@@ -356,6 +374,42 @@ class MemoryManager:
         return [self.search(q, memory_type=memory_type,
                            metadata=metadata, limit=limit, mode=mode)
                 for q in queries]
+
+    def reflect(self, user_id: str = "", force: bool = False) -> ReflectionResult:
+        """Execute a reflection cycle (v2.9.1).
+
+        Collects recent memories, extracts observations, synthesizes beliefs,
+        and tracks changes over time.
+
+        Args:
+            user_id: User identifier for belief attribution
+            force: Force reflection even if few observations
+
+        Returns:
+            ReflectionResult with observations, beliefs, and summary
+        """
+        # Collect recent memories for reflection
+        recent = self.episodic.get_recent(50)
+        recent.extend(self.semantic.get_all())
+
+        return self.reflection.reflect(recent, user_id=user_id, force=force)
+
+    def get_beliefs(self, user_id: str = "",
+                   include_history: bool = False) -> List[Dict]:
+        """Get current beliefs and optionally their version history (v2.9.1).
+
+        Args:
+            user_id: User identifier (unused for now)
+            include_history: Include version history for each belief
+
+        Returns:
+            List of belief dicts
+        """
+        return self.reflection.get_beliefs(include_history=include_history)
+
+    def get_reflection_stats(self) -> Dict:
+        """Get reflection statistics (v2.9.1)."""
+        return self.reflection.get_reflection_stats()
 
     def start_session(self, session_id: str, initial_context: Optional[str] = None) -> None:
         """

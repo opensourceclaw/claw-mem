@@ -328,7 +328,7 @@ class ClawMemBridge:
 
     def run(self):
         """Main loop: read JSON-RPC lines from stdin, respond on stdout."""
-        self._log("Starting v2.6.1...")
+        self._log("Starting v2.8.0...")
 
         for line in sys.stdin:
             line = line.strip()
