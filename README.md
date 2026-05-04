@@ -8,7 +8,7 @@
 
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
 [![Python](https://img.shields.io/badge/Python-3.10%2B-brightgreen.svg)](https://www.python.org/)
-[![Version](https://img.shields.io/badge/Version-2.9.1-blue.svg)](https://github.com/opensourceclaw/claw-mem)
+[![Version](https://img.shields.io/badge/Version-2.12.0-blue.svg)](https://github.com/opensourceclaw/claw-mem)
 
 </div>
 
