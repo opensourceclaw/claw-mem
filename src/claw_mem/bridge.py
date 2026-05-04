@@ -23,42 +23,9 @@ All diagnostic output goes to stderr.
 import sys
 import json
 import os
-import time
 from typing import Any, Dict, Optional
 
-
-class SearchCache:
-    """Simple LRU cache with TTL for search results."""
-
-    def __init__(self, max_size: int = 64, ttl_sec: float = 30.0):
-        self._cache: Dict[str, tuple[float, Any]] = {}  # key -> (expiry, value)
-        self._max_size = max_size
-        self._ttl = ttl_sec
-
-    def _make_key(self, query: str, limit: int, memory_type: str) -> str:
-        return f"{query}|{limit}|{memory_type}"
-
-    def get(self, query: str, limit: int, memory_type: str) -> Optional[Any]:
-        key = self._make_key(query, limit, memory_type)
-        entry = self._cache.get(key)
-        if entry is None:
-            return None
-        expiry, value = entry
-        if time.monotonic() > expiry:
-            del self._cache[key]
-            return None
-        return value
-
-    def set(self, query: str, limit: int, memory_type: str, value: Any):
-        if len(self._cache) >= self._max_size:
-            # Evict oldest entry
-            oldest = min(self._cache.items(), key=lambda kv: kv[1][0])
-            del self._cache[oldest[0]]
-        key = self._make_key(query, limit, memory_type)
-        self._cache[key] = (time.monotonic() + self._ttl, value)
-
-    def invalidate(self):
-        self._cache.clear()
+from claw_mem.adapters import AdapterRegistry
 
 
 class ClawMemBridge:
@@ -68,11 +35,11 @@ class ClawMemBridge:
         self.request_count = 0
         self.total_latency = 0.0
         self.memory_manager = None
-        self._search_cache = SearchCache(max_size=64, ttl_sec=30.0)
+        self._adapter = None
         self._initialize()
 
     def _initialize(self):
-        """Initialize MemoryManager (suppress stdout during import)."""
+        """Initialize MemoryManager and version-detected adapter."""
         import io
         _saved_stdout = sys.stdout
         sys.stdout = io.StringIO()
@@ -82,6 +49,7 @@ class ClawMemBridge:
                 from claw_mem import MemoryManager
                 workspace = os.environ.get('OPENCLAW_WORKSPACE', os.getcwd())
                 self.memory_manager = MemoryManager(workspace=workspace)
+                self._adapter = AdapterRegistry.create_adapter(self.memory_manager)
                 init_ok = True
             except Exception as e:
                 self._respond(0, {"status": "error", "error": str(e)}, -32000)
@@ -90,7 +58,7 @@ class ClawMemBridge:
             sys.stdout = _saved_stdout
 
         if init_ok:
-            self._respond(0, {"status": "ok", "message": "initialized", "version": "2.6.0"})
+            self._respond(0, self._adapter.get_initialize_response())
 
     def _respond(self, request_id: Any, result: Any, error_code: Optional[int] = None):
         """Send a JSON-RPC response directly to the real stdout (one line)."""
@@ -133,7 +101,7 @@ class ClawMemBridge:
             "delete": self._handle_delete,
             "ping": self._handle_ping,
             "status": self._handle_status,
-            # Plugin Slots handlers (v2.5.0)
+            # Plugin Slots handlers
             "build_context": self._handle_build_context,
             "start_session": self._handle_start_session,
             "end_session": self._handle_end_session,
@@ -153,182 +121,41 @@ class ClawMemBridge:
     # ---- handlers -------------------------------------------------------
 
     def _handle_search(self, params: Dict) -> Dict:
-        query = params.get("query", "")
-        top_k = params.get("topK", params.get("top_k", 10))
-        memory_type = params.get("memory_type", "episodic")
-
-        # Check cache first
-        cached = self._search_cache.get(query, top_k, memory_type)
-        if cached is not None:
-            return cached
-
-        results = self.memory_manager.search(
-            query=query,
-            limit=top_k,
-            memory_type=memory_type
-        )
-
-        result = {
-            "results": [
-                {
-                    "id": r.get("id", ""),
-                    "text": r.get("text", r.get("content", "")),
-                    "score": r.get("score", 0),
-                    "metadata": r.get("metadata", {})
-                }
-                for r in results
-            ]
-        }
-
-        # Cache result
-        self._search_cache.set(query, top_k, memory_type, result)
-        return result
+        return {"results": self._adapter.search(params)}
 
     def _handle_store(self, params: Dict) -> Dict:
-        text = params.get("text", "")
-        metadata = params.get("metadata", {})
-        memory_type = params.get("memory_type", "episodic")
-
-        # Invalidate cache on write
-        self._search_cache.invalidate()
-
-        memory_id = self.memory_manager.store(
-            content=text,
-            memory_type=memory_type,
-            metadata=metadata
-        )
-
-        return {"id": memory_id, "status": "stored"}
+        return self._adapter.store(params)
 
     def _handle_get(self, params: Dict) -> Dict:
-        memory_id = params.get("id", "")
-        memory = self.memory_manager.get(memory_id)
-        if memory:
-            return {
-                "id": memory.get("id"),
-                "text": memory.get("content", ""),
-                "metadata": memory.get("metadata", {})
-            }
-        return {"error": "Memory not found"}
+        return self._adapter.get(params)
 
     def _handle_delete(self, params: Dict) -> Dict:
-        memory_id = params.get("id", "")
-        success = self.memory_manager.delete(memory_id)
-        return {"deleted": success}
+        return self._adapter.delete(params)
 
     def _handle_ping(self, params: Dict) -> Dict:
-        return {"pong": True}
+        return self._adapter.ping()
 
     def _handle_status(self, params: Dict) -> Dict:
-        return {
-            "status": "ok",
-            "initialized": self.memory_manager is not None,
-            "workspace": os.getcwd()
-        }
+        return self._adapter.status()
 
     def _handle_build_context(self, params: Dict) -> Dict:
-        """Build layered memory context for prompt injection (v2.7.0 tiered)"""
-        try:
-            top_k = params.get("topK", 10)
-            query = params.get("query", "")
-
-            from claw_mem.context_injection import (
-                format_memory_context,
-                LayeredContextFormatter,
-            )
-
-            # Use layered context formatter to determine which layers to load
-            layered = LayeredContextFormatter()
-            token_info = layered.token_report(query)
-
-            # Only search memories for non-core layers when context is meaningful
-            results = self.memory_manager.search(
-                query=query if query else "important recent context",
-                limit=top_k
-            )
-
-            if not results:
-                return {
-                    "context": [layered.format(query)],
-                    "count": 0,
-                    "token_info": token_info,
-                }
-
-            context_str = format_memory_context(results, max_length=4000)
-            layer_context = layered.format(query)
-
-            return {
-                "context": [layer_context, context_str] if context_str else [layer_context],
-                "count": len(results),
-                "token_info": token_info,
-            }
-        except Exception as e:
-            return {"context": [], "count": 0, "error": str(e)}
+        return self._adapter.build_context(params)
 
     def _handle_start_session(self, params: Dict) -> Dict:
-        """Start a memory session (Plugin Slots runtime)"""
-        try:
-            session_id = params.get("sessionId", "default")
-            self.memory_manager.start_session(session_id)
-            return {"status": "started", "sessionId": session_id}
-        except Exception as e:
-            return {"status": "error", "error": str(e)}
+        return self._adapter.start_session(params)
 
     def _handle_end_session(self, params: Dict) -> Dict:
-        """End a memory session (Plugin Slots runtime)"""
-        try:
-            session_id = params.get("sessionId", "default")
-            self.memory_manager.end_session()
-            return {"status": "ended", "sessionId": session_id}
-        except Exception as e:
-            return {"status": "error", "error": str(e)}
+        return self._adapter.end_session(params)
 
     def _handle_resolve_flush_plan(self, params: Dict) -> Dict:
-        """Compute a dynamic compaction (flush) plan based on memory state."""
-        from datetime import datetime as dt
-        try:
-            stats = self.memory_manager.get_stats()
-            total_memories = sum(
-                stats.get(k, 0) for k in ("episodic", "semantic", "procedural")
-                if isinstance(stats.get(k), (int, float))
-            )
-
-            # Scale thresholds based on memory volume
-            # More memories → more aggressive compaction
-            base_soft = 100000
-            base_force = 500000
-            base_reserve = 20000
-            if total_memories > 500:
-                base_soft = 80000
-                base_force = 400000
-                base_reserve = 15000
-
-            ts = dt.now().strftime("%Y%m%d-%H%M%S")
-            return {
-                "softThresholdTokens": base_soft,
-                "forceFlushTranscriptBytes": base_force,
-                "reserveTokensFloor": base_reserve,
-                "prompt": (
-                    "Summarize the conversation transcript below. "
-                    "Preserve key decisions, user preferences, domain knowledge, "
-                    "and action items. Remove redundancy."
-                ),
-                "systemPrompt": (
-                    "You are a conversation summarizer for an AI memory system. "
-                    "Extract essential information. Be concise."
-                ),
-                "relativePath": f"compaction/flush-{ts}.md",
-                "totalMemories": total_memories,
-                "stats": stats,
-            }
-        except Exception as e:
-            return {"error": str(e)}
+        return self._adapter.resolve_flush_plan(params)
 
     # ---- main loop ------------------------------------------------------
 
     def run(self):
         """Main loop: read JSON-RPC lines from stdin, respond on stdout."""
-        self._log("Starting v2.8.0...")
+        version = getattr(self._adapter, "version", "unknown")
+        self._log(f"Starting {version}...")
 
         for line in sys.stdin:
             line = line.strip()
