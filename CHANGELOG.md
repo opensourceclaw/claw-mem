@@ -5,6 +5,18 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.12.1] - 2026-05-05
+
+### Added
+
+**Auto-Configuration** - One-Click Installation
+
+- **Plugin Auto-Config**: Automatically add plugin configuration to OpenClaw on installation
+- **No Manual Setup**: Users can install and use immediately without manual configuration
+- **contracts.tools**: Declare plugin tool contracts for OpenClaw 2026.5.4+
+
+---
+
 ## [2.3.0] - 2026-04-27
 
 ### Added
