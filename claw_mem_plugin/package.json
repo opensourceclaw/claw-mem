@@ -8,7 +8,8 @@
   "scripts": {
     "build": "tsc",
     "test": "node test/test_real_bridge.js",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "postinstall": "node scripts/post-install.js"
   },
   "dependencies": {
     "@sinclair/typebox": "^0.34.0"
