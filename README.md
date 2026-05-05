@@ -204,6 +204,16 @@ Edit `~/.openclaw/config.json`:
     "allow": ["claw-mem", "memory-core", "acpx"],
     "slots": {
       "memory": "claw-mem"
+    },
+    "entries": {
+      "claw-mem": {
+        "enabled": true,
+        "config": {
+          "autoRecall": true,
+          "autoCapture": true,
+          "topK": 10
+        }
+      }
     }
   }
 }
