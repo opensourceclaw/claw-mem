@@ -57,5 +57,13 @@
   },
   "activation": {
     "onStartup": true
+  },
+  "contracts": {
+    "tools": [
+      "memory_search",
+      "memory_store",
+      "memory_get",
+      "memory_forget"
+    ]
   }
 }
