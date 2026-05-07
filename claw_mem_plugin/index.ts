@@ -295,6 +295,10 @@ class ClawMemBridge {
    */
   async call(method: string, params?: any): Promise<any> {
     return new Promise((resolve, reject) => {
+      if (!this.ready) {
+        reject(new Error('Bridge not ready'));
+        return;
+      }
       if (!this.process || !this.process.stdin) {
         reject(new Error('Bridge not started'));
         return;
@@ -701,8 +705,12 @@ const plugin: PluginDefinition = {
           } else {
             api.logger.info('[claw-mem] No memories found');
           }
-        } catch (error) {
-          api.logger.error('[claw-mem] Auto-recall error:', error);
+        } catch (error: any) {
+          api.logger.error(
+            '[claw-mem] Auto-recall error:',
+            error?.message || String(error),
+            error?.stack ? '\n' + error.stack : ''
+          );
         }
       });
     }
@@ -734,8 +742,12 @@ const plugin: PluginDefinition = {
               memory_type: 'episodic',
             });
             stored++;
-          } catch (error) {
-            api.logger.error('[claw-mem] Auto-capture error:', error);
+          } catch (error: any) {
+            api.logger.error(
+              '[claw-mem] Auto-capture error:',
+              error?.message || String(error),
+              error?.stack ? '\n' + error.stack : ''
+            );
           }
         }
         if (stored > 0) {
