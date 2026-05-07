@@ -47,6 +47,7 @@ from .rule_extractor import RuleExtractor
 from .gating import WriteTimeGating
 from .reflection import ReflectionOrchestrator, ReflectionResult
 from .temporal import TimeWeightCalculator, TimeWeightConfig
+from .compression.memory_compression_v2 import MemoryCompressorV2, CompressionConfig, CompressionResult
 import time
 
 
@@ -74,7 +75,7 @@ class MemoryManager:
                  bm25_weight: float = 0.7, keyword_weight: float = 0.3,
                  recency_boost: float = 1.0, frequency_boost: float = 1.0,
                  enable_cache: bool = True, enable_synonyms: bool = True,
-                 enable_stats: bool = True):
+                 enable_stats: bool = True, enable_compression: bool = True):
         """
         Initialize Memory Manager
 
@@ -147,6 +148,9 @@ class MemoryManager:
         self._search_stats = None
         self._reflection = None  # v2.9.1
         self._time_weight = None  # v2.9.1
+        self.enable_compression = enable_compression
+        self._compressor: Optional[MemoryCompressorV2] = None  # v2.12.0
+        self._compression_config = CompressionConfig()  # v2.12.0
     
     def _validate_session_memory(self):
         """Validate memory at session start (F000 fix)"""
@@ -410,6 +414,49 @@ class MemoryManager:
     def get_reflection_stats(self) -> Dict:
         """Get reflection statistics (v2.9.1)."""
         return self.reflection.get_reflection_stats()
+
+    @property
+    def compressor(self) -> MemoryCompressorV2:
+        """v2.12.0: Memory compressor for automatic memory consolidation."""
+        if self._compressor is None:
+            self._compressor = MemoryCompressorV2(self._compression_config)
+        return self._compressor
+
+    def compress(self, force: bool = False) -> Optional[CompressionResult]:
+        """Compress memories to reduce storage (v2.12.0).
+
+        Triggers when memory count exceeds threshold or at forced intervals.
+        Uses similarity-based deduplication and Knowledge Block extraction.
+
+        Args:
+            force: Force compression regardless of thresholds
+
+        Returns:
+            CompressionResult if compression was executed, None otherwise
+        """
+        if not self.enable_compression:
+            return None
+
+        all_memories = (list(self.episodic.get_recent(200)) +
+                       list(self.semantic.get_all()) +
+                       list(self.procedural.get_all()))
+
+        if not force and len(all_memories) < self._compression_config.max_memories:
+            return None
+
+        return self.compressor.compress(all_memories)
+
+    def get_compression_config(self) -> Dict:
+        """Get current compression configuration (v2.12.0)."""
+        return self._compression_config.to_dict()
+
+    def get_compression_history(self) -> Dict:
+        """Get compression statistics (v2.12.0)."""
+        return {
+            "compression_count": self.compressor.compression_count,
+            "operation_count": self.compressor.operation_count,
+            "last_compression_idx": self.compressor.last_compression_idx,
+        }
 
     def start_session(self, session_id: str, initial_context: Optional[str] = None) -> None:
         """

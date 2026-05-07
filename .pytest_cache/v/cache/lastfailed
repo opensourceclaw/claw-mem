@@ -80,5 +80,8 @@
   "tests/test_importance_extended.py::TestImportanceScorer::test_get_high_priority_memories": true,
   "tests/test_importance_extended.py::TestImportanceScorer::test_get_high_priority_memories_with_limit": true,
   "tests/test_storage_index_extended.py::TestInMemoryIndexTokenization::test_is_chinese_text": true,
-  "tests/test_integration_v090.py::test_scenario_2_large_dataset": true
+  "tests/test_integration_v090.py::test_scenario_2_large_dataset": true,
+  "tests/compression/test_memory_compression.py::TestCompressionResult::test_creation": true,
+  "tests/gating/test_stress.py::TestStress::test_large_scale_writes": true,
+  "tests/test_reflection.py::TestBeliefSynthesizer::test_synthesize_beliefs": true
 }
