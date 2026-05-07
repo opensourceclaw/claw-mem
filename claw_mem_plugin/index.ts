@@ -414,7 +414,7 @@ const plugin: PluginDefinition = {
   id: 'claw-mem',
   name: 'Claw Memory System',
   description: 'Three-tier memory system for OpenClaw (Local-First) - Plugin Slots Enabled',
-  version: '2.5.0',
+  version: '2.12.1',
   kind: 'memory',
 
   configSchema: {
@@ -652,10 +652,8 @@ const plugin: PluginDefinition = {
     // Kept for backward compatibility with OpenClaw < 2026.4.x
     // ========================================================================
 
-    // Debug: Log all events to debug hook triggering
-    api.on('*', async (event: any, ctx: any) => {
-      api.logger.debug?.(`[claw-mem] Event received: ${event}, session: ${ctx?.sessionKey}`);
-    });
+    // Debug hook removed: wildcard hooks are not supported in current OpenClaw
+    // Use explicit hook names (before_agent_start, agent_end) instead
 
     // Auto-recall: inject memories before agent starts
     if (config.autoRecall) {
