@@ -97,3 +97,12 @@ docs/
 # Audit log files
 .audit_log.jsonl
 **/.audit_log.jsonl
+workspace-test*/
+workspace_test*/
+*.pyc
+__pycache__/
+.pytest_cache/
+htmlcov/
+dist/
+build/
+*.egg-info/
