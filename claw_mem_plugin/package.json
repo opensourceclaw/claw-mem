@@ -1,6 +1,6 @@
 {
   "name": "@opensourceclaw/openclaw-claw-mem",
-  "version": "2.12.2",
+  "version": "2.12.3",
   "description": "Claw Memory System - Local-First OpenClaw Plugin (Plugin Slots Enabled)",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",

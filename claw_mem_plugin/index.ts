@@ -368,40 +368,21 @@ function formatMemories(memories: any[]): string {
  * Extract facts from conversation
  */
 function extractFactsFromEvent(event: any): string[] {
-  // Extract important facts from conversation
-  // This is a simple implementation - can be enhanced with LLM
+  // Extract facts from conversation - capture all user messages for now
   const facts: string[] = [];
   
   if (event?.messages && Array.isArray(event.messages)) {
-    for (const message of event.messages) {
-      // Simple heuristic: extract user messages
-      if (message.role === 'user') {
-        const textContent = typeof message.content === 'string'
-          ? message.content
-          : String(message.content || '');
-        if (!textContent) continue;
-        const lowerContent = textContent.toLowerCase();
-
-        // Check for preference patterns
-        if (lowerContent.includes('prefer') || lowerContent.includes('like') || lowerContent.includes('want')) {
-          facts.push(textContent);
-        }
-
-        // Check for important facts
-        if (lowerContent.includes('important') || lowerContent.includes('remember') || lowerContent.includes('note')) {
-          facts.push(textContent);
-        }
-
-        // Check for decisions
-        if (lowerContent.includes('decided') || lowerContent.includes('chose') || lowerContent.includes('selected')) {
-          facts.push(textContent);
-        }
-      }
-    }
+    // Get all user messages
+    const userMessages = event.messages
+      .filter((m: any) => m.role === 'user')
+      .map((m: any) => typeof m.content === 'string' ? m.content : String(m.content?.text || ''))
+      .filter((content: string) => content.length > 0);
+    
+    // Keep the last 5 messages (more lenient than 3)
+    facts.push(...userMessages.slice(-5));
   }
   
-  // Limit to top 3 facts to avoid overwhelming
-  return facts.slice(0, 3);
+  return facts;
 }
 
 // ============================================================================
