@@ -171,7 +171,25 @@ class ClawMemBridge {
   isReady(): boolean {
     return this.ready;
   }
-  
+
+  /**
+   * Wait for bridge to become ready with timeout
+   */
+  async waitForReady(timeoutMs: number = 10000): Promise<boolean> {
+    if (this.ready) return true;
+
+    const start = Date.now();
+    while (!this.ready) {
+      if (Date.now() - start > timeoutMs) {
+        this.logger.warn('[claw-mem bridge] Timed out waiting for bridge to become ready');
+        return false;
+      }
+      await new Promise(r => setTimeout(r, 200));
+    }
+    this.logger.info('[claw-mem bridge] Bridge is now ready');
+    return true;
+  }
+
   /**
    * Start the bridge
    */
@@ -642,23 +660,33 @@ const plugin: PluginDefinition = {
       api.on('before_agent_start', async (event: any, ctx: any) => {
         api.logger.info('[claw-mem] before_agent_start triggered, session:', ctx.sessionKey);
         currentSessionId = ctx.sessionKey;
-        
-        // Extract query from event
-        const query = extractQueryFromEvent(event);
-        
-        if (!query) {
+
+        // Wait for bridge to be ready (with 15s timeout)
+        const bridgeReady = await bridge.waitForReady(15000);
+        if (!bridgeReady) {
+          api.logger.warn('[claw-mem] Bridge not ready, skipping auto-recall');
           return;
         }
-        
+
+        // Extract query from event
+        const query = extractQueryFromEvent(event);
+
+        if (!query) {
+          api.logger.debug?.('[claw-mem] No query extracted, skipping auto-recall');
+          return;
+        }
+
         try {
           // Search memories
+          api.logger.info('[claw-mem] Searching memories for:', query);
           const result = await bridge.call('search', {
             query,
             limit: config.topK,
           });
-          
+
           // Inject memories into context
           if (result.memories && result.memories.length > 0) {
+            api.logger.info(`[claw-mem] Found ${result.memories.length} memories`);
             const formatted = formatMemories(result.memories);
             if (formatted) {
               return {
@@ -670,31 +698,48 @@ const plugin: PluginDefinition = {
                 ],
               };
             }
+          } else {
+            api.logger.info('[claw-mem] No memories found');
           }
         } catch (error) {
           api.logger.error('[claw-mem] Auto-recall error:', error);
         }
       });
     }
-    
+
     // Auto-capture: store memories after agent ends
     if (config.autoCapture) {
       api.logger.info('[claw-mem] Registering agent_end hook, autoCapture:', config.autoCapture);
       api.on('agent_end', async (event: any, ctx: any) => {
         api.logger.info('[claw-mem] agent_end triggered, session:', ctx.sessionKey);
+
+        // Wait for bridge to be ready (with 15s timeout)
+        const bridgeReady = await bridge.waitForReady(15000);
+        if (!bridgeReady) {
+          api.logger.warn('[claw-mem] Bridge not ready, skipping auto-capture');
+          return;
+        }
+
         // Extract facts from conversation
         const facts = extractFactsFromEvent(event);
-        
+        api.logger.info(`[claw-mem] Extracted ${facts.length} facts from conversation`);
+
         // Store each fact
+        let stored = 0;
         for (const fact of facts) {
           try {
+            api.logger.debug?.(`[claw-mem] Storing fact: ${fact.substring(0, 80)}...`);
             await bridge.call('store', {
               text: fact,
               memory_type: 'episodic',
             });
+            stored++;
           } catch (error) {
             api.logger.error('[claw-mem] Auto-capture error:', error);
           }
+        }
+        if (stored > 0) {
+          api.logger.info(`[claw-mem] Auto-capture stored ${stored}/${facts.length} facts`);
         }
       });
     }
