@@ -322,3 +322,9 @@ WriteTimeGating
 - **v1.0.8** (2026-03-28): Enhanced Memory Management
 - **v1.0.7** (2026-03-25): Stability Improvements
 - **v1.0.5** (2026-03-22): Initial Release
+
+## v2.12.1 (2026-05-07)
+
+- chore: restructure directory layout to devclaw standard
+- Move demo files to demos/, bridge.py to scripts/, experiment data to data/
+- Create configs/, examples/ directories
