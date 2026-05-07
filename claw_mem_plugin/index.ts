@@ -405,18 +405,47 @@ function formatMemories(memories: any[]): string {
 function extractFactsFromEvent(event: any): string[] {
   // Extract facts from conversation - capture all user messages for now
   const facts: string[] = [];
-  
-  if (event?.messages && Array.isArray(event.messages)) {
-    // Get all user messages
-    const userMessages = event.messages
-      .filter((m: any) => m.role === 'user')
-      .map((m: any) => typeof m.content === 'string' ? m.content : String(m.content?.text || ''))
+
+  // Try multiple event structures (messages, conversation, history)
+  let messages: any[] | null = null;
+
+  // Structure 1: event.messages (common for agent_end in newer OpenClaw)
+  if (event?.messages && Array.isArray(event.messages) && event.messages.length > 0) {
+    messages = event.messages;
+  }
+  // Structure 2: event.conversation
+  else if (event?.conversation && Array.isArray(event.conversation)) {
+    messages = event.conversation;
+  }
+  // Structure 3: event.history
+  else if (event?.history && Array.isArray(event.history)) {
+    messages = event.history;
+  }
+  // Structure 4: event.context?.messages
+  else if (event?.context?.messages && Array.isArray(event.context.messages)) {
+    messages = event.context.messages;
+  }
+
+  if (messages && messages.length > 0) {
+    // Try both 'user' and 'human' roles
+    const userMessages = messages
+      .filter((m: any) => m.role === 'user' || m.role === 'human')
+      .map((m: any) => {
+        if (typeof m.content === 'string') return m.content;
+        if (Array.isArray(m.content)) {
+          return m.content
+            .filter((p: any) => p.type === 'text')
+            .map((p: any) => p.text || '')
+            .join(' ');
+        }
+        return String(m.content?.text || m.content || '');
+      })
       .filter((content: string) => content.length > 0);
-    
-    // Keep the last 5 messages (more lenient than 3)
+
+    // Keep the last 5 messages
     facts.push(...userMessages.slice(-5));
   }
-  
+
   return facts;
 }
 
@@ -740,6 +769,14 @@ const plugin: PluginDefinition = {
           api.logger.warn('[claw-mem] Bridge not ready, skipping auto-capture');
           return;
         }
+
+        // Debug: log event structure to diagnose extraction
+        const eventKeys = Object.keys(event || {});
+        const msgCount = event?.messages?.length || event?.conversation?.length || event?.history?.length || 0;
+        api.logger.info(
+          `[claw-mem] agent_end event keys: [${eventKeys.join(', ')}], ` +
+          `messages count: ${msgCount}`
+        );
 
         // Extract facts from conversation
         const facts = extractFactsFromEvent(event);
