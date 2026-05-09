@@ -29,7 +29,7 @@ v0.9.0 Features (2026-03-22):
 - 100% English documentation
 """
 
-__version__ = "2.12.3"
+__version__ = "2.12.4"
 __author__ = "Peter Cheng"
 
 from .memory_manager import MemoryManager
