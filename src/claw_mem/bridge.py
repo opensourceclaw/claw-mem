@@ -81,8 +81,12 @@ class ClawMemBridge:
         sys.__stdout__.flush()
 
     def _log(self, msg: str):
-        """Write diagnostic message to stderr."""
-        print(f"[claw-mem bridge] {msg}", file=sys.stderr, flush=True)
+        """Write diagnostic message to stderr.
+        
+        Note: TypeScript side already prepends [claw-mem bridge], so we omit it here
+        to avoid double-prefix in logs.
+        """
+        print(msg, file=sys.stderr, flush=True)
 
     def _handle_request(self, request: Dict) -> Any:
         """Handle JSON-RPC request"""
@@ -176,6 +180,10 @@ class ClawMemBridge:
 
 def main():
     """Entry point"""
+    # Ensure CLAW_MEM_SILENT is set to prevent diagnostic print() from
+    # leaking into the JSON-RPC line protocol on stdout.
+    if not os.environ.get('CLAW_MEM_SILENT'):
+        os.environ['CLAW_MEM_SILENT'] = '1'
     bridge = ClawMemBridge()
     bridge.run()
 

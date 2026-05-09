@@ -1,4 +1,4 @@
-#!/Users/liantian/workspace/osprojects/claw-mem/venv/bin/python3.14
+#!/Users/petercheng/workspace/osprojects/claw-mem/venv/bin/python3.14
 import sys
 from numpy._configtool import main
 if __name__ == '__main__':

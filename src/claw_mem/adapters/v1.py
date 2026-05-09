@@ -26,6 +26,9 @@ from typing import Any, Dict
 
 from .base import BaseAdapter
 
+# 动态导入版本号，避免硬编码
+from claw_mem import __version__ as CLAW_MEM_VERSION
+
 
 class V1Strategy(BaseAdapter):
     """Strategy for OpenClaw v1.x (backward-compatible)."""
@@ -34,7 +37,7 @@ class V1Strategy(BaseAdapter):
         return "2.0.0"
 
     def get_initialize_response(self) -> Dict:
-        return {"status": "initialized", "version": "2.0.0"}
+        return {"status": "initialized", "version": CLAW_MEM_VERSION}
 
     def format_search_result(self, result: Any) -> Dict:
         r = result if isinstance(result, dict) else vars(result) if hasattr(result, "__dict__") else {}
