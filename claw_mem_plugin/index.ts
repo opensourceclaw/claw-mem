@@ -171,25 +171,7 @@ class ClawMemBridge {
   isReady(): boolean {
     return this.ready;
   }
-
-  /**
-   * Wait for bridge to become ready with timeout
-   */
-  async waitForReady(timeoutMs: number = 10000): Promise<boolean> {
-    if (this.ready) return true;
-
-    const start = Date.now();
-    while (!this.ready) {
-      if (Date.now() - start > timeoutMs) {
-        this.logger.warn('[claw-mem bridge] Timed out waiting for bridge to become ready');
-        return false;
-      }
-      await new Promise(r => setTimeout(r, 200));
-    }
-    this.logger.info('[claw-mem bridge] Bridge is now ready');
-    return true;
-  }
-
+  
   /**
    * Start the bridge
    */
@@ -211,14 +193,12 @@ class ClawMemBridge {
       // Set PYTHONPATH only if workspaceDir is explicitly configured
       const workspaceDir = this.config.workspaceDir || process.cwd();
       const env: Record<string, string> = { ...process.env as Record<string, string> };
-      
-      // Pass workspace to Python Bridge via environment variable
-      env.OPENCLAW_WORKSPACE = workspaceDir;
-      
       if (this.config.workspaceDir) {
         const srcDir = path.join(workspaceDir, 'src');
         env.PYTHONPATH = srcDir;
       }
+      // Suppress Python diagnostics on stdout to keep JSON-RPC line protocol clean
+      env.CLAW_MEM_SILENT = '1';
 
       // Spawn Python Bridge process with separate arguments
       this.process = spawn(pythonPath, ['-m', bridgeModule], {
@@ -227,13 +207,19 @@ class ClawMemBridge {
         env,
       });
       
-      // Handle stdout (responses)
+      // Handle stdout (responses) with proper line buffering
+      let stdoutBuffer = '';
       this.process.stdout?.on('data', (data: Buffer) => {
-        const lines = data.toString().split('\n').filter(line => line.trim());
+        stdoutBuffer += data.toString();
+        const lines = stdoutBuffer.split('\n');
+        // Keep the last potentially incomplete line in the buffer
+        stdoutBuffer = lines.pop() || '';
         
         for (const line of lines) {
+          const trimmed = line.trim();
+          if (!trimmed) continue;
           try {
-            const response: JSONRPCResponse = JSON.parse(line);
+            const response: JSONRPCResponse = JSON.parse(trimmed);
             const pending = this.pendingRequests.get(response.id!);
             
             if (pending) {
@@ -246,7 +232,7 @@ class ClawMemBridge {
               }
             }
           } catch (e) {
-            this.logger.error('[claw-mem bridge] Failed to parse response:', e);
+            this.logger.error(`[claw-mem bridge] Failed to parse response: ${trimmed.slice(0, 200)}`, e);
           }
         }
       });
@@ -299,10 +285,6 @@ class ClawMemBridge {
    */
   async call(method: string, params?: any): Promise<any> {
     return new Promise((resolve, reject) => {
-      if (!this.ready) {
-        reject(new Error('Bridge not ready'));
-        return;
-      }
       if (!this.process || !this.process.stdin) {
         reject(new Error('Bridge not started'));
         return;
@@ -367,20 +349,7 @@ function extractQueryFromEvent(event: any): string {
     const userMessages = event.messages.filter((m: any) => m.role === 'user');
     if (userMessages.length > 0) {
       const lastMessage = userMessages[userMessages.length - 1];
-      const content = lastMessage.content;
-      // Content can be string or array (multimodal)
-      if (typeof content === 'string') {
-        return content;
-      }
-      if (Array.isArray(content)) {
-        // Concatenate text parts from multimodal content
-        return content
-          .filter((p: any) => p.type === 'text')
-          .map((p: any) => p.text || '')
-          .join(' ')
-          || '';
-      }
-      return String(content || '');
+      return lastMessage.content || '';
     }
   }
   return '';
@@ -409,47 +378,18 @@ function formatMemories(memories: any[]): string {
 function extractFactsFromEvent(event: any): string[] {
   // Extract facts from conversation - capture all user messages for now
   const facts: string[] = [];
-
-  // Try multiple event structures (messages, conversation, history)
-  let messages: any[] | null = null;
-
-  // Structure 1: event.messages (common for agent_end in newer OpenClaw)
-  if (event?.messages && Array.isArray(event.messages) && event.messages.length > 0) {
-    messages = event.messages;
-  }
-  // Structure 2: event.conversation
-  else if (event?.conversation && Array.isArray(event.conversation)) {
-    messages = event.conversation;
-  }
-  // Structure 3: event.history
-  else if (event?.history && Array.isArray(event.history)) {
-    messages = event.history;
-  }
-  // Structure 4: event.context?.messages
-  else if (event?.context?.messages && Array.isArray(event.context.messages)) {
-    messages = event.context.messages;
-  }
-
-  if (messages && messages.length > 0) {
-    // Try both 'user' and 'human' roles
-    const userMessages = messages
-      .filter((m: any) => m.role === 'user' || m.role === 'human')
-      .map((m: any) => {
-        if (typeof m.content === 'string') return m.content;
-        if (Array.isArray(m.content)) {
-          return m.content
-            .filter((p: any) => p.type === 'text')
-            .map((p: any) => p.text || '')
-            .join(' ');
-        }
-        return String(m.content?.text || m.content || '');
-      })
+  
+  if (event?.messages && Array.isArray(event.messages)) {
+    // Get all user messages
+    const userMessages = event.messages
+      .filter((m: any) => m.role === 'user')
+      .map((m: any) => typeof m.content === 'string' ? m.content : String(m.content?.text || ''))
       .filter((content: string) => content.length > 0);
-
-    // Keep the last 5 messages
+    
+    // Keep the last 5 messages (more lenient than 3)
     facts.push(...userMessages.slice(-5));
   }
-
+  
   return facts;
 }
 
@@ -479,7 +419,7 @@ const plugin: PluginDefinition = {
     },
   },
 
-  register(api: OpenClawPluginApi) {
+  async register(api: OpenClawPluginApi) {
     const config: ClawMemConfig = {
       pythonPath: api.pluginConfig?.pythonPath as string | undefined,
       bridgePath: api.pluginConfig?.bridgePath as string | undefined,
@@ -697,128 +637,96 @@ const plugin: PluginDefinition = {
     }), { names: ['memory_forget'] });
     
     // ========================================================================
-    // Register Hooks (DEPRECATED - replaced by registerMemoryCapability)
-    // Kept for backward compatibility with OpenClaw < 2026.4.x
+    // Lifecycle - Start bridge before registering hooks to avoid timing issues
     // ========================================================================
 
-    // Debug hook removed: wildcard hooks are not supported in current OpenClaw
-    // Use explicit hook names (before_agent_start, agent_end) instead
+    // Start bridge first, then register hooks once ready
+    const initBridge = async () => {
+      try {
+        await bridge.start();
+      } catch (err) {
+        api.logger.error('[claw-mem] Failed to start bridge:', err);
+        return;
+      }
 
-    // Auto-recall: inject memories before agent starts
-    if (config.autoRecall) {
-      api.logger.info('[claw-mem] Registering before_agent_start hook, autoRecall:', config.autoRecall);
-      api.on('before_agent_start', async (event: any, ctx: any) => {
-        api.logger.info('[claw-mem] before_agent_start triggered, session:', ctx.sessionKey);
-        currentSessionId = ctx.sessionKey;
+      // ========================================================================
+      // Register Hooks (DEPRECATED - replaced by registerMemoryCapability)
+      // Kept for backward compatibility with OpenClaw < 2026.4.x
+      // Hooks are registered AFTER bridge is ready to prevent timing issues
+      // where before_agent_start fires before bridge initialization completes.
+      // ========================================================================
 
-        // Wait for bridge to be ready (with 15s timeout)
-        const bridgeReady = await bridge.waitForReady(15000);
-        if (!bridgeReady) {
-          api.logger.warn('[claw-mem] Bridge not ready, skipping auto-recall');
-          return;
-        }
+      // Auto-recall: inject memories before agent starts
+      if (config.autoRecall) {
+        api.logger.info('[claw-mem] Registering before_agent_start hook, autoRecall:', config.autoRecall);
+        api.on('before_agent_start', async (event: any, ctx: any) => {
+          api.logger.info('[claw-mem] before_agent_start triggered, session:', ctx.sessionKey);
+          currentSessionId = ctx.sessionKey;
 
-        // Extract query from event
-        const query = extractQueryFromEvent(event);
-
-        if (!query) {
-          api.logger.debug?.('[claw-mem] No query extracted, skipping auto-recall');
-          return;
-        }
-
-        try {
-          // Search memories
-          api.logger.info('[claw-mem] Searching memories for:', query);
-          const result = await bridge.call('search', {
-            query,
-            limit: config.topK,
-          });
-
-          // Inject memories into context
-          if (result.memories && result.memories.length > 0) {
-            api.logger.info(`[claw-mem] Found ${result.memories.length} memories`);
-            const formatted = formatMemories(result.memories);
-            if (formatted) {
-              return {
-                inject: [
-                  {
-                    role: 'system',
-                    content: formatted,
-                  },
-                ],
-              };
-            }
-          } else {
-            api.logger.info('[claw-mem] No memories found');
+          // Guard: skip if bridge not ready (e.g., after a restart)
+          if (!bridge.isReady()) {
+            api.logger.warn('[claw-mem] before_agent_start skipped: bridge not ready');
+            return;
           }
-        } catch (error: any) {
-          api.logger.error(
-            '[claw-mem] Auto-recall error:',
-            error?.message || String(error),
-            error?.stack ? '\n' + error.stack : ''
-          );
-        }
-      });
-    }
 
-    // Auto-capture: store memories after agent ends
-    if (config.autoCapture) {
-      api.logger.info('[claw-mem] Registering agent_end hook, autoCapture:', config.autoCapture);
-      api.on('agent_end', async (event: any, ctx: any) => {
-        api.logger.info('[claw-mem] agent_end triggered, session:', ctx.sessionKey);
+          const query = extractQueryFromEvent(event);
+          if (!query) return;
 
-        // Wait for bridge to be ready (with 15s timeout)
-        const bridgeReady = await bridge.waitForReady(15000);
-        if (!bridgeReady) {
-          api.logger.warn('[claw-mem] Bridge not ready, skipping auto-capture');
-          return;
-        }
-
-        // Debug: log event structure to diagnose extraction
-        const eventKeys = Object.keys(event || {});
-        const msgCount = event?.messages?.length || event?.conversation?.length || event?.history?.length || 0;
-        api.logger.info(
-          `[claw-mem] agent_end event keys: [${eventKeys.join(', ')}], ` +
-          `messages count: ${msgCount}`
-        );
-
-        // Extract facts from conversation
-        const facts = extractFactsFromEvent(event);
-        api.logger.info(`[claw-mem] Extracted ${facts.length} facts from conversation`);
-
-        // Store each fact
-        let stored = 0;
-        for (const fact of facts) {
           try {
-            api.logger.debug?.(`[claw-mem] Storing fact: ${fact.substring(0, 80)}...`);
-            await bridge.call('store', {
-              text: fact,
-              memory_type: 'episodic',
+            const result = await bridge.call('search', {
+              query,
+              limit: config.topK,
             });
-            stored++;
-          } catch (error: any) {
-            api.logger.error(
-              '[claw-mem] Auto-capture error:',
-              error?.message || String(error),
-              error?.stack ? '\n' + error.stack : ''
-            );
+
+            if (result.memories && result.memories.length > 0) {
+              const formatted = formatMemories(result.memories);
+              if (formatted) {
+                return {
+                  inject: [
+                    {
+                      role: 'system',
+                      content: formatted,
+                    },
+                  ],
+                };
+              }
+            }
+          } catch (error) {
+            api.logger.error('[claw-mem] Auto-recall error:', error);
           }
-        }
-        if (stored > 0) {
-          api.logger.info(`[claw-mem] Auto-capture stored ${stored}/${facts.length} facts`);
-        }
-      });
-    }
-    
-    // ========================================================================
-    // Lifecycle
-    // ========================================================================
-    
-    // Start bridge
-    bridge.start().catch((err) => {
-      api.logger.error('[claw-mem] Failed to start bridge:', err);
-    });
-    
+        });
+      }
+
+      // Auto-capture: store memories after agent ends
+      if (config.autoCapture) {
+        api.logger.info('[claw-mem] Registering agent_end hook, autoCapture:', config.autoCapture);
+        api.on('agent_end', async (event: any, ctx: any) => {
+          api.logger.info('[claw-mem] agent_end triggered, session:', ctx.sessionKey);
+
+          if (!bridge.isReady()) {
+            api.logger.warn('[claw-mem] agent_end skipped: bridge not ready');
+            return;
+          }
+
+          const facts = extractFactsFromEvent(event);
+          for (const fact of facts) {
+            try {
+              await bridge.call('store', {
+                text: fact,
+                memory_type: 'episodic',
+              });
+            } catch (error) {
+              api.logger.error('[claw-mem] Auto-capture error:', error);
+            }
+          }
+        });
+      }
+    };
+
+    // Await bridge initialization before returning to ensure hooks are registered
+    // before the first before_agent_start event fires.
+    await initBridge();
+
     // Register service for lifecycle
     api.registerService({
       id: 'claw-mem',

@@ -26,15 +26,18 @@ from typing import Any, Dict
 
 from .base import BaseAdapter
 
+# 动态导入版本号，避免硬编码
+from claw_mem import __version__ as CLAW_MEM_VERSION
+
 
 class V2Strategy(BaseAdapter):
     """Strategy for OpenClaw v2.x (current)."""
 
     def get_version(self) -> str:
-        return "2.8.0"
+        return CLAW_MEM_VERSION
 
     def get_initialize_response(self) -> Dict:
-        return {"status": "ok", "message": "initialized", "version": "2.6.0"}
+        return {"status": "ok", "message": "initialized", "version": CLAW_MEM_VERSION}
 
     def format_search_result(self, result: Any) -> Dict:
         r = result if isinstance(result, dict) else vars(result) if hasattr(result, "__dict__") else {}
