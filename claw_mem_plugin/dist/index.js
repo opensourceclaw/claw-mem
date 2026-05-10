@@ -1,3 +1,4 @@
+"use strict";
 /**
  * claw-mem Plugin for OpenClaw
  *
@@ -9,8 +10,42 @@
  *
  * @packageDocumentation
  */
-import { spawn } from 'child_process';
-import * as path from 'path';
+var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    var desc = Object.getOwnPropertyDescriptor(m, k);
+    if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
+      desc = { enumerable: true, get: function() { return m[k]; } };
+    }
+    Object.defineProperty(o, k2, desc);
+}) : (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    o[k2] = m[k];
+}));
+var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {
+    Object.defineProperty(o, "default", { enumerable: true, value: v });
+}) : function(o, v) {
+    o["default"] = v;
+});
+var __importStar = (this && this.__importStar) || (function () {
+    var ownKeys = function(o) {
+        ownKeys = Object.getOwnPropertyNames || function (o) {
+            var ar = [];
+            for (var k in o) if (Object.prototype.hasOwnProperty.call(o, k)) ar[ar.length] = k;
+            return ar;
+        };
+        return ownKeys(o);
+    };
+    return function (mod) {
+        if (mod && mod.__esModule) return mod;
+        var result = {};
+        if (mod != null) for (var k = ownKeys(mod), i = 0; i < k.length; i++) if (k[i] !== "default") __createBinding(result, mod, k[i]);
+        __setModuleDefault(result, mod);
+        return result;
+    };
+})();
+Object.defineProperty(exports, "__esModule", { value: true });
+const child_process_1 = require("child_process");
+const path = __importStar(require("path"));
 // ============================================================================
 // ClawMemBridge - Python Bridge Client
 // ============================================================================
@@ -59,7 +94,7 @@ class ClawMemBridge {
             // Suppress Python diagnostics on stdout to keep JSON-RPC line protocol clean
             env.CLAW_MEM_SILENT = '1';
             // Spawn Python Bridge process with separate arguments
-            this.process = spawn(pythonPath, ['-m', bridgeModule], {
+            this.process = (0, child_process_1.spawn)(pythonPath, ['-m', bridgeModule], {
                 stdio: ['pipe', 'pipe', 'pipe'],
                 cwd: workspaceDir,
                 env,
@@ -253,7 +288,7 @@ const plugin = {
             debug: { type: 'boolean', default: false },
         },
     },
-    async register(api) {
+    register(api) {
         const config = {
             pythonPath: api.pluginConfig?.pythonPath,
             bridgePath: api.pluginConfig?.bridgePath,
@@ -454,88 +489,88 @@ const plugin = {
             },
         }), { names: ['memory_forget'] });
         // ========================================================================
-        // Lifecycle - Start bridge before registering hooks to avoid timing issues
+        // Hooks - registered synchronously, but await bridge readiness internally
+        // to handle the race between bridge.start() and first hook invocation.
+        // bridge.start() is kicked off below; hooks await the stored promise.
         // ========================================================================
-        // Start bridge first, then register hooks once ready
-        const initBridge = async () => {
-            try {
-                await bridge.start();
-            }
-            catch (err) {
-                api.logger.error('[claw-mem] Failed to start bridge:', err);
-                return;
-            }
-            // ========================================================================
-            // Register Hooks (DEPRECATED - replaced by registerMemoryCapability)
-            // Kept for backward compatibility with OpenClaw < 2026.4.x
-            // Hooks are registered AFTER bridge is ready to prevent timing issues
-            // where before_agent_start fires before bridge initialization completes.
-            // ========================================================================
-            // Auto-recall: inject memories before agent starts
-            if (config.autoRecall) {
-                api.logger.info('[claw-mem] Registering before_agent_start hook, autoRecall:', config.autoRecall);
-                api.on('before_agent_start', async (event, ctx) => {
-                    api.logger.info('[claw-mem] before_agent_start triggered, session:', ctx.sessionKey);
-                    currentSessionId = ctx.sessionKey;
-                    // Guard: skip if bridge not ready (e.g., after a restart)
-                    if (!bridge.isReady()) {
-                        api.logger.warn('[claw-mem] before_agent_start skipped: bridge not ready');
-                        return;
-                    }
-                    const query = extractQueryFromEvent(event);
-                    if (!query)
-                        return;
-                    try {
-                        const result = await bridge.call('search', {
-                            query,
-                            limit: config.topK,
-                        });
-                        if (result.memories && result.memories.length > 0) {
-                            const formatted = formatMemories(result.memories);
-                            if (formatted) {
-                                return {
-                                    inject: [
-                                        {
-                                            role: 'system',
-                                            content: formatted,
-                                        },
-                                    ],
-                                };
-                            }
+        const bridgeReady = bridge.start();
+        // Auto-recall: inject memories before agent starts
+        if (config.autoRecall) {
+            api.logger.info('[claw-mem] Registering before_agent_start hook, autoRecall:', config.autoRecall);
+            api.on('before_agent_start', async (event, ctx) => {
+                api.logger.info('[claw-mem] before_agent_start triggered, session:', ctx.sessionKey);
+                currentSessionId = ctx.sessionKey;
+                try {
+                    await bridgeReady;
+                }
+                catch {
+                    api.logger.warn('[claw-mem] before_agent_start skipped: bridge failed to start');
+                    return;
+                }
+                if (!bridge.isReady())
+                    return;
+                const query = extractQueryFromEvent(event);
+                if (!query)
+                    return;
+                try {
+                    const result = await bridge.call('search', {
+                        query,
+                        limit: config.topK,
+                    });
+                    if (result.memories && result.memories.length > 0) {
+                        const formatted = formatMemories(result.memories);
+                        if (formatted) {
+                            return {
+                                inject: [
+                                    {
+                                        role: 'system',
+                                        content: formatted,
+                                    },
+                                ],
+                            };
                         }
+                    }
+                }
+                catch (error) {
+                    api.logger.error('[claw-mem] Auto-recall error:', error);
+                }
+            });
+        }
+        // Auto-capture: store memories after agent ends
+        if (config.autoCapture) {
+            api.logger.info('[claw-mem] Registering agent_end hook, autoCapture:', config.autoCapture);
+            api.on('agent_end', async (event, ctx) => {
+                api.logger.info('[claw-mem] agent_end triggered, session:', ctx.sessionKey);
+                try {
+                    await bridgeReady;
+                }
+                catch {
+                    api.logger.warn('[claw-mem] agent_end skipped: bridge failed to start');
+                    return;
+                }
+                if (!bridge.isReady())
+                    return;
+                const facts = extractFactsFromEvent(event);
+                for (const fact of facts) {
+                    try {
+                        await bridge.call('store', {
+                            text: fact,
+                            memory_type: 'episodic',
+                        });
                     }
                     catch (error) {
-                        api.logger.error('[claw-mem] Auto-recall error:', error);
+                        api.logger.error('[claw-mem] Auto-capture error:', error);
                     }
-                });
-            }
-            // Auto-capture: store memories after agent ends
-            if (config.autoCapture) {
-                api.logger.info('[claw-mem] Registering agent_end hook, autoCapture:', config.autoCapture);
-                api.on('agent_end', async (event, ctx) => {
-                    api.logger.info('[claw-mem] agent_end triggered, session:', ctx.sessionKey);
-                    if (!bridge.isReady()) {
-                        api.logger.warn('[claw-mem] agent_end skipped: bridge not ready');
-                        return;
-                    }
-                    const facts = extractFactsFromEvent(event);
-                    for (const fact of facts) {
-                        try {
-                            await bridge.call('store', {
-                                text: fact,
-                                memory_type: 'episodic',
-                            });
-                        }
-                        catch (error) {
-                            api.logger.error('[claw-mem] Auto-capture error:', error);
-                        }
-                    }
-                });
-            }
-        };
-        // Await bridge initialization before returning to ensure hooks are registered
-        // before the first before_agent_start event fires.
-        await initBridge();
+                }
+            });
+        }
+        // Catch bridge start failures
+        bridgeReady.catch((err) => {
+            api.logger.error('[claw-mem] Failed to start bridge:', err);
+        });
+        // ========================================================================
+        // Lifecycle
+        // ========================================================================
         // Register service for lifecycle
         api.registerService({
             id: 'claw-mem',
@@ -549,4 +584,4 @@ const plugin = {
         });
     },
 };
-export default plugin;
+exports.default = plugin;

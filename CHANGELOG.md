@@ -5,6 +5,18 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.12.5] - 2026-05-10
+
+### Fixed
+
+- **Plugin Registration Fix**: `register` function changed back to synchronous, compatible with OpenClaw plugin API
+- **Bridge Initialization Race**: Store `bridge.start()` Promise, hooks await internally to ensure bridge is ready before processing events
+- **Event Parsing**: Enhanced `extractQueryFromEvent` to support multimodal content arrays
+- **Event Parsing**: Enhanced `extractFactsFromEvent` to support multiple event structures
+- **Error Handling**: Added ready check and enhanced logging in `bridge.call`
+
+---
+
 ## [2.12.1] - 2026-05-05
 
 ### Added
