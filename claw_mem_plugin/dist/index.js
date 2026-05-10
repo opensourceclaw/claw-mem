@@ -87,6 +87,8 @@ class ClawMemBridge {
             // Set PYTHONPATH only if workspaceDir is explicitly configured
             const workspaceDir = this.config.workspaceDir || process.cwd();
             const env = { ...process.env };
+            // Pass workspace to Python Bridge via environment variable
+            env.OPENCLAW_WORKSPACE = workspaceDir;
             if (this.config.workspaceDir) {
                 const srcDir = path.join(workspaceDir, 'src');
                 env.PYTHONPATH = srcDir;

@@ -122,6 +122,7 @@ tests/test_consolidation.py
 tests/test_context_injection.py
 tests/test_context_injection_extended.py
 tests/test_context_manager.py
+tests/test_critical_rules.py
 tests/test_data_portability.py
 tests/test_enhanced_smart_retriever.py
 tests/test_entity_retriever.py
