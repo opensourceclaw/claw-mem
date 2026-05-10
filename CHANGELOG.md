@@ -10,10 +10,35 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Fixed
 
 - **Plugin Registration Fix**: `register` function changed back to synchronous, compatible with OpenClaw plugin API
-- **Bridge Initialization Race**: Store `bridge.start()` Promise, hooks await internally to ensure bridge is ready before processing events
-- **Event Parsing**: Enhanced `extractQueryFromEvent` to support multimodal content arrays
-- **Event Parsing**: Enhanced `extractFactsFromEvent` to support multiple event structures
-- **Error Handling**: Added ready check and enhanced logging in `bridge.call`
+- **Bridge Initialization Race**: Store `bridge.start()` Promise, hooks await internally to ensure bridge is ready
+- **Event Parsing**: Enhanced `extractQueryFromEvent` and `extractFactsFromEvent`
+- **Error Handling**: Added ready check and enhanced logging
+
+---
+
+## [2.13.0] - 2026-05-10
+
+### Added
+
+**Critical Rule Memory Type** — Never compress, always inject
+
+- **`critical_rule` Memory Type**: New memory tier stored independently from episodic/semantic/procedural
+  - Stored in `~/.claw-mem/critical_rules.json` for cross-workspace persistence
+  - Never touched by compression — survives all compaction operations
+  - Always prepended to search results (does not count toward limit)
+  - Always injected into promptBuilder context with "⚠️ Critical Rules" header
+- **New API**: `store_critical_rule()` / `get_critical_rules()` / `delete_critical_rule()` on MemoryManager
+- **New Bridge RPC**: `get_critical_rules`, `store_critical_rule`, `delete_critical_rule`
+- **Plugin**: `promptBuilder` fetches critical rules on every turn and prepends them to injected context
+- **Search**: New `include_critical` parameter on `search()` (default: `True`)
+
+### Tests
+
+- 13 tests (all passing) in `tests/test_critical_rules.py`
+- Store, get, delete critical rules
+- Critical rules survive compression
+- Search always includes critical rules (prepended, not counted toward limit)
+- Cross-instance persistence
 
 ---
 
