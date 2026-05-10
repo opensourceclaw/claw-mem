@@ -95,6 +95,27 @@ class TestCriticalRulesStorage:
         assert len(rules) == 1
         assert rules[0]["id"] == r1
 
+    def test_store_via_generic_api(self, mem):
+        """store() with memory_type='critical_rule' routes to store_critical_rule."""
+        rule_id = mem.store(
+            content="Critical via generic store API",
+            memory_type="critical_rule",
+            metadata={"source": "test"},
+        )
+        # Should return a rule_id string, not True/False
+        assert isinstance(rule_id, str)
+        assert len(rule_id) == 8
+
+        # Verify critical_rule was actually stored
+        rules = mem.get_critical_rules()
+        assert len(rules) == 1
+        assert rules[0]["text"] == "Critical via generic store API"
+        assert rules[0]["id"] == rule_id
+
+        # Verify search finds it
+        results = mem.search("via generic", limit=10, include_critical=True)
+        assert any("Critical via generic store API" in str(r) for r in results)
+
     def test_critical_rules_persist_across_instances(self, workspace):
         """Critical rules survive Manager re-creation (persisted to disk)."""
         mm1 = MemoryManager(str(workspace), auto_detect=False)

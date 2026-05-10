@@ -618,22 +618,26 @@ class MemoryManager:
         self.working_memory = []
         self.working_cache.clear()
     
-    def store(self, content: str, memory_type: str = "episodic", 
-              tags: Optional[List[str]] = None, metadata: Optional[Dict] = None, 
-              update_index: bool = True) -> bool:
+    def store(self, content: str, memory_type: str = "episodic",
+              tags: Optional[List[str]] = None, metadata: Optional[Dict] = None,
+              update_index: bool = True):
         """
         Store memory
-        
+
         Args:
             content: Memory content
-            memory_type: Memory type (episodic/semantic/procedural)
+            memory_type: Memory type (episodic/semantic/procedural/critical_rule)
             tags: Tag list
             metadata: Optional metadata dictionary (e.g., {"neo_agent": "Tech", "neo_domain": "Work"})
             update_index: Update search index incrementally (default: True)
-            
+
         Returns:
-            bool: Success status
+            True/rule_id on success, False on failure
         """
+        # v2.13.0: Route critical_rule to dedicated storage
+        if memory_type == "critical_rule":
+            return self.store_critical_rule(content, metadata)
+
         # Security validation
         if not self.validator.validate(content):
             _log(f"❌ Memory write validation failed: {content[:50]}...")
@@ -668,9 +672,9 @@ class MemoryManager:
             # If gated to cold storage, we still store but may limit indexing
             if gating_result.tier == 'cold':
                 update_index = False  # Skip indexing for cold storage
-        
+
         import uuid
-        
+
         # Create memory record with ID generated upfront
         memory_record = {
             "id": str(uuid.uuid4())[:8],  # Generate ID before storage
@@ -681,7 +685,7 @@ class MemoryManager:
             "timestamp": datetime.now().isoformat(),
             "session_id": self.session_id
         }
-        
+
         # Store to different locations based on type
         if memory_type == "episodic":
             self.episodic.store(memory_record)
@@ -692,25 +696,25 @@ class MemoryManager:
         else:
             _log(f"❌ Unknown memory type: {memory_type}")
             return False
-        
+
         # Add to working memory
         self.working_memory.append(memory_record)
-        
+
         # Add to L1 cache
         memory_id = memory_record.get("id")
         if memory_id:
             self.working_cache.put(memory_id, memory_record)
-            
+
             # Incrementally update index
             if update_index and self.index.built:
                 self.index.add_memory(content, memory_id, save_async=True)
-        
+
         # Log audit
         self.audit.log("memory_stored", {
             "type": memory_type,
             "content": content[:100]
         })
-        
+
         _log(f"✅ Memory stored ({memory_type}): {content[:50]}...")
         return True
     
