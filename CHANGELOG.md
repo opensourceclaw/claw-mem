@@ -5,6 +5,32 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.13.0] - 2026-05-10
+
+### Added
+
+**Critical Rule Memory Type** — Never compress, always inject
+
+- **`critical_rule` Memory Type**: New memory tier stored independently from episodic/semantic/procedural
+  - Stored in `~/.claw-mem/critical_rules.json` for cross-workspace persistence
+  - Never touched by compression — survives all compaction operations
+  - Always prepended to search results (does not count toward limit)
+  - Always injected into promptBuilder context with "⚠️ Critical Rules" header
+- **New API**: `store_critical_rule()` / `get_critical_rules()` / `delete_critical_rule()` on MemoryManager
+- **New Bridge RPC**: `get_critical_rules`, `store_critical_rule`, `delete_critical_rule`
+- **Plugin**: `promptBuilder` fetches critical rules on every turn and prepends them to injected context
+- **Search**: New `include_critical` parameter on `search()` (default: `True`)
+
+### Tests
+
+- 13 tests (all passing) in `tests/test_critical_rules.py`
+- Store, get, delete critical rules
+- Critical rules survive compression
+- Search always includes critical rules (prepended, not counted toward limit)
+- Cross-instance persistence
+
+---
+
 ## [2.12.1] - 2026-05-05
 
 ### Added

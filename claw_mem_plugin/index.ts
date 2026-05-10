@@ -505,15 +505,32 @@ const plugin: PluginDefinition = {
         if (!bridge.isReady()) return [];
 
         try {
+          // v2.13.0: Fetch critical rules (never compressed, always injected)
+          const criticalRulesResult = await bridge.call('get_critical_rules', {});
+
           const result = await bridge.call('build_context', {
             topK: config.topK,
             query: 'important recent context',
           });
 
+          const sections: string[] = [];
+
           if (result?.context && Array.isArray(result.context)) {
             api.logger.debug?.(`[claw-mem] promptBuilder: ${result.context.length} section(s) injected`);
-            return result.context as string[];
+            sections.push(...(result.context as string[]));
           }
+
+          // v2.13.0: Prepend critical rules at the top
+          if (criticalRulesResult?.rules && Array.isArray(criticalRulesResult.rules) && criticalRulesResult.rules.length > 0) {
+            const rulesLines = criticalRulesResult.rules.map(
+              (r: any) => `- **${r.id}**: ${r.text}`
+            );
+            const criticalHeader = '⚠️ Critical Rules (never compress, always follow):\n' + rulesLines.join('\n');
+            sections.unshift(criticalHeader);
+            api.logger.debug?.(`[claw-mem] promptBuilder: ${criticalRulesResult.count} critical rule(s) injected`);
+          }
+
+          return sections;
         } catch (error) {
           api.logger.warn('[claw-mem] promptBuilder failed, skipping memory injection:', error);
         }
