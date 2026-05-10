@@ -521,13 +521,13 @@ const plugin: PluginDefinition = {
           }
 
           // v2.13.0: Prepend critical rules at the top
-          if (criticalRulesResult?.critical_rules && Array.isArray(criticalRulesResult.critical_rules) && criticalRulesResult.critical_rules.length > 0) {
-            const rulesLines = criticalRulesResult.critical_rules.map(
+          if (criticalRulesResult?.rules && Array.isArray(criticalRulesResult.rules) && criticalRulesResult.rules.length > 0) {
+            const rulesLines = criticalRulesResult.rules.map(
               (r: any) => `- **${r.id}**: ${r.text}`
             );
             const criticalHeader = '⚠️ Critical Rules (never compress, always follow):\n' + rulesLines.join('\n');
             sections.unshift(criticalHeader);
-            api.logger.debug?.(`[claw-mem] promptBuilder: ${criticalRulesResult.critical_rules.length} critical rule(s) injected`);
+            api.logger.debug?.(`[claw-mem] promptBuilder: ${criticalRulesResult.count} critical rule(s) injected`);
           }
 
           return sections;
