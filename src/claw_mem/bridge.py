@@ -106,6 +106,9 @@ class ClawMemBridge:
             "start_session": self._handle_start_session,
             "end_session": self._handle_end_session,
             "resolve_flush_plan": self._handle_resolve_flush_plan,
+            # v2.13.0: Critical rules
+            "get_critical_rules": self._handle_get_critical_rules,
+            "store_critical_rule": self._handle_store_critical_rule,
         }
 
         handler = handlers.get(method)
@@ -149,6 +152,22 @@ class ClawMemBridge:
 
     def _handle_resolve_flush_plan(self, params: Dict) -> Dict:
         return self._adapter.resolve_flush_plan(params)
+
+    def _handle_get_critical_rules(self, params: Dict) -> Dict:
+        """v2.13.0: Get all critical rules."""
+        if not self.memory_manager:
+            return {"critical_rules": []}
+        return {"critical_rules": self.memory_manager.get_critical_rules()}
+
+    def _handle_store_critical_rule(self, params: Dict) -> Dict:
+        """v2.13.0: Store a critical rule."""
+        if not self.memory_manager:
+            return {"success": False, "error": "Memory manager not initialized"}
+        rule_id = self.memory_manager.store_critical_rule(
+            text=params.get("text", ""),
+            metadata=params.get("metadata"),
+        )
+        return {"success": True, "rule_id": rule_id}
 
     # ---- main loop ------------------------------------------------------
 
