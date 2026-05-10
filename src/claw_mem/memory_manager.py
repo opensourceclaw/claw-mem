@@ -19,6 +19,8 @@ Coordinates three-layer memory architecture (Working/Short-term/Long-term) and t
 """
 
 import os
+import json
+import uuid
 from datetime import datetime
 from typing import List, Dict, Optional
 from pathlib import Path
@@ -151,7 +153,14 @@ class MemoryManager:
         self.enable_compression = enable_compression
         self._compressor: Optional[MemoryCompressorV2] = None  # v2.12.0
         self._compression_config = CompressionConfig()  # v2.12.0
-    
+
+        # v2.13.0: Critical rules — never compressed, always injected
+        self._critical_rules: Dict[str, dict] = {}
+        self._critical_rules_file = os.path.join(
+            os.path.expanduser("~/.claw-mem"), "critical_rules.json"
+        )
+        self._load_critical_rules()
+
     def _validate_session_memory(self):
         """Validate memory at session start (F000 fix)"""
         validation = self.memory_fix.validate_session_memory()
@@ -458,6 +467,68 @@ class MemoryManager:
             "last_compression_idx": self.compressor.last_compression_idx,
         }
 
+    # ========================================================================
+    # Critical Rules (v2.13.0)
+    # ========================================================================
+
+    def _load_critical_rules(self) -> None:
+        """Load critical rules from disk."""
+        try:
+            if os.path.exists(self._critical_rules_file):
+                with open(self._critical_rules_file, 'r', encoding='utf-8') as f:
+                    self._critical_rules = json.load(f)
+        except Exception:
+            self._critical_rules = {}
+
+    def _save_critical_rules(self) -> None:
+        """Persist critical rules to disk."""
+        os.makedirs(os.path.dirname(self._critical_rules_file), exist_ok=True)
+        with open(self._critical_rules_file, 'w', encoding='utf-8') as f:
+            json.dump(self._critical_rules, f, ensure_ascii=False, indent=2)
+
+    def store_critical_rule(self, text: str, metadata: dict = None) -> str:
+        """Store a critical rule. Never compressed, always injected.
+
+        Args:
+            text: Rule content text
+            metadata: Optional metadata dict
+
+        Returns:
+            rule_id: Unique rule identifier
+        """
+        rule_id = str(uuid.uuid4())[:8]
+        self._critical_rules[rule_id] = {
+            "id": rule_id,
+            "text": text,
+            "metadata": metadata or {},
+            "created_at": datetime.now().isoformat(),
+        }
+        self._save_critical_rules()
+        return rule_id
+
+    def get_critical_rules(self) -> List[dict]:
+        """Get all critical rules.
+
+        Returns:
+            List of critical rule dicts
+        """
+        return list(self._critical_rules.values())
+
+    def delete_critical_rule(self, rule_id: str) -> bool:
+        """Delete a critical rule by ID.
+
+        Args:
+            rule_id: Rule identifier
+
+        Returns:
+            True if deleted, False if not found
+        """
+        if rule_id in self._critical_rules:
+            del self._critical_rules[rule_id]
+            self._save_critical_rules()
+            return True
+        return False
+
     def start_session(self, session_id: str, initial_context: Optional[str] = None) -> None:
         """
         Start new session
@@ -705,12 +776,14 @@ class MemoryManager:
 
     def search(self, query: str, memory_type: Optional[str] = None,
                metadata: Optional[Dict] = None, limit: int = 10,
-               mode: Optional[str] = None) -> List[Dict]:
+               mode: Optional[str] = None,
+               include_critical: bool = True) -> List[Dict]:
         """
         Retrieve memories using specified search mode.
 
         v2.9.0: Added query cache (fast path), synonym expansion (recall boost),
         and search statistics tracking.
+        v2.13.0: Added critical_rules prepending (never compressed, always injected).
 
         Args:
             query: Search query
@@ -720,6 +793,7 @@ class MemoryManager:
             mode: Search mode - "keyword" | "bm25" | "hybrid" | "entity"
                   | "hybrid_entity" | "heuristic" | "smart" | "enhanced_smart"
                   (default: use self.search_mode)
+            include_critical: Include critical rules prepended to results (default: True)
 
         Returns:
             List[Dict]: Memory records
@@ -727,6 +801,11 @@ class MemoryManager:
         cache_hit = False
         t0 = time.time()
         search_mode = mode or self.search_mode
+
+        # v2.13.0: Gather critical rules (never cached, always prepended)
+        critical_rules = []
+        if include_critical:
+            critical_rules = self.get_critical_rules()
 
         # v2.9.0: Check query cache first
         if self.query_cache and metadata is None and memory_type is None:
@@ -736,7 +815,8 @@ class MemoryManager:
                 if self.search_stats:
                     latency = (time.time() - t0) * 1000
                     self.search_stats.record_search(latency, cache_hit=True)
-                return cached[:limit]
+                # Prepend critical rules (not counted toward limit)
+                return critical_rules + cached[:limit]
 
         # v2.9.0: Expand query with synonyms
         search_query = query
@@ -786,7 +866,9 @@ class MemoryManager:
         })
 
         _log(f"🔍 Retrieved {len(results)} memories ({method}): {query}")
-        return results
+
+        # v2.13.0: Prepend critical rules (not counted toward limit)
+        return critical_rules + results
 
     def cross_session_search(self, query: str,
                               layers: Optional[List[str]] = None,
