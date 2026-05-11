@@ -1,44 +1,46 @@
 ---
-name: ✨ Feature Request
-about: Suggest an idea for this project
+name: Feature Request
+about: Suggest a new feature for claw-mem
 title: '[FEATURE] '
 labels: enhancement
 assignees: ''
-
 ---
 
-## Feature Description
+## Problem Statement
+A clear description of what problem this feature would solve.
 
-A clear and concise description of the feature you want.
+**Example**: I want to do X, but currently I can't because Y.
 
-## Use Case
+## Proposed Solution
+A clear description of the solution you'd like.
 
-Describe the problem this feature solves and your use case.
+**Example**: Add a new method `memory_manager.smart_retrieve()` that automatically...
 
-For example:
-- I want this feature because...
-- This feature can help me...
-- The current problem is...
+## Alternatives Considered
+A clear description of any alternative solutions you've considered.
 
-## Implementation Ideas
+**Example**: I tried using `memory_manager.search()` with different parameters, but...
 
-If you have implementation ideas, please share them.
+## Use Cases
+Describe specific use cases where this feature would be helpful.
 
-For example:
-- Possible API design
-- Algorithm ideas
-- Reference projects
-
-## Alternatives
-
-Have you considered alternative solutions? Please describe.
+**Example 1**: As a developer, I want to...
+**Example 2**: In multi-agent scenarios, this would help...
 
 ## Additional Context
+Add any other context, mockups, or screenshots about the feature request here.
 
-Add any other context or screenshots about the feature request here.
+## Implementation Ideas (Optional)
+If you have ideas about how to implement this, share them here.
 
-## Priority
+```python
+# Pseudocode or API sketch
+class MemoryManager:
+    def smart_retrieve(self, query: str) -> List[Knowledge]:
+        # Your idea here
+        pass
+```
 
-- [ ] Low - Do when you have time
-- [ ] Medium - Important but not urgent
-- [ ] High - Need this feature urgently
+## Related Issues
+- Related to #X
+- Depends on #Y

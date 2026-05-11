@@ -1,71 +1,65 @@
-# Pull Request
-
 ## Description
+<!-- A clear description of the changes in this PR -->
 
-Briefly describe what this PR does.
-
-## Related Issues
-
-Link related issues (if applicable):
-- Fixes #123
-- Closes #456
+## Motivation and Context
+<!-- Why is this change needed? What problem does it solve? -->
+<!-- Link to related issues: Fixes #123, Closes #456 -->
 
 ## Type of Change
-
-Please select the type of change that is most relevant to your PR:
-
-- [ ] 🐛 Bug fix (non-breaking change which fixes an issue)
-- [ ] ✨ New feature (non-breaking change which adds functionality)
-- [ ] ⚠️ Breaking change (fix or feature that would cause existing functionality to change)
-- [ ] 📝 Documentation only changes
-- [ ] 🧪 Tests only changes
-- [ ] 🔧 Configuration changes
-- [ ] ⚡ Performance improvement
-- [ ] 🎨 Code refactoring
-- [ ] 🔨 Build system changes
+<!-- Mark the relevant option with an 'x' -->
+- [ ] Bug fix (non-breaking change which fixes an issue)
+- [ ] New feature (non-breaking change which adds functionality)
+- [ ] Breaking change (fix or feature that would cause existing functionality to not work as expected)
+- [ ] Performance improvement
+- [ ] Code refactoring (no functional changes)
+- [ ] Documentation update
+- [ ] Test improvement
 
 ## Testing
+<!-- How has this been tested? -->
+- [ ] Tests pass locally (`pytest`)
+- [ ] New tests added to cover changes
+- [ ] Test coverage maintained or improved (≥ 80%)
+- [ ] Manual testing performed
 
-Please describe how you tested these changes:
-
-- [ ] Added unit tests
-- [ ] Added integration tests
-- [ ] Manually tested functionality
-- [ ] All existing tests pass
-
-## Code Quality
-
-- [ ] Code follows project style guidelines
-- [ ] Ran `black` for formatting
-- [ ] Ran `flake8` for linting
-- [ ] Ran `mypy` for type checking
-- [ ] Test coverage has not decreased
-
-## Documentation
-
-- [ ] Updated README.md
-- [ ] Updated API documentation
-- [ ] Updated CHANGELOG.md
-- [ ] Added code comments
-
-## Screenshots (if applicable)
-
-If changes involve UI or output changes, please add screenshots.
+**Test Configuration**:
+- OS: [e.g. macOS 12]
+- Python: [e.g. 3.10]
 
 ## Checklist
+<!-- Mark completed items with an 'x' -->
+- [ ] Code follows project style guidelines (black, flake8)
+- [ ] Self-review completed
+- [ ] Comments added for complex logic
+- [ ] Documentation updated (README, docstrings, CHANGELOG)
+- [ ] No new warnings introduced
+- [ ] All CI checks passing
 
-- [ ] My code follows the project's contribution guidelines
-- [ ] I have read the code review checklist
-- [ ] I have self-reviewed my code
-- [ ] I have commented my code, particularly in hard-to-understand areas
-- [ ] I have updated corresponding documentation
-- [ ] My changes generate no new warnings
-- [ ] I have added tests that prove my fix is effective
+## Performance Impact
+<!-- If this PR affects performance, describe the impact -->
+- [ ] No performance impact
+- [ ] Performance improved (describe how)
+- [ ] Performance degraded (explain why necessary)
 
-## Additional Information
+**Benchmarks** (if applicable):
+```
+Before: ...
+After:  ...
+```
 
-Add any other information about this PR here.
+## Breaking Changes
+<!-- If this is a breaking change, describe the migration path -->
+- [ ] No breaking changes
+- [ ] Breaking change (describe migration path below)
 
----
+**Migration Guide** (if breaking):
+```python
+# Before
+old_api()
 
-**Thank you for your contribution!** 🎉
+# After
+new_api()
+```
+
+## Additional Notes
+<!-- Any additional information reviewers should know -->

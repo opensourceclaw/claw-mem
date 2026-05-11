@@ -1,47 +1,48 @@
 ---
-name: 🐛 Bug Report
-about: Create a report to help us improve
+name: Bug Report
+about: Report a bug in claw-mem
 title: '[BUG] '
 labels: bug
 assignees: ''
-
 ---
 
-## Bug Description
-
-A clear and concise description of what the bug is.
+## Description
+A clear description of what the bug is.
 
 ## To Reproduce
-
-```python
-# Code example to reproduce the bug
-from claw_mem import MemoryManager
-
-memory = MemoryManager()
-# ... code that causes the issue
-```
+Steps to reproduce the behavior:
+1. Initialize MemoryManager with '...'
+2. Call method '....'
+3. See error
 
 ## Expected Behavior
-
-A clear and concise description of what you expected to happen.
+A clear description of what you expected to happen.
 
 ## Actual Behavior
-
-A clear and concise description of what actually happened.
-
-## Screenshots
-
-If applicable, add screenshots to help explain your problem.
+A clear description of what actually happened.
 
 ## Environment
+- OS: [e.g. macOS 12, Ubuntu 22.04]
+- Python: [e.g. 3.10.6]
+- claw-mem version: [e.g. v2.13.0]
+- Installation method: [e.g. pip install, pip install -e .]
 
-- **OS**: [e.g., macOS 12.0, Ubuntu 20.04, Windows 11]
-- **Python Version**: [e.g., 3.8.10]
-- **claw-mem Version**: [e.g., 0.1.0]
-- **Related Dependencies**:
-  - numpy: [version]
-  - pydantic: [version]
+## Code Sample
+```python
+# Minimal reproducible example
+from claw_mem import MemoryManager
+
+# Your code here
+```
+
+## Error Output
+```
+Paste the error message/stack trace here
+```
 
 ## Additional Context
-
 Add any other context about the problem here.
+
+## Related Issues
+- Related to #X
+- Blocks #Y
