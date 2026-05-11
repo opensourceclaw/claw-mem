@@ -1,0 +1,129 @@
+name: Release Checklist
+
+on:
+  release:
+    types: [created]
+
+jobs:
+  checklist:
+    name: Pre-Release Verification
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Get version info
+        id: version
+        run: |
+          TAG=${GITHUB_REF#refs/tags/}
+          echo "tag=$TAG" >> $GITHUB_OUTPUT
+          
+          # Extract version from pyproject.toml
+          PYPROJECT_VER=$(grep 'version = ' pyproject.toml | head -1 | awk '{print $3}' | tr -d '"')
+          echo "pyproject=$PYPROJECT_VER" >> $GITHUB_OUTPUT
+          echo "pyproject_full=v$PYPROJECT_VER" >> $GITHUB_OUTPUT
+      
+      - name: Verify version sync
+        run: |
+          TAG=${{ steps.version.outputs.tag }}
+          PYPROJECT=${{ steps.version.outputs.pyproject_full }}
+          
+          echo "Tag: $TAG"
+          echo "pyproject.toml: $PYPROJECT"
+          
+          if [ "$TAG" != "$PYPROJECT" ]; then
+            echo "❌ Version mismatch detected!"
+            echo "   Git tag: $TAG"
+            echo "   pyproject.toml: $PYPROJECT"
+            exit 1
+          fi
+          echo "✅ Version sync verified"
+      
+      - name: Verify CHANGELOG updated
+        run: |
+          TAG=${{ steps.version.outputs.tag }}
+          VERSION=${TAG#v}
+          
+          if [ ! -f "CHANGELOG.md" ]; then
+            echo "⚠️ CHANGELOG.md not found, skipping check"
+            exit 0
+          fi
+          
+          if ! grep -q "## \[$VERSION\]" CHANGELOG.md; then
+            echo "❌ CHANGELOG.md not updated for version $VERSION"
+            echo "Please add a section like: ## [$VERSION] - YYYY-MM-DD"
+            exit 1
+          fi
+          echo "✅ CHANGELOG verified"
+      
+      - name: Verify README version badge
+        run: |
+          TAG=${{ steps.version.outputs.tag }}
+          VERSION=${TAG#v}
+          
+          if [ ! -f "README.md" ]; then
+            echo "⚠️ README.md not found, skipping check"
+            exit 0
+          fi
+          
+          if grep -q "Version-" README.md; then
+            if ! grep -q "Version-$VERSION" README.md; then
+              echo "⚠️ README.md version badge may need update"
+              echo "Current tag: $TAG"
+            else
+              echo "✅ README version badge verified"
+            fi
+          else
+            echo "✅ No version badge in README (OK)"
+          fi
+      
+      - name: Create release summary
+        run: |
+          echo "## Release Verification Summary" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "**Tag**: ${{ steps.version.outputs.tag }}" >> $GITHUB_STEP_SUMMARY
+          echo "**Version**: ${{ steps.version.outputs.pyproject }}" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "### Checks Passed ✅" >> $GITHUB_STEP_SUMMARY
+          echo "- Version sync verified" >> $GITHUB_STEP_SUMMARY
+          echo "- CHANGELOG updated" >> $GITHUB_STEP_SUMMARY
+          echo "- README checked" >> $GITHUB_STEP_SUMMARY
+
+  notify:
+    name: Create Post-Release Issue
+    needs: checklist
+    runs-on: ubuntu-latest
+    if: github.event.release.prerelease == false
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Create post-release checklist issue
+        run: |
+          TAG=${GITHUB_REF#refs/tags/}
+          REPO=${GITHUB_REPOSITORY}
+          
+          gh issue create \
+            --title "Post-Release Checklist for $TAG" \
+            --body "## Release Published ✅
+          
+          Release **$TAG** has been published.
+          
+          ### Post-Release Checklist
+          
+          - [ ] Verify release on GitHub: https://github.com/$REPO/releases/tag/$TAG
+          - [ ] Update documentation if needed
+          - [ ] Announce release (Discord, Twitter, etc.)
+          - [ ] Monitor for issues in first 24-48 hours
+          - [ ] Close milestone if all issues resolved
+          
+          ### Automation Status
+          
+          - ✅ Version sync verified
+          - ✅ CHANGELOG verified
+          - ✅ Release workflow completed
+          
+          ---
+          
+          *This issue was automatically created by the release workflow.*" \
+            --label "release" || echo "Issue creation failed (label may not exist)"
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
