@@ -106,3 +106,16 @@ htmlcov/
 dist/
 build/
 *.egg-info/
+
+# Apache standard cleanup
+venv/
+htmlcov/
+test-foo/
+test_run_validation/
+workspace-test/
+.checkpoints/
+.claw-mem/
+.claw-rl/
+.coverage
+.audit_log.jsonl
+.demos/
