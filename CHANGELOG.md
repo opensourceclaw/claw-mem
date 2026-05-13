@@ -5,6 +5,26 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.13.2] - 2026-05-13
+
+### Added
+- `MemoryManager.build_index()` - 手动构建 BM25 索引
+- Bridge `build_index` 命令 - 支持插件启动时自动构建索引
+
+### Fixed
+- **Push mode memory loading** - 新会话自动加载最近记忆（修复空查询跳过问题）
+- Memory format enhancement - 时间排序、日期显示、内容截断
+- Bridge response field mismatch - `result.memories` → `result.results`
+
+### Changed
+- Plugin startup: 自动构建索引并输出 episode 数量
+- `before_agent_start` hook: 空查询时构造默认搜索词
+
+### Technical Details
+- Issue: 新会话无法加载记忆（Pull 模式缺陷）
+- Solution: Push 模式 - 会话启动时自动加载最近记忆
+- Performance: 成功索引 8927 条记忆
+
 ## [2.13.0] - 2026-05-10
 
 ### Added
