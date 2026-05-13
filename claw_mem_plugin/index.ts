@@ -861,7 +861,7 @@ const plugin: PluginDefinition = {
         try {
           api.logger.info('[claw-mem] Building index...');
           const result = await bridge.call('build_index', {});
-          api.logger.info('[claw-mem] Index built successfully, count:', result.count || 0);
+          api.logger.info(`[claw-mem] Index built successfully, episodes: ${result.episodic_count || 0}`);
         } catch (error: any) {
           api.logger.warn('[claw-mem] Failed to build index:', error?.message || String(error));
         }
