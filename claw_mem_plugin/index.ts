@@ -393,13 +393,33 @@ function formatMemories(memories: any[]): string {
   if (!memories || memories.length === 0) {
     return '';
   }
-  
-  const lines = ['Relevant memories from previous conversations:'];
-  for (const memory of memories) {
-    if (memory.content) {
-      lines.push(`- ${memory.content}`);
-    }
+
+  const lines: string[] = [
+    '## Recent Memories (Auto-loaded)',
+    '',
+    'The following memories were automatically loaded for session continuity:',
+    '',
+  ];
+
+  // Sort by timestamp (newest first)
+  const sorted = [...memories].sort((a, b) => {
+    const timeA = new Date(a.timestamp || a.metadata?.timestamp || 0).getTime();
+    const timeB = new Date(b.timestamp || b.metadata?.timestamp || 0).getTime();
+    return timeB - timeA;
+  });
+
+  for (const mem of sorted.slice(0, 10)) {
+    const date = mem.timestamp
+      ? new Date(mem.timestamp).toLocaleDateString()
+      : mem.metadata?.timestamp
+        ? new Date(mem.metadata.timestamp).toLocaleDateString()
+        : 'Unknown date';
+    const text = mem.text || mem.content || String(mem);
+    const truncated = text.length > 200 ? text.slice(0, 200) + '...' : text;
+    lines.push(`- **${date}**: ${truncated}`);
   }
+
+  lines.push('');
   return lines.join('\n');
 }
 
@@ -463,7 +483,7 @@ const plugin: PluginDefinition = {
   id: 'claw-mem',
   name: 'Claw Memory System',
   description: 'Three-tier memory system for OpenClaw (Local-First) - Plugin Slots Enabled',
-  version: '2.12.1',
+  version: '2.12.5',
   kind: 'memory',
 
   configSchema: {
@@ -736,11 +756,14 @@ const plugin: PluginDefinition = {
         }
 
         // Extract query from event
-        const query = extractQueryFromEvent(event);
+        let query = extractQueryFromEvent(event);
 
-        if (!query) {
-          api.logger.debug?.('[claw-mem] No query extracted, skipping auto-recall');
-          return;
+        if (!query || query.trim() === '') {
+          // New session: load recent memories from yesterday + today
+          const today = new Date().toISOString().slice(0, 10);
+          const yesterday = new Date(Date.now() - 86400000).toISOString().slice(0, 10);
+          query = `recent memories ${yesterday} ${today}`;
+          api.logger.info('[claw-mem] New session detected, loading recent memories for:', query);
         }
 
         try {
@@ -752,9 +775,9 @@ const plugin: PluginDefinition = {
           });
 
           // Inject memories into context
-          if (result.memories && result.memories.length > 0) {
-            api.logger.info(`[claw-mem] Found ${result.memories.length} memories`);
-            const formatted = formatMemories(result.memories);
+          if (result.results && result.results.length > 0) {
+            api.logger.info(`[claw-mem] Found ${result.results.length} memories`);
+            const formatted = formatMemories(result.results);
             if (formatted) {
               return {
                 inject: [
@@ -831,8 +854,19 @@ const plugin: PluginDefinition = {
     // Lifecycle
     // ========================================================================
     
-    // Start bridge
-    bridge.start().catch((err) => {
+    // Start bridge and build index on startup
+    bridge.start().then(async () => {
+      const ready = await bridge.waitForReady(30000);
+      if (ready) {
+        try {
+          api.logger.info('[claw-mem] Building index...');
+          const result = await bridge.call('build_index', {});
+          api.logger.info('[claw-mem] Index built successfully, count:', result.count || 0);
+        } catch (error: any) {
+          api.logger.warn('[claw-mem] Failed to build index:', error?.message || String(error));
+        }
+      }
+    }).catch((err) => {
       api.logger.error('[claw-mem] Failed to start bridge:', err);
     });
     
