@@ -955,6 +955,15 @@ class MemoryManager:
             content = "\n".join([m["content"] for m in self.working_memory])
             self.store(content, memory_type="episodic")
     
+    def build_index(self) -> None:
+        """Build/rebuild the in-memory search index with all available memories."""
+        all_episodic = self.episodic.get_all()
+        all_semantic = self.semantic.get_all()
+        all_procedural = self.procedural.get_all()
+        all_memories = all_episodic + all_semantic + all_procedural
+        self.index.load_or_build(all_memories)
+        _log(f"Index built: {len(all_memories)} memories loaded")
+
     def get_stats(self) -> Dict:
         """
         Get memory statistics

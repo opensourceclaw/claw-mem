@@ -110,6 +110,7 @@ class ClawMemBridge:
             "get_critical_rules": self._handle_get_critical_rules,
             "store_critical_rule": self._handle_store_critical_rule,
             "delete_critical_rule": self._handle_delete_critical_rule,
+            "build_index": self._handle_build_index,
         }
 
         handler = handlers.get(method)
@@ -179,6 +180,20 @@ class ClawMemBridge:
             params.get("rule_id", "")
         )
         return {"success": deleted}
+
+    def _handle_build_index(self, params: Dict) -> Dict:
+        """Build in-memory search index."""
+        if not self.memory_manager:
+            return {"success": False, "error": "Memory manager not initialized"}
+        try:
+            self.memory_manager.build_index()
+            return {
+                "success": True,
+                "index_built": self.memory_manager.index.built,
+                "episodic_count": self.memory_manager.episodic.count(),
+            }
+        except Exception as e:
+            return {"success": False, "error": str(e)}
 
     # ---- main loop ------------------------------------------------------
 
