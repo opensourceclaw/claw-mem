@@ -106,18 +106,41 @@ from .gating import (
     DiskStorage,
     VersionChain,
 )
-from .graph import (
-    ConceptMediatedGraph,
-    NodeType,
-    EpisodeNode,
-    FactNode,
-    ReflectionNode,
-    ConceptNode,
-    EdgeType,
-    InMemoryGraphStorage,
-    DummyEmbedder,
-    LLMExtractor,
-    KeywordExtractor,
+try:
+    from .graph import (
+        ConceptMediatedGraph,
+        NodeType,
+        EpisodeNode,
+        FactNode,
+        ReflectionNode,
+        ConceptNode,
+        EdgeType,
+        InMemoryGraphStorage,
+        DummyEmbedder,
+        LLMExtractor,
+        KeywordExtractor,
+    )
+except (ImportError, ModuleNotFoundError):
+    ConceptMediatedGraph = None  # type: ignore[assignment]
+    NodeType = None  # type: ignore[assignment]
+    EpisodeNode = None  # type: ignore[assignment]
+    FactNode = None  # type: ignore[assignment]
+    ReflectionNode = None  # type: ignore[assignment]
+    ConceptNode = None  # type: ignore[assignment]
+    EdgeType = None  # type: ignore[assignment]
+    InMemoryGraphStorage = None  # type: ignore[assignment]
+    DummyEmbedder = None  # type: ignore[assignment]
+    LLMExtractor = None  # type: ignore[assignment]
+    KeywordExtractor = None  # type: ignore[assignment]
+
+# v2.14.0: New graph memory modules (MAGMA + GAM)
+from .graph_memory import (  # noqa: E402
+    MultiGraphMemory,
+    SemanticGraph,
+    TemporalGraph,
+    CausalGraph,
+    EntityGraph,
+    DualLayerMemory,
 )
 
 __all__ = [
@@ -192,4 +215,11 @@ __all__ = [
     "DummyEmbedder",
     "LLMExtractor",
     "KeywordExtractor",
+    # v2.14.0: Graph memory modules
+    "MultiGraphMemory",
+    "SemanticGraph",
+    "TemporalGraph",
+    "CausalGraph",
+    "EntityGraph",
+    "DualLayerMemory",
 ]
