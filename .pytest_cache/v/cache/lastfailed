@@ -92,5 +92,9 @@
   "tests/test_memory_manager_extended.py::TestMemoryManagerExtended::test_search_with_memory_type_filter": true,
   "tests/test_memory_manager_extended.py::TestMemoryManagerExtended::test_search_with_limit": true,
   "tests/gating/test_stress.py::TestStress::test_large_scale_writes": true,
-  "tests/test_reflection.py::TestBeliefSynthesizer::test_synthesize_beliefs": true
+  "tests/test_reflection.py::TestBeliefSynthesizer::test_synthesize_beliefs": true,
+  "tests/test_v215_modules.py::TestEngramIndex::test_rebuild_overwrites": true,
+  "tests/test_v215_modules.py::TestBenchmarkRunner::test_locom": true,
+  "tests/test_v215_modules.py::TestBenchmarkRunner::test_locom_partial_match": true,
+  "tests/test_v215_modules.py::TestBenchmarkRunner::test_get_latest": true
 }
