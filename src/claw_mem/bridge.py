@@ -111,6 +111,12 @@ class ClawMemBridge:
             "store_critical_rule": self._handle_store_critical_rule,
             "delete_critical_rule": self._handle_delete_critical_rule,
             "build_index": self._handle_build_index,
+            # P0: Retrieval Optimization + Proactive Injection
+            "query_understanding": self._handle_query_understanding,
+            "multi_strategy_retrieve": self._handle_multi_strategy_retrieve,
+            "learning_to_rank": self._handle_learning_to_rank,
+            "proactive_injection": self._handle_proactive_injection,
+            "recognize_intent": self._handle_recognize_intent,
         }
 
         handler = handlers.get(method)
@@ -194,6 +200,149 @@ class ClawMemBridge:
             }
         except Exception as e:
             return {"success": False, "error": str(e)}
+
+    # ---- P0 handlers: Retrieval Optimization + Proactive Injection -----
+
+    def _handle_query_understanding(self, params: Dict) -> Dict:
+        """P0: Query understanding — expansion + intent + entities."""
+        from claw_mem.retrieval.query_understanding import QueryUnderstanding
+        qu = QueryUnderstanding()
+        query = params.get("query", "")
+        context = params.get("context")
+        expanded = qu.understand(query, context)
+        return {
+            "original": expanded.original,
+            "expanded_text": expanded.expanded_text,
+            "intent": expanded.intent.value,
+            "entities": expanded.entities,
+            "confidence": expanded.confidence,
+        }
+
+    def _handle_multi_strategy_retrieve(self, params: Dict) -> Dict:
+        """P0: Multi-strategy retrieval — BM25 + Graph + Temporal."""
+        from claw_mem.retrieval.query_understanding import QueryUnderstanding
+        from claw_mem.retrieval.multi_strategy_retriever import MultiStrategyRetriever
+
+        query_text = params.get("query", "")
+        memories = params.get("memories", [])
+        top_k = params.get("top_k", 10)
+
+        # Step 1: Understand query
+        qu = QueryUnderstanding()
+        expanded = qu.understand(query_text)
+
+        # Step 2: Multi-strategy retrieve
+        retriever = MultiStrategyRetriever()
+        result = retriever.retrieve(expanded, memories, top_k=top_k)
+
+        return {
+            "candidates": [c.to_dict() for c in result.candidates],
+            "total_candidates": result.total_candidates,
+            "strategies_used": result.strategies_used,
+            "latency_ms": result.latency_ms,
+        }
+
+    def _handle_learning_to_rank(self, params: Dict) -> Dict:
+        """P0: ML-based re-ranking."""
+        from claw_mem.retrieval.query_understanding import QueryUnderstanding
+        from claw_mem.retrieval.multi_strategy_retriever import Candidate
+        from claw_mem.retrieval.learning_to_rank import LearningToRankReranker
+
+        query_text = params.get("query", "")
+        candidates_data = params.get("candidates", [])
+        top_k = params.get("top_k", 10)
+
+        # Build candidates
+        candidates = [
+            Candidate(
+                memory_id=c.get("memory_id", ""),
+                content=c.get("content", ""),
+                score=c.get("score", 0.0),
+                source_strategy=c.get("source_strategy", "unknown"),
+                metadata=c.get("metadata", {}),
+            )
+            for c in candidates_data
+        ]
+
+        qu = QueryUnderstanding()
+        expanded = qu.understand(query_text)
+
+        reranker = LearningToRankReranker()
+        results = reranker.rerank(expanded, candidates, top_k=top_k)
+
+        return {
+            "results": [r.to_dict() for r in results],
+            "count": len(results),
+        }
+
+    def _handle_proactive_injection(self, params: Dict) -> Dict:
+        """P0: Proactive memory injection."""
+        from claw_mem.proactive_injection import (
+            IntentRecognizer, MemoryTriggerDetector,
+            InjectionManager, InjectionConfig,
+            ScoredMemory,
+        )
+
+        message = params.get("message", "")
+        memories = params.get("memories", [])
+        token_budget = params.get("token_budget", 500)
+        threshold = params.get("relevance_threshold", 0.7)
+
+        # Step 1: Recognize intent
+        recognizer = IntentRecognizer()
+        intent = recognizer.recognize(message)
+
+        # Step 2: Detect triggers
+        detector = MemoryTriggerDetector()
+        triggers = detector.detect_triggers(intent)
+
+        # Step 3: Convert to ScoredMemory
+        scored = [
+            ScoredMemory(
+                memory_id=m.get("id", m.get("memory_id", "")),
+                content=m.get("content", ""),
+                score=m.get("score", 0.0),
+                timestamp=m.get("timestamp", ""),
+                access_count=m.get("access_count", 0),
+                memory_type=m.get("memory_type", "episodic"),
+                tags=m.get("tags", []),
+            )
+            for m in memories
+        ]
+
+        # Step 4: Decide injection
+        config = InjectionConfig(
+            token_budget=token_budget,
+            relevance_threshold=threshold,
+            max_memories=params.get("max_memories", 5),
+        )
+        manager = InjectionManager(config)
+        decision = manager.should_inject(scored)
+
+        return {
+            "should_inject": decision.should_inject,
+            "formatted_text": decision.formatted_text,
+            "memory_count": len(decision.memories),
+            "token_count": decision.token_count,
+            "intent_type": intent.intent_type.value,
+            "entities": intent.entities,
+            "triggers": [{"type": t.trigger_type.value, "query": t.search_query} for t in triggers],
+        }
+
+    def _handle_recognize_intent(self, params: Dict) -> Dict:
+        """P0: Recognize user intent from message."""
+        from claw_mem.proactive_injection import IntentRecognizer
+
+        message = params.get("message", "")
+        recognizer = IntentRecognizer()
+        result = recognizer.recognize(message)
+
+        return {
+            "intent_type": result.intent_type.value,
+            "entities": result.entities,
+            "memory_needs": [n.value for n in result.memory_needs],
+            "confidence": result.confidence,
+        }
 
     # ---- main loop ------------------------------------------------------
 
