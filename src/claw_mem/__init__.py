@@ -133,6 +133,26 @@ except (ImportError, ModuleNotFoundError):
     LLMExtractor = None  # type: ignore[assignment]
     KeywordExtractor = None  # type: ignore[assignment]
 
+# P0-2: Proactive Memory Injection
+from .proactive_injection import (
+    IntentRecognizer,
+    MemoryTriggerDetector,
+    RelevanceScorer,
+    InjectionManager,
+    InjectionConfig,
+    InjectionDecision,
+    IntentResult,
+    ConversationContext,
+    MemoryTrigger,
+    ScoredMemory,
+    InjectionIntent,
+    MemoryNeed,
+    TriggerType,
+    PatternTriggerRegistry,
+    ContextSimilarityTrigger,
+    TemporalTrigger,
+)
+
 # v2.14.0: New graph memory modules (MAGMA + GAM)
 from .graph_memory import (  # noqa: E402
     MultiGraphMemory,
@@ -215,6 +235,23 @@ __all__ = [
     "DummyEmbedder",
     "LLMExtractor",
     "KeywordExtractor",
+    # P0 Proactive Memory Injection
+    "IntentRecognizer",
+    "MemoryTriggerDetector",
+    "RelevanceScorer",
+    "InjectionManager",
+    "InjectionConfig",
+    "InjectionDecision",
+    "IntentResult",
+    "ConversationContext",
+    "MemoryTrigger",
+    "ScoredMemory",
+    "InjectionIntent",
+    "MemoryNeed",
+    "TriggerType",
+    "PatternTriggerRegistry",
+    "ContextSimilarityTrigger",
+    "TemporalTrigger",
     # v2.14.0: Graph memory modules
     "MultiGraphMemory",
     "SemanticGraph",
