@@ -19,6 +19,7 @@ from typing import Any, Dict, List, Optional
 @dataclass
 class TimeWeightConfig:
     """Configuration for time weight calculation."""
+
     decay_type: str = "exponential"  # "exponential", "linear", "step"
     half_life_days: float = 30.0
     max_age_days: float = 365.0
@@ -64,8 +65,10 @@ class TimeWeightCalculator:
         age_days = self._age_days(timestamp, now)
 
         if self.config.decay_type == "linear":
-            weight = max(self.config.min_weight,
-                         self.config.base_weight * (1 - age_days / self.config.max_age_days))
+            weight = max(
+                self.config.min_weight,
+                self.config.base_weight * (1 - age_days / self.config.max_age_days),
+            )
         elif self.config.decay_type == "step":
             weight = self._step_weight(age_days)
         else:  # exponential (default)
@@ -76,7 +79,9 @@ class TimeWeightCalculator:
         return max(self.config.min_weight, min(weight, self.config.base_weight))
 
     def apply_weights(
-        self, memories: List[Dict[str, Any]], weight_field: str = "time_weight",
+        self,
+        memories: List[Dict[str, Any]],
+        weight_field: str = "time_weight",
         sort_by_weight: bool = True,
     ) -> List[Dict[str, Any]]:
         """Apply time weights to a list of memory records.
@@ -109,11 +114,14 @@ class TimeWeightCalculator:
             Time range string (e.g., "7d", "30d", "90d") or None
         """
         import re
+
         query_lower = query.lower()
 
         # Parse explicit time range in query
-        match = re.search(r"((?:last|past|recent|近|最近)\s*(\d+)\s*(?:day|week|month|year|天|周|月|年))",
-                          query_lower)
+        match = re.search(
+            r"((?:last|past|recent|近|最近)\s*(\d+)\s*(?:day|week|month|year|天|周|月|年))",
+            query_lower,
+        )
         if match:
             return match.group(0)
 

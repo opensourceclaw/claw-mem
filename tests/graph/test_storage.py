@@ -99,9 +99,9 @@ class TestInMemoryGraphStorage:
         self.storage.save_node(ep)
         self.storage.save_node(fact)
         stats = self.storage.get_stats()
-        assert stats['total_nodes'] == 2
-        assert stats['episodes'] == 1
-        assert stats['facts'] == 1
+        assert stats["total_nodes"] == 2
+        assert stats["episodes"] == 1
+        assert stats["facts"] == 1
 
     def test_clear(self):
         node = EpisodeNode(id="ep_1", content="Test")
@@ -114,11 +114,7 @@ class TestFileGraphStorage:
     """测试文件图谱存储"""
 
     def setup_method(self):
-        self.temp_file = tempfile.NamedTemporaryFile(
-            mode='w',
-            suffix='.json',
-            delete=False
-        )
+        self.temp_file = tempfile.NamedTemporaryFile(mode="w", suffix=".json", delete=False)
         self.temp_file.close()
         self.storage = FileGraphStorage(self.temp_file.name)
 

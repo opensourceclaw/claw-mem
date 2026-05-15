@@ -26,15 +26,17 @@ from claw_mem.values import UserValueStore
 
 class FeedbackStatus(Enum):
     """feedback状态"""
-    PENDING = "pending"       # 待确认
-    ACCEPTED = "accepted"     # 已接受
-    REJECTED = "rejected"     # 已拒绝
-    EXPIRED = "expired"       # 已过期
+
+    PENDING = "pending"  # 待确认
+    ACCEPTED = "accepted"  # 已接受
+    REJECTED = "rejected"  # 已拒绝
+    EXPIRED = "expired"  # 已过期
 
 
 @dataclass
 class ValueSuggestion:
     """values建议"""
+
     id: str
     user_id: str
     suggestion_type: str  # "principle", "preference", "red_line"
@@ -74,7 +76,9 @@ class FeedbackHandler:
         # 历史建议
         self._suggestion_history: List[ValueSuggestion] = []
 
-    def request_confirmation(self, user_id: str, value_type: str, content: str, evidence: List[str] = None) -> ValueSuggestion:
+    def request_confirmation(
+        self, user_id: str, value_type: str, content: str, evidence: List[str] = None
+    ) -> ValueSuggestion:
         """请求user确认values
 
         Args:
@@ -93,7 +97,7 @@ class FeedbackHandler:
             user_id=user_id,
             suggestion_type=value_type,
             content=content,
-            evidence=evidence or []
+            evidence=evidence or [],
         )
 
         # 添加到待确认列表
@@ -150,8 +154,7 @@ class FeedbackHandler:
         user_id = suggestion.user_id
         if user_id in self._pending_suggestions:
             self._pending_suggestions[user_id] = [
-                s for s in self._pending_suggestions[user_id]
-                if s.id != suggestion_id
+                s for s in self._pending_suggestions[user_id] if s.id != suggestion_id
             ]
 
         return True
@@ -169,7 +172,7 @@ class FeedbackHandler:
             user_id=suggestion["user_id"],
             value_type=suggestion.get("type", "principle"),
             content=suggestion["content"],
-            evidence=suggestion.get("evidence", [])
+            evidence=suggestion.get("evidence", []),
         )
 
     def get_pending_suggestions(self, user_id: str) -> List[ValueSuggestion]:
@@ -193,7 +196,8 @@ class FeedbackHandler:
             List[ValueSuggestion]: 已接受的建议列表
         """
         return [
-            s for s in self._suggestion_history
+            s
+            for s in self._suggestion_history
             if s.user_id == user_id and s.status == FeedbackStatus.ACCEPTED
         ]
 
@@ -207,7 +211,8 @@ class FeedbackHandler:
             List[ValueSuggestion]: 已拒绝的建议列表
         """
         return [
-            s for s in self._suggestion_history
+            s
+            for s in self._suggestion_history
             if s.user_id == user_id and s.status == FeedbackStatus.REJECTED
         ]
 

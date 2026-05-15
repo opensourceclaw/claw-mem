@@ -125,16 +125,14 @@ class InMemoryGraphStorage(GraphStorage):
         if node_id in self._edges:
             for edge in self._edges[node_id]:
                 self._reverse_edges[edge.target_id] = [
-                    e for e in self._reverse_edges.get(edge.target_id, [])
-                    if e.source_id != node_id
+                    e for e in self._reverse_edges.get(edge.target_id, []) if e.source_id != node_id
                 ]
             del self._edges[node_id]
 
         if node_id in self._reverse_edges:
             for edge in self._reverse_edges[node_id]:
                 self._edges[edge.source_id] = [
-                    e for e in self._edges.get(edge.source_id, [])
-                    if e.target_id != node_id
+                    e for e in self._edges.get(edge.source_id, []) if e.target_id != node_id
                 ]
             del self._reverse_edges[node_id]
 
@@ -176,9 +174,7 @@ class InMemoryGraphStorage(GraphStorage):
 
                 # 从 reverse 中delete
                 reverse = self._reverse_edges.get(target_id, [])
-                self._reverse_edges[target_id] = [
-                    e for e in reverse if e.source_id != source_id
-                ]
+                self._reverse_edges[target_id] = [e for e in reverse if e.source_id != source_id]
                 return True
         return False
 
@@ -214,12 +210,12 @@ class InMemoryGraphStorage(GraphStorage):
     def get_stats(self) -> Dict[str, Any]:
         """get统计信息"""
         return {
-            'total_nodes': len(self._nodes),
-            'total_edges': len(self.get_all_edges()),
-            'episodes': len(self._node_types[NodeType.EPISODE]),
-            'facts': len(self._node_types[NodeType.FACT]),
-            'reflections': len(self._node_types[NodeType.REFLECTION]),
-            'concepts': len(self._node_types[NodeType.CONCEPT]),
+            "total_nodes": len(self._nodes),
+            "total_edges": len(self.get_all_edges()),
+            "episodes": len(self._node_types[NodeType.EPISODE]),
+            "facts": len(self._node_types[NodeType.FACT]),
+            "reflections": len(self._node_types[NodeType.REFLECTION]),
+            "concepts": len(self._node_types[NodeType.CONCEPT]),
         }
 
     def clear(self) -> None:
@@ -248,17 +244,17 @@ class FileGraphStorage(InMemoryGraphStorage):
             return
 
         try:
-            with open(self.file_path, 'r', encoding='utf-8') as f:
+            with open(self.file_path, "r", encoding="utf-8") as f:
                 data = json.load(f)
 
             # 加载节点
-            for node_data in data.get('nodes', []):
+            for node_data in data.get("nodes", []):
                 node = Node.from_dict(node_data)
                 self._nodes[node.id] = node
                 self._node_types[node.type].add(node.id)
 
             # 加载边
-            for edge_data in data.get('edges', []):
+            for edge_data in data.get("edges", []):
                 edge = Edge.from_dict(edge_data)
                 self.save_edge(edge)
         except Exception as e:
@@ -267,9 +263,9 @@ class FileGraphStorage(InMemoryGraphStorage):
     def save(self) -> None:
         """save到文件"""
         data = {
-            'nodes': [node.to_dict() for node in self.get_all_nodes()],
-            'edges': [edge.to_dict() for edge in self.get_all_edges()],
-            'saved_at': datetime.now().isoformat(),
+            "nodes": [node.to_dict() for node in self.get_all_nodes()],
+            "edges": [edge.to_dict() for edge in self.get_all_edges()],
+            "saved_at": datetime.now().isoformat(),
         }
 
         # 确保目录存在
@@ -277,31 +273,31 @@ class FileGraphStorage(InMemoryGraphStorage):
         if dir_path and not os.path.exists(dir_path):
             os.makedirs(dir_path)
 
-        with open(self.file_path, 'w', encoding='utf-8') as f:
+        with open(self.file_path, "w", encoding="utf-8") as f:
             json.dump(data, f, ensure_ascii=False, indent=2)
 
     def save_node(self, node: Node) -> None:
         """save节点并自动持久化"""
         super().save_node(node)
-        if hasattr(self, 'file_path'):
+        if hasattr(self, "file_path"):
             self.save()
 
     def save_edge(self, edge: Edge) -> None:
         """save边并自动持久化"""
         super().save_edge(edge)
-        if hasattr(self, 'file_path'):
+        if hasattr(self, "file_path"):
             self.save()
 
     def delete_node(self, node_id: str) -> bool:
         """delete节点并自动持久化"""
         result = super().delete_node(node_id)
-        if result and hasattr(self, 'file_path'):
+        if result and hasattr(self, "file_path"):
             self.save()
         return result
 
 
 __all__ = [
-    'GraphStorage',
-    'InMemoryGraphStorage',
-    'FileGraphStorage',
+    "GraphStorage",
+    "InMemoryGraphStorage",
+    "FileGraphStorage",
 ]

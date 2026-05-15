@@ -13,6 +13,7 @@ from enum import Enum
 
 class VectorDBType(Enum):
     """Supported vector database types"""
+
     CHROMADB = "chromadb"
     QDRANT = "qdrant"
     PINECONE = "pinecone"
@@ -23,6 +24,7 @@ class VectorDBType(Enum):
 @dataclass
 class SearchResult:
     """Standard search result format"""
+
     id: str
     content: str
     score: float
@@ -63,10 +65,7 @@ class VectorDBPlugin(ABC):
 
     @abstractmethod
     def add(
-        self,
-        documents: List[str],
-        ids: List[str],
-        metadata: Optional[List[Dict[str, Any]]] = None
+        self, documents: List[str], ids: List[str], metadata: Optional[List[Dict[str, Any]]] = None
     ) -> bool:
         """
         Add documents to the vector database.
@@ -83,10 +82,7 @@ class VectorDBPlugin(ABC):
 
     @abstractmethod
     def search(
-        self,
-        query: str,
-        top_k: int = 5,
-        filter_metadata: Optional[Dict[str, Any]] = None
+        self, query: str, top_k: int = 5, filter_metadata: Optional[Dict[str, Any]] = None
     ) -> List[SearchResult]:
         """
         Search for similar documents.
@@ -183,8 +179,10 @@ class VectorDBFactory:
             ValueError: If db_type is not registered
         """
         if db_type not in cls._plugins:
-            raise ValueError(f"Unknown database type: {db_type}. "
-                           f"Registered types: {list(cls._plugins.keys())}")
+            raise ValueError(
+                f"Unknown database type: {db_type}. "
+                f"Registered types: {list(cls._plugins.keys())}"
+            )
 
         plugin_class = cls._plugins[db_type]
         return plugin_class(config)
@@ -201,18 +199,21 @@ def _register_plugins():
     """Register built-in plugins"""
     try:
         from .chromadb_plugin import ChromaDBPlugin
+
         VectorDBFactory.register(VectorDBType.CHROMADB, ChromaDBPlugin)
     except ImportError:
         pass
 
     try:
         from .qdrant_plugin import QdrantPlugin
+
         VectorDBFactory.register(VectorDBType.QDRANT, QdrantPlugin)
     except ImportError:
         pass
 
     try:
         from .pinecone_plugin import PineconePlugin
+
         VectorDBFactory.register(VectorDBType.PINECONE, PineconePlugin)
     except ImportError:
         pass

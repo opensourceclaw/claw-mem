@@ -1,4 +1,5 @@
 """Tests for claw-mem v2.14.0 graph memory modules."""
+
 import time
 import pytest
 from claw_mem.graph_memory.multi_graph import MultiGraphMemory
@@ -10,8 +11,8 @@ from claw_mem.graph_memory.dual_layer import DualLayerMemory, EventProgressionGr
 from claw_mem.decay import DecayController, ReadGate, WriteGate
 from claw_mem.ground_truth import GroundTruthStore
 
-
 # ── SemanticGraph ──────────────────────────────────
+
 
 class TestSemanticGraph:
     def setup_method(self):
@@ -38,6 +39,7 @@ class TestSemanticGraph:
 
 
 # ── TemporalGraph ──────────────────────────────────
+
 
 class TestTemporalGraph:
     def setup_method(self):
@@ -68,6 +70,7 @@ class TestTemporalGraph:
 
 # ── CausalGraph ────────────────────────────────────
 
+
 class TestCausalGraph:
     def setup_method(self):
         self.g = CausalGraph()
@@ -86,6 +89,7 @@ class TestCausalGraph:
 
 
 # ── EntityGraph ────────────────────────────────────
+
 
 class TestEntityGraph:
     def setup_method(self):
@@ -110,6 +114,7 @@ class TestEntityGraph:
 
 
 # ── MultiGraphMemory ───────────────────────────────
+
 
 class TestMultiGraphMemory:
     def setup_method(self):
@@ -143,6 +148,7 @@ class TestMultiGraphMemory:
 
 # ── DualLayerMemory ────────────────────────────────
 
+
 class TestDualLayerMemory:
     def setup_method(self):
         self.dl = DualLayerMemory()
@@ -165,6 +171,7 @@ class TestDualLayerMemory:
 
 
 # ── DecayController ────────────────────────────────
+
 
 class TestDecayController:
     def setup_method(self):
@@ -196,6 +203,7 @@ class TestDecayController:
 
 
 # ── GroundTruthStore ───────────────────────────────
+
 
 class TestGroundTruthStore:
     def setup_method(self):

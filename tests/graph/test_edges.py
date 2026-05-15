@@ -41,37 +41,27 @@ class TestEdge:
     """测试边基类"""
 
     def test_create_edge(self):
-        edge = Edge(
-            source_id="ep_1",
-            target_id="ep_2",
-            type=EdgeType.NEXT,
-            weight=1.0
-        )
+        edge = Edge(source_id="ep_1", target_id="ep_2", type=EdgeType.NEXT, weight=1.0)
         assert edge.source_id == "ep_1"
         assert edge.target_id == "ep_2"
         assert edge.type == EdgeType.NEXT
         assert edge.weight == 1.0
 
     def test_edge_to_dict(self):
-        edge = Edge(
-            source_id="ep_1",
-            target_id="ep_2",
-            type=EdgeType.NEXT,
-            weight=1.0
-        )
+        edge = Edge(source_id="ep_1", target_id="ep_2", type=EdgeType.NEXT, weight=1.0)
         data = edge.to_dict()
-        assert data['source_id'] == "ep_1"
-        assert data['target_id'] == "ep_2"
-        assert data['type'] == "NEXT"
-        assert data['weight'] == 1.0
+        assert data["source_id"] == "ep_1"
+        assert data["target_id"] == "ep_2"
+        assert data["type"] == "NEXT"
+        assert data["weight"] == 1.0
 
     def test_edge_from_dict(self):
         data = {
-            'source_id': 'ep_1',
-            'target_id': 'ep_2',
-            'type': 'NEXT',
-            'weight': 1.0,
-            'metadata': {'key': 'value'},
+            "source_id": "ep_1",
+            "target_id": "ep_2",
+            "type": "NEXT",
+            "weight": 1.0,
+            "metadata": {"key": "value"},
         }
         edge = Edge.from_dict(data)
         assert edge.source_id == "ep_1"
@@ -101,11 +91,7 @@ class TestSynthesizedFromEdge:
     """测试 SYNTHESIZED_FROM 边"""
 
     def test_create_synthesized_from_edge(self):
-        edge = SynthesizedFromEdge(
-            "ref_1",
-            "ep_1",
-            source_node_ids=["ep_1", "fact_1"]
-        )
+        edge = SynthesizedFromEdge("ref_1", "ep_1", source_node_ids=["ep_1", "fact_1"])
         assert edge.type == EdgeType.SYNTHESIZED_FROM
         assert len(edge.source_node_ids) == 2
 

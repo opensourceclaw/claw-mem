@@ -65,16 +65,12 @@ class TestSynonymExpander:
         assert len(extra.split()) <= 1
 
     def test_custom_synonyms(self):
-        expander = SynonymExpander(custom_synonyms={
-            "foobar": ["baz", "qux"]
-        })
+        expander = SynonymExpander(custom_synonyms={"foobar": ["baz", "qux"]})
         result = expander.expand("foobar test")
         assert "baz" in result or "qux" in result
 
     def test_custom_synonyms_extend_existing(self):
-        expander = SynonymExpander(custom_synonyms={
-            "ai": ["custom_ai_term"]
-        })
+        expander = SynonymExpander(custom_synonyms={"ai": ["custom_ai_term"]})
         syns = expander.get_synonyms("ai")
         assert "custom_ai_term" in syns
 

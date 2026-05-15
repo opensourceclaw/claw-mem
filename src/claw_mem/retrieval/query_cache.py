@@ -28,6 +28,7 @@ import threading
 @dataclass
 class CacheEntry:
     """Cache entry with metadata"""
+
     results: List[Dict]
     timestamp: float
     access_count: int = 0
@@ -43,12 +44,7 @@ class QueryCache:
     - Thread-safe operations
     """
 
-    def __init__(
-        self,
-        max_size: int = 1000,
-        ttl_seconds: float = 300.0,
-        min_access_count: int = 2
-    ):
+    def __init__(self, max_size: int = 1000, ttl_seconds: float = 300.0, min_access_count: int = 2):
         """Initialize cache
 
         Args:
@@ -120,11 +116,7 @@ class QueryCache:
                 self._cache.popitem(last=False)
 
             # Store
-            self._cache[key] = CacheEntry(
-                results=results,
-                timestamp=time.time(),
-                access_count=1
-            )
+            self._cache[key] = CacheEntry(results=results, timestamp=time.time(), access_count=1)
 
     def invalidate(self, query: Optional[str] = None):
         """Invalidate cache
@@ -155,7 +147,7 @@ class QueryCache:
                 "hits": self._hits,
                 "misses": self._misses,
                 "hit_rate": hit_rate,
-                "ttl_seconds": self.ttl_seconds
+                "ttl_seconds": self.ttl_seconds,
             }
 
     def cleanup_expired(self):
@@ -163,7 +155,8 @@ class QueryCache:
         with self._lock:
             now = time.time()
             expired = [
-                key for key, entry in self._cache.items()
+                key
+                for key, entry in self._cache.items()
                 if now - entry.timestamp > self.ttl_seconds
             ]
             for key in expired:
@@ -174,17 +167,11 @@ class QueryCache:
 _query_cache: Optional[QueryCache] = None
 
 
-def get_query_cache(
-    max_size: int = 1000,
-    ttl_seconds: float = 300.0
-) -> QueryCache:
+def get_query_cache(max_size: int = 1000, ttl_seconds: float = 300.0) -> QueryCache:
     """Get global query cache instance"""
     global _query_cache
 
     if _query_cache is None:
-        _query_cache = QueryCache(
-            max_size=max_size,
-            ttl_seconds=ttl_seconds
-        )
+        _query_cache = QueryCache(max_size=max_size, ttl_seconds=ttl_seconds)
 
     return _query_cache

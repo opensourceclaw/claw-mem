@@ -18,7 +18,7 @@ logger = logging.getLogger(__name__)
 
 class ContextAssembler:
     """
-    Assembles the final context string for the LLM based on 
+    Assembles the final context string for the LLM based on
     current attention scores and predefined rules.
     """
 
@@ -26,10 +26,12 @@ class ContextAssembler:
         self.index = index
         self.core_block_paths = core_block_paths or []
 
-    def assemble_context(self, max_tokens: int = 4000, top_k: int = 3, causal_depth: int = 1) -> str:
+    def assemble_context(
+        self, max_tokens: int = 4000, top_k: int = 3, causal_depth: int = 1
+    ) -> str:
         """
         Assembles the final context string with Causal Link Retrieval.
-        
+
         Args:
             max_tokens: Maximum token budget for the context.
             top_k: Number of high-attention seed nodes to start from.
@@ -40,7 +42,7 @@ class ContextAssembler:
         # 1. Inject Core Blocks (Highest Priority)
         for path in self.core_block_paths:
             if os.path.exists(path):
-                with open(path, 'r', encoding='utf-8') as f:
+                with open(path, "r", encoding="utf-8") as f:
                     content = f.read()
                 context_parts.append(f"### 🛡️ Core Rule: {Path(path).stem}\n{content}\n")
 
@@ -54,13 +56,15 @@ class ContextAssembler:
             for node in chain:
                 if node.node_id not in included_ids:
                     if os.path.exists(node.content_path):
-                        with open(node.content_path, 'r', encoding='utf-8') as f:
+                        with open(node.content_path, "r", encoding="utf-8") as f:
                             content = f.read()
-                        content_parts.append(f"### 🧠 Context Node (Score: {node.score:.2f})\n{content}\n")
+                        content_parts.append(
+                            f"### 🧠 Context Node (Score: {node.score:.2f})\n{content}\n"
+                        )
                         included_ids.add(node.node_id)
 
         final_context = "\n---\n".join(context_parts + content_parts)
-        
+
         # 3. Token Truncation (Estimate: 1 token ≈ 4 chars)
         max_length = max_tokens * 4 - 50  # Reserve 50 chars for safety
         if len(final_context) > max_length:

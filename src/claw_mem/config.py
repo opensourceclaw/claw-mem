@@ -28,81 +28,79 @@ from .errors import WorkspaceNotFoundError
 
 class ConfigDetector:
     """Auto-detect OpenClaw configuration"""
-    
+
     # Default search paths (sorted by priority)
     DEFAULT_PATHS = [
         # Standard OpenClaw paths
         os.path.expanduser("~/.openclaw/workspace"),
         os.path.expanduser("~/.config/openclaw/workspace"),
-        
         # Current directory (if workspace)
         os.getcwd(),
-        
         # Other common paths
         os.path.expanduser("~/workspace"),
         os.path.expanduser("~/projects"),
     ]
-    
+
     # Workspace marker files/directories
     WORKSPACE_MARKERS = [
-        "MEMORY.md",           # Core memory file
-        "memory/",             # Memory directory
-        "AGENTS.md",           # Agent configuration
-        "SOUL.md",             # Personality configuration
-        "USER.md",             # User configuration
+        "MEMORY.md",  # Core memory file
+        "memory/",  # Memory directory
+        "AGENTS.md",  # Agent configuration
+        "SOUL.md",  # Personality configuration
+        "USER.md",  # User configuration
     ]
-    
+
     @classmethod
     def detect_workspace(cls, custom_paths: Optional[List[str]] = None) -> str:
         """
         Detect OpenClaw workspace path
-        
+
         Args:
             custom_paths: Custom search paths list (optional)
-        
+
         Returns:
             str: Detected workspace path
-        
+
         Raises:
             WorkspaceNotFoundError: if no valid workspace found
         """
         # Merge path list
         search_paths = custom_paths if custom_paths else cls.DEFAULT_PATHS
-        
+
         # Record searched paths
         searched_paths = []
-        
+
         # Iterate through all paths
         for path_str in search_paths:
             path = Path(path_str).expanduser().resolve()
             searched_paths.append(str(path))
-            
+
             # Check if path exists
             if not path.exists():
                 continue
-            
+
             # Check if valid workspace
             if cls._is_valid_workspace(path):
                 return str(path)
-        
+
         # Not found, raise friendly error
         raise WorkspaceNotFoundError(searched_paths)
-    
+
     @classmethod
     def _is_valid_workspace(cls, path: Path) -> bool:
         """
         Validate if path is valid OpenClaw workspace
-        
+
         Args:
             path: Path to validate
-        
+
         Returns:
             bool: Whether valid workspace
         """
         # At least one marker file/directory needed
         for marker in cls.WORKSPACE_MARKERS:
             marker_path = path / marker
-            
+
             # Check if file/directory exists
             if marker_path.exists():
                 # Extra validation: if directory, check if not empty
@@ -113,23 +111,23 @@ class ConfigDetector:
                 else:
                     # File existence is sufficient
                     return True
-        
+
         # No features found
         return False
-    
+
     @classmethod
     def get_workspace_info(cls, workspace_path: str) -> dict:
         """
         Get workspace details
-        
+
         Args:
             workspace_path: workspace path
-        
+
         Returns:
             dict: workspace info
         """
         path = Path(workspace_path).expanduser().resolve()
-        
+
         info = {
             "path": str(path),
             "exists": path.exists(),
@@ -137,39 +135,39 @@ class ConfigDetector:
             "markers_found": [],
             "memory_files": [],
         }
-        
+
         if not path.exists():
             return info
-        
+
         # Check feature files
         for marker in cls.WORKSPACE_MARKERS:
             marker_path = path / marker
             if marker_path.exists():
                 info["markers_found"].append(marker)
-        
+
         # Check memory files
         memory_dir = path / "memory"
         if memory_dir.exists() and memory_dir.is_dir():
             md_files = list(memory_dir.glob("*.md"))
             info["memory_files"] = [f.name for f in md_files[:10]]  # Max 10
-        
+
         return info
-    
+
     @classmethod
     def suggest_workspace(cls) -> Optional[str]:
         """
         Suggest a workspace path (create if not exists)
-        
+
         Returns:
             Optional[str]: suggested path, or None if cannot create
         """
         # Preferred path
         preferred = Path("~/.openclaw/workspace").expanduser()
-        
+
         # If exists, return directly
         if cls._is_valid_workspace(preferred):
             return str(preferred)
-        
+
         # Try to create
         try:
             preferred.mkdir(parents=True, exist_ok=True)
@@ -190,14 +188,14 @@ if __name__ == "__main__":
         print(f"✅ 检测到工作区:{workspace}")
     except WorkspaceNotFoundError as e:
         print(e)
-    
+
     print()
-    
+
     # Example 2:get工作区信息
     try:
         workspace = ConfigDetector.detect_workspace()
         info = ConfigDetector.get_workspace_info(workspace)
-        
+
         print("工作区信息:")
         print(f"  路径:{info['path']}")
         print(f"  存在:{info['exists']}")
@@ -206,9 +204,9 @@ if __name__ == "__main__":
         print(f"  记忆文件:{', '.join(info['memory_files'][:5])}")
     except WorkspaceNotFoundError:
         print("未找到工作区,无法get信息")
-    
+
     print()
-    
+
     # Example 3:建议工作区
     suggested = ConfigDetector.suggest_workspace()
     if suggested:

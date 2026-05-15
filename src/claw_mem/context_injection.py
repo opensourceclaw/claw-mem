@@ -32,6 +32,7 @@ from dataclasses import dataclass
 @dataclass
 class ContentLayer:
     """A content layer definition for tiered context injection."""
+
     name: str
     files: List[str]
     always_load: bool = False
@@ -43,14 +44,15 @@ class ContentLayer:
         if not context_filter:
             return False
         ctx_lower = context_filter.lower()
-        return any(f.lower().replace('.md', '') in ctx_lower
-                   or f.lower() in ctx_lower
-                   for f in self.files)
+        return any(
+            f.lower().replace(".md", "") in ctx_lower or f.lower() in ctx_lower for f in self.files
+        )
 
 
 @dataclass
 class InjectedContext:
     """Result of context injection"""
+
     formatted_text: str
     memory_count: int
     total_length: int
@@ -93,10 +95,13 @@ class ContextFormatter:
         """
         self.max_length = max_length
 
-    def format(self, memories: List[Dict],
-               include_source: bool = True,
-               include_scores: bool = False,
-               layer_grouping: bool = True) -> InjectedContext:
+    def format(
+        self,
+        memories: List[Dict],
+        include_source: bool = True,
+        include_scores: bool = False,
+        layer_grouping: bool = True,
+    ) -> InjectedContext:
         """
         Format memories for injection
 
@@ -143,12 +148,12 @@ class ContextFormatter:
 
         # Extract unique layers (handle both dict and MemoryResult)
         def get_layer(m):
-            if hasattr(m, 'layer'):
+            if hasattr(m, "layer"):
                 layer = m.layer
-                return layer.value if hasattr(layer, 'value') else str(layer)
+                return layer.value if hasattr(layer, "value") else str(layer)
             else:
                 return m.get("layer", "unknown")
-        
+
         layers = list(set(get_layer(m) for m in memories))
 
         return InjectedContext(
@@ -160,21 +165,21 @@ class ContextFormatter:
             warnings=warnings,
         )
 
-    def _format_grouped(self, memories: List[Dict],
-                        include_source: bool,
-                        include_scores: bool) -> str:
+    def _format_grouped(
+        self, memories: List[Dict], include_source: bool, include_scores: bool
+    ) -> str:
         """Format memories grouped by layer"""
         # Group memories by layer
         by_layer: Dict[str, List] = {}
         for memory in memories:
             # Handle both dict and MemoryResult objects
-            if hasattr(memory, 'layer'):
+            if hasattr(memory, "layer"):
                 layer = memory.layer or "unknown"
                 content = memory.content
             else:
                 layer = memory.get("layer") or "unknown"
                 content = memory.get("content", "")
-            
+
             if layer not in by_layer:
                 by_layer[layer] = []
             by_layer[layer].append(memory)
@@ -185,7 +190,7 @@ class ContextFormatter:
 
         for layer, layer_memories in sorted(by_layer.items()):
             # Handle MemoryLayer enum
-            layer_str = layer.value if hasattr(layer, 'value') else str(layer)
+            layer_str = layer.value if hasattr(layer, "value") else str(layer)
             layer_name = self.LAYER_NAMES.get(layer_str, layer_str.upper())
             sections.append(f"\n## {layer_name}")
 
@@ -202,9 +207,7 @@ class ContextFormatter:
 
         return "\n".join(sections)
 
-    def _format_flat(self, memories: List[Dict],
-                     include_source: bool,
-                     include_scores: bool) -> str:
+    def _format_flat(self, memories: List[Dict], include_source: bool, include_scores: bool) -> str:
         """Format memories in a flat list"""
         sections = []
         sections.append("--- Retrieved Context ---")
@@ -222,10 +225,9 @@ class ContextFormatter:
 
         return "\n".join(sections)
 
-    def _format_memory_entry(self, memory: Dict,
-                             index: int,
-                             include_source: bool,
-                             include_scores: bool) -> str:
+    def _format_memory_entry(
+        self, memory: Dict, index: int, include_source: bool, include_scores: bool
+    ) -> str:
         """
         Format a single memory entry
 
@@ -239,14 +241,14 @@ class ContextFormatter:
             Formatted entry string
         """
         # Handle both dict and MemoryResult objects
-        if hasattr(memory, 'content'):
+        if hasattr(memory, "content"):
             content = memory.content
-            layer = (memory.layer or "unknown")
-            memory_id = memory.memory_id if hasattr(memory, 'memory_id') else ""
-            source = memory.source if hasattr(memory, 'source') else ""
-            score = memory.score if hasattr(memory, 'score') else None
-            tags = memory.tags if hasattr(memory, 'tags') else []
-            timestamp = memory.timestamp if hasattr(memory, 'timestamp') else None
+            layer = memory.layer or "unknown"
+            memory_id = memory.memory_id if hasattr(memory, "memory_id") else ""
+            source = memory.source if hasattr(memory, "source") else ""
+            score = memory.score if hasattr(memory, "score") else None
+            tags = memory.tags if hasattr(memory, "tags") else []
+            timestamp = memory.timestamp if hasattr(memory, "timestamp") else None
         else:
             content = memory.get("content", "")
             layer = memory.get("layer") or "unknown"
@@ -255,8 +257,8 @@ class ContextFormatter:
             score = memory.get("score")
             tags = memory.get("tags", [])
             timestamp = memory.get("timestamp")
-        
-        layer = layer.value.upper() if hasattr(layer, 'value') else layer.upper()
+
+        layer = layer.value.upper() if hasattr(layer, "value") else layer.upper()
 
         # Build entry header
         parts = [f"[{layer}-{index}]"]
@@ -275,6 +277,7 @@ class ContextFormatter:
         if include_source and source and source != "working_memory":
             # Extract just the filename
             import os
+
             filename = os.path.basename(source)
             metadata.append(f"Source: {filename}")
 
@@ -301,14 +304,14 @@ class ContextFormatter:
             Escaped content
         """
         # Remove control characters except newlines and tabs
-        content = re.sub(r'[\x00-\x08\x0b\x0c\x0e-\x1f\x7f]', '', content)
+        content = re.sub(r"[\x00-\x08\x0b\x0c\x0e-\x1f\x7f]", "", content)
 
         # Normalize multiple newlines to double newline
-        content = re.sub(r'\n{3,}', '\n\n', content)
+        content = re.sub(r"\n{3,}", "\n\n", content)
 
         # Strip leading/trailing whitespace per line
-        lines = [line.strip() for line in content.split('\n')]
-        content = '\n'.join(lines)
+        lines = [line.strip() for line in content.split("\n")]
+        content = "\n".join(lines)
 
         # Truncate very long individual entries
         if len(content) > 1000:
@@ -341,7 +344,7 @@ class ContextFormatter:
                 return main_text + "\n... (content truncated)\n--- End Retrieved Context ---\n"
 
         # Cut at max length and add ellipsis
-        truncated = text[:max_length - 3] + "...\n... (content truncated)"
+        truncated = text[: max_length - 3] + "...\n... (content truncated)"
 
         return truncated
 
@@ -362,8 +365,7 @@ class ContextInjector:
         """
         self.formatter = formatter or ContextFormatter()
 
-    def inject(self, memories: List[Dict],
-               template: Optional[str] = None) -> InjectedContext:
+    def inject(self, memories: List[Dict], template: Optional[str] = None) -> InjectedContext:
         """
         Inject memories into context
 
@@ -423,8 +425,7 @@ class ContextInjector:
 
         return result
 
-    def create_system_prompt(self, base_prompt: str,
-                             memories: List[Dict]) -> str:
+    def create_system_prompt(self, base_prompt: str, memories: List[Dict]) -> str:
         """
         Create system prompt with injected memories
 
@@ -484,7 +485,7 @@ class LayeredContextFormatter:
         full = header + "\n" + "\n".join(sections) + "\n" + footer
 
         if len(full) > self.max_char_length:
-            full = full[:self.max_char_length - 3] + "..."
+            full = full[: self.max_char_length - 3] + "..."
 
         return full
 
@@ -504,9 +505,9 @@ class LayeredContextFormatter:
         }
 
 
-def format_memory_context(memories: List[Dict],
-                          max_length: int = 4000,
-                          group_by_layer: bool = True) -> str:
+def format_memory_context(
+    memories: List[Dict], max_length: int = 4000, group_by_layer: bool = True
+) -> str:
     """
     Convenience function to format memory context
 
@@ -524,8 +525,7 @@ def format_memory_context(memories: List[Dict],
     return result.formatted_text
 
 
-def inject_memories_to_prompt(memories: List[Dict],
-                              base_prompt: str) -> str:
+def inject_memories_to_prompt(memories: List[Dict], base_prompt: str) -> str:
     """
     Convenience function to inject memories into prompt
 

@@ -26,6 +26,7 @@ from pathlib import Path
 @dataclass
 class UserValue:
     """uservalues数据结构"""
+
     user_id: str
     principles: List[str] = field(default_factory=list)
     preferences: Dict[str, Any] = field(default_factory=dict)
@@ -52,8 +53,16 @@ class UserValue:
             principles=data.get("principles", []),
             preferences=data.get("preferences", {}),
             red_lines=data.get("red_lines", []),
-            created_at=datetime.fromisoformat(data["created_at"]) if "created_at" in data else datetime.now(timezone.utc),
-            updated_at=datetime.fromisoformat(data["updated_at"]) if "updated_at" in data else datetime.now(timezone.utc),
+            created_at=(
+                datetime.fromisoformat(data["created_at"])
+                if "created_at" in data
+                else datetime.now(timezone.utc)
+            ),
+            updated_at=(
+                datetime.fromisoformat(data["updated_at"])
+                if "updated_at" in data
+                else datetime.now(timezone.utc)
+            ),
         )
 
 
@@ -249,8 +258,7 @@ class UserValueStore:
         """saveuservalues到文件"""
         user_file = self._get_user_file(user_values.user_id)
         user_file.write_text(
-            json.dumps(user_values.to_dict(), indent=2, ensure_ascii=False),
-            encoding="utf-8"
+            json.dumps(user_values.to_dict(), indent=2, ensure_ascii=False), encoding="utf-8"
         )
         self._cache[user_values.user_id] = user_values
 

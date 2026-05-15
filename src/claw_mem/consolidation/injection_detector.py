@@ -13,6 +13,7 @@ from typing import Any, Dict, List, Optional
 @dataclass
 class InjectionResult:
     """Result of injection detection."""
+
     is_injection: bool
     confidence: float
     patterns_matched: List[str] = field(default_factory=list)

@@ -52,7 +52,9 @@ class MultiGraphMemory:
         return mid
 
     def query(
-        self, query: str, top_k: int = 10,
+        self,
+        query: str,
+        top_k: int = 10,
         weights: Optional[Dict[str, float]] = None,
     ) -> List[Dict]:
         """Cross-graph fused query."""
@@ -63,7 +65,9 @@ class MultiGraphMemory:
 
         # Semantic
         for r in self.semantic.query(query, top_k):
-            result_scores[r["id"]] = result_scores.get(r["id"], 0) + r["score"] * weights["semantic"]
+            result_scores[r["id"]] = (
+                result_scores.get(r["id"], 0) + r["score"] * weights["semantic"]
+            )
 
         # Temporal (recent)
         for nid in self.temporal.get_recent(top_k):

@@ -38,7 +38,7 @@ class SemanticRetriever:
         provider: str = "auto",
         model: str = "text-embedding-3-small",
         top_k: int = 10,
-        score_threshold: float = 0.7
+        score_threshold: float = 0.7,
     ):
         """Initialize semantic retriever
 
@@ -57,12 +57,7 @@ class SemanticRetriever:
         self._index: List[Tuple[str, str, np.ndarray, Dict]] = []
         self._id_to_index: Dict[str, int] = {}
 
-    def add(
-        self,
-        id: str,
-        text: str,
-        metadata: Optional[Dict[str, Any]] = None
-    ):
+    def add(self, id: str, text: str, metadata: Optional[Dict[str, Any]] = None):
         """Add document to semantic index
 
         Args:
@@ -87,7 +82,7 @@ class SemanticRetriever:
         query: str,
         top_k: Optional[int] = None,
         score_threshold: Optional[float] = None,
-        filters: Optional[Dict[str, Any]] = None
+        filters: Optional[Dict[str, Any]] = None,
     ) -> List[Dict[str, Any]]:
         """Search for similar documents
 
@@ -117,10 +112,7 @@ class SemanticRetriever:
         for id, text, embedding, metadata in self._index:
             # Apply filters
             if filters:
-                match = all(
-                    metadata.get(k) == v
-                    for k, v in filters.items()
-                )
+                match = all(metadata.get(k) == v for k, v in filters.items())
                 if not match:
                     continue
 
@@ -130,12 +122,7 @@ class SemanticRetriever:
             # Apply threshold
             threshold = score_threshold if score_threshold is not None else self.score_threshold
             if score >= threshold:
-                results.append({
-                    "id": id,
-                    "text": text,
-                    "score": score,
-                    "metadata": metadata
-                })
+                results.append({"id": id, "text": text, "score": score, "metadata": metadata})
 
         # Sort by score and return top-k
         results.sort(key=lambda x: x["score"], reverse=True)
@@ -156,11 +143,7 @@ class SemanticRetriever:
 
         idx = self._id_to_index[id]
         doc_id, text, embedding, metadata = self._index[idx]
-        return {
-            "id": doc_id,
-            "text": text,
-            "metadata": metadata
-        }
+        return {"id": doc_id, "text": text, "metadata": metadata}
 
     def delete(self, id: str) -> bool:
         """Delete document by ID
@@ -183,10 +166,7 @@ class SemanticRetriever:
 
     def _rebuild_index(self):
         """Rebuild ID to index mapping"""
-        self._id_to_index = {
-            doc_id: idx
-            for idx, (doc_id, _, _, _) in enumerate(self._index)
-        }
+        self._id_to_index = {doc_id: idx for idx, (doc_id, _, _, _) in enumerate(self._index)}
 
     def clear(self):
         """Clear all documents"""
@@ -197,21 +177,14 @@ class SemanticRetriever:
         """Get number of documents"""
         return len(self._index)
 
-    def batch_add(
-        self,
-        documents: List[Dict[str, Any]]
-    ):
+    def batch_add(self, documents: List[Dict[str, Any]]):
         """Add multiple documents
 
         Args:
             documents: List of {id, text, metadata}
         """
         for doc in documents:
-            self.add(
-                id=doc["id"],
-                text=doc["text"],
-                metadata=doc.get("metadata")
-            )
+            self.add(id=doc["id"], text=doc["text"], metadata=doc.get("metadata"))
 
 
 # Default instance
@@ -219,18 +192,12 @@ _semantic_retriever: Optional[SemanticRetriever] = None
 
 
 def get_semantic_retriever(
-    provider: str = "auto",
-    model: str = "text-embedding-3-small",
-    top_k: int = 10
+    provider: str = "auto", model: str = "text-embedding-3-small", top_k: int = 10
 ) -> SemanticRetriever:
     """Get global semantic retriever instance"""
     global _semantic_retriever
 
     if _semantic_retriever is None:
-        _semantic_retriever = SemanticRetriever(
-            provider=provider,
-            model=model,
-            top_k=top_k
-        )
+        _semantic_retriever = SemanticRetriever(provider=provider, model=model, top_k=top_k)
 
     return _semantic_retriever

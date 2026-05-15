@@ -30,6 +30,7 @@ print("=" * 80)
 
 # Check current version
 from claw_mem import __version__
+
 print(f"\n📋 Current installed version: v{__version__}")
 print("=" * 80)
 
@@ -124,6 +125,7 @@ print("v0.9.0: Friendly error with suggestions")
 
 try:
     from claw_mem.errors import WorkspaceNotFoundError
+
     error = WorkspaceNotFoundError(["~/.openclaw/workspace", "~/.config/openclaw/workspace"])
     print(f"\n{error}")
 except Exception as e:
@@ -139,12 +141,13 @@ print("\n1. Health Checker")
 print("-" * 80)
 try:
     from claw_mem.health_checker import HealthChecker
+
     checker = HealthChecker(workspace=tmpdir)
     health = checker.check_all()
     print(f"✅ Health check available")
     print(f"   Components checked: {len(health)}")
     for component, status in health.items():
-        icon = "✅" if status.get('healthy', False) else "⚠️"
+        icon = "✅" if status.get("healthy", False) else "⚠️"
         print(f"   {icon} {component}: {status.get('status', 'unknown')}")
 except Exception as e:
     print(f"⚠️  Health checker not available: {e}")
@@ -154,6 +157,7 @@ print("\n2. Unified Configuration")
 print("-" * 80)
 try:
     from claw_mem.config_manager import UnifiedConfig
+
     config = UnifiedConfig.load()
     print(f"✅ Unified config available")
     print(f"   Config file: {config.config_file}")
@@ -166,6 +170,7 @@ print("\n3. Enhanced Recovery")
 print("-" * 80)
 try:
     from claw_mem.recovery import RecoveryManager
+
     recovery = RecoveryManager(workspace=tmpdir)
     print(f"✅ Recovery manager available")
     print(f"   Strategies: {len(recovery.strategies)} recovery strategies")

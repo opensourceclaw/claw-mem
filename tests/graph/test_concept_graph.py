@@ -24,10 +24,7 @@ class TestConceptMediatedGraph:
         self.graph = ConceptMediatedGraph(embedder=DummyEmbedder())
 
     def test_add_single_episode(self):
-        node_id = self.graph.add_episode(
-            content="用户说:你好",
-            speaker="user"
-        )
+        node_id = self.graph.add_episode(content="用户说:你好", speaker="user")
         assert node_id is not None
         node = self.graph.get_node(node_id)
         assert node is not None
@@ -36,7 +33,7 @@ class TestConceptMediatedGraph:
     def test_add_conversation(self):
         turns = [
             {"speaker": "user", "content": "我想学习 Python"},
-            {"speaker": "agent", "content": "推荐从基础语法开始"}
+            {"speaker": "agent", "content": "推荐从基础语法开始"},
         ]
         episode_ids = self.graph.add_conversation(turns)
         assert len(episode_ids) == 2
@@ -44,19 +41,14 @@ class TestConceptMediatedGraph:
     def test_add_fact(self):
         ep_id = self.graph.add_episode("Test episode")
         fact_id = self.graph.add_fact(
-            content="Python 是一种编程语言",
-            source_episode_id=ep_id,
-            confidence=0.9
+            content="Python 是一种编程语言", source_episode_id=ep_id, confidence=0.9
         )
         assert fact_id is not None
         fact = self.graph.get_node(fact_id)
         assert fact.type == NodeType.FACT
 
     def test_add_concept(self):
-        concept_id = self.graph.add_concept(
-            content="Python",
-            category="topic"
-        )
+        concept_id = self.graph.add_concept(content="Python", category="topic")
         assert concept_id is not None
         concept = self.graph.get_node(concept_id)
         assert concept.type == NodeType.CONCEPT
@@ -67,6 +59,7 @@ class TestConceptMediatedGraph:
         self.graph.add_concept("Python")
         # 查找概念
         from claw_mem.graph.nodes import ConceptNode
+
         for node in self.graph.storage.get_nodes_by_type(NodeType.CONCEPT):
             if isinstance(node, ConceptNode) and node.content == "Python":
                 assert node.frequency == 2
@@ -74,9 +67,7 @@ class TestConceptMediatedGraph:
     def test_add_reflection(self):
         ep_id = self.graph.add_episode("Test episode")
         ref_id = self.graph.add_reflection(
-            content="用户对编程感兴趣",
-            source_node_ids=[ep_id],
-            summary_type="insight"
+            content="用户对编程感兴趣", source_node_ids=[ep_id], summary_type="insight"
         )
         assert ref_id is not None
         reflection = self.graph.get_node(ref_id)
@@ -84,10 +75,7 @@ class TestConceptMediatedGraph:
 
     def test_get_neighbors(self):
         ep_id = self.graph.add_episode("Test episode")
-        fact_id = self.graph.add_fact(
-            content="Test fact",
-            source_episode_id=ep_id
-        )
+        fact_id = self.graph.add_fact(content="Test fact", source_episode_id=ep_id)
         neighbors = self.graph.get_neighbors(fact_id)
         neighbor_ids = [n.id for n in neighbors]
         assert ep_id in neighbor_ids
@@ -96,7 +84,7 @@ class TestConceptMediatedGraph:
         self.graph.add_episode("Test 1")
         self.graph.add_episode("Test 2")
         stats = self.graph.get_stats()
-        assert stats['total_nodes'] >= 2
+        assert stats["total_nodes"] >= 2
 
 
 class TestRetrieve:
@@ -136,10 +124,7 @@ class TestRetrieve:
         self.graph.add_episode("Test episode")
         self.graph.add_concept("Test concept")
 
-        results = self.graph.retrieve(
-            "Test",
-            node_types=[NodeType.EPISODE]
-        )
+        results = self.graph.retrieve("Test", node_types=[NodeType.EPISODE])
         assert all(r.type == "episode" for r in results)
 
     def test_retrieve_limit_k(self):
@@ -165,6 +150,7 @@ class TestDummyEmbedder:
 
     def test_embed_normalized(self):
         import numpy as np
+
         embedder = DummyEmbedder()
         vec = embedder.embed("test")
         norm = np.linalg.norm(vec)

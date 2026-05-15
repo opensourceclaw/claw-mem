@@ -30,7 +30,7 @@ def generate_longmemeval_data_v2(output_dir: str = "data/longmemeval", num_quest
         "cross_session_reasoning",
         "temporal_reasoning",
         "knowledge_updates",
-        "abstention"
+        "abstention",
     ]
 
     test_data = []
@@ -48,7 +48,7 @@ def generate_longmemeval_data_v2(output_dir: str = "data/longmemeval", num_quest
                     ("favorite food", "Pizza", "The user's favorite food is Pizza"),
                     ("favorite movie", "Star Wars", "The user's favorite movie is Star Wars"),
                     ("favorite book", "Dune", "The user's favorite book is Dune"),
-                    ("favorite hobby", "Hiking", "The user's favorite hobby is Hiking")
+                    ("favorite hobby", "Hiking", "The user's favorite hobby is Hiking"),
                 ]
                 topic, answer, fact = random.choice(topics)
                 question = f"What is the user's {topic}?"
@@ -60,7 +60,7 @@ def generate_longmemeval_data_v2(output_dir: str = "data/longmemeval", num_quest
                     ("family", "dog", "The user has a dog named Max"),
                     ("hobby", "hiking", "The user enjoys hiking on weekends"),
                     ("goal", "travel", "The user wants to travel to Japan"),
-                    ("plan", "learn", "The user plans to learn Python")
+                    ("plan", "learn", "The user plans to learn Python"),
                 ]
                 topic, answer, fact = random.choice(topics)
                 question = f"What did the user mention about their {topic}?"
@@ -73,7 +73,7 @@ def generate_longmemeval_data_v2(output_dir: str = "data/longmemeval", num_quest
                     ("project", f"The user started a new project {days_ago} days ago"),
                     ("birthday", f"The user's birthday was {days_ago} days ago"),
                     ("meeting", f"The user had a meeting {days_ago} days ago"),
-                    ("deadline", f"The user had a deadline {days_ago} days ago")
+                    ("deadline", f"The user had a deadline {days_ago} days ago"),
                 ]
                 topic, fact = random.choice(topics)
                 question = f"When did the user last mention {topic}?"
@@ -85,7 +85,7 @@ def generate_longmemeval_data_v2(output_dir: str = "data/longmemeval", num_quest
                     ("email", "user@example.com", "The user's email is user@example.com"),
                     ("address", "123 Main St", "The user's address is 123 Main St"),
                     ("job title", "Senior Engineer", "The user's job title is Senior Engineer"),
-                    ("relationship", "Married", "The user's relationship status is Married")
+                    ("relationship", "Married", "The user's relationship status is Married"),
                 ]
                 topic, answer, fact = random.choice(topics)
                 question = f"What is the user's current {topic}?"
@@ -105,29 +105,31 @@ def generate_longmemeval_data_v2(output_dir: str = "data/longmemeval", num_quest
                 "ground_truth": ground_truth,
                 "context": {
                     "session_id": f"session_{random.randint(1, 10)}",
-                    "timestamp": datetime.now().isoformat()
-                }
+                    "timestamp": datetime.now().isoformat(),
+                },
             }
 
             test_data.append(test_case)
 
             # Add fact to facts list (except for abstention)
             if fact:
-                facts.append({
-                    "test_id": test_id,
-                    "content": fact,
-                    "category": category,
-                    "timestamp": datetime.now().isoformat()
-                })
+                facts.append(
+                    {
+                        "test_id": test_id,
+                        "content": fact,
+                        "category": category,
+                        "timestamp": datetime.now().isoformat(),
+                    }
+                )
 
     # Save test data
     test_file = output_path / "test_data.json"
-    with open(test_file, 'w') as f:
+    with open(test_file, "w") as f:
         json.dump(test_data, f, indent=2)
 
     # Save facts for preloading
     facts_file = output_path / "facts.json"
-    with open(facts_file, 'w') as f:
+    with open(facts_file, "w") as f:
         json.dump(facts, f, indent=2)
 
     print(f"Generated {len(test_data)} LongMemEval test questions")
@@ -166,37 +168,43 @@ def generate_locomo_data_v2(output_dir: str = "data/locomo", num_conversations: 
             ("The user loves hiking", "hobby"),
             ("Blue is the favorite color", "preference"),
             ("Works as an engineer", "job"),
-            ("Has a dog named Max", "pet")
+            ("Has a dog named Max", "pet"),
         ]
 
         for j, (fact_content, fact_type) in enumerate(conv_facts):
             turn_id = f"{conv_id}_turn_{j:03d}"
             test_id = f"{conv_id}_fact_{j:03d}"
 
-            turns.append({
-                "id": turn_id,
-                "test_id": test_id,
-                "speaker": "user",
-                "content": fact_content,
-                "timestamp": (base_time + timedelta(minutes=j*2)).isoformat()
-            })
+            turns.append(
+                {
+                    "id": turn_id,
+                    "test_id": test_id,
+                    "speaker": "user",
+                    "content": fact_content,
+                    "timestamp": (base_time + timedelta(minutes=j * 2)).isoformat(),
+                }
+            )
 
-            facts.append({
-                "test_id": test_id,
-                "content": fact_content,
-                "type": fact_type,
-                "conversation_id": conv_id,
-                "timestamp": (base_time + timedelta(minutes=j*2)).isoformat()
-            })
+            facts.append(
+                {
+                    "test_id": test_id,
+                    "content": fact_content,
+                    "type": fact_type,
+                    "conversation_id": conv_id,
+                    "timestamp": (base_time + timedelta(minutes=j * 2)).isoformat(),
+                }
+            )
 
-        conversations.append({
-            "id": conv_id,
-            "turns": turns,
-            "metadata": {
-                "user_id": f"user_{random.randint(1, 100)}",
-                "session_count": random.randint(1, 10)
+        conversations.append(
+            {
+                "id": conv_id,
+                "turns": turns,
+                "metadata": {
+                    "user_id": f"user_{random.randint(1, 100)}",
+                    "session_count": random.randint(1, 10),
+                },
             }
-        })
+        )
 
         # Generate QA pairs with precise matching
         qa_categories = ["single_hop", "multi_hop", "temporal", "open_domain", "adversarial"]
@@ -205,28 +213,30 @@ def generate_locomo_data_v2(output_dir: str = "data/locomo", num_conversations: 
             test_id = f"{conv_id}_fact_{j:03d}"
             category = qa_categories[j % len(qa_categories)]
 
-            qa_pairs.append({
-                "test_id": test_id,
-                "conversation_id": conv_id,
-                "category": category,
-                "question": f"What does the user think about {fact_type}?",
-                "answer": fact_content,
-                "fact": fact_content
-            })
+            qa_pairs.append(
+                {
+                    "test_id": test_id,
+                    "conversation_id": conv_id,
+                    "category": category,
+                    "question": f"What does the user think about {fact_type}?",
+                    "answer": fact_content,
+                    "fact": fact_content,
+                }
+            )
 
     # Save conversations
     conv_file = output_path / "conversations.json"
-    with open(conv_file, 'w') as f:
+    with open(conv_file, "w") as f:
         json.dump(conversations, f, indent=2)
 
     # Save QA pairs
     qa_file = output_path / "qa_pairs.json"
-    with open(qa_file, 'w') as f:
+    with open(qa_file, "w") as f:
         json.dump(qa_pairs, f, indent=2)
 
     # Save facts for preloading
     facts_file = output_path / "facts.json"
-    with open(facts_file, 'w') as f:
+    with open(facts_file, "w") as f:
         json.dump(facts, f, indent=2)
 
     print(f"Generated {len(conversations)} LoCoMo conversations")
@@ -248,14 +258,7 @@ def generate_convomem_data_v2(output_dir: str = "data/convomem", num_test_cases:
     output_path = Path(output_dir)
     output_path.mkdir(parents=True, exist_ok=True)
 
-    scenarios = [
-        "single_turn",
-        "multi_turn",
-        "temporal",
-        "entity",
-        "preference",
-        "factual"
-    ]
+    scenarios = ["single_turn", "multi_turn", "temporal", "entity", "preference", "factual"]
 
     test_data = []
     facts = []
@@ -289,7 +292,15 @@ def generate_convomem_data_v2(output_dir: str = "data/convomem", num_test_cases:
             ground_truth = entity
 
         elif scenario == "preference":
-            preference = random.choice(["coffee over tea", "cats over dogs", "movies over books", "summer over winter", "morning over night"])
+            preference = random.choice(
+                [
+                    "coffee over tea",
+                    "cats over dogs",
+                    "movies over books",
+                    "summer over winter",
+                    "morning over night",
+                ]
+            )
             fact = f"The user prefers {preference}"
             question = f"What does the user prefer?"
             ground_truth = preference.split(" over ")[0]
@@ -304,40 +315,46 @@ def generate_convomem_data_v2(output_dir: str = "data/convomem", num_test_cases:
         base_time = datetime.now() - timedelta(days=random.randint(1, 100))
 
         turn_id = f"{test_id}_turn_000"
-        conversation.append({
-            "id": turn_id,
-            "test_id": test_id,
-            "speaker": "user",
-            "content": fact,
-            "timestamp": base_time.isoformat()
-        })
+        conversation.append(
+            {
+                "id": turn_id,
+                "test_id": test_id,
+                "speaker": "user",
+                "content": fact,
+                "timestamp": base_time.isoformat(),
+            }
+        )
 
-        test_data.append({
-            "id": test_id,
-            "test_id": test_id,
-            "scenario": scenario,
-            "conversation": conversation,
-            "question": question,
-            "fact": fact,
-            "expected": ground_truth,
-            "context": {}
-        })
+        test_data.append(
+            {
+                "id": test_id,
+                "test_id": test_id,
+                "scenario": scenario,
+                "conversation": conversation,
+                "question": question,
+                "fact": fact,
+                "expected": ground_truth,
+                "context": {},
+            }
+        )
 
-        facts.append({
-            "test_id": test_id,
-            "content": fact,
-            "scenario": scenario,
-            "timestamp": base_time.isoformat()
-        })
+        facts.append(
+            {
+                "test_id": test_id,
+                "content": fact,
+                "scenario": scenario,
+                "timestamp": base_time.isoformat(),
+            }
+        )
 
     # Save dataset
     dataset_file = output_path / "dataset.json"
-    with open(dataset_file, 'w') as f:
+    with open(dataset_file, "w") as f:
         json.dump(test_data, f, indent=2)
 
     # Save facts for preloading
     facts_file = output_path / "facts.json"
-    with open(facts_file, 'w') as f:
+    with open(facts_file, "w") as f:
         json.dump(facts, f, indent=2)
 
     print(f"Generated {len(test_data)} ConvoMem test cases")
@@ -363,25 +380,24 @@ def main():
 
     # Generate all test data
     longmemeval_data, longmemeval_facts = generate_longmemeval_data_v2(
-        output_dir=f"{args.output_dir}/longmemeval",
-        num_questions=100
+        output_dir=f"{args.output_dir}/longmemeval", num_questions=100
     )
 
     locomo_data, locomo_qa, locomo_facts = generate_locomo_data_v2(
-        output_dir=f"{args.output_dir}/locomo",
-        num_conversations=50
+        output_dir=f"{args.output_dir}/locomo", num_conversations=50
     )
 
     convomem_data, convomem_facts = generate_convomem_data_v2(
-        output_dir=f"{args.output_dir}/convomem",
-        num_test_cases=1000
+        output_dir=f"{args.output_dir}/convomem", num_test_cases=1000
     )
 
     print(f"\n{'='*80}")
     print(f"Test Data Generation Complete (v2)")
     print(f"{'='*80}")
     print(f"LongMemEval: {len(longmemeval_data)} questions, {len(longmemeval_facts)} facts")
-    print(f"LoCoMo: {len(locomo_data)} conversations, {len(locomo_qa)} QA pairs, {len(locomo_facts)} facts")
+    print(
+        f"LoCoMo: {len(locomo_data)} conversations, {len(locomo_qa)} QA pairs, {len(locomo_facts)} facts"
+    )
     print(f"ConvoMem: {len(convomem_data)} test cases, {len(convomem_facts)} facts")
     print(f"{'='*80}\n")
 

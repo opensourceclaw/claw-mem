@@ -47,7 +47,7 @@ class EngramIndex:
             return [hashlib.md5(text.encode()).hexdigest()[:8]]
         ngrams = []
         for i in range(len(text) - self.ngram_size + 1):
-            chunk = text[i:i + self.ngram_size]
+            chunk = text[i : i + self.ngram_size]
             ngrams.append(hashlib.md5(chunk.encode()).hexdigest()[:8])
         return ngrams
 
@@ -71,11 +71,13 @@ class EngramIndex:
         results = []
         for mid in sorted_ids[:top_k]:
             mem = self._memories.get(mid, {})
-            results.append({
-                "id": mid,
-                "score": round(scores[mid] / max_score, 4) if max_score else 0.0,
-                "text": str(mem.get("content", mem.get("text", "")))[:200],
-            })
+            results.append(
+                {
+                    "id": mid,
+                    "score": round(scores[mid] / max_score, 4) if max_score else 0.0,
+                    "text": str(mem.get("content", mem.get("text", "")))[:200],
+                }
+            )
         return results
 
     def get_stats(self) -> Dict:

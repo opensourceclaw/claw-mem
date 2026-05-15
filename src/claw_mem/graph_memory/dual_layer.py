@@ -15,10 +15,12 @@ class EventProgressionGraph:
         self._events: Dict[str, List[Dict]] = defaultdict(list)
 
     def add_event(self, session_id: str, text: str) -> None:
-        self._events[session_id].append({
-            "text": text,
-            "timestamp": time.time(),
-        })
+        self._events[session_id].append(
+            {
+                "text": text,
+                "timestamp": time.time(),
+            }
+        )
 
     def get_session(self, session_id: str, limit: int = 20) -> List[Dict]:
         return self._events.get(session_id, [])[-limit:]
@@ -69,9 +71,7 @@ class DualLayerMemory:
         for topic in topics:
             self.topic_net.add_topic(topic, text)
 
-    def build_context(
-        self, session_id: str, limit: int = 10
-    ) -> List[Dict]:
+    def build_context(self, session_id: str, limit: int = 10) -> List[Dict]:
         """Build context from current session."""
         return self.event_graph.get_session(session_id, limit)
 
@@ -85,10 +85,27 @@ class DualLayerMemory:
     def _extract_topics(self, text: str) -> List[str]:
         """Simple keyword-based topic extraction."""
         import re
-        keywords = ["memory", "graph", "search", "store", "index",
-                    "retrieval", "decay", "forgetting", "learning",
-                    "test", "bug", "fix", "feature", "release",
-                    "python", "typescript", "plugin", "bridge"]
+
+        keywords = [
+            "memory",
+            "graph",
+            "search",
+            "store",
+            "index",
+            "retrieval",
+            "decay",
+            "forgetting",
+            "learning",
+            "test",
+            "bug",
+            "fix",
+            "feature",
+            "release",
+            "python",
+            "typescript",
+            "plugin",
+            "bridge",
+        ]
         found = []
         text_lower = text.lower()
         for kw in keywords:

@@ -2,8 +2,11 @@
 
 import pytest
 from claw_mem.consolidation import (
-    ExperienceClassifier, ExperienceScore, ClassificationResult,
-    WeightConsolidator, ConsolidationConfig,
+    ExperienceClassifier,
+    ExperienceScore,
+    ClassificationResult,
+    WeightConsolidator,
+    ConsolidationConfig,
     ExperienceQueue,
     InjectionDetector,
 )
@@ -18,16 +21,22 @@ class TestExperienceClassifier:
 
     def test_classify_high_importance(self):
         c = ExperienceClassifier()
-        r = c.classify({
-            "id": "e1", "content": "This is a critical must-fix bug pattern",
-        })
+        r = c.classify(
+            {
+                "id": "e1",
+                "content": "This is a critical must-fix bug pattern",
+            }
+        )
         assert r.score.importance > 0.5
 
     def test_classify_durability(self):
         c = ExperienceClassifier()
-        r = c.classify({
-            "id": "e2", "content": "User always prefers Python over Java",
-        })
+        r = c.classify(
+            {
+                "id": "e2",
+                "content": "User always prefers Python over Java",
+            }
+        )
         assert r.score.durability > 0.3
 
     def test_classify_repeat_pattern(self):
@@ -51,7 +60,9 @@ class TestExperienceClassifier:
 
     def test_classify_passes_threshold(self):
         c = ExperienceClassifier(threshold=0.3)  # Low
-        r = c.classify({"id": "e1", "content": "critical must important pattern rule always prefer"})
+        r = c.classify(
+            {"id": "e1", "content": "critical must important pattern rule always prefer"}
+        )
         assert r.should_consolidate is True
 
     def test_reset(self):

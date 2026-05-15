@@ -16,9 +16,7 @@ class GroundTruthStore:
         self._episodes: List[Dict] = []
         self._facts: List[Dict] = []
 
-    def store_episode(
-        self, text: str, metadata: Optional[Dict] = None
-    ) -> str:
+    def store_episode(self, text: str, metadata: Optional[Dict] = None) -> str:
         """Store a raw conversation as ground truth."""
         eid = str(uuid.uuid4())
         episode = {
@@ -31,17 +29,17 @@ class GroundTruthStore:
         logger.debug("Episode stored: %s", eid[:8])
         return eid
 
-    def store_fact(
-        self, fact: str, source_episode_id: str
-    ) -> str:
+    def store_fact(self, fact: str, source_episode_id: str) -> str:
         """Store an extracted fact linked to its source episode."""
         fid = str(uuid.uuid4())
-        self._facts.append({
-            "id": fid,
-            "fact": fact,
-            "source_episode_id": source_episode_id,
-            "timestamp": time.time(),
-        })
+        self._facts.append(
+            {
+                "id": fid,
+                "fact": fact,
+                "source_episode_id": source_episode_id,
+                "timestamp": time.time(),
+            }
+        )
         return fid
 
     def extract_facts(self, text: str) -> List[str]:
@@ -58,7 +56,11 @@ class GroundTruthStore:
                 facts.append(sentence)
 
             # Pattern 2: "X did Y" (action statements)
-            elif re.search(r"\b(implemented|fixed|added|created|removed|updated|changed)\b", sentence, re.IGNORECASE):
+            elif re.search(
+                r"\b(implemented|fixed|added|created|removed|updated|changed)\b",
+                sentence,
+                re.IGNORECASE,
+            ):
                 facts.append(sentence)
 
             # Pattern 3: Numbers with units (measurements)
@@ -80,9 +82,7 @@ class GroundTruthStore:
             return False
         return fact["fact"].lower() in source["text"].lower()
 
-    def get_episodes(
-        self, limit: int = 10, before: Optional[float] = None
-    ) -> List[Dict]:
+    def get_episodes(self, limit: int = 10, before: Optional[float] = None) -> List[Dict]:
         """Get recent episodes."""
         episodes = self._episodes
         if before is not None:

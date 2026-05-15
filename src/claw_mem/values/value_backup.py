@@ -29,6 +29,7 @@ from claw_mem.values import UserValueStore, UserValue
 @dataclass
 class BackupMetadata:
     """backup元数据"""
+
     user_id: str
     backup_id: str
     created_at: datetime
@@ -64,7 +65,9 @@ class BackupMetadata:
 class ValueBackup:
     """valuesbackup管理器"""
 
-    def __init__(self, value_store: Optional[UserValueStore] = None, backup_dir: Optional[Path] = None):
+    def __init__(
+        self, value_store: Optional[UserValueStore] = None, backup_dir: Optional[Path] = None
+    ):
         """initializebackup管理器
 
         Args:
@@ -99,6 +102,7 @@ class ValueBackup:
 
         # 生成backup ID 和路径
         import uuid
+
         backup_id = str(uuid.uuid4())[:8]
 
         if path is None:
@@ -110,7 +114,7 @@ class ValueBackup:
             "user_id": user_id,
             "exported_at": datetime.now(timezone.utc).isoformat(),
             "version": "2.2.0",
-            "values": user_values.to_dict()
+            "values": user_values.to_dict(),
         }
 
         # 写入文件
@@ -126,8 +130,10 @@ class ValueBackup:
             created_at=datetime.now(timezone.utc),
             file_path=str(path),
             file_size=path.stat().st_size,
-            values_count=len(user_values.principles) + len(user_values.preferences) + len(user_values.red_lines),
-            checksum=checksum
+            values_count=len(user_values.principles)
+            + len(user_values.preferences)
+            + len(user_values.red_lines),
+            checksum=checksum,
         )
 
         # save元数据
@@ -226,18 +232,13 @@ class ValueBackup:
         backups = self.list_backups(user_id)
 
         if not backups:
-            return {
-                "user_id": user_id,
-                "backup_count": 0,
-                "latest_backup": None,
-                "total_size": 0
-            }
+            return {"user_id": user_id, "backup_count": 0, "latest_backup": None, "total_size": 0}
 
         return {
             "user_id": user_id,
             "backup_count": len(backups),
             "latest_backup": backups[0].to_dict() if backups else None,
-            "total_size": sum(b.file_size for b in backups)
+            "total_size": sum(b.file_size for b in backups),
         }
 
     def delete_backup(self, backup_id: str) -> bool:

@@ -6,10 +6,7 @@ Tests importance scoring for memories.
 
 import pytest
 from datetime import datetime, timedelta
-from claw_mem.importance import (
-    MemoryImportance,
-    ImportanceScorer
-)
+from claw_mem.importance import MemoryImportance, ImportanceScorer
 
 
 class TestMemoryImportance:
@@ -18,10 +15,7 @@ class TestMemoryImportance:
     def test_initialization(self):
         """Test MemoryImportance initialization"""
         importance = MemoryImportance(
-            base_score=1.0,
-            type_weight=0.5,
-            frequency_weight=0.3,
-            recency_weight=0.2
+            base_score=1.0, type_weight=0.5, frequency_weight=0.3, recency_weight=0.2
         )
 
         assert importance.base_score == 1.0
@@ -42,10 +36,7 @@ class TestMemoryImportance:
     def test_calculate_total(self):
         """Test calculate_total method"""
         importance = MemoryImportance(
-            base_score=1.0,
-            type_weight=0.5,
-            frequency_weight=0.3,
-            recency_weight=0.2
+            base_score=1.0, type_weight=0.5, frequency_weight=0.3, recency_weight=0.2
         )
 
         total = importance.calculate_total()
@@ -59,7 +50,7 @@ class TestMemoryImportance:
             base_score=1.0,
             type_weight=0.5,
             frequency_weight=0.3,
-            recency_weight=0.5  # Would exceed 2.0
+            recency_weight=0.5,  # Would exceed 2.0
         )
 
         total = importance.calculate_total()
@@ -75,19 +66,19 @@ class TestImportanceScorer:
         scorer = ImportanceScorer()
 
         assert scorer.MAX_SCORE == 2.0
-        assert scorer.TYPE_WEIGHTS['semantic'] == 0.5
-        assert scorer.TYPE_WEIGHTS['procedural'] == 0.3
-        assert scorer.TYPE_WEIGHTS['episodic'] == 0.0
+        assert scorer.TYPE_WEIGHTS["semantic"] == 0.5
+        assert scorer.TYPE_WEIGHTS["procedural"] == 0.3
+        assert scorer.TYPE_WEIGHTS["episodic"] == 0.0
 
     def test_calculate_semantic_memory(self):
         """Test calculating importance for semantic memory"""
         scorer = ImportanceScorer()
 
         memory = {
-            'memory_type': 'semantic',
-            'access_count': 15,
-            'accessed_at': datetime.now() - timedelta(days=2),
-            'content': 'User prefers Chinese'
+            "memory_type": "semantic",
+            "access_count": 15,
+            "accessed_at": datetime.now() - timedelta(days=2),
+            "content": "User prefers Chinese",
         }
 
         importance = scorer.calculate(memory)
@@ -103,10 +94,10 @@ class TestImportanceScorer:
         scorer = ImportanceScorer()
 
         memory = {
-            'memory_type': 'procedural',
-            'access_count': 6,
-            'accessed_at': datetime.now() - timedelta(days=10),
-            'content': 'How to deploy to production'
+            "memory_type": "procedural",
+            "access_count": 6,
+            "accessed_at": datetime.now() - timedelta(days=10),
+            "content": "How to deploy to production",
         }
 
         importance = scorer.calculate(memory)
@@ -121,10 +112,10 @@ class TestImportanceScorer:
         scorer = ImportanceScorer()
 
         memory = {
-            'memory_type': 'episodic',
-            'access_count': 1,
-            'accessed_at': datetime.now() - timedelta(days=60),
-            'content': 'User asked about weather today'
+            "memory_type": "episodic",
+            "access_count": 1,
+            "accessed_at": datetime.now() - timedelta(days=60),
+            "content": "User asked about weather today",
         }
 
         importance = scorer.calculate(memory)
@@ -138,11 +129,7 @@ class TestImportanceScorer:
         """Test calculating importance for unknown memory type"""
         scorer = ImportanceScorer()
 
-        memory = {
-            'memory_type': 'unknown',
-            'access_count': 0,
-            'content': 'Test'
-        }
+        memory = {"memory_type": "unknown", "access_count": 0, "content": "Test"}
 
         importance = scorer.calculate(memory)
 
@@ -153,9 +140,7 @@ class TestImportanceScorer:
         """Test calculating importance with missing fields"""
         scorer = ImportanceScorer()
 
-        memory = {
-            'content': 'Minimal memory'
-        }
+        memory = {"content": "Minimal memory"}
 
         importance = scorer.calculate(memory)
 
@@ -218,9 +203,9 @@ class TestImportanceScorer:
         scorer = ImportanceScorer()
 
         memory = {
-            'memory_type': 'semantic',
-            'access_count': 15,
-            'accessed_at': datetime.now() - timedelta(days=2)
+            "memory_type": "semantic",
+            "access_count": 15,
+            "accessed_at": datetime.now() - timedelta(days=2),
         }
 
         assert scorer.should_prioritize(memory, threshold=1.5) is True
@@ -230,9 +215,9 @@ class TestImportanceScorer:
         scorer = ImportanceScorer()
 
         memory = {
-            'memory_type': 'episodic',
-            'access_count': 1,
-            'accessed_at': datetime.now() - timedelta(days=60)
+            "memory_type": "episodic",
+            "access_count": 1,
+            "accessed_at": datetime.now() - timedelta(days=60),
         }
 
         assert scorer.should_prioritize(memory, threshold=1.5) is False
@@ -243,9 +228,9 @@ class TestImportanceScorer:
 
         # Calculate actual score
         memory = {
-            'memory_type': 'semantic',
-            'access_count': 5,
-            'accessed_at': datetime.now() - timedelta(days=10)
+            "memory_type": "semantic",
+            "access_count": 5,
+            "accessed_at": datetime.now() - timedelta(days=10),
         }
         importance = scorer.calculate(memory)
         actual_score = importance.total_score
@@ -259,9 +244,9 @@ class TestImportanceScorer:
         scorer = ImportanceScorer()
 
         memory = {
-            'memory_type': 'episodic',
-            'access_count': 0,
-            'accessed_at': datetime.now() - timedelta(days=365)
+            "memory_type": "episodic",
+            "access_count": 0,
+            "accessed_at": datetime.now() - timedelta(days=365),
         }
 
         # Calculate actual score
@@ -283,9 +268,9 @@ class TestImportanceScorer:
 
         # Low priority episodic memory
         memory = {
-            'memory_type': 'episodic',
-            'access_count': 0,
-            'accessed_at': datetime.now() - timedelta(days=365)
+            "memory_type": "episodic",
+            "access_count": 0,
+            "accessed_at": datetime.now() - timedelta(days=365),
         }
 
         # With threshold > 1.0, it should be archived (score < threshold)
@@ -300,9 +285,9 @@ class TestImportanceScorer:
         scorer = ImportanceScorer()
 
         memory = {
-            'memory_type': 'semantic',
-            'access_count': 0,
-            'accessed_at': datetime.now() - timedelta(days=365)
+            "memory_type": "semantic",
+            "access_count": 0,
+            "accessed_at": datetime.now() - timedelta(days=365),
         }
 
         # Semantic memories should not be archived
@@ -313,9 +298,9 @@ class TestImportanceScorer:
         scorer = ImportanceScorer()
 
         memory = {
-            'memory_type': 'episodic',
-            'access_count': 10,
-            'accessed_at': datetime.now() - timedelta(days=2)
+            "memory_type": "episodic",
+            "access_count": 10,
+            "accessed_at": datetime.now() - timedelta(days=2),
         }
 
         assert scorer.should_archive(memory, threshold=0.3) is False
@@ -326,31 +311,31 @@ class TestImportanceScorer:
 
         memories = [
             {
-                'memory_type': 'episodic',
-                'access_count': 0,
-                'accessed_at': datetime.now() - timedelta(days=60),
-                'content': 'Low importance'
+                "memory_type": "episodic",
+                "access_count": 0,
+                "accessed_at": datetime.now() - timedelta(days=60),
+                "content": "Low importance",
             },
             {
-                'memory_type': 'semantic',
-                'access_count': 15,
-                'accessed_at': datetime.now() - timedelta(days=2),
-                'content': 'High importance'
+                "memory_type": "semantic",
+                "access_count": 15,
+                "accessed_at": datetime.now() - timedelta(days=2),
+                "content": "High importance",
             },
             {
-                'memory_type': 'procedural',
-                'access_count': 5,
-                'accessed_at': datetime.now() - timedelta(days=10),
-                'content': 'Medium importance'
-            }
+                "memory_type": "procedural",
+                "access_count": 5,
+                "accessed_at": datetime.now() - timedelta(days=10),
+                "content": "Medium importance",
+            },
         ]
 
         ranked = scorer.rank_memories(memories)
 
         assert len(ranked) == 3
-        assert ranked[0]['content'] == 'High importance'
-        assert ranked[1]['content'] == 'Medium importance'
-        assert ranked[2]['content'] == 'Low importance'
+        assert ranked[0]["content"] == "High importance"
+        assert ranked[1]["content"] == "Medium importance"
+        assert ranked[2]["content"] == "Low importance"
 
     def test_rank_memories_empty(self):
         """Test ranking empty list"""
@@ -386,10 +371,10 @@ class TestImportanceScorer:
         scorer = ImportanceScorer()
 
         memory = {
-            'memory_type': 'semantic',
-            'access_count': 15,
-            'accessed_at': datetime.now() - timedelta(days=2),
-            'content': 'Test memory'
+            "memory_type": "semantic",
+            "access_count": 15,
+            "accessed_at": datetime.now() - timedelta(days=2),
+            "content": "Test memory",
         }
 
         explanation = scorer.explain_score(memory)
@@ -406,10 +391,10 @@ class TestImportanceScorer:
         scorer = ImportanceScorer()
 
         memory = {
-            'memory_type': 'semantic',
-            'access_count': 10,
-            'accessed_at': (datetime.now() - timedelta(days=5)).isoformat(),
-            'content': 'Test memory'
+            "memory_type": "semantic",
+            "access_count": 10,
+            "accessed_at": (datetime.now() - timedelta(days=5)).isoformat(),
+            "content": "Test memory",
         }
 
         explanation = scorer.explain_score(memory)
@@ -421,11 +406,7 @@ class TestImportanceScorer:
         """Test explain_score without accessed_at"""
         scorer = ImportanceScorer()
 
-        memory = {
-            'memory_type': 'semantic',
-            'access_count': 10,
-            'content': 'Test memory'
-        }
+        memory = {"memory_type": "semantic", "access_count": 10, "content": "Test memory"}
 
         explanation = scorer.explain_score(memory)
 
@@ -439,23 +420,23 @@ class TestImportanceScorer:
 
         memories = [
             {
-                'memory_type': 'semantic',
-                'access_count': 15,
-                'accessed_at': datetime.now() - timedelta(days=2),
-                'content': 'High 1'
+                "memory_type": "semantic",
+                "access_count": 15,
+                "accessed_at": datetime.now() - timedelta(days=2),
+                "content": "High 1",
             },
             {
-                'memory_type': 'semantic',
-                'access_count': 12,
-                'accessed_at': datetime.now() - timedelta(days=3),
-                'content': 'High 2'
+                "memory_type": "semantic",
+                "access_count": 12,
+                "accessed_at": datetime.now() - timedelta(days=3),
+                "content": "High 2",
             },
             {
-                'memory_type': 'semantic',
-                'access_count': 10,
-                'accessed_at': datetime.now() - timedelta(days=5),
-                'content': 'High 3'
-            }
+                "memory_type": "semantic",
+                "access_count": 10,
+                "accessed_at": datetime.now() - timedelta(days=5),
+                "content": "High 3",
+            },
         ]
 
         ranked = scorer.rank_memories(memories)
@@ -467,9 +448,9 @@ class TestImportanceScorer:
         """Test type weight configuration"""
         scorer = ImportanceScorer()
 
-        assert scorer.TYPE_WEIGHTS['semantic'] == 0.5
-        assert scorer.TYPE_WEIGHTS['procedural'] == 0.3
-        assert scorer.TYPE_WEIGHTS['episodic'] == 0.0
+        assert scorer.TYPE_WEIGHTS["semantic"] == 0.5
+        assert scorer.TYPE_WEIGHTS["procedural"] == 0.3
+        assert scorer.TYPE_WEIGHTS["episodic"] == 0.0
 
     def test_frequency_threshold_configuration(self):
         """Test frequency threshold configuration"""

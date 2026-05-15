@@ -63,7 +63,11 @@ class ClawMemBridge:
         start = time.perf_counter()
 
         try:
-            workspace = params.get("workspace_dir") or params.get("workspace") or self.config.get("workspace")
+            workspace = (
+                params.get("workspace_dir")
+                or params.get("workspace")
+                or self.config.get("workspace")
+            )
 
             self.manager = MemoryManager(workspace=workspace)
             self._adapter = AdapterRegistry.create_adapter(self.manager)
@@ -74,13 +78,10 @@ class ClawMemBridge:
                 "status": "initialized",
                 "version": self._adapter.version,
                 "workspace": workspace,
-                "latency_ms": round(latency, 3)
+                "latency_ms": round(latency, 3),
             }
         except Exception as e:
-            return {
-                "status": "error",
-                "error": str(e)
-            }
+            return {"status": "error", "error": str(e)}
 
     async def _shutdown(self, params: Dict[str, Any]) -> Dict[str, Any]:
         """Shutdown the bridge"""
@@ -92,15 +93,9 @@ class ClawMemBridge:
             self.running = False
             latency = (time.perf_counter() - start) * 1000
 
-            return {
-                "status": "shutdown",
-                "latency_ms": round(latency, 3)
-            }
+            return {"status": "shutdown", "latency_ms": round(latency, 3)}
         except Exception as e:
-            return {
-                "status": "error",
-                "error": str(e)
-            }
+            return {"status": "error", "error": str(e)}
 
     async def _search(self, params: Dict[str, Any]) -> Dict[str, Any]:
         """Search memories"""
@@ -112,11 +107,13 @@ class ClawMemBridge:
             memory_type = params.get("memory_type", "episodic")
 
             # Use adapter with params in adapter format
-            results = self._adapter.search({
-                "query": query,
-                "topK": limit,
-                "memory_type": memory_type,
-            })
+            results = self._adapter.search(
+                {
+                    "query": query,
+                    "topK": limit,
+                    "memory_type": memory_type,
+                }
+            )
 
             latency = (time.perf_counter() - start) * 1000
 
@@ -124,14 +121,11 @@ class ClawMemBridge:
                 "memories": results,
                 "query": query,
                 "count": len(results),
-                "latency_ms": round(latency, 3)
+                "latency_ms": round(latency, 3),
             }
         except Exception as e:
             latency = (time.perf_counter() - start) * 1000
-            return {
-                "error": str(e),
-                "latency_ms": round(latency, 3)
-            }
+            return {"error": str(e), "latency_ms": round(latency, 3)}
 
     async def _store(self, params: Dict[str, Any]) -> Dict[str, Any]:
         """Store a memory"""
@@ -142,25 +136,20 @@ class ClawMemBridge:
             metadata = params.get("metadata", {})
             memory_type = params.get("memory_type", "episodic")
 
-            result = self._adapter.store({
-                "text": text,
-                "metadata": metadata,
-                "memory_type": memory_type,
-            })
+            result = self._adapter.store(
+                {
+                    "text": text,
+                    "metadata": metadata,
+                    "memory_type": memory_type,
+                }
+            )
 
             latency = (time.perf_counter() - start) * 1000
 
-            return {
-                "id": result["id"],
-                "memory_type": memory_type,
-                "latency_ms": round(latency, 3)
-            }
+            return {"id": result["id"], "memory_type": memory_type, "latency_ms": round(latency, 3)}
         except Exception as e:
             latency = (time.perf_counter() - start) * 1000
-            return {
-                "error": str(e),
-                "latency_ms": round(latency, 3)
-            }
+            return {"error": str(e), "latency_ms": round(latency, 3)}
 
     async def _get(self, params: Dict[str, Any]) -> Dict[str, Any]:
         """Get a specific memory"""
@@ -168,20 +157,14 @@ class ClawMemBridge:
         latency = (time.perf_counter() - start) * 1000
 
         if not self._adapter:
-            return {
-                "error": "Adapter not initialized",
-                "latency_ms": round(latency, 3)
-            }
+            return {"error": "Adapter not initialized", "latency_ms": round(latency, 3)}
 
         try:
             result = self._adapter.get(params)
             result["latency_ms"] = round(latency, 3)
             return result
         except Exception as e:
-            return {
-                "error": str(e),
-                "latency_ms": round(latency, 3)
-            }
+            return {"error": str(e), "latency_ms": round(latency, 3)}
 
     async def _delete(self, params: Dict[str, Any]) -> Dict[str, Any]:
         """Delete a memory"""
@@ -189,20 +172,14 @@ class ClawMemBridge:
         latency = (time.perf_counter() - start) * 1000
 
         if not self._adapter:
-            return {
-                "error": "Adapter not initialized",
-                "latency_ms": round(latency, 3)
-            }
+            return {"error": "Adapter not initialized", "latency_ms": round(latency, 3)}
 
         try:
             result = self._adapter.delete(params)
             result["latency_ms"] = round(latency, 3)
             return result
         except Exception as e:
-            return {
-                "error": str(e),
-                "latency_ms": round(latency, 3)
-            }
+            return {"error": str(e), "latency_ms": round(latency, 3)}
 
     async def _stats(self, params: Dict[str, Any]) -> Dict[str, Any]:
         """Get bridge statistics"""
@@ -217,14 +194,11 @@ class ClawMemBridge:
                 "request_count": self.request_count,
                 "total_latency_ms": round(self.total_latency, 3),
                 "avg_latency_ms": round(avg_latency, 3),
-                "latency_ms": round(latency, 3)
+                "latency_ms": round(latency, 3),
             }
         except Exception as e:
             latency = (time.perf_counter() - start) * 1000
-            return {
-                "error": str(e),
-                "latency_ms": round(latency, 3)
-            }
+            return {"error": str(e), "latency_ms": round(latency, 3)}
 
     async def _build_context(self, params: Dict[str, Any]) -> Dict[str, Any]:
         """Build memory context for prompt injection"""
@@ -238,10 +212,7 @@ class ClawMemBridge:
             return result
         except Exception as e:
             latency = (time.perf_counter() - start) * 1000
-            return {
-                "error": str(e),
-                "latency_ms": round(latency, 3)
-            }
+            return {"error": str(e), "latency_ms": round(latency, 3)}
 
     async def _start_session(self, params: Dict[str, Any]) -> Dict[str, Any]:
         """Start a memory session"""
@@ -257,15 +228,11 @@ class ClawMemBridge:
                 "status": result.get("status", "started"),
                 "sessionId": result.get("sessionId", "default"),
                 "latency_ms": round(latency, 3),
-                "stats": stats
+                "stats": stats,
             }
         except Exception as e:
             latency = (time.perf_counter() - start) * 1000
-            return {
-                "status": "error",
-                "error": str(e),
-                "latency_ms": round(latency, 3)
-            }
+            return {"status": "error", "error": str(e), "latency_ms": round(latency, 3)}
 
     async def _end_session(self, params: Dict[str, Any]) -> Dict[str, Any]:
         """End a memory session"""
@@ -281,15 +248,11 @@ class ClawMemBridge:
                 "status": result.get("status", "ended"),
                 "sessionId": result.get("sessionId", "default"),
                 "latency_ms": round(latency, 3),
-                "stats": stats
+                "stats": stats,
             }
         except Exception as e:
             latency = (time.perf_counter() - start) * 1000
-            return {
-                "status": "error",
-                "error": str(e),
-                "latency_ms": round(latency, 3)
-            }
+            return {"status": "error", "error": str(e), "latency_ms": round(latency, 3)}
 
     async def _resolve_flush_plan(self, params: Dict[str, Any]) -> Dict[str, Any]:
         """Compute dynamic compaction plan based on memory state"""
@@ -317,7 +280,7 @@ class ClawMemBridge:
             return {
                 "jsonrpc": "2.0",
                 "error": {"code": -32601, "message": f"Method not found: {method}"},
-                "id": request_id
+                "id": request_id,
             }
 
         try:
@@ -327,17 +290,13 @@ class ClawMemBridge:
             self.request_count += 1
             self.total_latency += latency
 
-            return {
-                "jsonrpc": "2.0",
-                "result": result,
-                "id": request_id
-            }
+            return {"jsonrpc": "2.0", "result": result, "id": request_id}
         except Exception as e:
             latency = (time.perf_counter() - start) * 1000
             return {
                 "jsonrpc": "2.0",
                 "error": {"code": -32000, "message": str(e)},
-                "id": request_id
+                "id": request_id,
             }
 
     def run(self):
@@ -360,7 +319,7 @@ class ClawMemBridge:
                 error_response = {
                     "jsonrpc": "2.0",
                     "error": {"code": -32700, "message": f"Parse error: {str(e)}"},
-                    "id": None
+                    "id": None,
                 }
                 sys.stdout.write(json.dumps(error_response) + "\n")
                 sys.stdout.flush()
@@ -369,7 +328,7 @@ class ClawMemBridge:
                 error_response = {
                     "jsonrpc": "2.0",
                     "error": {"code": -32603, "message": f"Internal error: {str(e)}"},
-                    "id": None
+                    "id": None,
                 }
                 sys.stdout.write(json.dumps(error_response) + "\n")
                 sys.stdout.flush()

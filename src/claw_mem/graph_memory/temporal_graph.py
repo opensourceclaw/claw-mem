@@ -39,10 +39,7 @@ class TemporalGraph:
 
     def get_range(self, start: float, end: float) -> List[str]:
         """Get memories within a time range."""
-        return [
-            nid for ts, nid in self._timeline
-            if start <= ts <= end
-        ]
+        return [nid for ts, nid in self._timeline if start <= ts <= end]
 
     def get_recent(self, limit: int = 10) -> List[str]:
         """Get most recent memories."""

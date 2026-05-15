@@ -18,32 +18,28 @@ class TestMemoryDecay:
         decay = MemoryDecay(workspace=str(tmp_path))
 
         assert decay.workspace == tmp_path.resolve()
-        assert decay.decay_constants['episodic'] == 7
-        assert decay.decay_constants['semantic'] == 90
-        assert decay.decay_constants['procedural'] == 180
+        assert decay.decay_constants["episodic"] == 7
+        assert decay.decay_constants["semantic"] == 90
+        assert decay.decay_constants["procedural"] == 180
 
     def test_initialization_custom_constants(self, tmp_path):
         """Test initialization with custom constants"""
-        custom_constants = {
-            'episodic': 5,
-            'semantic': 60,
-            'procedural': 120
-        }
+        custom_constants = {"episodic": 5, "semantic": 60, "procedural": 120}
 
         decay = MemoryDecay(workspace=str(tmp_path), custom_constants=custom_constants)
 
-        assert decay.decay_constants['episodic'] == 5
-        assert decay.decay_constants['semantic'] == 60
-        assert decay.decay_constants['procedural'] == 120
+        assert decay.decay_constants["episodic"] == 5
+        assert decay.decay_constants["semantic"] == 60
+        assert decay.decay_constants["procedural"] == 120
 
     def test_calculate_activation_episodic(self, tmp_path):
         """Test calculating activation for episodic memory"""
         decay = MemoryDecay(workspace=str(tmp_path))
 
         memory = {
-            'memory_type': 'episodic',
-            'accessed_at': datetime.now() - timedelta(days=3),
-            'activation_level': 1.0
+            "memory_type": "episodic",
+            "accessed_at": datetime.now() - timedelta(days=3),
+            "activation_level": 1.0,
         }
 
         activation = decay.calculate_activation(memory)
@@ -56,9 +52,9 @@ class TestMemoryDecay:
         decay = MemoryDecay(workspace=str(tmp_path))
 
         memory = {
-            'memory_type': 'semantic',
-            'accessed_at': datetime.now() - timedelta(days=10),
-            'activation_level': 1.0
+            "memory_type": "semantic",
+            "accessed_at": datetime.now() - timedelta(days=10),
+            "activation_level": 1.0,
         }
 
         activation = decay.calculate_activation(memory)
@@ -71,9 +67,9 @@ class TestMemoryDecay:
         decay = MemoryDecay(workspace=str(tmp_path))
 
         memory = {
-            'memory_type': 'episodic',
-            'accessed_at': (datetime.now() - timedelta(days=5)).isoformat(),
-            'activation_level': 1.0
+            "memory_type": "episodic",
+            "accessed_at": (datetime.now() - timedelta(days=5)).isoformat(),
+            "activation_level": 1.0,
         }
 
         activation = decay.calculate_activation(memory)
@@ -84,10 +80,7 @@ class TestMemoryDecay:
         """Test calculating activation without accessed_at"""
         decay = MemoryDecay(workspace=str(tmp_path))
 
-        memory = {
-            'memory_type': 'episodic',
-            'activation_level': 0.5
-        }
+        memory = {"memory_type": "episodic", "activation_level": 0.5}
 
         activation = decay.calculate_activation(memory)
 
@@ -99,9 +92,9 @@ class TestMemoryDecay:
         decay = MemoryDecay(workspace=str(tmp_path))
 
         memory = {
-            'memory_type': 'episodic',
-            'accessed_at': datetime.now() - timedelta(days=365),  # Very old
-            'activation_level': 0.1
+            "memory_type": "episodic",
+            "accessed_at": datetime.now() - timedelta(days=365),  # Very old
+            "activation_level": 0.1,
         }
 
         activation = decay.calculate_activation(memory)
@@ -115,9 +108,9 @@ class TestMemoryDecay:
         decay = MemoryDecay(workspace=str(tmp_path))
 
         memory = {
-            'memory_type': 'episodic',
-            'accessed_at': datetime.now(),  # Just accessed
-            'activation_level': 1.0
+            "memory_type": "episodic",
+            "accessed_at": datetime.now(),  # Just accessed
+            "activation_level": 1.0,
         }
 
         activation = decay.calculate_activation(memory)
@@ -129,10 +122,7 @@ class TestMemoryDecay:
         """Test calculating activation with default memory type"""
         decay = MemoryDecay(workspace=str(tmp_path))
 
-        memory = {
-            'accessed_at': datetime.now() - timedelta(days=5),
-            'activation_level': 1.0
-        }
+        memory = {"accessed_at": datetime.now() - timedelta(days=5), "activation_level": 1.0}
 
         activation = decay.calculate_activation(memory)
 
@@ -144,9 +134,9 @@ class TestMemoryDecay:
         decay = MemoryDecay(workspace=str(tmp_path))
 
         memory = {
-            'memory_type': 'episodic',
-            'accessed_at': datetime.now() - timedelta(days=30),
-            'activation_level': 0.1
+            "memory_type": "episodic",
+            "accessed_at": datetime.now() - timedelta(days=30),
+            "activation_level": 0.1,
         }
 
         should_archive = decay.should_archive(memory)
@@ -158,11 +148,7 @@ class TestMemoryDecay:
         """Test should_archive for high activation memory"""
         decay = MemoryDecay(workspace=str(tmp_path))
 
-        memory = {
-            'memory_type': 'episodic',
-            'accessed_at': datetime.now(),
-            'activation_level': 1.0
-        }
+        memory = {"memory_type": "episodic", "accessed_at": datetime.now(), "activation_level": 1.0}
 
         should_archive = decay.should_archive(memory)
 
@@ -174,9 +160,9 @@ class TestMemoryDecay:
         decay = MemoryDecay(workspace=str(tmp_path))
 
         memory = {
-            'memory_type': 'episodic',
-            'accessed_at': datetime.now() - timedelta(days=35),  # > 30 days
-            'activation_level': 0.1
+            "memory_type": "episodic",
+            "accessed_at": datetime.now() - timedelta(days=35),  # > 30 days
+            "activation_level": 0.1,
         }
 
         should_expire = decay.should_expire(memory)
@@ -189,9 +175,9 @@ class TestMemoryDecay:
         decay = MemoryDecay(workspace=str(tmp_path))
 
         memory = {
-            'memory_type': 'episodic',
-            'accessed_at': datetime.now() - timedelta(days=10),
-            'activation_level': 0.5
+            "memory_type": "episodic",
+            "accessed_at": datetime.now() - timedelta(days=10),
+            "activation_level": 0.5,
         }
 
         should_expire = decay.should_expire(memory)
@@ -204,9 +190,9 @@ class TestMemoryDecay:
         decay = MemoryDecay(workspace=str(tmp_path))
 
         memory = {
-            'memory_type': 'semantic',
-            'accessed_at': datetime.now() - timedelta(days=365),
-            'activation_level': 0.1
+            "memory_type": "semantic",
+            "accessed_at": datetime.now() - timedelta(days=365),
+            "activation_level": 0.1,
         }
 
         should_expire = decay.should_expire(memory)
@@ -219,9 +205,9 @@ class TestMemoryDecay:
         decay = MemoryDecay(workspace=str(tmp_path))
 
         memory = {
-            'memory_type': 'procedural',
-            'accessed_at': datetime.now() - timedelta(days=365),
-            'activation_level': 0.1
+            "memory_type": "procedural",
+            "accessed_at": datetime.now() - timedelta(days=365),
+            "activation_level": 0.1,
         }
 
         should_expire = decay.should_expire(memory)
@@ -233,10 +219,7 @@ class TestMemoryDecay:
         """Test should_expire without accessed_at"""
         decay = MemoryDecay(workspace=str(tmp_path))
 
-        memory = {
-            'memory_type': 'episodic',
-            'activation_level': 0.5
-        }
+        memory = {"memory_type": "episodic", "activation_level": 0.5}
 
         should_expire = decay.should_expire(memory)
 
@@ -249,30 +232,30 @@ class TestMemoryDecay:
 
         memories = [
             {
-                'id': 'mem_001',
-                'memory_type': 'episodic',
-                'accessed_at': datetime.now() - timedelta(days=35),
-                'activation_level': 0.1
+                "id": "mem_001",
+                "memory_type": "episodic",
+                "accessed_at": datetime.now() - timedelta(days=35),
+                "activation_level": 0.1,
             },
             {
-                'id': 'mem_002',
-                'memory_type': 'episodic',
-                'accessed_at': datetime.now() - timedelta(days=30),
-                'activation_level': 0.2
+                "id": "mem_002",
+                "memory_type": "episodic",
+                "accessed_at": datetime.now() - timedelta(days=30),
+                "activation_level": 0.2,
             },
             {
-                'id': 'mem_003',
-                'memory_type': 'semantic',
-                'accessed_at': datetime.now() - timedelta(days=10),
-                'activation_level': 0.8
-            }
+                "id": "mem_003",
+                "memory_type": "semantic",
+                "accessed_at": datetime.now() - timedelta(days=10),
+                "activation_level": 0.8,
+            },
         ]
 
         result = decay.process_memories(memories)
 
-        assert len(result['active']) >= 1
-        assert len(result['archive']) >= 1
-        assert len(result['expire']) == 1
+        assert len(result["active"]) >= 1
+        assert len(result["archive"]) >= 1
+        assert len(result["expire"]) == 1
 
     def test_process_memories_empty(self, tmp_path):
         """Test processing empty memory list"""
@@ -280,17 +263,17 @@ class TestMemoryDecay:
 
         result = decay.process_memories([])
 
-        assert result['active'] == []
-        assert result['archive'] == []
-        assert result['expire'] == []
+        assert result["active"] == []
+        assert result["archive"] == []
+        assert result["expire"] == []
 
     def test_log_archive(self, tmp_path):
         """Test logging archived memories"""
         decay = MemoryDecay(workspace=str(tmp_path))
 
         archived_memories = [
-            {'id': 'mem_001', 'activation_level': 0.2},
-            {'id': 'mem_002', 'activation_level': 0.1}
+            {"id": "mem_001", "activation_level": 0.2},
+            {"id": "mem_002", "activation_level": 0.1},
         ]
 
         decay.log_archive(archived_memories)
@@ -323,9 +306,9 @@ class TestMemoryDecay:
         """Test decay constants are correct"""
         decay = MemoryDecay(workspace=str(tmp_path))
 
-        assert decay.decay_constants['episodic'] == 7
-        assert decay.decay_constants['semantic'] == 90
-        assert decay.decay_constants['procedural'] == 180
+        assert decay.decay_constants["episodic"] == 7
+        assert decay.decay_constants["semantic"] == 90
+        assert decay.decay_constants["procedural"] == 180
 
     def test_archive_threshold(self, tmp_path):
         """Test archive threshold is correct"""
@@ -337,18 +320,18 @@ class TestMemoryDecay:
         """Test expiry days are correct"""
         decay = MemoryDecay(workspace=str(tmp_path))
 
-        assert decay.EXPIRY_DAYS['episodic'] == 30
-        assert decay.EXPIRY_DAYS['semantic'] is None
-        assert decay.EXPIRY_DAYS['procedural'] is None
+        assert decay.EXPIRY_DAYS["episodic"] == 30
+        assert decay.EXPIRY_DAYS["semantic"] is None
+        assert decay.EXPIRY_DAYS["procedural"] is None
 
     def test_calculate_activation_formula(self, tmp_path):
         """Test activation calculation follows formula A(t) = A₀ * exp(-t/τ)"""
         decay = MemoryDecay(workspace=str(tmp_path))
 
         memory = {
-            'memory_type': 'episodic',
-            'accessed_at': datetime.now() - timedelta(days=7),  # Exactly half-life
-            'activation_level': 1.0
+            "memory_type": "episodic",
+            "accessed_at": datetime.now() - timedelta(days=7),  # Exactly half-life
+            "activation_level": 1.0,
         }
 
         activation = decay.calculate_activation(memory)
@@ -362,17 +345,17 @@ class TestMemoryDecay:
 
         # Memory with activation just below threshold (after decay)
         memory_below = {
-            'memory_type': 'episodic',
-            'accessed_at': datetime.now() - timedelta(days=30),
-            'activation_level': 0.29
+            "memory_type": "episodic",
+            "accessed_at": datetime.now() - timedelta(days=30),
+            "activation_level": 0.29,
         }
 
         # Memory with activation well above threshold (after decay)
         # After 5 days: 0.9 * exp(-5/7) ≈ 0.52 > 0.3
         memory_above = {
-            'memory_type': 'episodic',
-            'accessed_at': datetime.now() - timedelta(days=5),
-            'activation_level': 0.9
+            "memory_type": "episodic",
+            "accessed_at": datetime.now() - timedelta(days=5),
+            "activation_level": 0.9,
         }
 
         assert decay.should_archive(memory_below) is True

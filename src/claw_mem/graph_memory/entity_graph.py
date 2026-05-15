@@ -40,9 +40,7 @@ class EntityGraph:
                 entities.append(word)
         # Email/URL patterns
         entities.extend(re.findall(r"[\w.+-]+@[\w-]+\.[\w.-]+", str(text)))
-        entities.extend(
-            re.findall(r"https?://[\w./-]+", str(text))
-        )
+        entities.extend(re.findall(r"https?://[\w./-]+", str(text)))
         return list(set(entities))
 
     def get_related(self, memory_id: str, limit: int = 10) -> List[Dict]:

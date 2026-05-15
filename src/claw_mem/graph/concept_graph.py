@@ -38,6 +38,7 @@ from .extractors import BaseExtractor, DummyExtractor
 @dataclass
 class RetrievalResult:
     """检索结果"""
+
     node: Node
     score: float
     type: str
@@ -64,7 +65,7 @@ class DummyEmbedder(Embedder):
     def embed(self, text: str) -> List[float]:
         """生成伪随机嵌入"""
         # 简单的哈希基础嵌入
-        seed = hash(text) % (2 ** 32)
+        seed = hash(text) % (2**32)
         np.random.seed(seed)
         vec = np.random.randn(self.dimension)
         vec = vec / np.linalg.norm(vec)  # 归一化
@@ -120,9 +121,7 @@ class ConceptMediatedGraph:
         self.extractor = extractor or DummyExtractor()
 
     def add_conversation(
-        self,
-        turns: List[Dict[str, Any]],
-        session_id: Optional[str] = None
+        self, turns: List[Dict[str, Any]], session_id: Optional[str] = None
     ) -> List[str]:
         """添加对话,自动构建图谱
 
@@ -149,10 +148,10 @@ class ConceptMediatedGraph:
         for i, turn in enumerate(turns):
             episode = EpisodeNode(
                 id=self._generate_id(),
-                content=turn['content'],
+                content=turn["content"],
                 sequence_id=i,
-                speaker=turn.get('speaker', 'unknown'),
-                timestamp=turn.get('timestamp'),
+                speaker=turn.get("speaker", "unknown"),
+                timestamp=turn.get("timestamp"),
                 session_id=session_id,
             )
 
@@ -167,11 +166,7 @@ class ConceptMediatedGraph:
 
             # 建立 NEXT 边
             if i > 0:
-                edge = create_edge(
-                    EdgeType.NEXT,
-                    episode_ids[i - 1],
-                    episode.id
-                )
+                edge = create_edge(EdgeType.NEXT, episode_ids[i - 1], episode.id)
                 self.storage.save_edge(edge)
 
         # Step 2: 提取 Fact 节点
@@ -194,11 +189,7 @@ class ConceptMediatedGraph:
 
                 # 建立 DERIVED_FROM 边
                 for episode_id in episode_ids:
-                    edge = create_edge(
-                        EdgeType.DERIVED_FROM,
-                        fact.id,
-                        episode_id
-                    )
+                    edge = create_edge(EdgeType.DERIVED_FROM, fact.id, episode_id)
                     self.storage.save_edge(edge)
 
         # Step 3: 提取 Concept 节点
@@ -225,20 +216,13 @@ class ConceptMediatedGraph:
 
                 # 建立 HAS_CONCEPT 边
                 for episode_id in episode_ids:
-                    edge = create_edge(
-                        EdgeType.HAS_CONCEPT,
-                        episode_id,
-                        concept.id
-                    )
+                    edge = create_edge(EdgeType.HAS_CONCEPT, episode_id, concept.id)
                     self.storage.save_edge(edge)
 
         return episode_ids
 
     def add_episode(
-        self,
-        content: str,
-        speaker: str = "unknown",
-        metadata: Optional[Dict[str, Any]] = None
+        self, content: str, speaker: str = "unknown", metadata: Optional[Dict[str, Any]] = None
     ) -> str:
         """添加单个情景
 
@@ -299,11 +283,7 @@ class ConceptMediatedGraph:
 
         # 建立来源边
         if source_episode_id:
-            edge = create_edge(
-                EdgeType.DERIVED_FROM,
-                fact.id,
-                source_episode_id
-            )
+            edge = create_edge(EdgeType.DERIVED_FROM, fact.id, source_episode_id)
             self.storage.save_edge(edge)
 
         return fact.id
@@ -374,11 +354,7 @@ class ConceptMediatedGraph:
 
         # 建立来源边
         for source_id in source_node_ids:
-            edge = create_edge(
-                EdgeType.SYNTHESIZED_FROM,
-                reflection.id,
-                source_id
-            )
+            edge = create_edge(EdgeType.SYNTHESIZED_FROM, reflection.id, source_id)
             self.storage.save_edge(edge)
 
         return reflection.id
@@ -431,7 +407,9 @@ class ConceptMediatedGraph:
         ppr_scores: Dict[str, float] = {}
         if alpha < 1:
             degree_dict = self._compute_ppr_scores(all_nodes)
-            max_degree = max(degree_dict.values()) if degree_dict and any(degree_dict.values()) else 1
+            max_degree = (
+                max(degree_dict.values()) if degree_dict and any(degree_dict.values()) else 1
+            )
             if max_degree == 0:
                 max_degree = 1
             for node_id, degree in degree_dict.items():
@@ -451,11 +429,13 @@ class ConceptMediatedGraph:
         for node_id, score in sorted_nodes[:k]:
             node = self.storage.get_node(node_id)
             if node:
-                results.append(RetrievalResult(
-                    node=node,
-                    score=score,
-                    type=node.type.value,
-                ))
+                results.append(
+                    RetrievalResult(
+                        node=node,
+                        score=score,
+                        type=node.type.value,
+                    )
+                )
 
         return results
 
@@ -470,11 +450,11 @@ class ConceptMediatedGraph:
 
     def get_stats(self) -> Dict[str, Any]:
         """get统计信息"""
-        if hasattr(self.storage, 'get_stats'):
+        if hasattr(self.storage, "get_stats"):
             return self.storage.get_stats()
         return {
-            'total_nodes': len(self.storage.get_all_nodes()),
-            'total_edges': len(self.storage.get_all_edges()),
+            "total_nodes": len(self.storage.get_all_nodes()),
+            "total_edges": len(self.storage.get_all_edges()),
         }
 
     def _generate_id(self) -> str:
@@ -488,7 +468,7 @@ class ConceptMediatedGraph:
 
         try:
             # 合并所有对话内容
-            text = "\n".join([t['content'] for t in turns])
+            text = "\n".join([t["content"] for t in turns])
             return self.extractor.extract_facts(text)
         except Exception:
             return []
@@ -499,7 +479,7 @@ class ConceptMediatedGraph:
             return []
 
         try:
-            text = "\n".join([t['content'] for t in turns])
+            text = "\n".join([t["content"] for t in turns])
             return self.extractor.extract_concepts(text)
         except Exception:
             return []
@@ -529,15 +509,15 @@ class ConceptMediatedGraph:
             score = len(neighbors)
             if node.type == NodeType.CONCEPT:
                 if isinstance(node, ConceptNode):
-                    score *= (1 + node.frequency * 0.1)
+                    score *= 1 + node.frequency * 0.1
             scores[node.id] = score
         return scores
 
 
 __all__ = [
-    'ConceptMediatedGraph',
-    'RetrievalResult',
-    'Embedder',
-    'DummyEmbedder',
-    'LLMExtractor',
+    "ConceptMediatedGraph",
+    "RetrievalResult",
+    "Embedder",
+    "DummyEmbedder",
+    "LLMExtractor",
 ]

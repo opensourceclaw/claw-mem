@@ -31,8 +31,8 @@ from claw_mem.adapters import (
     V2Strategy,
 )
 
-
 # ---- Helpers ----------------------------------------------------------------
+
 
 def _make_mock_result(id_str, content, score=0.8, metadata=None, text=None):
     """Create a dict that looks like a MemoryManager.search() result."""
@@ -52,13 +52,18 @@ def _make_mock_manager():
         _make_mock_result("mem-2", "Memory two content", score=0.85, metadata={"key": "val"}),
     ]
     mgr.store.return_value = "new-id-1234"
-    mgr.get.return_value = {"id": "mem-1", "content": "Memory one content", "metadata": {"tag": "test"}}
+    mgr.get.return_value = {
+        "id": "mem-1",
+        "content": "Memory one content",
+        "metadata": {"tag": "test"},
+    }
     mgr.delete.return_value = True
     mgr.get_stats.return_value = {"episodic": 10, "semantic": 5, "procedural": 2}
     return mgr
 
 
 # ---- SearchCache ------------------------------------------------------------
+
 
 class TestSearchCache:
     def test_get_set_hit(self):
@@ -100,6 +105,7 @@ class TestSearchCache:
 
 # ---- BaseAdapter ABC --------------------------------------------------------
 
+
 class TestBaseAdapter:
     def test_cannot_instantiate_abstract(self):
         with pytest.raises(TypeError):
@@ -107,13 +113,15 @@ class TestBaseAdapter:
 
     def test_concrete_subclass_must_implement_all(self):
         class Partial(BaseAdapter):
-            def get_version(self): pass
+            def get_version(self):
+                pass
 
         with pytest.raises(TypeError):
             Partial()
 
 
 # ---- V2Strategy -------------------------------------------------------------
+
 
 class TestV2Strategy:
     def test_get_version(self):
@@ -153,13 +161,17 @@ class TestV2Strategy:
         mgr = _make_mock_manager()
         mgr.search.return_value = [_make_mock_result("1", "test memory")]
 
-        with patch("claw_mem.context_injection.format_memory_context", return_value="--- formatted ---"):
+        with patch(
+            "claw_mem.context_injection.format_memory_context", return_value="--- formatted ---"
+        ):
             with patch("claw_mem.context_injection.LayeredContextFormatter") as mock_layered:
                 mock_formatter = MagicMock()
                 mock_formatter.format.return_value = "--- layered ---"
                 mock_formatter.token_report.return_value = {
-                    "full_tokens": 100, "layered_tokens": 50,
-                    "saved_tokens": 50, "savings_pct": 50.0,
+                    "full_tokens": 100,
+                    "layered_tokens": 50,
+                    "saved_tokens": 50,
+                    "savings_pct": 50.0,
                     "layers_active": ["core"],
                 }
                 mock_layered.return_value = mock_formatter
@@ -238,6 +250,7 @@ class TestV2Strategy:
 
 # ---- V1Strategy -------------------------------------------------------------
 
+
 class TestV1Strategy:
     def test_get_version(self):
         s = V1Strategy()
@@ -271,7 +284,9 @@ class TestV1Strategy:
         mgr = _make_mock_manager()
         mgr.search.return_value = [_make_mock_result("1", "test memory")]
 
-        with patch("claw_mem.context_injection.format_memory_context", return_value="--- formatted ---"):
+        with patch(
+            "claw_mem.context_injection.format_memory_context", return_value="--- formatted ---"
+        ):
             result = s.build_context(mgr, {"topK": 5, "query": "test"})
             assert result["count"] == 1
             assert result["context"] == ["--- formatted ---"]
@@ -314,6 +329,7 @@ class TestV1Strategy:
 
 
 # ---- OpenClawAdapter ---------------------------------------------------------
+
 
 class TestOpenClawAdapter:
     @pytest.fixture
@@ -435,7 +451,9 @@ class TestOpenClawAdapter:
         assert result["sessions"] == []
 
     def test_build_context_delegates(self, adapter, strategy, mgr):
-        with patch.object(strategy, "build_context", return_value={"context": [], "count": 0}) as mock_bc:
+        with patch.object(
+            strategy, "build_context", return_value={"context": [], "count": 0}
+        ) as mock_bc:
             adapter.build_context({"query": "test"})
             mock_bc.assert_called_once_with(mgr, {"query": "test"})
 
@@ -446,6 +464,7 @@ class TestOpenClawAdapter:
 
 
 # ---- AdapterRegistry ---------------------------------------------------------
+
 
 class TestAdapterRegistry:
     def test_detect_version_default(self):
@@ -485,7 +504,9 @@ class TestAdapterRegistry:
             AdapterRegistry.create_strategy("v3")
 
     def test_create_strategy_with_default(self):
-        with patch("claw_mem.adapters.registry.AdapterRegistry.detect_version_key", return_value="v2"):
+        with patch(
+            "claw_mem.adapters.registry.AdapterRegistry.detect_version_key", return_value="v2"
+        ):
             s = AdapterRegistry.create_strategy()
             assert isinstance(s, V2Strategy)
 
@@ -503,6 +524,7 @@ class TestAdapterRegistry:
 
 
 # ---- Integration / Regression ------------------------------------------------
+
 
 class TestIntegration:
     """End-to-end tests: bridge-like usage with mock manager."""

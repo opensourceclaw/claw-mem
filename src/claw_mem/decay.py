@@ -11,9 +11,7 @@ logger = logging.getLogger(__name__)
 class ReadGate:
     """Uncertainty-gated retrieval filter."""
 
-    def filter(
-        self, results: List[Dict], threshold: float = 0.3
-    ) -> List[Dict]:
+    def filter(self, results: List[Dict], threshold: float = 0.3) -> List[Dict]:
         """Filter results below confidence/accessibility threshold."""
         return [r for r in results if r.get("accessibility", r.get("score", 1.0)) >= threshold]
 
@@ -21,9 +19,7 @@ class ReadGate:
 class WriteGate:
     """Feedback-driven write control."""
 
-    def should_store(
-        self, content: str, feedback: Optional[float] = None
-    ) -> bool:
+    def should_store(self, content: str, feedback: Optional[float] = None) -> bool:
         """Decide whether to store based on content significance."""
         if not content or len(str(content).strip()) < 3:
             return False
@@ -69,9 +65,7 @@ class DecayController:
                 mem["_forgotten"] = True
         return memories
 
-    def get_accessibility(
-        self, memory: Dict, last_access: Optional[float] = None
-    ) -> float:
+    def get_accessibility(self, memory: Dict, last_access: Optional[float] = None) -> float:
         """Compute current accessibility of a memory."""
         ts = last_access or memory.get("timestamp", time.time())
         elapsed = max(0, time.time() - ts)
@@ -83,8 +77,6 @@ class DecayController:
         acc = self.get_accessibility(memory)
         return acc < self.forget_threshold
 
-    def get_forgettable(
-        self, memories: List[Dict]
-    ) -> List[Dict]:
+    def get_forgettable(self, memories: List[Dict]) -> List[Dict]:
         """Return memories that should be forgotten."""
         return [m for m in memories if self.should_forget(m)]

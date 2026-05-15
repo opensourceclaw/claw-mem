@@ -35,11 +35,7 @@ class TestNode:
     """测试节点基类"""
 
     def test_create_node(self):
-        node = Node(
-            id="test_1",
-            type=NodeType.EPISODE,
-            content="Test content"
-        )
+        node = Node(id="test_1", type=NodeType.EPISODE, content="Test content")
         assert node.id == "test_1"
         assert node.type == NodeType.EPISODE
         assert node.content == "Test content"
@@ -47,22 +43,18 @@ class TestNode:
         assert node.created_at is not None
 
     def test_node_to_dict(self):
-        node = Node(
-            id="test_1",
-            type=NodeType.EPISODE,
-            content="Test content"
-        )
+        node = Node(id="test_1", type=NodeType.EPISODE, content="Test content")
         data = node.to_dict()
-        assert data['id'] == "test_1"
-        assert data['type'] == "episode"
-        assert data['content'] == "Test content"
+        assert data["id"] == "test_1"
+        assert data["type"] == "episode"
+        assert data["content"] == "Test content"
 
     def test_node_from_dict(self):
         data = {
-            'id': 'test_1',
-            'type': 'episode',
-            'content': 'Test content',
-            'metadata': {'key': 'value'},
+            "id": "test_1",
+            "type": "episode",
+            "content": "Test content",
+            "metadata": {"key": "value"},
         }
         node = Node.from_dict(data)
         assert node.id == "test_1"
@@ -74,23 +66,14 @@ class TestEpisodeNode:
     """测试情景节点"""
 
     def test_create_episode_node(self):
-        node = EpisodeNode(
-            id="ep_1",
-            content="用户说:你好",
-            sequence_id=0,
-            speaker="user"
-        )
+        node = EpisodeNode(id="ep_1", content="用户说:你好", sequence_id=0, speaker="user")
         assert node.type == NodeType.EPISODE
         assert node.sequence_id == 0
         assert node.speaker == "user"
 
     def test_episode_node_with_timestamp(self):
         ts = datetime.now()
-        node = EpisodeNode(
-            id="ep_1",
-            content="Test",
-            timestamp=ts
-        )
+        node = EpisodeNode(id="ep_1", content="Test", timestamp=ts)
         assert node.timestamp == ts
 
 
@@ -99,10 +82,7 @@ class TestFactNode:
 
     def test_create_fact_node(self):
         node = FactNode(
-            id="fact_1",
-            content="Python 是一种编程语言",
-            confidence=0.9,
-            source_episode="ep_1"
+            id="fact_1", content="Python 是一种编程语言", confidence=0.9, source_episode="ep_1"
         )
         assert node.type == NodeType.FACT
         assert node.confidence == 0.9
@@ -117,7 +97,7 @@ class TestReflectionNode:
             id="ref_1",
             content="用户对 Python 感兴趣",
             summary_type="insight",
-            source_node_ids=["ep_1", "ep_2"]
+            source_node_ids=["ep_1", "ep_2"],
         )
         assert node.type == NodeType.REFLECTION
         assert node.summary_type == "insight"
@@ -128,12 +108,7 @@ class TestConceptNode:
     """测试概念节点"""
 
     def test_create_concept_node(self):
-        node = ConceptNode(
-            id="concept_1",
-            content="Python",
-            category="topic",
-            frequency=5
-        )
+        node = ConceptNode(id="concept_1", content="Python", category="topic", frequency=5)
         assert node.type == NodeType.CONCEPT
         assert node.category == "topic"
         assert node.frequency == 5

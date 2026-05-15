@@ -6,7 +6,10 @@ from collections import defaultdict, deque
 from typing import Any, Dict, List, Optional, Set
 
 from claw_mem.graph_memory import (
-    MultiGraphMemory, SemanticGraph, TemporalGraph, EntityGraph,
+    MultiGraphMemory,
+    SemanticGraph,
+    TemporalGraph,
+    EntityGraph,
 )
 
 logger = logging.getLogger(__name__)

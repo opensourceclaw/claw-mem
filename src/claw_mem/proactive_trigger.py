@@ -23,20 +23,32 @@ class ProactiveTrigger:
     def add_time_trigger(self, memory_id: str, trigger_time: float, message: str) -> str:
         """Add a time-based trigger."""
         tid = f"time_{len(self._time_triggers)}"
-        self._time_triggers.append({
-            "id": tid, "type": "time", "memory_id": memory_id,
-            "trigger_time": trigger_time, "message": message, "fired": False,
-        })
+        self._time_triggers.append(
+            {
+                "id": tid,
+                "type": "time",
+                "memory_id": memory_id,
+                "trigger_time": trigger_time,
+                "message": message,
+                "fired": False,
+            }
+        )
         logger.debug("Time trigger added: %s for %s", message, memory_id)
         return tid
 
     def add_event_trigger(self, memory_id: str, event_pattern: str, message: str) -> str:
         """Add an event-based trigger (e.g., 'mention:Project Neo')."""
         tid = f"event_{len(self._event_triggers)}"
-        self._event_triggers.append({
-            "id": tid, "type": "event", "memory_id": memory_id,
-            "event_pattern": event_pattern, "message": message, "fired": False,
-        })
+        self._event_triggers.append(
+            {
+                "id": tid,
+                "type": "event",
+                "memory_id": memory_id,
+                "event_pattern": event_pattern,
+                "message": message,
+                "fired": False,
+            }
+        )
         return tid
 
     def check_triggers(self, context: Optional[Dict] = None) -> List[Dict]:

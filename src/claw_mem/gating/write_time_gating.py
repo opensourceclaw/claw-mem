@@ -18,6 +18,7 @@ import math
 @dataclass
 class GatingResult:
     """门控结果"""
+
     stored: bool
     tier: str  # 'active' | 'cold'
     salience_score: float
@@ -28,6 +29,7 @@ class GatingResult:
 @dataclass
 class GatingFilterResult:
     """门控过滤器结果"""
+
     should_store: bool
     importance_score: float
     reason: Optional[str] = None
@@ -60,16 +62,16 @@ class GatingFilter:
 
     # 内存类型默认权重
     TYPE_WEIGHTS = {
-        'semantic': 0.5,
-        'procedural': 0.3,
-        'episodic': 0.0,
+        "semantic": 0.5,
+        "procedural": 0.3,
+        "episodic": 0.0,
     }
 
     def __init__(
         self,
         scorer: Optional[Any] = None,
         threshold: float = DEFAULT_THRESHOLD,
-        custom_score_func: Optional[Callable[[Dict], float]] = None
+        custom_score_func: Optional[Callable[[Dict], float]] = None,
     ):
         """
         Args:
@@ -119,9 +121,9 @@ class GatingFilter:
             importance_score=score,
             reason=reason,
             metadata={
-                'memory_type': memory.get('memory_type', 'unknown'),
-                'threshold': self.threshold
-            }
+                "memory_type": memory.get("memory_type", "unknown"),
+                "threshold": self.threshold,
+            },
         )
 
     def _default_score(self, memory: Dict[str, Any]) -> float:
@@ -129,11 +131,11 @@ class GatingFilter:
         score = 1.0  # 基础分
 
         # 记忆类型权重
-        mem_type = memory.get('memory_type', 'episodic')
+        mem_type = memory.get("memory_type", "episodic")
         score += self.TYPE_WEIGHTS.get(mem_type, 0.0)
 
         # 访问频率权重
-        access_count = memory.get('access_count', 0)
+        access_count = memory.get("access_count", 0)
         if access_count > 10:
             score += 0.3
         elif access_count > 5:
@@ -142,23 +144,25 @@ class GatingFilter:
             score += 0.1
 
         # 来源权重
-        source = memory.get('source', 'system')
-        if source == 'user':
+        source = memory.get("source", "system")
+        if source == "user":
             score += 0.2
-        elif source == 'agent':
+        elif source == "agent":
             score += 0.1
 
         return min(2.0, score)
 
     def _generate_reason(self, memory: Dict[str, Any], score: float, should_store: bool) -> str:
         """生成决策原因"""
-        mem_type = memory.get('memory_type', 'unknown')
-        source = memory.get('source', 'unknown')
+        mem_type = memory.get("memory_type", "unknown")
+        source = memory.get("source", "unknown")
 
         if should_store:
             return f"High importance ({score:.2f} >= {self.threshold}): type={mem_type}, source={source}"
         else:
-            return f"Low importance ({score:.2f} < {self.threshold}): type={mem_type}, source={source}"
+            return (
+                f"Low importance ({score:.2f} < {self.threshold}): type={mem_type}, source={source}"
+            )
 
     def set_threshold(self, threshold: float):
         """设置新阈值"""
@@ -172,16 +176,16 @@ class GatingFilter:
 class _DefaultImportanceScorer:
     """默认重要性评分器"""
 
-    def calculate(self, memory: Dict[str, Any]) -> 'MemoryImportance':
+    def calculate(self, memory: Dict[str, Any]) -> "MemoryImportance":
         """计算重要性"""
         # 简化实现
         score = 1.0
-        mem_type = memory.get('memory_type') or 'episodic'
+        mem_type = memory.get("memory_type") or "episodic"
 
-        type_weights = {'semantic': 0.5, 'procedural': 0.3, 'episodic': 0.0}
+        type_weights = {"semantic": 0.5, "procedural": 0.3, "episodic": 0.0}
         score += type_weights.get(mem_type, 0.0)
 
-        access_count = memory.get('access_count') or 0
+        access_count = memory.get("access_count") or 0
         if access_count > 10:
             score += 0.3
         elif access_count > 5:
@@ -194,6 +198,7 @@ class _DefaultImportanceScorer:
 
 class MemoryImportance:
     """记忆重要性数据结构"""
+
     def __init__(self, total_score: float = 1.0):
         self.total_score = total_score
 
@@ -228,7 +233,7 @@ class AdaptiveThreshold:
         min_threshold: float = 0.5,
         max_threshold: float = 1.5,
         memory_capacity: int = 1000,
-        scale_factor: float = 0.5
+        scale_factor: float = 0.5,
     ):
         """
         Args:
@@ -279,13 +284,13 @@ class AdaptiveThreshold:
         """
         threshold = self.get_threshold(current_memory_count)
         return {
-            'current_count': current_memory_count,
-            'capacity': self.memory_capacity,
-            'usage_ratio': current_memory_count / self.memory_capacity,
-            'current_threshold': threshold,
-            'base_threshold': self.base_threshold,
-            'min_threshold': self.min_threshold,
-            'max_threshold': self.max_threshold
+            "current_count": current_memory_count,
+            "capacity": self.memory_capacity,
+            "usage_ratio": current_memory_count / self.memory_capacity,
+            "current_threshold": threshold,
+            "base_threshold": self.base_threshold,
+            "min_threshold": self.min_threshold,
+            "max_threshold": self.max_threshold,
         }
 
     def reset(self):
@@ -301,18 +306,14 @@ class InMemoryStorage:
 
     def store(self, item: Dict[str, Any]) -> Dict[str, Any]:
         """storage到活跃记忆"""
-        stored_item = {
-            **item,
-            '_stored_at': datetime.now().isoformat(),
-            '_tier': 'active'
-        }
+        stored_item = {**item, "_stored_at": datetime.now().isoformat(), "_tier": "active"}
         self._items.append(stored_item)
         return stored_item
 
     def get(self, key: str) -> Optional[Dict[str, Any]]:
         """get记忆项"""
         for item in self._items:
-            if item.get('id') == key or item.get('content', '').startswith(key):
+            if item.get("id") == key or item.get("content", "").startswith(key):
                 return item
         return None
 
@@ -334,6 +335,7 @@ class DiskStorage:
 
     def __init__(self, storage_path: str = "/tmp/claw-mem-cold"):
         import os
+
         self._storage_path = storage_path
         os.makedirs(storage_path, exist_ok=True)
         self._count = 0
@@ -343,15 +345,11 @@ class DiskStorage:
         import json
         import os
 
-        stored_item = {
-            **item,
-            '_stored_at': datetime.now().isoformat(),
-            '_tier': 'cold'
-        }
+        stored_item = {**item, "_stored_at": datetime.now().isoformat(), "_tier": "cold"}
 
         # 使用时间戳作为文件名
         filename = f"{self._storage_path}/{int(time.time() * 1000)}.json"
-        with open(filename, 'w') as f:
+        with open(filename, "w") as f:
             json.dump(stored_item, f)
 
         self._count += 1
@@ -368,7 +366,7 @@ class DiskStorage:
 
         items = []
         for filename in os.listdir(self._storage_path):
-            if filename.endswith('.json'):
+            if filename.endswith(".json"):
                 with open(f"{self._storage_path}/{filename}") as f:
                     items.append(json.load(f))
         return items
@@ -382,10 +380,7 @@ class VersionChain:
 
     def append(self, item: Dict[str, Any]):
         """追加版本"""
-        self._chain.append({
-            **item,
-            '_version': len(self._chain)
-        })
+        self._chain.append({**item, "_version": len(self._chain)})
 
     def get(self, index: int) -> Optional[Dict[str, Any]]:
         """get指定版本"""
@@ -428,7 +423,7 @@ class WriteTimeGating:
         self,
         threshold: float = 0.6,
         active_memory: Optional[Any] = None,
-        cold_storage: Optional[Any] = None
+        cold_storage: Optional[Any] = None,
     ):
         """
         Args:
@@ -464,13 +459,13 @@ class WriteTimeGating:
         if salience >= self.threshold:
             # 高显著性 → 活跃记忆
             stored_item = self.active_memory.store(item)
-            tier = 'active'
+            tier = "active"
             stored = True
             reason = f"High salience ({salience:.2f} >= {self.threshold})"
         else:
             # 低显著性 → 冷storage
             stored_item = self.cold_storage.archive(item)
-            tier = 'cold'
+            tier = "cold"
             stored = True
             reason = f"Low salience ({salience:.2f} < {self.threshold})"
 
@@ -479,12 +474,7 @@ class WriteTimeGating:
 
         elapsed_ms = (time.time() - start_time) * 1000
 
-        return GatingResult(
-            stored=stored,
-            tier=tier,
-            salience_score=salience,
-            reason=reason
-        )
+        return GatingResult(stored=stored, tier=tier, salience_score=salience, reason=reason)
 
     def should_store(self, item: Dict[str, Any]) -> bool:
         """判断是否shouldstorage(预check)
@@ -501,13 +491,13 @@ class WriteTimeGating:
     def get_stats(self) -> Dict[str, Any]:
         """get统计信息"""
         return {
-            'active_count': self.active_memory.count(),
-            'cold_count': self.cold_storage.count(),
-            'version_chain_length': len(self.version_chain),
-            'threshold': self.threshold
+            "active_count": self.active_memory.count(),
+            "cold_count": self.cold_storage.count(),
+            "version_chain_length": len(self.version_chain),
+            "threshold": self.threshold,
         }
 
-    def promote(self, item_id: str, target_tier: str = 'active') -> bool:
+    def promote(self, item_id: str, target_tier: str = "active") -> bool:
         """提升记忆项到更高层级
 
         Args:
@@ -520,7 +510,7 @@ class WriteTimeGating:
         # 从冷storage读取
         cold_items = self.cold_storage.list_all()
         for item in cold_items:
-            if item.get('id') == item_id or item.get('content', '').startswith(item_id):
+            if item.get("id") == item_id or item.get("content", "").startswith(item_id):
                 # 移动到活跃记忆
                 self.active_memory.store(item)
                 return True
@@ -541,17 +531,13 @@ class SalienceScorer:
 
     # 来源声誉权重
     SOURCE_REPUTATION = {
-        'user': 1.0,      # user输入最高优first级
-        'agent': 0.8,     # Agent 生成的信息
-        'system': 0.6,    # 系统信息
-        'external': 0.4   # 外部来源
+        "user": 1.0,  # user输入最高优first级
+        "agent": 0.8,  # Agent 生成的信息
+        "system": 0.6,  # 系统信息
+        "external": 0.4,  # 外部来源
     }
 
-    def __init__(
-        self,
-        weights: Dict[str, float] = None,
-        novelty_window: int = 100
-    ):
+    def __init__(self, weights: Dict[str, float] = None, novelty_window: int = 100):
         """
         Args:
             weights: 各维度权重,默认:
@@ -560,11 +546,7 @@ class SalienceScorer:
                 - reliability: 0.3
             novelty_window: 新颖性计算窗口大小
         """
-        self.weights = weights or {
-            'source_reputation': 0.4,
-            'novelty': 0.3,
-            'reliability': 0.3
-        }
+        self.weights = weights or {"source_reputation": 0.4, "novelty": 0.3, "reliability": 0.3}
         self.novelty_window = novelty_window
         self.recent_items: List[str] = []
 
@@ -578,23 +560,23 @@ class SalienceScorer:
             float: 显著性分数 (0.0 ~ 1.0)
         """
         # 1. 来源声誉 (40%)
-        source_score = self._source_reputation(item.get('source', 'external'))
+        source_score = self._source_reputation(item.get("source", "external"))
 
         # 2. 新颖性 (30%)
-        novelty_score = self._novelty(item.get('content', ''))
+        novelty_score = self._novelty(item.get("content", ""))
 
         # 3. 可靠性 (30%)
         reliability_score = self._reliability(item)
 
         # 加权平均
         salience = (
-            self.weights['source_reputation'] * source_score +
-            self.weights['novelty'] * novelty_score +
-            self.weights['reliability'] * reliability_score
+            self.weights["source_reputation"] * source_score
+            + self.weights["novelty"] * novelty_score
+            + self.weights["reliability"] * reliability_score
         )
 
         # update最近记录
-        self._update_recent(item.get('content', ''))
+        self._update_recent(item.get("content", ""))
 
         return salience
 
@@ -612,10 +594,7 @@ class SalienceScorer:
 
         # 简单实现:计算与最近内容的相似度
         # 实际实现可以使用更复杂的算法
-        similarities = [
-            self._simple_similarity(content, recent)
-            for recent in self.recent_items
-        ]
+        similarities = [self._simple_similarity(content, recent) for recent in self.recent_items]
 
         avg_similarity = sum(similarities) / len(similarities)
 
@@ -632,16 +611,16 @@ class SalienceScorer:
         score = 0.5  # 基础分
 
         # 来源加分
-        source = item.get('source', '')
-        if source in ['user', 'agent']:
+        source = item.get("source", "")
+        if source in ["user", "agent"]:
             score += 0.2
 
         # validate状态加分
-        if item.get('verified', False):
+        if item.get("verified", False):
             score += 0.2
 
         # 上下文完整性加分
-        context = item.get('context', {})
+        context = item.get("context", {})
         if context and len(context) > 0:
             score += 0.1
 

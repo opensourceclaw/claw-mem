@@ -21,7 +21,7 @@ logger = logging.getLogger(__name__)
 class AttentionIndex:
     """
     Manages the in-memory representation of the Attention DAG.
-    
+
     Acts as the bridge between the persistent Markdown files (Disk)
     and the real-time attention scoring logic (RAM).
     """
@@ -38,7 +38,7 @@ class AttentionIndex:
         """
         logger.info(f"Building Attention Index from: {self.memory_root}")
         self.nodes.clear()
-        
+
         if not self.memory_root.exists():
             logger.warning(f"Memory root not found: {self.memory_root}")
             return
@@ -60,9 +60,9 @@ class AttentionIndex:
         Expects YAML Frontmatter at the top of the file.
         """
         try:
-            with open(file_path, 'r', encoding='utf-8') as f:
+            with open(file_path, "r", encoding="utf-8") as f:
                 content = f.read()
-            
+
             # Simple Frontmatter extraction (assumes --- delimiter)
             if content.startswith("---"):
                 parts = content.split("---", 2)
@@ -74,11 +74,11 @@ class AttentionIndex:
                             content_path=str(file_path),
                             score=float(meta.get("attention_score", 0.5)),
                             parents=meta.get("parents", []),
-                            type=meta.get("type", "message")
+                            type=meta.get("type", "message"),
                         )
         except Exception as e:
             logger.error(f"Error parsing Frontmatter in {file_path}: {e}")
-        
+
         return None
 
     def get_node(self, node_id: str) -> Optional[AttentionNode]:
@@ -92,23 +92,19 @@ class AttentionIndex:
         """
         if not self._index_built:
             return []
-        
+
         # Sort by score descending
-        sorted_nodes = sorted(
-            self.nodes.values(), 
-            key=lambda n: n.score, 
-            reverse=True
-        )
+        sorted_nodes = sorted(self.nodes.values(), key=lambda n: n.score, reverse=True)
         return sorted_nodes[:k]
 
     def get_causal_chain(self, node_id: str, max_depth: int = 2) -> List[AttentionNode]:
         """
         Retrieves a node and its parents (causal chain) from the DAG.
-        
+
         Args:
             node_id: The starting node ID.
             max_depth: How many levels of parents to traverse.
-            
+
         Returns:
             A list of nodes representing the causal chain.
         """
@@ -120,7 +116,7 @@ class AttentionIndex:
             current_id, depth = queue.pop(0)
             if current_id in visited or depth > max_depth:
                 continue
-            
+
             visited.add(current_id)
             node = self.nodes.get(current_id)
             if node:
@@ -128,13 +124,13 @@ class AttentionIndex:
                 # Add parents to the queue for the next level
                 for parent_id in node.parents:
                     queue.append((parent_id, depth + 1))
-        
+
         return chain
 
     def sync_to_disk(self) -> int:
         """
         Persists all in-memory node changes back to Markdown files atomically.
-        
+
         Returns:
             The number of nodes successfully saved.
         """
@@ -148,10 +144,10 @@ class AttentionIndex:
     def apply_decay(self, decay_factor: float = 0.9) -> None:
         """
         Applies natural decay to all nodes in the index.
-        
-        This simulates the "forgetting" process. Nodes that are not 
+
+        This simulates the "forgetting" process. Nodes that are not
         actively reinforced will gradually fade into the background.
-        
+
         Args:
             decay_factor: The rate of decay (e.g., 0.9 means 10% loss per cycle).
         """
@@ -160,15 +156,15 @@ class AttentionIndex:
             # Ensure score doesn't drop below a minimum threshold (e.g., 0.1)
             new_score = node.score * decay_factor
             node.score = max(0.1, new_score)
-            node.last_updated = __import__('datetime').datetime.now()
+            node.last_updated = __import__("datetime").datetime.now()
 
     def update_node_score(self, node_id: str, new_score: float) -> bool:
         """
-        Updates a node's score in RAM. 
+        Updates a node's score in RAM.
         Persistence to Disk is handled asynchronously by the Engine.
         """
         if node_id in self.nodes:
             self.nodes[node_id].score = max(0.0, min(1.0, new_score))
-            self.nodes[node_id].last_updated = __import__('datetime').datetime.now()
+            self.nodes[node_id].last_updated = __import__("datetime").datetime.now()
             return True
         return False

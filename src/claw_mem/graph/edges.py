@@ -31,11 +31,12 @@ from datetime import datetime
 
 class EdgeType(Enum):
     """图谱边类型"""
-    NEXT = "NEXT"                      # 情景序列
-    DERIVED_FROM = "DERIVED_FROM"      # 事实来源
+
+    NEXT = "NEXT"  # 情景序列
+    DERIVED_FROM = "DERIVED_FROM"  # 事实来源
     SYNTHESIZED_FROM = "SYNTHESIZED_FROM"  # 反思来源
-    RELATED_TO = "RELATED_TO"          # 相关关系
-    HAS_CONCEPT = "HAS_CONCEPT"        # 概念关联
+    RELATED_TO = "RELATED_TO"  # 相关关系
+    HAS_CONCEPT = "HAS_CONCEPT"  # 概念关联
 
     def is_directed(self) -> bool:
         """是否是有向边"""
@@ -54,6 +55,7 @@ class Edge:
         metadata: 元数据
         created_at: 创建时间
     """
+
     source_id: str
     target_id: str
     type: EdgeType
@@ -68,27 +70,27 @@ class Edge:
     def to_dict(self) -> Dict[str, Any]:
         """convert为字典"""
         return {
-            'source_id': self.source_id,
-            'target_id': self.target_id,
-            'type': self.type.value,
-            'weight': self.weight,
-            'metadata': self.metadata,
-            'created_at': self.created_at.isoformat() if self.created_at else None,
+            "source_id": self.source_id,
+            "target_id": self.target_id,
+            "type": self.type.value,
+            "weight": self.weight,
+            "metadata": self.metadata,
+            "created_at": self.created_at.isoformat() if self.created_at else None,
         }
 
     @classmethod
-    def from_dict(cls, data: Dict[str, Any]) -> 'Edge':
+    def from_dict(cls, data: Dict[str, Any]) -> "Edge":
         """从字典创建"""
         created_at = None
-        if data.get('created_at'):
-            created_at = datetime.fromisoformat(data['created_at'])
+        if data.get("created_at"):
+            created_at = datetime.fromisoformat(data["created_at"])
 
         return cls(
-            source_id=data['source_id'],
-            target_id=data['target_id'],
-            type=EdgeType(data['type']),
-            weight=data.get('weight', 1.0),
-            metadata=data.get('metadata', {}),
+            source_id=data["source_id"],
+            target_id=data["target_id"],
+            type=EdgeType(data["type"]),
+            weight=data.get("weight", 1.0),
+            metadata=data.get("metadata", {}),
             created_at=created_at,
         )
 
@@ -99,6 +101,7 @@ class NextEdge(Edge):
 
     表示对话中连续的情景关系.
     """
+
     def __init__(self, source_id: str, target_id: str, **kwargs):
         super().__init__(source_id, target_id, EdgeType.NEXT, **kwargs)
 
@@ -109,6 +112,7 @@ class DerivedFromEdge(Edge):
 
     表示事实是从哪个情景中提取的.
     """
+
     def __init__(self, source_id: str, target_id: str, **kwargs):
         super().__init__(source_id, target_id, EdgeType.DERIVED_FROM, **kwargs)
 
@@ -119,6 +123,7 @@ class SynthesizedFromEdge(Edge):
 
     表示反思是从哪些节点综合得出的.
     """
+
     source_node_ids: List[str] = field(default_factory=list)
 
     def __init__(self, source_id: str, target_id: str, source_node_ids: List[str] = None, **kwargs):
@@ -132,6 +137,7 @@ class RelatedToEdge(Edge):
 
     表示两个节点之间的相关关系(无向边).
     """
+
     def __init__(self, source_id: str, target_id: str, **kwargs):
         super().__init__(source_id, target_id, EdgeType.RELATED_TO, **kwargs)
 
@@ -142,16 +148,12 @@ class HasConceptEdge(Edge):
 
     表示节点关联到某个概念.
     """
+
     def __init__(self, source_id: str, target_id: str, **kwargs):
         super().__init__(source_id, target_id, EdgeType.HAS_CONCEPT, **kwargs)
 
 
-def create_edge(
-    edge_type: EdgeType,
-    source_id: str,
-    target_id: str,
-    **kwargs
-) -> Edge:
+def create_edge(edge_type: EdgeType, source_id: str, target_id: str, **kwargs) -> Edge:
     """工厂函数:创建边
 
     Args:
@@ -181,12 +183,12 @@ def create_edge(
 
 
 __all__ = [
-    'EdgeType',
-    'Edge',
-    'NextEdge',
-    'DerivedFromEdge',
-    'SynthesizedFromEdge',
-    'RelatedToEdge',
-    'HasConceptEdge',
-    'create_edge',
+    "EdgeType",
+    "Edge",
+    "NextEdge",
+    "DerivedFromEdge",
+    "SynthesizedFromEdge",
+    "RelatedToEdge",
+    "HasConceptEdge",
+    "create_edge",
 ]

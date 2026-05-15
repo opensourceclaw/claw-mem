@@ -18,8 +18,13 @@ class EnhancedRetriever:
     - Frequency boost (1.2x) for frequently accessed memories
     """
 
-    def __init__(self, bm25_weight: float = 0.7, semantic_weight: float = 0.3,
-                 recency_boost: float = 1.5, frequency_boost: float = 1.2):
+    def __init__(
+        self,
+        bm25_weight: float = 0.7,
+        semantic_weight: float = 0.3,
+        recency_boost: float = 1.5,
+        frequency_boost: float = 1.2,
+    ):
         self.bm25_weight = bm25_weight
         self.semantic_weight = semantic_weight
         self.recency_boost = recency_boost
@@ -64,10 +69,12 @@ class EnhancedRetriever:
             freq = math.log(1 + self._access_counts.get(mid, 0)) * 0.1
 
             # Combined score
-            score = (bm25_score * self.bm25_weight +
-                     semantic_score * self.semantic_weight +
-                     recency * self.recency_boost * 0.1 +
-                     freq * self.frequency_boost * 0.1)
+            score = (
+                bm25_score * self.bm25_weight
+                + semantic_score * self.semantic_weight
+                + recency * self.recency_boost * 0.1
+                + freq * self.frequency_boost * 0.1
+            )
 
             scored.append({**mem, "enhanced_score": round(score, 4)})
 
@@ -84,6 +91,7 @@ class EnhancedRetriever:
     def _text_similarity(self, a: str, b: str) -> float:
         """Simple word-overlap similarity."""
         from difflib import SequenceMatcher
+
         if not a or not b:
             return 0.0
         return SequenceMatcher(None, a, b).ratio()

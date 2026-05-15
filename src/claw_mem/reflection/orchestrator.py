@@ -23,6 +23,7 @@ from .belief_tracker import BeliefTracker, BeliefVersion
 @dataclass
 class ReflectionResult:
     """Result of a reflection operation."""
+
     observations: List[Observation] = field(default_factory=list)
     beliefs: List[Belief] = field(default_factory=list)
     new_beliefs: List[Belief] = field(default_factory=list)
@@ -59,7 +60,9 @@ class ReflectionOrchestrator:
         self._reflection_count = 0
 
     def reflect(
-        self, memories: List[Dict[str, Any]], user_id: str = "",
+        self,
+        memories: List[Dict[str, Any]],
+        user_id: str = "",
         force: bool = False,
     ) -> ReflectionResult:
         """Execute a full reflection cycle.
@@ -139,7 +142,5 @@ class ReflectionOrchestrator:
             "reflection_count": self._reflection_count,
             "last_reflection_at": self._last_reflection_at,
             "total_beliefs": len(self.tracker._store),
-            "total_versions": sum(
-                len(v) for v in self.tracker._store.values()
-            ),
+            "total_versions": sum(len(v) for v in self.tracker._store.values()),
         }

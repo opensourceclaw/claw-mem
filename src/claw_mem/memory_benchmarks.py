@@ -47,26 +47,27 @@ class BenchmarkRunner:
             elapsed = (time.perf_counter() - t0) * 1000
 
             # Check if expected content was found
-            found = any(
-                tc["expected"].lower() in str(r.get("text", "")).lower()
-                for r in results
-            )
+            found = any(tc["expected"].lower() in str(r.get("text", "")).lower() for r in results)
             if found:
                 result.passed += 1
 
-            result.details.append({
-                "query": tc["query"],
-                "found": found,
-                "latency_ms": round(elapsed, 3),
-                "results_count": len(results),
-            })
+            result.details.append(
+                {
+                    "query": tc["query"],
+                    "found": found,
+                    "latency_ms": round(elapsed, 3),
+                    "results_count": len(results),
+                }
+            )
 
         result.accuracy = round(result.passed / max(1, result.total_queries), 4)
         if result.details:
             result.avg_latency_ms = round(
                 sum(d["latency_ms"] for d in result.details) / len(result.details), 2
             )
-        logger.info("LOCOMO: %.1f%% accuracy, %.2fms avg", result.accuracy * 100, result.avg_latency_ms)
+        logger.info(
+            "LOCOMO: %.1f%% accuracy, %.2fms avg", result.accuracy * 100, result.avg_latency_ms
+        )
         self._results.append(result)
         return result
 
@@ -88,22 +89,21 @@ class BenchmarkRunner:
             results = search_fn(tc["query"], tc.get("top_k", 10))
             elapsed = (time.perf_counter() - t0) * 1000
 
-            found = any(
-                tc["expected"].lower() in str(r.get("text", "")).lower()
-                for r in results
-            )
+            found = any(tc["expected"].lower() in str(r.get("text", "")).lower() for r in results)
             if found:
                 result.passed += 1
                 cap = tc.get("capability", "ie")
                 capabilities[cap] += 1
             cap_total[tc.get("capability", "ie")] += 1
 
-            result.details.append({
-                "query": tc["query"],
-                "found": found,
-                "capability": tc.get("capability", ""),
-                "latency_ms": round(elapsed, 3),
-            })
+            result.details.append(
+                {
+                    "query": tc["query"],
+                    "found": found,
+                    "capability": tc.get("capability", ""),
+                    "latency_ms": round(elapsed, 3),
+                }
+            )
 
         result.accuracy = round(result.passed / max(1, result.total_queries), 4)
         if result.details:

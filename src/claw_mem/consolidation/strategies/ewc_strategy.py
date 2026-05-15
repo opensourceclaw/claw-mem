@@ -30,7 +30,8 @@ class EWCStrategy:
             self._fisher_information[exp_id] = exp.get("score", {}).get("total", 0.5)
 
         return {
-            "strategy": "ewc", "success": True,
+            "strategy": "ewc",
+            "success": True,
             "lambda": self.config.lambda_weight,
             "protected_params": len(self._fisher_information),
         }

@@ -563,6 +563,7 @@ class TestSearchMemoryFunction:
 
         # Monkey-patch ConfigDetector for testing
         from claw_mem import config
+
         original_detect = config.ConfigDetector.detect_workspace
 
         def mock_detect(cls, custom_paths=None):

@@ -1,4 +1,5 @@
 """Tests for Friday experience optimization modules."""
+
 import time
 import pytest
 from claw_mem.enhanced_retriever import EnhancedRetriever
@@ -61,11 +62,11 @@ class TestNaturalDecay:
         assert score > 0.7
 
     def test_old_memory(self):
-        mem = {"salience_score": 0.8, "timestamp": time.time() - 7*86400}
+        mem = {"salience_score": 0.8, "timestamp": time.time() - 7 * 86400}
         score = self.nd.calculate_importance(mem)
         assert score < 0.5
 
     def test_important_protection(self):
-        mem = {"salience_score": 0.9, "timestamp": time.time() - 30*86400}
+        mem = {"salience_score": 0.9, "timestamp": time.time() - 30 * 86400}
         score = self.nd.calculate_importance(mem)
         assert score >= 0.9 * 0.3  # protected floor

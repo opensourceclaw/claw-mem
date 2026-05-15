@@ -7,21 +7,22 @@ No pytest dependency - uses simple assertions.
 from pathlib import Path
 import sys
 
-sys.path.insert(0, str(Path.home() / '.openclaw' / 'workspace' / 'skills' / 'claw-mem' / 'core'))
+sys.path.insert(0, str(Path.home() / ".openclaw" / "workspace" / "skills" / "claw-mem" / "core"))
 
 from semantic_detector import SemanticViolationDetector
 from rule_engine import RuleEngine
 
+
 def run_tests():
     """Run integration tests"""
-    print("="*70)
+    print("=" * 70)
     print("claw-mem v1.0.3 Integration Tests")
-    print("="*70)
+    print("=" * 70)
     print()
-    
+
     passed = 0
     failed = 0
-    
+
     # Test 1: Chinese detection
     print("Test 1: Chinese character detection")
     detector = SemanticViolationDetector()
@@ -32,7 +33,7 @@ def run_tests():
     else:
         print("  ❌ FAILED")
         failed += 1
-    
+
     # Test 2: Package name neorl
     print("Test 2: Package name 'neorl' detection")
     violations = detector.detect_violations("Create package neorl")
@@ -42,7 +43,7 @@ def run_tests():
     else:
         print("  ❌ FAILED")
         failed += 1
-    
+
     # Test 3: Package name neomind
     print("Test 3: Package name 'neomind' detection")
     violations = detector.detect_violations("Import from neomind")
@@ -52,7 +53,7 @@ def run_tests():
     else:
         print("  ❌ FAILED")
         failed += 1
-    
+
     # Test 4: Valid package name claw-mem
     print("Test 4: Valid package name 'claw-mem'")
     violations = detector.detect_violations("Use claw-mem package")
@@ -62,7 +63,7 @@ def run_tests():
     else:
         print("  ❌ FAILED")
         failed += 1
-    
+
     # Test 5: Valid package name claw_rl
     print("Test 5: Valid package name 'claw_rl'")
     violations = detector.detect_violations("Use claw_rl package")
@@ -72,7 +73,7 @@ def run_tests():
     else:
         print("  ❌ FAILED")
         failed += 1
-    
+
     # Test 6: Release title valid
     print("Test 6: Release title 'claw-mem v1.0.3'")
     is_valid, error = detector.validate_release_title("claw-mem v1.0.3")
@@ -82,7 +83,7 @@ def run_tests():
     else:
         print(f"  ❌ FAILED: {error}")
         failed += 1
-    
+
     # Test 7: Release title valid with underscore
     print("Test 7: Release title 'claw_rl v1.0.3'")
     is_valid, error = detector.validate_release_title("claw_rl v1.0.3")
@@ -92,7 +93,7 @@ def run_tests():
     else:
         print(f"  ❌ FAILED: {error}")
         failed += 1
-    
+
     # Test 8: Release title invalid with subtitle
     print("Test 8: Release title with subtitle (should fail)")
     is_valid, error = detector.validate_release_title("NeoMind v1.0.3 - Features")
@@ -102,7 +103,7 @@ def run_tests():
     else:
         print("  ❌ FAILED")
         failed += 1
-    
+
     # Test 9: Rule Engine loads config
     print("Test 9: Rule Engine loads configuration")
     engine = RuleEngine()
@@ -112,7 +113,7 @@ def run_tests():
     else:
         print("  ❌ FAILED")
         failed += 1
-    
+
     # Test 10: Rule Engine detects violations
     print("Test 10: Rule Engine detects package name violation")
     violations = engine.validate("Create package neorl")
@@ -122,7 +123,7 @@ def run_tests():
     else:
         print("  ❌ FAILED")
         failed += 1
-    
+
     # Test 11: Rule Engine detects language violation
     print("Test 11: Rule Engine detects language violation")
     violations = engine.validate("Write 中文 documentation")
@@ -132,14 +133,14 @@ def run_tests():
     else:
         print("  ❌ FAILED")
         failed += 1
-    
+
     # Summary
     print()
-    print("="*70)
+    print("=" * 70)
     print(f"Test Summary: {passed} passed, {failed} failed")
     print(f"Success Rate: {passed/(passed+failed)*100:.1f}%")
-    print("="*70)
-    
+    print("=" * 70)
+
     if failed == 0:
         print()
         print("✅ ALL TESTS PASSED - v1.0.3 is ready for release!")
@@ -150,6 +151,6 @@ def run_tests():
         return False
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     success = run_tests()
     sys.exit(0 if success else 1)

@@ -65,82 +65,70 @@ class TestMemoryFixPlugin:
         """Test retrieval with exact URL match"""
         memories = [
             {
-                'content': 'GitHub repo: https://github.com/user/repo',
-                'timestamp': datetime.now().isoformat(),
-                'confidence': 1.0
+                "content": "GitHub repo: https://github.com/user/repo",
+                "timestamp": datetime.now().isoformat(),
+                "confidence": 1.0,
             },
             {
-                'content': 'Some other content',
-                'timestamp': datetime.now().isoformat(),
-                'confidence': 0.5
-            }
+                "content": "Some other content",
+                "timestamp": datetime.now().isoformat(),
+                "confidence": 0.5,
+            },
         ]
         result = plugin.retrieve_with_priority("https://github.com/user/repo", memories)
         assert len(result) == 2
-        assert "https://github.com/user/repo" in result[0]['content']
+        assert "https://github.com/user/repo" in result[0]["content"]
 
     def test_retrieve_with_priority_exact_match_path(self, plugin):
         """Test retrieval with exact path match"""
         memories = [
             {
-                'content': 'Config file at ~/.openclaw/workspace/config.yaml',
-                'timestamp': datetime.now().isoformat(),
-                'confidence': 1.0
+                "content": "Config file at ~/.openclaw/workspace/config.yaml",
+                "timestamp": datetime.now().isoformat(),
+                "confidence": 1.0,
             },
             {
-                'content': 'Unrelated content',
-                'timestamp': datetime.now().isoformat(),
-                'confidence': 0.5
-            }
+                "content": "Unrelated content",
+                "timestamp": datetime.now().isoformat(),
+                "confidence": 0.5,
+            },
         ]
         result = plugin.retrieve_with_priority("~/.openclaw/workspace/config.yaml", memories)
         assert len(result) == 2
-        assert "~/.openclaw/workspace/config.yaml" in result[0]['content']
+        assert "~/.openclaw/workspace/config.yaml" in result[0]["content"]
 
     def test_retrieve_with_priority_time_weight_today(self, plugin):
         """Test retrieval with today's memory prioritized"""
         now = datetime.now()
         memories = [
+            {"content": "Recent memory", "timestamp": now.isoformat(), "confidence": 0.5},
             {
-                'content': 'Recent memory',
-                'timestamp': now.isoformat(),
-                'confidence': 0.5
+                "content": "Old memory",
+                "timestamp": datetime(2024, 1, 1).isoformat(),
+                "confidence": 0.9,
             },
-            {
-                'content': 'Old memory',
-                'timestamp': datetime(2024, 1, 1).isoformat(),
-                'confidence': 0.9
-            }
         ]
         result = plugin.retrieve_with_priority("memory", memories)
         assert len(result) == 2
-        assert "Recent memory" in result[0]['content']
+        assert "Recent memory" in result[0]["content"]
 
     def test_retrieve_with_priority_confidence_weight(self, plugin):
         """Test retrieval with high confidence prioritized"""
         timestamp = datetime.now().isoformat()
         memories = [
-            {
-                'content': 'High confidence memory',
-                'timestamp': timestamp,
-                'confidence': 0.95
-            },
-            {
-                'content': 'Low confidence memory',
-                'timestamp': timestamp,
-                'confidence': 0.3
-            }
+            {"content": "High confidence memory", "timestamp": timestamp, "confidence": 0.95},
+            {"content": "Low confidence memory", "timestamp": timestamp, "confidence": 0.3},
         ]
         result = plugin.retrieve_with_priority("memory", memories)
         assert len(result) == 2
-        assert "High confidence memory" in result[0]['content']
+        assert "High confidence memory" in result[0]["content"]
 
     def test_calculate_retrieval_score_exact_match(self, plugin):
         """Test score calculation for exact match"""
         memory = {
-            'content': 'https://github.com/test/repo',
-            'timestamp': datetime.now().isoformat(),
-            'confidence': 1.0
+            "content": "https://github.com/test/repo",
+            "timestamp": datetime.now().isoformat(),
+            "confidence": 1.0,
         }
         score = plugin._calculate_retrieval_score("https://github.com/test/repo", memory)
         assert score >= 100.0  # Exact match bonus
@@ -148,33 +136,35 @@ class TestMemoryFixPlugin:
     def test_calculate_retrieval_score_critical_info(self, plugin):
         """Test score calculation for critical information"""
         memory = {
-            'content': 'API endpoint: https://api.example.com/v1',
-            'timestamp': datetime.now().isoformat(),
-            'confidence': 1.0
+            "content": "API endpoint: https://api.example.com/v1",
+            "timestamp": datetime.now().isoformat(),
+            "confidence": 1.0,
         }
         score = plugin._calculate_retrieval_score("https://api.example.com", memory)
         assert score >= 50.0  # Critical info bonus
 
     def test_is_exact_match_url(self, plugin):
         """Test URL exact matching"""
-        assert plugin._is_exact_match(
-            "https://github.com/user/repo",
-            "The repo is at https://github.com/user/repo"
-        ) is True
+        assert (
+            plugin._is_exact_match(
+                "https://github.com/user/repo", "The repo is at https://github.com/user/repo"
+            )
+            is True
+        )
 
     def test_is_exact_match_path(self, plugin):
         """Test path exact matching"""
-        assert plugin._is_exact_match(
-            "~/.openclaw/workspace/config.yaml",
-            "Config file: ~/.openclaw/workspace/config.yaml"
-        ) is True
+        assert (
+            plugin._is_exact_match(
+                "~/.openclaw/workspace/config.yaml",
+                "Config file: ~/.openclaw/workspace/config.yaml",
+            )
+            is True
+        )
 
     def test_is_exact_match_text(self, plugin):
         """Test text exact matching"""
-        assert plugin._is_exact_match(
-            "test query",
-            "This is a test query"
-        ) is True
+        assert plugin._is_exact_match("test query", "This is a test query") is True
 
     def test_is_critical_info(self, plugin):
         """Test critical information detection"""
@@ -198,16 +188,14 @@ class TestMemoryFixPlugin:
     def test_calculate_similarity_identical(self, plugin):
         """Test similarity for identical texts"""
         similarity = plugin._calculate_similarity(
-            "https://github.com/user/repo",
-            "https://github.com/user/repo"
+            "https://github.com/user/repo", "https://github.com/user/repo"
         )
         assert similarity == 1.0
 
     def test_calculate_similarity_url_key_match(self, plugin):
         """Test similarity with matching URLs"""
         similarity = plugin._calculate_similarity(
-            "GitHub repo: https://github.com/user/repo",
-            "Repo URL: https://github.com/user/repo"
+            "GitHub repo: https://github.com/user/repo", "Repo URL: https://github.com/user/repo"
         )
         assert similarity > 0.8
 
@@ -215,39 +203,38 @@ class TestMemoryFixPlugin:
         """Test similarity with matching paths"""
         similarity = plugin._calculate_similarity(
             "Config at ~/.openclaw/workspace/config.yaml",
-            "Config file: ~/.openclaw/workspace/config.yaml"
+            "Config file: ~/.openclaw/workspace/config.yaml",
         )
         assert similarity > 0.8
 
     def test_calculate_similarity_word_overlap(self, plugin):
         """Test similarity with word overlap"""
-        similarity = plugin._calculate_similarity(
-            "User prefers dark mode",
-            "User likes dark theme"
-        )
+        similarity = plugin._calculate_similarity("User prefers dark mode", "User likes dark theme")
         assert similarity > 0.0
 
     def test_calculate_similarity_no_overlap(self, plugin):
         """Test similarity with no overlap"""
-        similarity = plugin._calculate_similarity(
-            "cats are cute",
-            "dogs are loyal"
-        )
+        similarity = plugin._calculate_similarity("cats are cute", "dogs are loyal")
         assert similarity < 0.5
 
     def test_has_same_key_pattern_url(self, plugin):
         """Test same key pattern detection for URLs"""
-        assert plugin._has_same_key_pattern(
-            "Check https://github.com/user/repo",
-            "Visit https://github.com/user/repo for more"
-        ) is True
+        assert (
+            plugin._has_same_key_pattern(
+                "Check https://github.com/user/repo", "Visit https://github.com/user/repo for more"
+            )
+            is True
+        )
 
     def test_has_same_key_pattern_path(self, plugin):
         """Test same key pattern detection for paths"""
-        assert plugin._has_same_key_pattern(
-            "Config: ~/.openclaw/workspace/config.yaml",
-            "File at ~/.openclaw/workspace/config.yaml"
-        ) is True
+        assert (
+            plugin._has_same_key_pattern(
+                "Config: ~/.openclaw/workspace/config.yaml",
+                "File at ~/.openclaw/workspace/config.yaml",
+            )
+            is True
+        )
 
     def test_extract_key_info_url(self, plugin):
         """Test URL key extraction"""
@@ -271,9 +258,7 @@ class TestMemoryFixPlugin:
     def test_store_with_dedup_new_memory(self, plugin):
         """Test storing a new memory (no duplicates)"""
         success, msg = plugin.store_with_dedup(
-            "User prefers dark mode",
-            memory_type="semantic",
-            tags=["preference", "ui"]
+            "User prefers dark mode", memory_type="semantic", tags=["preference", "ui"]
         )
         assert success is True
         assert "成功" in msg or "success" in msg.lower()
@@ -283,38 +268,33 @@ class TestMemoryFixPlugin:
         """Test duplicate detection and update"""
         # Store first memory
         plugin.store_with_dedup(
-            "https://github.com/user/repo is the main repository",
-            memory_type="semantic"
+            "https://github.com/user/repo is the main repository", memory_type="semantic"
         )
 
         # Store similar memory (should update due to URL match)
         success, msg = plugin.store_with_dedup(
-            "GitHub repository: https://github.com/user/repo",
-            memory_type="semantic"
+            "GitHub repository: https://github.com/user/repo", memory_type="semantic"
         )
         assert success is True
         # Either update or add is acceptable depending on similarity threshold
 
     def test_find_similar_memory_no_similarity(self, plugin):
         """Test finding similar memory with no match"""
-        memories = [
-            {'content': 'First memory'},
-            {'content': 'Second memory'}
-        ]
+        memories = [{"content": "First memory"}, {"content": "Second memory"}]
         result = plugin._find_similar_memory("completely different", memories)
         assert result is None
 
     def test_find_similar_memory_with_similarity(self, plugin):
         """Test finding similar memory with match"""
         memories = [
-            {'content': 'https://github.com/user/repo is the main repository'},
-            {'content': 'Some other content'}
+            {"content": "https://github.com/user/repo is the main repository"},
+            {"content": "Some other content"},
         ]
         result = plugin._find_similar_memory("https://github.com/user/repo", memories)
         assert result is not None
-        assert 'index' in result
-        assert 'memory' in result
-        assert 'similarity' in result
+        assert "index" in result
+        assert "memory" in result
+        assert "similarity" in result
 
     def test_read_memories_empty_file(self, plugin):
         """Test reading memories from non-existent file"""
@@ -334,16 +314,12 @@ class TestMemoryFixPlugin:
         memories = plugin._read_memories()
         assert len(memories) == 2
         # Verify timestamps are parsed correctly
-        assert '2024-01-01' in memories[0]['timestamp']
-        assert '2024-01-02' in memories[1]['timestamp']
+        assert "2024-01-01" in memories[0]["timestamp"]
+        assert "2024-01-02" in memories[1]["timestamp"]
 
     def test_add_new_memory(self, plugin):
         """Test adding a new memory"""
-        success, msg = plugin._add_new_memory(
-            "Test memory",
-            "semantic",
-            ["test"]
-        )
+        success, msg = plugin._add_new_memory("Test memory", "semantic", ["test"])
         assert success is True
         assert plugin.memory_file.exists()
         content = plugin.memory_file.read_text()
@@ -355,11 +331,7 @@ class TestMemoryFixPlugin:
         plugin._add_new_memory("Original content", "semantic", ["test"])
 
         # Update memory
-        success, msg = plugin._update_memory(
-            0,
-            "Updated content",
-            ["updated"]
-        )
+        success, msg = plugin._update_memory(0, "Updated content", ["updated"])
         assert success is True
         assert "成功" in msg or "success" in msg.lower()
 
@@ -375,16 +347,8 @@ class TestMemoryFixPlugin:
     def test_write_memories(self, plugin):
         """Test writing memories back to file"""
         memories = [
-            {
-                'timestamp': '2024-01-01T12:00:00',
-                'content': 'Memory 1',
-                'tags': ['tag1']
-            },
-            {
-                'timestamp': '2024-01-02T12:00:00',
-                'content': 'Memory 2',
-                'tags': []
-            }
+            {"timestamp": "2024-01-01T12:00:00", "content": "Memory 1", "tags": ["tag1"]},
+            {"timestamp": "2024-01-02T12:00:00", "content": "Memory 2", "tags": []},
         ]
         plugin._write_memories(memories)
         assert plugin.memory_file.exists()
@@ -399,9 +363,9 @@ class TestMemoryFixPlugin:
     def test_validate_session_memory_no_file(self, plugin):
         """Test validation when MEMORY.md doesn't exist"""
         result = plugin.validate_session_memory()
-        assert 'valid' in result
-        assert result['memories_count'] == 0
-        assert len(result['warnings']) > 0
+        assert "valid" in result
+        assert result["memories_count"] == 0
+        assert len(result["warnings"]) > 0
 
     def test_validate_session_memory_empty_file(self, plugin, temp_workspace):
         """Test validation with empty MEMORY.md"""
@@ -409,8 +373,8 @@ class TestMemoryFixPlugin:
         memory_file.write_text("# MEMORY.md\n\n")
 
         result = plugin.validate_session_memory()
-        assert result['valid'] is True
-        assert result['memories_count'] == 0
+        assert result["valid"] is True
+        assert result["memories_count"] == 0
 
     def test_validate_session_memory_valid_memories(self, plugin, temp_workspace):
         """Test validation with valid memories"""
@@ -423,15 +387,15 @@ class TestMemoryFixPlugin:
 """)
 
         result = plugin.validate_session_memory()
-        assert result['valid'] is True
-        assert result['memories_count'] == 2
+        assert result["valid"] is True
+        assert result["memories_count"] == 2
 
     def test_find_duplicates(self, plugin):
         """Test finding duplicate memories"""
         memories = [
-            {'content': 'https://github.com/user/repo is here'},
-            {'content': 'Some other memory'},
-            {'content': 'https://github.com/user/repo again'}
+            {"content": "https://github.com/user/repo is here"},
+            {"content": "Some other memory"},
+            {"content": "https://github.com/user/repo again"},
         ]
         duplicates = plugin._find_duplicates(memories)
         assert len(duplicates) > 0
@@ -439,8 +403,8 @@ class TestMemoryFixPlugin:
     def test_find_conflicts(self, plugin):
         """Test finding conflicting memories"""
         memories = [
-            {'content': 'URL: https://github.com/user/repo'},
-            {'content': 'Same URL: https://github.com/user/repo'}
+            {"content": "URL: https://github.com/user/repo"},
+            {"content": "Same URL: https://github.com/user/repo"},
         ]
         conflicts = plugin._find_conflicts(memories)
         # May or may not find conflicts depending on implementation
@@ -453,15 +417,15 @@ class TestMemoryFixPlugin:
     def test_get_fix_statistics(self, plugin):
         """Test getting fix statistics"""
         stats = plugin.get_fix_statistics()
-        assert 'workspace' in stats
-        assert 'memory_file_exists' in stats
-        assert 'memories_count' in stats
-        assert 'fix_log_exists' in stats
-        assert 'fix_actions' in stats
+        assert "workspace" in stats
+        assert "memory_file_exists" in stats
+        assert "memories_count" in stats
+        assert "fix_log_exists" in stats
+        assert "fix_actions" in stats
 
     def test_get_fix_statistics_after_store(self, plugin):
         """Test statistics after storing memories"""
         plugin.store_with_dedup("Test memory", "semantic")
         stats = plugin.get_fix_statistics()
-        assert stats['memory_file_exists'] is True
-        assert stats['memories_count'] == 1
+        assert stats["memory_file_exists"] is True
+        assert stats["memories_count"] == 1

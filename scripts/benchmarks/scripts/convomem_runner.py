@@ -17,6 +17,7 @@ from datetime import datetime
 
 # claw-mem imports
 import sys
+
 sys.path.insert(0, str(Path(__file__).parent.parent.parent / "src"))
 from claw_mem import MemoryManager
 
@@ -44,11 +45,7 @@ class ConvoMemRunner:
         """
         self.memory_manager = memory_manager
         self.data_dir = Path(data_dir)
-        self.results = {
-            "scenarios": {},
-            "overall": {},
-            "latencies": []
-        }
+        self.results = {"scenarios": {}, "overall": {}, "latencies": []}
         # Memory cleanup interval (every N test cases)
         self.cleanup_interval = 50
         # Test ID to fact mapping for exact matching
@@ -65,7 +62,7 @@ class ConvoMemRunner:
         if not data_file.exists():
             raise FileNotFoundError(f"Dataset not found: {data_file}")
 
-        with open(data_file, 'r') as f:
+        with open(data_file, "r") as f:
             data = json.load(f)
 
         print(f"Loaded {len(data)} test cases")
@@ -87,7 +84,7 @@ class ConvoMemRunner:
             print(f"⚠️  facts.json not found at {facts_file}, skipping preload")
             return
 
-        with open(facts_file, 'r') as f:
+        with open(facts_file, "r") as f:
             facts = json.load(f)
 
         loaded = 0
@@ -105,8 +102,8 @@ class ConvoMemRunner:
                 metadata={
                     "test_id": fact_id,
                     "source": "facts.json",
-                    "scenario": fact.get("scenario", "")
-                }
+                    "scenario": fact.get("scenario", ""),
+                },
             )
             loaded += 1
 
@@ -138,13 +135,17 @@ class ConvoMemRunner:
                 # Handle both dict and Memory object
                 if isinstance(result, dict):
                     metadata = result.get("metadata", {})
-                    result_test_id = metadata.get("test_id", "") if isinstance(metadata, dict) else ""
+                    result_test_id = (
+                        metadata.get("test_id", "") if isinstance(metadata, dict) else ""
+                    )
                     if result_test_id == test_id:
                         return result.get("content", "") or result.get("text", "")
                 else:
                     # Memory object
                     metadata = getattr(result, "metadata", {})
-                    result_test_id = metadata.get("test_id", "") if isinstance(metadata, dict) else ""
+                    result_test_id = (
+                        metadata.get("test_id", "") if isinstance(metadata, dict) else ""
+                    )
                     if result_test_id == test_id:
                         return getattr(result, "content", "")
 
@@ -184,14 +185,7 @@ class ConvoMemRunner:
                 self.test_id_to_fact[test_id] = fact
 
         # Initialize scenario results
-        scenarios = [
-            "single_turn",
-            "multi_turn",
-            "temporal",
-            "entity",
-            "preference",
-            "factual"
-        ]
+        scenarios = ["single_turn", "multi_turn", "temporal", "entity", "preference", "factual"]
 
         for scenario in scenarios:
             self.results["scenarios"][scenario] = {
@@ -200,7 +194,7 @@ class ConvoMemRunner:
                 "recall": 0.0,
                 "precision": 0.0,
                 "f1": 0.0,
-                "latencies": []
+                "latencies": [],
             }
 
         # Process each test case
@@ -219,10 +213,7 @@ class ConvoMemRunner:
             # Evaluate memory recall (with test_id for exact matching)
             test_id = test_case.get("id") or test_case.get("test_id")
             recall_result = self.evaluate_memory_recall(
-                test_case["question"],
-                scenario,
-                test_case.get("context", {}),
-                test_id
+                test_case["question"], scenario, test_case.get("context", {}), test_id
             )
 
             latency = time.time() - start_time
@@ -267,11 +258,13 @@ class ConvoMemRunner:
                 metadata={
                     "speaker": turn.get("speaker", "user"),
                     "timestamp": turn.get("timestamp"),
-                    "turn_id": turn.get("id")
-                }
+                    "turn_id": turn.get("id"),
+                },
             )
 
-    def evaluate_memory_recall(self, question: str, scenario: str, context: Dict, test_id: str = None) -> Dict:
+    def evaluate_memory_recall(
+        self, question: str, scenario: str, context: Dict, test_id: str = None
+    ) -> Dict:
         """
         Evaluate memory recall for a question.
 
@@ -297,12 +290,7 @@ class ConvoMemRunner:
         elif scenario == "factual":
             return self.evaluate_factual(question, context, test_id)
         else:
-            return {
-                "correct": False,
-                "recall": 0.0,
-                "precision": 0.0,
-                "f1": 0.0
-            }
+            return {"correct": False, "recall": 0.0, "precision": 0.0, "f1": 0.0}
 
     def _get_content_from_result(self, result) -> str:
         """Extract content from search result (handles both dict and Memory object)."""
@@ -322,7 +310,9 @@ class ConvoMemRunner:
             correct = self.check_relevance(fact, context.get("expected", ""))
             recall = 1.0 if correct else 0.0
             precision = 1.0 if correct else 0.0
-            f1 = 2 * (precision * recall) / (precision + recall) if (precision + recall) > 0 else 0.0
+            f1 = (
+                2 * (precision * recall) / (precision + recall) if (precision + recall) > 0 else 0.0
+            )
             return {"correct": correct, "recall": recall, "precision": precision, "f1": f1}
 
         memories = self.memory_manager.search(question, limit=1)
@@ -350,7 +340,9 @@ class ConvoMemRunner:
             correct = self.check_relevance(fact, context.get("expected", ""))
             recall = 1.0 if correct else 0.0
             precision = 1.0 if correct else 0.5
-            f1 = 2 * (precision * recall) / (precision + recall) if (precision + recall) > 0 else 0.0
+            f1 = (
+                2 * (precision * recall) / (precision + recall) if (precision + recall) > 0 else 0.0
+            )
             return {"correct": correct, "recall": recall, "precision": precision, "f1": f1}
 
         memories = self.memory_manager.search(question, limit=5)
@@ -379,7 +371,9 @@ class ConvoMemRunner:
             correct = self.check_relevance(fact, context.get("expected", ""))
             recall = 1.0 if correct else 0.0
             precision = 1.0 if correct else 0.0
-            f1 = 2 * (precision * recall) / (precision + recall) if (precision + recall) > 0 else 0.0
+            f1 = (
+                2 * (precision * recall) / (precision + recall) if (precision + recall) > 0 else 0.0
+            )
             return {"correct": correct, "recall": recall, "precision": precision, "f1": f1}
 
         memories = self.memory_manager.search(question, limit=5)
@@ -391,8 +385,10 @@ class ConvoMemRunner:
         try:
             sorted_memories = sorted(
                 memories,
-                key=lambda m: m.get("timestamp", 0) if isinstance(m, dict) else getattr(m, "timestamp", 0),
-                reverse=True
+                key=lambda m: (
+                    m.get("timestamp", 0) if isinstance(m, dict) else getattr(m, "timestamp", 0)
+                ),
+                reverse=True,
             )
         except Exception:
             sorted_memories = memories
@@ -417,7 +413,9 @@ class ConvoMemRunner:
             correct = self.check_relevance(fact, context.get("expected", ""))
             recall = 1.0 if correct else 0.0
             precision = 1.0 if correct else 0.5
-            f1 = 2 * (precision * recall) / (precision + recall) if (precision + recall) > 0 else 0.0
+            f1 = (
+                2 * (precision * recall) / (precision + recall) if (precision + recall) > 0 else 0.0
+            )
             return {"correct": correct, "recall": recall, "precision": precision, "f1": f1}
 
         memories = self.memory_manager.search(question, limit=5)
@@ -427,12 +425,16 @@ class ConvoMemRunner:
 
         # Check entity information
         entity_name = context.get("entity", "")
-        entity_info = [m for m in memories if entity_name.lower() in self._get_content_from_result(m).lower()]
+        entity_info = [
+            m for m in memories if entity_name.lower() in self._get_content_from_result(m).lower()
+        ]
 
         if not entity_info:
             return {"correct": False, "recall": 0.0, "precision": 0.0, "f1": 0.0}
 
-        correct = self.check_relevance(self._get_content_from_result(entity_info[0]), context.get("expected", ""))
+        correct = self.check_relevance(
+            self._get_content_from_result(entity_info[0]), context.get("expected", "")
+        )
         recall = min(len(entity_info) / 3.0, 1.0)
         precision = 1.0 if correct else 0.5
         f1 = 2 * (precision * recall) / (precision + recall) if (precision + recall) > 0 else 0.0
@@ -450,7 +452,9 @@ class ConvoMemRunner:
             correct = self.check_relevance(fact, context.get("expected", ""))
             recall = 1.0 if correct else 0.0
             precision = 1.0 if correct else 0.5
-            f1 = 2 * (precision * recall) / (precision + recall) if (precision + recall) > 0 else 0.0
+            f1 = (
+                2 * (precision * recall) / (precision + recall) if (precision + recall) > 0 else 0.0
+            )
             return {"correct": correct, "recall": recall, "precision": precision, "f1": f1}
 
         memories = self.memory_manager.search(question, limit=5)
@@ -461,14 +465,17 @@ class ConvoMemRunner:
         # Check for preference-related content
         preference_keywords = ["prefer", "like", "want", "need", "favorite"]
         preference_memories = [
-            m for m in memories
+            m
+            for m in memories
             if any(kw in self._get_content_from_result(m).lower() for kw in preference_keywords)
         ]
 
         if not preference_memories:
             return {"correct": False, "recall": 0.0, "precision": 0.0, "f1": 0.0}
 
-        correct = self.check_relevance(self._get_content_from_result(preference_memories[0]), context.get("expected", ""))
+        correct = self.check_relevance(
+            self._get_content_from_result(preference_memories[0]), context.get("expected", "")
+        )
         recall = min(len(preference_memories) / 2.0, 1.0)
         precision = 1.0 if correct else 0.5
         f1 = 2 * (precision * recall) / (precision + recall) if (precision + recall) > 0 else 0.0
@@ -486,7 +493,9 @@ class ConvoMemRunner:
             correct = self.check_relevance(fact, context.get("expected", ""))
             recall = 1.0 if correct else 0.0
             precision = 1.0 if correct else 0.0
-            f1 = 2 * (precision * recall) / (precision + recall) if (precision + recall) > 0 else 0.0
+            f1 = (
+                2 * (precision * recall) / (precision + recall) if (precision + recall) > 0 else 0.0
+            )
             return {"correct": correct, "recall": recall, "precision": precision, "f1": f1}
 
         memories = self.memory_manager.search(question, limit=5)
@@ -494,7 +503,9 @@ class ConvoMemRunner:
         if not memories:
             return {"correct": False, "recall": 0.0, "precision": 0.0, "f1": 0.0}
 
-        correct = self.check_relevance(self._get_content_from_result(memories[0]), context.get("expected", ""))
+        correct = self.check_relevance(
+            self._get_content_from_result(memories[0]), context.get("expected", "")
+        )
         recall = 1.0 if correct else 0.0
         precision = 1.0 if correct else 0.0
         f1 = 2 * (precision * recall) / (precision + recall) if (precision + recall) > 0 else 0.0
@@ -550,7 +561,7 @@ class ConvoMemRunner:
             "avg_recall": total_recall / num_scenarios if num_scenarios > 0 else 0,
             "avg_precision": total_precision / num_scenarios if num_scenarios > 0 else 0,
             "avg_f1": total_f1 / num_scenarios if num_scenarios > 0 else 0,
-            "avg_latency": np.mean(self.results["latencies"]) if self.results["latencies"] else 0
+            "avg_latency": np.mean(self.results["latencies"]) if self.results["latencies"] else 0,
         }
 
     def generate_report(self) -> Dict:
@@ -565,10 +576,10 @@ class ConvoMemRunner:
                 "memory_precision": 0.80,
                 "response_accuracy": 0.75,
                 "target_achieved": (
-                    self.results["overall"]["avg_recall"] >= 0.85 and
-                    self.results["overall"]["avg_precision"] >= 0.80
-                )
-            }
+                    self.results["overall"]["avg_recall"] >= 0.85
+                    and self.results["overall"]["avg_precision"] >= 0.80
+                ),
+            },
         }
 
     def save_results(self, output_dir: str = "results/convomem"):
@@ -580,13 +591,13 @@ class ConvoMemRunner:
 
         # Save results
         results_file = output_path / f"results_{timestamp}.json"
-        with open(results_file, 'w') as f:
+        with open(results_file, "w") as f:
             json.dump(self.results, f, indent=2, default=str)
 
         # Save report
         report = self.generate_report()
         report_file = output_path / f"report_{timestamp}.json"
-        with open(report_file, 'w') as f:
+        with open(report_file, "w") as f:
             json.dump(report, f, indent=2, default=str)
 
         print(f"\nResults saved to: {output_path}")
@@ -610,17 +621,14 @@ def main():
     memory_manager = MemoryManager(workspace=args.workspace)
 
     # Create runner
-    runner = ConvoMemRunner(
-        memory_manager=memory_manager,
-        data_dir=args.data_dir
-    )
+    runner = ConvoMemRunner(memory_manager=memory_manager, data_dir=args.data_dir)
 
     # Load dataset
     dataset = runner.load_dataset()
 
     # Limit dataset if requested
     if args.limit:
-        dataset = dataset[:args.limit]
+        dataset = dataset[: args.limit]
 
     # Run evaluation
     results = runner.run_evaluation(dataset)
@@ -638,13 +646,19 @@ def main():
     print(f"Average F1: {report['overall']['avg_f1']:.2%}")
     print(f"Average Latency: {report['overall']['avg_latency']*1000:.2f}ms")
     print(f"\nBy Scenario:")
-    for scenario, data in report['scenarios'].items():
+    for scenario, data in report["scenarios"].items():
         print(f"  {scenario}:")
-        print(f"    Accuracy: {data['correct']/data['total']:.2%}" if data['total'] > 0 else f"    Accuracy: N/A")
+        print(
+            f"    Accuracy: {data['correct']/data['total']:.2%}"
+            if data["total"] > 0
+            else f"    Accuracy: N/A"
+        )
         print(f"    Recall: {data['recall']:.2%}")
         print(f"    Precision: {data['precision']:.2%}")
         print(f"    F1: {data['f1']:.2%}")
-    print(f"\nTarget Achieved: {'✅ YES' if report['target_metrics']['target_achieved'] else '❌ NO'}")
+    print(
+        f"\nTarget Achieved: {'✅ YES' if report['target_metrics']['target_achieved'] else '❌ NO'}"
+    )
     print(f"{'='*80}\n")
 
     # Save results

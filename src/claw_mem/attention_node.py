@@ -15,7 +15,7 @@ from datetime import datetime
 class AttentionNode:
     """
     Represents a single context unit in the Weighted DAG.
-    
+
     Attributes:
         node_id: Unique identifier (usually from Markdown Frontmatter).
         content_path: Path to the .md file storing the actual content.
@@ -24,6 +24,7 @@ class AttentionNode:
         last_updated: Timestamp of the last score update.
         type: Type of node (e.g., 'message', 'summary', 'rule', 'core').
     """
+
     node_id: str
     content_path: str
     score: float = 0.5  # Default mid-level attention

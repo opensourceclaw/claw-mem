@@ -119,17 +119,17 @@ class LLMExtractor(BaseExtractor):
 
     def _call_llm(self, prompt: str) -> str:
         """调用 LLM"""
-        if hasattr(self.llm, 'generate'):
+        if hasattr(self.llm, "generate"):
             return self.llm.generate(prompt)
-        elif hasattr(self.llm, 'chat'):
+        elif hasattr(self.llm, "chat"):
             return self.llm.chat(prompt)
         else:
             raise ValueError("LLM client must have 'generate' or 'chat' method")
 
     def _parse_lines(self, response: str) -> List[str]:
         """parse LLM 响应为行列表"""
-        lines = response.strip().split('\n')
-        return [line.strip().strip('-* ').strip() for line in lines if line.strip()]
+        lines = response.strip().split("\n")
+        return [line.strip().strip("-* ").strip() for line in lines if line.strip()]
 
     def _build_facts_prompt(self, text: str) -> str:
         """构建事实提取提示"""
@@ -174,7 +174,7 @@ class LLMExtractor(BaseExtractor):
         按句子分割文本,提取完整句子作为事实.
         """
         # 按常见分隔符分割
-        sentences = re.split(r'[.!?.!?\n]+', text)
+        sentences = re.split(r"[.!?.!?\n]+", text)
         facts = []
         for s in sentences:
             s = s.strip()
@@ -189,10 +189,10 @@ class LLMExtractor(BaseExtractor):
         提取中文词语(2-4字)和英文单词作为概念.
         """
         # 中文词语(2-4字)
-        chinese = re.findall(r'[\u4e00-\u9fa5]{2,4}', text)
+        chinese = re.findall(r"[\u4e00-\u9fa5]{2,4}", text)
 
         # 英文单词(3+字母)
-        english = re.findall(r'[a-zA-Z]{3,}', text)
+        english = re.findall(r"[a-zA-Z]{3,}", text)
 
         # 合并去重
         concepts = list(set(chinese + english))
@@ -229,9 +229,38 @@ class KeywordExtractor(BaseExtractor):
     """
 
     def __init__(self):
-        self.stopwords = {'的', '了', '是', '在', '我', '有', '和', '就', '不', '人',
-                         '都', '一', '一个', '上', '也', '很', '到', '说', '要', '去',
-                         'the', 'a', 'an', 'is', 'are', 'was', 'were', 'in', 'on', 'at'}
+        self.stopwords = {
+            "的",
+            "了",
+            "是",
+            "在",
+            "我",
+            "有",
+            "和",
+            "就",
+            "不",
+            "人",
+            "都",
+            "一",
+            "一个",
+            "上",
+            "也",
+            "很",
+            "到",
+            "说",
+            "要",
+            "去",
+            "the",
+            "a",
+            "an",
+            "is",
+            "are",
+            "was",
+            "were",
+            "in",
+            "on",
+            "at",
+        }
 
     def extract_facts(self, text: str) -> List[str]:
         """使用句子分割提取事实"""
@@ -240,14 +269,14 @@ class KeywordExtractor(BaseExtractor):
     def extract_concepts(self, text: str) -> List[str]:
         """提取关键词作为概念"""
         # 移除停用词后提取
-        words = re.findall(r'[\u4e00-\u9fa5]{2,4}|[a-zA-Z]{3,}', text)
+        words = re.findall(r"[\u4e00-\u9fa5]{2,4}|[a-zA-Z]{3,}", text)
         concepts = [w for w in words if w not in self.stopwords]
         return list(set(concepts))[:10]
 
 
 __all__ = [
-    'BaseExtractor',
-    'LLMExtractor',
-    'DummyExtractor',
-    'KeywordExtractor',
+    "BaseExtractor",
+    "LLMExtractor",
+    "DummyExtractor",
+    "KeywordExtractor",
 ]

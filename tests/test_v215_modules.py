@@ -1,4 +1,5 @@
 """Tests for claw-mem v2.15.0 modules."""
+
 import pytest
 from claw_mem.engram_index import EngramIndex
 from claw_mem.spreading_activation import SpreadingActivation
@@ -72,6 +73,7 @@ class TestBenchmarkRunner:
     def test_locom_all_pass(self):
         def fake_search(query, top_k):
             return [{"text": "memory project status update complete"} for _ in range(3)]
+
         result = self.br.run_locom(fake_search)
         assert result.total_queries == 5
         assert result.accuracy > 0
@@ -79,6 +81,7 @@ class TestBenchmarkRunner:
     def test_longmem_eval(self):
         def fake_search(query, top_k):
             return [{"text": f"graph test version release {query}"} for _ in range(2)]
+
         result = self.br.run_longmem_eval(fake_search)
         assert result.total_queries == 4
 

@@ -16,9 +16,10 @@ import time
 import json
 import random
 
-sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', 'src'))
+sys.path.insert(0, os.path.join(os.path.dirname(__file__), "..", "src"))
 
 # ── Test Data Generation ──────────────────────────────────────────────────────
+
 
 def generate_retrieval_test_data(n: int = 120) -> list:
     """Generate retrieval test dataset."""
@@ -51,11 +52,17 @@ def generate_retrieval_test_data(n: int = 120) -> list:
             memories.append(mem)
 
         # Generate exact match queries
-        queries.append({
-            "query": f"what did we discuss about {domain} {topic1}?",
-            "expected_memory_ids": [f"mem_{(memory_id-2):03d}", f"mem_{(memory_id-1):03d}", f"mem_{memory_id:03d}"],
-            "domain": domain,
-        })
+        queries.append(
+            {
+                "query": f"what did we discuss about {domain} {topic1}?",
+                "expected_memory_ids": [
+                    f"mem_{(memory_id-2):03d}",
+                    f"mem_{(memory_id-1):03d}",
+                    f"mem_{memory_id:03d}",
+                ],
+                "domain": domain,
+            }
+        )
 
     # Generate more queries with synonyms
     synonyms = [
@@ -77,11 +84,13 @@ def generate_retrieval_test_data(n: int = 120) -> list:
         }
         memories.append(mem)
 
-        queries.append({
-            "query": f"tell me about {syn1} strategies",
-            "expected_memory_ids": [f"mem_{memory_id:03d}"],
-            "domain": original,
-        })
+        queries.append(
+            {
+                "query": f"tell me about {syn1} strategies",
+                "expected_memory_ids": [f"mem_{memory_id:03d}"],
+                "domain": original,
+            }
+        )
 
     return memories, queries
 
@@ -102,21 +111,81 @@ def generate_injection_test_data(n: int = 60) -> list:
     ]
 
     memory_pool = [
-        {"id": "py_perf", "content": "Python performance optimization: use list comprehensions, caching with functools.lru_cache, and profile with cProfile", "memory_type": "procedural"},
-        {"id": "py_project", "content": "Python project structure: src/ layout, pyproject.toml configuration, pytest for testing", "memory_type": "semantic"},
-        {"id": "docker_deploy", "content": "Docker deployment: multi-stage builds, docker-compose for services, healthcheck configuration", "memory_type": "procedural"},
-        {"id": "docker_network", "content": "Docker networking: bridge networks, port mapping, service discovery via DNS", "memory_type": "semantic"},
-        {"id": "test_pytest", "content": "Testing with pytest: fixtures, parametrize, coverage reports, mock objects", "memory_type": "procedural"},
-        {"id": "test_coverage", "content": "Test coverage targets: 80% line coverage minimum, branch coverage tracking, mutation testing", "memory_type": "semantic"},
-        {"id": "sprint_review", "content": "Sprint retrospective format: what went well, what to improve, action items for next sprint", "memory_type": "procedural"},
-        {"id": "api_design", "content": "REST API design: resource naming, HTTP verbs, pagination, error response format", "memory_type": "procedural"},
-        {"id": "api_auth", "content": "API authentication: JWT tokens, OAuth2 flow, rate limiting middleware", "memory_type": "semantic"},
-        {"id": "db_index", "content": "Database indexing strategies: B-tree for equality, bitmap for low-cardinality, covering indexes", "memory_type": "procedural"},
-        {"id": "db_query", "content": "Query optimization: EXPLAIN ANALYZE, query plan analysis, avoiding N+1 queries", "memory_type": "semantic"},
-        {"id": "cicd_pipeline", "content": "CI/CD pipeline: GitHub Actions workflow, build-test-deploy stages, environment configuration", "memory_type": "procedural"},
-        {"id": "ml_deploy", "content": "ML model deployment: model serving with FastAPI, versioning with MLflow, A/B testing", "memory_type": "procedural"},
-        {"id": "code_review", "content": "Code review checklist: naming conventions, error handling, test coverage, performance implications", "memory_type": "procedural"},
-        {"id": "docs_write", "content": "Documentation guidelines: docstrings, README structure, API reference, changelog format", "memory_type": "procedural"},
+        {
+            "id": "py_perf",
+            "content": "Python performance optimization: use list comprehensions, caching with functools.lru_cache, and profile with cProfile",
+            "memory_type": "procedural",
+        },
+        {
+            "id": "py_project",
+            "content": "Python project structure: src/ layout, pyproject.toml configuration, pytest for testing",
+            "memory_type": "semantic",
+        },
+        {
+            "id": "docker_deploy",
+            "content": "Docker deployment: multi-stage builds, docker-compose for services, healthcheck configuration",
+            "memory_type": "procedural",
+        },
+        {
+            "id": "docker_network",
+            "content": "Docker networking: bridge networks, port mapping, service discovery via DNS",
+            "memory_type": "semantic",
+        },
+        {
+            "id": "test_pytest",
+            "content": "Testing with pytest: fixtures, parametrize, coverage reports, mock objects",
+            "memory_type": "procedural",
+        },
+        {
+            "id": "test_coverage",
+            "content": "Test coverage targets: 80% line coverage minimum, branch coverage tracking, mutation testing",
+            "memory_type": "semantic",
+        },
+        {
+            "id": "sprint_review",
+            "content": "Sprint retrospective format: what went well, what to improve, action items for next sprint",
+            "memory_type": "procedural",
+        },
+        {
+            "id": "api_design",
+            "content": "REST API design: resource naming, HTTP verbs, pagination, error response format",
+            "memory_type": "procedural",
+        },
+        {
+            "id": "api_auth",
+            "content": "API authentication: JWT tokens, OAuth2 flow, rate limiting middleware",
+            "memory_type": "semantic",
+        },
+        {
+            "id": "db_index",
+            "content": "Database indexing strategies: B-tree for equality, bitmap for low-cardinality, covering indexes",
+            "memory_type": "procedural",
+        },
+        {
+            "id": "db_query",
+            "content": "Query optimization: EXPLAIN ANALYZE, query plan analysis, avoiding N+1 queries",
+            "memory_type": "semantic",
+        },
+        {
+            "id": "cicd_pipeline",
+            "content": "CI/CD pipeline: GitHub Actions workflow, build-test-deploy stages, environment configuration",
+            "memory_type": "procedural",
+        },
+        {
+            "id": "ml_deploy",
+            "content": "ML model deployment: model serving with FastAPI, versioning with MLflow, A/B testing",
+            "memory_type": "procedural",
+        },
+        {
+            "id": "code_review",
+            "content": "Code review checklist: naming conventions, error handling, test coverage, performance implications",
+            "memory_type": "procedural",
+        },
+        {
+            "id": "docs_write",
+            "content": "Documentation guidelines: docstrings, README structure, API reference, changelog format",
+            "memory_type": "procedural",
+        },
     ]
 
     scenarios = []
@@ -146,11 +215,13 @@ def generate_injection_test_data(n: int = 60) -> list:
         if "document" in ctx_lower or "docs" in ctx_lower:
             relevant_ids.append("docs_write")
 
-        scenarios.append({
-            "context": ctx,
-            "relevant_memory_ids": relevant_ids,
-            "memory_pool": memory_pool,
-        })
+        scenarios.append(
+            {
+                "context": ctx,
+                "relevant_memory_ids": relevant_ids,
+                "memory_pool": memory_pool,
+            }
+        )
 
     return scenarios
 
@@ -206,13 +277,13 @@ def generate_rl_test_data(n: int = 200) -> list:
 
     test_data = []
 
-    for feedback in random.choices(positive_feedbacks, k=n//3):
+    for feedback in random.choices(positive_feedbacks, k=n // 3):
         test_data.append({"feedback": feedback, "expected": "positive"})
 
-    for feedback in random.choices(negative_feedbacks, k=n//3):
+    for feedback in random.choices(negative_feedbacks, k=n // 3):
         test_data.append({"feedback": feedback, "expected": "negative"})
 
-    for feedback in random.choices(neutral_feedbacks, k=n-len(test_data)):
+    for feedback in random.choices(neutral_feedbacks, k=n - len(test_data)):
         test_data.append({"feedback": feedback, "expected": "neutral"})
 
     random.shuffle(test_data)
@@ -220,6 +291,7 @@ def generate_rl_test_data(n: int = 200) -> list:
 
 
 # ── Benchmark Runners ──────────────────────────────────────────────────────────
+
 
 def benchmark_retrieval_hit_rate() -> dict:
     """Benchmark retrieval hit rate."""
@@ -247,13 +319,15 @@ def benchmark_retrieval_hit_rate() -> dict:
         if matched:
             hits += 1
 
-        details.append({
-            "query": test["query"],
-            "hit": matched,
-            "expected": list(expected_ids),
-            "found": list(found_ids)[:5],
-            "match_count": len(expected_ids & found_ids),
-        })
+        details.append(
+            {
+                "query": test["query"],
+                "hit": matched,
+                "expected": list(expected_ids),
+                "found": list(found_ids)[:5],
+                "match_count": len(expected_ids & found_ids),
+            }
+        )
 
     elapsed = (time.perf_counter() - t0) * 1000
     hit_rate = hits / total if total > 0 else 0
@@ -310,12 +384,14 @@ def benchmark_injection_relevance() -> dict:
         if is_relevant:
             correct += 1
 
-        details.append({
-            "context": scenario["context"][:60],
-            "relevant": is_relevant,
-            "overlap_count": overlap,
-            "top_memories": list(top_ids)[:3],
-        })
+        details.append(
+            {
+                "context": scenario["context"][:60],
+                "relevant": is_relevant,
+                "overlap_count": overlap,
+                "top_memories": list(top_ids)[:3],
+            }
+        )
 
     elapsed = (time.perf_counter() - t0) * 1000
     relevance_rate = correct / total if total > 0 else 0
@@ -348,20 +424,24 @@ def benchmark_rl_accuracy() -> dict:
 
     for test in test_data:
         result = judge.judge(test["feedback"])
-        predicted = "positive" if result.reward > 0 else ("negative" if result.reward < 0 else "neutral")
+        predicted = (
+            "positive" if result.reward > 0 else ("negative" if result.reward < 0 else "neutral")
+        )
         expected = test["expected"]
 
         is_correct = predicted == expected
         if is_correct:
             correct += 1
 
-        details.append({
-            "feedback": test["feedback"][:50],
-            "expected": expected,
-            "predicted": predicted,
-            "correct": is_correct,
-            "confidence": round(result.confidence, 3),
-        })
+        details.append(
+            {
+                "feedback": test["feedback"][:50],
+                "expected": expected,
+                "predicted": predicted,
+                "correct": is_correct,
+                "confidence": round(result.confidence, 3),
+            }
+        )
 
     elapsed = (time.perf_counter() - t0) * 1000
     accuracy = correct / total if total > 0 else 0
@@ -381,6 +461,7 @@ def benchmark_rl_accuracy() -> dict:
 
 # ── Main ───────────────────────────────────────────────────────────────────────
 
+
 def run_all_benchmarks():
     """Run all three benchmarks and generate report."""
     print("=" * 60)
@@ -393,19 +474,25 @@ def run_all_benchmarks():
     print("1. Retrieval Hit Rate Benchmark...")
     r1 = benchmark_retrieval_hit_rate()
     results.append(r1)
-    print(f"   Hit Rate: {r1['actual']:.2%} (target: >{r1['target']:.0%})  {'PASS' if r1['passed'] else 'FAIL'}")
+    print(
+        f"   Hit Rate: {r1['actual']:.2%} (target: >{r1['target']:.0%})  {'PASS' if r1['passed'] else 'FAIL'}"
+    )
     print()
 
     print("2. Injection Relevance Benchmark...")
     r2 = benchmark_injection_relevance()
     results.append(r2)
-    print(f"   Relevance: {r2['actual']:.2%} (target: >{r2['target']:.0%})  {'PASS' if r2['passed'] else 'FAIL'}")
+    print(
+        f"   Relevance: {r2['actual']:.2%} (target: >{r2['target']:.0%})  {'PASS' if r2['passed'] else 'FAIL'}"
+    )
     print()
 
     print("3. RL Accuracy Benchmark...")
     r3 = benchmark_rl_accuracy()
     results.append(r3)
-    print(f"   Accuracy: {r3['actual']:.2%} (target: >{r3['target']:.0%})  {'PASS' if r3['passed'] else 'FAIL'}")
+    print(
+        f"   Accuracy: {r3['actual']:.2%} (target: >{r3['target']:.0%})  {'PASS' if r3['passed'] else 'FAIL'}"
+    )
     print()
 
     print("=" * 60)
@@ -430,11 +517,10 @@ def run_all_benchmarks():
 
     # Save results
     report_path = os.path.join(
-        os.path.dirname(__file__), '..', 'data', 'benchmark',
-        '2026-05-15-p0-metrics.json'
+        os.path.dirname(__file__), "..", "data", "benchmark", "2026-05-15-p0-metrics.json"
     )
     os.makedirs(os.path.dirname(report_path), exist_ok=True)
-    with open(report_path, 'w') as f:
+    with open(report_path, "w") as f:
         json.dump(results, f, indent=2)
     print(f"\nReport saved to {report_path}")
 

@@ -28,9 +28,7 @@ class TestGraphWithExtractor:
         extractor = LLMExtractor(llm_client=None)
         graph = ConceptMediatedGraph(extractor=extractor)
 
-        turns = [
-            {"speaker": "user", "content": "我决定使用 Python 开发项目"}
-        ]
+        turns = [{"speaker": "user", "content": "我决定使用 Python 开发项目"}]
 
         episode_ids = graph.add_conversation(turns)
 
@@ -44,7 +42,7 @@ class TestGraphWithExtractor:
 
         turns = [
             {"speaker": "user", "content": "Python 编程"},
-            {"speaker": "agent", "content": "推荐使用 pandas"}
+            {"speaker": "agent", "content": "推荐使用 pandas"},
         ]
 
         episode_ids = graph.add_conversation(turns)
@@ -60,9 +58,7 @@ class TestGraphWithExtractor:
         extractor = DummyExtractor()
         graph = ConceptMediatedGraph(extractor=extractor)
 
-        turns = [
-            {"speaker": "user", "content": "测试内容"}
-        ]
+        turns = [{"speaker": "user", "content": "测试内容"}]
 
         episode_ids = graph.add_conversation(turns)
 
@@ -161,5 +157,5 @@ class TestGraphEdgeCases:
 
         stats = graph.get_stats()
 
-        assert stats['total_nodes'] == 0
-        assert stats['total_edges'] == 0
+        assert stats["total_nodes"] == 0
+        assert stats["total_edges"] == 0

@@ -78,13 +78,13 @@ from .write_time_gating import (
 )
 
 __all__ = [
-    'WriteTimeGating',
-    'SalienceScorer',
-    'GatingResult',
-    'InMemoryStorage',
-    'DiskStorage',
-    'VersionChain',
-    'GatingFilter',
-    'GatingFilterResult',
-    'AdaptiveThreshold',
+    "WriteTimeGating",
+    "SalienceScorer",
+    "GatingResult",
+    "InMemoryStorage",
+    "DiskStorage",
+    "VersionChain",
+    "GatingFilter",
+    "GatingFilterResult",
+    "AdaptiveThreshold",
 ]
