@@ -5,6 +5,56 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.15.0] - 2026-05-14
+
+### Added
+
+**O(1) Engram Index + Spreading Activation + Benchmarks**
+
+- **EngramIndex**: O(1) constant-time memory lookup by ID
+  - Hash-based direct access replaces linear search
+  - Dramatically improves retrieval performance for large memory stores
+- **Spreading Activation**: Concept-based memory expansion
+  - Activates semantically related concepts during retrieval
+  - Returns more contextually relevant results
+- **Benchmark Suite**: Performance testing framework
+  - `scripts/benchmark_memory.py` - Memory operations benchmark
+  - Startup, retrieval, and compression performance metrics
+- **EnhancedRetriever**: Improved retrieval quality
+  - Better relevance scoring
+  - Proactive memory injection support
+- **ProactiveTrigger**: Automatic context injection
+  - Injects relevant memories before agent starts
+  - Improves agent awareness without explicit queries
+- **NaturalDecay**: Time-based memory relevance
+  - Older memories naturally decay in relevance
+  - Recent memories have higher activation
+
+### Fixed
+- CI: Handle BM25 ZeroDivisionError edge case
+- CI: Add watchdog dependency + Python 3.8 annotations
+- Export `MemoryCompressor` for plugin usage
+
+### Changed
+- Plugin version bumped to 2.15.0
+- Code formatting: Black formatter applied to all Python source
+
+---
+
+## [2.14.0] - 2026-05-14
+
+### Added
+- **P0 Bridge Integration**: Full OpenClaw plugin bridge support
+  - `before_agent_start` hook for proactive memory injection
+  - `after_agent_response` hook for memory storage
+  - Bridge benchmark scripts for performance validation
+
+### Changed
+- Improved plugin startup reliability
+- Better error handling in bridge communication
+
+---
+
 ## [2.13.2] - 2026-05-13
 
 ### Added
