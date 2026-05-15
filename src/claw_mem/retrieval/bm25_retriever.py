@@ -170,8 +170,15 @@ class BM25Retriever:
         if not query_tokens:
             return []
 
+        # Check for empty corpus entries (all tokens empty → division by zero)
+        if all(len(tokens) == 0 for tokens in self._corpus):
+            return []
+
         # Get BM25 scores
-        scores = self._bm25.get_scores(query_tokens)
+        try:
+            scores = self._bm25.get_scores(query_tokens)
+        except ZeroDivisionError:
+            return []
 
         # Create scored results with optional recency/frequency boosts
         scored_results = []

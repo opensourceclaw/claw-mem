@@ -35,6 +35,7 @@ from .memory_compression import (
     CompressionResult as CompressionResultV1,
     KeyInformationExtractor as KeyInformationExtractorV1,
     MemoryCompressor as MemoryCompressorV1,
+    MemoryCompressor,
 )
 
 from .f5_v2 import (
@@ -65,6 +66,7 @@ __all__ = [
     "CompressionResultV1",
     "KeyInformationExtractorV1",
     "MemoryCompressorV1",
+    "MemoryCompressor",
     # F5 V2
     "CompressionLevelV2",
     "CompressionResultV2",
