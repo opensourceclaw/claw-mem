@@ -483,7 +483,7 @@ const plugin: PluginDefinition = {
   id: 'claw-mem',
   name: 'Claw Memory System',
   description: 'Three-tier memory system for OpenClaw (Local-First) - Plugin Slots Enabled',
-  version: '2.12.5',
+  version: '2.15.0',
   kind: 'memory',
 
   configSchema: {
