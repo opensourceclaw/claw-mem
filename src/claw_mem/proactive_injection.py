@@ -34,11 +34,12 @@ from enum import Enum
 from typing import Dict, List, Optional, Set, Tuple
 from dataclasses import dataclass, field
 
-
 # ── Data Types ─────────────────────────────────────────────────────────────────
+
 
 class InjectionIntent(Enum):
     """Recognized user intent types for proactive injection."""
+
     PROJECT_DISCUSSION = "project_discussion"
     PREFERENCE_QUERY = "preference_query"
     RECENT_ACTIVITY = "recent_activity"
@@ -51,6 +52,7 @@ class InjectionIntent(Enum):
 
 class MemoryNeed(Enum):
     """Types of memory that may be needed."""
+
     PROJECT_CONTEXT = "project_context"
     USER_PREFERENCE = "user_preference"
     RECENT_EVENTS = "recent_events"
@@ -61,14 +63,16 @@ class MemoryNeed(Enum):
 
 class TriggerType(Enum):
     """Types of memory triggers."""
-    PATTERN = "pattern"      # Keyword/entity pattern match
-    CONTEXT = "context"      # Context similarity
-    TEMPORAL = "temporal"    # Time-based trigger
+
+    PATTERN = "pattern"  # Keyword/entity pattern match
+    CONTEXT = "context"  # Context similarity
+    TEMPORAL = "temporal"  # Time-based trigger
 
 
 @dataclass
 class InjectionConfig:
     """Configuration for proactive memory injection."""
+
     token_budget: int = 500
     relevance_threshold: float = 0.7
     max_memories: int = 5
@@ -81,6 +85,7 @@ class InjectionConfig:
 @dataclass
 class IntentResult:
     """Result of intent recognition."""
+
     intent_type: InjectionIntent
     entities: List[str] = field(default_factory=list)
     memory_needs: List[MemoryNeed] = field(default_factory=list)
@@ -90,6 +95,7 @@ class IntentResult:
 @dataclass
 class ConversationContext:
     """Conversation context for trigger detection."""
+
     current_message: str = ""
     recent_messages: List[str] = field(default_factory=list)
     active_project: Optional[str] = None
@@ -99,6 +105,7 @@ class ConversationContext:
 @dataclass
 class MemoryTrigger:
     """A detected memory trigger."""
+
     trigger_type: TriggerType
     search_query: str
     memory_types: List[str] = field(default_factory=list)
@@ -109,6 +116,7 @@ class MemoryTrigger:
 @dataclass
 class ScoredMemory:
     """A memory with relevance score."""
+
     memory_id: str
     content: str
     score: float
@@ -126,6 +134,7 @@ class ScoredMemory:
 @dataclass
 class InjectionDecision:
     """Decision on what memories to inject."""
+
     should_inject: bool
     memories: List[ScoredMemory] = field(default_factory=list)
     formatted_text: str = ""
@@ -134,6 +143,7 @@ class InjectionDecision:
 
 
 # ── Intent Recognizer ──────────────────────────────────────────────────────────
+
 
 class IntentRecognizer:
     """Recognize user intent and memory needs from messages.
@@ -179,7 +189,8 @@ class IntentRecognizer:
     # Mapping intent → relevant memory needs
     INTENT_TO_MEMORY_NEEDS: Dict[InjectionIntent, List[MemoryNeed]] = {
         InjectionIntent.PROJECT_DISCUSSION: [
-            MemoryNeed.PROJECT_CONTEXT, MemoryNeed.TECHNICAL_REFERENCE,
+            MemoryNeed.PROJECT_CONTEXT,
+            MemoryNeed.TECHNICAL_REFERENCE,
             MemoryNeed.PROCEDURAL_KNOWLEDGE,
         ],
         InjectionIntent.PREFERENCE_QUERY: [
@@ -189,17 +200,21 @@ class IntentRecognizer:
             MemoryNeed.RECENT_EVENTS,
         ],
         InjectionIntent.DECISION_MAKING: [
-            MemoryNeed.PAST_DECISIONS, MemoryNeed.PROJECT_CONTEXT,
+            MemoryNeed.PAST_DECISIONS,
+            MemoryNeed.PROJECT_CONTEXT,
         ],
         InjectionIntent.CODE_WORK: [
-            MemoryNeed.PROCEDURAL_KNOWLEDGE, MemoryNeed.TECHNICAL_REFERENCE,
+            MemoryNeed.PROCEDURAL_KNOWLEDGE,
+            MemoryNeed.TECHNICAL_REFERENCE,
             MemoryNeed.PROJECT_CONTEXT,
         ],
         InjectionIntent.DEPLOYMENT: [
-            MemoryNeed.PROCEDURAL_KNOWLEDGE, MemoryNeed.PROJECT_CONTEXT,
+            MemoryNeed.PROCEDURAL_KNOWLEDGE,
+            MemoryNeed.PROJECT_CONTEXT,
         ],
         InjectionIntent.LEARNING_FEEDBACK: [
-            MemoryNeed.PAST_DECISIONS, MemoryNeed.USER_PREFERENCE,
+            MemoryNeed.PAST_DECISIONS,
+            MemoryNeed.USER_PREFERENCE,
         ],
         InjectionIntent.GENERAL: [
             MemoryNeed.RECENT_EVENTS,
@@ -211,8 +226,9 @@ class IntentRecognizer:
         for intent, pat_list in self.INTENT_PATTERNS.items():
             self._compiled[intent] = [re.compile(p) for p in pat_list]
 
-    def recognize(self, message: str,
-                  context: Optional[ConversationContext] = None) -> IntentResult:
+    def recognize(
+        self, message: str, context: Optional[ConversationContext] = None
+    ) -> IntentResult:
         """Recognize intent from message and optional context.
 
         Args:
@@ -260,15 +276,17 @@ class IntentRecognizer:
         entities: Set[str] = set()
 
         # System/project names
-        project_pattern = re.compile(r'(?i)\b(claw-\w+|openclaw|neoclaw|devclaw|workclaw|deepclaw)\b')
+        project_pattern = re.compile(
+            r"(?i)\b(claw-\w+|openclaw|neoclaw|devclaw|workclaw|deepclaw)\b"
+        )
         entities.update(project_pattern.findall(text))
 
         # Version numbers
-        version_pattern = re.compile(r'[vV]?(\d+\.\d+(?:\.\d+)?(?:[a-z]\d*)?)')
+        version_pattern = re.compile(r"[vV]?(\d+\.\d+(?:\.\d+)?(?:[a-z]\d*)?)")
         entities.update(version_pattern.findall(text))
 
         # Capitalized names (likely entities)
-        name_pattern = re.compile(r'\b([A-Z][a-z]+)\b')
+        name_pattern = re.compile(r"\b([A-Z][a-z]+)\b")
         for match in name_pattern.findall(text):
             if len(match) > 2:
                 entities.add(match.lower())
@@ -277,6 +295,7 @@ class IntentRecognizer:
 
 
 # ── Memory Trigger Detector ────────────────────────────────────────────────────
+
 
 class MemoryTriggerDetector:
     """Detect when memory should be proactively injected.
@@ -292,9 +311,12 @@ class MemoryTriggerDetector:
         self.context_triggers = ContextSimilarityTrigger()
         self.temporal_triggers = TemporalTrigger()
 
-    def detect_triggers(self, intent: IntentResult,
-                        context: Optional[ConversationContext] = None,
-                        config: Optional[InjectionConfig] = None) -> List[MemoryTrigger]:
+    def detect_triggers(
+        self,
+        intent: IntentResult,
+        context: Optional[ConversationContext] = None,
+        config: Optional[InjectionConfig] = None,
+    ) -> List[MemoryTrigger]:
         """Detect memory triggers based on intent and context.
 
         Args:
@@ -397,13 +419,15 @@ class PatternTriggerRegistry:
         template, mem_types, max_results, recency = action
         query = template.replace("{entities}", " ".join(intent.entities))
 
-        return [MemoryTrigger(
-            trigger_type=TriggerType.PATTERN,
-            search_query=query,
-            memory_types=mem_types,
-            max_results=max_results,
-            recency_filter=recency,
-        )]
+        return [
+            MemoryTrigger(
+                trigger_type=TriggerType.PATTERN,
+                search_query=query,
+                memory_types=mem_types,
+                max_results=max_results,
+                recency_filter=recency,
+            )
+        ]
 
 
 class ContextSimilarityTrigger:
@@ -425,21 +449,25 @@ class ContextSimilarityTrigger:
         triggers = []
 
         if context.active_project:
-            triggers.append(MemoryTrigger(
-                trigger_type=TriggerType.CONTEXT,
-                search_query=f"project:{context.active_project}",
-                memory_types=["decision", "preference", "procedure"],
-                max_results=3,
-            ))
+            triggers.append(
+                MemoryTrigger(
+                    trigger_type=TriggerType.CONTEXT,
+                    search_query=f"project:{context.active_project}",
+                    memory_types=["decision", "preference", "procedure"],
+                    max_results=3,
+                )
+            )
 
         if context.session_duration_seconds > 600:  # 10+ minutes
-            triggers.append(MemoryTrigger(
-                trigger_type=TriggerType.CONTEXT,
-                search_query="*",
-                memory_types=["preference", "semantic"],
-                max_results=2,
-                recency_filter="last_30_days",
-            ))
+            triggers.append(
+                MemoryTrigger(
+                    trigger_type=TriggerType.CONTEXT,
+                    search_query="*",
+                    memory_types=["preference", "semantic"],
+                    max_results=2,
+                    recency_filter="last_30_days",
+                )
+            )
 
         return triggers
 
@@ -469,13 +497,15 @@ class TemporalTrigger:
 
         self._last_triggered["hourly_refresh"] = now
 
-        return [MemoryTrigger(
-            trigger_type=TriggerType.TEMPORAL,
-            search_query="*",
-            memory_types=["episode", "semantic"],
-            max_results=2,
-            recency_filter="last_7_days",
-        )]
+        return [
+            MemoryTrigger(
+                trigger_type=TriggerType.TEMPORAL,
+                search_query="*",
+                memory_types=["episode", "semantic"],
+                max_results=2,
+                recency_filter="last_7_days",
+            )
+        ]
 
     def reset(self):
         """Reset trigger timers."""
@@ -483,6 +513,7 @@ class TemporalTrigger:
 
 
 # ── Relevance Scorer ───────────────────────────────────────────────────────────
+
 
 class RelevanceScorer:
     """Score relevance of memories for proactive injection.
@@ -502,8 +533,7 @@ class RelevanceScorer:
             "actionability": 0.10,
         }
 
-    def score(self, memory: ScoredMemory,
-              context: Optional[ConversationContext] = None) -> float:
+    def score(self, memory: ScoredMemory, context: Optional[ConversationContext] = None) -> float:
         """Score a memory for relevance.
 
         Args:
@@ -519,16 +549,17 @@ class RelevanceScorer:
         actionability_score = self._compute_actionability(memory, context)
 
         weighted = (
-            self.weights["context_similarity"] * context_score +
-            self.weights["recency"] * recency_score +
-            self.weights["frequency"] * frequency_score +
-            self.weights["actionability"] * actionability_score
+            self.weights["context_similarity"] * context_score
+            + self.weights["recency"] * recency_score
+            + self.weights["frequency"] * frequency_score
+            + self.weights["actionability"] * actionability_score
         )
 
         return min(1.0, weighted)
 
-    def score_memories(self, memories: List[ScoredMemory],
-                       context: Optional[ConversationContext] = None) -> List[ScoredMemory]:
+    def score_memories(
+        self, memories: List[ScoredMemory], context: Optional[ConversationContext] = None
+    ) -> List[ScoredMemory]:
         """Score multiple memories in-place.
 
         Args:
@@ -599,8 +630,19 @@ class RelevanceScorer:
 
         # Boost for actionable keywords
         actionable_keywords = [
-            "should", "must", "need to", "action", "step", "步骤",
-            "需要", "必须", "配置", "设置", "config", "setup", "important",
+            "should",
+            "must",
+            "need to",
+            "action",
+            "step",
+            "步骤",
+            "需要",
+            "必须",
+            "配置",
+            "设置",
+            "config",
+            "setup",
+            "important",
         ]
         matches = sum(1 for kw in actionable_keywords if kw in content)
         if matches > 0:
@@ -618,6 +660,7 @@ class RelevanceScorer:
 
 
 # ── Injection Manager ──────────────────────────────────────────────────────────
+
 
 class InjectionManager:
     """Manage memory injection decisions.
@@ -682,7 +725,7 @@ class InjectionManager:
             formatted_text=formatted,
             token_count=tokens_used,
             reason=f"Selected {len(selected)}/{len(memories)} memories with "
-                   f"threshold {config.relevance_threshold}",
+            f"threshold {config.relevance_threshold}",
         )
 
         self._injection_history.append(decision)
@@ -737,20 +780,20 @@ class InjectionManager:
 
 
 __all__ = [
-    'IntentRecognizer',
-    'MemoryTriggerDetector',
-    'RelevanceScorer',
-    'InjectionManager',
-    'InjectionConfig',
-    'InjectionDecision',
-    'IntentResult',
-    'ConversationContext',
-    'MemoryTrigger',
-    'ScoredMemory',
-    'InjectionIntent',
-    'MemoryNeed',
-    'TriggerType',
-    'PatternTriggerRegistry',
-    'ContextSimilarityTrigger',
-    'TemporalTrigger',
+    "IntentRecognizer",
+    "MemoryTriggerDetector",
+    "RelevanceScorer",
+    "InjectionManager",
+    "InjectionConfig",
+    "InjectionDecision",
+    "IntentResult",
+    "ConversationContext",
+    "MemoryTrigger",
+    "ScoredMemory",
+    "InjectionIntent",
+    "MemoryNeed",
+    "TriggerType",
+    "PatternTriggerRegistry",
+    "ContextSimilarityTrigger",
+    "TemporalTrigger",
 ]

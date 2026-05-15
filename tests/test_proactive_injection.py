@@ -3,16 +3,26 @@
 import time
 import pytest
 from claw_mem.proactive_injection import (
-    IntentRecognizer, InjectionIntent, IntentResult, MemoryNeed,
-    MemoryTriggerDetector, MemoryTrigger, TriggerType,
-    RelevanceScorer, ScoredMemory,
-    InjectionManager, InjectionConfig, InjectionDecision,
+    IntentRecognizer,
+    InjectionIntent,
+    IntentResult,
+    MemoryNeed,
+    MemoryTriggerDetector,
+    MemoryTrigger,
+    TriggerType,
+    RelevanceScorer,
+    ScoredMemory,
+    InjectionManager,
+    InjectionConfig,
+    InjectionDecision,
     ConversationContext,
-    PatternTriggerRegistry, ContextSimilarityTrigger, TemporalTrigger,
+    PatternTriggerRegistry,
+    ContextSimilarityTrigger,
+    TemporalTrigger,
 )
 
-
 # ── IntentRecognizer Tests ─────────────────────────────────────────────────────
+
 
 class TestIntentRecognizer:
     @pytest.fixture
@@ -85,6 +95,7 @@ class TestIntentRecognizer:
 
 # ── MemoryTriggerDetector Tests ────────────────────────────────────────────────
 
+
 class TestMemoryTriggerDetector:
     @pytest.fixture
     def detector(self):
@@ -125,19 +136,13 @@ class TestMemoryTriggerDetector:
         assert any(t.trigger_type == TriggerType.CONTEXT for t in triggers)
 
     def test_temporal_triggers(self, detector):
-        triggers = detector.detect_triggers(
-            IntentResult(InjectionIntent.GENERAL, [], [], 0.3)
-        )
+        triggers = detector.detect_triggers(IntentResult(InjectionIntent.GENERAL, [], [], 0.3))
         temporal = [t for t in triggers if t.trigger_type == TriggerType.TEMPORAL]
         assert len(temporal) >= 0  # May or may not fire based on rate limiting
 
     def test_temporal_trigger_rate_limited(self, detector):
-        triggers1 = detector.detect_triggers(
-            IntentResult(InjectionIntent.GENERAL, [], [], 0.3)
-        )
-        triggers2 = detector.detect_triggers(
-            IntentResult(InjectionIntent.GENERAL, [], [], 0.3)
-        )
+        triggers1 = detector.detect_triggers(IntentResult(InjectionIntent.GENERAL, [], [], 0.3))
+        triggers2 = detector.detect_triggers(IntentResult(InjectionIntent.GENERAL, [], [], 0.3))
         temporal1 = [t for t in triggers1 if t.trigger_type == TriggerType.TEMPORAL]
         temporal2 = [t for t in triggers2 if t.trigger_type == TriggerType.TEMPORAL]
         if temporal1:
@@ -145,9 +150,7 @@ class TestMemoryTriggerDetector:
 
     def test_temporal_trigger_reset(self, detector):
         detector.temporal_triggers.reset()
-        triggers = detector.detect_triggers(
-            IntentResult(InjectionIntent.GENERAL, [], [], 0.3)
-        )
+        triggers = detector.detect_triggers(IntentResult(InjectionIntent.GENERAL, [], [], 0.3))
         temporal = [t for t in triggers if t.trigger_type == TriggerType.TEMPORAL]
         assert len(temporal) >= 1  # Should fire after reset
 
@@ -160,11 +163,14 @@ class TestMemoryTriggerDetector:
 
 # ── PatternTriggerRegistry Tests ───────────────────────────────────────────────
 
+
 class TestPatternTriggerRegistry:
     def test_match_all_intents(self):
         registry = PatternTriggerRegistry()
         for intent_type in InjectionIntent:
-            result = IntentResult(intent_type=intent_type, entities=["test"], memory_needs=[], confidence=0.5)
+            result = IntentResult(
+                intent_type=intent_type, entities=["test"], memory_needs=[], confidence=0.5
+            )
             triggers = registry.match(result)
             assert isinstance(triggers, list)
             if triggers:
@@ -172,6 +178,7 @@ class TestPatternTriggerRegistry:
 
 
 # ── RelevanceScorer Tests ──────────────────────────────────────────────────────
+
 
 class TestRelevanceScorer:
     @pytest.fixture
@@ -224,7 +231,9 @@ class TestRelevanceScorer:
 
     def test_score_memories_in_place(self, scorer):
         memories = [
-            ScoredMemory("a", "Python AI code", 0.5, timestamp="2025-05-14T10:00:00", access_count=20),
+            ScoredMemory(
+                "a", "Python AI code", 0.5, timestamp="2025-05-14T10:00:00", access_count=20
+            ),
             ScoredMemory("b", "Old docs", 0.5, timestamp="2024-01-01T00:00:00", access_count=1),
         ]
         scored = scorer.score_memories(memories)
@@ -233,16 +242,14 @@ class TestRelevanceScorer:
 
     def test_actionability_procedural_memory(self, scorer):
         mem = ScoredMemory(
-            "id", "step 1: should do X, step 2: must do Y",
-            0.5, memory_type="procedural"
+            "id", "step 1: should do X, step 2: must do Y", 0.5, memory_type="procedural"
         )
         score = scorer.score(mem)
         assert score >= 0
 
     def test_actionability_decision_memory(self, scorer):
         mem = ScoredMemory(
-            "id", "important decision: use Python for AI",
-            0.5, memory_type="decision"
+            "id", "important decision: use Python for AI", 0.5, memory_type="decision"
         )
         score = scorer.score(mem)
         assert score >= 0
@@ -250,14 +257,17 @@ class TestRelevanceScorer:
 
 # ── InjectionManager Tests ─────────────────────────────────────────────────────
 
+
 class TestInjectionManager:
     @pytest.fixture
     def manager(self):
-        return InjectionManager(InjectionConfig(
-            token_budget=200,
-            relevance_threshold=0.4,
-            max_memories=3,
-        ))
+        return InjectionManager(
+            InjectionConfig(
+                token_budget=200,
+                relevance_threshold=0.4,
+                max_memories=3,
+            )
+        )
 
     @pytest.fixture
     def sample_memories(self):
@@ -355,6 +365,7 @@ class TestInjectionManager:
 
 # ── Dataclass Tests ────────────────────────────────────────────────────────────
 
+
 class TestDataclasses:
     def test_injection_config_defaults(self):
         config = InjectionConfig()
@@ -394,6 +405,7 @@ class TestDataclasses:
 
 
 # ── ContextSimilarityTrigger Tests ─────────────────────────────────────────────
+
 
 class TestContextSimilarityTrigger:
     def test_with_active_project(self):

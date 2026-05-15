@@ -4,23 +4,40 @@ import pytest
 from claw_mem.retrieval.query_understanding import QueryUnderstanding, QueryIntent, ExpandedQuery
 from claw_mem.retrieval.multi_strategy_retriever import Candidate
 from claw_mem.retrieval.learning_to_rank import (
-    LearningToRankReranker, RankingFeatures, Result,
+    LearningToRankReranker,
+    RankingFeatures,
+    Result,
 )
 
-
 SAMPLE_CANDIDATES = [
-    Candidate("mem-1", "Python performance optimization with caching techniques", 0.9, "bm25",
-              {"timestamp": "2025-05-14T10:00:00", "access_count": 15,
-               "tags": ["python", "performance"]}),
-    Candidate("mem-2", "claw-mem architecture and memory system", 0.7, "bm25",
-              {"timestamp": "2025-05-10T10:00:00", "access_count": 5,
-               "tags": ["architecture"]}),
-    Candidate("mem-3", "old deployment process documentation", 0.5, "graph",
-              {"timestamp": "2024-01-01T00:00:00", "access_count": 2,
-               "tags": ["deployment"]}),
-    Candidate("mem-4", "AI model training pipeline with RL", 0.6, "bm25",
-              {"timestamp": "2025-05-13T10:00:00", "access_count": 20,
-               "tags": ["ai", "rl"]}),
+    Candidate(
+        "mem-1",
+        "Python performance optimization with caching techniques",
+        0.9,
+        "bm25",
+        {"timestamp": "2025-05-14T10:00:00", "access_count": 15, "tags": ["python", "performance"]},
+    ),
+    Candidate(
+        "mem-2",
+        "claw-mem architecture and memory system",
+        0.7,
+        "bm25",
+        {"timestamp": "2025-05-10T10:00:00", "access_count": 5, "tags": ["architecture"]},
+    ),
+    Candidate(
+        "mem-3",
+        "old deployment process documentation",
+        0.5,
+        "graph",
+        {"timestamp": "2024-01-01T00:00:00", "access_count": 2, "tags": ["deployment"]},
+    ),
+    Candidate(
+        "mem-4",
+        "AI model training pipeline with RL",
+        0.6,
+        "bm25",
+        {"timestamp": "2025-05-13T10:00:00", "access_count": 20, "tags": ["ai", "rl"]},
+    ),
 ]
 
 
@@ -147,8 +164,9 @@ class TestLearningToRankReranker:
 
     def test_frequency_score_zero(self, reranker):
         """Access count 0 should give frequency score 0."""
-        cand = Candidate("test", "content", 0.5, "bm25",
-                         {"access_count": 0, "timestamp": "2025-05-14T10:00:00"})
+        cand = Candidate(
+            "test", "content", 0.5, "bm25", {"access_count": 0, "timestamp": "2025-05-14T10:00:00"}
+        )
         features = reranker.extract_features(
             ExpandedQuery("test", "test", QueryIntent.FACT, []), cand
         )

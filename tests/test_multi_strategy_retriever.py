@@ -4,10 +4,12 @@ import time
 import pytest
 from claw_mem.retrieval.query_understanding import QueryUnderstanding, QueryIntent, ExpandedQuery
 from claw_mem.retrieval.multi_strategy_retriever import (
-    MultiStrategyRetriever, ConceptGraphTraverser, TemporalDecayWeighter,
-    Candidate, RetrievalResult,
+    MultiStrategyRetriever,
+    ConceptGraphTraverser,
+    TemporalDecayWeighter,
+    Candidate,
+    RetrievalResult,
 )
-
 
 # Sample memory pool
 SAMPLE_MEMORIES = [

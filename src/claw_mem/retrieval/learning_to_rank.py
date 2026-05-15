@@ -42,6 +42,7 @@ from .multi_strategy_retriever import Candidate
 @dataclass
 class RankingFeatures:
     """Feature vector for a candidate memory."""
+
     bm25_score: float = 0.0
     recency_score: float = 0.0
     frequency_score: float = 0.0
@@ -55,6 +56,7 @@ class RankingFeatures:
 @dataclass
 class Result:
     """Final ranked result after re-ranking."""
+
     memory_id: str
     content: str
     score: float
@@ -105,8 +107,7 @@ class LearningToRankReranker:
         "tag_match_score": 0.03,
     }
 
-    def __init__(self, weights: Optional[Dict[str, float]] = None,
-                 learning_rate: float = 0.01):
+    def __init__(self, weights: Optional[Dict[str, float]] = None, learning_rate: float = 0.01):
         """Initialize re-ranker.
 
         Args:
@@ -120,10 +121,10 @@ class LearningToRankReranker:
 
     def rerank(
         self,
-        query: 'ExpandedQuery',
-        candidates: List['Candidate'],
+        query: "ExpandedQuery",
+        candidates: List["Candidate"],
         top_k: int = 10,
-    ) -> List['Result']:
+    ) -> List["Result"]:
         """Re-rank candidates using ML features.
 
         Args:
@@ -144,14 +145,16 @@ class LearningToRankReranker:
             features = self.extract_features(query, candidate, now)
             score = self._compute_score(features)
 
-            results.append(Result(
-                memory_id=candidate.memory_id,
-                content=candidate.content,
-                score=score,
-                rank=rank,
-                features=features,
-                metadata=candidate.metadata,
-            ))
+            results.append(
+                Result(
+                    memory_id=candidate.memory_id,
+                    content=candidate.content,
+                    score=score,
+                    rank=rank,
+                    features=features,
+                    metadata=candidate.metadata,
+                )
+            )
 
         # Sort by computed score descending
         results.sort(key=lambda r: r.score, reverse=True)
@@ -164,8 +167,8 @@ class LearningToRankReranker:
 
     def extract_features(
         self,
-        query: 'ExpandedQuery',
-        candidate: 'Candidate',
+        query: "ExpandedQuery",
+        candidate: "Candidate",
         now: Optional[float] = None,
     ) -> RankingFeatures:
         """Extract feature vector from candidate.
@@ -198,9 +201,7 @@ class LearningToRankReranker:
         )
 
         # Query-content similarity (Jaccard-like)
-        query_content_similarity = self._compute_text_similarity(
-            query.expanded_text, content
-        )
+        query_content_similarity = self._compute_text_similarity(query.expanded_text, content)
 
         # Interaction history score
         interaction_score = self._compute_interaction(
@@ -213,9 +214,7 @@ class LearningToRankReranker:
         length_norm = self._compute_length_norm(len(content))
 
         # Tag match score
-        tag_match_score = self._compute_tag_match(
-            query.entities, meta.get("tags", [])
-        )
+        tag_match_score = self._compute_tag_match(query.entities, meta.get("tags", []))
 
         return RankingFeatures(
             bm25_score=bm25_score,
@@ -228,8 +227,7 @@ class LearningToRankReranker:
             tag_match_score=tag_match_score,
         )
 
-    def record_feedback(self, memory_id: str, query_id: str,
-                        clicked: bool, relevance: float = 0.0):
+    def record_feedback(self, memory_id: str, query_id: str, clicked: bool, relevance: float = 0.0):
         """Record user feedback for online learning.
 
         Args:
@@ -239,13 +237,15 @@ class LearningToRankReranker:
             relevance: Relevance rating (0-1)
         """
         self._stats["feedback_events"] += 1
-        self._feedback_buffer.append({
-            "memory_id": memory_id,
-            "query_id": query_id,
-            "clicked": clicked,
-            "relevance": relevance,
-            "timestamp": time.time(),
-        })
+        self._feedback_buffer.append(
+            {
+                "memory_id": memory_id,
+                "query_id": query_id,
+                "clicked": clicked,
+                "relevance": relevance,
+                "timestamp": time.time(),
+            }
+        )
 
         # Trigger online learning if buffer is large enough
         if len(self._feedback_buffer) >= 10:
@@ -267,11 +267,11 @@ class LearningToRankReranker:
             if fb["clicked"]:
                 # Positive feedback: reinforce all weights slightly
                 for key in self.weights:
-                    self.weights[key] *= (1 + self.learning_rate * 0.1)
+                    self.weights[key] *= 1 + self.learning_rate * 0.1
             else:
                 # Negative feedback: dampen weights slightly
                 for key in self.weights:
-                    self.weights[key] *= (1 - self.learning_rate * 0.05)
+                    self.weights[key] *= 1 - self.learning_rate * 0.05
 
         # Normalize weights to sum to 1
         total = sum(self.weights.values())
@@ -312,7 +312,7 @@ class LearningToRankReranker:
         if not timestamp_str:
             return 0.5
         try:
-            if 'T' in timestamp_str:
+            if "T" in timestamp_str:
                 ts = time.mktime(time.strptime(timestamp_str[:19], "%Y-%m-%dT%H:%M:%S"))
             else:
                 ts = time.mktime(time.strptime(timestamp_str[:19], "%Y-%m-%d %H:%M:%S"))
@@ -330,8 +330,7 @@ class LearningToRankReranker:
         return min(1.0, math.log(access_count + 1) / math.log(101))
 
     @staticmethod
-    def _compute_concept_similarity(entities: List[str], content: str,
-                                     tags: List[str]) -> float:
+    def _compute_concept_similarity(entities: List[str], content: str, tags: List[str]) -> float:
         """Compute concept/entity overlap with content and tags."""
         if not entities:
             return 0.0
@@ -353,9 +352,7 @@ class LearningToRankReranker:
         return len(intersection) / len(union) if union else 0.0
 
     @staticmethod
-    def _compute_interaction(interaction_count: int,
-                              last_interaction: str,
-                              now: float) -> float:
+    def _compute_interaction(interaction_count: int, last_interaction: str, now: float) -> float:
         """Compute interaction history score (0-1)."""
         if interaction_count <= 0:
             return 0.0
@@ -397,7 +394,7 @@ class LearningToRankReranker:
 
 
 __all__ = [
-    'LearningToRankReranker',
-    'RankingFeatures',
-    'Result',
+    "LearningToRankReranker",
+    "RankingFeatures",
+    "Result",
 ]

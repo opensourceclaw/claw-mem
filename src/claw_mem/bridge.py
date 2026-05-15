@@ -41,13 +41,15 @@ class ClawMemBridge:
     def _initialize(self):
         """Initialize MemoryManager and version-detected adapter."""
         import io
+
         _saved_stdout = sys.stdout
         sys.stdout = io.StringIO()
         init_ok = False
         try:
             try:
                 from claw_mem import MemoryManager
-                workspace = os.environ.get('OPENCLAW_WORKSPACE', os.getcwd())
+
+                workspace = os.environ.get("OPENCLAW_WORKSPACE", os.getcwd())
                 self.memory_manager = MemoryManager(workspace=workspace)
                 self._adapter = AdapterRegistry.create_adapter(self.memory_manager)
                 init_ok = True
@@ -70,7 +72,7 @@ class ClawMemBridge:
         if error_code is not None:
             response["error"] = {
                 "code": error_code,
-                "message": result if isinstance(result, str) else str(result)
+                "message": result if isinstance(result, str) else str(result),
             }
         else:
             response["result"] = result
@@ -182,9 +184,7 @@ class ClawMemBridge:
         """v2.13.0: Delete a critical rule."""
         if not self.memory_manager:
             return {"success": False, "error": "Memory manager not initialized"}
-        deleted = self.memory_manager.delete_critical_rule(
-            params.get("rule_id", "")
-        )
+        deleted = self.memory_manager.delete_critical_rule(params.get("rule_id", ""))
         return {"success": deleted}
 
     def _handle_build_index(self, params: Dict) -> Dict:
@@ -206,6 +206,7 @@ class ClawMemBridge:
     def _handle_query_understanding(self, params: Dict) -> Dict:
         """P0: Query understanding — expansion + intent + entities."""
         from claw_mem.retrieval.query_understanding import QueryUnderstanding
+
         qu = QueryUnderstanding()
         query = params.get("query", "")
         context = params.get("context")
@@ -278,8 +279,10 @@ class ClawMemBridge:
     def _handle_proactive_injection(self, params: Dict) -> Dict:
         """P0: Proactive memory injection."""
         from claw_mem.proactive_injection import (
-            IntentRecognizer, MemoryTriggerDetector,
-            InjectionManager, InjectionConfig,
+            IntentRecognizer,
+            MemoryTriggerDetector,
+            InjectionManager,
+            InjectionConfig,
             ScoredMemory,
         )
 

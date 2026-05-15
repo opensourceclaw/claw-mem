@@ -7,7 +7,7 @@ import sys
 import os
 
 # 添加 src 到路径
-sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', '..', 'src'))
+sys.path.insert(0, os.path.join(os.path.dirname(__file__), "..", "..", "src"))
 
 from claw_mem import MemoryManager
 
@@ -58,19 +58,15 @@ class TestMemoryManagerIntegration:
         # 写入一些记忆(会触发 gating 评分)
         # 注意:gating 是在 gating.write 中生效,不是 store
         # 所以我们直接测试 gating
-        manager.gating.write({
-            'content': '重要决策',
-            'source': 'user',
-            'context': {}
-        })
+        manager.gating.write({"content": "重要决策", "source": "user", "context": {}})
 
         # 获取统计
         stats = manager.get_gating_stats()
 
         assert stats is not None
-        assert 'active_count' in stats
-        assert 'cold_count' in stats
-        assert 'threshold' in stats
+        assert "active_count" in stats
+        assert "cold_count" in stats
+        assert "threshold" in stats
 
 
 class TestEndToEnd:
@@ -83,27 +79,23 @@ class TestEndToEnd:
 
         # 2. 写入记忆(通过 gating)
         high_item = {
-            'content': '重要决策:使用 Python 作为主要开发语言',
-            'source': 'user',
-            'context': {'topic': '技术选型'},
-            'verified': True
+            "content": "重要决策:使用 Python 作为主要开发语言",
+            "source": "user",
+            "context": {"topic": "技术选型"},
+            "verified": True,
         }
         result = manager.gating.write(high_item)
         assert result.stored is True
 
         # 3. 写入低显著性记忆
-        low_item = {
-            'content': '普通日志信息',
-            'source': 'system',
-            'context': {}
-        }
+        low_item = {"content": "普通日志信息", "source": "system", "context": {}}
         result = manager.gating.write(low_item)
         assert result.stored is True
 
         # 4. 获取统计
         stats = manager.get_gating_stats()
         assert stats is not None
-        assert stats['active_count'] + stats['cold_count'] == 2
+        assert stats["active_count"] + stats["cold_count"] == 2
 
     def test_concurrent_access(self):
         """测试并发访问"""
@@ -114,11 +106,13 @@ class TestEndToEnd:
 
         def write_items(thread_id):
             for i in range(10):
-                result = manager.gating.write({
-                    'content': f'线程{thread_id}_记忆{i}',
-                    'source': 'user',
-                    'context': {'thread': thread_id}
-                })
+                result = manager.gating.write(
+                    {
+                        "content": f"线程{thread_id}_记忆{i}",
+                        "source": "user",
+                        "context": {"thread": thread_id},
+                    }
+                )
                 results.append(result)
 
         threads = [threading.Thread(target=write_items, args=(i,)) for i in range(5)]
@@ -136,11 +130,13 @@ class TestEndToEnd:
 
         # 写入 20 条记忆
         for i in range(20):
-            manager.gating.write({
-                'content': f'记忆_{i}',
-                'source': 'user' if i % 2 == 0 else 'external',
-                'context': {}
-            })
+            manager.gating.write(
+                {
+                    "content": f"记忆_{i}",
+                    "source": "user" if i % 2 == 0 else "external",
+                    "context": {},
+                }
+            )
 
         stats = manager.get_gating_stats()
-        assert stats['active_count'] + stats['cold_count'] == 20
+        assert stats["active_count"] + stats["cold_count"] == 20

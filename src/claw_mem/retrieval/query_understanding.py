@@ -31,16 +31,18 @@ from .synonym_expander import SynonymExpander, get_synonym_expander
 
 class QueryIntent(Enum):
     """Query intent types for retrieval strategy selection."""
-    FACT = "fact"            # Looking for specific information
-    RECENT = "recent"        # Looking for recent events
+
+    FACT = "fact"  # Looking for specific information
+    RECENT = "recent"  # Looking for recent events
     PREFERENCE = "preference"  # Looking for user preferences
     PROCEDURE = "procedure"  # Looking for how-to steps / workflows
-    GENERAL = "general"      # General purpose query
+    GENERAL = "general"  # General purpose query
 
 
 @dataclass
 class ExpandedQuery:
     """Result of query understanding with expansions and metadata."""
+
     original: str
     expanded_text: str
     intent: QueryIntent
@@ -195,9 +197,9 @@ class QueryUnderstanding:
     def _tokenize(text: str) -> List[str]:
         """Tokenize text for retrieval."""
         # Extract CJK characters
-        cjk = re.findall(r'[\u4e00-\u9fff]', text)
+        cjk = re.findall(r"[\u4e00-\u9fff]", text)
         # Extract word tokens
-        words = re.findall(r'\b\w+\b', text.lower())
+        words = re.findall(r"\b\w+\b", text.lower())
         return cjk + words
 
     @staticmethod
@@ -275,7 +277,7 @@ class _EntityExtractor:
 
 
 __all__ = [
-    'QueryUnderstanding',
-    'QueryIntent',
-    'ExpandedQuery',
+    "QueryUnderstanding",
+    "QueryIntent",
+    "ExpandedQuery",
 ]

@@ -38,6 +38,7 @@ from .bm25_retriever import BM25Retriever
 @dataclass
 class Candidate:
     """Candidate memory from a retrieval strategy."""
+
     memory_id: str
     content: str
     score: float
@@ -57,6 +58,7 @@ class Candidate:
 @dataclass
 class RetrievalResult:
     """Final fused retrieval result."""
+
     candidates: List[Candidate]
     total_candidates: int
     strategies_used: List[str]
@@ -84,8 +86,8 @@ class MultiStrategyRetriever:
     def __init__(
         self,
         bm25: Optional[BM25Retriever] = None,
-        graph_traverser: Optional['ConceptGraphTraverser'] = None,
-        temporal_weighter: Optional['TemporalDecayWeighter'] = None,
+        graph_traverser: Optional["ConceptGraphTraverser"] = None,
+        temporal_weighter: Optional["TemporalDecayWeighter"] = None,
     ):
         self.bm25 = bm25 or BM25Retriever()
         self.graph_traverser = graph_traverser or ConceptGraphTraverser()
@@ -274,7 +276,7 @@ class ConceptGraphTraverser:
         scored = []
         for mem in memory_pool:
             content_lower = (mem.get("content", "") + " " + " ".join(mem.get("tags", []))).lower()
-            best_match_distance = float('inf')
+            best_match_distance = float("inf")
             matched_terms = 0
 
             for term, dist in traversal_terms.items():
@@ -304,12 +306,11 @@ class TemporalDecayWeighter:
     """
 
     # Half-life constants (in seconds)
-    HALF_LIFE_SHORT = 1800      # 30 minutes
-    HALF_LIFE_MEDIUM = 86400    # 1 day
-    HALF_LIFE_LONG = 604800     # 1 week
+    HALF_LIFE_SHORT = 1800  # 30 minutes
+    HALF_LIFE_MEDIUM = 86400  # 1 day
+    HALF_LIFE_LONG = 604800  # 1 week
 
-    def __init__(self, base_half_life: float = HALF_LIFE_MEDIUM,
-                 min_weight: float = 0.1):
+    def __init__(self, base_half_life: float = HALF_LIFE_MEDIUM, min_weight: float = 0.1):
         """Initialize temporal weighter.
 
         Args:
@@ -320,8 +321,9 @@ class TemporalDecayWeighter:
         self.min_weight = min_weight
         self._decay_rate = math.log(2) / base_half_life
 
-    def compute_weight(self, timestamp_str: Optional[str],
-                       reference_time: Optional[float] = None) -> float:
+    def compute_weight(
+        self, timestamp_str: Optional[str], reference_time: Optional[float] = None
+    ) -> float:
         """Compute temporal weight for a memory timestamp.
 
         Args:
@@ -338,7 +340,7 @@ class TemporalDecayWeighter:
 
         try:
             # Try parsing ISO format
-            if 'T' in timestamp_str:
+            if "T" in timestamp_str:
                 ts = time.mktime(time.strptime(timestamp_str[:19], "%Y-%m-%dT%H:%M:%S"))
             else:
                 ts = time.mktime(time.strptime(timestamp_str[:19], "%Y-%m-%d %H:%M:%S"))
@@ -349,8 +351,9 @@ class TemporalDecayWeighter:
         weight = math.exp(-self._decay_rate * age_seconds)
         return max(self.min_weight, weight)
 
-    def apply_decay(self, candidates: List[Candidate],
-                    reference_time: Optional[float] = None) -> List[Candidate]:
+    def apply_decay(
+        self, candidates: List[Candidate], reference_time: Optional[float] = None
+    ) -> List[Candidate]:
         """Apply temporal decay to all candidates in-place.
 
         Args:
@@ -369,9 +372,9 @@ class TemporalDecayWeighter:
 
 
 __all__ = [
-    'MultiStrategyRetriever',
-    'ConceptGraphTraverser',
-    'TemporalDecayWeighter',
-    'Candidate',
-    'RetrievalResult',
+    "MultiStrategyRetriever",
+    "ConceptGraphTraverser",
+    "TemporalDecayWeighter",
+    "Candidate",
+    "RetrievalResult",
 ]

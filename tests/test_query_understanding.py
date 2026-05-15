@@ -2,7 +2,9 @@
 
 import pytest
 from claw_mem.retrieval.query_understanding import (
-    QueryUnderstanding, QueryIntent, ExpandedQuery,
+    QueryUnderstanding,
+    QueryIntent,
+    ExpandedQuery,
 )
 
 
@@ -95,9 +97,7 @@ class TestQueryUnderstanding:
 
     def test_entity_extraction(self, qu):
         expanded = qu.understand("project claw-mem version 2.15.0")
-        assert "claw-mem" in expanded.entities or any(
-            "claw" in e for e in expanded.entities
-        )
+        assert "claw-mem" in expanded.entities or any("claw" in e for e in expanded.entities)
 
     def test_entity_extraction_version(self, qu):
         expanded = qu.understand("deploy version 3.0.0 of the library")

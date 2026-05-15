@@ -45,7 +45,13 @@ from .importance import ImportanceScorer
 from .memory_fix_plugin import MemoryFixPlugin
 from .memory_decay import MemoryDecay
 from .rule_extractor import RuleExtractor
-from .retrieval.three_tier import ThreeTierRetriever, MemoryResult, MemoryLayer, search_memory, SessionStartupHook
+from .retrieval.three_tier import (
+    ThreeTierRetriever,
+    MemoryResult,
+    MemoryLayer,
+    search_memory,
+    SessionStartupHook,
+)
 from .context_injection import (
     ContextFormatter,
     ContextInjector,
@@ -106,6 +112,7 @@ from .gating import (
     DiskStorage,
     VersionChain,
 )
+
 try:
     from .graph import (
         ConceptMediatedGraph,
