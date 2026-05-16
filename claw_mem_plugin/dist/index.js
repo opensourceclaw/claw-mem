@@ -87,8 +87,6 @@ class ClawMemBridge {
             // Set PYTHONPATH only if workspaceDir is explicitly configured
             const workspaceDir = this.config.workspaceDir || process.cwd();
             const env = { ...process.env };
-            // Pass workspace to Python Bridge via environment variable
-            env.OPENCLAW_WORKSPACE = workspaceDir;
             if (this.config.workspaceDir) {
                 const srcDir = path.join(workspaceDir, 'src');
                 env.PYTHONPATH = srcDir;
@@ -251,21 +249,41 @@ function formatMemories(memories) {
     return lines.join('\n');
 }
 /**
- * Extract facts from conversation
+ * Extract important content from conversation for memory capture.
+ * v2.13.x: Now captures ALL relevant messages (not just last 5),
+ * and includes assistant decisions/preferences.
  */
 function extractFactsFromEvent(event) {
-    // Extract facts from conversation - capture all user messages for now
-    const facts = [];
+    const results = [];
     if (event?.messages && Array.isArray(event.messages)) {
-        // Get all user messages
-        const userMessages = event.messages
-            .filter((m) => m.role === 'user')
-            .map((m) => typeof m.content === 'string' ? m.content : String(m.content?.text || ''))
-            .filter((content) => content.length > 0);
-        // Keep the last 5 messages (more lenient than 3)
-        facts.push(...userMessages.slice(-5));
+        for (const m of event.messages) {
+            if (!m.role || (m.role !== 'user' && m.role !== 'assistant'))
+                continue;
+            let content = '';
+            if (typeof m.content === 'string') {
+                content = m.content;
+            }
+            else if (m.content?.text) {
+                content = String(m.content.text);
+            }
+            else if (Array.isArray(m.content)) {
+                content = m.content.map((c) => String(c.text || '')).join(' ');
+            }
+            if (!content.trim() || content.length < 10)
+                continue;
+            // Skip pure code blocks / error messages
+            const lower = content.toLowerCase();
+            if (lower.startsWith('```') || lower.startsWith('error:'))
+                continue;
+            // Store as episodic with source role
+            results.push({
+                text: content.slice(0, 1000),
+                type: m.role === 'user' ? 'user_input' : 'assistant_response',
+            });
+        }
     }
-    return facts;
+    // Return all without truncation (bridge will classify importance)
+    return results;
 }
 // ============================================================================
 // Plugin Entry
@@ -313,14 +331,25 @@ const plugin = {
                 if (!bridge.isReady())
                     return [];
                 try {
+                    // v2.13.0: Fetch critical rules (never compressed, always injected)
+                    const criticalRulesResult = await bridge.call('get_critical_rules', {});
                     const result = await bridge.call('build_context', {
                         topK: config.topK,
                         query: 'important recent context',
                     });
+                    const sections = [];
                     if (result?.context && Array.isArray(result.context)) {
                         api.logger.debug?.(`[claw-mem] promptBuilder: ${result.context.length} section(s) injected`);
-                        return result.context;
+                        sections.push(...result.context);
                     }
+                    // v2.13.0: Prepend critical rules at the top
+                    if (criticalRulesResult?.rules && Array.isArray(criticalRulesResult.rules) && criticalRulesResult.rules.length > 0) {
+                        const rulesLines = criticalRulesResult.rules.map((r) => `- **${r.id}**: ${r.text}`);
+                        const criticalHeader = '⚠️ Critical Rules (never compress, always follow):\n' + rulesLines.join('\n');
+                        sections.unshift(criticalHeader);
+                        api.logger.debug?.(`[claw-mem] promptBuilder: ${criticalRulesResult.count} critical rule(s) injected`);
+                    }
+                    return sections;
                 }
                 catch (error) {
                     api.logger.warn('[claw-mem] promptBuilder failed, skipping memory injection:', error);
@@ -511,6 +540,14 @@ const plugin = {
                 }
                 if (!bridge.isReady())
                     return;
+                // v2.13.x: Start session for proper state tracking
+                try {
+                    await bridge.call('start_session', { sessionId: ctx.sessionKey });
+                    api.logger.debug?.(`[claw-mem] Session started: ${ctx.sessionKey}`);
+                }
+                catch (error) {
+                    api.logger.warn('[claw-mem] Failed to start session:', error);
+                }
                 const query = extractQueryFromEvent(event);
                 if (!query)
                     return;
@@ -552,16 +589,87 @@ const plugin = {
                 }
                 if (!bridge.isReady())
                     return;
+                // v2.13.x: Enhanced capture with session summary
                 const facts = extractFactsFromEvent(event);
-                for (const fact of facts) {
+                // 1. Extract ALL important content via bridge classifier
+                if (event?.messages && event.messages.length > 0) {
                     try {
-                        await bridge.call('store', {
-                            text: fact,
-                            memory_type: 'episodic',
+                        const important = await bridge.call('extract_important_content', {
+                            messages: event.messages,
                         });
+                        if (important?.important && Array.isArray(important.important)) {
+                            for (const item of important.important) {
+                                if (item.importance && item.importance >= 0.5) {
+                                    await bridge.call('store', {
+                                        text: item.content,
+                                        memory_type: 'episodic',
+                                        metadata: {
+                                            importance: item.importance,
+                                            source: item.source,
+                                            content_type: item.type,
+                                            session_id: ctx.sessionKey,
+                                        },
+                                    });
+                                }
+                            }
+                        }
                     }
                     catch (error) {
-                        api.logger.error('[claw-mem] Auto-capture error:', error);
+                        api.logger.warn('[claw-mem] extract_important_content failed, falling back to raw facts:', error);
+                    }
+                }
+                // 2. Generate and save session summary as semantic memory
+                if (event?.messages && event.messages.length > 5) {
+                    try {
+                        const summary = await bridge.call('generate_session_summary', {
+                            messages: event.messages,
+                        });
+                        if (summary?.summary?.overview) {
+                            const summaryText = [
+                                `Overview: ${summary.summary.overview}`,
+                                summary.summary.decisions?.length
+                                    ? `Decisions: ${summary.summary.decisions.join('; ')}`
+                                    : '',
+                                summary.summary.preferences?.length
+                                    ? `Preferences: ${summary.summary.preferences.join('; ')}`
+                                    : '',
+                            ].filter(Boolean).join('\n');
+                            await bridge.call('store', {
+                                text: summaryText.slice(0, 2000),
+                                memory_type: 'semantic',
+                                metadata: {
+                                    type: 'session_summary',
+                                    session_id: ctx.sessionKey,
+                                    important_count: summary.summary.important_count || 0,
+                                    date: new Date().toISOString(),
+                                },
+                            });
+                        }
+                    }
+                    catch (error) {
+                        api.logger.warn('[claw-mem] generate_session_summary failed:', error);
+                    }
+                }
+                // 3. Fallback: store raw facts for any messages not captured
+                if (facts.length > 0) {
+                    const stored = facts.slice(0, 20); // Cap at 20 raw facts
+                    for (const fact of stored) {
+                        try {
+                            await bridge.call('store', {
+                                text: fact.text,
+                                memory_type: 'episodic',
+                                metadata: {
+                                    type: fact.type,
+                                    session_id: ctx.sessionKey,
+                                },
+                            });
+                        }
+                        catch (error) {
+                            api.logger.error('[claw-mem] Auto-capture error:', error);
+                        }
+                    }
+                    if (facts.length > 20) {
+                        api.logger.debug?.(`[claw-mem] Capped raw facts at 20 (${facts.length} total)`);
                     }
                 }
             });
