@@ -50,6 +50,11 @@ from .gating import WriteTimeGating
 from .reflection import ReflectionOrchestrator, ReflectionResult
 from .temporal import TimeWeightCalculator, TimeWeightConfig
 from .compression.memory_compression_v2 import MemoryCompressorV2, CompressionConfig, CompressionResult
+# v2.14.0: Graph + Decay + GroundTruth
+from .graph.multi_graph import MultiGraphMemory
+from .graph.dual_layer import DualLayerMemory
+from .decay import DecayController, DecayScheduler, DecayConfig
+from .storage.ground_truth import GroundTruthStore
 import time
 
 
@@ -77,7 +82,11 @@ class MemoryManager:
                  bm25_weight: float = 0.7, keyword_weight: float = 0.3,
                  recency_boost: float = 1.0, frequency_boost: float = 1.0,
                  enable_cache: bool = True, enable_synonyms: bool = True,
-                 enable_stats: bool = True, enable_compression: bool = True):
+                 enable_stats: bool = True, enable_compression: bool = True,
+                 # v2.14.0: Decay + GroundTruth
+                 enable_decay: bool = True,
+                 enable_ground_truth: bool = True,
+                 decay_config: "DecayConfig" = None):
         """
         Initialize Memory Manager
 
@@ -137,6 +146,16 @@ class MemoryManager:
         # Concept-Mediated Graph (lazy init)
         self.enable_graph = enable_graph
         self._graph = None
+
+        # v2.14.0: MultiGraph + DualLayer + Decay + GroundTruth
+        self.enable_decay = enable_decay
+        self.enable_ground_truth = enable_ground_truth
+        self._decay_config = decay_config or DecayConfig.default()
+        self._multi_graph: Optional[MultiGraphMemory] = None
+        self._dual_layer: Optional[DualLayerMemory] = None
+        self._decay_controller: Optional[DecayController] = None
+        self._decay_scheduler: Optional[DecayScheduler] = None
+        self._ground_truth: Optional[GroundTruthStore] = None
 
         # Search mode
         self.search_mode = os.environ.get('CLAW_MEM_SEARCH_MODE', 'enhanced_smart')
@@ -954,11 +973,11 @@ class MemoryManager:
     def get_stats(self) -> Dict:
         """
         Get memory statistics
-        
+
         Returns:
-            Dict: Statistics
+            Dict: Statistics (includes graph/decay/ground_truth in v2.14.0)
         """
-        return {
+        stats = {
             "workspace": str(self.workspace),
             "session_id": self.session_id,
             "working_memory_count": len(self.working_memory),
@@ -968,6 +987,20 @@ class MemoryManager:
             "semantic_count": self.semantic.count(),
             "procedural_count": self.procedural.count(),
         }
+        # v2.14.0 additions
+        mg = self.multi_graph
+        if mg:
+            stats["graph"] = mg.get_stats()
+        ctrl = self.decay_controller
+        if ctrl:
+            stats["decay"] = ctrl.get_stats()
+        gt = self.ground_truth
+        if gt:
+            stats["ground_truth"] = {
+                "sessions": len(gt.list_sessions()),
+                "records": gt.count_records(),
+            }
+        return stats
 
     def get_gating_stats(self) -> Optional[Dict]:
         """
@@ -980,6 +1013,129 @@ class MemoryManager:
             return None
 
         return self.gating.get_stats()
+
+    # ── v2.14.0: Graph + Decay + GroundTruth properties ───────────────
+
+    @property
+    def multi_graph(self) -> Optional[MultiGraphMemory]:
+        if self._multi_graph is None and self.enable_graph:
+            self._multi_graph = MultiGraphMemory()
+        return self._multi_graph
+
+    @property
+    def dual_layer(self) -> Optional[DualLayerMemory]:
+        if self._dual_layer is None and self.enable_graph:
+            self._dual_layer = DualLayerMemory()
+        return self._dual_layer
+
+    @property
+    def decay_controller(self) -> Optional[DecayController]:
+        if self._decay_controller is None and self.enable_decay and self.multi_graph:
+            self._decay_controller = DecayController(
+                self.multi_graph, config=self._decay_config
+            )
+        return self._decay_controller
+
+    @property
+    def decay_scheduler(self) -> Optional[DecayScheduler]:
+        if self._decay_scheduler is None and self.enable_decay and self.decay_controller:
+            self._decay_scheduler = DecayScheduler(
+                self.decay_controller, config=self._decay_config
+            )
+            self._decay_scheduler.start()
+        return self._decay_scheduler
+
+    @property
+    def ground_truth(self) -> Optional[GroundTruthStore]:
+        if self._ground_truth is None and self.enable_ground_truth:
+            self._ground_truth = GroundTruthStore(str(self.workspace))
+        return self._ground_truth
+
+    # ── v2.14.0: Graph operations ──────────────────────────────────────
+
+    def get_graph_stats(self) -> dict:
+        """Get graph structure statistics."""
+        mg = self.multi_graph
+        if mg is None:
+            return {"enabled": False}
+        stats = mg.get_stats()
+        stats["enabled"] = True
+        return stats
+
+    def get_node_graph(self, memory_id: str) -> dict:
+        """Get a node's relationships across all subgraphs."""
+        mg = self.multi_graph
+        if mg is None:
+            return {"error": "Graph not enabled"}
+        node = mg.get_node(memory_id)
+        if node is None:
+            return {"error": f"Node not found: {memory_id}"}
+        neighbors = {}
+        for sg_type in list(mg._graphs.keys()):
+            neighbors[sg_type.value] = [
+                {"id": nid, "weight": w}
+                for nid, w in mg._graphs[sg_type].get_neighbors(
+                    memory_id, max_depth=1
+                ).items()
+            ]
+        return {"node": node.to_dict(), "neighbors": neighbors}
+
+    def persist_graph(self) -> bool:
+        """Manually persist graph structure to disk."""
+        mg = self.multi_graph
+        if mg is None:
+            return False
+        try:
+            d = mg.to_dict()
+            gpath = os.path.join(
+                os.path.expanduser("~/.claw-mem"), "graph_index.json"
+            )
+            os.makedirs(os.path.dirname(gpath), exist_ok=True)
+            with open(gpath, 'w', encoding='utf-8') as f:
+                json.dump(d, f, ensure_ascii=False, indent=2)
+            return True
+        except Exception:
+            return False
+
+    # ── v2.14.0: Decay operations ──────────────────────────────────────
+
+    def get_decay_stats(self) -> dict:
+        """Get decay statistics."""
+        ctrl = self.decay_controller
+        if ctrl is None:
+            return {"enabled": False}
+        stats = ctrl.get_stats()
+        stats["enabled"] = True
+        return stats
+
+    def force_decay_cycle(self) -> int:
+        """Force an immediate decay cycle."""
+        ctrl = self.decay_controller
+        if ctrl is None:
+            return 0
+        updates = ctrl.compute_all_decays()
+        if updates:
+            ctrl._graph.apply_decay(updates)
+        removed = ctrl.cleanup_expired()
+        return len(removed)
+
+    # ── v2.14.0: GroundTruth operations ────────────────────────────────
+
+    def search_ground_truth(self, session_id: str = None,
+                            keyword: str = None,
+                            limit: int = 50) -> List[Dict]:
+        """Search raw conversation transcripts."""
+        gt = self.ground_truth
+        if gt is None:
+            return []
+        return gt.search(session_id=session_id, keyword=keyword, limit=limit)
+
+    def list_sessions(self) -> List[Dict]:
+        """List all stored sessions."""
+        gt = self.ground_truth
+        if gt is None:
+            return []
+        return gt.list_sessions()
 
     def __repr__(self) -> str:
         return f"MemoryManager(workspace={self.workspace}, session={self.session_id})"
