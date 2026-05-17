@@ -294,7 +294,7 @@ const plugin = {
     id: 'claw-mem',
     name: 'Claw Memory System',
     description: 'Three-tier memory system for OpenClaw (Local-First) - Plugin Slots Enabled',
-    version: '2.12.1',
+    version: '2.13.1',
     kind: 'memory',
     configSchema: {
         type: 'object',
@@ -549,29 +549,117 @@ const plugin = {
                     api.logger.warn('[claw-mem] Failed to start session:', error);
                 }
                 const query = extractQueryFromEvent(event);
-                if (!query)
+                let searchResults = [];
+                if (query && query.trim()) {
+                    // Normal search with query from event
+                    try {
+                        const result = await bridge.call('search', {
+                            query,
+                            limit: config.topK,
+                        });
+                        searchResults = result.memories || [];
+                    }
+                    catch (error) {
+                        api.logger.error('[claw-mem] Auto-recall error:', error);
+                    }
+                }
+                else {
+                    // v2.13.x: Fallback recall — search recent session summaries + important content
+                    api.logger.info('[claw-mem] No query from event, using fallback recall strategy');
+                    try {
+                        const [summaryResult, importantResult] = await Promise.all([
+                            bridge.call('search', {
+                                query: 'session summary overview decisions preferences tasks',
+                                limit: 3,
+                            }).catch(() => ({ memories: [] })),
+                            bridge.call('search', {
+                                query: 'decision preference task_context important',
+                                limit: 5,
+                            }).catch(() => ({ memories: [] })),
+                        ]);
+                        searchResults = [
+                            ...(summaryResult.memories || []),
+                            ...(importantResult.memories || []),
+                        ];
+                        // Deduplicate by content
+                        const seen = new Set();
+                        searchResults = searchResults.filter((m) => {
+                            const key = (m.content || '').slice(0, 100);
+                            if (seen.has(key))
+                                return false;
+                            seen.add(key);
+                            return true;
+                        });
+                    }
+                    catch (error) {
+                        api.logger.warn('[claw-mem] Fallback recall failed:', error);
+                    }
+                }
+                if (searchResults.length > 0) {
+                    const formatted = formatMemories(searchResults);
+                    if (formatted) {
+                        api.logger.info(`[claw-mem] Injected ${searchResults.length} memories: ${formatted.slice(0, 100)}...`);
+                        return {
+                            inject: [
+                                {
+                                    role: 'system',
+                                    content: formatted,
+                                },
+                            ],
+                        };
+                    }
+                }
+            });
+        }
+        // v2.13.x: Real-time capture after each agent turn
+        if (config.autoCapture) {
+            api.logger.info('[claw-mem] Registering after_agent_turn hook');
+            api.on('after_agent_turn', async (event, ctx) => {
+                try {
+                    await bridgeReady;
+                }
+                catch {
+                    return;
+                }
+                if (!bridge.isReady())
+                    return;
+                // Extract important content from this turn only
+                const messages = [];
+                if (event?.userMessage) {
+                    messages.push(event.userMessage);
+                }
+                if (event?.assistantMessage) {
+                    messages.push(event.assistantMessage);
+                }
+                if (messages.length === 0)
                     return;
                 try {
-                    const result = await bridge.call('search', {
-                        query,
-                        limit: config.topK,
-                    });
-                    if (result.memories && result.memories.length > 0) {
-                        const formatted = formatMemories(result.memories);
-                        if (formatted) {
-                            return {
-                                inject: [
-                                    {
-                                        role: 'system',
-                                        content: formatted,
+                    const important = await bridge.call('extract_important_content', { messages });
+                    if (important?.important && Array.isArray(important.important)) {
+                        for (const item of important.important) {
+                            if (item.importance && item.importance >= 0.5) {
+                                await bridge.call('store', {
+                                    text: item.content,
+                                    memory_type: 'episodic',
+                                    metadata: {
+                                        importance: item.importance,
+                                        source: item.source,
+                                        content_type: item.type,
+                                        session_id: ctx.sessionKey,
                                     },
-                                ],
-                            };
+                                });
+                            }
+                        }
+                        if (important.important.length > 0) {
+                            const decisions = important.important.filter((i) => i.type === 'decision').length;
+                            const preferences = important.important.filter((i) => i.type === 'preference').length;
+                            api.logger.debug?.(`[claw-mem] after_agent_turn captured ${important.count}/${important.important.length} items` +
+                                ` (${decisions} decisions, ${preferences} preferences)`);
                         }
                     }
                 }
                 catch (error) {
-                    api.logger.error('[claw-mem] Auto-recall error:', error);
+                    api.logger.debug?.('[claw-mem] after_agent_turn capture skipped:', error);
                 }
             });
         }
@@ -580,6 +668,10 @@ const plugin = {
             api.logger.info('[claw-mem] Registering agent_end hook, autoCapture:', config.autoCapture);
             api.on('agent_end', async (event, ctx) => {
                 api.logger.info('[claw-mem] agent_end triggered, session:', ctx.sessionKey);
+                // DEBUG: Log event structure
+                const eventKeys = Object.keys(event || {}).join(', ');
+                const msgCount = event?.messages?.length ?? 0;
+                api.logger.info(`[claw-mem] DEBUG event keys: ${eventKeys}, messages: ${msgCount}`);
                 try {
                     await bridgeReady;
                 }
@@ -591,13 +683,18 @@ const plugin = {
                     return;
                 // v2.13.x: Enhanced capture with session summary
                 const facts = extractFactsFromEvent(event);
-                // 1. Extract ALL important content via bridge classifier
+                // 1. Extract important content (cap at 50 messages to prevent timeout)
                 if (event?.messages && event.messages.length > 0) {
+                    const recentMsgs = event.messages.slice(-50);
+                    if (event.messages.length > 50) {
+                        api.logger.info(`[claw-mem] Capped ${event.messages.length} → ${recentMsgs.length} messages for extraction`);
+                    }
                     try {
                         const important = await bridge.call('extract_important_content', {
-                            messages: event.messages,
+                            messages: recentMsgs,
                         });
                         if (important?.important && Array.isArray(important.important)) {
+                            const stored = [];
                             for (const item of important.important) {
                                 if (item.importance && item.importance >= 0.5) {
                                     await bridge.call('store', {
@@ -610,19 +707,26 @@ const plugin = {
                                             session_id: ctx.sessionKey,
                                         },
                                     });
+                                    stored.push(item.type);
                                 }
                             }
+                            // v2.13.x: Log classification and storage results
+                            const decisions = stored.filter(t => t === 'decision').length;
+                            const preferences = stored.filter(t => t === 'preference').length;
+                            api.logger.info(`[claw-mem] Auto-capture stored ${stored.length}/${important.important.length} items` +
+                                ` (${decisions} decisions, ${preferences} preferences)`);
                         }
                     }
                     catch (error) {
                         api.logger.warn('[claw-mem] extract_important_content failed, falling back to raw facts:', error);
                     }
                 }
-                // 2. Generate and save session summary as semantic memory
+                // 2. Generate and save session summary (cap at 100 messages)
                 if (event?.messages && event.messages.length > 5) {
+                    const summaryMsgs = event.messages.slice(-100);
                     try {
                         const summary = await bridge.call('generate_session_summary', {
-                            messages: event.messages,
+                            messages: summaryMsgs,
                         });
                         if (summary?.summary?.overview) {
                             const summaryText = [
@@ -644,6 +748,7 @@ const plugin = {
                                     date: new Date().toISOString(),
                                 },
                             });
+                            api.logger.info(`[claw-mem] Session summary stored for ${ctx.sessionKey}`);
                         }
                     }
                     catch (error) {
