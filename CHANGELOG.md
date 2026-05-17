@@ -16,6 +16,46 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## [2.13.1] - 2026-05-17
+
+### Added
+
+**Session Continuity Fix - Phase 1** — Core fixes for preserving context across session boundaries
+
+- **Content Classifier Module** (`src/claw_mem/classifier.py`): Extracted classification logic into standalone module
+  - `classify_content()`: Rule-based classification into decision/preference/task_context/fact/chat
+  - `ContentClassification` dataclass with type, importance, should_save, reasoning fields
+  - `DETECTION_RULES` dictionary for extensible keyword-based detection
+  - English and Chinese (ZH) keyword support for all content types
+  - `extract_important_content()`: Extract important items from message lists
+  - `generate_session_summary()`: Structured session summarization
+  - `detect_content_type()`: Single-content type detection
+
+- **`after_agent_turn` Hook** (TypeScript plugin): Real-time important content capture
+  - Captures and stores important content (decisions, preferences) after each agent turn
+  - Uses bridge `extract_important_content` for classification
+  - Only stores items with importance >= 0.5
+  - Async, non-blocking — errors logged gracefully
+
+### Changed
+
+- **bridge.py**: Refactored session continuity handlers to delegate to `classifier` module
+  - Removed inline `_DECISION_PATTERNS`, `_PREFERENCE_PATTERNS`, etc. class attributes
+  - `_handle_extract_important_content` now calls `extract_important_content()`
+  - `_handle_generate_session_summary` now calls `generate_session_summary()`
+  - `_handle_detect_content_type` now calls `detect_content_type()`
+
+### Tests
+
+- 48 tests (all passing) in `tests/test_session_continuity.py`
+  - Content classifier: decisions, preferences, task context, facts, chat (EN + ZH)
+  - `extract_important_content`: multi-type extraction, source tracking, importance scores
+  - `generate_session_summary`: overview, decisions, preferences, tasks extraction
+  - `detect_content_type`: per-content classification
+  - Bridge integration patterns for all three session continuity RPC methods
+
+---
+
 ## [2.13.0] - 2026-05-10
 
 ### Added

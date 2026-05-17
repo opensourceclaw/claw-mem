@@ -26,6 +26,12 @@ import os
 from typing import Any, Dict, Optional
 
 from claw_mem.adapters import AdapterRegistry
+from claw_mem.classifier import (
+    classify_content,
+    extract_important_content,
+    generate_session_summary,
+    detect_content_type as _detect_content_type_fn,
+)
 
 
 class ClawMemBridge:
@@ -190,119 +196,20 @@ class ClawMemBridge:
 
     # ---- session continuity handlers (v2.13.x) --------------------------
 
-    # Content type detection patterns (EN + ZH)
-    _DECISION_PATTERNS = [
-        "let's use", "let us use", "we'll use", "we will use",
-        "we'll go with", "we will go with", "we'll choose", "we will choose",
-        "decide to", "decided to", "choose to", "chose to",
-        "confirm", "confirmed", "final decision",
-        "我们选择", "我们决定", "确定用", "就选", "定了",
-    ]
-    _PREFERENCE_PATTERNS = [
-        "i prefer", "i like", "i want", "i don't want",
-        "my preference", "i usually", "i always", "i never",
-        "我喜欢", "我偏好", "我习惯", "我希望", "我不喜欢",
-        "我的偏好", "我的习惯是",
-    ]
-    _TASK_CONTEXT_PATTERNS = [
-        "we're building", "we are building", "we're working on",
-        "we are working on", "the task is", "the project is",
-        "our goal", "current task", "next step",
-        "我们在做", "我们在开发", "我们在构建", "项目是",
-        "任务是", "目标是", "下一步",
-    ]
-    _FACT_PATTERNS = [
-        "important", "note that", "remember", "fyi",
-        "key point", "takeaway", "lesson",
-        "重要", "记住", "注意", "关键", "教训",
-    ]
-
-    def _detect_content_type(self, content: str) -> Dict:
-        """Classify content by type and importance score."""
-        lower = content.lower()
-        if any(p in lower for p in self._DECISION_PATTERNS):
-            return {"type": "decision", "importance": 0.9}
-        if any(p in lower for p in self._PREFERENCE_PATTERNS):
-            return {"type": "preference", "importance": 0.8}
-        if any(p in lower for p in self._TASK_CONTEXT_PATTERNS):
-            return {"type": "task_context", "importance": 0.7}
-        if any(p in lower for p in self._FACT_PATTERNS):
-            return {"type": "fact", "importance": 0.6}
-        # Longer content is more likely to be meaningful
-        importance = min(0.5, len(content) / 200.0)
-        return {"type": "chat", "importance": importance}
-
     def _handle_extract_important_content(self, params: Dict) -> Dict:
         """Extract important content from messages with type classification."""
-        messages = params.get("messages", [])
-        if not messages or not isinstance(messages, list):
-            return {"important": [], "count": 0}
-
-        results = []
-        for m in messages:
-            if not isinstance(m, dict):
-                continue
-            role = m.get("role", "")
-            if role not in ("user", "assistant", "system"):
-                continue
-            content = m.get("content", "")
-            if isinstance(content, list):
-                content = " ".join(
-                    str(c.get("text", "")) for c in content if isinstance(c, dict)
-                )
-            if not content or not str(content).strip():
-                continue
-            content_str = str(content).strip()
-            # Skip very short messages (<10 chars)
-            if len(content_str) < 10:
-                continue
-            detected = self._detect_content_type(content_str)
-            results.append({
-                "content": content_str,
-                "type": detected["type"],
-                "importance": detected["importance"],
-                "source": role,
-            })
-        results.sort(key=lambda r: r["importance"], reverse=True)
-        important = [r for r in results if r["importance"] >= 0.5]
-        return {"important": important, "count": len(important)}
+        return extract_important_content(params.get("messages", []))
 
     def _handle_generate_session_summary(self, params: Dict) -> Dict:
         """Generate structured summary from messages."""
-        messages = params.get("messages", [])
-        result = self._handle_extract_important_content({"messages": messages})
-        important = result.get("important", [])
-
-        decisions = [r for r in important if r["type"] == "decision"]
-        preferences = [r for r in important if r["type"] == "preference"]
-        tasks = [r for r in important if r["type"] == "task_context"]
-        facts = [r for r in important if r["type"] == "fact"]
-
-        # Build overview from first 3 important items
-        overview_items = decisions[:1] + preferences[:1] + tasks[:1] + facts[:1]
-        overview_parts = []
-        for item in overview_items:
-            overview_parts.append(f"[{item['type']}] {item['content'][:100]}")
-        overview = "; ".join(overview_parts[:5]) if overview_parts else "No significant content"
-
-        return {
-            "summary": {
-                "overview": overview,
-                "decisions": [d["content"] for d in decisions],
-                "preferences": [p["content"] for p in preferences],
-                "tasks": [t["content"] for t in tasks],
-                "facts": [f["content"] for f in facts],
-                "total_messages": len(messages) if isinstance(messages, list) else 0,
-                "important_count": len(important),
-            },
-        }
+        return generate_session_summary(params.get("messages", []))
 
     def _handle_detect_content_type(self, params: Dict) -> Dict:
         """Detect the type of a single content string."""
         content = params.get("content", "")
         if not content:
             return {"type": "chat", "importance": 0.0}
-        return self._detect_content_type(str(content))
+        return _detect_content_type_fn(str(content))
 
     # ---- main loop ------------------------------------------------------
 

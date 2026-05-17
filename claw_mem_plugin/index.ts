@@ -419,7 +419,7 @@ const plugin: PluginDefinition = {
   id: 'claw-mem',
   name: 'Claw Memory System',
   description: 'Three-tier memory system for OpenClaw (Local-First) - Plugin Slots Enabled',
-  version: '2.12.1',
+  version: '2.13.1',
   kind: 'memory',
 
   configSchema: {
@@ -759,6 +759,59 @@ const plugin: PluginDefinition = {
               ],
             };
           }
+        }
+      });
+    }
+
+    // v2.13.x: Real-time capture after each agent turn
+    if (config.autoCapture) {
+      api.logger.info('[claw-mem] Registering after_agent_turn hook');
+      api.on('after_agent_turn', async (event: any, ctx: any) => {
+        try {
+          await bridgeReady;
+        } catch {
+          return;
+        }
+        if (!bridge.isReady()) return;
+
+        // Extract important content from this turn only
+        const messages: any[] = [];
+        if (event?.userMessage) {
+          messages.push(event.userMessage);
+        }
+        if (event?.assistantMessage) {
+          messages.push(event.assistantMessage);
+        }
+        if (messages.length === 0) return;
+
+        try {
+          const important = await bridge.call('extract_important_content', { messages });
+          if (important?.important && Array.isArray(important.important)) {
+            for (const item of important.important) {
+              if (item.importance && item.importance >= 0.5) {
+                await bridge.call('store', {
+                  text: item.content,
+                  memory_type: 'episodic',
+                  metadata: {
+                    importance: item.importance,
+                    source: item.source,
+                    content_type: item.type,
+                    session_id: ctx.sessionKey,
+                  },
+                });
+              }
+            }
+            if (important.important.length > 0) {
+              const decisions = important.important.filter((i: any) => i.type === 'decision').length;
+              const preferences = important.important.filter((i: any) => i.type === 'preference').length;
+              api.logger.debug?.(
+                `[claw-mem] after_agent_turn captured ${important.count}/${important.important.length} items` +
+                ` (${decisions} decisions, ${preferences} preferences)`
+              );
+            }
+          }
+        } catch (error) {
+          api.logger.debug?.('[claw-mem] after_agent_turn capture skipped:', error);
         }
       });
     }
