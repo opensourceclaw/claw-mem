@@ -701,29 +701,64 @@ const plugin: PluginDefinition = {
         }
 
         const query = extractQueryFromEvent(event);
-        if (!query) return;
 
-        try {
-          const result = await bridge.call('search', {
-            query,
-            limit: config.topK,
-          });
+        let searchResults: any[] = [];
 
-          if (result.memories && result.memories.length > 0) {
-            const formatted = formatMemories(result.memories);
-            if (formatted) {
-              return {
-                inject: [
-                  {
-                    role: 'system',
-                    content: formatted,
-                  },
-                ],
-              };
-            }
+        if (query && query.trim()) {
+          // Normal search with query from event
+          try {
+            const result = await bridge.call('search', {
+              query,
+              limit: config.topK,
+            });
+            searchResults = result.memories || [];
+          } catch (error) {
+            api.logger.error('[claw-mem] Auto-recall error:', error);
           }
-        } catch (error) {
-          api.logger.error('[claw-mem] Auto-recall error:', error);
+        } else {
+          // v2.13.x: Fallback recall — search recent session summaries + important content
+          api.logger.info('[claw-mem] No query from event, using fallback recall strategy');
+          try {
+            const [summaryResult, importantResult] = await Promise.all([
+              bridge.call('search', {
+                query: 'session summary overview decisions preferences tasks',
+                limit: 3,
+              }).catch(() => ({ memories: [] })),
+              bridge.call('search', {
+                query: 'decision preference task_context important',
+                limit: 5,
+              }).catch(() => ({ memories: [] })),
+            ]);
+            searchResults = [
+              ...(summaryResult.memories || []),
+              ...(importantResult.memories || []),
+            ];
+            // Deduplicate by content
+            const seen = new Set<string>();
+            searchResults = searchResults.filter((m: any) => {
+              const key = (m.content || '').slice(0, 100);
+              if (seen.has(key)) return false;
+              seen.add(key);
+              return true;
+            });
+          } catch (error) {
+            api.logger.warn('[claw-mem] Fallback recall failed:', error);
+          }
+        }
+
+        if (searchResults.length > 0) {
+          const formatted = formatMemories(searchResults);
+          if (formatted) {
+            api.logger.info(`[claw-mem] Injected ${searchResults.length} memories: ${formatted.slice(0, 100)}...`);
+            return {
+              inject: [
+                {
+                  role: 'system',
+                  content: formatted,
+                },
+              ],
+            };
+          }
         }
       });
     }
@@ -752,6 +787,7 @@ const plugin: PluginDefinition = {
               messages: event.messages,
             });
             if (important?.important && Array.isArray(important.important)) {
+              const stored: string[] = [];
               for (const item of important.important) {
                 if (item.importance && item.importance >= 0.5) {
                   await bridge.call('store', {
@@ -764,8 +800,16 @@ const plugin: PluginDefinition = {
                       session_id: ctx.sessionKey,
                     },
                   });
+                  stored.push(item.type);
                 }
               }
+              // v2.13.x: Log classification and storage results
+              const decisions = stored.filter(t => t === 'decision').length;
+              const preferences = stored.filter(t => t === 'preference').length;
+              api.logger.info(
+                `[claw-mem] Auto-capture stored ${stored.length}/${important.important.length} items` +
+                ` (${decisions} decisions, ${preferences} preferences)`
+              );
             }
           } catch (error) {
             api.logger.warn('[claw-mem] extract_important_content failed, falling back to raw facts:', error);
@@ -799,6 +843,7 @@ const plugin: PluginDefinition = {
                   date: new Date().toISOString(),
                 },
               });
+              api.logger.info(`[claw-mem] Session summary stored for ${ctx.sessionKey}`);
             }
           } catch (error) {
             api.logger.warn('[claw-mem] generate_session_summary failed:', error);
