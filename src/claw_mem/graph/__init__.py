@@ -60,6 +60,21 @@ from .extractors import (
     KeywordExtractor,
 )
 
+from .multi_graph import (
+    SubGraphType,
+    SubGraph,
+    GraphEdge,
+    MultiGraphMemory,
+    EDGE_TO_SUBGRAPH,
+    SUBGRAPH_EXPANSION_WEIGHT,
+)
+
+from .dual_layer import (
+    Event,
+    Topic,
+    DualLayerMemory,
+)
+
 __all__ = [
     # Nodes
     'NodeType',
@@ -92,4 +107,14 @@ __all__ = [
     'LLMExtractor',
     'DummyExtractor',
     'KeywordExtractor',
+    # v2.14.0: MultiGraph + DualLayer
+    'SubGraphType',
+    'SubGraph',
+    'GraphEdge',
+    'MultiGraphMemory',
+    'EDGE_TO_SUBGRAPH',
+    'SUBGRAPH_EXPANSION_WEIGHT',
+    'Event',
+    'Topic',
+    'DualLayerMemory',
 ]
