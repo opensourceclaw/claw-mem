@@ -768,6 +768,10 @@ const plugin: PluginDefinition = {
       api.logger.info('[claw-mem] Registering agent_end hook, autoCapture:', config.autoCapture);
       api.on('agent_end', async (event: any, ctx: any) => {
         api.logger.info('[claw-mem] agent_end triggered, session:', ctx.sessionKey);
+        // DEBUG: Log event structure
+        const eventKeys = Object.keys(event || {}).join(', ');
+        const msgCount = event?.messages?.length ?? 0;
+        api.logger.info(`[claw-mem] DEBUG event keys: ${eventKeys}, messages: ${msgCount}`);
 
         try {
           await bridgeReady;
@@ -780,11 +784,15 @@ const plugin: PluginDefinition = {
         // v2.13.x: Enhanced capture with session summary
         const facts = extractFactsFromEvent(event);
 
-        // 1. Extract ALL important content via bridge classifier
+        // 1. Extract important content (cap at 50 messages to prevent timeout)
         if (event?.messages && event.messages.length > 0) {
+          const recentMsgs = event.messages.slice(-50);
+          if (event.messages.length > 50) {
+            api.logger.info(`[claw-mem] Capped ${event.messages.length} → ${recentMsgs.length} messages for extraction`);
+          }
           try {
             const important = await bridge.call('extract_important_content', {
-              messages: event.messages,
+              messages: recentMsgs,
             });
             if (important?.important && Array.isArray(important.important)) {
               const stored: string[] = [];
@@ -816,11 +824,12 @@ const plugin: PluginDefinition = {
           }
         }
 
-        // 2. Generate and save session summary as semantic memory
+        // 2. Generate and save session summary (cap at 100 messages)
         if (event?.messages && event.messages.length > 5) {
+          const summaryMsgs = event.messages.slice(-100);
           try {
             const summary = await bridge.call('generate_session_summary', {
-              messages: event.messages,
+              messages: summaryMsgs,
             });
             if (summary?.summary?.overview) {
               const summaryText = [
