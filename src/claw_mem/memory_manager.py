@@ -55,6 +55,11 @@ from .graph.multi_graph import MultiGraphMemory
 from .graph.dual_layer import DualLayerMemory
 from .decay import DecayController, DecayScheduler, DecayConfig
 from .storage.ground_truth import GroundTruthStore
+# v2.15.0: Engram + Spreading + Compression
+from .retrieval.engram import EngramIndex
+from .retrieval.spreading import SpreadingActivation
+from .retrieval.decoupled import DecoupledRetriever
+from .compression.spectrum import CompressionSpectrum
 import time
 
 
@@ -86,7 +91,15 @@ class MemoryManager:
                  # v2.14.0: Decay + GroundTruth
                  enable_decay: bool = True,
                  enable_ground_truth: bool = True,
-                 decay_config: "DecayConfig" = None):
+                 decay_config: "DecayConfig" = None,
+                 # v2.15.0: Engram + Spreading + Compression
+                 enable_engram: bool = True,
+                 enable_spreading: bool = True,
+                 enable_compression_spectrum: bool = False,
+                 engram_ngram_size: int = 3,
+                 spreading_max_depth: int = 2,
+                 spreading_decay_factor: float = 0.5,
+                 spreading_threshold: float = 0.1):
         """
         Initialize Memory Manager
 
@@ -156,6 +169,19 @@ class MemoryManager:
         self._decay_controller: Optional[DecayController] = None
         self._decay_scheduler: Optional[DecayScheduler] = None
         self._ground_truth: Optional[GroundTruthStore] = None
+
+        # v2.15.0: Engram + Spreading + Compression
+        self.enable_engram = enable_engram
+        self.enable_spreading = enable_spreading
+        self.enable_compression = enable_compression
+        self._engram_ngram_size = engram_ngram_size
+        self._spreading_max_depth = spreading_max_depth
+        self._spreading_decay_factor = spreading_decay_factor
+        self._spreading_threshold = spreading_threshold
+        self._engram: Optional[EngramIndex] = None
+        self._spreader: Optional[SpreadingActivation] = None
+        self._decoupled_retriever: Optional[DecoupledRetriever] = None
+        self._compression_spectrum: Optional[CompressionSpectrum] = None
 
         # Search mode
         self.search_mode = os.environ.get('CLAW_MEM_SEARCH_MODE', 'enhanced_smart')
@@ -1136,6 +1162,72 @@ class MemoryManager:
         if gt is None:
             return []
         return gt.list_sessions()
+
+    # ── v2.15.0: Engram + Spreading + Decoupled properties ──────────
+
+    @property
+    def engram(self) -> Optional[EngramIndex]:
+        if self._engram is None and self.enable_engram:
+            self._engram = EngramIndex(ngram_size=self._engram_ngram_size)
+        return self._engram
+
+    @property
+    def spreader(self) -> Optional[SpreadingActivation]:
+        if self._spreader is None and self.enable_spreading and self.multi_graph:
+            self._spreader = SpreadingActivation(self.multi_graph)
+            self._spreader.configure(
+                max_depth=self._spreading_max_depth,
+                decay_factor=self._spreading_decay_factor,
+                threshold=self._spreading_threshold,
+            )
+        return self._spreader
+
+    @property
+    def decoupled_retriever(self) -> Optional[DecoupledRetriever]:
+        if self._decoupled_retriever is None and self.engram:
+            self._decoupled_retriever = DecoupledRetriever(
+                self.engram, self.spreader, self.multi_graph
+            )
+        return self._decoupled_retriever
+
+    @property
+    def compression_spectrum(self) -> Optional[CompressionSpectrum]:
+        if self._compression_spectrum is None and self.enable_compression_spectrum:
+            self._compression_spectrum = CompressionSpectrum(self)
+        return self._compression_spectrum
+
+    # ── v2.15.0: Operations ──────────────────────────────────────────
+
+    def get_engram_stats(self) -> dict:
+        e = self.engram
+        return e.get_stats() if e else {"enabled": False}
+
+    def rebuild_engram(self) -> int:
+        e = self.engram
+        if e is None:
+            return 0
+        count = 0
+        if hasattr(self, 'index') and self.index.built:
+            for mid, doc in zip(self.index.memory_ids, self.index.documents):
+                content = ' '.join(doc) if isinstance(doc, list) else str(doc)
+                e.index(mid, content)
+                count += 1
+        return count
+
+    def get_spreading_stats(self) -> dict:
+        s = self.spreader
+        return s.get_stats() if s else {"enabled": False}
+
+    def get_compression_stats(self) -> dict:
+        c = self.compression_spectrum
+        return c.get_stats() if c else {"enabled": False}
+
+    def manual_compress(self, memory_id: str) -> Optional[Dict]:
+        c = self.compression_spectrum
+        if c is None:
+            return None
+        result = c.record_access(memory_id)
+        return result.__dict__ if result else None
 
     def __repr__(self) -> str:
         return f"MemoryManager(workspace={self.workspace}, session={self.session_id})"
