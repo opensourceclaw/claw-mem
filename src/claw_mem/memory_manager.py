@@ -749,6 +749,10 @@ class MemoryManager:
             # Incrementally update index
             if update_index and self.index.built:
                 self.index.add_memory(content, memory_id, save_async=True)
+
+            # v2.15.0: Auto-index into EngramIndex
+            if self.engram is not None and update_index:
+                self.engram.index(memory_id, content)
         
         # Log audit
         self.audit.log("memory_stored", {
@@ -851,6 +855,19 @@ class MemoryManager:
         critical_rules = []
         if include_critical:
             critical_rules = self.get_critical_rules()
+
+        # v2.15.0: 优先使用 Engram + Spreading 检索管线
+        if (self.decoupled_retriever and memory_type is None
+                and metadata is None and mode is None):
+            results = self.decoupled_retriever.search(
+                query, top_k=limit,
+                intent=getattr(self, 'search_mode', 'general'),
+            )
+            if results:
+                if self.search_stats:
+                    latency = (time.time() - t0) * 1000
+                    self.search_stats.record_search(latency, cache_hit=False)
+                return critical_rules + results[:limit]
 
         # v2.9.0: Check query cache first
         if self.query_cache and metadata is None and memory_type is None:
