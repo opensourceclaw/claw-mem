@@ -68,6 +68,10 @@ from .errors import (
     ClawMemError, StorageError, RetrievalError,
     MemoryNotFoundError, IndexNotReadyError, QueryTooLongError,
 )
+# v3.0.0-rc.1: CMS Perception Layer
+from .cms import (
+    CapacityMonitor, ContextWarningHook, ImportanceEvaluator,
+)
 import time
 
 
@@ -111,7 +115,12 @@ class MemoryManager:
                  engram_ngram_size: int = 3,
                  spreading_max_depth: int = 2,
                  spreading_decay_factor: float = 0.5,
-                 spreading_threshold: float = 0.1):
+                 spreading_threshold: float = 0.1,
+                 # v3.0.0-rc.1: CMS Perception Layer
+                 enable_cms: bool = False,
+                 cms_token_threshold: int = 8000,
+                 cms_memory_threshold: int = 1000,
+                 cms_warning_level: float = 0.8):
         """
         Initialize Memory Manager
 
@@ -204,6 +213,15 @@ class MemoryManager:
         self._cache_max_size = 1000
         self._query_cache: Optional[QueryCache] = None
         self._performance_monitor: Optional[PerformanceMonitor] = None
+
+        # v3.0.0-rc.1: CMS Perception Layer
+        self.enable_cms = enable_cms
+        self._cms_token_threshold = cms_token_threshold
+        self._cms_memory_threshold = cms_memory_threshold
+        self._cms_warning_level = cms_warning_level
+        self._cms_capacity: Optional[CapacityMonitor] = None
+        self._cms_hook: Optional[ContextWarningHook] = None
+        self._cms_importance: Optional[ImportanceEvaluator] = None
 
         # Search mode
         self.search_mode = os.environ.get('CLAW_MEM_SEARCH_MODE', 'enhanced_smart')
@@ -1343,6 +1361,50 @@ class MemoryManager:
         if self._performance_monitor is None:
             self._performance_monitor = PerformanceMonitor()
         return self._performance_monitor
+
+    # ── v3.0.0-rc.1: CMS Perception Layer ──────────────────────
+
+    @property
+    def cms_capacity(self) -> Optional[CapacityMonitor]:
+        if self._cms_capacity is None and self.enable_cms:
+            self._cms_capacity = CapacityMonitor(
+                self,
+                token_threshold=self._cms_token_threshold,
+                memory_threshold=self._cms_memory_threshold,
+                warning_level=self._cms_warning_level,
+            )
+        return self._cms_capacity
+
+    @property
+    def cms_hook(self) -> Optional[ContextWarningHook]:
+        if self._cms_hook is None and self.cms_capacity:
+            self._cms_hook = ContextWarningHook(self.cms_capacity)
+        return self._cms_hook
+
+    @property
+    def cms_importance(self) -> Optional[ImportanceEvaluator]:
+        if self._cms_importance is None and self.enable_cms:
+            self._cms_importance = ImportanceEvaluator(self)
+        return self._cms_importance
+
+    def get_capacity_stats(self) -> Optional[dict]:
+        c = self.cms_capacity
+        if c is None:
+            return None
+        return c.get_stats().to_dict()
+
+    def get_importance_scores(self, memory_ids: List[str]) -> Optional[Dict]:
+        i = self.cms_importance
+        if i is None:
+            return None
+        return {k: v.to_dict() for k, v in i.evaluate_batch(memory_ids).items()}
+
+    def get_important_memories(self, threshold: float = 0.5,
+                               limit: int = 50) -> Optional[List]:
+        i = self.cms_importance
+        if i is None:
+            return None
+        return [s.to_dict() for s in i.get_important_memories(threshold, limit)]
 
     def get_performance_stats(self) -> dict:
         pm = self.performance_monitor
