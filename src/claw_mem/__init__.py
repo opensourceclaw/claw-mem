@@ -15,7 +15,8 @@
 """
 claw-mem - Make OpenClaw Truly Remember
 
-OpenClaw memory system built on evolutionary principles, fully compatible with existing OpenClaw memory formats.
+OpenClaw memory system built on evolutionary principles,
+fully compatible with existing OpenClaw memory formats.
 
 v0.9.0 Features (2026-03-22):
 - 10,000x faster retrieval (0.01ms)
@@ -29,7 +30,7 @@ v0.9.0 Features (2026-03-22):
 - 100% English documentation
 """
 
-__version__ = "3.0.0rc2"
+__version__ = "3.0.0rc6"
 __author__ = "Peter Cheng"
 
 from .memory_manager import MemoryManager
@@ -73,18 +74,18 @@ from .timeline import (
     FirstEventsDetector,
     FirstEvent,
     FirstEventType,
-    EventImportanceScorer,
-    EventImportanceScore,
-    ImportanceFactor,
+    EventImportanceScorer,  # noqa: F401
+    EventImportanceScore,  # noqa: F401
+    ImportanceFactor,  # noqa: F401
 )
-from .knowledge_graph import (
+from .knowledge_graph import (  # noqa: F401
     KnowledgeGraph,
     Entity,
     EntityType,
     Relation,
     RelationType,
 )
-from .data_portability import (
+from .data_portability import (  # noqa: F401
     DataPortability,
     ExportOptions,
     ImportOptions,

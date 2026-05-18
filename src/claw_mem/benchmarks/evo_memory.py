@@ -4,8 +4,8 @@ claw-mem v2.11.0 - Evo-Memory Benchmark
 Streaming task evaluation and experience reuse (ExpRAG).
 """
 
-from dataclasses import dataclass, field
-from typing import Any, Dict, List, Optional
+from dataclasses import dataclass
+from typing import Any, Dict, List
 
 
 @dataclass

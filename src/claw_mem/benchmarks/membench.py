@@ -11,7 +11,7 @@ Four dimensions of memory capability:
 from dataclasses import dataclass, field
 from typing import Any, Dict, List, Set, Optional
 
-from .metrics import RecallAtK, MRR, Precision, EvalResult, EvaluationMetrics
+from .metrics import RecallAtK, MRR, Precision, EvaluationMetrics
 
 
 @dataclass

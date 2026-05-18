@@ -20,7 +20,6 @@ Provides one-click backup and restore functionality for memory data.
 """
 
 import json
-import hashlib
 from datetime import datetime
 from pathlib import Path
 from typing import Optional, Dict, Any
