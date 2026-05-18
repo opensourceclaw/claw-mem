@@ -1048,8 +1048,8 @@ class MemoryManager:
 
         _log(f"🔍 Retrieved {len(results)} memories ({method}): {query}")
 
-        # v2.13.0: Prepend critical rules (not counted toward limit)
-        return critical_rules + results
+        # v2.13.0: Prepend critical rules (limited to requested count)
+        return (critical_rules + results)[:limit]
 
     def cross_session_search(self, query: str,
                               layers: Optional[List[str]] = None,
