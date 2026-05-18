@@ -71,7 +71,10 @@ from .errors import (
 # v3.0.0-rc.1: CMS Perception Layer
 from .cms import (
     CapacityMonitor, ContextWarningHook, ImportanceEvaluator,
+    SessionSummaryGenerator, MemoryDeduplicator,
+    CompressionStrategySelector,
 )
+from .cms.compression_result import CompressionResult
 import time
 
 
@@ -222,6 +225,10 @@ class MemoryManager:
         self._cms_capacity: Optional[CapacityMonitor] = None
         self._cms_hook: Optional[ContextWarningHook] = None
         self._cms_importance: Optional[ImportanceEvaluator] = None
+        # v3.0.0-rc.2: Compression layer
+        self._cms_summarizer: Optional[SessionSummaryGenerator] = None
+        self._cms_deduplicator: Optional[MemoryDeduplicator] = None
+        self._cms_strategy: Optional[CompressionStrategySelector] = None
 
         # Search mode
         self.search_mode = os.environ.get('CLAW_MEM_SEARCH_MODE', 'enhanced_smart')
@@ -1405,6 +1412,111 @@ class MemoryManager:
         if i is None:
             return None
         return [s.to_dict() for s in i.get_important_memories(threshold, limit)]
+
+    # ── v3.0.0-rc.2: Compression layer ────────────────────────
+
+    @property
+    def cms_summarizer(self) -> Optional[SessionSummaryGenerator]:
+        if self._cms_summarizer is None and self.enable_cms:
+            self._cms_summarizer = SessionSummaryGenerator()
+        return self._cms_summarizer
+
+    @property
+    def cms_deduplicator(self) -> Optional[MemoryDeduplicator]:
+        if self._cms_deduplicator is None and self.enable_cms:
+            self._cms_deduplicator = MemoryDeduplicator(self)
+        return self._cms_deduplicator
+
+    @property
+    def cms_strategy(self) -> Optional[CompressionStrategySelector]:
+        if self._cms_strategy is None and self.enable_cms:
+            self._cms_strategy = CompressionStrategySelector()
+        return self._cms_strategy
+
+    def generate_summary(self, session_id: str,
+                         memories: List[Dict] = None,
+                         strategy: str = "key_points") -> Optional[dict]:
+        s = self.cms_summarizer
+        if s is None:
+            return None
+        if memories is None:
+            memories = []
+        return s.generate(session_id, memories, strategy).to_dict()
+
+    def deduplicate_memories(self, memory_ids: List[str],
+                             threshold: float = 0.85) -> Optional[dict]:
+        d = self.cms_deduplicator
+        if d is None:
+            return None
+        d._similarity_threshold = threshold
+        return d.deduplicate(memory_ids).to_dict()
+
+    def compress_session(self, session_id: str,
+                         strategy: str = "auto") -> Optional[dict]:
+        if not self.enable_cms:
+            return None
+        import time as _time
+        t0 = _time.time()
+
+        # Get capacity info
+        stats = self.get_capacity_stats()
+        utilization = stats.get("utilization", 0.5) if stats else 0.5
+
+        # Select strategy
+        sel = self.cms_strategy
+        if strategy == "auto":
+            plan = sel.select(utilization) if sel else None
+        else:
+            plan = sel.select(0.99 if strategy == "aggressive"
+                              else 0.8 if strategy == "balanced"
+                              else 0.5) if sel else None
+
+        if plan is None:
+            return None
+
+        # Gather memories for this session
+        memories = self._gather_session_memories(session_id)
+
+        # Execute plan
+        summary = None
+        dedup = None
+
+        if "summarize" in plan.suggested_actions:
+            s = self.cms_summarizer
+            if s:
+                summary = s.generate(session_id, memories)
+        if "deduplicate" in plan.suggested_actions:
+            d = self.cms_deduplicator
+            if d:
+                mem_ids = [m.get("id", "") for m in memories if m.get("id")]
+                dedup = d.deduplicate(mem_ids)
+
+        original_tokens = sum(len(m.get("content", "").split()) for m in memories)
+        final_tokens = original_tokens
+        if dedup:
+            final_tokens = int(original_tokens * (1 - dedup.reduction_ratio))
+
+        elapsed = (_time.time() - t0) * 1000
+        result = CompressionResult(
+            session_id=session_id,
+            plan=plan,
+            summary=summary,
+            dedup=dedup,
+            original_token_count=original_tokens,
+            final_token_count=final_tokens,
+            reduction_ratio=1.0 - final_tokens / max(1, original_tokens),
+            execution_time_ms=elapsed,
+        )
+        return result.to_dict()
+
+    def _gather_session_memories(self, session_id: str) -> List[Dict]:
+        memories = []
+        try:
+            episodic = self.episodic.get_all() if hasattr(self, 'episodic') else []
+            memories.extend(episodic)
+        except Exception:
+            pass
+        return memories
 
     def get_performance_stats(self) -> dict:
         pm = self.performance_monitor
