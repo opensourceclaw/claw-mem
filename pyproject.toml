@@ -38,9 +38,14 @@ dependencies = [
 
 [project.optional-dependencies]
 dev = [
-    "pytest>=7.0.0",
-    "pytest-benchmark",
-    "pytest-cov>=3.0.0",
+    "pytest>=7.0",
+    "pytest-cov>=4.0",
+    "pytest-benchmark>=4.0",
+    "pytest-asyncio>=0.21",
+    "black>=24.0",
+    "flake8>=7.0",
+    "mypy>=1.9",
+    "pre-commit>=3.0",
 ]
 zh = [
     "jieba>=0.42.1",
@@ -93,15 +98,22 @@ ignore = [
 ]
 
 [tool.mypy]
-python_version = "3.8"
+python_version = "3.10"
 warn_return_any = true
-warn_unused_configs = true
-disallow_untyped_defs = false
-disallow_incomplete_defs = false
+warn_unused_ignores = true
+disallow_untyped_defs = true
+disallow_incomplete_defs = true
 check_untyped_defs = true
+disallow_untyped_decorators = true
 no_implicit_optional = true
 warn_redundant_casts = true
-warn_unused_ignores = true
+warn_unused_configs = true
+strict_equality = true
+strict_concatenate = true
+
+[[tool.mypy.overrides]]
+module = "tests.*"
+disallow_untyped_defs = false
 
 [tool.pytest.ini_options]
 minversion = "7.0"

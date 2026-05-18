@@ -9,6 +9,8 @@
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
 [![Python](https://img.shields.io/badge/Python-3.10%2B-brightgreen.svg)](https://www.python.org/)
 [![Version](https://img.shields.io/badge/Version-3.0.0rc3-blue.svg)](https://github.com/opensourceclaw/claw-mem)
+[![CI](https://github.com/opensourceclaw/claw-mem/actions/workflows/ci.yml/badge.svg)](https://github.com/opensourceclaw/claw-mem/actions/workflows/ci.yml)
+[![codecov](https://codecov.io/gh/opensourceclaw/claw-mem/branch/main/graph/badge.svg)](https://codecov.io/gh/opensourceclaw/claw-mem)
 
 </div>
 
@@ -553,6 +555,12 @@ Apache License 2.0 - See [LICENSE](LICENSE)
 - [GAAMA](https://arxiv.org/abs/2406.06215) - Concept-Mediated Graph Paper
 
 ---
+
+## Test Coverage
+
+We maintain **>=80%** test coverage for the core modules.
+
+Current status: [![codecov](https://codecov.io/gh/opensourceclaw/claw-mem/branch/main/graph/badge.svg)](https://codecov.io/gh/opensourceclaw/claw-mem)
 
 ## Documentation
 
