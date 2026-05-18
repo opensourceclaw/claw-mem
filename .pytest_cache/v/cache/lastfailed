@@ -100,7 +100,6 @@
   "tests/test_adapters.py::TestOpenClawAdapter::test_version_property": true,
   "tests/test_adapters.py::TestOpenClawAdapter::test_get_initialize_response": true,
   "tests/test_adapters.py::TestAdapterRegistry::test_create_adapter": true,
-  "tests/test_critical_rules.py::TestCriticalRulesCompression::test_critical_rules_survive_compression": true,
   "tests/test_memory_manager.py::TestMemoryManager::test_store_with_metadata": true,
   "tests/test_memory_manager.py::TestMemoryManager::test_search_with_metadata_filter": true,
   "tests/test_memory_manager_extended.py::TestMemoryManagerExtended::test_search_with_memory_type_filter": true,

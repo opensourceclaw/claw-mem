@@ -5,6 +5,52 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.18.0] - 2026-05-18
+
+### Added
+
+**CompressionSpectrum Enhancement — Default Enabled + Engram Sync**
+
+- **Default Enabled**: `enable_compression_spectrum=True` by default
+  - Users can now use compression without explicit configuration
+  - Still configurable: `enable_compression_spectrum=False` to disable
+
+- **Configurable Thresholds**: All compression thresholds are now configurable
+  - `compression_trigger_access`: Episode → Skill threshold (default: 5)
+  - `compression_trigger_apply`: Skill → Rule threshold (default: 3)
+  - `compression_trigger_verify`: Rule → Principle threshold (default: 2)
+  - Runtime configuration via `configure_thresholds()`
+
+- **Engram Sync**: Compressed memories are automatically indexed in Engram
+  - `CompressionSpectrum._sync_to_engram()` for automatic indexing
+  - Skills, Rules, and Principles all indexed after compression
+  - Non-blocking sync with graceful error handling
+
+- **Enhanced Stats**: `get_compression_stats()` now includes
+  - `enabled`: Current enable state
+  - `thresholds`: All threshold values
+  - `skills`, `rules`, `principles`: Count of compressed memories
+
+- **Bridge RPC**: Three new RPC methods
+  - `get_compression_stats`: Get compression statistics
+  - `manual_compress`: Manually trigger compression
+  - `configure_compression`: Runtime threshold configuration
+
+### Changed
+
+- `CompressionSpectrum.__init__`: Accepts threshold parameters
+- `MemoryManager.__init__`: New parameters for compression thresholds
+- `MemoryManager.get_compression_stats()`: Enhanced return value
+
+### Tests
+
+- 40 compression tests (all passing)
+  - `test_compression_config.py`: 7 tests for configuration
+  - `test_compression_trigger.py`: 8 tests for trigger conditions
+  - `test_compression_engram.py`: 7 tests for Engram sync
+  - `test_compression_integration.py`: 6 integration tests
+  - `test_compression.py`: 12 existing tests (maintained)
+
 ## [2.17.0] - 2026-05-18
 
 ### Added
