@@ -181,6 +181,7 @@ class MemoryManager:
             workspace = "~/.openclaw/workspace"
 
         self.workspace = Path(workspace).expanduser()
+        self.workspace.mkdir(parents=True, exist_ok=True)
         self.session_id: Optional[str] = None
         self.session_start: Optional[datetime] = None
 
