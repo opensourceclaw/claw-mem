@@ -128,6 +128,10 @@ class ClawMemBridge:
             "get_compression_stats": self._handle_get_compression_stats,
             "manual_compress": self._handle_manual_compress,
             "configure_compression": self._handle_configure_compression,
+            # v3.0.0-rc.1: CMS Perception Layer
+            "get_capacity_stats": self._handle_get_capacity_stats,
+            "get_importance_scores": self._handle_get_importance_scores,
+            "get_important_memories": self._handle_get_important_memories,
         }
 
         handler = handlers.get(method)
@@ -245,6 +249,30 @@ class ClawMemBridge:
             )
             return {"success": True}
         return {"success": False, "error": "Compression not enabled"}
+
+    # ---- v3.0.0-rc.1: CMS Perception Layer handlers --------------------
+
+    def _handle_get_capacity_stats(self, params: Dict) -> Dict:
+        if not self.memory_manager:
+            return {"enabled": False}
+        stats = self.memory_manager.get_capacity_stats()
+        return stats if stats else {"enabled": False}
+
+    def _handle_get_importance_scores(self, params: Dict) -> Dict:
+        if not self.memory_manager:
+            return {"error": "Memory manager not initialized"}
+        ids = params.get("memory_ids", [])
+        scores = self.memory_manager.get_importance_scores(ids)
+        return {"scores": scores} if scores else {"error": "CMS not enabled"}
+
+    def _handle_get_important_memories(self, params: Dict) -> Dict:
+        if not self.memory_manager:
+            return {"error": "Memory manager not initialized"}
+        important = self.memory_manager.get_important_memories(
+            threshold=params.get("threshold", 0.5),
+            limit=params.get("limit", 50),
+        )
+        return {"memories": important} if important else {"error": "CMS not enabled"}
 
     # ---- main loop ------------------------------------------------------
 
