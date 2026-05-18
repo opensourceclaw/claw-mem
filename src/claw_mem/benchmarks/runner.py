@@ -5,9 +5,9 @@ Runs all benchmarks and generates structured reports.
 """
 
 from dataclasses import dataclass, field
-from typing import Any, Dict, List, Optional
+from typing import Any, Dict
 
-from .membench import MemBench, MemBenchConfig
+from .membench import MemBench
 from .memory_arena import MemoryArena, ArenaTask, ArenaTaskType
 from .evo_memory import EvoMemory, StreamTask
 
@@ -85,7 +85,7 @@ class BenchmarkRunner:
         self.setup_defaults()
 
         # MemoryArena
-        arena_results = self.memory_arena.run()
+        self.memory_arena.run()
         arena_summary = self.memory_arena.get_summary()
 
         # MemBench
@@ -102,7 +102,7 @@ class BenchmarkRunner:
         )
 
         # Evo-Memory
-        evo_results = self.evo_memory.run()
+        self.evo_memory.run()
         evo_summary = self.evo_memory.get_summary()
 
         return BenchmarkReport(
