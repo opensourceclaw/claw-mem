@@ -63,6 +63,11 @@ from .compression.spectrum import CompressionSpectrum
 # v2.19.0: Cache + Monitor
 from .cache.query_cache import QueryCache
 from .monitor.performance import PerformanceMonitor
+# v2.20.0: Error types
+from .errors import (
+    ClawMemError, StorageError, RetrievalError,
+    MemoryNotFoundError, IndexNotReadyError, QueryTooLongError,
+)
 import time
 
 
@@ -222,6 +227,27 @@ class MemoryManager:
             os.path.expanduser("~/.claw-mem"), "critical_rules.json"
         )
         self._load_critical_rules()
+
+    # ── v2.20.0: State validation ─────────────────────────────────
+
+    def _validate_state(self) -> None:
+        """Validate MemoryManager state before operations."""
+        if not self.workspace or not self.workspace.exists():
+            raise StorageError("Workspace does not exist")
+        if self.index is None:
+            raise IndexNotReadyError("Memory index not initialized")
+
+    # ── v2.20.0: Error handling ───────────────────────────────────
+
+    def _handle_error(self, error: Exception, operation: str,
+                      fallback=None):
+        """Centralized error handling with graceful degradation."""
+        import logging
+        logger = logging.getLogger("claw_mem")
+        logger.warning(f"{operation} failed: {error}", exc_info=False)
+        if fallback is not None:
+            return fallback
+        raise
 
     def _validate_session_memory(self):
         """Validate memory at session start (F000 fix)"""
@@ -696,6 +722,12 @@ class MemoryManager:
         Returns:
             bool: Success status
         """
+        # v2.20.0: Parameter validation
+        if not content or not content.strip():
+            raise ValueError("Content cannot be empty")
+        if memory_type not in ("episodic", "semantic", "procedural"):
+            raise ValueError(f"Invalid memory_type: {memory_type}")
+
         # Security validation
         if not self.validator.validate(content):
             _log(f"❌ Memory write validation failed: {content[:50]}...")
@@ -864,6 +896,16 @@ class MemoryManager:
         Returns:
             List[Dict]: Memory records
         """
+        # v2.20.0: Parameter validation
+        if not query or not query.strip():
+            raise ValueError("Query cannot be empty")
+        if len(query) > 2000:
+            raise QueryTooLongError(
+                f"Query length {len(query)} exceeds 2000 chars"
+            )
+        if limit < 1:
+            limit = 1
+
         cache_hit = False
         t0 = time.time()
         search_mode = mode or self.search_mode
