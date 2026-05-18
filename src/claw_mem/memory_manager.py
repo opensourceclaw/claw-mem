@@ -1036,7 +1036,7 @@ class MemoryManager:
                         if tags:
                             r["tags"] = tags
                     cached_results.append(r)
-                return (critical_rules + cached_results)[:limit]
+                return critical_rules + cached_results
             if self._performance_monitor:
                 self._performance_monitor.record_cache_miss()
 
@@ -1064,7 +1064,7 @@ class MemoryManager:
                 if self.search_stats:
                     latency = (time.time() - t0) * 1000
                     self.search_stats.record_search(latency, cache_hit=False)
-                return (critical_rules + results[:limit])[:limit]
+                return critical_rules + results[:limit]
 
         # v2.9.0: Check query cache first
         if self.query_cache and metadata is None and memory_type is None:
@@ -1129,8 +1129,8 @@ class MemoryManager:
 
         _log(f"🔍 Retrieved {len(results)} memories ({method}): {query}")
 
-        # v2.13.0: Prepend critical rules (limited to requested count)
-        return (critical_rules + results)[:limit]
+        # v2.13.0: Prepend critical rules (not counted toward limit)
+        return critical_rules + results
 
     def cross_session_search(
         self,
