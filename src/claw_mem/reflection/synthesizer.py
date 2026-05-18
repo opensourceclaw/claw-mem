@@ -19,7 +19,8 @@ import re
 @dataclass
 class Observation:
     """An observed fact or event from memory."""
-    source: str   # Memory source identifier
+
+    source: str  # Memory source identifier
     content: str  # The observed content
     timestamp: str = ""
     memory_id: str = ""
@@ -27,17 +28,20 @@ class Observation:
 
     def to_dict(self) -> Dict[str, Any]:
         return {
-            "source": self.source, "content": self.content,
-            "timestamp": self.timestamp, "memory_id": self.memory_id,
+            "source": self.source,
+            "content": self.content,
+            "timestamp": self.timestamp,
+            "memory_id": self.memory_id,
         }
 
 
 @dataclass
 class Belief:
     """A synthesized belief derived from observations."""
+
     id: str
-    statement: str       # The belief statement
-    confidence: float    # 0.0 - 1.0
+    statement: str  # The belief statement
+    confidence: float  # 0.0 - 1.0
     observations: List[str] = field(default_factory=list)  # Source observation IDs
     category: str = "general"  # user_preference, fact, pattern, etc.
     created_at: str = ""
@@ -45,19 +49,23 @@ class Belief:
 
     def to_dict(self) -> Dict[str, Any]:
         return {
-            "id": self.id, "statement": self.statement,
-            "confidence": self.confidence, "category": self.category,
-            "version": self.version, "created_at": self.created_at,
+            "id": self.id,
+            "statement": self.statement,
+            "confidence": self.confidence,
+            "category": self.category,
+            "version": self.version,
+            "created_at": self.created_at,
         }
 
 
 @dataclass
 class SynthesizerConfig:
     """Configuration for the belief synthesizer."""
+
     min_observations: int = 2
     min_confidence: float = 0.3
     use_llm: bool = False  # Enable LLM for complex synthesis
-    llm_model: str = ""    # Model name if using LLM
+    llm_model: str = ""  # Model name if using LLM
 
 
 class BeliefSynthesizer:
@@ -109,23 +117,27 @@ class BeliefSynthesizer:
                 match = re.search(pattern, content, re.IGNORECASE)
                 if match:
                     extracted = match.group(1).strip()
-                    observations.append(Observation(
-                        source=mem.get("source", "memory"),
-                        content=extracted,
-                        timestamp=mem.get("timestamp", ""),
-                        memory_id=mem.get("id", ""),
-                        metadata={
-                            "category": category,
-                            "extraction_confidence": confidence,
-                            "original_content": content,
-                        },
-                    ))
+                    observations.append(
+                        Observation(
+                            source=mem.get("source", "memory"),
+                            content=extracted,
+                            timestamp=mem.get("timestamp", ""),
+                            memory_id=mem.get("id", ""),
+                            metadata={
+                                "category": category,
+                                "extraction_confidence": confidence,
+                                "original_content": content,
+                            },
+                        )
+                    )
                     break  # First match only per memory
 
         return observations
 
     def synthesize(
-        self, observations: List[Observation], user_id: str = "",
+        self,
+        observations: List[Observation],
+        user_id: str = "",
     ) -> List[Belief]:
         """Synthesize observations into beliefs.
 
@@ -161,14 +173,16 @@ class BeliefSynthesizer:
             statement = self._synthesize_statement(topic, obs_list)
             self._belief_counter += 1
 
-            beliefs.append(Belief(
-                id=f"BEL_{self._belief_counter:04d}",
-                statement=statement,
-                confidence=round(avg_confidence, 2),
-                observations=[o.memory_id for o in obs_list if o.memory_id],
-                category=obs_list[0].metadata.get("category", "general"),
-                created_at=datetime.utcnow().isoformat(),
-            ))
+            beliefs.append(
+                Belief(
+                    id=f"BEL_{self._belief_counter:04d}",
+                    statement=statement,
+                    confidence=round(avg_confidence, 2),
+                    observations=[o.memory_id for o in obs_list if o.memory_id],
+                    category=obs_list[0].metadata.get("category", "general"),
+                    created_at=datetime.utcnow().isoformat(),
+                )
+            )
 
         return beliefs
 

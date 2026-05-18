@@ -79,8 +79,9 @@ class GroundTruthStore:
         safe_id = session_id.replace("/", "_").replace(":", "_")
         return self._base_dir / f"session_{safe_id}.json"
 
-    def store_turn(self, session_id: str, messages: List[Dict],
-                   metadata: Optional[Dict] = None) -> str:
+    def store_turn(
+        self, session_id: str, messages: List[Dict], metadata: Optional[Dict] = None
+    ) -> str:
         """Store one or more conversation turns.
 
         Args:
@@ -104,9 +105,9 @@ class GroundTruthStore:
         self._save_session_file(filepath, session_data)
         return record.record_id
 
-    def store_session(self, session_id: str,
-                      all_messages: List[Dict],
-                      metadata: Optional[Dict] = None) -> str:
+    def store_session(
+        self, session_id: str, all_messages: List[Dict], metadata: Optional[Dict] = None
+    ) -> str:
         """Store an entire session at once (called from agent_end)."""
         return self.store_turn(session_id, all_messages, metadata)
 
@@ -114,9 +115,9 @@ class GroundTruthStore:
         """Get all records for a session."""
         return self._load_session_file(self._session_path(session_id))
 
-    def search(self, session_id: Optional[str] = None,
-               keyword: Optional[str] = None,
-               limit: int = 50) -> List[Dict]:
+    def search(
+        self, session_id: Optional[str] = None, keyword: Optional[str] = None, limit: int = 50
+    ) -> List[Dict]:
         """Search raw conversations.
 
         Args:
@@ -132,7 +133,8 @@ class GroundTruthStore:
         else:
             paths = sorted(
                 self._base_dir.glob("session_*.json"),
-                key=os.path.getmtime, reverse=True,
+                key=os.path.getmtime,
+                reverse=True,
             )
 
         for fp in paths:
@@ -142,11 +144,13 @@ class GroundTruthStore:
                 for m in r.get("messages", []):
                     if kw_lower and kw_lower not in str(m).lower():
                         continue
-                    results.append({
-                        "session_id": sid or session_id,
-                        "message": m,
-                        "timestamp": r.get("timestamp", 0),
-                    })
+                    results.append(
+                        {
+                            "session_id": sid or session_id,
+                            "message": m,
+                            "timestamp": r.get("timestamp", 0),
+                        }
+                    )
                     if len(results) >= limit:
                         return results
         return results[:limit]
@@ -156,13 +160,16 @@ class GroundTruthStore:
         sessions = []
         for f in sorted(
             self._base_dir.glob("session_*.json"),
-            key=os.path.getmtime, reverse=True,
+            key=os.path.getmtime,
+            reverse=True,
         ):
-            sessions.append({
-                "session_id": f.stem.replace("session_", ""),
-                "file_size": f.stat().st_size,
-                "last_modified": f.stat().st_mtime,
-            })
+            sessions.append(
+                {
+                    "session_id": f.stem.replace("session_", ""),
+                    "file_size": f.stat().st_size,
+                    "last_modified": f.stat().st_mtime,
+                }
+            )
         return sessions
 
     def count_records(self) -> int:
@@ -178,11 +185,11 @@ class GroundTruthStore:
         if not filepath.exists():
             return []
         try:
-            with open(filepath, 'r', encoding='utf-8') as f:
+            with open(filepath, "r", encoding="utf-8") as f:
                 return json.load(f)
         except (json.JSONDecodeError, FileNotFoundError):
             return []
 
     def _save_session_file(self, filepath: Path, data: List[Dict]) -> None:
-        with open(filepath, 'w', encoding='utf-8') as f:
+        with open(filepath, "w", encoding="utf-8") as f:
             json.dump(data, f, ensure_ascii=False, indent=2)

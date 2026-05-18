@@ -1,9 +1,11 @@
 """Integration tests for CMS Phase 3 State Machine (v3.0.0-rc.3)."""
+
 import tempfile, pytest
 from claw_mem.cms.state_machine import SessionStateMachine, StateEvent
 from claw_mem.cms.snapshot import SnapshotStorage
 from claw_mem.cms.recovery import RecoveryMechanism
 from claw_mem.cms.context_switcher import ContextSwitcher
+
 
 class TestStateIntegration:
     def test_full_lifecycle(self):
@@ -27,7 +29,7 @@ class TestStateIntegration:
         store = SnapshotStorage(tempfile.mkdtemp())
         rm = RecoveryMechanism(store)
 
-        store.save("sess", state="active", memory_ids=["m1","m2","m3"])
+        store.save("sess", state="active", memory_ids=["m1", "m2", "m3"])
         r = rm.recover("sess", strategy="latest")
         assert r.success
 
@@ -38,6 +40,7 @@ class TestStateIntegration:
 
     def test_snapshot_list_and_delete(self):
         import tempfile
+
         store = SnapshotStorage(tempfile.mkdtemp())
         sid = store.save("test", memory_ids=["a"])
         assert len(store.list("test")) == 1
@@ -51,7 +54,7 @@ class TestStateIntegration:
 
     def test_merge_three_sessions(self):
         cs = ContextSwitcher()
-        r = cs.merge(["a","b","c"])
+        r = cs.merge(["a", "b", "c"])
         assert r.total_unique >= 0
 
     def test_state_history_preserved(self):

@@ -2,9 +2,14 @@
 
 import pytest
 from claw_mem.reflection import (
-    BeliefSynthesizer, Belief, Observation, SynthesizerConfig,
-    ReflectionOrchestrator, ReflectionResult,
-    BeliefTracker, BeliefVersion,
+    BeliefSynthesizer,
+    Belief,
+    Observation,
+    SynthesizerConfig,
+    ReflectionOrchestrator,
+    ReflectionResult,
+    BeliefTracker,
+    BeliefVersion,
 )
 
 
@@ -29,22 +34,27 @@ class TestBeliefSynthesizer:
     def test_synthesize_beliefs(self):
         synth = BeliefSynthesizer()
         obs = [
-            Observation(source="m1", content="programming Python development",
-                       memory_id="m1", timestamp="2024-01-01",
-                       metadata={"category": "user_preference",
-                                 "extraction_confidence": 0.8}),
-            Observation(source="m2", content="programming Python projects",
-                       memory_id="m2", timestamp="2024-01-02",
-                       metadata={"category": "user_preference",
-                                 "extraction_confidence": 0.8}),
+            Observation(
+                source="m1",
+                content="programming Python development",
+                memory_id="m1",
+                timestamp="2024-01-01",
+                metadata={"category": "user_preference", "extraction_confidence": 0.8},
+            ),
+            Observation(
+                source="m2",
+                content="programming Python projects",
+                memory_id="m2",
+                timestamp="2024-01-02",
+                metadata={"category": "user_preference", "extraction_confidence": 0.8},
+            ),
         ]
         beliefs = synth.synthesize(obs, user_id="user123")
         assert len(beliefs) > 0
 
     def test_synthesize_too_few_observations(self):
         synth = BeliefSynthesizer()
-        obs = [Observation(source="m1", content="User prefers Python",
-                          memory_id="m1")]
+        obs = [Observation(source="m1", content="User prefers Python", memory_id="m1")]
         beliefs = synth.synthesize(obs)
         assert len(beliefs) == 0
 
@@ -174,10 +184,12 @@ class TestReflectionOrchestrator:
 
     def test_get_beliefs_with_history(self):
         orch = ReflectionOrchestrator()
-        orch.reflect([
-            {"content": "User prefers Python", "id": "m1"},
-            {"content": "User likes Python typing", "id": "m2"},
-        ])
+        orch.reflect(
+            [
+                {"content": "User prefers Python", "id": "m1"},
+                {"content": "User likes Python typing", "id": "m2"},
+            ]
+        )
         beliefs = orch.get_beliefs(include_history=True)
         assert isinstance(beliefs, list)
 

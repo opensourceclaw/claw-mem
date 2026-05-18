@@ -88,15 +88,15 @@ class TestExtractImportantContent:
         assert r["important"] == []
 
     def test_extract_single_message(self, bridge):
-        r = bridge._handle_extract_important_content({
-            "messages": [{"role": "user", "content": "I prefer Chinese"}]
-        })
+        r = bridge._handle_extract_important_content(
+            {"messages": [{"role": "user", "content": "I prefer Chinese"}]}
+        )
         assert r["count"] >= 1
 
     def test_skip_short_messages(self, bridge):
-        r = bridge._handle_extract_important_content({
-            "messages": [{"role": "user", "content": "hi"}]
-        })
+        r = bridge._handle_extract_important_content(
+            {"messages": [{"role": "user", "content": "hi"}]}
+        )
         assert r["count"] == 0
 
 

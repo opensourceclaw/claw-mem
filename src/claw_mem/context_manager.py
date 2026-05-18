@@ -2,7 +2,7 @@
 """
 ClawMem Context Manager - The High-Level Interface for neoclaw.
 
-This module provides a clean API for Friday (neoclaw) to interact with 
+This module provides a clean API for Friday (neoclaw) to interact with
 the Attention OS, handling initialization, updates, and context assembly.
 """
 
@@ -29,7 +29,7 @@ class ClawMemContextManager:
 
     def initialize(self) -> None:
         """
-        Loads all Markdown files into the in-memory Attention Index 
+        Loads all Markdown files into the in-memory Attention Index
         and applies decay logic.
         """
         logger.info("Initializing ClawMem Context Manager...")
@@ -44,7 +44,7 @@ class ClawMemContextManager:
         """
         if not self._initialized:
             raise RuntimeError("ClawMemContextManager not initialized. Call initialize() first.")
-        
+
         return self.assembler.assemble_context(max_tokens, top_k)
 
     def boost_node(self, node_id: str, amount: float = 0.1) -> bool:

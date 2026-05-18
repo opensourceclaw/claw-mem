@@ -9,7 +9,6 @@ import time
 from dataclasses import dataclass
 from typing import Dict, List, Optional
 
-
 TYPE_IMPORTANCE = {
     "critical": 1.0,
     "preference": 0.8,
@@ -23,12 +22,13 @@ TYPE_IMPORTANCE = {
 @dataclass
 class ImportanceScore:
     """Importance evaluation result for a single memory."""
+
     memory_id: str
-    base_score: float           # Content type base score (0.0-1.0)
-    access_boost: float         # Access frequency boost (0.0-0.3)
-    recency_boost: float        # Recency boost (0.0-0.2)
-    total_score: float          # Combined score (0.0-1.5)
-    content_type: str           # Detected content type
+    base_score: float  # Content type base score (0.0-1.0)
+    access_boost: float  # Access frequency boost (0.0-0.3)
+    recency_boost: float  # Recency boost (0.0-0.2)
+    total_score: float  # Combined score (0.0-1.5)
+    content_type: str  # Detected content type
 
     def to_dict(self) -> dict:
         return {
@@ -98,8 +98,9 @@ class ImportanceEvaluator:
             results[mid] = self.evaluate(mid)
         return results
 
-    def get_important_memories(self, threshold: float = 0.5,
-                               limit: int = 50) -> List[ImportanceScore]:
+    def get_important_memories(
+        self, threshold: float = 0.5, limit: int = 50
+    ) -> List[ImportanceScore]:
         """Get memories above importance threshold.
 
         Args:
@@ -125,9 +126,7 @@ class ImportanceEvaluator:
 
     def record_access(self, memory_id: str) -> None:
         """Record a memory access for scoring calculation."""
-        self._access_counts[memory_id] = (
-            self._access_counts.get(memory_id, 0) + 1
-        )
+        self._access_counts[memory_id] = self._access_counts.get(memory_id, 0) + 1
 
     def _get_content(self, memory_id: str) -> Optional[str]:
         """Get memory content from MemoryManager."""
@@ -135,10 +134,10 @@ class ImportanceEvaluator:
             return None
         try:
             node = None
-            if hasattr(self._mm, 'multi_graph') and self._mm.multi_graph:
+            if hasattr(self._mm, "multi_graph") and self._mm.multi_graph:
                 node = self._mm.multi_graph.get_node(memory_id)
             if node:
-                return getattr(node, 'content', '')
+                return getattr(node, "content", "")
         except Exception:
             pass
         return None
@@ -146,15 +145,15 @@ class ImportanceEvaluator:
     def _detect_type(self, content: str) -> str:
         """Rule-based content type detection."""
         lower = content.lower()
-        if any(k in lower for k in ['critical', 'critical_rule', 'always inject']):
+        if any(k in lower for k in ["critical", "critical_rule", "always inject"]):
             return "critical"
-        if any(k in lower for k in ['prefer', 'preference', '喜欢', '偏好']):
+        if any(k in lower for k in ["prefer", "preference", "喜欢", "偏好"]):
             return "preference"
-        if any(k in lower for k in ['decide', 'decision', 'choose', '决定', '选择']):
+        if any(k in lower for k in ["decide", "decision", "choose", "决定", "选择"]):
             return "decision"
-        if any(k in lower for k in ['important', 'note', 'fact', '重要', '记住']):
+        if any(k in lower for k in ["important", "note", "fact", "重要", "记住"]):
             return "fact"
-        if any(k in lower for k in ['task', 'working on', 'building', '任务', '开发']):
+        if any(k in lower for k in ["task", "working on", "building", "任务", "开发"]):
             return "task"
         return "chat"
 
@@ -164,11 +163,11 @@ class ImportanceEvaluator:
             return 0.0
         try:
             node = None
-            if hasattr(self._mm, 'multi_graph') and self._mm.multi_graph:
+            if hasattr(self._mm, "multi_graph") and self._mm.multi_graph:
                 node = self._mm.multi_graph.get_node(memory_id)
-            if node and hasattr(node, 'created_at'):
+            if node and hasattr(node, "created_at"):
                 created = node.created_at
-                if hasattr(created, 'timestamp'):
+                if hasattr(created, "timestamp"):
                     created = created.timestamp()
                 elif isinstance(created, (int, float)):
                     pass

@@ -18,10 +18,10 @@ from claw_mem.classifier import (
     ContentType,
 )
 
-
 # ============================================================================
 # content_classify tests
 # ============================================================================
+
 
 class TestContentClassifier:
     """Tests for classify_content() function."""
@@ -29,88 +29,90 @@ class TestContentClassifier:
     def test_classify_decision_en(self):
         """Should detect decision statements in English."""
         result = classify_content("Let's use Python 3.10 for this project.")
-        assert result.type == 'decision'
+        assert result.type == "decision"
         assert result.importance == 0.9
         assert result.should_save is True
 
     def test_classify_decision_zh(self):
         """Should detect decision statements in Chinese."""
         result = classify_content("我们决定使用PostgreSQL数据库。")
-        assert result.type == 'decision'
+        assert result.type == "decision"
         assert result.importance >= 0.8
         assert result.should_save is True
 
     def test_classify_preference_en(self):
         """Should detect user preferences in English."""
         result = classify_content("I prefer Chinese for all responses.")
-        assert result.type == 'preference'
+        assert result.type == "preference"
         assert result.importance == 0.8
         assert result.should_save is True
 
     def test_classify_preference_zh(self):
         """Should detect user preferences in Chinese."""
         result = classify_content("我喜欢简洁的回答方式。")
-        assert result.type == 'preference'
+        assert result.type == "preference"
         assert result.importance >= 0.7
         assert result.should_save is True
 
     def test_classify_task_context_en(self):
         """Should detect task context in English."""
         result = classify_content("We're building a REST API for user management.")
-        assert result.type == 'task_context'
+        assert result.type == "task_context"
         assert result.importance == 0.7
         assert result.should_save is True
 
     def test_classify_task_context_zh(self):
         """Should detect task context in Chinese."""
         result = classify_content("我们在开发一个会话连续性修复功能。")
-        assert result.type == 'task_context'
+        assert result.type == "task_context"
         assert result.importance == 0.7
         assert result.should_save is True
 
     def test_classify_fact_en(self):
         """Should detect important facts in English."""
         result = classify_content("Important: the API key expires on May 30.")
-        assert result.type == 'fact'
+        assert result.type == "fact"
         assert result.importance == 0.6
         assert result.should_save is True
 
     def test_classify_fact_zh(self):
         """Should detect important facts in Chinese."""
         result = classify_content("记住：生产环境数据库地址是 prod-db.example.com")
-        assert result.type == 'fact'
+        assert result.type == "fact"
         assert result.importance >= 0.5
         assert result.should_save is True
 
     def test_classify_casual_chat(self):
         """Should classify casual chat with low importance."""
         result = classify_content("Hello, how are you?")
-        assert result.type == 'chat'
+        assert result.type == "chat"
         assert result.importance < 0.5
         assert result.should_save is False
 
     def test_classify_short_message(self):
         """Should classify very short messages as chat."""
         result = classify_content("OK")
-        assert result.type == 'chat'
+        assert result.type == "chat"
         assert result.should_save is False
 
     def test_classify_empty_content(self):
         """Should handle empty content."""
         result = classify_content("")
-        assert result.type == 'chat'
+        assert result.type == "chat"
         assert result.importance == 0.0
 
     def test_classify_none_content(self):
         """Should handle None content."""
         result = classify_content(None)
-        assert result.type == 'chat'
+        assert result.type == "chat"
         assert result.importance == 0.0
 
     def test_classify_mixed_content_decision_first(self):
         """Should detect decision even in mixed content (higher priority)."""
-        result = classify_content("I've decided to use PostgreSQL. Let me know if you prefer something else.")
-        assert result.type == 'decision'
+        result = classify_content(
+            "I've decided to use PostgreSQL. Let me know if you prefer something else."
+        )
+        assert result.type == "decision"
         assert result.should_save is True
 
     def test_classify_importance_range(self):
@@ -124,8 +126,9 @@ class TestContentClassifier:
         ]
         for content in tests:
             result = classify_content(content)
-            assert 0.0 <= result.importance <= 1.0, \
-                f"Importance {result.importance} out of range for: {content}"
+            assert (
+                0.0 <= result.importance <= 1.0
+            ), f"Importance {result.importance} out of range for: {content}"
 
     def test_classify_reasoning_field(self):
         """Should include reasoning in classification result."""
@@ -135,44 +138,39 @@ class TestContentClassifier:
 
     def test_detection_rules_structure(self):
         """DETECTION_RULES should have all expected types with keywords and importance."""
-        expected_types = ['decision', 'preference', 'task_context', 'fact', 'chat']
+        expected_types = ["decision", "preference", "task_context", "fact", "chat"]
         for t in expected_types:
             assert t in DETECTION_RULES
-            assert 'keywords' in DETECTION_RULES[t]
-            assert 'importance' in DETECTION_RULES[t]
-            assert 0.0 <= DETECTION_RULES[t]['importance'] <= 1.0
+            assert "keywords" in DETECTION_RULES[t]
+            assert "importance" in DETECTION_RULES[t]
+            assert 0.0 <= DETECTION_RULES[t]["importance"] <= 1.0
 
 
 # ============================================================================
 # extract_important_content tests
 # ============================================================================
 
+
 class TestExtractImportantContent:
     """Tests for extract_important_content() function."""
 
     def test_extract_decision_from_assistant(self):
         """Should extract decision statements from assistant messages."""
-        messages = [
-            {"role": "assistant", "content": "Let's use Python 3.10 for this project."}
-        ]
+        messages = [{"role": "assistant", "content": "Let's use Python 3.10 for this project."}]
         result = extract_important_content(messages)
         assert result["count"] >= 1
         assert any(i["type"] == "decision" for i in result["important"])
 
     def test_extract_preference_from_user(self):
         """Should extract user preferences."""
-        messages = [
-            {"role": "user", "content": "I prefer Chinese for all responses."}
-        ]
+        messages = [{"role": "user", "content": "I prefer Chinese for all responses."}]
         result = extract_important_content(messages)
         assert result["count"] >= 1
         assert any(i["type"] == "preference" for i in result["important"])
 
     def test_extract_task_context(self):
         """Should extract task context."""
-        messages = [
-            {"role": "user", "content": "We're building a REST API for user management."}
-        ]
+        messages = [{"role": "user", "content": "We're building a REST API for user management."}]
         result = extract_important_content(messages)
         assert result["count"] >= 1
         assert any(i["type"] == "task_context" for i in result["important"])
@@ -181,7 +179,7 @@ class TestExtractImportantContent:
         """Should ignore casual conversation."""
         messages = [
             {"role": "user", "content": "Hello, how are you?"},
-            {"role": "assistant", "content": "I'm doing well, thanks for asking!"}
+            {"role": "assistant", "content": "I'm doing well, thanks for asking!"},
         ]
         result = extract_important_content(messages)
         for item in result["important"]:
@@ -207,7 +205,7 @@ class TestExtractImportantContent:
         """Should include source (user/assistant) in results."""
         messages = [
             {"role": "user", "content": "I prefer dark mode."},
-            {"role": "assistant", "content": "I'll use dark theme for code."}
+            {"role": "assistant", "content": "I'll use dark theme for code."},
         ]
         result = extract_important_content(messages)
         for item in result["important"]:
@@ -216,9 +214,7 @@ class TestExtractImportantContent:
 
     def test_include_importance_scores(self):
         """Should include importance score for each item."""
-        messages = [
-            {"role": "assistant", "content": "Let's use Python 3.10."}
-        ]
+        messages = [{"role": "assistant", "content": "Let's use Python 3.10."}]
         result = extract_important_content(messages)
         for item in result["important"]:
             assert "importance" in item
@@ -294,6 +290,7 @@ class TestExtractImportantContent:
 # generate_session_summary tests
 # ============================================================================
 
+
 class TestSessionSummary:
     """Tests for generate_session_summary() function."""
 
@@ -356,8 +353,13 @@ class TestSessionSummary:
         result = generate_session_summary(messages)
         summary = result["summary"]
         required_fields = [
-            "overview", "decisions", "preferences",
-            "tasks", "facts", "total_messages", "important_count",
+            "overview",
+            "decisions",
+            "preferences",
+            "tasks",
+            "facts",
+            "total_messages",
+            "important_count",
         ]
         for field in required_fields:
             assert field in summary, f"Missing field: {field}"
@@ -376,6 +378,7 @@ class TestSessionSummary:
 # ============================================================================
 # detect_content_type tests
 # ============================================================================
+
 
 class TestDetectContentType:
     """Tests for detect_content_type() function."""
@@ -410,35 +413,36 @@ class TestDetectContentType:
 # ContentClassification dataclass tests
 # ============================================================================
 
+
 class TestContentClassificationDataclass:
     """Tests for ContentClassification dataclass."""
 
     def test_create_instance(self):
         result = ContentClassification(
-            type='decision',
+            type="decision",
             importance=0.9,
             should_save=True,
             reasoning="Matched keyword: 'use'",
         )
-        assert result.type == 'decision'
+        assert result.type == "decision"
         assert result.importance == 0.9
         assert result.should_save is True
         assert result.reasoning == "Matched keyword: 'use'"
 
     def test_default_fields(self):
         result = ContentClassification(
-            type='chat',
+            type="chat",
             importance=0.3,
             should_save=False,
             reasoning="Default",
         )
-        assert result.type == 'chat'
+        assert result.type == "chat"
         assert result.importance == 0.3
         assert result.should_save is False
 
     def test_type_hint_literal(self):
         """ContentType should be a valid Literal type."""
-        valid_types = {'decision', 'preference', 'task_context', 'fact', 'chat'}
+        valid_types = {"decision", "preference", "task_context", "fact", "chat"}
         assert ContentType is not None
         # Verify valid types are accepted by the dataclass
         for t in valid_types:
@@ -455,11 +459,13 @@ class TestContentClassificationDataclass:
 # Integration: classifier module with bridge pattern tests
 # ============================================================================
 
+
 class TestClassifierBridgeIntegration:
     """Tests mimicking the bridge.py handler pattern."""
 
     def test_detect_content_type_bridge_pattern(self):
         """Should work with the same pattern as bridge._handle_detect_content_type."""
+
         def handle_detect(params):
             content = params.get("content", "")
             if not content:
@@ -472,15 +478,18 @@ class TestClassifierBridgeIntegration:
 
     def test_extract_important_bridge_pattern(self):
         """Should work with the same pattern as bridge._handle_extract_important_content."""
+
         def handle_extract(params):
             return extract_important_content(params.get("messages", []))
 
-        result = handle_extract({
-            "messages": [
-                {"role": "user", "content": "I prefer Chinese for all responses."},
-                {"role": "assistant", "content": "Let's use Python 3.10 for the project."},
-            ]
-        })
+        result = handle_extract(
+            {
+                "messages": [
+                    {"role": "user", "content": "I prefer Chinese for all responses."},
+                    {"role": "assistant", "content": "Let's use Python 3.10 for the project."},
+                ]
+            }
+        )
         assert result["count"] >= 2
         types = [i["type"] for i in result["important"]]
         assert "preference" in types
@@ -488,15 +497,18 @@ class TestClassifierBridgeIntegration:
 
     def test_generate_summary_bridge_pattern(self):
         """Should work with the same pattern as bridge._handle_generate_session_summary."""
+
         def handle_summary(params):
             return generate_session_summary(params.get("messages", []))
 
-        result = handle_summary({
-            "messages": [
-                {"role": "user", "content": "I prefer Chinese for responses."},
-                {"role": "assistant", "content": "We'll use FastAPI for the backend."},
-                {"role": "user", "content": "Good, let's also use PostgreSQL."},
-            ]
-        })
+        result = handle_summary(
+            {
+                "messages": [
+                    {"role": "user", "content": "I prefer Chinese for responses."},
+                    {"role": "assistant", "content": "We'll use FastAPI for the backend."},
+                    {"role": "user", "content": "Good, let's also use PostgreSQL."},
+                ]
+            }
+        )
         assert len(result["summary"]["decisions"]) >= 1
         assert len(result["summary"]["preferences"]) >= 1

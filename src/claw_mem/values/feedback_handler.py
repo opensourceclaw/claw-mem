@@ -13,7 +13,7 @@
 # limitations under the License.
 
 """
-Feedback Handler - feedbackprocess机制
+Feedback Handler - Feedback processing mechanism
 """
 
 from dataclasses import dataclass, field
@@ -25,16 +25,18 @@ from claw_mem.values import UserValueStore
 
 
 class FeedbackStatus(Enum):
-    """feedback状态"""
-    PENDING = "pending"       # 待确认
-    ACCEPTED = "accepted"     # 已接受
-    REJECTED = "rejected"     # 已拒绝
-    EXPIRED = "expired"       # 已过期
+    """Feedback status"""
+
+    PENDING = "pending"  # Pending
+    ACCEPTED = "accepted"  # Accepted
+    REJECTED = "rejected"  # Rejected
+    EXPIRED = "expired"  # Expired
 
 
 @dataclass
 class ValueSuggestion:
-    """values建议"""
+    """Value suggestion"""
+
     id: str
     user_id: str
     suggestion_type: str  # "principle", "preference", "red_line"
@@ -58,33 +60,35 @@ class ValueSuggestion:
 
 
 class FeedbackHandler:
-    """feedbackprocess器 - 管理user对values的确认"""
+    """Feedback processor - Manages user confirmation of values"""
 
     def __init__(self, value_store: Optional[UserValueStore] = None):
-        """initializefeedbackprocess器
+        """Initialize feedback processor
 
         Args:
-            value_store: uservaluesstorage
+            value_store: User values storage
         """
         self.value_store = value_store or UserValueStore()
 
-        # 待确认的建议
+        # Pending suggestions
         self._pending_suggestions: Dict[str, List[ValueSuggestion]] = {}
 
-        # 历史建议
+        # Suggestion history
         self._suggestion_history: List[ValueSuggestion] = []
 
-    def request_confirmation(self, user_id: str, value_type: str, content: str, evidence: List[str] = None) -> ValueSuggestion:
-        """请求user确认values
+    def request_confirmation(
+        self, user_id: str, value_type: str, content: str, evidence: List[str] = None
+    ) -> ValueSuggestion:
+        """Request user confirmation of values
 
         Args:
-            user_id: user ID
-            value_type: values类型 ("principle", "preference", "red_line")
-            content: values内容
-            evidence: 证据列表
+            user_id: User ID
+            value_type: Value type ("principle", "preference", "red_line")
+            content: Value content
+            evidence: Evidence list
 
         Returns:
-            ValueSuggestion: 创建的建议
+            ValueSuggestion: Created suggestion
         """
         import uuid
 
@@ -93,10 +97,10 @@ class FeedbackHandler:
             user_id=user_id,
             suggestion_type=value_type,
             content=content,
-            evidence=evidence or []
+            evidence=evidence or [],
         )
 
-        # 添加到待确认列表
+        # Add to pending list
         if user_id not in self._pending_suggestions:
             self._pending_suggestions[user_id] = []
 
@@ -106,16 +110,16 @@ class FeedbackHandler:
         return suggestion
 
     def process_feedback(self, suggestion_id: str, accepted: bool) -> bool:
-        """processuserfeedback
+        """Process user feedback
 
         Args:
-            suggestion_id: 建议 ID
-            accepted: 是否接受
+            suggestion_id: Suggestion ID
+            accepted: Whether accepted
 
         Returns:
-            bool: 是否成功process
+            bool: Whether successfully processed
         """
-        # 查找建议
+        # Find suggestion
         suggestion = None
         for s in self._suggestion_history:
             if s.id == suggestion_id:
@@ -125,11 +129,11 @@ class FeedbackHandler:
         if not suggestion:
             return False
 
-        # update状态
+        # Update status
         suggestion.status = FeedbackStatus.ACCEPTED if accepted else FeedbackStatus.REJECTED
         suggestion.responded_at = datetime.now(timezone.utc)
 
-        # if接受,update到valuesstorage
+        # If accepted, update to value store
         if accepted:
             user_id = suggestion.user_id
 
@@ -137,8 +141,8 @@ class FeedbackHandler:
                 self.value_store.save_principle(user_id, suggestion.content)
 
             elif suggestion.suggestion_type == "preference":
-                # preferenceneedparse key-value
-                # 简化:假设 content 格式为 "key:value"
+                # Preference needs key-value parsing
+                # Simplified: assume content format is "key:value"
                 if ":" in suggestion.content:
                     key, value = suggestion.content.split(":", 1)
                     self.value_store.save_preference(user_id, key.strip(), value.strip())
@@ -146,79 +150,80 @@ class FeedbackHandler:
             elif suggestion.suggestion_type == "red_line":
                 self.value_store.save_red_line(user_id, suggestion.content)
 
-        # 从待确认列表中移除
+        # Remove from pending list
         user_id = suggestion.user_id
         if user_id in self._pending_suggestions:
             self._pending_suggestions[user_id] = [
-                s for s in self._pending_suggestions[user_id]
-                if s.id != suggestion_id
+                s for s in self._pending_suggestions[user_id] if s.id != suggestion_id
             ]
 
         return True
 
     def suggest_update(self, suggestion: Dict[str, Any]) -> ValueSuggestion:
-        """建议updatevalues
+        """Suggest updating values
 
         Args:
-            suggestion: 建议数据
+            suggestion: Suggestion data
 
         Returns:
-            ValueSuggestion: 创建的建议
+            ValueSuggestion: Created suggestion
         """
         return self.request_confirmation(
             user_id=suggestion["user_id"],
             value_type=suggestion.get("type", "principle"),
             content=suggestion["content"],
-            evidence=suggestion.get("evidence", [])
+            evidence=suggestion.get("evidence", []),
         )
 
     def get_pending_suggestions(self, user_id: str) -> List[ValueSuggestion]:
-        """get待确认的建议
+        """Get pending suggestions
 
         Args:
-            user_id: user ID
+            user_id: User ID
 
         Returns:
-            List[ValueSuggestion]: 待确认的建议列表
+            List[ValueSuggestion]: List of pending suggestions
         """
         return self._pending_suggestions.get(user_id, [])
 
     def get_accepted_suggestions(self, user_id: str) -> List[ValueSuggestion]:
-        """get已接受的建议
+        """Get accepted suggestions
 
         Args:
-            user_id: user ID
+            user_id: User ID
 
         Returns:
-            List[ValueSuggestion]: 已接受的建议列表
+            List[ValueSuggestion]: List of accepted suggestions
         """
         return [
-            s for s in self._suggestion_history
+            s
+            for s in self._suggestion_history
             if s.user_id == user_id and s.status == FeedbackStatus.ACCEPTED
         ]
 
     def get_rejected_suggestions(self, user_id: str) -> List[ValueSuggestion]:
-        """get已拒绝的建议
+        """Get rejected suggestions
 
         Args:
-            user_id: user ID
+            user_id: User ID
 
         Returns:
-            List[ValueSuggestion]: 已拒绝的建议列表
+            List[ValueSuggestion]: List of rejected suggestions
         """
         return [
-            s for s in self._suggestion_history
+            s
+            for s in self._suggestion_history
             if s.user_id == user_id and s.status == FeedbackStatus.REJECTED
         ]
 
     def clear_expired(self, max_age_hours: int = 24) -> int:
-        """清除过期的建议
+        """Clear expired suggestions
 
         Args:
-            max_age_hours: 最大保留时间(小时)
+            max_age_hours: Max retention time (hours)
 
         Returns:
-            int: 清除的数量
+            int: Number of cleared entries
         """
         now = datetime.now(timezone.utc)
         expired = []

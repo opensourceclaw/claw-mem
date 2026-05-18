@@ -9,6 +9,7 @@ from typing import Dict, List, Optional
 @dataclass
 class SessionSummary:
     """Structured session summary."""
+
     session_id: str
     overview: str
     decisions: List[str] = field(default_factory=list)
@@ -34,12 +35,13 @@ class SessionSummary:
 @dataclass
 class DeduplicationResult:
     """Result of memory deduplication."""
+
     original_count: int
     deduplicated_count: int
     reduction_ratio: float
-    merged_clusters: List[List[str]]   # Groups of merged memory IDs
-    kept_memories: List[str]           # IDs of kept memories
-    removed_memories: List[str]        # IDs of removed (duplicate) memories
+    merged_clusters: List[List[str]]  # Groups of merged memory IDs
+    kept_memories: List[str]  # IDs of kept memories
+    removed_memories: List[str]  # IDs of removed (duplicate) memories
 
     def to_dict(self) -> dict:
         return {
@@ -55,10 +57,11 @@ class DeduplicationResult:
 @dataclass
 class CompressionPlan:
     """Compression execution plan."""
-    strategy: str                   # "aggressive" / "balanced" / "conservative"
+
+    strategy: str  # "aggressive" / "balanced" / "conservative"
     utilization: float
-    target_reduction: float         # Target reduction ratio
-    suggested_actions: List[str]    # ["deduplicate", "summarize", "archive"]
+    target_reduction: float  # Target reduction ratio
+    suggested_actions: List[str]  # ["deduplicate", "summarize", "archive"]
     estimated_token_savings: int
 
     def to_dict(self) -> dict:
@@ -74,6 +77,7 @@ class CompressionPlan:
 @dataclass
 class CompressionResult:
     """Full compression execution result."""
+
     session_id: str
     plan: CompressionPlan
     summary: Optional[SessionSummary] = None

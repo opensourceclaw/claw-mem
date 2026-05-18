@@ -50,14 +50,13 @@ class RecoveryMechanism:
       - best_effort: Try latest, then previous snapshots.
     """
 
-    def __init__(self, snapshot_storage: SnapshotStorage = None,
-                 memory_manager=None):
+    def __init__(self, snapshot_storage: SnapshotStorage = None, memory_manager=None):
         self._storage = snapshot_storage or SnapshotStorage()
         self._mm = memory_manager
 
-    def recover(self, session_id: str,
-                snapshot_id: str = None,
-                strategy: str = "latest") -> RecoveryResult:
+    def recover(
+        self, session_id: str, snapshot_id: str = None, strategy: str = "latest"
+    ) -> RecoveryResult:
         """Recover session state from a snapshot.
 
         Args:

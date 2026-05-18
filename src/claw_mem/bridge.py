@@ -47,13 +47,15 @@ class ClawMemBridge:
     def _initialize(self):
         """Initialize MemoryManager and version-detected adapter."""
         import io
+
         _saved_stdout = sys.stdout
         sys.stdout = io.StringIO()
         init_ok = False
         try:
             try:
                 from claw_mem import MemoryManager
-                workspace = os.environ.get('OPENCLAW_WORKSPACE', os.getcwd())
+
+                workspace = os.environ.get("OPENCLAW_WORKSPACE", os.getcwd())
                 self.memory_manager = MemoryManager(workspace=workspace)
                 self._adapter = AdapterRegistry.create_adapter(self.memory_manager)
                 init_ok = True
@@ -76,7 +78,7 @@ class ClawMemBridge:
         if error_code is not None:
             response["error"] = {
                 "code": error_code,
-                "message": result if isinstance(result, str) else str(result)
+                "message": result if isinstance(result, str) else str(result),
             }
         else:
             response["result"] = result
@@ -88,7 +90,7 @@ class ClawMemBridge:
 
     def _log(self, msg: str):
         """Write diagnostic message to stderr.
-        
+
         Note: TypeScript side already prepends [claw-mem bridge], so we omit it here
         to avoid double-prefix in logs.
         """
@@ -202,9 +204,7 @@ class ClawMemBridge:
         """v2.13.0: Delete a critical rule."""
         if not self.memory_manager:
             return {"success": False, "error": "Memory manager not initialized"}
-        deleted = self.memory_manager.delete_critical_rule(
-            params.get("rule_id", "")
-        )
+        deleted = self.memory_manager.delete_critical_rule(params.get("rule_id", ""))
         return {"success": deleted}
 
     # ---- session continuity handlers (v2.13.x) --------------------------
@@ -236,9 +236,7 @@ class ClawMemBridge:
         """Manually trigger compression for a memory."""
         if not self.memory_manager:
             return {"success": False, "error": "Memory manager not initialized"}
-        result = self.memory_manager.manual_compress(
-            params.get("memory_id", "")
-        )
+        result = self.memory_manager.manual_compress(params.get("memory_id", ""))
         return {"success": result is not None, "result": result}
 
     def _handle_configure_compression(self, params: Dict) -> Dict:
@@ -313,9 +311,7 @@ class ClawMemBridge:
         if not self.memory_manager:
             return {"snapshots": []}
         return {
-            "snapshots": self.memory_manager.list_snapshots(
-                params.get("session_id", "default")
-            )
+            "snapshots": self.memory_manager.list_snapshots(params.get("session_id", "default"))
         }
 
     def run(self):
@@ -344,8 +340,8 @@ def main():
     """Entry point"""
     # Ensure CLAW_MEM_SILENT is set to prevent diagnostic print() from
     # leaking into the JSON-RPC line protocol on stdout.
-    if not os.environ.get('CLAW_MEM_SILENT'):
-        os.environ['CLAW_MEM_SILENT'] = '1'
+    if not os.environ.get("CLAW_MEM_SILENT"):
+        os.environ["CLAW_MEM_SILENT"] = "1"
     bridge = ClawMemBridge()
     bridge.run()
 

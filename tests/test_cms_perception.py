@@ -2,13 +2,18 @@
 
 import pytest
 from claw_mem.cms.capacity_monitor import (
-    CapacityMonitor, CapacityStats, CapacityTrend,
+    CapacityMonitor,
+    CapacityStats,
+    CapacityTrend,
 )
 from claw_mem.cms.context_warning_hook import (
-    ContextWarningHook, WarningEvent,
+    ContextWarningHook,
+    WarningEvent,
 )
 from claw_mem.cms.importance_evaluator import (
-    ImportanceEvaluator, ImportanceScore, TYPE_IMPORTANCE,
+    ImportanceEvaluator,
+    ImportanceScore,
+    TYPE_IMPORTANCE,
 )
 
 

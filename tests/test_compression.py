@@ -2,8 +2,11 @@
 
 import pytest
 from claw_mem.compression.spectrum import (
-    CompressionSpectrum, CompressedMemory,
-    SkillEntry, RuleEntry, PrincipleEntry,
+    CompressionSpectrum,
+    CompressedMemory,
+    SkillEntry,
+    RuleEntry,
+    PrincipleEntry,
 )
 
 

@@ -78,11 +78,8 @@ class TestMemoryManagerV290:
         assert isinstance(results, list)
 
     def test_metadata_filter_skips_cache(self, mem):
-        mem.store("meta special test content", memory_type="semantic",
-                  metadata={"tag": "special"})
-        mem.store("meta normal test content", memory_type="semantic",
-                  metadata={"tag": "normal"})
-        results = mem.search("meta", mode="keyword",
-                           metadata={"tag": "special"}, limit=5)
+        mem.store("meta special test content", memory_type="semantic", metadata={"tag": "special"})
+        mem.store("meta normal test content", memory_type="semantic", metadata={"tag": "normal"})
+        results = mem.search("meta", mode="keyword", metadata={"tag": "special"}, limit=5)
         # Metadata filter should work correctly
         assert isinstance(results, list)

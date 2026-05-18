@@ -4,11 +4,15 @@
 from .capacity_monitor import CapacityMonitor, CapacityStats, CapacityTrend
 from .context_warning_hook import ContextWarningHook, WarningEvent
 from .importance_evaluator import (
-    ImportanceEvaluator, ImportanceScore, TYPE_IMPORTANCE,
+    ImportanceEvaluator,
+    ImportanceScore,
+    TYPE_IMPORTANCE,
 )
 from .compression_result import (
-    SessionSummary, DeduplicationResult,
-    CompressionPlan, CompressionResult,
+    SessionSummary,
+    DeduplicationResult,
+    CompressionPlan,
+    CompressionResult,
 )
 from .session_summary import SessionSummaryGenerator
 from .memory_deduplicator import MemoryDeduplicator
@@ -20,17 +24,34 @@ from .snapshot import SnapshotStorage, SessionSnapshot, SnapshotInfo
 
 __all__ = [
     # Phase 1
-    'CapacityMonitor', 'CapacityStats', 'CapacityTrend',
-    'ContextWarningHook', 'WarningEvent',
-    'ImportanceEvaluator', 'ImportanceScore', 'TYPE_IMPORTANCE',
+    "CapacityMonitor",
+    "CapacityStats",
+    "CapacityTrend",
+    "ContextWarningHook",
+    "WarningEvent",
+    "ImportanceEvaluator",
+    "ImportanceScore",
+    "TYPE_IMPORTANCE",
     # Phase 2
-    'SessionSummary', 'DeduplicationResult',
-    'CompressionPlan', 'CompressionResult',
-    'SessionSummaryGenerator', 'MemoryDeduplicator',
-    'CompressionStrategySelector',
+    "SessionSummary",
+    "DeduplicationResult",
+    "CompressionPlan",
+    "CompressionResult",
+    "SessionSummaryGenerator",
+    "MemoryDeduplicator",
+    "CompressionStrategySelector",
     # Phase 3
-    'SessionStateMachine', 'SessionState', 'StateEvent', 'StateTransition',
-    'ContextSwitcher', 'SwitchResult', 'MergeResult',
-    'RecoveryMechanism', 'RecoveryResult', 'ValidationResult',
-    'SnapshotStorage', 'SessionSnapshot', 'SnapshotInfo',
+    "SessionStateMachine",
+    "SessionState",
+    "StateEvent",
+    "StateTransition",
+    "ContextSwitcher",
+    "SwitchResult",
+    "MergeResult",
+    "RecoveryMechanism",
+    "RecoveryResult",
+    "ValidationResult",
+    "SnapshotStorage",
+    "SessionSnapshot",
+    "SnapshotInfo",
 ]

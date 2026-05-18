@@ -26,19 +26,19 @@ from claw_mem.graph.multi_graph import MultiGraphMemory, SubGraphType
 
 # Default subgraph expansion weights
 DEFAULT_EDGE_WEIGHTS: Dict[str, float] = {
-    'semantic': 0.8,
-    'temporal': 0.6,
-    'causal': 0.5,
-    'entity': 0.3,
+    "semantic": 0.8,
+    "temporal": 0.6,
+    "causal": 0.5,
+    "entity": 0.3,
 }
 
 # Intent → allowed subgraph types
 INTENT_EDGE_MAP: Dict[str, List[str]] = {
-    'temporal': ['temporal'],
-    'causal': ['causal'],
-    'semantic': ['semantic'],
-    'entity': ['entity'],
-    'general': ['semantic', 'temporal', 'causal', 'entity'],
+    "temporal": ["temporal"],
+    "causal": ["causal"],
+    "semantic": ["semantic"],
+    "entity": ["entity"],
+    "general": ["semantic", "temporal", "causal", "entity"],
 }
 
 
@@ -103,19 +103,14 @@ def spreading_bfs(
 
                 # Activation formula
                 new_activation = (
-                    current_score
-                    * (decay_factor ** (depth + 1))
-                    * edge_weight
-                    * et_weight
+                    current_score * (decay_factor ** (depth + 1)) * edge_weight * et_weight
                 )
 
                 if new_activation < threshold:
                     continue
 
                 if neighbor_id in activations:
-                    activations[neighbor_id] = max(
-                        activations[neighbor_id], new_activation
-                    )
+                    activations[neighbor_id] = max(activations[neighbor_id], new_activation)
                 else:
                     activations[neighbor_id] = new_activation
 
@@ -143,10 +138,13 @@ class SpreadingActivation:
         self._max_nodes = 100
         self._edge_weights = dict(DEFAULT_EDGE_WEIGHTS)
 
-    def configure(self, max_depth: int = None,
-                  decay_factor: float = None,
-                  threshold: float = None,
-                  max_nodes: int = None) -> None:
+    def configure(
+        self,
+        max_depth: int = None,
+        decay_factor: float = None,
+        threshold: float = None,
+        max_nodes: int = None,
+    ) -> None:
         """Reconfigure runtime parameters."""
         if max_depth is not None:
             self._max_depth = max_depth
@@ -157,8 +155,7 @@ class SpreadingActivation:
         if max_nodes is not None:
             self._max_nodes = max_nodes
 
-    def activate(self, seed_nodes: Dict[str, float],
-                 intent: str = 'general') -> Dict[str, float]:
+    def activate(self, seed_nodes: Dict[str, float], intent: str = "general") -> Dict[str, float]:
         """Run spreading activation from seed nodes.
 
         Args:
@@ -180,14 +177,14 @@ class SpreadingActivation:
         )
 
     def _filter_weights(self, intent: str) -> Dict[str, float]:
-        allowed = INTENT_EDGE_MAP.get(intent, INTENT_EDGE_MAP['general'])
+        allowed = INTENT_EDGE_MAP.get(intent, INTENT_EDGE_MAP["general"])
         return {k: v for k, v in self._edge_weights.items() if k in allowed}
 
     def get_stats(self) -> dict:
         return {
-            'max_depth': self._max_depth,
-            'decay_factor': self._decay_factor,
-            'threshold': self._threshold,
-            'max_nodes': self._max_nodes,
-            'edge_weights': self._edge_weights,
+            "max_depth": self._max_depth,
+            "decay_factor": self._decay_factor,
+            "threshold": self._threshold,
+            "max_nodes": self._max_nodes,
+            "edge_weights": self._edge_weights,
         }

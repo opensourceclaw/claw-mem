@@ -29,6 +29,7 @@ from dataclasses import dataclass
 @dataclass
 class ExtractedRule:
     """Extracted rule"""
+
     id: str
     rule_type: str
     condition: str
@@ -41,20 +42,20 @@ class ExtractedRule:
 
 class RuleExtractor:
     """Automatic rule extractor"""
-    
+
     def __init__(self, workspace: str):
         self.workspace = Path(workspace).expanduser()
         self.rules_file = self.workspace / ".claw-mem" / "extracted_rules.md"
         self.rules_file.parent.mkdir(parents=True, exist_ok=True)
         self.rules: List[ExtractedRule] = []
         self._load_rules()
-    
+
     def extract(self, conversation: str) -> Optional[ExtractedRule]:
         """Extract rules from conversation"""
         # Simple rule matching
         if "do not" in conversation and "to" in conversation:
             # Extract path
-            match = re.search(r'to\s*(~?/\S+)', conversation)
+            match = re.search(r"to\s*(~?/\S+)", conversation)
             if match:
                 path = match.group(1)
                 return self._create_rule(
@@ -62,11 +63,11 @@ class RuleExtractor:
                     condition=f"path starts with '{path}'",
                     action="REJECT",
                     confidence=0.9,
-                    source=conversation
+                    source=conversation,
                 )
-        
+
         if "do not" in conversation and "use" in conversation:
-            match = re.search(r'use\s*(\S+)', conversation)
+            match = re.search(r"use\s*(\S+)", conversation)
             if match:
                 tool = match.group(1)
                 return self._create_rule(
@@ -74,11 +75,11 @@ class RuleExtractor:
                     condition=f"tool == '{tool}'",
                     action="FORBID",
                     confidence=0.85,
-                    source=conversation
+                    source=conversation,
                 )
-        
+
         if "prefer" in conversation:
-            match = re.search(r'prefer.*?use\s*(\S+)', conversation)
+            match = re.search(r"prefer.*?use\s*(\S+)", conversation)
             if match:
                 pref = match.group(1)
                 return self._create_rule(
@@ -86,22 +87,23 @@ class RuleExtractor:
                     condition=f"preference == '{pref}'",
                     action="APPLY",
                     confidence=0.95,
-                    source=conversation
+                    source=conversation,
                 )
-        
+
         if "must" in conversation and "first" in conversation:
             return self._create_rule(
                 rule_type="REQUIRE_ORDER",
                 condition="sequence_check",
                 action="REQUIRE_SEQUENCE",
                 confidence=0.8,
-                source=conversation
+                source=conversation,
             )
-        
+
         return None
-    
-    def _create_rule(self, rule_type: str, condition: str, action: str, 
-                    confidence: float, source: str) -> ExtractedRule:
+
+    def _create_rule(
+        self, rule_type: str, condition: str, action: str, confidence: float, source: str
+    ) -> ExtractedRule:
         """Create rule object"""
         rule_id = f"rule_{datetime.now().strftime('%Y%m%d%H%M%S')}"
         rule = ExtractedRule(
@@ -115,62 +117,62 @@ class RuleExtractor:
         )
         self._save_rule(rule)
         return rule
-    
+
     def _save_rule(self, rule: ExtractedRule):
         """Save rule to file"""
         self.rules.append(rule)
-        with open(self.rules_file, 'a', encoding='utf-8') as f:
+        with open(self.rules_file, "a", encoding="utf-8") as f:
             f.write(f"\n## {rule.id}\n")
             f.write(f"- Type: {rule.rule_type}\n")
             f.write(f"- Condition: {rule.condition}\n")
             f.write(f"- Action: {rule.action}\n")
             f.write(f"- Confidence: {rule.confidence:.2f}\n")
             f.write(f"- Source: {rule.source}\n")
-    
+
     def _load_rules(self):
         """Load rules from file (simplified)"""
         if not self.rules_file.exists():
             return
         # 简化实现:暂不parse
-    
+
     def check_before_operation(self, operation: str, context: Dict) -> Tuple[bool, str]:
         """操作前check所有适用rule"""
         for rule in self.rules:
             if rule.rule_type == "FORBIDDEN_PATH":
-                path = context.get('path', '')
-                if 'starts with' in rule.condition:
+                path = context.get("path", "")
+                if "starts with" in rule.condition:
                     required_path = rule.condition.split("'")[1]
                     if not path.startswith(required_path):
                         return False, f"路径必须在 {required_path}"
-            
+
             elif rule.rule_type == "FORBIDDEN_TOOL":
-                tool = context.get('tool', '')
-                if '==' in rule.condition:
+                tool = context.get("tool", "")
+                if "==" in rule.condition:
                     forbidden_tool = rule.condition.split("'")[1]
                     if tool == forbidden_tool:
                         return False, f"禁止使用工具:{forbidden_tool}"
-        
+
         return True, "所有rulecheck通过"
-    
+
     def get_statistics(self) -> Dict:
         """getrule统计"""
         stats = {
-            'total_rules': len(self.rules),
-            'by_type': {},
-            'total_applied': sum(r.applied_count for r in self.rules),
+            "total_rules": len(self.rules),
+            "by_type": {},
+            "total_applied": sum(r.applied_count for r in self.rules),
         }
         for rule in self.rules:
             rule_type = rule.rule_type
-            stats['by_type'][rule_type] = stats['by_type'].get(rule_type, 0) + 1
+            stats["by_type"][rule_type] = stats["by_type"].get(rule_type, 0) + 1
         return stats
 
 
 if __name__ == "__main__":
     workspace = "~/.openclaw/workspace"
     extractor = RuleExtractor(workspace)
-    
+
     print("测试 F101 自动rule提取\n")
-    
+
     # Test 1
     print("测试 1: 提取禁止路径rule")
     rule = extractor.extract("don't创建文件到 ~/.openclaw/workspace/")
@@ -178,7 +180,7 @@ if __name__ == "__main__":
         print(f"  ✅ 提取成功:{rule.rule_type} - {rule.condition}")
     else:
         print(f"  ❌ 提取失败")
-    
+
     # Test 2
     print("\n测试 2: 提取preferencerule")
     rule = extractor.extract("我preference使用中文")
@@ -186,15 +188,14 @@ if __name__ == "__main__":
         print(f"  ✅ 提取成功:{rule.rule_type} - {rule.condition}")
     else:
         print(f"  ❌ 提取失败")
-    
+
     # Test 3
     print("\n测试 3: 操作前rulecheck")
     allowed, msg = extractor.check_before_operation(
-        "file_write",
-        {'path': '/Users/liantian/workspace/test.md'}
+        "file_write", {"path": "/Users/liantian/workspace/test.md"}
     )
     print(f"  允许:{allowed}, 消息:{msg}")
-    
+
     # Test 4
     print("\n测试 4: rule统计")
     stats = extractor.get_statistics()

@@ -18,20 +18,28 @@ import math
 @dataclass
 class ExperienceScore:
     """Scoring breakdown for an experience."""
-    frequency: float = 0.0    # 0-1: how often seen
-    importance: float = 0.0   # 0-1: task relevance
-    novelty: float = 0.0      # 0-1: how new/different
-    durability: float = 0.0   # 0-1: long-term value
+
+    frequency: float = 0.0  # 0-1: how often seen
+    importance: float = 0.0  # 0-1: task relevance
+    novelty: float = 0.0  # 0-1: how new/different
+    durability: float = 0.0  # 0-1: long-term value
 
     @property
     def total(self) -> float:
         """Weighted total score."""
-        return 0.3 * self.frequency + 0.3 * self.importance + 0.2 * self.novelty + 0.2 * self.durability
+        return (
+            0.3 * self.frequency
+            + 0.3 * self.importance
+            + 0.2 * self.novelty
+            + 0.2 * self.durability
+        )
 
     def to_dict(self) -> Dict[str, float]:
         return {
-            "frequency": self.frequency, "importance": self.importance,
-            "novelty": self.novelty, "durability": self.durability,
+            "frequency": self.frequency,
+            "importance": self.importance,
+            "novelty": self.novelty,
+            "durability": self.durability,
             "total": round(self.total, 3),
         }
 
@@ -39,6 +47,7 @@ class ExperienceScore:
 @dataclass
 class ClassificationResult:
     """Classification result for an experience."""
+
     experience_id: str
     score: ExperienceScore
     should_consolidate: bool
@@ -67,14 +76,32 @@ class ExperienceClassifier:
 
     # Keywords indicating high importance
     IMPORTANCE_KEYWORDS = [
-        "critical", "urgent", "must", "important", "breakthrough",
-        "critical", "重大", "关键", "必须", "突破",
+        "critical",
+        "urgent",
+        "must",
+        "important",
+        "breakthrough",
+        "critical",
+        "重大",
+        "关键",
+        "必须",
+        "突破",
     ]
 
     # Keywords indicating durable (long-term) knowledge
     DURABILITY_KEYWORDS = [
-        "always", "never", "prefer", "pattern", "rule", "principle",
-        "总是", "从不", "偏好", "模式", "规则", "原则",
+        "always",
+        "never",
+        "prefer",
+        "pattern",
+        "rule",
+        "principle",
+        "总是",
+        "从不",
+        "偏好",
+        "模式",
+        "规则",
+        "原则",
     ]
 
     def __init__(self, threshold: float = 0.6, frequency_window: int = 10):
@@ -98,8 +125,10 @@ class ExperienceClassifier:
 
         if not content:
             return ClassificationResult(
-                experience_id=exp_id, score=ExperienceScore(),
-                should_consolidate=False, priority="low",
+                experience_id=exp_id,
+                score=ExperienceScore(),
+                should_consolidate=False,
+                priority="low",
                 reason="Empty content",
             )
 
@@ -117,9 +146,7 @@ class ExperienceClassifier:
             score.frequency = 0.1  # First occurrence
 
         # Importance: check for importance keywords
-        importance_hits = sum(
-            1 for kw in self.IMPORTANCE_KEYWORDS if kw in content_lower
-        )
+        importance_hits = sum(1 for kw in self.IMPORTANCE_KEYWORDS if kw in content_lower)
         score.importance = min(1.0, importance_hits * 0.3 + 0.2)
 
         # Novelty: check if topic is new
@@ -129,9 +156,7 @@ class ExperienceClassifier:
         self._known_topics.update(topics)
 
         # Durability: check for durability keywords
-        durability_hits = sum(
-            1 for kw in self.DURABILITY_KEYWORDS if kw in content_lower
-        )
+        durability_hits = sum(1 for kw in self.DURABILITY_KEYWORDS if kw in content_lower)
         score.durability = min(1.0, durability_hits * 0.3 + 0.1)
 
         # Classification
@@ -149,8 +174,11 @@ class ExperienceClassifier:
         )
 
         return ClassificationResult(
-            experience_id=exp_id, score=score,
-            should_consolidate=should, priority=priority, reason=reason,
+            experience_id=exp_id,
+            score=score,
+            should_consolidate=should,
+            priority=priority,
+            reason=reason,
         )
 
     def _extract_patterns(self, content: str) -> set:

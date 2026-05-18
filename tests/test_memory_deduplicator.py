@@ -44,9 +44,7 @@ class TestMemoryDeduplicator:
         assert len(clusters) == 2  # each in own cluster
 
     def test_build_clusters_connected(self):
-        clusters = self.dedup._build_clusters(
-            ["a", "b", "c"], [("a", "b"), ("b", "c")]
-        )
+        clusters = self.dedup._build_clusters(["a", "b", "c"], [("a", "b"), ("b", "c")])
         assert len(clusters) == 1  # all in one cluster
 
     def test_find_similar_pairs_no_mm(self):
@@ -55,7 +53,7 @@ class TestMemoryDeduplicator:
         assert len(pairs) >= 1  # a and b should be similar
 
     def test_dedup_result_to_dict(self):
-        result = DeduplicationResult(10, 6, 0.4, [["a","b"]], ["a","c"], ["b","d"])
+        result = DeduplicationResult(10, 6, 0.4, [["a", "b"]], ["a", "c"], ["b", "d"])
         d = result.to_dict()
         assert d["original_count"] == 10
         assert d["deduplicated_count"] == 6

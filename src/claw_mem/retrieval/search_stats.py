@@ -112,12 +112,9 @@ class SearchStats:
         """
         with self._lock:
             total = self.total_searches
-            cache_hit_rate = (
-                (self.cache_hits / total * 100) if total > 0 else 0.0
-            )
+            cache_hit_rate = (self.cache_hits / total * 100) if total > 0 else 0.0
             accuracy = (
-                (self.total_relevant / self.total_results * 100)
-                if self.total_results > 0 else 0.0
+                (self.total_relevant / self.total_results * 100) if self.total_results > 0 else 0.0
             )
 
             latencies = list(self._latencies)
@@ -178,6 +175,6 @@ def get_search_stats() -> SearchStats:
 
 
 __all__ = [
-    'SearchStats',
-    'get_search_stats',
+    "SearchStats",
+    "get_search_stats",
 ]

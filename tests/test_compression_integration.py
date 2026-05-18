@@ -5,7 +5,10 @@ from claw_mem.cms.session_summary import SessionSummaryGenerator
 from claw_mem.cms.memory_deduplicator import MemoryDeduplicator
 from claw_mem.cms.compression_strategy import CompressionStrategySelector
 from claw_mem.cms.compression_result import (
-    CompressionResult, CompressionPlan, SessionSummary, DeduplicationResult,
+    CompressionResult,
+    CompressionPlan,
+    SessionSummary,
+    DeduplicationResult,
 )
 
 
@@ -27,7 +30,9 @@ class TestCompressionIntegration:
             {"id": "2", "content": "I prefer dark mode"},
             {"id": "3", "content": "Implement caching layer"},
         ]
-        summary = gen.generate("s1", memories, plan.strategy if plan.strategy != "balanced" else "key_points")
+        summary = gen.generate(
+            "s1", memories, plan.strategy if plan.strategy != "balanced" else "key_points"
+        )
         assert summary.memory_count == 3
 
     def test_dedup_then_summary(self):
@@ -45,9 +50,13 @@ class TestCompressionIntegration:
         plan = CompressionPlan("balanced", 0.85, 0.5, ["summarize"], 5000)
         summary = SessionSummary("s1", "Test", ["D1"], [], [], 100, 5)
         result = CompressionResult(
-            session_id="s1", plan=plan, summary=summary,
-            original_token_count=10000, final_token_count=5000,
-            reduction_ratio=0.5, execution_time_ms=25.0,
+            session_id="s1",
+            plan=plan,
+            summary=summary,
+            original_token_count=10000,
+            final_token_count=5000,
+            reduction_ratio=0.5,
+            execution_time_ms=25.0,
         )
         d = result.to_dict()
         assert d["session_id"] == "s1"
@@ -63,9 +72,12 @@ class TestCompressionIntegration:
     def test_integration_without_summary(self):
         plan = CompressionPlan("conservative", 0.5, 0.2, ["summarize"], 100)
         result = CompressionResult(
-            session_id="s1", plan=plan,
-            original_token_count=1000, final_token_count=800,
-            reduction_ratio=0.2, execution_time_ms=5.0,
+            session_id="s1",
+            plan=plan,
+            original_token_count=1000,
+            final_token_count=800,
+            reduction_ratio=0.2,
+            execution_time_ms=5.0,
         )
         d = result.to_dict()
         assert d["summary"] is None

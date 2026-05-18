@@ -13,14 +13,14 @@
 # limitations under the License.
 
 """
-Graph Edges - 概念介导图谱边类型
+Graph Edges - Concept-mediated graph edge types
 
-基于 GAAMA 论文的五边类型:
-- NEXT: 情景序列 (Episode → Episode)
-- DERIVED_FROM: 事实来源 (Fact → Episode)
-- SYNTHESIZED_FROM: 反思来源 (Reflection → Episode/Fact)
-- RELATED_TO: 相关关系 (任意节点间)
-- HAS_CONCEPT: 概念关联 (任意节点 → Concept)
+Based on GAAMA paper's five edge types:
+- NEXT: Episode sequence (Episode → Episode)
+- DERIVED_FROM: Fact origin (Fact → Episode)
+- SYNTHESIZED_FROM: Reflection origin (Reflection → Episode/Fact)
+- RELATED_TO: Related relationship (between any nodes)
+- HAS_CONCEPT: Concept association (Any node → Concept)
 """
 
 from enum import Enum
@@ -30,30 +30,32 @@ from datetime import datetime
 
 
 class EdgeType(Enum):
-    """图谱边类型"""
-    NEXT = "NEXT"                      # 情景序列
-    DERIVED_FROM = "DERIVED_FROM"      # 事实来源
-    SYNTHESIZED_FROM = "SYNTHESIZED_FROM"  # 反思来源
-    RELATED_TO = "RELATED_TO"          # 相关关系
-    HAS_CONCEPT = "HAS_CONCEPT"        # 概念关联
+    """Graph edge types"""
+
+    NEXT = "NEXT"  # Episode sequence
+    DERIVED_FROM = "DERIVED_FROM"  # Fact origin
+    SYNTHESIZED_FROM = "SYNTHESIZED_FROM"  # Reflection origin
+    RELATED_TO = "RELATED_TO"  # Related relationship
+    HAS_CONCEPT = "HAS_CONCEPT"  # Concept association
 
     def is_directed(self) -> bool:
-        """是否是有向边"""
+        """Whether this is a directed edge"""
         return self != EdgeType.RELATED_TO
 
 
 @dataclass
 class Edge:
-    """图谱边
+    """Graph edge
 
-    属性:
-        source_id: 源节点 ID
-        target_id: 目标节点 ID
-        type: 边类型
-        weight: 权重 (默认 1.0)
-        metadata: 元数据
-        created_at: 创建时间
+    Attributes:
+        source_id: Source node ID
+        target_id: Target node ID
+        type: Edge type
+        weight: Weight (default 1.0)
+        metadata: Metadata
+        created_at: Creation time
     """
+
     source_id: str
     target_id: str
     type: EdgeType
@@ -66,59 +68,62 @@ class Edge:
             self.metadata = {}
 
     def to_dict(self) -> Dict[str, Any]:
-        """convert为字典"""
+        """Convert to dictionary"""
         return {
-            'source_id': self.source_id,
-            'target_id': self.target_id,
-            'type': self.type.value,
-            'weight': self.weight,
-            'metadata': self.metadata,
-            'created_at': self.created_at.isoformat() if self.created_at else None,
+            "source_id": self.source_id,
+            "target_id": self.target_id,
+            "type": self.type.value,
+            "weight": self.weight,
+            "metadata": self.metadata,
+            "created_at": self.created_at.isoformat() if self.created_at else None,
         }
 
     @classmethod
-    def from_dict(cls, data: Dict[str, Any]) -> 'Edge':
-        """从字典创建"""
+    def from_dict(cls, data: Dict[str, Any]) -> "Edge":
+        """Create from dictionary"""
         created_at = None
-        if data.get('created_at'):
-            created_at = datetime.fromisoformat(data['created_at'])
+        if data.get("created_at"):
+            created_at = datetime.fromisoformat(data["created_at"])
 
         return cls(
-            source_id=data['source_id'],
-            target_id=data['target_id'],
-            type=EdgeType(data['type']),
-            weight=data.get('weight', 1.0),
-            metadata=data.get('metadata', {}),
+            source_id=data["source_id"],
+            target_id=data["target_id"],
+            type=EdgeType(data["type"]),
+            weight=data.get("weight", 1.0),
+            metadata=data.get("metadata", {}),
             created_at=created_at,
         )
 
 
 @dataclass
 class NextEdge(Edge):
-    """情景序列边 - Episode → Episode
+    """Episode sequence edge - Episode → Episode
 
-    表示对话中连续的情景关系.
+    Represents consecutive episode relationships in a conversation.
     """
+
     def __init__(self, source_id: str, target_id: str, **kwargs):
         super().__init__(source_id, target_id, EdgeType.NEXT, **kwargs)
 
 
 @dataclass
 class DerivedFromEdge(Edge):
-    """事实来源边 - Fact → Episode
+    """Fact origin edge - Fact → Episode
 
-    表示事实是从哪个情景中提取的.
+    Indicates which episode a fact was extracted from.
     """
+
     def __init__(self, source_id: str, target_id: str, **kwargs):
         super().__init__(source_id, target_id, EdgeType.DERIVED_FROM, **kwargs)
 
 
 @dataclass
 class SynthesizedFromEdge(Edge):
-    """反思来源边 - Reflection → Episode/Fact
+    """Reflection origin edge - Reflection → Episode/Fact
 
-    表示反思是从哪些节点综合得出的.
+    Indicates which nodes a reflection was synthesized from.
     """
+
     source_node_ids: List[str] = field(default_factory=list)
 
     def __init__(self, source_id: str, target_id: str, source_node_ids: List[str] = None, **kwargs):
@@ -128,40 +133,37 @@ class SynthesizedFromEdge(Edge):
 
 @dataclass
 class RelatedToEdge(Edge):
-    """相关关系边 - 任意节点间
+    """Related relationship edge - Between any nodes
 
-    表示两个节点之间的相关关系(无向边).
+    Represents a related relationship between two nodes (undirected edge).
     """
+
     def __init__(self, source_id: str, target_id: str, **kwargs):
         super().__init__(source_id, target_id, EdgeType.RELATED_TO, **kwargs)
 
 
 @dataclass
 class HasConceptEdge(Edge):
-    """概念关联边 - 任意节点 → Concept
+    """Concept association edge - Any node → Concept
 
-    表示节点关联到某个概念.
+    Indicates a node is associated with a concept.
     """
+
     def __init__(self, source_id: str, target_id: str, **kwargs):
         super().__init__(source_id, target_id, EdgeType.HAS_CONCEPT, **kwargs)
 
 
-def create_edge(
-    edge_type: EdgeType,
-    source_id: str,
-    target_id: str,
-    **kwargs
-) -> Edge:
-    """工厂函数:创建边
+def create_edge(edge_type: EdgeType, source_id: str, target_id: str, **kwargs) -> Edge:
+    """Factory function: create edge
 
     Args:
-        edge_type: 边类型
-        source_id: 源节点 ID
-        target_id: 目标节点 ID
-        **kwargs: 其他参数
+        edge_type: Edge type
+        source_id: Source node ID
+        target_id: Target node ID
+        **kwargs: Other parameters
 
     Returns:
-        Edge: 边实例
+        Edge: Edge instance
 
     Example:
         >>> edge = create_edge(EdgeType.NEXT, "ep_1", "ep_2")
@@ -181,12 +183,12 @@ def create_edge(
 
 
 __all__ = [
-    'EdgeType',
-    'Edge',
-    'NextEdge',
-    'DerivedFromEdge',
-    'SynthesizedFromEdge',
-    'RelatedToEdge',
-    'HasConceptEdge',
-    'create_edge',
+    "EdgeType",
+    "Edge",
+    "NextEdge",
+    "DerivedFromEdge",
+    "SynthesizedFromEdge",
+    "RelatedToEdge",
+    "HasConceptEdge",
+    "create_edge",
 ]

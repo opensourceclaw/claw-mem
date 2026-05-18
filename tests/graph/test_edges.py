@@ -22,7 +22,7 @@ from claw_mem.graph.edges import (
 
 
 class TestEdgeType:
-    """测试边类型枚举"""
+    """Test edge type enum"""
 
     def test_edge_type_values(self):
         assert EdgeType.NEXT.value == "NEXT"
@@ -38,40 +38,30 @@ class TestEdgeType:
 
 
 class TestEdge:
-    """测试边基类"""
+    """Test edge base class"""
 
     def test_create_edge(self):
-        edge = Edge(
-            source_id="ep_1",
-            target_id="ep_2",
-            type=EdgeType.NEXT,
-            weight=1.0
-        )
+        edge = Edge(source_id="ep_1", target_id="ep_2", type=EdgeType.NEXT, weight=1.0)
         assert edge.source_id == "ep_1"
         assert edge.target_id == "ep_2"
         assert edge.type == EdgeType.NEXT
         assert edge.weight == 1.0
 
     def test_edge_to_dict(self):
-        edge = Edge(
-            source_id="ep_1",
-            target_id="ep_2",
-            type=EdgeType.NEXT,
-            weight=1.0
-        )
+        edge = Edge(source_id="ep_1", target_id="ep_2", type=EdgeType.NEXT, weight=1.0)
         data = edge.to_dict()
-        assert data['source_id'] == "ep_1"
-        assert data['target_id'] == "ep_2"
-        assert data['type'] == "NEXT"
-        assert data['weight'] == 1.0
+        assert data["source_id"] == "ep_1"
+        assert data["target_id"] == "ep_2"
+        assert data["type"] == "NEXT"
+        assert data["weight"] == 1.0
 
     def test_edge_from_dict(self):
         data = {
-            'source_id': 'ep_1',
-            'target_id': 'ep_2',
-            'type': 'NEXT',
-            'weight': 1.0,
-            'metadata': {'key': 'value'},
+            "source_id": "ep_1",
+            "target_id": "ep_2",
+            "type": "NEXT",
+            "weight": 1.0,
+            "metadata": {"key": "value"},
         }
         edge = Edge.from_dict(data)
         assert edge.source_id == "ep_1"
@@ -80,7 +70,7 @@ class TestEdge:
 
 
 class TestNextEdge:
-    """测试 NEXT 边"""
+    """Test NEXT edge"""
 
     def test_create_next_edge(self):
         edge = NextEdge("ep_1", "ep_2")
@@ -90,7 +80,7 @@ class TestNextEdge:
 
 
 class TestDerivedFromEdge:
-    """测试 DERIVED_FROM 边"""
+    """Test DERIVED_FROM edge"""
 
     def test_create_derived_from_edge(self):
         edge = DerivedFromEdge("fact_1", "ep_1")
@@ -98,20 +88,16 @@ class TestDerivedFromEdge:
 
 
 class TestSynthesizedFromEdge:
-    """测试 SYNTHESIZED_FROM 边"""
+    """Test SYNTHESIZED_FROM edge"""
 
     def test_create_synthesized_from_edge(self):
-        edge = SynthesizedFromEdge(
-            "ref_1",
-            "ep_1",
-            source_node_ids=["ep_1", "fact_1"]
-        )
+        edge = SynthesizedFromEdge("ref_1", "ep_1", source_node_ids=["ep_1", "fact_1"])
         assert edge.type == EdgeType.SYNTHESIZED_FROM
         assert len(edge.source_node_ids) == 2
 
 
 class TestRelatedToEdge:
-    """测试 RELATED_TO 边"""
+    """Test RELATED_TO edge"""
 
     def test_create_related_to_edge(self):
         edge = RelatedToEdge("ep_1", "fact_1")
@@ -119,7 +105,7 @@ class TestRelatedToEdge:
 
 
 class TestHasConceptEdge:
-    """测试 HAS_CONCEPT 边"""
+    """Test HAS_CONCEPT edge"""
 
     def test_create_has_concept_edge(self):
         edge = HasConceptEdge("ep_1", "concept_1")
@@ -127,7 +113,7 @@ class TestHasConceptEdge:
 
 
 class TestCreateEdge:
-    """测试工厂函数"""
+    """Test factory function"""
 
     def test_create_next(self):
         edge = create_edge(EdgeType.NEXT, "ep_1", "ep_2")

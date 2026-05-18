@@ -33,9 +33,7 @@ class TestFullRetrievalPipeline:
             self.engram.index(nid, node.content)
 
         self.spreader = SpreadingActivation(self.graph)
-        self.retriever = DecoupledRetriever(
-            self.engram, self.spreader, self.graph
-        )
+        self.retriever = DecoupledRetriever(self.engram, self.spreader, self.graph)
 
     def test_pipeline_basic_search(self):
         results = self.retriever.search("深色模式", top_k=5)
@@ -114,6 +112,7 @@ class TestMemoryManagerIntegration:
     def test_engram_property_lazy_init(self):
         # Use import in test to avoid workspace dependency
         from claw_mem.retrieval.engram import EngramIndex
+
         engram = EngramIndex(ngram_size=3)
         engram.index("test", "hello world")
         results = engram.lookup("hello")
@@ -121,6 +120,7 @@ class TestMemoryManagerIntegration:
 
     def test_spreader_configure(self):
         from claw_mem.graph.multi_graph import MultiGraphMemory
+
         mg = MultiGraphMemory()
         spreader = SpreadingActivation(mg)
         spreader.configure(max_depth=1, threshold=0.2)

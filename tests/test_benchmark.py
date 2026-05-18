@@ -27,6 +27,7 @@ class TestEngramBenchmark:
     def test_query_performance_threshold(self):
         """Verify P95 < 5ms for moderate dataset."""
         import time
+
         engram = EngramIndex(ngram_size=3)
         for i in range(200):
             engram.index(f"mem_{i}", f"Test memory content with ID {i}")

@@ -23,7 +23,7 @@ class TestBackupMetadata:
             created_at=datetime.now(),
             file_path="/tmp/test.json",
             file_size=1024,
-            values_count=5
+            values_count=5,
         )
 
         assert meta.user_id == "user1"

@@ -20,24 +20,64 @@ class SessionSummaryGenerator:
 
     # Detection patterns
     _DECISION_KW = [
-        'decide', 'decided', 'decision', 'choose', 'chose', 'confirm',
-        'agreed', 'settled', 'final', 'we will', "we'll use",
-        '决定', '选择', '确认', '确定', '定了',
+        "decide",
+        "decided",
+        "decision",
+        "choose",
+        "chose",
+        "confirm",
+        "agreed",
+        "settled",
+        "final",
+        "we will",
+        "we'll use",
+        "决定",
+        "选择",
+        "确认",
+        "确定",
+        "定了",
     ]
     _PREFERENCE_KW = [
-        'prefer', 'preference', 'like', 'want', "don't want",
-        'i usually', 'i always', 'i never',
-        '喜欢', '偏好', '习惯', '希望', '不喜欢',
+        "prefer",
+        "preference",
+        "like",
+        "want",
+        "don't want",
+        "i usually",
+        "i always",
+        "i never",
+        "喜欢",
+        "偏好",
+        "习惯",
+        "希望",
+        "不喜欢",
     ]
     _ACTION_KW = [
-        'implement', 'build', 'create', 'fix', 'deploy', 'test',
-        'install', 'configure', 'setup', 'migrate',
-        '实现', '开发', '构建', '修复', '部署', '测试',
-        '安装', '配置', '设置', '迁移',
+        "implement",
+        "build",
+        "create",
+        "fix",
+        "deploy",
+        "test",
+        "install",
+        "configure",
+        "setup",
+        "migrate",
+        "实现",
+        "开发",
+        "构建",
+        "修复",
+        "部署",
+        "测试",
+        "安装",
+        "配置",
+        "设置",
+        "迁移",
     ]
 
-    def generate(self, session_id: str, memories: List[Dict],
-                 strategy: str = "key_points") -> SessionSummary:
+    def generate(
+        self, session_id: str, memories: List[Dict], strategy: str = "key_points"
+    ) -> SessionSummary:
         """Generate a session summary.
 
         Args:
@@ -54,16 +94,13 @@ class SessionSummaryGenerator:
             return self._generate_chronological(session_id, memories)
         return self._generate_semantic(session_id, memories)
 
-    def _generate_key_points(self, session_id: str,
-                             memories: List[Dict]) -> SessionSummary:
+    def _generate_key_points(self, session_id: str, memories: List[Dict]) -> SessionSummary:
         decisions = self._extract_by_keywords(memories, self._DECISION_KW)
         preferences = self._extract_by_keywords(memories, self._PREFERENCE_KW)
         actions = self._extract_by_keywords(memories, self._ACTION_KW)
 
         overview = self._build_overview(memories, decisions, preferences, actions)
-        token_count = sum(
-            len(m.get("content", "").split()) for m in memories
-        )
+        token_count = sum(len(m.get("content", "").split()) for m in memories)
 
         return SessionSummary(
             session_id=session_id,
@@ -75,8 +112,7 @@ class SessionSummaryGenerator:
             memory_count=len(memories),
         )
 
-    def _generate_chronological(self, session_id: str,
-                                memories: List[Dict]) -> SessionSummary:
+    def _generate_chronological(self, session_id: str, memories: List[Dict]) -> SessionSummary:
         # Sort by time if available, otherwise use order
         items = []
         for i, m in enumerate(memories):
@@ -90,14 +126,12 @@ class SessionSummaryGenerator:
             token_count=sum(len(m.get("content", "").split()) for m in memories),
         )
 
-    def _generate_semantic(self, session_id: str,
-                           memories: List[Dict]) -> SessionSummary:
+    def _generate_semantic(self, session_id: str, memories: List[Dict]) -> SessionSummary:
         return self._generate_key_points(session_id, memories)
 
     # ── Extraction helpers ────────────────────────────────────
 
-    def _extract_by_keywords(self, memories: List[Dict],
-                             keywords: List[str]) -> List[str]:
+    def _extract_by_keywords(self, memories: List[Dict], keywords: List[str]) -> List[str]:
         """Extract memory contents matching keywords."""
         results = []
         for m in memories:
@@ -109,10 +143,9 @@ class SessionSummaryGenerator:
                 results.append(content[:200])
         return results[:10]
 
-    def _build_overview(self, memories: List[Dict],
-                        decisions: List[str],
-                        preferences: List[str],
-                        actions: List[str]) -> str:
+    def _build_overview(
+        self, memories: List[Dict], decisions: List[str], preferences: List[str], actions: List[str]
+    ) -> str:
         parts = []
         if actions:
             parts.append(f"Actions: {len(actions)} items")

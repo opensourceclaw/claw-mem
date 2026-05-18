@@ -49,31 +49,50 @@ from .rule_extractor import RuleExtractor
 from .gating import WriteTimeGating
 from .reflection import ReflectionOrchestrator, ReflectionResult
 from .temporal import TimeWeightCalculator, TimeWeightConfig
-from .compression.memory_compression_v2 import MemoryCompressorV2, CompressionConfig, CompressionResult
+from .compression.memory_compression_v2 import (
+    MemoryCompressorV2,
+    CompressionConfig,
+    CompressionResult,
+)
+
 # v2.14.0: Graph + Decay + GroundTruth
 from .graph.multi_graph import MultiGraphMemory
 from .graph.dual_layer import DualLayerMemory
 from .decay import DecayController, DecayScheduler, DecayConfig
 from .storage.ground_truth import GroundTruthStore
+
 # v2.15.0: Engram + Spreading + Compression
 from .retrieval.engram import EngramIndex
 from .retrieval.spreading import SpreadingActivation
 from .retrieval.decoupled import DecoupledRetriever
 from .compression.spectrum import CompressionSpectrum
+
 # v2.19.0: Cache + Monitor
 from .cache.query_cache import QueryCache
 from .monitor.performance import PerformanceMonitor
+
 # v2.20.0: Error types
 from .errors import (
-    ClawMemError, StorageError, RetrievalError,
-    MemoryNotFoundError, IndexNotReadyError, QueryTooLongError,
+    ClawMemError,
+    StorageError,
+    RetrievalError,
+    MemoryNotFoundError,
+    IndexNotReadyError,
+    QueryTooLongError,
 )
+
 # v3.0.0-rc.1: CMS Perception Layer
 from .cms import (
-    CapacityMonitor, ContextWarningHook, ImportanceEvaluator,
-    SessionSummaryGenerator, MemoryDeduplicator,
+    CapacityMonitor,
+    ContextWarningHook,
+    ImportanceEvaluator,
+    SessionSummaryGenerator,
+    MemoryDeduplicator,
     CompressionStrategySelector,
-    SessionStateMachine, ContextSwitcher, RecoveryMechanism, SnapshotStorage,
+    SessionStateMachine,
+    ContextSwitcher,
+    RecoveryMechanism,
+    SnapshotStorage,
 )
 from .cms.compression_result import CompressionResult
 import time
@@ -81,50 +100,60 @@ import time
 
 def _log(message: str):
     """Print message unless in silent mode (checks env at runtime)"""
-    if not os.environ.get('CLAW_MEM_SILENT'):
+    if not os.environ.get("CLAW_MEM_SILENT"):
         print(message)
 
 
 class MemoryManager:
     """
     Memory Manager
-    
+
     Core responsibilities:
     1. Manage three-layer memory architecture
     2. Provide storage and retrieval interfaces
     3. Auto-save and load
     4. Security validation and auditing
     """
-    
-    def __init__(self, workspace: Optional[str] = None, auto_detect: bool = True,
-                 enable_gating: bool = False, gating_threshold: float = 0.6,
-                 enable_graph: bool = False,
-                 bm25_k1: float = 1.5, bm25_b: float = 0.75,
-                 bm25_weight: float = 0.7, keyword_weight: float = 0.3,
-                 recency_boost: float = 1.0, frequency_boost: float = 1.0,
-                 enable_cache: bool = True, enable_synonyms: bool = True,
-                 enable_stats: bool = True, enable_compression: bool = True,
-                 # v2.14.0: Decay + GroundTruth
-                 enable_decay: bool = True,
-                 enable_ground_truth: bool = True,
-                 decay_config: "DecayConfig" = None,
-                 # v2.15.0: Engram + Spreading + Compression
-                 enable_engram: bool = True,
-                 enable_spreading: bool = True,
-                 enable_compression_spectrum: bool = True,
-                 # v2.18.0: CompressionSpectrum thresholds
-                 compression_trigger_access: int = 5,
-                 compression_trigger_apply: int = 3,
-                 compression_trigger_verify: int = 2,
-                 engram_ngram_size: int = 3,
-                 spreading_max_depth: int = 2,
-                 spreading_decay_factor: float = 0.5,
-                 spreading_threshold: float = 0.1,
-                 # v3.0.0-rc.1: CMS Perception Layer
-                 enable_cms: bool = False,
-                 cms_token_threshold: int = 8000,
-                 cms_memory_threshold: int = 1000,
-                 cms_warning_level: float = 0.8):
+
+    def __init__(
+        self,
+        workspace: Optional[str] = None,
+        auto_detect: bool = True,
+        enable_gating: bool = False,
+        gating_threshold: float = 0.6,
+        enable_graph: bool = False,
+        bm25_k1: float = 1.5,
+        bm25_b: float = 0.75,
+        bm25_weight: float = 0.7,
+        keyword_weight: float = 0.3,
+        recency_boost: float = 1.0,
+        frequency_boost: float = 1.0,
+        enable_cache: bool = True,
+        enable_synonyms: bool = True,
+        enable_stats: bool = True,
+        enable_compression: bool = True,
+        # v2.14.0: Decay + GroundTruth
+        enable_decay: bool = True,
+        enable_ground_truth: bool = True,
+        decay_config: "DecayConfig" = None,
+        # v2.15.0: Engram + Spreading + Compression
+        enable_engram: bool = True,
+        enable_spreading: bool = True,
+        enable_compression_spectrum: bool = True,
+        # v2.18.0: CompressionSpectrum thresholds
+        compression_trigger_access: int = 5,
+        compression_trigger_apply: int = 3,
+        compression_trigger_verify: int = 2,
+        engram_ngram_size: int = 3,
+        spreading_max_depth: int = 2,
+        spreading_decay_factor: float = 0.5,
+        spreading_threshold: float = 0.1,
+        # v3.0.0-rc.1: CMS Perception Layer
+        enable_cms: bool = False,
+        cms_token_threshold: int = 8000,
+        cms_memory_threshold: int = 1000,
+        cms_warning_level: float = 0.8,
+    ):
         """
         Initialize Memory Manager
 
@@ -150,15 +179,18 @@ class MemoryManager:
         elif workspace is None:
             # Fallback to default if auto-detect disabled
             workspace = "~/.openclaw/workspace"
-        
+
         self.workspace = Path(workspace).expanduser()
         self.session_id: Optional[str] = None
         self.session_start: Optional[datetime] = None
 
         # Store BM25 config for lazy initialization
-        self._bm25_k1 = bm25_k1; self._bm25_b = bm25_b
-        self._bm25_weight = bm25_weight; self._keyword_weight = keyword_weight
-        self._recency_boost = recency_boost; self._frequency_boost = frequency_boost
+        self._bm25_k1 = bm25_k1
+        self._bm25_b = bm25_b
+        self._bm25_weight = bm25_weight
+        self._keyword_weight = keyword_weight
+        self._recency_boost = recency_boost
+        self._frequency_boost = frequency_boost
 
         # Lightweight working state (kept eager)
         self.working_cache = WorkingMemoryCache(max_size=100, ttl_seconds=300)
@@ -166,15 +198,26 @@ class MemoryManager:
         self.index = InMemoryIndex(ngram_size=3, enable_persistence=True)
 
         # Lazy-initialized caches
-        self._episodic = None; self._semantic = None; self._procedural = None
-        self._retriever = None; self._bm25_retriever = None; self._hybrid_retriever = None
-        self._entity_retriever = None; self._hybrid_entity_retriever = None
-        self._heuristic_retriever = None; self._smart_retriever = None
-        self._enhanced_smart_retriever = None; self._three_tier_retriever = None
+        self._episodic = None
+        self._semantic = None
+        self._procedural = None
+        self._retriever = None
+        self._bm25_retriever = None
+        self._hybrid_retriever = None
+        self._entity_retriever = None
+        self._hybrid_entity_retriever = None
+        self._heuristic_retriever = None
+        self._smart_retriever = None
+        self._enhanced_smart_retriever = None
+        self._three_tier_retriever = None
         self._session_startup_hook = None
-        self._validator = None; self._checkpoint = None; self._audit = None
+        self._validator = None
+        self._checkpoint = None
+        self._audit = None
         self._importance_scorer = None
-        self._memory_fix = None; self._memory_decay = None; self._rule_extractor = None
+        self._memory_fix = None
+        self._memory_decay = None
+        self._rule_extractor = None
 
         # Write-Time Gating (lazy init)
         self.enable_gating = enable_gating
@@ -232,7 +275,7 @@ class MemoryManager:
         self._cms_strategy: Optional[CompressionStrategySelector] = None
 
         # Search mode
-        self.search_mode = os.environ.get('CLAW_MEM_SEARCH_MODE', 'enhanced_smart')
+        self.search_mode = os.environ.get("CLAW_MEM_SEARCH_MODE", "enhanced_smart")
 
         # v2.9.0: Cache, Synonyms, Statistics
         self.enable_cache = enable_cache
@@ -265,10 +308,10 @@ class MemoryManager:
 
     # ── v2.20.0: Error handling ───────────────────────────────────
 
-    def _handle_error(self, error: Exception, operation: str,
-                      fallback=None):
+    def _handle_error(self, error: Exception, operation: str, fallback=None):
         """Centralized error handling with graceful degradation."""
         import logging
+
         logger = logging.getLogger("claw_mem")
         logger.warning(f"{operation} failed: {error}", exc_info=False)
         if fallback is not None:
@@ -278,24 +321,24 @@ class MemoryManager:
     def _validate_session_memory(self):
         """Validate memory at session start (F000 fix)"""
         validation = self.memory_fix.validate_session_memory()
-        
-        if not validation['valid']:
+
+        if not validation["valid"]:
             # Log error but do not block startup
-            self.audit.log("MEMORY_VALIDATION_FAILED", str(validation['errors']))
-        
-        if validation['warnings']:
+            self.audit.log("MEMORY_VALIDATION_FAILED", str(validation["errors"]))
+
+        if validation["warnings"]:
             # Log warning
-            for warning in validation['warnings']:
+            for warning in validation["warnings"]:
                 self.audit.log("MEMORY_WARNING", warning)
-        
+
         # L1: Working Memory (In-Memory Index + Cache)
         # Enable index persistence for fast startup
         self.index = InMemoryIndex(ngram_size=3, enable_persistence=True)
         self.working_cache = WorkingMemoryCache(max_size=100, ttl_seconds=300)
         self.working_memory: List[Dict] = []
-        
+
         # Only print if not in silent mode (e.g., when used as a bridge)
-        if not os.environ.get('CLAW_MEM_SILENT'):
+        if not os.environ.get("CLAW_MEM_SILENT"):
             _log(f"🧠 claw-mem initialized, workspace: {self.workspace}")
 
     # ── Lazy properties for deferred initialization ──
@@ -322,17 +365,24 @@ class MemoryManager:
     def bm25_retriever(self):
         if self._bm25_retriever is None:
             self._bm25_retriever = BM25Retriever(
-                k1=self._bm25_k1, b=self._bm25_b,
-                recency_boost=self._recency_boost, frequency_boost=self._frequency_boost)
+                k1=self._bm25_k1,
+                b=self._bm25_b,
+                recency_boost=self._recency_boost,
+                frequency_boost=self._frequency_boost,
+            )
         return self._bm25_retriever
 
     @property
     def hybrid_retriever(self):
         if self._hybrid_retriever is None:
             self._hybrid_retriever = HybridBM25Retriever(
-                k1=self._bm25_k1, b=self._bm25_b,
-                bm25_weight=self._bm25_weight, keyword_weight=self._keyword_weight,
-                recency_boost=self._recency_boost, frequency_boost=self._frequency_boost)
+                k1=self._bm25_k1,
+                b=self._bm25_b,
+                bm25_weight=self._bm25_weight,
+                keyword_weight=self._keyword_weight,
+                recency_boost=self._recency_boost,
+                frequency_boost=self._frequency_boost,
+            )
         return self._hybrid_retriever
 
     @property
@@ -435,8 +485,10 @@ class MemoryManager:
     def graph(self):
         if self._graph is None and self.enable_graph:
             from claw_mem.graph import ConceptMediatedGraph, DummyEmbedder, KeywordExtractor
+
             self._graph = ConceptMediatedGraph(
-                embedder=DummyEmbedder(), extractor=KeywordExtractor())
+                embedder=DummyEmbedder(), extractor=KeywordExtractor()
+            )
         return self._graph
 
     @property
@@ -483,9 +535,14 @@ class MemoryManager:
             return self.search_stats.get_stats()
         return None
 
-    def batch_search(self, queries: List[str], memory_type: Optional[str] = None,
-                     metadata: Optional[Dict] = None, limit: int = 10,
-                     mode: Optional[str] = None) -> List[List[Dict]]:
+    def batch_search(
+        self,
+        queries: List[str],
+        memory_type: Optional[str] = None,
+        metadata: Optional[Dict] = None,
+        limit: int = 10,
+        mode: Optional[str] = None,
+    ) -> List[List[Dict]]:
         """Batch search multiple queries efficiently (v2.9.0 P2-1).
 
         Args:
@@ -498,9 +555,10 @@ class MemoryManager:
         Returns:
             List of result lists (one per query)
         """
-        return [self.search(q, memory_type=memory_type,
-                           metadata=metadata, limit=limit, mode=mode)
-                for q in queries]
+        return [
+            self.search(q, memory_type=memory_type, metadata=metadata, limit=limit, mode=mode)
+            for q in queries
+        ]
 
     def reflect(self, user_id: str = "", force: bool = False) -> ReflectionResult:
         """Execute a reflection cycle (v2.9.1).
@@ -521,8 +579,7 @@ class MemoryManager:
 
         return self.reflection.reflect(recent, user_id=user_id, force=force)
 
-    def get_beliefs(self, user_id: str = "",
-                   include_history: bool = False) -> List[Dict]:
+    def get_beliefs(self, user_id: str = "", include_history: bool = False) -> List[Dict]:
         """Get current beliefs and optionally their version history (v2.9.1).
 
         Args:
@@ -560,9 +617,11 @@ class MemoryManager:
         if not self.enable_compression:
             return None
 
-        all_memories = (list(self.episodic.get_recent(200)) +
-                       list(self.semantic.get_all()) +
-                       list(self.procedural.get_all()))
+        all_memories = (
+            list(self.episodic.get_recent(200))
+            + list(self.semantic.get_all())
+            + list(self.procedural.get_all())
+        )
 
         if not force and len(all_memories) < self._compression_config.max_memories:
             return None
@@ -589,7 +648,7 @@ class MemoryManager:
         """Load critical rules from disk."""
         try:
             if os.path.exists(self._critical_rules_file):
-                with open(self._critical_rules_file, 'r', encoding='utf-8') as f:
+                with open(self._critical_rules_file, "r", encoding="utf-8") as f:
                     self._critical_rules = json.load(f)
         except Exception:
             self._critical_rules = {}
@@ -597,7 +656,7 @@ class MemoryManager:
     def _save_critical_rules(self) -> None:
         """Persist critical rules to disk."""
         os.makedirs(os.path.dirname(self._critical_rules_file), exist_ok=True)
-        with open(self._critical_rules_file, 'w', encoding='utf-8') as f:
+        with open(self._critical_rules_file, "w", encoding="utf-8") as f:
             json.dump(self._critical_rules, f, ensure_ascii=False, indent=2)
 
     def store_critical_rule(self, text: str, metadata: dict = None) -> str:
@@ -705,46 +764,51 @@ class MemoryManager:
                     self.working_cache.put(memory_record["id"], memory_record)
         else:
             _log(f"ℹ️  No contextual memories found for: {context[:50]}")
-    
+
     def end_session(self) -> None:
         """
         End session, auto-save memories
         """
         if not self.session_id:
             return
-        
+
         # Save working memory to short-term memory
         self._save_working_memory()
-        
+
         # Create checkpoint
         self.checkpoint.save(self.session_id)
-        
+
         # Log audit
-        self.audit.log("session_end", {
-            "session_id": self.session_id,
-            "duration": str(datetime.now() - self.session_start)
-        })
-        
+        self.audit.log(
+            "session_end",
+            {"session_id": self.session_id, "duration": str(datetime.now() - self.session_start)},
+        )
+
         _log(f"✅ Session {self.session_id} ended, memories saved")
-        
+
         self.session_id = None
         self.session_start = None
         self.working_memory = []
         self.working_cache.clear()
-    
-    def store(self, content: str, memory_type: str = "episodic", 
-              tags: Optional[List[str]] = None, metadata: Optional[Dict] = None, 
-              update_index: bool = True) -> bool:
+
+    def store(
+        self,
+        content: str,
+        memory_type: str = "episodic",
+        tags: Optional[List[str]] = None,
+        metadata: Optional[Dict] = None,
+        update_index: bool = True,
+    ) -> bool:
         """
         Store memory
-        
+
         Args:
             content: Memory content
             memory_type: Memory type (episodic/semantic/procedural)
             tags: Tag list
             metadata: Optional metadata dictionary (e.g., {"neo_agent": "Tech", "neo_domain": "Work"})
             update_index: Update search index incrementally (default: True)
-            
+
         Returns:
             bool: Success status
         """
@@ -757,40 +821,42 @@ class MemoryManager:
         # Security validation
         if not self.validator.validate(content):
             _log(f"❌ Memory write validation failed: {content[:50]}...")
-            self.audit.log("write_rejected", {
-                "content": content[:100],
-                "reason": "validation_failed"
-            })
+            self.audit.log(
+                "write_rejected", {"content": content[:100], "reason": "validation_failed"}
+            )
             return False
 
         # Write-Time Gating check (v2.3.0)
         if self.enable_gating and self.gating is not None:
             gating_item = {
-                'content': content,
-                'source': metadata.get('source', 'user') if metadata else 'user',
-                'memory_type': memory_type,
-                'context': metadata or {},
-                'session_id': self.session_id
+                "content": content,
+                "source": metadata.get("source", "user") if metadata else "user",
+                "memory_type": memory_type,
+                "context": metadata or {},
+                "session_id": self.session_id,
             }
 
             # Use gating to decide if should store
             gating_result = self.gating.write(gating_item)
 
             # Log gating decision
-            self.audit.log("gating_decision", {
-                "content": content[:100],
-                "type": memory_type,
-                "salience": gating_result.salience_score,
-                "tier": gating_result.tier,
-                "stored": gating_result.stored
-            })
+            self.audit.log(
+                "gating_decision",
+                {
+                    "content": content[:100],
+                    "type": memory_type,
+                    "salience": gating_result.salience_score,
+                    "tier": gating_result.tier,
+                    "stored": gating_result.stored,
+                },
+            )
 
             # If gated to cold storage, we still store but may limit indexing
-            if gating_result.tier == 'cold':
+            if gating_result.tier == "cold":
                 update_index = False  # Skip indexing for cold storage
-        
+
         import uuid
-        
+
         # Create memory record with ID generated upfront
         memory_record = {
             "id": str(uuid.uuid4())[:8],  # Generate ID before storage
@@ -799,9 +865,9 @@ class MemoryManager:
             "tags": tags or [],
             "metadata": metadata or {},
             "timestamp": datetime.now().isoformat(),
-            "session_id": self.session_id
+            "session_id": self.session_id,
         }
-        
+
         # Store to different locations based on type
         if memory_type == "episodic":
             self.episodic.store(memory_record)
@@ -812,15 +878,15 @@ class MemoryManager:
         else:
             _log(f"❌ Unknown memory type: {memory_type}")
             return False
-        
+
         # Add to working memory
         self.working_memory.append(memory_record)
-        
+
         # Add to L1 cache
         memory_id = memory_record.get("id")
         if memory_id:
             self.working_cache.put(memory_id, memory_record)
-            
+
             # Incrementally update index
             if update_index and self.index.built:
                 self.index.add_memory(content, memory_id, save_async=True)
@@ -828,19 +894,22 @@ class MemoryManager:
             # v2.15.0: Auto-index into EngramIndex
             if self.engram is not None and update_index:
                 self.engram.index(memory_id, content)
-        
+
         # Log audit
-        self.audit.log("memory_stored", {
-            "type": memory_type,
-            "content": content[:100]
-        })
-        
+        self.audit.log("memory_stored", {"type": memory_type, "content": content[:100]})
+
         _log(f"✅ Memory stored ({memory_type}): {content[:50]}...")
         return True
-    
-    def _search_impl(self, query: str, all_memories: List[Dict],
-                    search_mode: str, memory_type: Optional[str],
-                    limit: int, expanded_query: Optional[str] = None) -> tuple:
+
+    def _search_impl(
+        self,
+        query: str,
+        all_memories: List[Dict],
+        search_mode: str,
+        memory_type: Optional[str],
+        limit: int,
+        expanded_query: Optional[str] = None,
+    ) -> tuple:
         """Internal search logic. Returns (results, method_name).
 
         Uses expanded_query for BM25-based modes and original query for keyword mode.
@@ -853,30 +922,22 @@ class MemoryManager:
             )
             method = "bm25"
         elif search_mode == "hybrid":
-            results = self.hybrid_retriever.search(
-                _q, all_memories, limit=limit * 2
-            )
+            results = self.hybrid_retriever.search(_q, all_memories, limit=limit * 2)
             if results:
                 results = self.importance_scorer.rank_memories(results)
             method = "hybrid_bm25"
         elif search_mode == "entity":
-            results = self.entity_retriever.search(
-                _q, all_memories, limit=limit * 2
-            )
+            results = self.entity_retriever.search(_q, all_memories, limit=limit * 2)
             if results:
                 results = self.importance_scorer.rank_memories(results)
             method = "entity_enhanced"
         elif search_mode == "hybrid_entity":
-            results = self.hybrid_entity_retriever.search(
-                _q, all_memories, limit=limit * 2
-            )
+            results = self.hybrid_entity_retriever.search(_q, all_memories, limit=limit * 2)
             if results:
                 results = self.importance_scorer.rank_memories(results)
             method = "hybrid_entity"
         elif search_mode == "heuristic":
-            results = self.heuristic_retriever.search(
-                _q, all_memories, limit=limit * 2
-            )
+            results = self.heuristic_retriever.search(_q, all_memories, limit=limit * 2)
             if results:
                 results = self.importance_scorer.rank_memories(results)
             method = "heuristic"
@@ -892,16 +953,25 @@ class MemoryManager:
             method = "enhanced_smart"
         else:
             results = self.retriever.search(
-                query, self.episodic, self.semantic, self.procedural,
-                memory_type=memory_type, limit=limit * 2
+                query,
+                self.episodic,
+                self.semantic,
+                self.procedural,
+                memory_type=memory_type,
+                limit=limit * 2,
             )
             method = "keyword"
         return results, method
 
-    def search(self, query: str, memory_type: Optional[str] = None,
-               metadata: Optional[Dict] = None, limit: int = 10,
-               mode: Optional[str] = None,
-               include_critical: bool = True) -> List[Dict]:
+    def search(
+        self,
+        query: str,
+        memory_type: Optional[str] = None,
+        metadata: Optional[Dict] = None,
+        limit: int = 10,
+        mode: Optional[str] = None,
+        include_critical: bool = True,
+    ) -> List[Dict]:
         """
         Retrieve memories using specified search mode.
 
@@ -926,9 +996,7 @@ class MemoryManager:
         if not query or not query.strip():
             raise ValueError("Query cannot be empty")
         if len(query) > 2000:
-            raise QueryTooLongError(
-                f"Query length {len(query)} exceeds 2000 chars"
-            )
+            raise QueryTooLongError(f"Query length {len(query)} exceeds 2000 chars")
         if limit < 1:
             limit = 1
 
@@ -953,15 +1021,17 @@ class MemoryManager:
                     node = self.multi_graph.get_node(mid) if self.multi_graph else None
                     r = {
                         "id": mid,
-                        "content": getattr(node, 'content', '')[:200] if node else f"[cached:{mid}]",
+                        "content": (
+                            getattr(node, "content", "")[:200] if node else f"[cached:{mid}]"
+                        ),
                         "score": 1.0,
                         "type": "cached",
                     }
                     if node:
-                        md = getattr(node, 'metadata', None)
+                        md = getattr(node, "metadata", None)
                         if md:
                             r["metadata"] = md
-                        tags = getattr(node, 'tags', None)
+                        tags = getattr(node, "tags", None)
                         if tags:
                             r["tags"] = tags
                     cached_results.append(r)
@@ -971,11 +1041,17 @@ class MemoryManager:
 
         # v2.15.0: 优先使用 Engram + Spreading 检索管线
         # Graph required for metadata/tags in results
-        if (self.decoupled_retriever and self.multi_graph
-                and memory_type is None and metadata is None and mode is None):
+        if (
+            self.decoupled_retriever
+            and self.multi_graph
+            and memory_type is None
+            and metadata is None
+            and mode is None
+        ):
             results = self.decoupled_retriever.search(
-                query, top_k=limit,
-                intent=getattr(self, 'search_mode', 'general'),
+                query,
+                top_k=limit,
+                intent=getattr(self, "search_mode", "general"),
             )
             if results:
                 # v2.19.0: Cache the results
@@ -1016,15 +1092,15 @@ class MemoryManager:
 
         # Perform search
         results, method = self._search_impl(
-            query, all_memories, search_mode, memory_type, limit,
-            expanded_query=search_query)
+            query, all_memories, search_mode, memory_type, limit, expanded_query=search_query
+        )
 
         # Apply metadata filter if specified
         if metadata:
             results = [
-                m for m in results
-                if all(m.get("metadata", {}).get(k) == v
-                       for k, v in metadata.items())
+                m
+                for m in results
+                if all(m.get("metadata", {}).get(k) == v for k, v in metadata.items())
             ]
 
         results = results[:limit]
@@ -1039,23 +1115,29 @@ class MemoryManager:
             self.search_stats.record_search(latency, cache_hit=False)
 
         # Log audit
-        self.audit.log("memory_search", {
-            "query": query,
-            "type": memory_type,
-            "metadata": metadata,
-            "results_count": len(results),
-            "method": method
-        })
+        self.audit.log(
+            "memory_search",
+            {
+                "query": query,
+                "type": memory_type,
+                "metadata": metadata,
+                "results_count": len(results),
+                "method": method,
+            },
+        )
 
         _log(f"🔍 Retrieved {len(results)} memories ({method}): {query}")
 
         # v2.13.0: Prepend critical rules (limited to requested count)
         return (critical_rules + results)[:limit]
 
-    def cross_session_search(self, query: str,
-                              layers: Optional[List[str]] = None,
-                              limit: int = 10,
-                              memory_type: Optional[str] = None) -> List[Dict]:
+    def cross_session_search(
+        self,
+        query: str,
+        layers: Optional[List[str]] = None,
+        limit: int = 10,
+        memory_type: Optional[str] = None,
+    ) -> List[Dict]:
         """
         Cross-session memory search using three-tier retrieval
 
@@ -1084,7 +1166,7 @@ class MemoryManager:
 
         # Convert MemoryResult objects to dicts
         return [r.to_dict() for r in results]
-    
+
     def _load_and_build_index(self) -> None:
         """
         Load all memories and build in-memory index
@@ -1094,21 +1176,25 @@ class MemoryManager:
         all_episodic = self.episodic.get_all()
         all_semantic = self.semantic.get_all()
         all_procedural = self.procedural.get_all()
-        
+
         # Combine all memories
         all_memories = all_episodic + all_semantic + all_procedural
-        
+
         # Load or build in-memory index (with persistence support)
         loaded_from_disk = self.index.load_or_build(all_memories)
-        
+
         # Add to working memory
         self.working_memory = all_memories
-        
+
         if loaded_from_disk:
-            _log(f"📥 Index loaded from disk: {len(all_episodic)} Episodic, {len(all_semantic)} Semantic, {len(all_procedural)} Procedural")
+            _log(
+                f"📥 Index loaded from disk: {len(all_episodic)} Episodic, {len(all_semantic)} Semantic, {len(all_procedural)} Procedural"
+            )
         else:
-            _log(f"📥 Indexed {len(all_episodic)} Episodic, {len(all_semantic)} Semantic, {len(all_procedural)} Procedural")
-    
+            _log(
+                f"📥 Indexed {len(all_episodic)} Episodic, {len(all_semantic)} Semantic, {len(all_procedural)} Procedural"
+            )
+
     def _load_relevant_memories(self) -> None:
         """
         Load relevant memories to working memory (L1 cache)
@@ -1116,14 +1202,14 @@ class MemoryManager:
         # Cache recent Episodic and all Semantic memories
         recent_episodic = self.episodic.get_recent(limit=20)
         all_semantic = self.semantic.get_all()
-        
+
         for memory in recent_episodic + all_semantic:
             memory_id = memory.get("id")
             if memory_id:
                 self.working_cache.put(memory_id, memory)
-        
+
         _log(f"💾 Cached {len(recent_episodic) + len(all_semantic)} memories in L1")
-    
+
     def _save_working_memory(self) -> None:
         """
         Save working memory to short-term memory
@@ -1132,7 +1218,7 @@ class MemoryManager:
         if self.working_memory:
             content = "\n".join([m["content"] for m in self.working_memory])
             self.store(content, memory_type="episodic")
-    
+
     def get_stats(self) -> Dict:
         """
         Get memory statistics
@@ -1194,17 +1280,13 @@ class MemoryManager:
     @property
     def decay_controller(self) -> Optional[DecayController]:
         if self._decay_controller is None and self.enable_decay and self.multi_graph:
-            self._decay_controller = DecayController(
-                self.multi_graph, config=self._decay_config
-            )
+            self._decay_controller = DecayController(self.multi_graph, config=self._decay_config)
         return self._decay_controller
 
     @property
     def decay_scheduler(self) -> Optional[DecayScheduler]:
         if self._decay_scheduler is None and self.enable_decay and self.decay_controller:
-            self._decay_scheduler = DecayScheduler(
-                self.decay_controller, config=self._decay_config
-            )
+            self._decay_scheduler = DecayScheduler(self.decay_controller, config=self._decay_config)
             self._decay_scheduler.start()
         return self._decay_scheduler
 
@@ -1237,9 +1319,7 @@ class MemoryManager:
         for sg_type in list(mg._graphs.keys()):
             neighbors[sg_type.value] = [
                 {"id": nid, "weight": w}
-                for nid, w in mg._graphs[sg_type].get_neighbors(
-                    memory_id, max_depth=1
-                ).items()
+                for nid, w in mg._graphs[sg_type].get_neighbors(memory_id, max_depth=1).items()
             ]
         return {"node": node.to_dict(), "neighbors": neighbors}
 
@@ -1250,11 +1330,9 @@ class MemoryManager:
             return False
         try:
             d = mg.to_dict()
-            gpath = os.path.join(
-                os.path.expanduser("~/.claw-mem"), "graph_index.json"
-            )
+            gpath = os.path.join(os.path.expanduser("~/.claw-mem"), "graph_index.json")
             os.makedirs(os.path.dirname(gpath), exist_ok=True)
-            with open(gpath, 'w', encoding='utf-8') as f:
+            with open(gpath, "w", encoding="utf-8") as f:
                 json.dump(d, f, ensure_ascii=False, indent=2)
             return True
         except Exception:
@@ -1284,9 +1362,9 @@ class MemoryManager:
 
     # ── v2.14.0: GroundTruth operations ────────────────────────────────
 
-    def search_ground_truth(self, session_id: str = None,
-                            keyword: str = None,
-                            limit: int = 50) -> List[Dict]:
+    def search_ground_truth(
+        self, session_id: str = None, keyword: str = None, limit: int = 50
+    ) -> List[Dict]:
         """Search raw conversation transcripts."""
         gt = self.ground_truth
         if gt is None:
@@ -1349,9 +1427,9 @@ class MemoryManager:
         if e is None:
             return 0
         count = 0
-        if hasattr(self, 'index') and self.index.built:
+        if hasattr(self, "index") and self.index.built:
             for mid, doc in zip(self.index.memory_ids, self.index.documents):
-                content = ' '.join(doc) if isinstance(doc, list) else str(doc)
+                content = " ".join(doc) if isinstance(doc, list) else str(doc)
                 e.index(mid, content)
                 count += 1
         return count
@@ -1416,8 +1494,7 @@ class MemoryManager:
             return None
         return {k: v.to_dict() for k, v in i.evaluate_batch(memory_ids).items()}
 
-    def get_important_memories(self, threshold: float = 0.5,
-                               limit: int = 50) -> Optional[List]:
+    def get_important_memories(self, threshold: float = 0.5, limit: int = 50) -> Optional[List]:
         i = self.cms_importance
         if i is None:
             return None
@@ -1443,9 +1520,9 @@ class MemoryManager:
             self._cms_strategy = CompressionStrategySelector()
         return self._cms_strategy
 
-    def generate_summary(self, session_id: str,
-                         memories: List[Dict] = None,
-                         strategy: str = "key_points") -> Optional[dict]:
+    def generate_summary(
+        self, session_id: str, memories: List[Dict] = None, strategy: str = "key_points"
+    ) -> Optional[dict]:
         s = self.cms_summarizer
         if s is None:
             return None
@@ -1453,19 +1530,20 @@ class MemoryManager:
             memories = []
         return s.generate(session_id, memories, strategy).to_dict()
 
-    def deduplicate_memories(self, memory_ids: List[str],
-                             threshold: float = 0.85) -> Optional[dict]:
+    def deduplicate_memories(
+        self, memory_ids: List[str], threshold: float = 0.85
+    ) -> Optional[dict]:
         d = self.cms_deduplicator
         if d is None:
             return None
         d._similarity_threshold = threshold
         return d.deduplicate(memory_ids).to_dict()
 
-    def compress_session(self, session_id: str,
-                         strategy: str = "auto") -> Optional[dict]:
+    def compress_session(self, session_id: str, strategy: str = "auto") -> Optional[dict]:
         if not self.enable_cms:
             return None
         import time as _time
+
         t0 = _time.time()
 
         # Get capacity info
@@ -1477,9 +1555,13 @@ class MemoryManager:
         if strategy == "auto":
             plan = sel.select(utilization) if sel else None
         else:
-            plan = sel.select(0.99 if strategy == "aggressive"
-                              else 0.8 if strategy == "balanced"
-                              else 0.5) if sel else None
+            plan = (
+                sel.select(
+                    0.99 if strategy == "aggressive" else 0.8 if strategy == "balanced" else 0.5
+                )
+                if sel
+                else None
+            )
 
         if plan is None:
             return None
@@ -1523,17 +1605,17 @@ class MemoryManager:
 
     @property
     def cms_snap_storage(self) -> Optional[SnapshotStorage]:
-        if not hasattr(self, '_cms_snap'):
+        if not hasattr(self, "_cms_snap"):
             self._cms_snap = SnapshotStorage(str(self.workspace))
         return self._cms_snap
 
     def get_session_state(self, session_id: str) -> str:
-        if not hasattr(self, '_cms_state_machine'):
+        if not hasattr(self, "_cms_state_machine"):
             self._cms_state_machine = SessionStateMachine()
         return self._cms_state_machine.get_current_state(session_id)
 
     def set_session_state(self, session_id: str, state: str) -> None:
-        if not hasattr(self, '_cms_state_machine'):
+        if not hasattr(self, "_cms_state_machine"):
             self._cms_state_machine = SessionStateMachine()
         self._cms_state_machine.set_state(session_id, state)
 
@@ -1553,33 +1635,34 @@ class MemoryManager:
 
     def list_snapshots(self, session_id: str) -> List:
         return [
-            {"snapshot_id": i.snapshot_id, "timestamp": i.timestamp.isoformat(),
-             "state": i.state, "size_bytes": i.size_bytes}
+            {
+                "snapshot_id": i.snapshot_id,
+                "timestamp": i.timestamp.isoformat(),
+                "state": i.state,
+                "size_bytes": i.size_bytes,
+            }
             for i in self.cms_snap_storage.list(session_id)
         ]
 
     def delete_snapshot(self, snapshot_id: str) -> bool:
         return self.cms_snap_storage.delete(snapshot_id)
 
-    def switch_context(self, from_id: str, to_id: str,
-                       strategy: str = "preserve_important") -> Optional[dict]:
-        switcher = ContextSwitcher(
-            importance_evaluator=self.cms_importance, memory_manager=self
-        )
+    def switch_context(
+        self, from_id: str, to_id: str, strategy: str = "preserve_important"
+    ) -> Optional[dict]:
+        switcher = ContextSwitcher(importance_evaluator=self.cms_importance, memory_manager=self)
         return switcher.switch(from_id, to_id, strategy).to_dict()
 
-    def recover_session(self, session_id: str,
-                        snapshot_id: str = None,
-                        strategy: str = "latest") -> Optional[dict]:
-        recovery = RecoveryMechanism(
-            snapshot_storage=self.cms_snap_storage, memory_manager=self
-        )
+    def recover_session(
+        self, session_id: str, snapshot_id: str = None, strategy: str = "latest"
+    ) -> Optional[dict]:
+        recovery = RecoveryMechanism(snapshot_storage=self.cms_snap_storage, memory_manager=self)
         return recovery.recover(session_id, snapshot_id, strategy).to_dict()
 
     def _gather_session_memories(self, session_id: str) -> List[Dict]:
         memories = []
         try:
-            episodic = self.episodic.get_all() if hasattr(self, 'episodic') else []
+            episodic = self.episodic.get_all() if hasattr(self, "episodic") else []
             memories.extend(episodic)
         except Exception:
             pass

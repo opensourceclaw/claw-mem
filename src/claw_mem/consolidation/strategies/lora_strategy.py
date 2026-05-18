@@ -33,8 +33,10 @@ class LoRAStrategy:
     def apply(self, experiences: List[Dict[str, Any]]) -> Dict[str, Any]:
         self._update_count += 1
         return {
-            "strategy": "lora", "success": True,
-            "rank": self.config.rank, "alpha": self.config.alpha,
+            "strategy": "lora",
+            "success": True,
+            "rank": self.config.rank,
+            "alpha": self.config.alpha,
             "num_experiences": len(experiences),
             "update_id": f"lora_v{self._update_count}",
             "adapter_size_estimate": f"{self.config.rank * 4}KB",

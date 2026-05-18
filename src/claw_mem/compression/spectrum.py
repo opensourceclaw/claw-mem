@@ -79,10 +79,13 @@ class CompressionSpectrum:
     Complements existing MemoryCompressorV2 and F5CompressorV2.
     """
 
-    def __init__(self, memory_manager=None,
-                 access_threshold: int = 5,
-                 apply_threshold: int = 3,
-                 verify_threshold: int = 2):
+    def __init__(
+        self,
+        memory_manager=None,
+        access_threshold: int = 5,
+        apply_threshold: int = 3,
+        verify_threshold: int = 2,
+    ):
         self._mm = memory_manager
         self._skills: Dict[str, SkillEntry] = {}
         self._rules: Dict[str, RuleEntry] = {}
@@ -96,9 +99,7 @@ class CompressionSpectrum:
     # ── Trigger ──────────────────────────────────────────────
 
     def record_access(self, memory_id: str) -> Optional[CompressedMemory]:
-        self._episode_access[memory_id] = (
-            self._episode_access.get(memory_id, 0) + 1
-        )
+        self._episode_access[memory_id] = self._episode_access.get(memory_id, 0) + 1
         count = self._episode_access[memory_id]
         if count >= self._skill_access_threshold:
             return self._compress_to_skill(memory_id)
@@ -133,28 +134,33 @@ class CompressionSpectrum:
         if len(steps) < 2:
             return None
 
-        title = content.split('\n')[0].strip()[:80]
+        title = content.split("\n")[0].strip()[:80]
         tags = self._extract_tags(content)
 
         skill_id = f"skill_{uuid.uuid4().hex[:12]}"
         skill = SkillEntry(
-            skill_id=skill_id, title=title,
-            description=content[:200], steps=steps,
-            source_episodes=[episode_id], tags=tags,
-            apply_count=0, created_at=time.time(),
+            skill_id=skill_id,
+            title=title,
+            description=content[:200],
+            steps=steps,
+            source_episodes=[episode_id],
+            tags=tags,
+            apply_count=0,
+            created_at=time.time(),
             updated_at=time.time(),
         )
         self._skills[skill_id] = skill
 
-        body = "[Skill] " + title + "\n" + "\n".join(
-            f"  {i+1}. {s}" for i, s in enumerate(steps)
-        )
+        body = "[Skill] " + title + "\n" + "\n".join(f"  {i+1}. {s}" for i, s in enumerate(steps))
         # Sync to Engram
         self._sync_to_engram(skill_id, body)
 
         return CompressedMemory(
-            memory_id=skill_id, level=1, content=body,
-            source_ids=[episode_id], created_at=time.time(),
+            memory_id=skill_id,
+            level=1,
+            content=body,
+            source_ids=[episode_id],
+            created_at=time.time(),
             metadata={"type": "skill", "tags": tags},
         )
 
@@ -168,9 +174,13 @@ class CompressionSpectrum:
 
         rule_id = f"rule_{uuid.uuid4().hex[:12]}"
         rule = RuleEntry(
-            rule_id=rule_id, condition=condition, action=action,
-            confidence=0.7, source_skills=[skill_id],
-            validation_count=0, created_at=time.time(),
+            rule_id=rule_id,
+            condition=condition,
+            action=action,
+            confidence=0.7,
+            source_skills=[skill_id],
+            validation_count=0,
+            created_at=time.time(),
         )
         self._rules[rule_id] = rule
 
@@ -178,9 +188,11 @@ class CompressionSpectrum:
         self._sync_to_engram(rule_id, rule_body)
 
         return CompressedMemory(
-            memory_id=rule_id, level=2,
+            memory_id=rule_id,
+            level=2,
             content=f"[Rule] IF {condition} THEN {action}",
-            source_ids=[skill_id], created_at=time.time(),
+            source_ids=[skill_id],
+            created_at=time.time(),
             metadata={"type": "rule", "confidence": 0.7},
         )
 
@@ -192,8 +204,10 @@ class CompressionSpectrum:
         content = f"Prioritize: {rule.action[:100]}"
         principle_id = f"prin_{uuid.uuid4().hex[:12]}"
         principle = PrincipleEntry(
-            principle_id=principle_id, content=content,
-            confidence=rule.confidence, source_rules=[rule_id],
+            principle_id=principle_id,
+            content=content,
+            confidence=rule.confidence,
+            source_rules=[rule_id],
             created_at=time.time(),
         )
         self._principles[principle_id] = principle
@@ -202,9 +216,11 @@ class CompressionSpectrum:
         self._sync_to_engram(principle_id, principle_body)
 
         return CompressedMemory(
-            memory_id=principle_id, level=3,
+            memory_id=principle_id,
+            level=3,
             content=principle_body,
-            source_ids=[rule_id], created_at=time.time(),
+            source_ids=[rule_id],
+            created_at=time.time(),
             metadata={"type": "principle", "confidence": rule.confidence},
         )
 
@@ -212,7 +228,7 @@ class CompressionSpectrum:
 
     def _sync_to_engram(self, memory_id: str, content: str) -> None:
         """Sync compressed memory to Engram index (non-blocking)."""
-        if self._mm and hasattr(self._mm, 'engram') and self._mm.engram:
+        if self._mm and hasattr(self._mm, "engram") and self._mm.engram:
             try:
                 self._mm.engram.index(memory_id, content)
             except Exception:
@@ -220,9 +236,9 @@ class CompressionSpectrum:
 
     # ── Runtime config ───────────────────────────────────────
 
-    def configure_thresholds(self, access: int = None,
-                             apply: int = None,
-                             verify: int = None) -> None:
+    def configure_thresholds(
+        self, access: int = None, apply: int = None, verify: int = None
+    ) -> None:
         """Runtime threshold configuration."""
         if access is not None:
             self._skill_access_threshold = access
@@ -233,19 +249,21 @@ class CompressionSpectrum:
 
     # ── Query ────────────────────────────────────────────────
 
-    def get_compressed(self, memory_id: str = None,
-                       level: int = None) -> List[CompressedMemory]:
+    def get_compressed(self, memory_id: str = None, level: int = None) -> List[CompressedMemory]:
         results: List[CompressedMemory] = []
         for skill in self._skills.values():
             if memory_id and memory_id not in skill.source_episodes:
                 continue
-            results.append(CompressedMemory(
-                memory_id=skill.skill_id, level=1,
-                content=f"[Skill] {skill.title}",
-                source_ids=skill.source_episodes,
-                created_at=skill.created_at,
-                metadata={"type": "skill"},
-            ))
+            results.append(
+                CompressedMemory(
+                    memory_id=skill.skill_id,
+                    level=1,
+                    content=f"[Skill] {skill.title}",
+                    source_ids=skill.source_episodes,
+                    created_at=skill.created_at,
+                    metadata={"type": "skill"},
+                )
+            )
         return results
 
     # ── Helpers ──────────────────────────────────────────────
@@ -261,9 +279,9 @@ class CompressionSpectrum:
 
     def _extract_steps(self, content: str) -> List[str]:
         patterns = [
-            r'(?:install|pip install|npm install|brew install)\s+\S+',
-            r'(?:配置|设置|修改|创建|使用|运行|启动|停止|删除)\s+\S+',
-            r'(?:create|configure|set up|run|start|stop|delete)\s+\S+',
+            r"(?:install|pip install|npm install|brew install)\s+\S+",
+            r"(?:配置|设置|修改|创建|使用|运行|启动|停止|删除)\s+\S+",
+            r"(?:create|configure|set up|run|start|stop|delete)\s+\S+",
         ]
         steps = []
         for p in patterns:
@@ -278,9 +296,20 @@ class CompressionSpectrum:
 
     def _extract_tags(self, content: str) -> List[str]:
         keywords = [
-            'python', 'javascript', 'typescript', 'go', 'rust',
-            'redis', 'postgresql', 'mysql', 'mongodb',
-            'docker', 'kubernetes', 'aws', 'api', 'rest',
+            "python",
+            "javascript",
+            "typescript",
+            "go",
+            "rust",
+            "redis",
+            "postgresql",
+            "mysql",
+            "mongodb",
+            "docker",
+            "kubernetes",
+            "aws",
+            "api",
+            "rest",
         ]
         lower = content.lower()
         return [k for k in keywords if k in lower][:5]

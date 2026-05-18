@@ -27,55 +27,50 @@ from pathlib import Path
 class AuditLogger:
     """
     Audit Logger
-    
+
     MVP version logs to file. Log rotation and analysis will be added in future iterations.
     """
-    
+
     def __init__(self, workspace: Path):
         """
         Initialize Audit Logger
-        
+
         Args:
             workspace: Workspace path
         """
         self.workspace = workspace
         self.log_file = workspace / ".audit_log.jsonl"
-    
+
     def log(self, action: str, details: Dict) -> None:
         """
         Log audit entry
-        
+
         Args:
             action: Action type
             details: Action details
         """
-        log_entry = {
-            "timestamp": datetime.now().isoformat(),
-            "action": action,
-            "details": details
-        }
-        
+        log_entry = {"timestamp": datetime.now().isoformat(), "action": action, "details": details}
+
         # Append to log file
         with open(self.log_file, "a", encoding="utf-8") as f:
             f.write(json.dumps(log_entry, ensure_ascii=False) + "\n")
-    
-    def get_logs(self, action_filter: Optional[str] = None, 
-                 limit: int = 100) -> list:
+
+    def get_logs(self, action_filter: Optional[str] = None, limit: int = 100) -> list:
         """
         Get audit logs
-        
+
         Args:
             action_filter: Action type filter
             limit: Number of results
-            
+
         Returns:
             list: Log entries
         """
         logs = []
-        
+
         if not self.log_file.exists():
             return logs
-        
+
         with open(self.log_file, "r", encoding="utf-8") as f:
             for line in f:
                 try:
@@ -86,9 +81,9 @@ class AuditLogger:
                             break
                 except json.JSONDecodeError:
                     continue
-        
+
         return logs
-    
+
     def clear(self) -> None:
         """
         Clear audit logs

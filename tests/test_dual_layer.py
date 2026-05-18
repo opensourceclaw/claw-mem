@@ -2,7 +2,9 @@
 
 import pytest
 from claw_mem.graph.dual_layer import (
-    DualLayerMemory, Event, Topic,
+    DualLayerMemory,
+    Event,
+    Topic,
 )
 
 
@@ -10,8 +12,9 @@ class TestEvent:
     """Unit tests for Event dataclass."""
 
     def test_create(self):
-        evt = Event("evt_1", "Debug session", node_ids=["n1", "n2"],
-                    session_id="s1", tags=["debug"])
+        evt = Event(
+            "evt_1", "Debug session", node_ids=["n1", "n2"], session_id="s1", tags=["debug"]
+        )
         assert evt.event_id == "evt_1"
         assert evt.title == "Debug session"
         assert evt.node_ids == ["n1", "n2"]
@@ -56,8 +59,7 @@ class TestDualLayerMemory:
         self.dl = DualLayerMemory()
 
     def test_add_event(self):
-        eid = self.dl.add_event("Debug session", node_ids=["n1", "n2"],
-                                session_id="sess_a")
+        eid = self.dl.add_event("Debug session", node_ids=["n1", "n2"], session_id="sess_a")
         evt = self.dl.get_event(eid)
         assert evt is not None
         assert evt.title == "Debug session"
@@ -109,8 +111,7 @@ class TestDualLayerMemory:
         assert len(found) == 2
 
     def test_add_topic(self):
-        tid = self.dl.add_topic("Graph Performance",
-                                keywords=["graph", "performance"])
+        tid = self.dl.add_topic("Graph Performance", keywords=["graph", "performance"])
         tpc = self.dl.get_topic(tid)
         assert tpc is not None
         assert tpc.name == "Graph Performance"
@@ -138,10 +139,8 @@ class TestDualLayerMemory:
         assert len(results) >= 1
 
     def test_serialize_roundtrip(self):
-        e1 = self.dl.add_event("Event A", session_id="s1",
-                               node_ids=["n1"], tags=["important"])
-        t1 = self.dl.add_topic("Topic X", keywords=["x"],
-                               event_ids=[e1])
+        e1 = self.dl.add_event("Event A", session_id="s1", node_ids=["n1"], tags=["important"])
+        t1 = self.dl.add_topic("Topic X", keywords=["x"], event_ids=[e1])
         self.dl.link_events(e1, e1)
 
         d = self.dl.to_dict()
@@ -158,8 +157,7 @@ class TestDualLayerMemory:
 
     def test_bulk_events(self):
         for i in range(50):
-            self.dl.add_event(f"Event {i}", session_id="s1",
-                              tags=[f"tag{i % 5}"])
+            self.dl.add_event(f"Event {i}", session_id="s1", tags=[f"tag{i % 5}"])
         assert self.dl.event_count() == 50
         found = self.dl.find_events_by_session("s1")
         assert len(found) == 50

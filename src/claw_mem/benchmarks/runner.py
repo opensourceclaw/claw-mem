@@ -48,14 +48,24 @@ class BenchmarkRunner:
         """Setup default benchmark tasks."""
         # MemoryArena tasks
         arena_tasks = [
-            ArenaTask("WA1", ArenaTaskType.WEB_NAVIGATION,
-                     "Navigate to find a specific item", steps=3),
-            ArenaTask("PA1", ArenaTaskType.PREFERENCE_CONSTRAINTS,
-                     "Satisfy user preferences under constraints", steps=2),
-            ArenaTask("PS1", ArenaTaskType.PROGRESSIVE_SEARCH,
-                     "Progressively refine search results", steps=4),
-            ArenaTask("FA1", ArenaTaskType.FORMAL_REASONING,
-                     "Reason about formal constraints", steps=2),
+            ArenaTask(
+                "WA1", ArenaTaskType.WEB_NAVIGATION, "Navigate to find a specific item", steps=3
+            ),
+            ArenaTask(
+                "PA1",
+                ArenaTaskType.PREFERENCE_CONSTRAINTS,
+                "Satisfy user preferences under constraints",
+                steps=2,
+            ),
+            ArenaTask(
+                "PS1",
+                ArenaTaskType.PROGRESSIVE_SEARCH,
+                "Progressively refine search results",
+                steps=4,
+            ),
+            ArenaTask(
+                "FA1", ArenaTaskType.FORMAL_REASONING, "Reason about formal constraints", steps=2
+            ),
         ]
         for t in arena_tasks:
             self.memory_arena.add_task(t)
@@ -86,7 +96,9 @@ class BenchmarkRunner:
         few_shot = self.membench.evaluate_test_time_learning(0.75)
         long_range = self.membench.evaluate_long_range([0.82, 0.78, 0.85])
         forgetting = self.membench.evaluate_forgetting(
-            {"a", "b", "c"}, {"b"}, {"a", "c"},
+            {"a", "b", "c"},
+            {"b"},
+            {"a", "c"},
         )
 
         # Evo-Memory
@@ -97,7 +109,8 @@ class BenchmarkRunner:
             arena=arena_summary,
             membench={
                 "retrieval": retrieval.to_dict(),
-                "few_shot": few_shot, "long_range": long_range,
+                "few_shot": few_shot,
+                "long_range": long_range,
                 "forgetting": forgetting,
             },
             evo_memory=evo_summary,

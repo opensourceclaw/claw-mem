@@ -39,7 +39,7 @@ class EmbeddingService:
         provider: str = "auto",
         model: str = "text-embedding-3-small",
         cache_dir: Optional[str] = None,
-        openai_api_key: Optional[str] = None
+        openai_api_key: Optional[str] = None,
     ):
         """Initialize embedding service
 
@@ -98,6 +98,7 @@ class EmbeddingService:
 
         try:
             from openai import OpenAI
+
             self._openai_client = OpenAI(api_key=self.openai_api_key)
             print(f"Using OpenAI embedding model: {self.model}")
         except ImportError:
@@ -119,7 +120,8 @@ class EmbeddingService:
         if os.path.exists(cache_file):
             try:
                 import json
-                with open(cache_file, 'r') as f:
+
+                with open(cache_file, "r") as f:
                     data = json.load(f)
                     self._cache[key] = data["embedding"]
                     return data["embedding"]
@@ -136,8 +138,9 @@ class EmbeddingService:
         # Save to disk
         try:
             import json
+
             cache_file = os.path.join(self.cache_dir, f"{key}.json")
-            with open(cache_file, 'w') as f:
+            with open(cache_file, "w") as f:
                 json.dump({"text": text, "embedding": embedding}, f)
         except:
             pass
@@ -184,20 +187,15 @@ class EmbeddingService:
         """Encode texts without cache"""
         if self.provider == "local" and self._embedding_fn:
             return self._embedding_fn.encode(
-                texts,
-                batch_size=batch_size,
-                show_progress_bar=len(texts) > 100
+                texts, batch_size=batch_size, show_progress_bar=len(texts) > 100
             ).tolist()
 
-        elif self.provider == "openai" and hasattr(self, '_openai_client'):
+        elif self.provider == "openai" and hasattr(self, "_openai_client"):
             # OpenAI API call
             embeddings = []
             for i in range(0, len(texts), batch_size):
-                batch = texts[i:i + batch_size]
-                response = self._openai_client.embeddings.create(
-                    model=self.model,
-                    input=batch
-                )
+                batch = texts[i : i + batch_size]
+                response = self._openai_client.embeddings.create(model=self.model, input=batch)
                 batch_embeddings = [item.embedding for item in response.data]
                 embeddings.extend(batch_embeddings)
 
@@ -243,8 +241,7 @@ _embedding_service: Optional[EmbeddingService] = None
 
 
 def get_embedding_service(
-    provider: str = "auto",
-    model: str = "text-embedding-3-small"
+    provider: str = "auto", model: str = "text-embedding-3-small"
 ) -> EmbeddingService:
     """Get global embedding service instance"""
     global _embedding_service

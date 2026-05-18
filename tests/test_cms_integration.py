@@ -2,8 +2,13 @@
 
 import pytest
 from claw_mem.cms import (
-    CapacityMonitor, ContextWarningHook, ImportanceEvaluator,
-    CapacityStats, CapacityTrend, WarningEvent, ImportanceScore,
+    CapacityMonitor,
+    ContextWarningHook,
+    ImportanceEvaluator,
+    CapacityStats,
+    CapacityTrend,
+    WarningEvent,
+    ImportanceScore,
 )
 
 
@@ -27,9 +32,13 @@ class TestCMSIntegration:
             assert score.memory_id == mid
 
     def test_capacity_stats_roundtrip(self):
-        stats = CapacityStats(total_memories=100, total_tokens=5000,
-                             by_type={"episodic": 80, "semantic": 20},
-                             utilization=0.5, threshold=200)
+        stats = CapacityStats(
+            total_memories=100,
+            total_tokens=5000,
+            by_type={"episodic": 80, "semantic": 20},
+            utilization=0.5,
+            threshold=200,
+        )
         d = stats.to_dict()
         assert d["total_memories"] == 100
         assert d["utilization"] == 0.5

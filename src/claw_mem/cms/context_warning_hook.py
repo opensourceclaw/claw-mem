@@ -14,7 +14,8 @@ from typing import Optional, List
 @dataclass
 class WarningEvent:
     """Context capacity warning event."""
-    severity: str           # "info" / "warning" / "critical"
+
+    severity: str  # "info" / "warning" / "critical"
     message: str
     utilization: float
     threshold: float
@@ -39,8 +40,7 @@ class ContextWarningHook:
     WarningEvent when thresholds are exceeded.
     """
 
-    def __init__(self, capacity_monitor,
-                 cooldown_seconds: int = 300):
+    def __init__(self, capacity_monitor, cooldown_seconds: int = 300):
         self._monitor = capacity_monitor
         self._cooldown_seconds = cooldown_seconds
         self._last_warning_time: float = 0.0

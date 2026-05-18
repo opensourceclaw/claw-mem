@@ -2,10 +2,19 @@
 
 import pytest
 from claw_mem.benchmarks import (
-    RecallAtK, MRR, Precision, EvalResult, EvaluationMetrics,
-    MemBench, MemoryArena, ArenaTask, ArenaTaskType,
-    EvoMemory, StreamTask,
-    BenchmarkRunner, BenchmarkReport,
+    RecallAtK,
+    MRR,
+    Precision,
+    EvalResult,
+    EvaluationMetrics,
+    MemBench,
+    MemoryArena,
+    ArenaTask,
+    ArenaTaskType,
+    EvoMemory,
+    StreamTask,
+    BenchmarkRunner,
+    BenchmarkReport,
 )
 
 
@@ -27,8 +36,7 @@ class TestRecallAtK:
         assert r == 1.0
 
     def test_calculate_all(self):
-        results = RecallAtK.calculate_all(
-            ["a", "c", "b", "d"], {"a", "b"}, ks=[1, 3, 5])
+        results = RecallAtK.calculate_all(["a", "c", "b", "d"], {"a", "b"}, ks=[1, 3, 5])
         assert len(results) == 3
         assert results[0].k == 1
         assert results[1].metric == "recall"

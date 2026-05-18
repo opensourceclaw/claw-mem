@@ -1,7 +1,9 @@
 """Tests for RecoveryMechanism (v3.0.0-rc.3)."""
+
 import tempfile, pytest
 from claw_mem.cms.snapshot import SnapshotStorage
 from claw_mem.cms.recovery import RecoveryMechanism, RecoveryResult, ValidationResult
+
 
 class TestRecoveryMechanism:
     def setup_method(self):
@@ -10,13 +12,13 @@ class TestRecoveryMechanism:
         self.rm = RecoveryMechanism(self.store)
 
     def test_recover_latest(self):
-        self.store.save("s1", state="active", memory_ids=["a","b","c"])
+        self.store.save("s1", state="active", memory_ids=["a", "b", "c"])
         r = self.rm.recover("s1", strategy="latest")
         assert r.success
         assert r.recovered_count == 3
 
     def test_recover_specific(self):
-        sid = self.store.save("s2", memory_ids=["x","y"])
+        sid = self.store.save("s2", memory_ids=["x", "y"])
         r = self.rm.recover("s2", snapshot_id=sid, strategy="specific")
         assert r.success
         assert r.recovered_count == 2

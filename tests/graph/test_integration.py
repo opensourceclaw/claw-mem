@@ -21,16 +21,14 @@ from claw_mem.graph.nodes import EpisodeNode
 
 
 class TestGraphWithExtractor:
-    """测试图谱与提取器集成"""
+    """Test graph with extractor integration"""
 
     def test_graph_with_llm_extractor(self):
-        """测试图谱与 LLM 提取器集成"""
+        """Test graph with LLM extractor integration"""
         extractor = LLMExtractor(llm_client=None)
         graph = ConceptMediatedGraph(extractor=extractor)
 
-        turns = [
-            {"speaker": "user", "content": "我决定使用 Python 开发项目"}
-        ]
+        turns = [{"speaker": "user", "content": "I decided to use Python for the project"}]
 
         episode_ids = graph.add_conversation(turns)
 
@@ -38,98 +36,96 @@ class TestGraphWithExtractor:
         assert graph.storage.get_node(episode_ids[0]) is not None
 
     def test_graph_with_keyword_extractor(self):
-        """测试图谱与关键词提取器集成"""
+        """Test graph with keyword extractor integration"""
         extractor = KeywordExtractor()
         graph = ConceptMediatedGraph(extractor=extractor)
 
         turns = [
-            {"speaker": "user", "content": "Python 编程"},
-            {"speaker": "agent", "content": "推荐使用 pandas"}
+            {"speaker": "user", "content": "Python programming"},
+            {"speaker": "agent", "content": "Recommend using pandas"},
         ]
 
         episode_ids = graph.add_conversation(turns)
 
         assert len(episode_ids) == 2
-        # 验证概念是否被提取
+        # Verify concepts were extracted
         concepts = graph.storage.get_nodes_by_type(NodeType.CONCEPT)
-        # KeywordExtractor 会提取概念
+        # KeywordExtractor should extract concepts
         assert len(concepts) >= 0
 
     def test_graph_with_dummy_extractor(self):
-        """测试图谱与空提取器集成"""
+        """Test graph with dummy extractor integration"""
         extractor = DummyExtractor()
         graph = ConceptMediatedGraph(extractor=extractor)
 
-        turns = [
-            {"speaker": "user", "content": "测试内容"}
-        ]
+        turns = [{"speaker": "user", "content": "Test content"}]
 
         episode_ids = graph.add_conversation(turns)
 
         assert len(episode_ids) == 1
-        # 空提取器不会创建 Fact 和 Concept
+        # Dummy extractor should not create Fact or Concept
         facts = graph.storage.get_nodes_by_type(NodeType.FACT)
         assert len(facts) == 0
 
 
 class TestGraphWithEmbedder:
-    """测试图谱与嵌入器集成"""
+    """Test graph with embedder integration"""
 
     def test_graph_with_embedder(self):
-        """测试图谱与嵌入器集成"""
+        """Test graph with embedder integration"""
         embedder = DummyEmbedder(dimension=128)
         graph = ConceptMediatedGraph(embedder=embedder)
 
-        episode_id = graph.add_episode("Python 编程")
+        episode_id = graph.add_episode("Python programming")
 
         node = graph.get_node(episode_id)
         assert node.embedding is not None
         assert len(node.embedding) == 128
 
     def test_graph_without_embedder(self):
-        """测试图谱无嵌入器"""
+        """Test graph without embedder"""
         graph = ConceptMediatedGraph(embedder=None)
 
-        episode_id = graph.add_episode("Python 编程")
+        episode_id = graph.add_episode("Python programming")
 
         node = graph.get_node(episode_id)
         assert node.embedding is None
 
 
 class TestRetrieveWithDifferentAlpha:
-    """测试不同 alpha 的检索"""
+    """Test retrieval with different alpha values"""
 
     def test_retrieve_alpha_1(self):
-        """测试纯语义检索"""
+        """Test pure semantic retrieval"""
         embedder = DummyEmbedder()
         graph = ConceptMediatedGraph(embedder=embedder)
 
-        graph.add_episode("Python 编程")
-        graph.add_episode("JavaScript 开发")
+        graph.add_episode("Python programming")
+        graph.add_episode("JavaScript development")
 
         results = graph.retrieve("Python", alpha=1.0)
 
         assert len(results) > 0
 
     def test_retrieve_alpha_0(self):
-        """测试纯 PPR"""
+        """Test pure PPR"""
         embedder = DummyEmbedder()
         graph = ConceptMediatedGraph(embedder=embedder)
 
-        graph.add_episode("Python 编程")
-        graph.add_episode("JavaScript 开发")
+        graph.add_episode("Python programming")
+        graph.add_episode("JavaScript development")
 
         results = graph.retrieve("Python", alpha=0.0)
 
         assert len(results) > 0
 
     def test_retrieve_alpha_05(self):
-        """测试混合检索"""
+        """Test hybrid retrieval"""
         embedder = DummyEmbedder()
         graph = ConceptMediatedGraph(embedder=embedder)
 
-        graph.add_episode("Python 编程")
-        graph.add_episode("JavaScript 开发")
+        graph.add_episode("Python programming")
+        graph.add_episode("JavaScript development")
 
         results = graph.retrieve("Python", alpha=0.5)
 
@@ -137,10 +133,10 @@ class TestRetrieveWithDifferentAlpha:
 
 
 class TestGraphEdgeCases:
-    """测试边界情况"""
+    """Test edge cases"""
 
     def test_empty_graph_retrieve(self):
-        """测试空图谱检索"""
+        """Test empty graph retrieval"""
         graph = ConceptMediatedGraph()
 
         results = graph.retrieve("test")
@@ -148,7 +144,7 @@ class TestGraphEdgeCases:
         assert results == []
 
     def test_get_neighbors_no_node(self):
-        """测试获取不存在节点的邻居"""
+        """Test getting neighbors for nonexistent node"""
         graph = ConceptMediatedGraph()
 
         neighbors = graph.get_neighbors("nonexistent")
@@ -156,10 +152,10 @@ class TestGraphEdgeCases:
         assert neighbors == []
 
     def test_get_stats_empty(self):
-        """测试空图谱统计"""
+        """Test empty graph stats"""
         graph = ConceptMediatedGraph()
 
         stats = graph.get_stats()
 
-        assert stats['total_nodes'] == 0
-        assert stats['total_edges'] == 0
+        assert stats["total_nodes"] == 0
+        assert stats["total_edges"] == 0

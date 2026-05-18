@@ -44,8 +44,7 @@ class ChromaDBPlugin(VectorDBPlugin):
 
             # Get or create collection
             self.collection = self.client.get_or_create_collection(
-                name=self.collection_name,
-                metadata={"description": "claw-mem memories"}
+                name=self.collection_name, metadata={"description": "claw-mem memories"}
             )
 
             # Load embedding model
@@ -75,10 +74,7 @@ class ChromaDBPlugin(VectorDBPlugin):
         return embeddings.tolist()
 
     def add(
-        self,
-        documents: List[str],
-        ids: List[str],
-        metadata: Optional[List[Dict[str, Any]]] = None
+        self, documents: List[str], ids: List[str], metadata: Optional[List[Dict[str, Any]]] = None
     ) -> bool:
         """Add documents to ChromaDB"""
         if self.collection is None:
@@ -90,20 +86,12 @@ class ChromaDBPlugin(VectorDBPlugin):
         if metadata is None:
             metadata = [{} for _ in documents]
 
-        self.collection.add(
-            embeddings=embeddings,
-            documents=documents,
-            ids=ids,
-            metadatas=metadata
-        )
+        self.collection.add(embeddings=embeddings, documents=documents, ids=ids, metadatas=metadata)
 
         return True
 
     def search(
-        self,
-        query: str,
-        top_k: int = 5,
-        filter_metadata: Optional[Dict[str, Any]] = None
+        self, query: str, top_k: int = 5, filter_metadata: Optional[Dict[str, Any]] = None
     ) -> List[SearchResult]:
         """Search for similar documents"""
         if self.collection is None:
@@ -114,21 +102,28 @@ class ChromaDBPlugin(VectorDBPlugin):
 
         # Search
         results = self.collection.query(
-            query_embeddings=[query_embedding],
-            n_results=top_k,
-            where=filter_metadata
+            query_embeddings=[query_embedding], n_results=top_k, where=filter_metadata
         )
 
         # Convert to standard format
         search_results = []
         if results and results.get("ids") and results["ids"][0]:
             for i, doc_id in enumerate(results["ids"][0]):
-                search_results.append(SearchResult(
-                    id=doc_id,
-                    content=results["documents"][0][i],
-                    score=1.0 - (results.get("distances", [[0]])[0][i] or 0),  # Convert distance to similarity
-                    metadata=results.get("metadatas", [{}])[0][i] if results.get("metadatas") else None
-                ))
+                search_results.append(
+                    SearchResult(
+                        id=doc_id,
+                        content=results["documents"][0][i],
+                        score=1.0
+                        - (
+                            results.get("distances", [[0]])[0][i] or 0
+                        ),  # Convert distance to similarity
+                        metadata=(
+                            results.get("metadatas", [{}])[0][i]
+                            if results.get("metadatas")
+                            else None
+                        ),
+                    )
+                )
 
         return search_results
 
@@ -152,7 +147,7 @@ class ChromaDBPlugin(VectorDBPlugin):
                     id=id,
                     content=result["documents"][0],
                     score=1.0,
-                    metadata=result.get("metadatas", [None])[0]
+                    metadata=result.get("metadatas", [None])[0],
                 )
         except Exception:
             pass
@@ -180,4 +175,5 @@ class ChromaDBPlugin(VectorDBPlugin):
 
 # Register this plugin
 from .plugin import VectorDBFactory
+
 VectorDBFactory.register(VectorDBType.CHROMADB, ChromaDBPlugin)

@@ -56,8 +56,7 @@ class Event:
 
     @classmethod
     def from_dict(cls, d: dict) -> "Event":
-        return cls(**{k: v for k, v in d.items()
-                      if k in cls.__dataclass_fields__})
+        return cls(**{k: v for k, v in d.items() if k in cls.__dataclass_fields__})
 
 
 @dataclass
@@ -87,8 +86,7 @@ class Topic:
 
     @classmethod
     def from_dict(cls, d: dict) -> "Topic":
-        return cls(**{k: v for k, v in d.items()
-                      if k in cls.__dataclass_fields__})
+        return cls(**{k: v for k, v in d.items() if k in cls.__dataclass_fields__})
 
 
 class DualLayerMemory:
@@ -114,10 +112,14 @@ class DualLayerMemory:
 
     # ── Layer 1: Event Progression Graph ──────────────────────────────
 
-    def add_event(self, title: str, description: str = "",
-                  node_ids: Optional[List[str]] = None,
-                  session_id: Optional[str] = None,
-                  tags: Optional[List[str]] = None) -> str:
+    def add_event(
+        self,
+        title: str,
+        description: str = "",
+        node_ids: Optional[List[str]] = None,
+        session_id: Optional[str] = None,
+        tags: Optional[List[str]] = None,
+    ) -> str:
         """Create a new event. Auto-links to the latest event in the same session.
 
         Args:
@@ -226,10 +228,14 @@ class DualLayerMemory:
 
     # ── Layer 2: Topic Associative Network ────────────────────────────
 
-    def add_topic(self, name: str, description: str = "",
-                  node_ids: Optional[List[str]] = None,
-                  event_ids: Optional[List[str]] = None,
-                  keywords: Optional[List[str]] = None) -> str:
+    def add_topic(
+        self,
+        name: str,
+        description: str = "",
+        node_ids: Optional[List[str]] = None,
+        event_ids: Optional[List[str]] = None,
+        keywords: Optional[List[str]] = None,
+    ) -> str:
         """Create a new topic.
 
         Args:
@@ -261,16 +267,15 @@ class DualLayerMemory:
     def get_topic(self, topic_id: str) -> Optional[Topic]:
         return self._topics.get(topic_id)
 
-    def link_topics(self, topic1_id: str, topic2_id: str,
-                    weight: float = 0.5) -> None:
+    def link_topics(self, topic1_id: str, topic2_id: str, weight: float = 0.5) -> None:
         """Link two topics with a symmetric weight."""
         with self._lock:
             self._topic_links[(topic1_id, topic2_id)] = weight
             self._topic_links[(topic2_id, topic1_id)] = weight
 
-    def get_related_topics(self, topic_id: str,
-                           min_weight: float = 0.3
-                           ) -> List[Tuple[Topic, float]]:
+    def get_related_topics(
+        self, topic_id: str, min_weight: float = 0.3
+    ) -> List[Tuple[Topic, float]]:
         """Get related topics above the minimum weight threshold."""
         results: List[Tuple[Topic, float]] = []
         with self._lock:
@@ -299,35 +304,18 @@ class DualLayerMemory:
     def to_dict(self) -> dict:
         with self._lock:
             return {
-                "events": {
-                    eid: evt.to_dict() for eid, evt in self._events.items()
-                },
-                "topics": {
-                    tid: tpc.to_dict() for tid, tpc in self._topics.items()
-                },
-                "event_chain": {
-                    k: v for k, v in self._event_chain.items()
-                },
-                "topic_links": {
-                    f"{k[0]}||{k[1]}": v
-                    for k, v in self._topic_links.items()
-                },
+                "events": {eid: evt.to_dict() for eid, evt in self._events.items()},
+                "topics": {tid: tpc.to_dict() for tid, tpc in self._topics.items()},
+                "event_chain": {k: v for k, v in self._event_chain.items()},
+                "topic_links": {f"{k[0]}||{k[1]}": v for k, v in self._topic_links.items()},
             }
 
     @classmethod
     def from_dict(cls, d: dict) -> "DualLayerMemory":
         dm = cls()
-        dm._events = {
-            eid: Event.from_dict(ed)
-            for eid, ed in d.get("events", {}).items()
-        }
-        dm._topics = {
-            tid: Topic.from_dict(td)
-            for tid, td in d.get("topics", {}).items()
-        }
-        dm._event_chain = {
-            k: list(v) for k, v in d.get("event_chain", {}).items()
-        }
+        dm._events = {eid: Event.from_dict(ed) for eid, ed in d.get("events", {}).items()}
+        dm._topics = {tid: Topic.from_dict(td) for tid, td in d.get("topics", {}).items()}
+        dm._event_chain = {k: list(v) for k, v in d.get("event_chain", {}).items()}
         dm._topic_links = {}
         for k, v in d.get("topic_links", {}).items():
             t1, t2 = k.split("||", 1)

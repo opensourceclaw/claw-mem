@@ -80,7 +80,10 @@ class TestSessionSummaryGenerator:
 
     def test_mixed_content(self):
         memories = [
-            {"id": "1", "content": "We decided on Redis, I prefer Python, and will implement caching"},
+            {
+                "id": "1",
+                "content": "We decided on Redis, I prefer Python, and will implement caching",
+            },
         ]
         summary = self.gen.generate("s9", memories, "key_points")
         # Should match at least 2 categories

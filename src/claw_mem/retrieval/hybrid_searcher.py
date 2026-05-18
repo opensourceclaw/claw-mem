@@ -47,7 +47,7 @@ class HybridSearcher:
         rrf_k: int = 60,
         use_cache: bool = True,
         recency_boost: float = 0.1,
-        frequency_boost: float = 0.05
+        frequency_boost: float = 0.05,
     ):
         """Initialize hybrid searcher
 
@@ -84,12 +84,7 @@ class HybridSearcher:
         else:
             self._cache = None
 
-    def index_document(
-        self,
-        id: str,
-        text: str,
-        metadata: Optional[Dict[str, Any]] = None
-    ):
+    def index_document(self, id: str, text: str, metadata: Optional[Dict[str, Any]] = None):
         """Add document to both indexes
 
         Args:
@@ -105,13 +100,9 @@ class HybridSearcher:
 
         # For BM25, we need to rebuild index with all documents
         # Store documents for later search
-        if not hasattr(self, '_documents'):
+        if not hasattr(self, "_documents"):
             self._documents = []
-        self._documents.append({
-            "id": id,
-            "content": text,
-            "metadata": metadata or {}
-        })
+        self._documents.append({"id": id, "content": text, "metadata": metadata or {}})
 
         # Rebuild BM25 index
         self.bm25.build_index(self._documents)
@@ -122,7 +113,7 @@ class HybridSearcher:
         top_k: int = 10,
         bm25_threshold: float = 0.0,
         semantic_threshold: float = 0.5,
-        filters: Optional[Dict[str, Any]] = None
+        filters: Optional[Dict[str, Any]] = None,
     ) -> List[Dict[str, Any]]:
         """Hybrid search
 
@@ -145,7 +136,9 @@ class HybridSearcher:
         bm25_dict = {}
         for idx, r in enumerate(bm25_results):
             # Use reverse rank as score
-            bm25_dict[r.get("id", idx)] = (len(bm25_results) - idx) / len(bm25_results) if bm25_results else 0
+            bm25_dict[r.get("id", idx)] = (
+                (len(bm25_results) - idx) / len(bm25_results) if bm25_results else 0
+            )
 
         # Get semantic results
         try:
@@ -153,12 +146,9 @@ class HybridSearcher:
                 query,
                 top_k=self.semantic_top_k,
                 score_threshold=semantic_threshold,
-                filters=filters
+                filters=filters,
             )
-            semantic_dict = {
-                r["id"]: r["score"]
-                for r in semantic_results
-            }
+            semantic_dict = {r["id"]: r["score"] for r in semantic_results}
         except Exception:
             semantic_dict = {}
 
@@ -181,18 +171,21 @@ class HybridSearcher:
             # Get text and metadata from stored documents
             doc = next((d for d in self._documents if d["id"] == id), None)
             if doc:
-                results.append({
-                    "id": id,
-                    "text": doc["content"],
-                    "score": score,
-                    "metadata": doc.get("metadata", {}),
-                    "bm25_score": bm25_dict.get(id, 0),
-                    "semantic_score": semantic_dict.get(id, 0)
-                })
+                results.append(
+                    {
+                        "id": id,
+                        "text": doc["content"],
+                        "score": score,
+                        "metadata": doc.get("metadata", {}),
+                        "bm25_score": bm25_dict.get(id, 0),
+                        "semantic_score": semantic_dict.get(id, 0),
+                    }
+                )
 
         # Apply recency and frequency boost
         if self.recency_boost > 0 or self.frequency_boost > 0:
             import time
+
             now = time.time()
             results = self._apply_boosts(results, now)
 
@@ -206,6 +199,7 @@ class HybridSearcher:
 
         # Track access for frequency boost
         import time
+
         now = time.time()
         for result in final_results:
             doc_id = result["id"]
@@ -255,9 +249,7 @@ class HybridSearcher:
         return results
 
     def _reciprocal_rank_fusion(
-        self,
-        bm25_scores: Dict[str, float],
-        semantic_scores: Dict[str, float]
+        self, bm25_scores: Dict[str, float], semantic_scores: Dict[str, float]
     ) -> Dict[str, float]:
         """Reciprocal Rank Fusion
 
@@ -265,7 +257,9 @@ class HybridSearcher:
         """
         # Get ranked lists
         bm25_ranked = sorted(bm25_scores.keys(), key=lambda x: bm25_scores[x], reverse=True)
-        semantic_ranked = sorted(semantic_scores.keys(), key=lambda x: semantic_scores[x], reverse=True)
+        semantic_ranked = sorted(
+            semantic_scores.keys(), key=lambda x: semantic_scores[x], reverse=True
+        )
 
         # Calculate RRF scores
         rrf_scores = {}
@@ -289,9 +283,7 @@ class HybridSearcher:
         return rrf_scores
 
     def _weighted_combination(
-        self,
-        bm25_scores: Dict[str, float],
-        semantic_scores: Dict[str, float]
+        self, bm25_scores: Dict[str, float], semantic_scores: Dict[str, float]
     ) -> Dict[str, float]:
         """Weighted score combination"""
         # Normalize scores
@@ -305,10 +297,7 @@ class HybridSearcher:
             bm25_norm = bm25_scores.get(id, 0) / max_bm25 if max_bm25 > 0 else 0
             semantic_norm = semantic_scores.get(id, 0) / max_semantic if max_semantic > 0 else 0
 
-            combined[id] = (
-                self.bm25_weight * bm25_norm +
-                self.semantic_weight * semantic_norm
-            )
+            combined[id] = self.bm25_weight * bm25_norm + self.semantic_weight * semantic_norm
 
         return combined
 
@@ -330,18 +319,14 @@ _hybrid_searcher: Optional[HybridSearcher] = None
 
 
 def get_hybrid_searcher(
-    bm25_weight: float = 1.0,
-    semantic_weight: float = 0.0,
-    top_k: int = 10
+    bm25_weight: float = 1.0, semantic_weight: float = 0.0, top_k: int = 10
 ) -> HybridSearcher:
     """Get global hybrid searcher instance (BM25-only by default)"""
     global _hybrid_searcher
 
     if _hybrid_searcher is None:
         _hybrid_searcher = HybridSearcher(
-            bm25_weight=bm25_weight,
-            semantic_weight=semantic_weight,
-            semantic_top_k=top_k * 2
+            bm25_weight=bm25_weight, semantic_weight=semantic_weight, semantic_top_k=top_k * 2
         )
 
     return _hybrid_searcher

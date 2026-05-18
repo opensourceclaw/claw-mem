@@ -4,8 +4,12 @@ import math
 import time
 import pytest
 from claw_mem.decay.functions import (
-    exponential_decay, calculate_weight, half_life_to_days,
-    DecayConfig, HALF_LIFE, LAMBDA,
+    exponential_decay,
+    calculate_weight,
+    half_life_to_days,
+    DecayConfig,
+    HALF_LIFE,
+    LAMBDA,
 )
 from claw_mem.decay.controller import DecayController
 from claw_mem.decay.scheduler import DecayScheduler
@@ -13,10 +17,10 @@ from claw_mem.graph.multi_graph import MultiGraphMemory, SubGraphType
 from claw_mem.graph.nodes import NodeType
 from claw_mem.graph.edges import EdgeType
 
-
 # ============================================================================
 # Decay functions tests
 # ============================================================================
+
 
 class TestExponentialDecay:
     """Tests for the core exponential_decay function."""
@@ -119,6 +123,7 @@ class TestDecayConfig:
 # DecayController tests
 # ============================================================================
 
+
 class TestDecayController:
     """Tests for DecayController."""
 
@@ -142,8 +147,8 @@ class TestDecayController:
         self.mg.add_node("c", "C", NodeType.EPISODE)
         self.mg.add_node("d", "D", NodeType.EPISODE)
         self.mg.add_node("e", "E", NodeType.EPISODE)
-        self.mg.add_edge("a", "c", EdgeType.NEXT, 0.8)   # strong
-        self.mg.add_edge("a", "d", EdgeType.NEXT, 0.5)   # medium
+        self.mg.add_edge("a", "c", EdgeType.NEXT, 0.8)  # strong
+        self.mg.add_edge("a", "d", EdgeType.NEXT, 0.5)  # medium
         self.mg.add_edge("a", "e", EdgeType.NEXT, 0.05)  # expired
 
         classified = self.ctrl.classify_edges()
@@ -177,6 +182,7 @@ class TestDecayController:
 # ============================================================================
 # DecayScheduler tests
 # ============================================================================
+
 
 class TestDecayScheduler:
     """Tests for DecayScheduler."""

@@ -28,7 +28,7 @@ class TestUserValue:
             user_id="test",
             principles=["test principle"],
             preferences={"key": "value"},
-            red_lines=["no lying"]
+            red_lines=["no lying"],
         )
 
         d = uv.to_dict()

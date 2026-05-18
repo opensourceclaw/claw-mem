@@ -38,6 +38,7 @@ from enum import Enum
 # Optional Jieba import for Chinese tokenization
 try:
     import jieba
+
     JIEBA_AVAILABLE = True
 except ImportError:
     jieba = None
@@ -46,6 +47,7 @@ except ImportError:
 
 class MemoryLayer(Enum):
     """Memory layer enumeration"""
+
     L1 = "l1"  # Working Memory (current session)
     L2 = "l2"  # Short-term Memory (daily files)
     L3 = "l3"  # Long-term Memory (MEMORY.md)
@@ -54,6 +56,7 @@ class MemoryLayer(Enum):
 @dataclass
 class MemoryResult:
     """Memory search result"""
+
     memory_id: str
     content: str
     layer: MemoryLayer
@@ -80,8 +83,11 @@ class MemoryResult:
 @dataclass
 class SearchQuery:
     """Search query with metadata"""
+
     query: str
-    layers: List[MemoryLayer] = field(default_factory=lambda: [MemoryLayer.L1, MemoryLayer.L2, MemoryLayer.L3])
+    layers: List[MemoryLayer] = field(
+        default_factory=lambda: [MemoryLayer.L1, MemoryLayer.L2, MemoryLayer.L3]
+    )
     limit: int = 10
     memory_type: Optional[str] = None
     tags: Optional[List[str]] = None
@@ -174,7 +180,7 @@ class IntentClassifier:
 
     def _contains_chinese(self, text: str) -> bool:
         """Check if text contains Chinese characters"""
-        return bool(re.search(r'[\u4e00-\u9fff]', text))
+        return bool(re.search(r"[\u4e00-\u9fff]", text))
 
     def _tokenize_chinese(self, text: str) -> List[str]:
         """Tokenize Chinese text using Jieba or character-level"""
@@ -185,12 +191,12 @@ class IntentClassifier:
                 pass
 
         # Fallback to character-level
-        return list(re.sub(r'[^\w\u4e00-\u9fff]', '', text))
+        return list(re.sub(r"[^\w\u4e00-\u9fff]", "", text))
 
     def _tokenize_english(self, text: str) -> List[str]:
         """Tokenize English text"""
         text = text.lower()
-        text = re.sub(r'[^\w\s]', ' ', text)
+        text = re.sub(r"[^\w\s]", " ", text)
         return text.split()
 
 
@@ -215,6 +221,7 @@ class ThreeTierRetriever:
             workspace: OpenClaw workspace path
         """
         from pathlib import Path as PathLib
+
         self.workspace = workspace if isinstance(workspace, PathLib) else PathLib(workspace)
         self.intent_classifier = IntentClassifier()
 
@@ -227,11 +234,14 @@ class ThreeTierRetriever:
         self._total_latency_ms = 0.0
         self._last_search_time: Optional[datetime] = None
 
-    def search(self, query: str,
-               layers: Optional[List[str]] = None,
-               limit: int = 10,
-               memory_type: Optional[str] = None,
-               session_context: Optional[Dict] = None) -> List[MemoryResult]:
+    def search(
+        self,
+        query: str,
+        layers: Optional[List[str]] = None,
+        limit: int = 10,
+        memory_type: Optional[str] = None,
+        session_context: Optional[Dict] = None,
+    ) -> List[MemoryResult]:
         """
         Cross-layer memory search
 
@@ -289,8 +299,9 @@ class ThreeTierRetriever:
 
         return final_results
 
-    def _search_layer(self, query: SearchQuery, layer: MemoryLayer,
-                      session_context: Optional[Dict] = None) -> List[MemoryResult]:
+    def _search_layer(
+        self, query: SearchQuery, layer: MemoryLayer, session_context: Optional[Dict] = None
+    ) -> List[MemoryResult]:
         """
         Search a specific memory layer
 
@@ -311,8 +322,9 @@ class ThreeTierRetriever:
 
         return []
 
-    def _search_l1_working_memory(self, query: SearchQuery,
-                                   session_context: Optional[Dict] = None) -> List[MemoryResult]:
+    def _search_l1_working_memory(
+        self, query: SearchQuery, session_context: Optional[Dict] = None
+    ) -> List[MemoryResult]:
         """
         Search L1: Working Memory (current session context)
 
@@ -334,20 +346,22 @@ class ThreeTierRetriever:
             score = self._compute_relevance_score(query.query, content, query.intent)
 
             if score >= query.min_score:
-                results.append(MemoryResult(
-                    memory_id=memory.get("id", "l1_unknown"),
-                    content=content,
-                    layer=MemoryLayer.L1,
-                    score=score,
-                    source="working_memory",
-                    timestamp=memory.get("timestamp"),
-                    tags=memory.get("tags", []),
-                    memory_type=memory.get("type", "episodic"),
-                ))
+                results.append(
+                    MemoryResult(
+                        memory_id=memory.get("id", "l1_unknown"),
+                        content=content,
+                        layer=MemoryLayer.L1,
+                        score=score,
+                        source="working_memory",
+                        timestamp=memory.get("timestamp"),
+                        tags=memory.get("tags", []),
+                        memory_type=memory.get("type", "episodic"),
+                    )
+                )
 
         # Sort by score
         results.sort(key=lambda x: x.score, reverse=True)
-        return results[:query.limit]
+        return results[: query.limit]
 
     def _search_l2_short_term(self, query: SearchQuery) -> List[MemoryResult]:
         """
@@ -366,9 +380,7 @@ class ThreeTierRetriever:
 
         # Find daily memory files (YYYY-MM-DD.md format)
         daily_files = sorted(
-            self.memory_dir.glob("*.md"),
-            key=lambda f: f.stem,
-            reverse=True  # Most recent first
+            self.memory_dir.glob("*.md"), key=lambda f: f.stem, reverse=True  # Most recent first
         )
 
         # Limit to recent files for performance (last 30 days)
@@ -388,7 +400,7 @@ class ThreeTierRetriever:
 
         # Sort by score and limit
         results.sort(key=lambda x: x.score, reverse=True)
-        return results[:query.limit]
+        return results[: query.limit]
 
     def _search_l3_long_term(self, query: SearchQuery) -> List[MemoryResult]:
         """
@@ -405,8 +417,9 @@ class ThreeTierRetriever:
 
         return self._search_file(self.memory_file, MemoryLayer.L3, query)
 
-    def _search_file(self, file_path: Path, layer: MemoryLayer,
-                     query: SearchQuery) -> List[MemoryResult]:
+    def _search_file(
+        self, file_path: Path, layer: MemoryLayer, query: SearchQuery
+    ) -> List[MemoryResult]:
         """
         Search memories in a file
 
@@ -421,7 +434,7 @@ class ThreeTierRetriever:
         results = []
 
         try:
-            with open(file_path, 'r', encoding='utf-8') as f:
+            with open(file_path, "r", encoding="utf-8") as f:
                 content = f.read()
 
             # Parse memory entries
@@ -439,19 +452,23 @@ class ThreeTierRetriever:
                         continue
 
                 # Compute relevance score
-                score = self._compute_relevance_score(query.query, memory.get("content", ""), query.intent)
+                score = self._compute_relevance_score(
+                    query.query, memory.get("content", ""), query.intent
+                )
 
                 if score >= query.min_score:
-                    results.append(MemoryResult(
-                        memory_id=memory.get("id", f"{layer.value}_unknown"),
-                        content=memory.get("content", ""),
-                        layer=layer,
-                        score=score,
-                        source=str(file_path),
-                        timestamp=memory.get("timestamp"),
-                        tags=memory.get("tags", []),
-                        memory_type=memory.get("type", "episodic"),
-                    ))
+                    results.append(
+                        MemoryResult(
+                            memory_id=memory.get("id", f"{layer.value}_unknown"),
+                            content=memory.get("content", ""),
+                            layer=layer,
+                            score=score,
+                            source=str(file_path),
+                            timestamp=memory.get("timestamp"),
+                            tags=memory.get("tags", []),
+                            memory_type=memory.get("type", "episodic"),
+                        )
+                    )
 
         except Exception as e:
             print(f"Warning: Failed to search {file_path}: {e}")
@@ -472,7 +489,7 @@ class ThreeTierRetriever:
         memories = []
         current_meta = {}
 
-        for line in content.split('\n'):
+        for line in content.split("\n"):
             line = line.strip()
 
             # Skip empty lines and headers
@@ -492,21 +509,23 @@ class ThreeTierRetriever:
                 try:
                     end_timestamp = line.index("]")
                     timestamp = line[1:end_timestamp]
-                    memory_content = line[end_timestamp+1:].strip()
+                    memory_content = line[end_timestamp + 1 :].strip()
 
                     # Parse tags
                     tags = []
                     if "tags" in current_meta:
                         tags = [t.strip() for t in current_meta["tags"].split(",")]
 
-                    memories.append({
-                        "id": current_meta.get("id"),
-                        "timestamp": timestamp,
-                        "content": memory_content,
-                        "tags": tags,
-                        "type": current_meta.get("type", "episodic"),
-                        "source": str(file_path),
-                    })
+                    memories.append(
+                        {
+                            "id": current_meta.get("id"),
+                            "timestamp": timestamp,
+                            "content": memory_content,
+                            "tags": tags,
+                            "type": current_meta.get("type", "episodic"),
+                            "source": str(file_path),
+                        }
+                    )
 
                     current_meta = {}  # Reset metadata
                 except (ValueError, IndexError):
@@ -514,8 +533,9 @@ class ThreeTierRetriever:
 
         return memories
 
-    def _compute_relevance_score(self, query: str, content: str,
-                                  intent: Optional[str] = None) -> float:
+    def _compute_relevance_score(
+        self, query: str, content: str, intent: Optional[str] = None
+    ) -> float:
         """
         Compute relevance score between query and content
 
@@ -538,7 +558,7 @@ class ThreeTierRetriever:
 
         # Keyword match score
         query_keywords = set(query_lower.split())
-        content_words = set(re.findall(r'\w+', content_lower))
+        content_words = set(re.findall(r"\w+", content_lower))
 
         keyword_matches = len(query_keywords & content_words)
         keyword_score = keyword_matches / max(len(query_keywords), 1)
@@ -549,13 +569,12 @@ class ThreeTierRetriever:
             intent_boost = 0.2
 
         # Combined score
-        score = (0.5 * exact_match + 0.4 * keyword_score + 0.1 * intent_boost)
+        score = 0.5 * exact_match + 0.4 * keyword_score + 0.1 * intent_boost
 
         # Normalize to 0-1 range
         return min(score, 1.0)
 
-    def _rank_and_deduplicate(self, results: List[MemoryResult],
-                               query: str) -> List[MemoryResult]:
+    def _rank_and_deduplicate(self, results: List[MemoryResult], query: str) -> List[MemoryResult]:
         """
         Rank results and remove duplicates
 
@@ -614,7 +633,9 @@ class ThreeTierRetriever:
         return {
             "total_searches": self._search_count,
             "average_latency_ms": round(avg_latency, 2),
-            "last_search_time": self._last_search_time.isoformat() if self._last_search_time else None,
+            "last_search_time": (
+                self._last_search_time.isoformat() if self._last_search_time else None
+            ),
             "performance_target_met": avg_latency < 500,
         }
 
@@ -635,8 +656,9 @@ class SessionStartupHook:
         """
         self.retriever = retriever
 
-    def on_session_start(self, session_id: str,
-                         initial_context: Optional[str] = None) -> Dict[str, Any]:
+    def on_session_start(
+        self, session_id: str, initial_context: Optional[str] = None
+    ) -> Dict[str, Any]:
         """
         Called when a session starts
 
@@ -696,10 +718,9 @@ class SessionStartupHook:
         return "\n".join(lines)
 
 
-def search_memory(query: str,
-                  layers: Optional[List[str]] = None,
-                  limit: int = 10,
-                  workspace: Optional[str] = None) -> List[Dict]:
+def search_memory(
+    query: str, layers: Optional[List[str]] = None, limit: int = 10, workspace: Optional[str] = None
+) -> List[Dict]:
     """
     Convenience function for cross-layer memory search
 
@@ -715,6 +736,7 @@ def search_memory(query: str,
     # Auto-detect workspace
     if workspace is None:
         from ..config import ConfigDetector
+
         workspace = ConfigDetector.detect_workspace()
 
     workspace_path = Path(workspace).expanduser()

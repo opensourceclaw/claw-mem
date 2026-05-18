@@ -28,7 +28,7 @@ from claw_mem.graph.edges import (
 
 
 class TestInMemoryGraphStorage:
-    """测试内存图谱存储"""
+    """Test in-memory graph storage"""
 
     def setup_method(self):
         self.storage = InMemoryGraphStorage()
@@ -99,9 +99,9 @@ class TestInMemoryGraphStorage:
         self.storage.save_node(ep)
         self.storage.save_node(fact)
         stats = self.storage.get_stats()
-        assert stats['total_nodes'] == 2
-        assert stats['episodes'] == 1
-        assert stats['facts'] == 1
+        assert stats["total_nodes"] == 2
+        assert stats["episodes"] == 1
+        assert stats["facts"] == 1
 
     def test_clear(self):
         node = EpisodeNode(id="ep_1", content="Test")
@@ -111,14 +111,10 @@ class TestInMemoryGraphStorage:
 
 
 class TestFileGraphStorage:
-    """测试文件图谱存储"""
+    """Test file graph storage"""
 
     def setup_method(self):
-        self.temp_file = tempfile.NamedTemporaryFile(
-            mode='w',
-            suffix='.json',
-            delete=False
-        )
+        self.temp_file = tempfile.NamedTemporaryFile(mode="w", suffix=".json", delete=False)
         self.temp_file.close()
         self.storage = FileGraphStorage(self.temp_file.name)
 
@@ -130,7 +126,7 @@ class TestFileGraphStorage:
         node = EpisodeNode(id="ep_1", content="Test content")
         self.storage.save_node(node)
 
-        # 重新加载
+        # Reload
         storage2 = FileGraphStorage(self.temp_file.name)
         loaded = storage2.get_node("ep_1")
         assert loaded is not None
@@ -145,7 +141,7 @@ class TestFileGraphStorage:
         edge = Edge("ep_1", "ep_2", EdgeType.NEXT)
         self.storage.save_edge(edge)
 
-        # 重新加载
+        # Reload
         storage2 = FileGraphStorage(self.temp_file.name)
         edges = storage2.get_edges_from("ep_1")
         assert len(edges) == 1

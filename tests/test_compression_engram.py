@@ -7,6 +7,7 @@ from claw_mem.retrieval.engram import EngramIndex
 
 class MockMM:
     """Minimal mock for MemoryManager to test Engram sync."""
+
     def __init__(self):
         self._engram = EngramIndex(ngram_size=3)
 
@@ -20,10 +21,9 @@ class TestCompressionEngramSync:
 
     def setup_method(self):
         self.mm = MockMM()
-        self.cs = CompressionSpectrum(self.mm,
-                                      access_threshold=3,
-                                      apply_threshold=2,
-                                      verify_threshold=1)
+        self.cs = CompressionSpectrum(
+            self.mm, access_threshold=3, apply_threshold=2, verify_threshold=1
+        )
 
     def test_sync_to_engram_direct(self):
         self.cs._sync_to_engram("test_id", "Some skill content")

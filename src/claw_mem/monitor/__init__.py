@@ -2,4 +2,4 @@
 
 from .performance import PerformanceMonitor
 
-__all__ = ['PerformanceMonitor']
+__all__ = ["PerformanceMonitor"]

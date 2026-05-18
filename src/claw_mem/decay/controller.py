@@ -40,8 +40,7 @@ class DecayController:
       - Execute cleanup on the associated MultiGraphMemory.
     """
 
-    def __init__(self, graph: MultiGraphMemory,
-                 config: DecayConfig = None):
+    def __init__(self, graph: MultiGraphMemory, config: DecayConfig = None):
         self._graph = graph
         self._config = config or DecayConfig.default()
         self._lock = threading.Lock()
@@ -50,13 +49,13 @@ class DecayController:
 
     # ── Weight computation ─────────────────────────────────────────
 
-    def calculate_single_weight(self, initial: float, days: float,
-                                category: str) -> float:
+    def calculate_single_weight(self, initial: float, days: float, category: str) -> float:
         """Calculate a single edge weight after decay."""
         return calculate_weight(initial, days, category)
 
-    def get_decay_weight(self, source: str, target: str,
-                         edge_type: str, created_at: float) -> float:
+    def get_decay_weight(
+        self, source: str, target: str, edge_type: str, created_at: float
+    ) -> float:
         """Compute decayed weight for a specific edge."""
         current_weight = 1.0
         for g in self._graph._graphs.values():
@@ -98,16 +97,14 @@ class DecayController:
 
                 for (s, t), weight in subgraph.edge_weights.items():
                     node = self._graph.get_node(s)
-                    if node is not None and hasattr(node, 'created_at') and node.created_at:
+                    if node is not None and hasattr(node, "created_at") and node.created_at:
                         created_at = node.created_at
                         if not isinstance(created_at, (int, float)):
                             created_at = created_at.timestamp()
                     else:
                         created_at = now
                     days_elapsed = (now - created_at) / 86400.0
-                    new_weight = calculate_weight(
-                        weight, days_elapsed, category
-                    )
+                    new_weight = calculate_weight(weight, days_elapsed, category)
                     if new_weight < weight:
                         updates[(s, t)] = max(0.0, min(1.0, new_weight))
 
@@ -139,17 +136,14 @@ class DecayController:
 
     # ── Cleanup ───────────────────────────────────────────────────
 
-    def should_remove_edge(self, source: str, target: str,
-                           weight: float) -> bool:
+    def should_remove_edge(self, source: str, target: str, weight: float) -> bool:
         """Decide whether an edge should be removed."""
         if weight <= self._config.purge_threshold:
             return True
         if weight <= self._config.expire_threshold:
             if self._config.protect_critical:
                 node = self._graph.get_node(source)
-                if node and getattr(
-                    node, 'metadata', {}
-                ).get('critical', False):
+                if node and getattr(node, "metadata", {}).get("critical", False):
                     return False
             return True
         return False
@@ -165,23 +159,20 @@ class DecayController:
             for sg_type in list(SubGraphType):
                 subgraph = self._graph._graphs[sg_type]
                 expired = [
-                    (s, t) for (s, t), w in subgraph.edge_weights.items()
+                    (s, t)
+                    for (s, t), w in subgraph.edge_weights.items()
                     if self.should_remove_edge(s, t, w)
                 ]
                 removed.extend(expired)
 
             if removed:
-                for (s, t) in removed:
+                for s, t in removed:
                     for g in self._graph._graphs.values():
                         if g.has_edge(s, t):
                             del g.edge_weights[(s, t)]
-                            g.adjacency[s] = [
-                                (n, w) for n, w in g.adjacency.get(s, [])
-                                if n != t
-                            ]
+                            g.adjacency[s] = [(n, w) for n, w in g.adjacency.get(s, []) if n != t]
                             g.reverse_adjacency[t] = [
-                                (n, w) for n, w in g.reverse_adjacency.get(t, [])
-                                if n != s
+                                (n, w) for n, w in g.reverse_adjacency.get(t, []) if n != s
                             ]
                 for g in self._graph._graphs.values():
                     g.edge_count = len(g.edge_weights)

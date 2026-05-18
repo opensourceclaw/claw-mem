@@ -16,8 +16,7 @@ class MemoryDeduplicator:
     Jaccard similarity threshold for clustering.
     """
 
-    def __init__(self, memory_manager=None,
-                 similarity_threshold: float = 0.85):
+    def __init__(self, memory_manager=None, similarity_threshold: float = 0.85):
         self._mm = memory_manager
         self._similarity_threshold = similarity_threshold
 
@@ -32,9 +31,12 @@ class MemoryDeduplicator:
         """
         if not memory_ids:
             return DeduplicationResult(
-                original_count=0, deduplicated_count=0,
-                reduction_ratio=0.0, merged_clusters=[],
-                kept_memories=[], removed_memories=[],
+                original_count=0,
+                deduplicated_count=0,
+                reduction_ratio=0.0,
+                merged_clusters=[],
+                kept_memories=[],
+                removed_memories=[],
             )
 
         # Get contents
@@ -48,7 +50,8 @@ class MemoryDeduplicator:
             return DeduplicationResult(
                 original_count=len(memory_ids),
                 deduplicated_count=len(memory_ids),
-                reduction_ratio=0.0, merged_clusters=[],
+                reduction_ratio=0.0,
+                merged_clusters=[],
                 kept_memories=list(memory_ids),
                 removed_memories=[],
             )
@@ -92,11 +95,9 @@ class MemoryDeduplicator:
         pairs = []
         ids = list(contents.keys())
 
-        if self._mm and hasattr(self._mm, 'engram') and self._mm.engram:
+        if self._mm and hasattr(self._mm, "engram") and self._mm.engram:
             for i, mid in enumerate(ids):
-                results = self._mm.engram.lookup(
-                    contents[mid], top_k=min(5, len(ids))
-                )
+                results = self._mm.engram.lookup(contents[mid], top_k=min(5, len(ids)))
                 for result_id, score in results:
                     if result_id != mid and score >= self._similarity_threshold:
                         pairs.append((mid, result_id))
@@ -104,16 +105,13 @@ class MemoryDeduplicator:
             # Fallback: simple word overlap
             for i in range(len(ids)):
                 for j in range(i + 1, len(ids)):
-                    sim = self._word_overlap(
-                        contents[ids[i]], contents[ids[j]]
-                    )
+                    sim = self._word_overlap(contents[ids[i]], contents[ids[j]])
                     if sim >= self._similarity_threshold:
                         pairs.append((ids[i], ids[j]))
 
         return pairs
 
-    def _build_clusters(self, all_ids: List[str],
-                        pairs: List[Tuple[str, str]]) -> List[List[str]]:
+    def _build_clusters(self, all_ids: List[str], pairs: List[Tuple[str, str]]) -> List[List[str]]:
         """Union-Find clustering."""
         parent = {mid: mid for mid in all_ids}
 
@@ -143,10 +141,10 @@ class MemoryDeduplicator:
         if self._mm is None:
             return ""
         try:
-            if hasattr(self._mm, 'multi_graph') and self._mm.multi_graph:
+            if hasattr(self._mm, "multi_graph") and self._mm.multi_graph:
                 node = self._mm.multi_graph.get_node(memory_id)
                 if node:
-                    return getattr(node, 'content', '')
+                    return getattr(node, "content", "")
         except Exception:
             pass
         return ""

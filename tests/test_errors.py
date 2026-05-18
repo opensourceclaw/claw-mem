@@ -2,10 +2,16 @@
 
 import pytest
 from claw_mem.errors import (
-    ClawMemError, StorageError, MemoryNotFoundError,
-    StorageFullError, StorageCorruptedError,
-    RetrievalError, IndexNotReadyError, QueryTooLongError,
-    CompressionError, CompressionDisabledError,
+    ClawMemError,
+    StorageError,
+    MemoryNotFoundError,
+    StorageFullError,
+    StorageCorruptedError,
+    RetrievalError,
+    IndexNotReadyError,
+    QueryTooLongError,
+    CompressionError,
+    CompressionDisabledError,
     InvalidThresholdError,
 )
 

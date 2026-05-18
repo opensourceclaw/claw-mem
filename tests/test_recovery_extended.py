@@ -56,6 +56,7 @@ class TestRecoveryStrategies:
     @pytest.fixture
     def mock_config(self, temp_workspace):
         """Create mock configuration"""
+
         class MockConfig:
             def __init__(self, workspace):
                 self.workspace = workspace
@@ -75,7 +76,7 @@ class TestRecoveryStrategies:
             severity="low",
             description="Test error",
             root_cause="Test cause",
-            affected_components=["test"]
+            affected_components=["test"],
         )
 
         assert diagnosis.timestamp is not None
@@ -92,7 +93,7 @@ class TestRecoveryStrategies:
                 severity=severity,
                 description="Test error",
                 root_cause="Test cause",
-                affected_components=["test"]
+                affected_components=["test"],
             )
             assert diagnosis.severity == severity
 
@@ -105,7 +106,7 @@ class TestRecoveryStrategies:
             description="Index rebuilt successfully",
             data_recovered=True,
             user_action_needed=False,
-            error_details=None
+            error_details=None,
         )
 
         assert result.success is True
@@ -123,7 +124,7 @@ class TestRecoveryStrategies:
             description="Recovery failed, manual intervention required",
             data_recovered=False,
             user_action_needed=True,
-            error_details="Corruption detected in index file"
+            error_details="Corruption detected in index file",
         )
 
         assert result.success is False

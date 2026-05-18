@@ -17,10 +17,7 @@ class TestValueSuggestion:
     def test_creation(self):
         """Test suggestion creation"""
         suggestion = ValueSuggestion(
-            id="test-1",
-            user_id="user1",
-            suggestion_type="principle",
-            content="Be honest"
+            id="test-1", user_id="user1", suggestion_type="principle", content="Be honest"
         )
 
         assert suggestion.id == "test-1"
@@ -42,10 +39,7 @@ class TestFeedbackHandler:
     def test_request_confirmation(self, handler):
         """Test request confirmation"""
         suggestion = handler.request_confirmation(
-            user_id="user1",
-            value_type="principle",
-            content="Be honest",
-            evidence=["feedback1"]
+            user_id="user1", value_type="principle", content="Be honest", evidence=["feedback1"]
         )
 
         assert suggestion is not None
@@ -56,9 +50,7 @@ class TestFeedbackHandler:
     def test_process_feedback_accept(self, handler):
         """Test process accepted feedback"""
         suggestion = handler.request_confirmation(
-            user_id="user1",
-            value_type="principle",
-            content="Test principle"
+            user_id="user1", value_type="principle", content="Test principle"
         )
 
         result = handler.process_feedback(suggestion.id, accepted=True)
@@ -69,9 +61,7 @@ class TestFeedbackHandler:
     def test_process_feedback_reject(self, handler):
         """Test process rejected feedback"""
         suggestion = handler.request_confirmation(
-            user_id="user1",
-            value_type="principle",
-            content="Test principle"
+            user_id="user1", value_type="principle", content="Test principle"
         )
 
         result = handler.process_feedback(suggestion.id, accepted=False)
@@ -118,7 +108,7 @@ class TestFeedbackHandler:
             "user_id": "user1",
             "type": "red_line",
             "content": "No violence",
-            "evidence": ["evidence1"]
+            "evidence": ["evidence1"],
         }
 
         suggestion = handler.suggest_update(suggestion_data)
