@@ -1,6 +1,6 @@
 Metadata-Version: 2.4
 Name: claw-mem
-Version: 2.12.1
+Version: 3.0.0rc1
 Summary: Intelligent Memory System for AI Agents with Write-Time Gating and Concept-Mediated Graph
 Author: Peter Cheng
 License: Apache-2.0
@@ -41,7 +41,7 @@ Dynamic: license-file
 
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
 [![Python](https://img.shields.io/badge/Python-3.10%2B-brightgreen.svg)](https://www.python.org/)
-[![Version](https://img.shields.io/badge/Version-2.12.1-blue.svg)](https://github.com/opensourceclaw/claw-mem)
+[![Version](https://img.shields.io/badge/Version-3.0.0rc1-blue.svg)](https://github.com/opensourceclaw/claw-mem)
 
 </div>
 
@@ -584,6 +584,35 @@ Apache License 2.0 - See [LICENSE](LICENSE)
 
 - [OpenClaw](https://github.com/openclaw/openclaw) - AI Assistant Framework
 - [GAAMA](https://arxiv.org/abs/2406.06215) - Concept-Mediated Graph Paper
+
+---
+
+## Documentation
+
+- [API Reference](docs/api/memory_manager.md) — MemoryManager, Storage, Retrieval, Compression, Cache, Monitor
+- [Getting Started](docs/guides/getting_started.md) — Quick start guide
+- [Configuration Guide](docs/guides/configuration.md) — All parameters explained
+- [Best Practices](docs/guides/best_practices.md) — Performance, error handling, memory types
+- [Migration Guide](docs/guides/migration_v2_to_v3.md) — v2.x to v3.0.0
+
+### Error Handling
+
+```python
+from claw_mem.errors import StorageError, RetrievalError
+
+try:
+    mm.search("x" * 3000)
+except RetrievalError as e:
+    print(f"Retrieval error: {e}")
+```
+
+### Structured Logging
+
+```python
+from claw_mem.logging_config import setup_logging, LogConfig
+
+setup_logging(LogConfig(level="DEBUG", json_format=True))
+```
 
 ---
 
