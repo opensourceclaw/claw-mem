@@ -76,10 +76,7 @@ class ConsolidationDaemon:
 
         # Security check: filter injection attempts
         if self.detector:
-            safe_batch = [
-                e for e in batch
-                if self.detector.is_safe(e.get("content", ""))
-            ]
+            safe_batch = [e for e in batch if self.detector.is_safe(e.get("content", ""))]
             if len(safe_batch) < len(batch):
                 from datetime import datetime as dt
         else:

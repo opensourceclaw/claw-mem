@@ -14,6 +14,7 @@ from typing import Dict, List, Optional
 @dataclass
 class CapacityStats:
     """Memory capacity snapshot."""
+
     total_memories: int
     total_tokens: int
     by_type: Dict[str, int] = field(default_factory=dict)
@@ -35,6 +36,7 @@ class CapacityStats:
 @dataclass
 class CapacityTrend:
     """Capacity trend over time."""
+
     samples: List[CapacityStats] = field(default_factory=list)
     growth_rate: float = 0.0  # memories / operation
     estimated_time_to_full: float = 0.0  # seconds
@@ -54,10 +56,13 @@ class CapacityMonitor:
     breakdown, and utilization ratio against configured thresholds.
     """
 
-    def __init__(self, memory_manager=None,
-                 token_threshold: int = 8000,
-                 memory_threshold: int = 1000,
-                 warning_level: float = 0.8):
+    def __init__(
+        self,
+        memory_manager=None,
+        token_threshold: int = 8000,
+        memory_threshold: int = 1000,
+        warning_level: float = 0.8,
+    ):
         self._mm = memory_manager
         self._token_threshold = token_threshold
         self._memory_threshold = memory_threshold
@@ -118,10 +123,10 @@ class CapacityMonitor:
             growth_rate = (last.total_memories - first.total_memories) / ops
 
             remaining = self._memory_threshold - last.total_memories
-            eta = (remaining / growth_rate * 60) if growth_rate > 0 else float('inf')
+            eta = (remaining / growth_rate * 60) if growth_rate > 0 else float("inf")
         else:
             growth_rate = 0.0
-            eta = float('inf')
+            eta = float("inf")
 
         return CapacityTrend(
             samples=list(recent),

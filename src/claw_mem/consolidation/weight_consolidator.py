@@ -12,6 +12,7 @@ from typing import Any, Dict, List, Optional
 @dataclass
 class ConsolidationConfig:
     """Configuration for weight consolidation."""
+
     strategy: str = "lora"  # "lora", "ewc"
     batch_size: int = 8
     learning_rate: float = 1e-4
@@ -21,8 +22,10 @@ class ConsolidationConfig:
 
     def to_dict(self) -> Dict[str, Any]:
         return {
-            "strategy": self.strategy, "batch_size": self.batch_size,
-            "learning_rate": self.learning_rate, "max_experiences": self.max_experiences,
+            "strategy": self.strategy,
+            "batch_size": self.batch_size,
+            "learning_rate": self.learning_rate,
+            "max_experiences": self.max_experiences,
             "enabled": self.enabled,
         }
 
@@ -61,7 +64,7 @@ class WeightConsolidator:
             }
 
         # Limit batch size
-        batch = experiences[:self.config.batch_size]
+        batch = experiences[: self.config.batch_size]
         self._consolidation_count += 1
 
         result = {
@@ -85,9 +88,7 @@ class WeightConsolidator:
         return {
             "total_consolidations": self._consolidation_count,
             "strategy": self.config.strategy,
-            "total_experiences_processed": sum(
-                h.get("batch_size", 0) for h in self._history
-            ),
+            "total_experiences_processed": sum(h.get("batch_size", 0) for h in self._history),
             "config": self.config.to_dict(),
         }
 

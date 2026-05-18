@@ -38,8 +38,8 @@ class EngramHasher:
 
     def hash_ngram(self, ngram: str) -> int:
         """Hash a single n-gram to a 64-bit integer."""
-        digest = hashlib.sha256(ngram.encode('utf-8')).digest()
-        return int.from_bytes(digest[:8], 'big')
+        digest = hashlib.sha256(ngram.encode("utf-8")).digest()
+        return int.from_bytes(digest[:8], "big")
 
     def hash_text(self, text: str, ngram_size: int = None) -> List[int]:
         """Extract all n-grams from text and hash them.
@@ -58,26 +58,27 @@ class EngramHasher:
 
         hashes = []
         for i in range(len(cleaned) - size + 1):
-            ngram = cleaned[i:i + size]
+            ngram = cleaned[i : i + size]
             hashes.append(self.hash_ngram(ngram))
         return hashes
 
     def _preprocess(self, text: str) -> str:
         """Clean text for n-gram extraction."""
         if not text:
-            return ''
-        if re.search(r'[\u4e00-\u9fff]', text):
+            return ""
+        if re.search(r"[\u4e00-\u9fff]", text):
             # Chinese: keep Chinese chars + alphanumeric
-            text = re.sub(r'[^\u4e00-\u9fff\w]', '', text)
+            text = re.sub(r"[^\u4e00-\u9fff\w]", "", text)
             return text.lower()
         # English/other: lowercase, remove punctuation, join words
-        text = re.sub(r'[^\w\s]', ' ', text.lower())
-        return ''.join(text.split())
+        text = re.sub(r"[^\w\s]", " ", text.lower())
+        return "".join(text.split())
 
 
 @dataclass
 class EngramEntry:
     """Per-memory index entry."""
+
     memory_id: str
     ngram_count: int
     ngram_hashes: Set[int] = field(default_factory=set)
@@ -212,9 +213,7 @@ class EngramIndex:
         return {
             "memory_count": len(self._entries),
             "hash_count": len(self._inverted),
-            "total_ngrams": sum(
-                e.ngram_count for e in self._entries.values()
-            ),
+            "total_ngrams": sum(e.ngram_count for e in self._entries.values()),
             "memory_estimate_bytes": self._estimate_memory(),
         }
 

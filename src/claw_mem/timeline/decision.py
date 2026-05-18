@@ -29,33 +29,35 @@ import uuid
 
 class DecisionStatus(Enum):
     """Status of a decision"""
-    MADE = "made"                # Decision made, executing
-    COMPLETED = "completed"      # Decision executed, outcome known
-    REVISED = "revised"          # Decision revised
-    ABANDONED = "abandoned"      # Decision abandoned
+
+    MADE = "made"  # Decision made, executing
+    COMPLETED = "completed"  # Decision executed, outcome known
+    REVISED = "revised"  # Decision revised
+    ABANDONED = "abandoned"  # Decision abandoned
 
 
 class DecisionType(Enum):
     """Type of decision"""
-    CAREER = "career"            # Career decisions
-    EDUCATION = "education"      # Education decisions
-    FINANCIAL = "financial"      # Financial decisions
-    RELATIONSHIP = "relationship" # Relationship decisions
-    HEALTH = "health"            # Health decisions
-    LIFESTYLE = "lifestyle"      # Lifestyle decisions
-    LOCATION = "location"        # Location/moving decisions
-    PROJECT = "project"          # Project decisions
-    OTHER = "other"              # Other decisions
+
+    CAREER = "career"  # Career decisions
+    EDUCATION = "education"  # Education decisions
+    FINANCIAL = "financial"  # Financial decisions
+    RELATIONSHIP = "relationship"  # Relationship decisions
+    HEALTH = "health"  # Health decisions
+    LIFESTYLE = "lifestyle"  # Lifestyle decisions
+    LOCATION = "location"  # Location/moving decisions
+    PROJECT = "project"  # Project decisions
+    OTHER = "other"  # Other decisions
 
 
 @dataclass
 class Decision:
     """
     A life decision.
-    
+
     Decisions are key moments in life that shape the future.
     Tracking them helps understand life trajectory.
-    
+
     Attributes:
         decision_id: Unique identifier
         title: Decision title
@@ -74,6 +76,7 @@ class Decision:
         lessons_learned: Lessons learned from this decision
         metadata: Additional metadata
     """
+
     decision_id: str
     title: str
     description: str
@@ -90,7 +93,7 @@ class Decision:
     related_events: List[str] = field(default_factory=list)
     lessons_learned: List[str] = field(default_factory=list)
     metadata: Dict[str, Any] = field(default_factory=dict)
-    
+
     def to_dict(self) -> Dict[str, Any]:
         """Convert to dictionary"""
         return {
@@ -111,7 +114,7 @@ class Decision:
             "lessons_learned": self.lessons_learned,
             "metadata": self.metadata,
         }
-    
+
     @classmethod
     def from_dict(cls, data: Dict[str, Any]) -> "Decision":
         """Create from dictionary"""
@@ -138,19 +141,32 @@ class Decision:
 class DecisionTracker:
     """
     Track important life decisions.
-    
+
     This helps users understand their decision-making patterns
     and learn from past decisions.
     """
-    
+
     # Keywords for detecting decisions
     DECISION_KEYWORDS = [
-        "decided", "decision", "chose", "choice", "selected",
-        "made up my mind", "going to", "will", "planning to",
-        "committed to", "signed up for", "enrolled in",
-        "accepted", "rejected", "declined", "quit", "resigned",
+        "decided",
+        "decision",
+        "chose",
+        "choice",
+        "selected",
+        "made up my mind",
+        "going to",
+        "will",
+        "planning to",
+        "committed to",
+        "signed up for",
+        "enrolled in",
+        "accepted",
+        "rejected",
+        "declined",
+        "quit",
+        "resigned",
     ]
-    
+
     # Decision type patterns
     TYPE_PATTERNS = {
         DecisionType.CAREER: ["job", "career", "work", "company", "position", "promotion"],
@@ -162,11 +178,11 @@ class DecisionTracker:
         DecisionType.LOCATION: ["move", "city", "house", "apartment", "location"],
         DecisionType.PROJECT: ["project", "build", "create", "start"],
     }
-    
+
     def __init__(self, workspace: Path):
         """
         Initialize DecisionTracker.
-        
+
         Args:
             workspace: Path to claw-mem workspace
         """
@@ -175,7 +191,7 @@ class DecisionTracker:
         self.decisions_dir.mkdir(parents=True, exist_ok=True)
         self._decisions: Dict[str, Decision] = {}
         self._load_decisions()
-    
+
     def _load_decisions(self):
         """Load decisions from disk"""
         decisions_file = self.decisions_dir / "decisions.json"
@@ -185,7 +201,7 @@ class DecisionTracker:
                 for decision_data in data.get("decisions", []):
                     decision = Decision.from_dict(decision_data)
                     self._decisions[decision.decision_id] = decision
-    
+
     def _save_decisions(self):
         """Save decisions to disk"""
         decisions_file = self.decisions_dir / "decisions.json"
@@ -195,7 +211,7 @@ class DecisionTracker:
         }
         with open(decisions_file, "w", encoding="utf-8") as f:
             json.dump(data, f, indent=2, ensure_ascii=False)
-    
+
     def add_decision(
         self,
         title: str,
@@ -208,7 +224,7 @@ class DecisionTracker:
     ) -> Decision:
         """
         Add a new decision.
-        
+
         Args:
             title: Decision title
             description: Detailed description
@@ -217,7 +233,7 @@ class DecisionTracker:
             chosen_option: The option chosen
             reasoning: Reasoning behind the decision
             importance: Importance score
-            
+
         Returns:
             The created Decision
         """
@@ -233,24 +249,24 @@ class DecisionTracker:
             reasoning=reasoning,
             importance=importance,
         )
-        
+
         self._decisions[decision.decision_id] = decision
         self._save_decisions()
-        
+
         return decision
-    
+
     def get_decision(self, decision_id: str) -> Optional[Decision]:
         """
         Get a decision by ID.
-        
+
         Args:
             decision_id: The decision ID
-            
+
         Returns:
             Decision or None
         """
         return self._decisions.get(decision_id)
-    
+
     def update_decision(
         self,
         decision_id: str,
@@ -260,30 +276,30 @@ class DecisionTracker:
     ) -> Optional[Decision]:
         """
         Update a decision.
-        
+
         Args:
             decision_id: The decision ID
             status: New status
             actual_outcome: Actual outcome
             lessons_learned: Lessons learned
-            
+
         Returns:
             Updated Decision or None
         """
         decision = self._decisions.get(decision_id)
         if not decision:
             return None
-        
+
         if status:
             decision.status = status
         if actual_outcome:
             decision.actual_outcome = actual_outcome
         if lessons_learned:
             decision.lessons_learned.extend(lessons_learned)
-        
+
         self._save_decisions()
         return decision
-    
+
     def get_decisions(
         self,
         decision_type: Optional[DecisionType] = None,
@@ -292,104 +308,104 @@ class DecisionTracker:
     ) -> List[Decision]:
         """
         Get decisions with optional filters.
-        
+
         Args:
             decision_type: Filter by type
             status: Filter by status
             limit: Maximum number of results
-            
+
         Returns:
             List of Decision
         """
         results = []
-        
+
         for decision in self._decisions.values():
             if decision_type and decision.decision_type != decision_type:
                 continue
             if status and decision.status != status:
                 continue
             results.append(decision)
-        
+
         # Sort by date (most recent first)
         results.sort(key=lambda d: d.made_at, reverse=True)
-        
+
         return results[:limit]
-    
+
     def detect_decision(self, text: str) -> bool:
         """
         Detect if text contains a decision.
-        
+
         Args:
             text: The text to analyze
-            
+
         Returns:
             True if decision detected
         """
         text_lower = text.lower()
         return any(kw in text_lower for kw in self.DECISION_KEYWORDS)
-    
+
     def classify_decision_type(self, text: str) -> DecisionType:
         """
         Classify the type of decision from text.
-        
+
         Args:
             text: The text to analyze
-            
+
         Returns:
             DecisionType
         """
         text_lower = text.lower()
-        
+
         for decision_type, keywords in self.TYPE_PATTERNS.items():
             if any(kw in text_lower for kw in keywords):
                 return decision_type
-        
+
         return DecisionType.OTHER
-    
+
     def get_decision_context(self, query: str) -> Dict[str, Any]:
         """
         Get decision context for a query.
-        
+
         Args:
             query: The query string
-            
+
         Returns:
             Dictionary with decision context
         """
         # Detect decision type
         decision_type = self.classify_decision_type(query)
-        
+
         # Get related decisions
         related = self.get_decisions(decision_type=decision_type, limit=5)
-        
+
         return {
             "query": query,
             "detected_type": decision_type.value,
             "related_decisions": [d.to_dict() for d in related],
             "total_decisions": len(self._decisions),
         }
-    
+
     def get_decision_stats(self) -> Dict[str, Any]:
         """
         Get decision statistics.
-        
+
         Returns:
             Dictionary with statistics
         """
         total = len(self._decisions)
-        
+
         # Count by type
         type_counts: Dict[str, int] = {}
         for decision in self._decisions.values():
             type_name = decision.decision_type.value
             type_counts[type_name] = type_counts.get(type_name, 0) + 1
-        
+
         # Count by status
         status_counts: Dict[str, int] = {}
         for decision in self._decisions.values():
             status_name = decision.status.value
             status_counts[status_name] = status_counts.get(status_name, 0) + 1
-        
+
         return {
             "total_decisions": total,
             "by_type": type_counts,

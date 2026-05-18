@@ -34,22 +34,22 @@ def main():
         prog="claw-mem",
         description="AI Harness Engineering Memory System for OpenClaw",
     )
-    
+
     parser.add_argument(
         "--version",
         action="version",
         version=f"%(prog)s {__version__}",
     )
-    
+
     parser.add_argument(
         "--workspace",
         type=str,
         default=None,
         help="OpenClaw workspace path (default: auto-detect)",
     )
-    
+
     subparsers = parser.add_subparsers(dest="command", help="Available commands")
-    
+
     # stats command
     stats_parser = subparsers.add_parser("stats", help="Show memory statistics")
     stats_parser.add_argument(
@@ -57,7 +57,7 @@ def main():
         action="store_true",
         help="Output in JSON format",
     )
-    
+
     # search command
     search_parser = subparsers.add_parser("search", help="Search memories (three-tier retrieval)")
     search_parser.add_argument("query", type=str, help="Search query")
@@ -78,7 +78,7 @@ def main():
         action="store_true",
         help="Output in JSON format",
     )
-    
+
     # backup command
     backup_parser = subparsers.add_parser("backup", help="Backup memories")
     backup_parser.add_argument(
@@ -87,31 +87,31 @@ def main():
         default=None,
         help="Output file path (default: auto-generated)",
     )
-    
+
     # restore command
     restore_parser = subparsers.add_parser("restore", help="Restore from backup")
     restore_parser.add_argument("file", type=str, help="Backup file to restore")
-    
+
     # parse arguments
     args = parser.parse_args()
-    
+
     # handle commands
     if args.command is None:
         parser.print_help()
         sys.exit(0)
-    
+
     elif args.command == "stats":
         cmd_stats(args)
-    
+
     elif args.command == "search":
         cmd_search(args)
-    
+
     elif args.command == "backup":
         cmd_backup(args)
-    
+
     elif args.command == "restore":
         cmd_restore(args)
-    
+
     else:
         parser.print_help()
         sys.exit(1)
@@ -135,6 +135,7 @@ def cmd_stats(args):
 
     if args.json:
         import json
+
         print(json.dumps(stats, indent=2, ensure_ascii=False))
     else:
         print("claw-mem Memory Statistics")
@@ -148,7 +149,9 @@ def cmd_stats(args):
         print(f"Semantic memories: {stats['semantic_count']}")
         print(f"Procedural memories: {stats['procedural_count']}")
         print("=" * 40)
-        print(f"Total memories: {stats['episodic_count'] + stats['semantic_count'] + stats['procedural_count']}")
+        print(
+            f"Total memories: {stats['episodic_count'] + stats['semantic_count'] + stats['procedural_count']}"
+        )
 
 
 def cmd_search(args):
@@ -175,6 +178,7 @@ def cmd_search(args):
 
     if args.json:
         import json
+
         output = {
             "query": args.query,
             "layers": layers,

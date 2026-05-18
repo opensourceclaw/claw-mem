@@ -13,7 +13,7 @@
 # limitations under the License.
 
 """
-Values Module - uservaluesstorage
+Values Module - User values storage
 """
 
 from .user_value_store import UserValue, UserValueStore

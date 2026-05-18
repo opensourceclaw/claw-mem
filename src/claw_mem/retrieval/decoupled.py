@@ -39,8 +39,7 @@ class DecoupledRetriever:
         self._spreader = spreader
         self._graph = graph
 
-    def search(self, query: str, top_k: int = 10,
-               intent: str = 'general') -> List[Dict]:
+    def search(self, query: str, top_k: int = 10, intent: str = "general") -> List[Dict]:
         """Execute full retrieval pipeline.
 
         Args:
@@ -68,8 +67,7 @@ class DecoupledRetriever:
         # Phase 3: Multi-factor ranking
         return self._rank(activations, top_k)
 
-    def _rank(self, activations: Dict[str, float],
-              top_k: int) -> List[Dict]:
+    def _rank(self, activations: Dict[str, float], top_k: int) -> List[Dict]:
         """Multi-factor ranking.
 
         Factors:
@@ -81,17 +79,17 @@ class DecoupledRetriever:
         scored = []
 
         for node_id, activation in activations.items():
-            content = ''
-            node_type_str = ''
+            content = ""
+            node_type_str = ""
             created_at = now
 
             if self._graph:
                 node = self._graph.get_node(node_id)
                 if node:
-                    content = getattr(node, 'content', '')
-                    node_type_str = str(getattr(node, 'type', ''))
-                    created_at = getattr(node, 'created_at', now)
-                    if hasattr(created_at, 'timestamp'):
+                    content = getattr(node, "content", "")
+                    node_type_str = str(getattr(node, "type", ""))
+                    created_at = getattr(node, "created_at", now)
+                    if hasattr(created_at, "timestamp"):
                         created_at = created_at.timestamp()
                     elif not isinstance(created_at, (int, float)):
                         created_at = now
@@ -102,10 +100,14 @@ class DecoupledRetriever:
 
             # Type weight
             type_weights = {
-                'NodeType.FACT': 1.0, 'fact': 1.0,
-                'NodeType.EPISODE': 0.8, 'episode': 0.8,
-                'NodeType.REFLECTION': 0.6, 'reflection': 0.6,
-                'NodeType.CONCEPT': 0.5, 'concept': 0.5,
+                "NodeType.FACT": 1.0,
+                "fact": 1.0,
+                "NodeType.EPISODE": 0.8,
+                "episode": 0.8,
+                "NodeType.REFLECTION": 0.6,
+                "reflection": 0.6,
+                "NodeType.CONCEPT": 0.5,
+                "concept": 0.5,
             }
             type_w = type_weights.get(node_type_str, 0.5)
 
@@ -117,8 +119,8 @@ class DecoupledRetriever:
             if self._graph:
                 node = self._graph.get_node(node_id)
                 if node:
-                    node_metadata = getattr(node, 'metadata', {}) or {}
-                    node_tags = getattr(node, 'tags', []) or []
+                    node_metadata = getattr(node, "metadata", {}) or {}
+                    node_tags = getattr(node, "tags", []) or []
 
             result = {
                 "id": node_id,

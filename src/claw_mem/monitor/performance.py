@@ -21,7 +21,7 @@ class PerformanceMonitor:
         self._cache_misses = 0
         self._search_count = 0
         self._total_latency = 0.0
-        self._min_latency = float('inf')
+        self._min_latency = float("inf")
         self._max_latency = 0.0
         self._start_time = time.time()
 
@@ -55,7 +55,9 @@ class PerformanceMonitor:
             return {
                 "search_count": self._search_count,
                 "avg_latency_ms": round(self._total_latency / max(1, n), 3),
-                "min_latency_ms": round(self._min_latency if self._min_latency != float('inf') else 0, 3),
+                "min_latency_ms": round(
+                    self._min_latency if self._min_latency != float("inf") else 0, 3
+                ),
                 "max_latency_ms": round(self._max_latency, 3),
                 "p50_latency_ms": round(percentile(50), 3),
                 "p95_latency_ms": round(percentile(95), 3),
@@ -72,6 +74,7 @@ class PerformanceMonitor:
     def _memory_usage_mb(self) -> float:
         try:
             import psutil
+
             return psutil.Process().memory_info().rss / 1024 / 1024
         except ImportError:
             return 0.0
@@ -83,6 +86,6 @@ class PerformanceMonitor:
             self._cache_misses = 0
             self._search_count = 0
             self._total_latency = 0.0
-            self._min_latency = float('inf')
+            self._min_latency = float("inf")
             self._max_latency = 0.0
             self._start_time = time.time()

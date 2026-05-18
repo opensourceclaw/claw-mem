@@ -90,7 +90,9 @@ class TestEnhancedSmartRetriever:
             m_copy["importance"] = 0.8
             memories_with_importance.append(m_copy)
 
-        results = retriever.search("Python", memories_with_importance, limit=5, rank_by_importance=True)
+        results = retriever.search(
+            "Python", memories_with_importance, limit=5, rank_by_importance=True
+        )
         assert isinstance(results, list)
 
 

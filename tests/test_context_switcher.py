@@ -1,6 +1,8 @@
 """Tests for ContextSwitcher (v3.0.0-rc.3)."""
+
 import pytest
 from claw_mem.cms.context_switcher import ContextSwitcher, SwitchResult, MergeResult
+
 
 class TestContextSwitcher:
     def setup_method(self):
@@ -29,7 +31,7 @@ class TestContextSwitcher:
         assert d["preserved_memories"] == ["m1"]
 
     def test_merge_result_to_dict(self):
-        r = MergeResult(["a","b"], 2, 10)
+        r = MergeResult(["a", "b"], 2, 10)
         d = r.to_dict()
         assert d["merged_count"] == 2
 

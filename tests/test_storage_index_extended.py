@@ -19,9 +19,7 @@ class TestInMemoryIndexIncrementalUpdates:
         index = InMemoryIndex(enable_persistence=False)
 
         # Build initial index
-        memories = [
-            {"id": "1", "content": "Python programming"}
-        ]
+        memories = [{"id": "1", "content": "Python programming"}]
         index.build(memories)
 
         # Add new memory incrementally
@@ -52,7 +50,7 @@ class TestInMemoryIndexIncrementalUpdates:
         # Build initial index
         memories = [
             {"id": "1", "content": "Python programming"},
-            {"id": "2", "content": "Machine learning"}
+            {"id": "2", "content": "Machine learning"},
         ]
         index.build(memories)
 
@@ -68,9 +66,7 @@ class TestInMemoryIndexIncrementalUpdates:
         index = InMemoryIndex(enable_persistence=False)
 
         # Build initial index
-        memories = [
-            {"id": "1", "content": "Python programming"}
-        ]
+        memories = [{"id": "1", "content": "Python programming"}]
         index.build(memories)
 
         # Try to remove non-existent memory
@@ -113,6 +109,7 @@ class TestInMemoryIndexTokenization:
         """Test Chinese tokenization fallback (no Jieba)"""
         # Import jieba to make it available, then set to None to test fallback
         import claw_mem.storage.index as index_module
+
         original_jieba = index_module.jieba
         index_module.jieba = None
 
@@ -170,7 +167,7 @@ class TestInMemoryIndexPersistence:
             # Build initial index
             memories = [
                 {"id": "1", "content": "Python programming"},
-                {"id": "2", "content": "Machine learning"}
+                {"id": "2", "content": "Machine learning"},
             ]
             index.build(memories)
 

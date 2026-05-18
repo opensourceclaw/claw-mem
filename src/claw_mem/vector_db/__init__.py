@@ -21,12 +21,7 @@ Usage:
     results = plugin.search("query", top_k=5)
 """
 
-from .plugin import (
-    VectorDBPlugin,
-    VectorDBFactory,
-    VectorDBType,
-    SearchResult
-)
+from .plugin import VectorDBPlugin, VectorDBFactory, VectorDBType, SearchResult
 
 from .chromadb_plugin import ChromaDBPlugin
 

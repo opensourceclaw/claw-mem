@@ -2,16 +2,20 @@
 
 import pytest
 from claw_mem.graph.multi_graph import (
-    SubGraphType, SubGraph, GraphEdge,
-    MultiGraphMemory, EDGE_TO_SUBGRAPH, SUBGRAPH_EXPANSION_WEIGHT,
+    SubGraphType,
+    SubGraph,
+    GraphEdge,
+    MultiGraphMemory,
+    EDGE_TO_SUBGRAPH,
+    SUBGRAPH_EXPANSION_WEIGHT,
 )
 from claw_mem.graph.nodes import NodeType
 from claw_mem.graph.edges import EdgeType
 
-
 # ============================================================================
 # SubGraph tests
 # ============================================================================
+
 
 class TestSubGraph:
     """Unit tests for SubGraph (adjacency list + reverse adjacency)."""
@@ -105,6 +109,7 @@ class TestSubGraph:
 # GraphEdge tests
 # ============================================================================
 
+
 class TestGraphEdge:
     """Unit tests for GraphEdge dataclass."""
 
@@ -134,6 +139,7 @@ class TestGraphEdge:
 # ============================================================================
 # MultiGraphMemory tests
 # ============================================================================
+
 
 class TestMultiGraphMemory:
     """Unit tests for MultiGraphMemory class."""
@@ -204,9 +210,7 @@ class TestMultiGraphMemory:
         self.mg.add_node("n3", "C", NodeType.EPISODE)
         self.mg.add_edge("n1", "n2", EdgeType.NEXT, 1.0)
         self.mg.add_edge("n2", "n3", EdgeType.NEXT, 0.8)
-        expanded = self.mg.get_expanded_nodes(
-            ["n1"], max_depth=2, max_expansion=10
-        )
+        expanded = self.mg.get_expanded_nodes(["n1"], max_depth=2, max_expansion=10)
         assert "n2" in expanded
         assert expanded["n1"] == 1.0  # seed weight
 
@@ -281,6 +285,7 @@ class TestMultiGraphMemory:
 # ============================================================================
 # Integration: EDGE_TO_SUBGRAPH mapping
 # ============================================================================
+
 
 class TestEdgeSubGraphMapping:
     """Verify edge type to subgraph routing."""

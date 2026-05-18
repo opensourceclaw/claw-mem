@@ -38,8 +38,7 @@ class CompressionStrategySelector:
         else:
             return self._conservative_plan(utilization, total_memories)
 
-    def _aggressive_plan(self, utilization: float,
-                         total: int) -> CompressionPlan:
+    def _aggressive_plan(self, utilization: float, total: int) -> CompressionPlan:
         est_savings = int(total * 0.7 * 50)  # ~50 tokens/memory
         return CompressionPlan(
             strategy="aggressive",
@@ -49,8 +48,7 @@ class CompressionStrategySelector:
             estimated_token_savings=est_savings,
         )
 
-    def _balanced_plan(self, utilization: float,
-                       total: int) -> CompressionPlan:
+    def _balanced_plan(self, utilization: float, total: int) -> CompressionPlan:
         est_savings = int(total * 0.5 * 50)
         return CompressionPlan(
             strategy="balanced",
@@ -60,8 +58,7 @@ class CompressionStrategySelector:
             estimated_token_savings=est_savings,
         )
 
-    def _conservative_plan(self, utilization: float,
-                           total: int) -> CompressionPlan:
+    def _conservative_plan(self, utilization: float, total: int) -> CompressionPlan:
         est_savings = int(total * 0.2 * 50)
         return CompressionPlan(
             strategy="conservative",

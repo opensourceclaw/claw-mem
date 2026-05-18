@@ -13,19 +13,20 @@ import math
 @dataclass
 class EvalResult:
     """Single evaluation result."""
+
     metric: str
     value: float
     k: int = 0
     description: str = ""
 
     def to_dict(self) -> Dict[str, Any]:
-        return {"metric": self.metric, "value": round(self.value, 4),
-                "k": self.k}
+        return {"metric": self.metric, "value": round(self.value, 4), "k": self.k}
 
 
 @dataclass
 class EvaluationMetrics:
     """Collection of evaluation metrics."""
+
     results: List[EvalResult] = field(default_factory=list)
 
     def add(self, metric: str, value: float, k: int = 0, desc: str = ""):
@@ -53,8 +54,9 @@ class RecallAtK:
         return found / len(relevant)
 
     @staticmethod
-    def calculate_all(returned: List[str], relevant: Set[str],
-                      ks: List[int] = None) -> List[EvalResult]:
+    def calculate_all(
+        returned: List[str], relevant: Set[str], ks: List[int] = None
+    ) -> List[EvalResult]:
         ks = ks or [1, 3, 5, 10]
         return [
             EvalResult(metric="recall", value=RecallAtK.calculate(returned, relevant, k), k=k)

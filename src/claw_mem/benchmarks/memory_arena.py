@@ -23,6 +23,7 @@ class ArenaTaskType(Enum):
 @dataclass
 class ArenaTask:
     """A single MemoryArena task."""
+
     task_id: str
     task_type: ArenaTaskType
     description: str
@@ -50,8 +51,10 @@ class ArenaResult:
 
     def to_dict(self) -> Dict[str, Any]:
         return {
-            "task_id": self.task_id, "type": self.task_type.value,
-            "completed": self.completed, "steps_used": self.steps_used,
+            "task_id": self.task_id,
+            "type": self.task_type.value,
+            "completed": self.completed,
+            "steps_used": self.steps_used,
             "latency_ms": self.latency_ms,
         }
 
@@ -79,8 +82,10 @@ class MemoryArena:
         self._results = []
         for task in self._tasks:
             result = ArenaResult(
-                task_id=task.task_id, task_type=task.task_type,
-                completed=True, steps_used=task.steps,
+                task_id=task.task_id,
+                task_type=task.task_type,
+                completed=True,
+                steps_used=task.steps,
                 latency_ms=5.0,  # Simulated
             )
             self._results.append(result)
@@ -97,6 +102,5 @@ class MemoryArena:
         return {
             "total_tasks": len(self._results),
             "completed": sum(1 for r in self._results if r.completed),
-            "by_type": {t: f"{sum(v)/len(v)*100:.0f}%" if v else "N/A"
-                       for t, v in by_type.items()},
+            "by_type": {t: f"{sum(v)/len(v)*100:.0f}%" if v else "N/A" for t, v in by_type.items()},
         }

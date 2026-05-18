@@ -9,6 +9,7 @@ from typing import Dict, List, Any, Optional
 @dataclass
 class SearchResult:
     """Search result from a retriever."""
+
     id: str
     text: str
     score: float
@@ -19,6 +20,7 @@ class SearchResult:
 @dataclass
 class Document:
     """Document to be indexed."""
+
     id: str
     text: str
     metadata: Dict[str, Any] = field(default_factory=dict)

@@ -13,11 +13,11 @@ from typing import Optional
 class LogConfig:
     """Logging configuration."""
 
-    level: str = "INFO"                  # DEBUG / INFO / WARNING / ERROR
-    output: str = "stderr"               # stderr / file path
-    json_format: bool = True             # JSON format (vs plain text)
-    logger_name: str = "claw_mem"        # Root logger name
-    include_extra: bool = True           # Include extra fields in JSON
+    level: str = "INFO"  # DEBUG / INFO / WARNING / ERROR
+    output: str = "stderr"  # stderr / file path
+    json_format: bool = True  # JSON format (vs plain text)
+    logger_name: str = "claw_mem"  # Root logger name
+    include_extra: bool = True  # Include extra fields in JSON
 
 
 class JsonFormatter(logging.Formatter):
@@ -31,7 +31,7 @@ class JsonFormatter(logging.Formatter):
             "message": record.getMessage(),
         }
         # Include extra dict fields from the record
-        if hasattr(record, 'extra_fields') and record.extra_fields:
+        if hasattr(record, "extra_fields") and record.extra_fields:
             base.update(record.extra_fields)
         return json.dumps(base, ensure_ascii=False)
 
@@ -41,8 +41,8 @@ class PlainFormatter(logging.Formatter):
 
     def __init__(self):
         super().__init__(
-            fmt='%(asctime)s [%(levelname)s] %(name)s: %(message)s',
-            datefmt='%Y-%m-%dT%H:%M:%S',
+            fmt="%(asctime)s [%(levelname)s] %(name)s: %(message)s",
+            datefmt="%Y-%m-%dT%H:%M:%S",
         )
 
 
@@ -66,7 +66,7 @@ def setup_logging(config: Optional[LogConfig] = None) -> logging.Logger:
     if cfg.output == "stderr":
         handler = logging.StreamHandler(sys.stderr)
     else:
-        handler = logging.FileHandler(cfg.output, encoding='utf-8')
+        handler = logging.FileHandler(cfg.output, encoding="utf-8")
 
     handler.setFormatter(fmt)
     logger.addHandler(handler)

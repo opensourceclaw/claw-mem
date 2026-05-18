@@ -38,8 +38,7 @@ class DecayScheduler:
     to the graph structure.
     """
 
-    def __init__(self, controller: DecayController,
-                 config: DecayConfig = None):
+    def __init__(self, controller: DecayController, config: DecayConfig = None):
         self._controller = controller
         self._config = config or DecayConfig.default()
         self._timer: Optional[threading.Timer] = None

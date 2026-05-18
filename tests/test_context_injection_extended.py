@@ -10,7 +10,7 @@ from claw_mem.context_injection import (
     InjectedContext,
     ContextInjector,
     format_memory_context,
-    inject_memories_to_prompt
+    inject_memories_to_prompt,
 )
 
 
@@ -22,16 +22,8 @@ class TestContextFormatterExtended:
         formatter = ContextFormatter()
 
         memories = [
-            {
-                "content": "High relevance memory",
-                "layer": "l1",
-                "score": 0.95
-            },
-            {
-                "content": "Low relevance memory",
-                "layer": "l2",
-                "score": 0.45
-            }
+            {"content": "High relevance memory", "layer": "l1", "score": 0.95},
+            {"content": "Low relevance memory", "layer": "l2", "score": 0.45},
         ]
 
         result = formatter.format(memories, include_scores=True)
@@ -42,6 +34,7 @@ class TestContextFormatterExtended:
 
     def test_format_with_memory_result_object(self):
         """Test formatting with custom memory result objects"""
+
         # Create a mock MemoryResult object with hasattr support
         class MockMemoryResult:
             def __init__(self, content, layer, memory_id=None, score=None, tags=None):
@@ -56,11 +49,7 @@ class TestContextFormatterExtended:
 
         # Create MockMemoryResult objects
         memory1 = MockMemoryResult(
-            content="Test memory",
-            layer="l1",
-            memory_id="test-1",
-            score=0.8,
-            tags=["test"]
+            content="Test memory", layer="l1", memory_id="test-1", score=0.8, tags=["test"]
         )
 
         result = formatter.format([memory1])
@@ -105,7 +94,7 @@ class TestContextFormatterExtended:
 
         memories = [
             {"content": "Short", "layer": "l1"},
-            {"content": "Medium length content here", "layer": "l2"}
+            {"content": "Medium length content here", "layer": "l2"},
         ]
 
         result = formatter.format(memories)
@@ -125,7 +114,7 @@ class TestContextFormatterExtended:
                 "memory_id": "mem-123",
                 "source": "/path/to/MEMORY.md",
                 "tags": ["important", "test"],
-                "timestamp": "2026-04-11T10:00:00"
+                "timestamp": "2026-04-11T10:00:00",
             }
         ]
 
@@ -139,13 +128,7 @@ class TestContextFormatterExtended:
         """Test that working_memory source is not displayed"""
         formatter = ContextFormatter()
 
-        memories = [
-            {
-                "content": "Working memory",
-                "layer": "l1",
-                "source": "working_memory"
-            }
-        ]
+        memories = [{"content": "Working memory", "layer": "l1", "source": "working_memory"}]
 
         result = formatter.format(memories, include_source=True)
 
@@ -155,13 +138,7 @@ class TestContextFormatterExtended:
         """Test formatting with tags"""
         formatter = ContextFormatter()
 
-        memories = [
-            {
-                "content": "Test",
-                "layer": "l1",
-                "tags": ["tag1", "tag2", "tag3"]
-            }
-        ]
+        memories = [{"content": "Test", "layer": "l1", "tags": ["tag1", "tag2", "tag3"]}]
 
         result = formatter.format(memories)
 
@@ -171,13 +148,7 @@ class TestContextFormatterExtended:
         """Test formatting with empty tags list"""
         formatter = ContextFormatter()
 
-        memories = [
-            {
-                "content": "Test",
-                "layer": "l1",
-                "tags": []
-            }
-        ]
+        memories = [{"content": "Test", "layer": "l1", "tags": []}]
 
         result = formatter.format(memories)
 
@@ -188,9 +159,7 @@ class TestContextFormatterExtended:
         """Test formatting with unknown layer"""
         formatter = ContextFormatter()
 
-        memories = [
-            {"content": "Test", "layer": "unknown_layer"}
-        ]
+        memories = [{"content": "Test", "layer": "unknown_layer"}]
 
         result = formatter.format(memories)
 
@@ -204,7 +173,7 @@ class TestContextFormatterExtended:
         memories = [
             {"content": "Memory 1", "layer": "l1"},
             {"content": "Memory 2", "layer": "l2"},
-            {"content": "Memory 3", "layer": "l3"}
+            {"content": "Memory 3", "layer": "l3"},
         ]
 
         result = formatter.format(memories, layer_grouping=False)
@@ -223,9 +192,7 @@ class TestContextInjector:
         """Test injection with default formatter"""
         injector = ContextInjector()
 
-        memories = [
-            {"content": "Test", "layer": "l1"}
-        ]
+        memories = [{"content": "Test", "layer": "l1"}]
 
         result = injector.inject(memories)
 
@@ -237,9 +204,7 @@ class TestContextInjector:
         custom_formatter = ContextFormatter(max_length=100)
         injector = ContextInjector(formatter=custom_formatter)
 
-        memories = [
-            {"content": "Test", "layer": "l1"}
-        ]
+        memories = [{"content": "Test", "layer": "l1"}]
 
         result = injector.inject(memories)
 
@@ -249,10 +214,7 @@ class TestContextInjector:
         """Test injection with custom template"""
         injector = ContextInjector()
 
-        memories = [
-            {"content": "Memory 1", "layer": "l1"},
-            {"content": "Memory 2", "layer": "l2"}
-        ]
+        memories = [{"content": "Memory 1", "layer": "l1"}, {"content": "Memory 2", "layer": "l2"}]
 
         template = "Context:\n{{memories}}\nTotal: {{count}}\nLayers: {{layers}}"
 
@@ -267,9 +229,7 @@ class TestContextInjector:
         injector = ContextInjector()
 
         base_prompt = "You are a helpful assistant."
-        memories = [
-            {"content": "User likes pizza", "layer": "l1"}
-        ]
+        memories = [{"content": "User likes pizza", "layer": "l1"}]
 
         full_prompt = injector.create_system_prompt(base_prompt, memories)
 
@@ -293,9 +253,7 @@ class TestConvenienceFunctions:
 
     def test_format_memory_context(self):
         """Test format_memory_context convenience function"""
-        memories = [
-            {"content": "Test", "layer": "l1"}
-        ]
+        memories = [{"content": "Test", "layer": "l1"}]
 
         result = format_memory_context(memories, max_length=1000, group_by_layer=True)
 
@@ -304,9 +262,7 @@ class TestConvenienceFunctions:
 
     def test_format_memory_context_flat(self):
         """Test format_memory_context with flat format"""
-        memories = [
-            {"content": "Test", "layer": "l1"}
-        ]
+        memories = [{"content": "Test", "layer": "l1"}]
 
         result = format_memory_context(memories, group_by_layer=False)
 
@@ -316,9 +272,7 @@ class TestConvenienceFunctions:
     def test_inject_memories_to_prompt(self):
         """Test inject_memories_to_prompt convenience function"""
         base_prompt = "Base prompt"
-        memories = [
-            {"content": "Memory content", "layer": "l1"}
-        ]
+        memories = [{"content": "Memory content", "layer": "l1"}]
 
         result = inject_memories_to_prompt(memories, base_prompt)
 
@@ -333,9 +287,7 @@ class TestEdgeCases:
         """Test formatting with None layer"""
         formatter = ContextFormatter()
 
-        memories = [
-            {"content": "Test", "layer": None}
-        ]
+        memories = [{"content": "Test", "layer": None}]
 
         result = formatter.format(memories)
 
@@ -347,9 +299,7 @@ class TestEdgeCases:
         """Test formatting with missing content"""
         formatter = ContextFormatter()
 
-        memories = [
-            {"layer": "l1"}  # No content
-        ]
+        memories = [{"layer": "l1"}]  # No content
 
         result = formatter.format(memories)
 
@@ -361,9 +311,7 @@ class TestEdgeCases:
         formatter = ContextFormatter(max_length=100)
 
         # Create text that will be exactly at max after formatting
-        memories = [
-            {"content": "Short", "layer": "l1"}
-        ]
+        memories = [{"content": "Short", "layer": "l1"}]
 
         result = formatter.format(memories)
 
@@ -376,9 +324,7 @@ class TestEdgeCases:
         """Test formatting with zero relevance score"""
         formatter = ContextFormatter()
 
-        memories = [
-            {"content": "Test", "layer": "l1", "score": 0.0}
-        ]
+        memories = [{"content": "Test", "layer": "l1", "score": 0.0}]
 
         result = formatter.format(memories, include_scores=True)
 
@@ -388,9 +334,7 @@ class TestEdgeCases:
         """Test formatting with negative relevance score"""
         formatter = ContextFormatter()
 
-        memories = [
-            {"content": "Test", "layer": "l1", "score": -0.5}
-        ]
+        memories = [{"content": "Test", "layer": "l1", "score": -0.5}]
 
         result = formatter.format(memories, include_scores=True)
 

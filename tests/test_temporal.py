@@ -69,10 +69,8 @@ class TestTimeWeightCalculator:
         calc = TimeWeightCalculator()
         now = datetime.now(timezone.utc)
         memories = [
-            {"id": "m1", "content": "recent",
-             "timestamp": (now - timedelta(days=1)).isoformat()},
-            {"id": "m2", "content": "old",
-             "timestamp": (now - timedelta(days=365)).isoformat()},
+            {"id": "m1", "content": "recent", "timestamp": (now - timedelta(days=1)).isoformat()},
+            {"id": "m2", "content": "old", "timestamp": (now - timedelta(days=365)).isoformat()},
         ]
         result = calc.apply_weights(memories)
         assert "time_weight" in result[0]

@@ -13,7 +13,7 @@
 # limitations under the License.
 
 """
-Value Backup - values本地storage
+Value Backup - Values local storage
 """
 
 import json
@@ -28,7 +28,8 @@ from claw_mem.values import UserValueStore, UserValue
 
 @dataclass
 class BackupMetadata:
-    """backup元数据"""
+    """Backup metadata"""
+
     user_id: str
     backup_id: str
     created_at: datetime
@@ -62,14 +63,16 @@ class BackupMetadata:
 
 
 class ValueBackup:
-    """valuesbackup管理器"""
+    """Values backup manager"""
 
-    def __init__(self, value_store: Optional[UserValueStore] = None, backup_dir: Optional[Path] = None):
-        """initializebackup管理器
+    def __init__(
+        self, value_store: Optional[UserValueStore] = None, backup_dir: Optional[Path] = None
+    ):
+        """Initialize backup manager
 
         Args:
-            value_store: uservaluesstorage
-            backup_dir: backup目录,默认 ~/.claw_mem/backups/
+            value_store: User values storage
+            backup_dir: Backup directory, default ~/.claw_mem/backups/
         """
         self.value_store = value_store or UserValueStore()
 
@@ -79,74 +82,77 @@ class ValueBackup:
         self.backup_dir = backup_dir
         self.backup_dir.mkdir(parents=True, exist_ok=True)
 
-        # 元数据文件
+        # Metadata file
         self.metadata_file = self.backup_dir / "metadata.json"
 
     def export_values(self, user_id: str, path: Optional[Path] = None) -> BackupMetadata:
-        """exportuservalues到文件
+        """Export user values to file
 
         Args:
-            user_id: user ID
-            path: export路径,if为 None 则自动生成
+            user_id: User ID
+            path: Export path, auto-generated if None
 
         Returns:
-            BackupMetadata: backup元数据
+            BackupMetadata: Backup metadata
         """
-        # getuservalues
+        # Get user values
         user_values = self.value_store.get_user_values(user_id)
         if not user_values:
             raise ValueError(f"User {user_id} not found")
 
-        # 生成backup ID 和路径
+        # Generate backup ID and path
         import uuid
+
         backup_id = str(uuid.uuid4())[:8]
 
         if path is None:
             timestamp = datetime.now(timezone.utc).strftime("%Y%m%d_%H%M%S")
             path = self.backup_dir / f"{user_id}_{timestamp}.json"
 
-        # export数据
+        # Export data
         export_data = {
             "user_id": user_id,
             "exported_at": datetime.now(timezone.utc).isoformat(),
             "version": "2.2.0",
-            "values": user_values.to_dict()
+            "values": user_values.to_dict(),
         }
 
-        # 写入文件
+        # Write file
         path.write_text(json.dumps(export_data, indent=2, ensure_ascii=False), encoding="utf-8")
 
-        # 计算简单 checksum
+        # Calculate simple checksum
         checksum = str(abs(hash(str(export_data))))[:16]
 
-        # 创建元数据
+        # Create metadata
         metadata = BackupMetadata(
             user_id=user_id,
             backup_id=backup_id,
             created_at=datetime.now(timezone.utc),
             file_path=str(path),
             file_size=path.stat().st_size,
-            values_count=len(user_values.principles) + len(user_values.preferences) + len(user_values.red_lines),
-            checksum=checksum
+            values_count=len(user_values.principles)
+            + len(user_values.preferences)
+            + len(user_values.red_lines),
+            checksum=checksum,
         )
 
-        # save元数据
+        # Save metadata
         self._save_metadata(metadata)
 
         return metadata
 
     def import_values(self, user_id: str, path: Path, overwrite: bool = False) -> bool:
-        """从文件importuservalues
+        """Import user values from file
 
         Args:
-            user_id: user ID
-            path: import文件路径
-            overwrite: 是否覆盖现有数据
+            user_id: User ID
+            path: Import file path
+            overwrite: Whether to overwrite existing data
 
         Returns:
-            bool: 是否成功import
+            bool: Whether import was successful
         """
-        # 读取文件
+        # Read file
         if not path.exists():
             raise FileNotFoundError(f"Backup file not found: {path}")
 
@@ -158,39 +164,39 @@ class ValueBackup:
 
         imported_values = data["values"]
 
-        # checkuserID匹配
+        # Check user ID match
         if imported_values.get("user_id") != user_id:
-            # 允许import不同user的values(创建新user)
+            # Allow importing values from different user (creates new user)
             pass
 
-        # get现有values
+        # Get existing values
         existing = self.value_store.get_user_values(user_id)
 
         if existing and not overwrite:
             raise ValueError(f"User {user_id} already exists. Use overwrite=True to replace.")
 
-        # import原则
+        # Import principles
         for principle in imported_values.get("principles", []):
             self.value_store.save_principle(user_id, principle)
 
-        # importpreference
+        # Import preferences
         for key, value in imported_values.get("preferences", {}).items():
             self.value_store.save_preference(user_id, key, value)
 
-        # import红线
+        # Import red lines
         for line in imported_values.get("red_lines", []):
             self.value_store.save_red_line(user_id, line)
 
         return True
 
     def list_backups(self, user_id: Optional[str] = None) -> List[BackupMetadata]:
-        """列出backup文件
+        """List backup files
 
         Args:
-            user_id: user ID,if为 None 则列出所有user的backup
+            user_id: User ID, or None to list all users' backups
 
         Returns:
-            List[BackupMetadata]: backup元数据列表
+            List[BackupMetadata]: List of backup metadata
         """
         metadata_list = []
 
@@ -209,45 +215,40 @@ class ValueBackup:
                 except (KeyError, ValueError):
                     continue
 
-        # 按时间排序
+        # Sort by time
         metadata_list.sort(key=lambda m: m.created_at, reverse=True)
 
         return metadata_list
 
     def backup_metadata(self, user_id: str) -> Dict[str, Any]:
-        """getuserbackup元数据
+        """Get user backup metadata
 
         Args:
-            user_id: user ID
+            user_id: User ID
 
         Returns:
-            Dict: 元数据汇总
+            Dict: Metadata summary
         """
         backups = self.list_backups(user_id)
 
         if not backups:
-            return {
-                "user_id": user_id,
-                "backup_count": 0,
-                "latest_backup": None,
-                "total_size": 0
-            }
+            return {"user_id": user_id, "backup_count": 0, "latest_backup": None, "total_size": 0}
 
         return {
             "user_id": user_id,
             "backup_count": len(backups),
             "latest_backup": backups[0].to_dict() if backups else None,
-            "total_size": sum(b.file_size for b in backups)
+            "total_size": sum(b.file_size for b in backups),
         }
 
     def delete_backup(self, backup_id: str) -> bool:
-        """deletebackup
+        """Delete backup
 
         Args:
-            backup_id: backup ID
+            backup_id: Backup ID
 
         Returns:
-            bool: 是否成功delete
+            bool: Whether deletion was successful
         """
         if self.metadata_file.exists():
             try:
@@ -263,18 +264,18 @@ class ValueBackup:
         meta_data = all_metadata[backup_id]
         file_path = Path(meta_data["file_path"])
 
-        # delete文件
+        # Delete file
         if file_path.exists():
             file_path.unlink()
 
-        # delete元数据
+        # Delete metadata
         del all_metadata[backup_id]
         self.metadata_file.write_text(json.dumps(all_metadata, indent=2), encoding="utf-8")
 
         return True
 
     def _save_metadata(self, metadata: BackupMetadata) -> None:
-        """savebackup元数据"""
+        """Save backup metadata"""
         all_metadata = {}
 
         if self.metadata_file.exists():

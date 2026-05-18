@@ -40,11 +40,26 @@ class V1Strategy(BaseAdapter):
         return {"status": "initialized", "version": CLAW_MEM_VERSION}
 
     def format_search_result(self, result: Any) -> Dict:
-        r = result if isinstance(result, dict) else vars(result) if hasattr(result, "__dict__") else {}
+        r = (
+            result
+            if isinstance(result, dict)
+            else vars(result) if hasattr(result, "__dict__") else {}
+        )
         return {
-            "id": r.get("id", getattr(result, "id", getattr(result, "memory_id", "")) if not isinstance(result, dict) else ""),
-            "content": r.get("content", getattr(result, "content", "") if not isinstance(result, dict) else ""),
-            "score": r.get("score", getattr(result, "score", 0.0) if not isinstance(result, dict) else 0.0),
+            "id": r.get(
+                "id",
+                (
+                    getattr(result, "id", getattr(result, "memory_id", ""))
+                    if not isinstance(result, dict)
+                    else ""
+                ),
+            ),
+            "content": r.get(
+                "content", getattr(result, "content", "") if not isinstance(result, dict) else ""
+            ),
+            "score": r.get(
+                "score", getattr(result, "score", 0.0) if not isinstance(result, dict) else 0.0
+            ),
         }
 
     def build_context(self, memory_manager: Any, params: Dict) -> Dict:
@@ -59,6 +74,7 @@ class V1Strategy(BaseAdapter):
                 return {"context": [], "count": 0}
 
             from claw_mem.context_injection import format_memory_context
+
             context_str = format_memory_context(results, max_length=4000)
 
             return {

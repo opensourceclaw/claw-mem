@@ -47,7 +47,7 @@ This is test content.
             score=0.9,
             parents=["parent_001"],
             type="note",
-            last_updated=datetime.now()
+            last_updated=datetime.now(),
         )
 
     def test_save_node_success(self, sample_file, sample_node):
@@ -71,7 +71,7 @@ This is test content.
             score=0.9,
             parents=[],
             type="note",
-            last_updated=datetime.now()
+            last_updated=datetime.now(),
         )
 
         result = AtomicWriter.save_node(node)
@@ -155,7 +155,7 @@ Content"""
                 score=0.5 + i * 0.1,
                 parents=[f"parent_{i}"],
                 type="note",
-                last_updated=datetime.now()
+                last_updated=datetime.now(),
             )
             nodes.append(node)
 
@@ -190,7 +190,7 @@ Content"""
             score=0.8,
             parents=[],
             type="note",
-            last_updated=datetime.now()
+            last_updated=datetime.now(),
         )
 
         result = AtomicWriter.save_node(node)
@@ -211,7 +211,7 @@ Content"""
             score=0.8,
             parents=[],
             type="note",
-            last_updated=datetime.now()
+            last_updated=datetime.now(),
         )
 
         result = AtomicWriter.save_node(node)

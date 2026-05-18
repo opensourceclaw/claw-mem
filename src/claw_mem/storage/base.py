@@ -10,6 +10,7 @@ from datetime import datetime
 @dataclass
 class MemoryRecord:
     """A memory record in storage."""
+
     id: str
     text: str
     memory_type: str  # episodic, semantic, procedural
@@ -38,8 +39,7 @@ class BaseStorage(ABC):
         ...
 
     @abstractmethod
-    def list_all(self, memory_type: Optional[str] = None,
-                 limit: int = 100) -> List[MemoryRecord]:
+    def list_all(self, memory_type: Optional[str] = None, limit: int = 100) -> List[MemoryRecord]:
         """List all memories, optionally filtered by type."""
         ...
 

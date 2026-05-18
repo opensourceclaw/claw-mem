@@ -15,6 +15,7 @@ import json
 
 class MemoryType(Enum):
     """记忆类型"""
+
     TEXT = "text"
     IMAGE = "image"
     FILE = "file"
@@ -25,6 +26,7 @@ class MemoryType(Enum):
 @dataclass
 class ImageMemory:
     """图像记忆"""
+
     image_id: str
     description: str
     path: str
@@ -36,6 +38,7 @@ class ImageMemory:
 @dataclass
 class FileMemory:
     """文件记忆"""
+
     file_id: str
     filename: str
     file_type: str
@@ -61,10 +64,7 @@ class MultimodalMemoryStore:
         self._file_memories: Dict[str, FileMemory] = {}
 
     def store_image(
-        self,
-        image_path: str,
-        description: str,
-        metadata: Optional[Dict[str, Any]] = None
+        self, image_path: str, description: str, metadata: Optional[Dict[str, Any]] = None
     ) -> str:
         """
         存储图像记忆
@@ -91,7 +91,7 @@ class MultimodalMemoryStore:
             image_id=image_id,
             description=description,
             path=str(storage_path),
-            metadata=metadata or {}
+            metadata=metadata or {},
         )
 
         self._image_memories[image_id] = memory
@@ -101,7 +101,7 @@ class MultimodalMemoryStore:
         self,
         file_path: str,
         file_type: Optional[str] = None,
-        metadata: Optional[Dict[str, Any]] = None
+        metadata: Optional[Dict[str, Any]] = None,
     ) -> str:
         """
         存储文件记忆
@@ -119,7 +119,7 @@ class MultimodalMemoryStore:
 
         # Determine file type
         if file_type is None:
-            file_type = file_path_obj.suffix.lstrip('.')
+            file_type = file_path_obj.suffix.lstrip(".")
 
         # Get file size
         size_bytes = 0
@@ -136,7 +136,7 @@ class MultimodalMemoryStore:
             file_type=file_type,
             path=str(storage_path),
             size_bytes=size_bytes,
-            metadata=metadata or {}
+            metadata=metadata or {},
         )
 
         self._file_memories[file_id] = memory

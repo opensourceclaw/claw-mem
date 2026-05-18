@@ -13,13 +13,13 @@
 # limitations under the License.
 
 """
-Graph Nodes - 概念介导图谱节点类型
+Graph Nodes - Concept-mediated graph node types
 
-基于 GAAMA 论文的四节点类型:
-- Episode: 对话片段,事件序列
-- Fact: 提取的事实,知识
-- Reflection: 总结,洞察,模式
-- Concept: 抽象概念,主题
+Based on GAAMA paper's four node types:
+- Episode: conversation segments, event sequences
+- Fact: extracted facts, knowledge
+- Reflection: summaries, insights, patterns
+- Concept: abstract concepts, themes
 """
 
 from enum import Enum
@@ -30,16 +30,18 @@ import time
 
 
 class NodeType(Enum):
-    """图谱节点类型"""
-    EPISODE = "episode"      # 情景
-    FACT = "fact"            # 事实
-    REFLECTION = "reflection"  # 反思
-    CONCEPT = "concept"      # 概念
+    """Graph node types"""
+
+    EPISODE = "episode"  # Episode
+    FACT = "fact"  # Fact
+    REFLECTION = "reflection"  # Reflection
+    CONCEPT = "concept"  # Concept
 
 
 @dataclass
 class Node:
-    """图谱节点基类"""
+    """Graph node base class"""
+
     id: str
     type: NodeType
     content: str
@@ -49,34 +51,34 @@ class Node:
     updated_at: Optional[datetime] = None
 
     def to_dict(self) -> Dict[str, Any]:
-        """convert为字典"""
+        """Convert to dictionary"""
         return {
-            'id': self.id,
-            'type': self.type.value,
-            'content': self.content,
-            'embedding': self.embedding,
-            'metadata': self.metadata,
-            'created_at': self.created_at.isoformat() if self.created_at else None,
-            'updated_at': self.updated_at.isoformat() if self.updated_at else None,
+            "id": self.id,
+            "type": self.type.value,
+            "content": self.content,
+            "embedding": self.embedding,
+            "metadata": self.metadata,
+            "created_at": self.created_at.isoformat() if self.created_at else None,
+            "updated_at": self.updated_at.isoformat() if self.updated_at else None,
         }
 
     @classmethod
-    def from_dict(cls, data: Dict[str, Any]) -> 'Node':
-        """从字典创建"""
+    def from_dict(cls, data: Dict[str, Any]) -> "Node":
+        """Create from dictionary"""
         created_at = None
-        if data.get('created_at'):
-            created_at = datetime.fromisoformat(data['created_at'])
+        if data.get("created_at"):
+            created_at = datetime.fromisoformat(data["created_at"])
 
         updated_at = None
-        if data.get('updated_at'):
-            updated_at = datetime.fromisoformat(data['updated_at'])
+        if data.get("updated_at"):
+            updated_at = datetime.fromisoformat(data["updated_at"])
 
         node = cls(
-            id=data['id'],
-            type=NodeType(data['type']),
-            content=data['content'],
-            embedding=data.get('embedding'),
-            metadata=data.get('metadata', {}),
+            id=data["id"],
+            type=NodeType(data["type"]),
+            content=data["content"],
+            embedding=data.get("embedding"),
+            metadata=data.get("metadata", {}),
             created_at=created_at,
             updated_at=updated_at,
         )
@@ -85,14 +87,15 @@ class Node:
 
 @dataclass
 class EpisodeNode:
-    """情景节点 - 对话片段,事件序列
+    """Episode node - conversation segment, event sequence
 
-    属性:
-        sequence_id: 在对话中的序号
-        speaker: 发言者 (user/agent/system)
-        timestamp: 时间戳
-        session_id: 会话 ID
+    Attributes:
+        sequence_id: Sequence number in conversation
+        speaker: Speaker (user/agent/system)
+        timestamp: Timestamp
+        session_id: Session ID
     """
+
     id: str
     content: str
     sequence_id: int = 0
@@ -110,49 +113,50 @@ class EpisodeNode:
 
     def to_dict(self) -> Dict[str, Any]:
         return {
-            'id': self.id,
-            'type': self.type.value,
-            'content': self.content,
-            'sequence_id': self.sequence_id,
-            'speaker': self.speaker,
-            'timestamp': self.timestamp.isoformat() if self.timestamp else None,
-            'session_id': self.session_id,
-            'embedding': self.embedding,
-            'metadata': self.metadata,
-            'created_at': self.created_at.isoformat() if self.created_at else None,
-            'updated_at': self.updated_at.isoformat() if self.updated_at else None,
+            "id": self.id,
+            "type": self.type.value,
+            "content": self.content,
+            "sequence_id": self.sequence_id,
+            "speaker": self.speaker,
+            "timestamp": self.timestamp.isoformat() if self.timestamp else None,
+            "session_id": self.session_id,
+            "embedding": self.embedding,
+            "metadata": self.metadata,
+            "created_at": self.created_at.isoformat() if self.created_at else None,
+            "updated_at": self.updated_at.isoformat() if self.updated_at else None,
         }
 
     @classmethod
-    def from_dict(cls, data: Dict[str, Any]) -> 'EpisodeNode':
+    def from_dict(cls, data: Dict[str, Any]) -> "EpisodeNode":
         created_at = None
-        if data.get('created_at'):
-            created_at = datetime.fromisoformat(data['created_at'])
+        if data.get("created_at"):
+            created_at = datetime.fromisoformat(data["created_at"])
         timestamp = None
-        if data.get('timestamp'):
-            timestamp = datetime.fromisoformat(data['timestamp'])
+        if data.get("timestamp"):
+            timestamp = datetime.fromisoformat(data["timestamp"])
         return cls(
-            id=data['id'],
-            content=data['content'],
-            sequence_id=data.get('sequence_id', 0),
-            speaker=data.get('speaker'),
+            id=data["id"],
+            content=data["content"],
+            sequence_id=data.get("sequence_id", 0),
+            speaker=data.get("speaker"),
             timestamp=timestamp,
-            session_id=data.get('session_id'),
-            embedding=data.get('embedding'),
-            metadata=data.get('metadata', {}),
+            session_id=data.get("session_id"),
+            embedding=data.get("embedding"),
+            metadata=data.get("metadata", {}),
             created_at=created_at,
         )
 
 
 @dataclass
 class FactNode:
-    """事实节点 - 提取的事实
+    """Fact node - extracted fact
 
-    属性:
-        confidence: 置信度 (0-1)
-        source_episode: 来源情景 ID
-        verified: 是否已validate
+    Attributes:
+        confidence: Confidence level (0-1)
+        source_episode: Source episode ID
+        verified: Whether verified
     """
+
     id: str
     content: str
     confidence: float = 1.0
@@ -169,44 +173,45 @@ class FactNode:
 
     def to_dict(self) -> Dict[str, Any]:
         return {
-            'id': self.id,
-            'type': self.type.value,
-            'content': self.content,
-            'confidence': self.confidence,
-            'source_episode': self.source_episode,
-            'verified': self.verified,
-            'embedding': self.embedding,
-            'metadata': self.metadata,
-            'created_at': self.created_at.isoformat() if self.created_at else None,
-            'updated_at': self.updated_at.isoformat() if self.updated_at else None,
+            "id": self.id,
+            "type": self.type.value,
+            "content": self.content,
+            "confidence": self.confidence,
+            "source_episode": self.source_episode,
+            "verified": self.verified,
+            "embedding": self.embedding,
+            "metadata": self.metadata,
+            "created_at": self.created_at.isoformat() if self.created_at else None,
+            "updated_at": self.updated_at.isoformat() if self.updated_at else None,
         }
 
     @classmethod
-    def from_dict(cls, data: Dict[str, Any]) -> 'FactNode':
+    def from_dict(cls, data: Dict[str, Any]) -> "FactNode":
         created_at = None
-        if data.get('created_at'):
-            created_at = datetime.fromisoformat(data['created_at'])
+        if data.get("created_at"):
+            created_at = datetime.fromisoformat(data["created_at"])
         return cls(
-            id=data['id'],
-            content=data['content'],
-            confidence=data.get('confidence', 1.0),
-            source_episode=data.get('source_episode'),
-            verified=data.get('verified', False),
-            embedding=data.get('embedding'),
-            metadata=data.get('metadata', {}),
+            id=data["id"],
+            content=data["content"],
+            confidence=data.get("confidence", 1.0),
+            source_episode=data.get("source_episode"),
+            verified=data.get("verified", False),
+            embedding=data.get("embedding"),
+            metadata=data.get("metadata", {}),
             created_at=created_at,
         )
 
 
 @dataclass
 class ReflectionNode:
-    """反思节点 - 总结,洞察,模式
+    """Reflection node - summary, insight, pattern
 
-    属性:
-        summary_type: 反思类型 (general/pattern/insight)
-        source_node_ids: 来源节点 ID 列表
-        importance: 重要性分数 (0-1)
+    Attributes:
+        summary_type: Reflection type (general/pattern/insight)
+        source_node_ids: List of source node IDs
+        importance: Importance score (0-1)
     """
+
     id: str
     content: str
     summary_type: str = "general"
@@ -223,44 +228,45 @@ class ReflectionNode:
 
     def to_dict(self) -> Dict[str, Any]:
         return {
-            'id': self.id,
-            'type': self.type.value,
-            'content': self.content,
-            'summary_type': self.summary_type,
-            'source_node_ids': self.source_node_ids,
-            'importance': self.importance,
-            'embedding': self.embedding,
-            'metadata': self.metadata,
-            'created_at': self.created_at.isoformat() if self.created_at else None,
-            'updated_at': self.updated_at.isoformat() if self.updated_at else None,
+            "id": self.id,
+            "type": self.type.value,
+            "content": self.content,
+            "summary_type": self.summary_type,
+            "source_node_ids": self.source_node_ids,
+            "importance": self.importance,
+            "embedding": self.embedding,
+            "metadata": self.metadata,
+            "created_at": self.created_at.isoformat() if self.created_at else None,
+            "updated_at": self.updated_at.isoformat() if self.updated_at else None,
         }
 
     @classmethod
-    def from_dict(cls, data: Dict[str, Any]) -> 'ReflectionNode':
+    def from_dict(cls, data: Dict[str, Any]) -> "ReflectionNode":
         created_at = None
-        if data.get('created_at'):
-            created_at = datetime.fromisoformat(data['created_at'])
+        if data.get("created_at"):
+            created_at = datetime.fromisoformat(data["created_at"])
         return cls(
-            id=data['id'],
-            content=data['content'],
-            summary_type=data.get('summary_type', 'general'),
-            source_node_ids=data.get('source_node_ids', []),
-            importance=data.get('importance', 0.5),
-            embedding=data.get('embedding'),
-            metadata=data.get('metadata', {}),
+            id=data["id"],
+            content=data["content"],
+            summary_type=data.get("summary_type", "general"),
+            source_node_ids=data.get("source_node_ids", []),
+            importance=data.get("importance", 0.5),
+            embedding=data.get("embedding"),
+            metadata=data.get("metadata", {}),
             created_at=created_at,
         )
 
 
 @dataclass
 class ConceptNode:
-    """概念节点 - 抽象概念,主题
+    """Concept node - abstract concept, theme
 
-    属性:
-        category: 概念类don't (general/topic/entity/action)
-        frequency: 出现频率
-        aliases: don't名列表
+    Attributes:
+        category: Concept category (general/topic/entity/action)
+        frequency: Occurrence frequency
+        aliases: List of aliases
     """
+
     id: str
     content: str
     category: str = "general"
@@ -277,50 +283,50 @@ class ConceptNode:
 
     def to_dict(self) -> Dict[str, Any]:
         return {
-            'id': self.id,
-            'type': self.type.value,
-            'content': self.content,
-            'category': self.category,
-            'frequency': self.frequency,
-            'aliases': self.aliases,
-            'embedding': self.embedding,
-            'metadata': self.metadata,
-            'created_at': self.created_at.isoformat() if self.created_at else None,
-            'updated_at': self.updated_at.isoformat() if self.updated_at else None,
+            "id": self.id,
+            "type": self.type.value,
+            "content": self.content,
+            "category": self.category,
+            "frequency": self.frequency,
+            "aliases": self.aliases,
+            "embedding": self.embedding,
+            "metadata": self.metadata,
+            "created_at": self.created_at.isoformat() if self.created_at else None,
+            "updated_at": self.updated_at.isoformat() if self.updated_at else None,
         }
 
     @classmethod
-    def from_dict(cls, data: Dict[str, Any]) -> 'ConceptNode':
+    def from_dict(cls, data: Dict[str, Any]) -> "ConceptNode":
         created_at = None
-        if data.get('created_at'):
-            created_at = datetime.fromisoformat(data['created_at'])
+        if data.get("created_at"):
+            created_at = datetime.fromisoformat(data["created_at"])
         return cls(
-            id=data['id'],
-            content=data['content'],
-            category=data.get('category', 'general'),
-            frequency=data.get('frequency', 1),
-            aliases=data.get('aliases', []),
-            embedding=data.get('embedding'),
-            metadata=data.get('metadata', {}),
+            id=data["id"],
+            content=data["content"],
+            category=data.get("category", "general"),
+            frequency=data.get("frequency", 1),
+            aliases=data.get("aliases", []),
+            embedding=data.get("embedding"),
+            metadata=data.get("metadata", {}),
             created_at=created_at,
         )
 
 
 def create_node(node_type: NodeType, content: str, **kwargs) -> Any:
-    """工厂函数:创建节点
+    """Factory function: create node
 
     Args:
-        node_type: 节点类型
-        content: 内容
-        **kwargs: 其他参数
+        node_type: Node type
+        content: Content
+        **kwargs: Other parameters
 
     Returns:
-        节点实例
+        Node instance
 
     Example:
-        >>> node = create_node(NodeType.EPISODE, "user说:你好", speaker="user")
+        >>> node = create_node(NodeType.EPISODE, "User said: Hello", speaker="user")
     """
-    node_id = kwargs.pop('id', f"{node_type.value}_{int(time.time() * 1000000)}")
+    node_id = kwargs.pop("id", f"{node_type.value}_{int(time.time() * 1000000)}")
 
     if node_type == NodeType.EPISODE:
         return EpisodeNode(id=node_id, content=content, **kwargs)
@@ -335,11 +341,11 @@ def create_node(node_type: NodeType, content: str, **kwargs) -> Any:
 
 
 __all__ = [
-    'NodeType',
-    'Node',
-    'EpisodeNode',
-    'FactNode',
-    'ReflectionNode',
-    'ConceptNode',
-    'create_node',
+    "NodeType",
+    "Node",
+    "EpisodeNode",
+    "FactNode",
+    "ReflectionNode",
+    "ConceptNode",
+    "create_node",
 ]

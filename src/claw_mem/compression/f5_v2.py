@@ -26,15 +26,17 @@ import hashlib
 
 class CompressionLevelV2(Enum):
     """Compression levels for F5 V2"""
-    LIGHT = 0.3      # 30% compression
-    MEDIUM = 0.5     # 50% compression
-    AGGRESSIVE = 0.7 # 70% compression
-    ULTRA = 0.85     # 85% compression
+
+    LIGHT = 0.3  # 30% compression
+    MEDIUM = 0.5  # 50% compression
+    AGGRESSIVE = 0.7  # 70% compression
+    ULTRA = 0.85  # 85% compression
 
 
 @dataclass
 class CompressionResultV2:
     """Compression result with metadata"""
+
     original_length: int
     compressed_length: int
     compression_ratio: float
@@ -57,12 +59,12 @@ class F5CompressorV2:
 
     # Important entity patterns
     ENTITY_PATTERNS = {
-        "person": r'\b([A-Z][a-z]+(?:\s+[A-Z][a-z]+)+)\b',
-        "email": r'\b[\w.-]+@[\w.-]+\.\w+\b',
-        "date": r'\b(\d{4}[-/]\d{2}[-/]\d{2}|\d{1,2}[-/]\d{1,2}[-/]\d{2,4})\b',
-        "time": r'\b(\d{1,2}:\d{2}(?::\d{2})?(?:\s*[AaPp][Mm])?)\b',
-        "number": r'\b(\d+(?:,\d{3})*(?:\.\d+)?)\b',
-        "url": r'https?://[^\s]+',
+        "person": r"\b([A-Z][a-z]+(?:\s+[A-Z][a-z]+)+)\b",
+        "email": r"\b[\w.-]+@[\w.-]+\.\w+\b",
+        "date": r"\b(\d{4}[-/]\d{2}[-/]\d{2}|\d{1,2}[-/]\d{1,2}[-/]\d{2,4})\b",
+        "time": r"\b(\d{1,2}:\d{2}(?::\d{2})?(?:\s*[AaPp][Mm])?)\b",
+        "number": r"\b(\d+(?:,\d{3})*(?:\.\d+)?)\b",
+        "url": r"https?://[^\s]+",
     }
 
     # Topic keywords
@@ -80,7 +82,7 @@ class F5CompressorV2:
         self,
         level: CompressionLevelV2 = CompressionLevelV2.MEDIUM,
         preserve_entities: bool = True,
-        generate_summary: bool = True
+        generate_summary: bool = True,
     ):
         self.level = level
         self.preserve_entities = preserve_entities
@@ -107,7 +109,9 @@ class F5CompressorV2:
         key_points = self._extract_key_points(content)
 
         # Step 4: Generate summary
-        summary = self._generate_summary(content, key_points, topics) if self.generate_summary else ""
+        summary = (
+            self._generate_summary(content, key_points, topics) if self.generate_summary else ""
+        )
 
         # Step 5: Compress content
         compressed = self._compress_content(content, key_points, entities)
@@ -123,7 +127,7 @@ class F5CompressorV2:
             summary=summary,
             key_points=key_points,
             entities=entities,
-            topics=topics
+            topics=topics,
         )
 
     def _extract_entities(self, text: str) -> List[str]:
@@ -151,7 +155,7 @@ class F5CompressorV2:
     def _extract_key_points(self, content: str) -> List[str]:
         """Extract key points from content"""
         # Split into sentences
-        sentences = re.split(r'[.!?\n]+', content)
+        sentences = re.split(r"[.!?\n]+", content)
         sentences = [s.strip() for s in sentences if s.strip()]
 
         if not sentences:
@@ -202,21 +206,41 @@ class F5CompressorV2:
 
         # Important keywords
         important_keywords = [
-            'decide', 'agree', 'approve', 'reject', 'important', 'critical',
-            'need', 'must', 'should', 'will', 'plan', 'schedule',
-            '决定', '同意', '重要', '需要', '必须', '计划',
-            'bug', 'fix', 'error', 'issue', 'problem', 'solve',
+            "decide",
+            "agree",
+            "approve",
+            "reject",
+            "important",
+            "critical",
+            "need",
+            "must",
+            "should",
+            "will",
+            "plan",
+            "schedule",
+            "决定",
+            "同意",
+            "重要",
+            "需要",
+            "必须",
+            "计划",
+            "bug",
+            "fix",
+            "error",
+            "issue",
+            "problem",
+            "solve",
         ]
         for kw in important_keywords:
             if kw in sentence_lower:
                 score += 2
 
         # Numbers and entities (likely important)
-        if re.search(r'\d+', sentence):
+        if re.search(r"\d+", sentence):
             score += 1
 
         # Question (keep for context)
-        if '?' in sentence:
+        if "?" in sentence:
             score += 0.5
 
         return score
@@ -234,12 +258,7 @@ class F5CompressorV2:
         else:  # ULTRA
             return max(int(total * 0.15), 1)
 
-    def _compress_content(
-        self,
-        content: str,
-        key_points: List[str],
-        entities: List[str]
-    ) -> str:
+    def _compress_content(self, content: str, key_points: List[str], entities: List[str]) -> str:
         """Compress content while preserving key information"""
         if not key_points:
             # Fallback: truncate
@@ -247,7 +266,7 @@ class F5CompressorV2:
             return content[:max_len] + "..." if len(content) > max_len else content
 
         # Combine key points
-        compressed = '. '.join(key_points)
+        compressed = ". ".join(key_points)
 
         # Add entity reference if important
         if self.preserve_entities and entities:
@@ -255,17 +274,12 @@ class F5CompressorV2:
             compressed += entity_str
 
         # Ensure punctuation
-        if compressed and not compressed.endswith('.'):
-            compressed += '.'
+        if compressed and not compressed.endswith("."):
+            compressed += "."
 
         return compressed
 
-    def _generate_summary(
-        self,
-        content: str,
-        key_points: List[str],
-        topics: List[str]
-    ) -> str:
+    def _generate_summary(self, content: str, key_points: List[str], topics: List[str]) -> str:
         """Generate summary"""
         parts = []
 
@@ -281,7 +295,7 @@ class F5CompressorV2:
                 first = first[:50] + "..."
             parts.append(f"Summary: {first}")
 
-        return ' | '.join(parts)
+        return " | ".join(parts)
 
 
 class UltraCompressor:
@@ -308,8 +322,7 @@ class UltraCompressor:
 
     def __init__(self):
         self._abbrev_re = re.compile(
-            r'\b(' + '|'.join(self.ABBREVIATIONS.keys()) + r')\b',
-            re.IGNORECASE
+            r"\b(" + "|".join(self.ABBREVIATIONS.keys()) + r")\b", re.IGNORECASE
         )
 
     def compress(self, content: str, max_length: int = 200) -> str:
@@ -330,19 +343,19 @@ class UltraCompressor:
 
         # Truncate if needed
         if len(result) > max_length:
-            result = result[:max_length-3] + "..."
+            result = result[: max_length - 3] + "..."
 
         return result
 
     def _extract_facts(self, content: str) -> List[str]:
         """Extract core facts"""
-        sentences = re.split(r'[.!?\n]+', content)
+        sentences = re.split(r"[.!?\n]+", content)
         sentences = [s.strip() for s in sentences if s.strip()]
 
         facts = []
         for sentence in sentences:
             # Keep sentences with numbers, names, or key verbs
-            if re.search(r'\d+', sentence) or self._has_key_verb(sentence):
+            if re.search(r"\d+", sentence) or self._has_key_verb(sentence):
                 # Abbreviate
                 compressed = self._abbreviate(sentence)
                 facts.append(compressed)
@@ -351,12 +364,26 @@ class UltraCompressor:
 
     def _has_key_verb(self, sentence: str) -> bool:
         """Check if sentence has key verbs"""
-        verbs = ['decide', 'agree', 'create', 'update', 'delete', 'send', 'receive',
-                 '决定', '同意', '创建', '更新', '发送', '接收']
+        verbs = [
+            "decide",
+            "agree",
+            "create",
+            "update",
+            "delete",
+            "send",
+            "receive",
+            "决定",
+            "同意",
+            "创建",
+            "更新",
+            "发送",
+            "接收",
+        ]
         return any(v in sentence.lower() for v in verbs)
 
     def _abbreviate(self, text: str) -> str:
         """Apply abbreviations"""
+
         def replace(match):
             return self.ABBREVIATIONS.get(match.group(0).lower(), match.group(0))
 
@@ -368,9 +395,7 @@ _f5_compressor: Optional[F5CompressorV2] = None
 _ultra_compressor: Optional[UltraCompressor] = None
 
 
-def get_f5_compressor(
-    level: CompressionLevelV2 = CompressionLevelV2.MEDIUM
-) -> F5CompressorV2:
+def get_f5_compressor(level: CompressionLevelV2 = CompressionLevelV2.MEDIUM) -> F5CompressorV2:
     """Get F5 V2 compressor instance"""
     global _f5_compressor
     if _f5_compressor is None or _f5_compressor.level != level:
@@ -387,8 +412,7 @@ def get_ultra_compressor() -> UltraCompressor:
 
 
 def compress_v2(
-    content: str,
-    level: CompressionLevelV2 = CompressionLevelV2.MEDIUM
+    content: str, level: CompressionLevelV2 = CompressionLevelV2.MEDIUM
 ) -> CompressionResultV2:
     """Quick compression function"""
     compressor = F5CompressorV2(level)

@@ -33,7 +33,7 @@ class TestPerformanceMonitor:
         self.pm.record_cache_hit()
         self.pm.record_cache_miss()
         stats = self.pm.get_stats()
-        assert abs(stats["cache_hit_rate"] - 2/3) < 0.01
+        assert abs(stats["cache_hit_rate"] - 2 / 3) < 0.01
 
     def test_percentiles(self):
         for i in range(100):
@@ -63,10 +63,18 @@ class TestPerformanceMonitor:
     def test_stats_fields(self):
         stats = self.pm.get_stats()
         required = [
-            "search_count", "avg_latency_ms", "min_latency_ms",
-            "max_latency_ms", "p50_latency_ms", "p95_latency_ms",
-            "p99_latency_ms", "cache_hits", "cache_misses",
-            "cache_hit_rate", "uptime_seconds", "memory_mb",
+            "search_count",
+            "avg_latency_ms",
+            "min_latency_ms",
+            "max_latency_ms",
+            "p50_latency_ms",
+            "p95_latency_ms",
+            "p99_latency_ms",
+            "cache_hits",
+            "cache_misses",
+            "cache_hit_rate",
+            "uptime_seconds",
+            "memory_mb",
         ]
         for field in required:
             assert field in stats, f"Missing field: {field}"

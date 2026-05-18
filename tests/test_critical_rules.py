@@ -16,14 +16,14 @@ def clean_critical_rules():
     """Ensure critical rules are clean before and after each test."""
     backup = None
     if os.path.exists(CRITICAL_RULES_PATH):
-        with open(CRITICAL_RULES_PATH, 'r') as f:
+        with open(CRITICAL_RULES_PATH, "r") as f:
             backup = f.read()
     if os.path.exists(CRITICAL_RULES_PATH):
         os.remove(CRITICAL_RULES_PATH)
     yield
     if backup is not None:
         os.makedirs(os.path.dirname(CRITICAL_RULES_PATH), exist_ok=True)
-        with open(CRITICAL_RULES_PATH, 'w') as f:
+        with open(CRITICAL_RULES_PATH, "w") as f:
             f.write(backup)
     elif os.path.exists(CRITICAL_RULES_PATH):
         os.remove(CRITICAL_RULES_PATH)
@@ -135,10 +135,7 @@ class TestCriticalRulesSearch:
         results = mem.search("memory", limit=10, include_critical=True)
 
         # Critical rule should be prepended
-        assert any(
-            "Critical: Always check inbox" in str(r.get("text", ""))
-            for r in results
-        )
+        assert any("Critical: Always check inbox" in str(r.get("text", "")) for r in results)
 
     def test_search_excludes_critical_rules_when_disabled(self, mem):
         """Critical rules not included when include_critical=False."""
@@ -147,10 +144,7 @@ class TestCriticalRulesSearch:
 
         results = mem.search("memory", limit=10, include_critical=False)
 
-        assert not any(
-            "Critical: Always check inbox" in str(r.get("text", ""))
-            for r in results
-        )
+        assert not any("Critical: Always check inbox" in str(r.get("text", "")) for r in results)
 
     def test_search_critical_rules_prepended_first(self, mem):
         """Critical rules appear at the start of results."""

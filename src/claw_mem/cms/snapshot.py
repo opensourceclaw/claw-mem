@@ -24,9 +24,11 @@ class SessionSnapshot:
     checksum: str = ""
 
     def compute_checksum(self) -> str:
-        data = json.dumps([
-            self.session_id, self.state, self.memory_ids, self.metadata
-        ], sort_keys=True, default=str)
+        data = json.dumps(
+            [self.session_id, self.state, self.memory_ids, self.metadata],
+            sort_keys=True,
+            default=str,
+        )
         return hashlib.sha256(data.encode()).hexdigest()[:16]
 
     def to_dict(self) -> dict:
@@ -82,9 +84,13 @@ class SnapshotStorage:
         self._base.mkdir(parents=True, exist_ok=True)
         self._last_full: Dict[str, str] = {}  # session_id → snapshot_id
 
-    def save(self, session_id: str, state: str = "active",
-             memory_ids: List[str] = None,
-             metadata: Dict = None) -> str:
+    def save(
+        self,
+        session_id: str,
+        state: str = "active",
+        memory_ids: List[str] = None,
+        metadata: Dict = None,
+    ) -> str:
         """Save a new snapshot.
 
         Returns:
@@ -107,14 +113,14 @@ class SnapshotStorage:
         prefix = "full" if is_full else "delta"
         fpath = sdir / f"{prefix}_{snap.snapshot_id}.json"
 
-        with open(fpath, 'w') as f:
+        with open(fpath, "w") as f:
             json.dump(data, f, indent=2)
 
         if is_full:
             self._last_full[session_id] = snap.snapshot_id
             # Store memory data in the snapshot
             fpath_mem = sdir / f"mem_{snap.snapshot_id}.json"
-            with open(fpath_mem, 'w') as f:
+            with open(fpath_mem, "w") as f:
                 json.dump({"memory_ids": snap.memory_ids}, f)
 
         return snap.snapshot_id
@@ -125,7 +131,7 @@ class SnapshotStorage:
             if not sdir.is_dir():
                 continue
             for fpath in sdir.glob("*.json"):
-                if 'mem_' in fpath.stem:
+                if "mem_" in fpath.stem:
                     continue
                 if snapshot_id in fpath.stem:
                     with open(fpath) as f:
@@ -140,7 +146,7 @@ class SnapshotStorage:
         results = []
         for pattern in ["full_*.json", "delta_*.json"]:
             for fpath in sorted(sdir.glob(pattern)):
-                if 'mem_' in fpath.stem:
+                if "mem_" in fpath.stem:
                     continue
                 try:
                     with open(fpath) as f:
@@ -148,13 +154,15 @@ class SnapshotStorage:
                     ts = d.get("timestamp", "")
                     if isinstance(ts, str) and ts:
                         ts = datetime.fromisoformat(ts)
-                    results.append(SnapshotInfo(
-                        session_id=session_id,
-                        snapshot_id=d.get("snapshot_id", fpath.stem),
-                        timestamp=ts if isinstance(ts, datetime) else datetime.now(),
-                        state=d.get("state", "unknown"),
-                        size_bytes=fpath.stat().st_size,
-                    ))
+                    results.append(
+                        SnapshotInfo(
+                            session_id=session_id,
+                            snapshot_id=d.get("snapshot_id", fpath.stem),
+                            timestamp=ts if isinstance(ts, datetime) else datetime.now(),
+                            state=d.get("state", "unknown"),
+                            size_bytes=fpath.stat().st_size,
+                        )
+                    )
                 except Exception:
                     pass
         return results

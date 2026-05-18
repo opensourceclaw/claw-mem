@@ -17,6 +17,7 @@ from typing import Any, Dict, List, Optional
 @dataclass
 class BeliefVersion:
     """A single version of a belief."""
+
     belief_id: str
     statement: str
     confidence: float
@@ -38,6 +39,7 @@ class BeliefVersion:
 @dataclass
 class BeliefHistory:
     """Complete history of a belief."""
+
     belief_id: str
     versions: List[BeliefVersion] = field(default_factory=list)
 
@@ -128,11 +130,7 @@ class BeliefTracker:
 
     def get_all_current(self) -> List[BeliefVersion]:
         """Get current version of all beliefs."""
-        return [
-            versions[-1]
-            for versions in self._store.values()
-            if versions
-        ]
+        return [versions[-1] for versions in self._store.values() if versions]
 
     def get_changes_since(self, cutoff: str) -> List[BeliefVersion]:
         """Get beliefs changed after a timestamp.

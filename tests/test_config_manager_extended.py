@@ -18,7 +18,7 @@ from claw_mem.config_manager import (
     UnifiedConfig,
     ConfigManager,
     get_config,
-    reload_config
+    reload_config,
 )
 
 
@@ -37,11 +37,7 @@ class TestStorageConfig:
 
     def test_custom_values(self):
         """Test StorageConfig with custom values"""
-        config = StorageConfig(
-            workspace="/custom/path",
-            max_memory_size_mb=200,
-            auto_save=False
-        )
+        config = StorageConfig(workspace="/custom/path", max_memory_size_mb=200, auto_save=False)
 
         assert config.workspace == "/custom/path"
         assert config.max_memory_size_mb == 200
@@ -63,10 +59,7 @@ class TestRetrievalConfig:
 
     def test_custom_values(self):
         """Test RetrievalConfig with custom values"""
-        config = RetrievalConfig(
-            max_results=20,
-            enable_semantic_search=True
-        )
+        config = RetrievalConfig(max_results=20, enable_semantic_search=True)
 
         assert config.max_results == 20
         assert config.enable_semantic_search is True
@@ -136,10 +129,7 @@ class TestUnifiedConfig:
 
     def test_to_dict(self):
         """Test converting config to dictionary"""
-        config = UnifiedConfig(
-            version="1.0.0",
-            storage=StorageConfig(max_memory_size_mb=200)
-        )
+        config = UnifiedConfig(version="1.0.0", storage=StorageConfig(max_memory_size_mb=200))
 
         config_dict = config.to_dict()
 
@@ -150,13 +140,8 @@ class TestUnifiedConfig:
         """Test creating config from dictionary"""
         data = {
             "version": "1.0.0",
-            "storage": {
-                "workspace": "/custom/path",
-                "max_memory_size_mb": 200
-            },
-            "retrieval": {
-                "max_results": 20
-            }
+            "storage": {"workspace": "/custom/path", "max_memory_size_mb": 200},
+            "retrieval": {"max_results": 20},
         }
 
         config = UnifiedConfig.from_dict(data)
@@ -170,10 +155,7 @@ class TestUnifiedConfig:
         """Test creating config with invalid keys (should be ignored)"""
         data = {
             "version": "1.0.0",
-            "storage": {
-                "workspace": "/custom/path",
-                "invalid_key": "should_be_ignored"
-            }
+            "storage": {"workspace": "/custom/path", "invalid_key": "should_be_ignored"},
         }
 
         config = UnifiedConfig.from_dict(data)

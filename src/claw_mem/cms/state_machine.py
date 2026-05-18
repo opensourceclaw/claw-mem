@@ -74,9 +74,9 @@ class SessionStateMachine:
         self._states: Dict[str, SessionState] = {}
         self._history: Dict[str, List[StateTransition]] = {}
 
-    def transition(self, session_id: str,
-                   event: StateEvent,
-                   metadata: Dict = None) -> StateTransition:
+    def transition(
+        self, session_id: str, event: StateEvent, metadata: Dict = None
+    ) -> StateTransition:
         """Attempt a state transition.
 
         Args:
@@ -94,9 +94,7 @@ class SessionStateMachine:
         allowed = TRANSITIONS.get(from_state, {})
 
         if event not in allowed:
-            raise ValueError(
-                f"Invalid transition: {from_state.value} → {event.value}"
-            )
+            raise ValueError(f"Invalid transition: {from_state.value} → {event.value}")
 
         to_state = allowed[event]
 

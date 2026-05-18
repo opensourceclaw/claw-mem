@@ -12,6 +12,7 @@ import heapq
 @dataclass(order=True)
 class QueueItem:
     """Prioritized queue item."""
+
     priority: float  # Higher = processed first
     experience: Any = field(compare=False)
     enqueued_at: str = field(compare=False, default="")
@@ -38,6 +39,7 @@ class ExperienceQueue:
             priority: Processing priority (0-1, higher = first)
         """
         import datetime
+
         item = QueueItem(
             priority=-priority,  # Negate for max-heap behavior
             experience=experience,
@@ -79,6 +81,7 @@ class ExperienceQueue:
 
     def to_dict(self) -> Dict[str, Any]:
         return {
-            "size": self.size, "max_size": self.max_size,
+            "size": self.size,
+            "max_size": self.max_size,
             "processed": self.processed,
         }

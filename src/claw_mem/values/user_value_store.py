@@ -13,7 +13,7 @@
 # limitations under the License.
 
 """
-User Value Store - uservaluesstorage
+User Value Store - User values storage
 """
 
 from dataclasses import dataclass, field, asdict
@@ -25,7 +25,8 @@ from pathlib import Path
 
 @dataclass
 class UserValue:
-    """uservalues数据结构"""
+    """User value data structure"""
+
     user_id: str
     principles: List[str] = field(default_factory=list)
     preferences: Dict[str, Any] = field(default_factory=dict)
@@ -34,7 +35,7 @@ class UserValue:
     updated_at: datetime = field(default_factory=lambda: datetime.now(timezone.utc))
 
     def to_dict(self) -> Dict[str, Any]:
-        """convert为字典"""
+        """Convert to dictionary"""
         return {
             "user_id": self.user_id,
             "principles": self.principles,
@@ -46,25 +47,33 @@ class UserValue:
 
     @classmethod
     def from_dict(cls, data: Dict[str, Any]) -> "UserValue":
-        """从字典创建"""
+        """Create from dictionary"""
         return cls(
             user_id=data["user_id"],
             principles=data.get("principles", []),
             preferences=data.get("preferences", {}),
             red_lines=data.get("red_lines", []),
-            created_at=datetime.fromisoformat(data["created_at"]) if "created_at" in data else datetime.now(timezone.utc),
-            updated_at=datetime.fromisoformat(data["updated_at"]) if "updated_at" in data else datetime.now(timezone.utc),
+            created_at=(
+                datetime.fromisoformat(data["created_at"])
+                if "created_at" in data
+                else datetime.now(timezone.utc)
+            ),
+            updated_at=(
+                datetime.fromisoformat(data["updated_at"])
+                if "updated_at" in data
+                else datetime.now(timezone.utc)
+            ),
         )
 
 
 class UserValueStore:
-    """uservaluesstorage"""
+    """User values storage"""
 
     def __init__(self, storage_path: Optional[Path] = None):
-        """initializestorage
+        """Initialize storage
 
         Args:
-            storage_path: storage路径,默认 ~/.claw_mem/values/
+            storage_path: Storage path, default ~/.claw_mem/values/
         """
         if storage_path is None:
             storage_path = Path.home() / ".claw_mem" / "values"
@@ -72,24 +81,24 @@ class UserValueStore:
         self.storage_path = storage_path
         self.storage_path.mkdir(parents=True, exist_ok=True)
 
-        # 内存缓存
+        # In-memory cache
         self._cache: Dict[str, UserValue] = {}
 
     def _get_user_file(self, user_id: str) -> Path:
-        """getuser数据文件路径"""
+        """Get user data file path"""
         # Sanitize user_id for filesystem
         safe_id = user_id.replace("/", "_").replace("\\", "_")
         return self.storage_path / f"{safe_id}.json"
 
     def save_principle(self, user_id: str, principle: str) -> UserValue:
-        """save核心原则
+        """Save core principle
 
         Args:
-            user_id: user ID
-            principle: 原则内容
+            user_id: User ID
+            principle: Principle content
 
         Returns:
-            UserValue: update后的uservalues
+            UserValue: Updated user values
         """
         user_values = self._get_or_create_user(user_id)
 
@@ -101,15 +110,15 @@ class UserValueStore:
         return user_values
 
     def save_preference(self, user_id: str, key: str, value: Any) -> UserValue:
-        """saveuserpreference
+        """Save user preference
 
         Args:
-            user_id: user ID
-            key: preference键
-            value: preference值
+            user_id: User ID
+            key: Preference key
+            value: Preference value
 
         Returns:
-            UserValue: update后的uservalues
+            UserValue: Updated user values
         """
         user_values = self._get_or_create_user(user_id)
 
@@ -120,14 +129,14 @@ class UserValueStore:
         return user_values
 
     def save_red_line(self, user_id: str, line: str) -> UserValue:
-        """save红线
+        """Save red line
 
         Args:
-            user_id: user ID
-            line: 红线内容
+            user_id: User ID
+            line: Red line content
 
         Returns:
-            UserValue: update后的uservalues
+            UserValue: Updated user values
         """
         user_values = self._get_or_create_user(user_id)
 
@@ -139,13 +148,13 @@ class UserValueStore:
         return user_values
 
     def get_user_values(self, user_id: str) -> Optional[UserValue]:
-        """getuservalues
+        """Get user values
 
         Args:
-            user_id: user ID
+            user_id: User ID
 
         Returns:
-            Optional[UserValue]: uservalues,if不存在返回 None
+            Optional[UserValue]: User values, or None if not found
         """
         if user_id in self._cache:
             return self._cache[user_id]
@@ -163,14 +172,14 @@ class UserValueStore:
         return None
 
     def delete_principle(self, user_id: str, principle: str) -> Optional[UserValue]:
-        """delete核心原则
+        """Delete core principle
 
         Args:
-            user_id: user ID
-            principle: 原则内容
+            user_id: User ID
+            principle: Principle content
 
         Returns:
-            Optional[UserValue]: update后的uservalues
+            Optional[UserValue]: Updated user values
         """
         user_values = self.get_user_values(user_id)
         if not user_values:
@@ -184,14 +193,14 @@ class UserValueStore:
         return user_values
 
     def delete_red_line(self, user_id: str, line: str) -> Optional[UserValue]:
-        """delete红线
+        """Delete red line
 
         Args:
-            user_id: user ID
-            line: 红线内容
+            user_id: User ID
+            line: Red line content
 
         Returns:
-            Optional[UserValue]: update后的uservalues
+            Optional[UserValue]: Updated user values
         """
         user_values = self.get_user_values(user_id)
         if not user_values:
@@ -205,14 +214,14 @@ class UserValueStore:
         return user_values
 
     def delete_preference(self, user_id: str, key: str) -> Optional[UserValue]:
-        """deletepreference
+        """Delete preference
 
         Args:
-            user_id: user ID
-            key: preference键
+            user_id: User ID
+            key: Preference key
 
         Returns:
-            Optional[UserValue]: update后的uservalues
+            Optional[UserValue]: Updated user values
         """
         user_values = self.get_user_values(user_id)
         if not user_values:
@@ -226,10 +235,10 @@ class UserValueStore:
         return user_values
 
     def list_users(self) -> List[str]:
-        """列出所有user ID
+        """List all user IDs
 
         Returns:
-            List[str]: user ID 列表
+            List[str]: List of user IDs
         """
         users = []
         for f in self.storage_path.glob("*.json"):
@@ -238,7 +247,7 @@ class UserValueStore:
         return users
 
     def _get_or_create_user(self, user_id: str) -> UserValue:
-        """get或创建uservalues"""
+        """Get or create user values"""
         user_values = self.get_user_values(user_id)
         if user_values is None:
             user_values = UserValue(user_id=user_id)
@@ -246,11 +255,10 @@ class UserValueStore:
         return user_values
 
     def _save_user(self, user_values: UserValue) -> None:
-        """saveuservalues到文件"""
+        """Save user values to file"""
         user_file = self._get_user_file(user_values.user_id)
         user_file.write_text(
-            json.dumps(user_values.to_dict(), indent=2, ensure_ascii=False),
-            encoding="utf-8"
+            json.dumps(user_values.to_dict(), indent=2, ensure_ascii=False), encoding="utf-8"
         )
         self._cache[user_values.user_id] = user_values
 

@@ -27,13 +27,7 @@ from .memory_links import (
     MemoryTags,
     MemoryLinkParser,
     MemoryTagParser,
-    MemoryLinkManager
+    MemoryLinkManager,
 )
 
-__all__ = [
-    "MemoryLink",
-    "MemoryTags",
-    "MemoryLinkParser",
-    "MemoryTagParser",
-    "MemoryLinkManager"
-]
+__all__ = ["MemoryLink", "MemoryTags", "MemoryLinkParser", "MemoryTagParser", "MemoryLinkManager"]

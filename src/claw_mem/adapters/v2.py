@@ -40,12 +40,37 @@ class V2Strategy(BaseAdapter):
         return {"status": "ok", "message": "initialized", "version": CLAW_MEM_VERSION}
 
     def format_search_result(self, result: Any) -> Dict:
-        r = result if isinstance(result, dict) else vars(result) if hasattr(result, "__dict__") else {}
+        r = (
+            result
+            if isinstance(result, dict)
+            else vars(result) if hasattr(result, "__dict__") else {}
+        )
         return {
-            "id": r.get("id", getattr(result, "id", getattr(result, "memory_id", "")) if not isinstance(result, dict) else ""),
-            "text": r.get("text", r.get("content", getattr(result, "content", getattr(result, "text", "")) if not isinstance(result, dict) else "")),
-            "score": r.get("score", getattr(result, "score", 0) if not isinstance(result, dict) else 0),
-            "metadata": r.get("metadata", getattr(result, "metadata", {}) if not isinstance(result, dict) else {}),
+            "id": r.get(
+                "id",
+                (
+                    getattr(result, "id", getattr(result, "memory_id", ""))
+                    if not isinstance(result, dict)
+                    else ""
+                ),
+            ),
+            "text": r.get(
+                "text",
+                r.get(
+                    "content",
+                    (
+                        getattr(result, "content", getattr(result, "text", ""))
+                        if not isinstance(result, dict)
+                        else ""
+                    ),
+                ),
+            ),
+            "score": r.get(
+                "score", getattr(result, "score", 0) if not isinstance(result, dict) else 0
+            ),
+            "metadata": r.get(
+                "metadata", getattr(result, "metadata", {}) if not isinstance(result, dict) else {}
+            ),
         }
 
     def build_context(self, memory_manager: Any, params: Dict) -> Dict:
@@ -88,7 +113,8 @@ class V2Strategy(BaseAdapter):
         try:
             stats = memory_manager.get_stats()
             total_memories = sum(
-                stats.get(k, 0) for k in ("episodic", "semantic", "procedural")
+                stats.get(k, 0)
+                for k in ("episodic", "semantic", "procedural")
                 if isinstance(stats.get(k), (int, float))
             )
 

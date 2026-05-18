@@ -35,6 +35,7 @@ from claw_mem.graph.edges import EdgeType
 
 class SubGraphType(Enum):
     """Four orthogonal subgraph dimensions."""
+
     SEMANTIC = "semantic"
     TEMPORAL = "temporal"
     CAUSAL = "causal"
@@ -83,9 +84,7 @@ class SubGraph:
 
     name: SubGraphType
     adjacency: Dict[str, List[Tuple[str, float]]] = field(default_factory=dict)
-    reverse_adjacency: Dict[str, List[Tuple[str, float]]] = field(
-        default_factory=dict
-    )
+    reverse_adjacency: Dict[str, List[Tuple[str, float]]] = field(default_factory=dict)
     edge_weights: Dict[Tuple[str, str], float] = field(default_factory=dict)
     nodes: Set[str] = field(default_factory=set)
     edge_count: int = 0
@@ -97,8 +96,9 @@ class SubGraph:
             self.adjacency.setdefault(node_id, [])
             self.reverse_adjacency.setdefault(node_id, [])
 
-    def add_edge(self, source: str, target: str, weight: float = 1.0,
-                 directed: bool = True) -> None:
+    def add_edge(
+        self, source: str, target: str, weight: float = 1.0, directed: bool = True
+    ) -> None:
         """Add an edge to this subgraph.
 
         Args:
@@ -118,8 +118,7 @@ class SubGraph:
         self.edge_weights[(source, target)] = weight
         self.edge_count += 1
 
-    def get_neighbors(self, node_id: str,
-                      max_depth: int = 1) -> Dict[str, float]:
+    def get_neighbors(self, node_id: str, max_depth: int = 1) -> Dict[str, float]:
         """BFS traversal to find neighbors up to max_depth.
 
         Args:
@@ -184,10 +183,15 @@ class SubGraph:
         """Serialize to JSON-compatible dictionary."""
         edges = []
         for (s, t), w in self.edge_weights.items():
-            edges.append(GraphEdge(
-                source_id=s, target_id=t, weight=w,
-                edge_type=self.name.value, created_at=0.0,
-            ).to_dict())
+            edges.append(
+                GraphEdge(
+                    source_id=s,
+                    target_id=t,
+                    weight=w,
+                    edge_type=self.name.value,
+                    created_at=0.0,
+                ).to_dict()
+            )
         return {
             "name": self.name.value,
             "edge_count": self.edge_count,
@@ -251,8 +255,7 @@ class MultiGraphMemory:
 
     # ── Node management ───────────────────────────────────────────────
 
-    def add_node(self, memory_id: str, content: str,
-                 node_type: NodeType, **metadata) -> None:
+    def add_node(self, memory_id: str, content: str, node_type: NodeType, **metadata) -> None:
         """Register a memory node in the graph (idempotent).
 
         Args:
@@ -280,8 +283,9 @@ class MultiGraphMemory:
 
     # ── Edge management (with auto-routing) ───────────────────────────
 
-    def add_edge(self, source_id: str, target_id: str,
-                 edge_type: EdgeType, weight: float = 1.0) -> None:
+    def add_edge(
+        self, source_id: str, target_id: str, edge_type: EdgeType, weight: float = 1.0
+    ) -> None:
         """Add an edge, automatically routed to the correct subgraph.
 
         Mapping:
@@ -303,9 +307,7 @@ class MultiGraphMemory:
 
         directed = edge_type != EdgeType.RELATED_TO
         with self._lock:
-            self._graphs[subgraph].add_edge(
-                source_id, target_id, weight, directed=directed
-            )
+            self._graphs[subgraph].add_edge(source_id, target_id, weight, directed=directed)
 
     def has_edge(self, source_id: str, target_id: str) -> bool:
         """Check if any edge exists between two nodes (in any subgraph)."""
@@ -317,8 +319,7 @@ class MultiGraphMemory:
 
     # ── Retrieval ─────────────────────────────────────────────────────
 
-    def get_related(self, memory_id: str, subgraph: SubGraphType,
-                    limit: int = 10) -> List[str]:
+    def get_related(self, memory_id: str, subgraph: SubGraphType, limit: int = 10) -> List[str]:
         """Get related node IDs from a specific subgraph.
 
         Args:
@@ -334,10 +335,13 @@ class MultiGraphMemory:
         sorted_n = sorted(neighbors.items(), key=lambda x: x[1], reverse=True)
         return [nid for nid, _ in sorted_n[:limit]]
 
-    def get_expanded_nodes(self, node_ids: List[str],
-                           subgraphs: Optional[List[SubGraphType]] = None,
-                           max_depth: int = 1,
-                           max_expansion: int = 50) -> Dict[str, float]:
+    def get_expanded_nodes(
+        self,
+        node_ids: List[str],
+        subgraphs: Optional[List[SubGraphType]] = None,
+        max_depth: int = 1,
+        max_expansion: int = 50,
+    ) -> Dict[str, float]:
         """Expand from seed nodes through specified subgraphs.
 
         Args:
@@ -359,9 +363,7 @@ class MultiGraphMemory:
         with self._lock:
             for sg in subgraphs:
                 for seed in node_ids:
-                    neighbors = self._graphs[sg].get_neighbors(
-                        seed, max_depth=max_depth
-                    )
+                    neighbors = self._graphs[sg].get_neighbors(seed, max_depth=max_depth)
                     for nid, weight in neighbors.items():
                         if nid not in all_nodes:
                             all_nodes[nid] = weight
@@ -371,8 +373,7 @@ class MultiGraphMemory:
         expanded = sorted(all_nodes.items(), key=lambda x: x[1], reverse=True)
         return dict(expanded[:max_expansion])
 
-    def multi_graph_search(self, sem_nodes: List[str],
-                           k: int = 10) -> List[Tuple[str, float]]:
+    def multi_graph_search(self, sem_nodes: List[str], k: int = 10) -> List[Tuple[str, float]]:
         """Multi-subgraph joint retrieval.
 
         Strategy:
@@ -414,8 +415,7 @@ class MultiGraphMemory:
 
     # ── Decay integration ─────────────────────────────────────────────
 
-    def apply_decay(self,
-                    edge_weights: Dict[Tuple[str, str], float]) -> int:
+    def apply_decay(self, edge_weights: Dict[Tuple[str, str], float]) -> int:
         """Batch update edge weights after decay calculation.
 
         Args:
@@ -444,18 +444,11 @@ class MultiGraphMemory:
         removed = 0
         with self._lock:
             for g in self._graphs.values():
-                expired = [
-                    (s, t) for (s, t), w in g.edge_weights.items()
-                    if w < threshold
-                ]
-                for (s, t) in expired:
+                expired = [(s, t) for (s, t), w in g.edge_weights.items() if w < threshold]
+                for s, t in expired:
                     del g.edge_weights[(s, t)]
-                    g.adjacency[s] = [
-                        (n, w) for n, w in g.adjacency[s] if n != t
-                    ]
-                    g.reverse_adjacency[t] = [
-                        (n, w) for n, w in g.reverse_adjacency[t] if n != s
-                    ]
+                    g.adjacency[s] = [(n, w) for n, w in g.adjacency[s] if n != t]
+                    g.reverse_adjacency[t] = [(n, w) for n, w in g.reverse_adjacency[t] if n != s]
                     removed += 1
                 g.edge_count = len(g.edge_weights)
         return removed
@@ -483,14 +476,8 @@ class MultiGraphMemory:
         """Serialize to JSON-compatible dictionary."""
         with self._lock:
             return {
-                "nodes": {
-                    nid: node.to_dict()
-                    for nid, node in self._node_index.items()
-                },
-                "subgraphs": {
-                    g.name.value: g.to_dict()
-                    for g in self._graphs.values()
-                },
+                "nodes": {nid: node.to_dict() for nid, node in self._node_index.items()},
+                "subgraphs": {g.name.value: g.to_dict() for g in self._graphs.values()},
             }
 
     @classmethod

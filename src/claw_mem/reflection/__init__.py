@@ -9,7 +9,13 @@ from .synthesizer import BeliefSynthesizer, Belief, Observation, SynthesizerConf
 from .belief_tracker import BeliefTracker, BeliefVersion, BeliefHistory
 
 __all__ = [
-    "ReflectionOrchestrator", "ReflectionResult",
-    "BeliefSynthesizer", "Belief", "Observation", "SynthesizerConfig",
-    "BeliefTracker", "BeliefVersion", "BeliefHistory",
+    "ReflectionOrchestrator",
+    "ReflectionResult",
+    "BeliefSynthesizer",
+    "Belief",
+    "Observation",
+    "SynthesizerConfig",
+    "BeliefTracker",
+    "BeliefVersion",
+    "BeliefHistory",
 ]

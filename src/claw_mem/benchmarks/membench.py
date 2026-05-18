@@ -51,9 +51,7 @@ class MemBench:
     def __init__(self, config: Optional[MemBenchConfig] = None):
         self.config = config or MemBenchConfig()
 
-    def evaluate_retrieval(
-        self, returned: List[str], relevant: Set[str]
-    ) -> EvaluationMetrics:
+    def evaluate_retrieval(self, returned: List[str], relevant: Set[str]) -> EvaluationMetrics:
         """Evaluate retrieval accuracy.
 
         Args:
@@ -79,9 +77,7 @@ class MemBench:
 
         return metrics
 
-    def evaluate_test_time_learning(
-        self, few_shot_accuracy: float
-    ) -> Dict[str, float]:
+    def evaluate_test_time_learning(self, few_shot_accuracy: float) -> Dict[str, float]:
         """Evaluate test-time (few-shot) learning capability.
 
         Args:
@@ -92,9 +88,7 @@ class MemBench:
             "examples_used": self.config.few_shot_examples,
         }
 
-    def evaluate_long_range(
-        self, session_consistency_scores: List[float]
-    ) -> Dict[str, float]:
+    def evaluate_long_range(self, session_consistency_scores: List[float]) -> Dict[str, float]:
         """Evaluate long-range understanding.
 
         Args:
@@ -103,7 +97,9 @@ class MemBench:
         if not session_consistency_scores:
             return {"avg_consistency": 0.0, "sessions_compared": 0}
         return {
-            "avg_consistency": round(sum(session_consistency_scores) / len(session_consistency_scores), 4),
+            "avg_consistency": round(
+                sum(session_consistency_scores) / len(session_consistency_scores), 4
+            ),
             "sessions_compared": len(session_consistency_scores),
         }
 

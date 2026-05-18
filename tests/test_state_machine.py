@@ -1,12 +1,18 @@
 """Tests for SessionStateMachine (v3.0.0-rc.3)."""
+
 import pytest
 from claw_mem.cms.state_machine import (
-    SessionStateMachine, SessionState, StateEvent, StateTransition,
+    SessionStateMachine,
+    SessionState,
+    StateEvent,
+    StateTransition,
     TRANSITIONS,
 )
 
+
 class TestSessionStateMachine:
-    def setup_method(self): self.sm = SessionStateMachine()
+    def setup_method(self):
+        self.sm = SessionStateMachine()
 
     def test_initial_state(self):
         assert self.sm.get_current_state("s1") == "active"
@@ -67,6 +73,7 @@ class TestSessionStateMachine:
 
     def test_empty_history(self):
         assert self.sm.get_state_history("nonexistent") == []
+
 
 class TestTransitions:
     def test_all_states_covered(self):

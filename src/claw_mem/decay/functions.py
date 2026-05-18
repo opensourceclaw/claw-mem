@@ -23,7 +23,6 @@ import math
 from dataclasses import dataclass, field
 from typing import Dict
 
-
 # ── Half-life constants (days) ──────────────────────────────────────
 
 HALF_LIFE: Dict[str, float] = {
@@ -38,15 +37,13 @@ HALF_LIFE: Dict[str, float] = {
 }
 
 # Decay rate lambda = ln(2) / half_life
-LAMBDA: Dict[str, float] = {
-    k: math.log(2) / v for k, v in HALF_LIFE.items()
-}
+LAMBDA: Dict[str, float] = {k: math.log(2) / v for k, v in HALF_LIFE.items()}
 
 
 # ── Core decay function ─────────────────────────────────────────────
 
-def exponential_decay(base: float, days_elapsed: float,
-                      half_life_days: float) -> float:
+
+def exponential_decay(base: float, days_elapsed: float, half_life_days: float) -> float:
     """Compute exponential decay weight.
 
     Args:
@@ -65,8 +62,7 @@ def exponential_decay(base: float, days_elapsed: float,
     return base * math.exp(-decay_rate * days_elapsed)
 
 
-def calculate_weight(initial_weight: float, days_elapsed: float,
-                     category: str) -> float:
+def calculate_weight(initial_weight: float, days_elapsed: float, category: str) -> float:
     """Calculate decayed weight for a given category.
 
     Args:
@@ -81,8 +77,7 @@ def calculate_weight(initial_weight: float, days_elapsed: float,
     return exponential_decay(initial_weight, days_elapsed, half_life)
 
 
-def half_life_to_days(weight: float, initial: float,
-                      days_elapsed: float) -> float:
+def half_life_to_days(weight: float, initial: float, days_elapsed: float) -> float:
     """Infer half-life from observed decay (for adaptive tuning).
 
     Uses the formula: t_half = -ln(2) * days / ln(weight / initial)
@@ -93,6 +88,7 @@ def half_life_to_days(weight: float, initial: float,
 
 
 # ── Configuration ───────────────────────────────────────────────────
+
 
 @dataclass
 class DecayConfig:

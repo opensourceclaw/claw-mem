@@ -13,9 +13,15 @@ from .daemon import ConsolidationDaemon, DaemonConfig
 from .injection_detector import InjectionDetector, InjectionResult
 
 __all__ = [
-    "ExperienceClassifier", "ExperienceScore", "ClassificationResult",
-    "WeightConsolidator", "ConsolidationConfig",
-    "ExperienceQueue", "QueueItem",
-    "ConsolidationDaemon", "DaemonConfig",
-    "InjectionDetector", "InjectionResult",
+    "ExperienceClassifier",
+    "ExperienceScore",
+    "ClassificationResult",
+    "WeightConsolidator",
+    "ConsolidationConfig",
+    "ExperienceQueue",
+    "QueueItem",
+    "ConsolidationDaemon",
+    "DaemonConfig",
+    "InjectionDetector",
+    "InjectionResult",
 ]

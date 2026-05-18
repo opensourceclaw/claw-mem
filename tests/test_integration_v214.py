@@ -10,10 +10,10 @@ from claw_mem.graph.nodes import NodeType
 from claw_mem.graph.edges import EdgeType
 from claw_mem.decay import DecayController, DecayScheduler, DecayConfig
 
-
 # ============================================================================
 # GroundTruthStore tests
 # ============================================================================
+
 
 class TestGroundTruthStore:
     """Unit tests for GroundTruthStore."""
@@ -23,10 +23,13 @@ class TestGroundTruthStore:
         self.gt = GroundTruthStore(self.tmpdir)
 
     def test_store_and_retrieve(self):
-        self.gt.store_turn("sess_1", [
-            {"role": "user", "content": "Hello"},
-            {"role": "assistant", "content": "Hi there!"},
-        ])
+        self.gt.store_turn(
+            "sess_1",
+            [
+                {"role": "user", "content": "Hello"},
+                {"role": "assistant", "content": "Hi there!"},
+            ],
+        )
         records = self.gt.get_session("sess_1")
         assert len(records) >= 1
         record = records[0]
@@ -67,8 +70,9 @@ class TestGroundTruthStore:
         assert self.gt.count_records() == 0
 
     def test_record_with_metadata(self):
-        rid = self.gt.store_turn("s", [{"role": "user", "content": "Test"}],
-                                 metadata={"task": "debug"})
+        rid = self.gt.store_turn(
+            "s", [{"role": "user", "content": "Test"}], metadata={"task": "debug"}
+        )
         assert rid.startswith("gt_")
         records = self.gt.get_session("s")
         assert records[0].get("metadata", {}).get("task") == "debug"
@@ -89,9 +93,9 @@ class TestGroundTruthRecord:
     """Tests for GroundTruthRecord dataclass."""
 
     def test_serialize_roundtrip(self):
-        r = GroundTruthRecord("gt_abc", "sess_x",
-                              [{"role": "user", "content": "Hi"}],
-                              12345.0, {"key": "val"})
+        r = GroundTruthRecord(
+            "gt_abc", "sess_x", [{"role": "user", "content": "Hi"}], 12345.0, {"key": "val"}
+        )
         d = r.to_dict()
         r2 = GroundTruthRecord.from_dict(d)
         assert r2.record_id == "gt_abc"
@@ -103,6 +107,7 @@ class TestGroundTruthRecord:
 # ============================================================================
 # Full integration: MultiGraph + DecayController + DecayScheduler
 # ============================================================================
+
 
 class TestGraphDecayIntegration:
     """Integration tests: graph structure with decay lifecycle."""
@@ -194,8 +199,7 @@ class TestGraphDecayIntegration:
         mg.add_node("n2", "Another event", NodeType.EPISODE)
 
         dl = DualLayerMemory()
-        eid = dl.add_event("First event", node_ids=["n1", "n2"],
-                           session_id="s1")
+        eid = dl.add_event("First event", node_ids=["n1", "n2"], session_id="s1")
         assert dl.event_count() == 1
         evt = dl.get_event(eid)
         assert "n1" in evt.node_ids
@@ -230,6 +234,7 @@ class TestGraphDecayIntegration:
 # Edge routing verification
 # ============================================================================
 
+
 class TestEdgeRouting:
     """Verify edge types route to correct subgraphs."""
 
@@ -251,5 +256,6 @@ class TestEdgeRouting:
             mg2.add_node("x", "X", NodeType.EPISODE)
             mg2.add_node("y", "Y", NodeType.EPISODE)
             mg2.add_edge("x", "y", edge_type, 1.0)
-            assert mg2._graphs[expected_sg].has_edge("x", "y"), \
-                f"Edge {edge_type} not in {expected_sg}"
+            assert mg2._graphs[expected_sg].has_edge(
+                "x", "y"
+            ), f"Edge {edge_type} not in {expected_sg}"

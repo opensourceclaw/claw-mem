@@ -4,12 +4,12 @@ Tests for GatingFilter and AdaptiveThreshold
 
 import pytest
 import time
-from src.claw_mem.gating import (
+from claw_mem.gating import (
     GatingFilter,
     GatingFilterResult,
     AdaptiveThreshold,
 )
-from src.claw_mem.importance import ImportanceScorer
+from claw_mem.importance import ImportanceScorer
 
 
 class TestGatingFilter:
@@ -20,10 +20,10 @@ class TestGatingFilter:
         filter = GatingFilter(threshold=1.0)
 
         memory = {
-            'memory_type': 'semantic',
-            'access_count': 10,
-            'content': 'Important fact',
-            'source': 'user'
+            "memory_type": "semantic",
+            "access_count": 10,
+            "content": "Important fact",
+            "source": "user",
         }
 
         result = filter.should_store(memory)
@@ -36,26 +36,26 @@ class TestGatingFilter:
         filter = GatingFilter(threshold=1.5)
 
         memory = {
-            'memory_type': 'episodic',
-            'access_count': 0,
-            'content': 'Random chat',
-            'source': 'external'
+            "memory_type": "episodic",
+            "access_count": 0,
+            "content": "Random chat",
+            "source": "external",
         }
 
         result = filter.should_store(memory)
 
-        # 可能存储或不存储,取决于评分
+        # May or may not store, depending on scoring
 
     def test_threshold_boundary(self):
         """Test threshold boundary"""
         filter = GatingFilter(threshold=1.0)
 
-        # 刚好等于阈值
-        memory = {'memory_type': 'semantic', 'access_count': 0}
+        # Exactly at threshold
+        memory = {"memory_type": "semantic", "access_count": 0}
 
         result = filter.should_store(memory)
 
-        # 应该存储(>= 阈值)
+        # Should store (>= threshold)
         assert result.should_store is True
 
     def test_set_threshold(self):
@@ -68,7 +68,7 @@ class TestGatingFilter:
         filter.set_threshold(0.5)
         assert filter.get_threshold() == 0.5
 
-        # 边界检查
+        # Boundary check
         filter.set_threshold(3.0)
         assert filter.get_threshold() == 2.0
 
@@ -80,11 +80,7 @@ class TestGatingFilter:
         scorer = ImportanceScorer()
         filter = GatingFilter(scorer=scorer, threshold=1.0)
 
-        memory = {
-            'memory_type': 'semantic',
-            'access_count': 15,
-            'accessed_at': None
-        }
+        memory = {"memory_type": "semantic", "access_count": 15, "accessed_at": None}
 
         result = filter.should_store(memory)
 
@@ -98,41 +94,32 @@ class TestAdaptiveThreshold:
     def test_low_memory_count(self):
         """Test threshold with low memory count"""
         adapter = AdaptiveThreshold(
-            base_threshold=1.0,
-            min_threshold=0.5,
-            max_threshold=1.5,
-            memory_capacity=1000
+            base_threshold=1.0, min_threshold=0.5, max_threshold=1.5, memory_capacity=1000
         )
 
         threshold = adapter.get_threshold(current_memory_count=100)
 
-        # 记忆少时,阈值应该接近或低于基础阈值
+        # With low memory count, threshold should be near or below base threshold
         assert threshold <= 1.0
 
     def test_high_memory_count(self):
         """Test threshold with high memory count"""
         adapter = AdaptiveThreshold(
-            base_threshold=1.0,
-            min_threshold=0.5,
-            max_threshold=1.5,
-            memory_capacity=1000
+            base_threshold=1.0, min_threshold=0.5, max_threshold=1.5, memory_capacity=1000
         )
 
         threshold = adapter.get_threshold(current_memory_count=900)
 
-        # 记忆多时,阈值应该高于基础阈值
+        # With high memory count, threshold should be above base threshold
         assert threshold >= 1.0
 
     def test_boundary_memory_count(self):
         """Test threshold at capacity boundaries"""
         adapter = AdaptiveThreshold(
-            base_threshold=1.0,
-            min_threshold=0.5,
-            max_threshold=1.5,
-            memory_capacity=1000
+            base_threshold=1.0, min_threshold=0.5, max_threshold=1.5, memory_capacity=1000
         )
 
-        # 接近容量
+        # Near capacity limits
         threshold_min = adapter.get_threshold(0)
         threshold_max = adapter.get_threshold(2000)
 
@@ -141,28 +128,25 @@ class TestAdaptiveThreshold:
 
     def test_get_stats(self):
         """Test statistics"""
-        adapter = AdaptiveThreshold(
-            base_threshold=1.0,
-            memory_capacity=1000
-        )
+        adapter = AdaptiveThreshold(base_threshold=1.0, memory_capacity=1000)
 
         stats = adapter.get_stats(current_memory_count=500)
 
-        assert 'current_count' in stats
-        assert 'capacity' in stats
-        assert 'usage_ratio' in stats
-        assert 'current_threshold' in stats
-        assert stats['current_count'] == 500
-        assert stats['usage_ratio'] == 0.5
+        assert "current_count" in stats
+        assert "capacity" in stats
+        assert "usage_ratio" in stats
+        assert "current_threshold" in stats
+        assert stats["current_count"] == 500
+        assert stats["usage_ratio"] == 0.5
 
     def test_reset(self):
         """Test reset to base threshold"""
         adapter = AdaptiveThreshold(base_threshold=1.0)
 
-        # 先设置一个不同的值
+        # First set a different value
         threshold = adapter.get_threshold(900)
 
-        # 重置
+        # Reset
         result = adapter.reset()
         assert result == 1.0
 
@@ -176,13 +160,13 @@ class TestGatingFilterResult:
             should_store=True,
             importance_score=1.5,
             reason="High importance",
-            metadata={'type': 'semantic'}
+            metadata={"type": "semantic"},
         )
 
         assert result.should_store is True
         assert result.importance_score == 1.5
         assert result.reason == "High importance"
-        assert result.metadata['type'] == 'semantic'
+        assert result.metadata["type"] == "semantic"
 
 
 class TestPerformance:
@@ -193,7 +177,7 @@ class TestPerformance:
         filter = GatingFilter(threshold=1.0)
 
         memories = [
-            {'memory_type': 'semantic', 'access_count': i, 'content': f'test {i}'}
+            {"memory_type": "semantic", "access_count": i, "content": f"test {i}"}
             for i in range(100)
         ]
 

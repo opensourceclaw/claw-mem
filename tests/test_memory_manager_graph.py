@@ -31,6 +31,7 @@ class TestMemoryManagerGraphIntegration:
 
         # 验证图谱可以正常工作
         from claw_mem.graph import NodeType
+
         ep_id = manager.graph.add_episode("测试内容", speaker="user")
         assert ep_id is not None
 

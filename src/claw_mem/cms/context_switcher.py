@@ -51,13 +51,13 @@ class ContextSwitcher:
       - merge_context: Merge memories from multiple contexts.
     """
 
-    def __init__(self, importance_evaluator=None,
-                 memory_manager=None):
+    def __init__(self, importance_evaluator=None, memory_manager=None):
         self._evaluator = importance_evaluator
         self._mm = memory_manager
 
-    def switch(self, from_id: str, to_id: str,
-               strategy: str = "preserve_important") -> SwitchResult:
+    def switch(
+        self, from_id: str, to_id: str, strategy: str = "preserve_important"
+    ) -> SwitchResult:
         """Switch context from one session to another.
 
         Args:
@@ -72,9 +72,7 @@ class ContextSwitcher:
 
         if strategy == "preserve_important" and self._evaluator:
             try:
-                important = self._evaluator.get_important_memories(
-                    threshold=0.5, limit=20
-                )
+                important = self._evaluator.get_important_memories(threshold=0.5, limit=20)
                 preserved = [s.memory_id for s in important]
             except Exception:
                 pass

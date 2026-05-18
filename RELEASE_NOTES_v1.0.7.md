@@ -1,8 +1,8 @@
 # claw-mem v1.0.7 Release Notes
 
-**Release Date:** 2026-03-25  
-**Version:** 1.0.7  
-**Type:** Patch Release (Memory Links & Tags)  
+**Release Date:** 2026-03-25
+**Version:** 1.0.7
+**Type:** Patch Release (Memory Links & Tags)
 **License:** Apache-2.0
 
 ---
@@ -19,16 +19,16 @@ claw-mem v1.0.7 introduces simple markdown-based memory linking and tagging syst
 
 **Simple linking syntax:**
 
-- Syntax: `[[memory_id]]` or `[[2026-03-25#投资决策]]`
+- Syntax: `[[memory_id]]` or `[[2026-03-25#investment-decision]]`
 - Automatic link parsing
 - Backlink detection
 - Related memory recommendations
 
 **Example:**
 ```markdown
-# 投资决策 [[2026-03-24#教育金规划]]
+# Investment Decision [[2026-03-24#education-fund-planning]]
 
-参考 [[Kati_学习]] [[焦虑情绪]]
+Reference [[Kati_learning]] [[anxiety-emotion]]
 ```
 
 ---
@@ -37,20 +37,20 @@ claw-mem v1.0.7 introduces simple markdown-based memory linking and tagging syst
 
 **Simple tagging:**
 
-- Syntax: `#tag` or `#标签名`
+- Syntax: `#tag` or `#tag-name`
 - Automatic tag extraction
 - Tag search
 - Tag-based recommendations
 
 **Example:**
 ```markdown
-# 投资决策
+# Investment Decision
 
-## 内容
-担心投资收益不够女儿上学用.
+## Content
+Worried that investment returns won't be enough for daughter's education.
 
-## 标签
-#投资 #教育金 #焦虑
+## Tags
+#investment #education-fund #anxiety
 ```
 
 ---

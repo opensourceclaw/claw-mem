@@ -36,12 +36,12 @@ from .controller import DecayController
 from .scheduler import DecayScheduler
 
 __all__ = [
-    'exponential_decay',
-    'calculate_weight',
-    'half_life_to_days',
-    'DecayConfig',
-    'HALF_LIFE',
-    'LAMBDA',
-    'DecayController',
-    'DecayScheduler',
+    "exponential_decay",
+    "calculate_weight",
+    "half_life_to_days",
+    "DecayConfig",
+    "HALF_LIFE",
+    "LAMBDA",
+    "DecayController",
+    "DecayScheduler",
 ]

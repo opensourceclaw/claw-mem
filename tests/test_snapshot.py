@@ -1,6 +1,8 @@
 """Tests for SnapshotStorage (v3.0.0-rc.3)."""
+
 import tempfile, pytest
 from claw_mem.cms.snapshot import SnapshotStorage, SessionSnapshot
+
 
 class TestSnapshotStorage:
     def setup_method(self):
@@ -8,12 +10,12 @@ class TestSnapshotStorage:
         self.store = SnapshotStorage(self.tmp)
 
     def test_save_and_load(self):
-        sid = self.store.save("sess_a", state="active", memory_ids=["m1","m2"])
+        sid = self.store.save("sess_a", state="active", memory_ids=["m1", "m2"])
         snap = self.store.load(sid)
         assert snap is not None
         assert snap.session_id == "sess_a"
         assert snap.state == "active"
-        assert snap.memory_ids == ["m1","m2"]
+        assert snap.memory_ids == ["m1", "m2"]
 
     def test_list_snapshots(self):
         self.store.save("s1", memory_ids=["a"])
@@ -30,7 +32,7 @@ class TestSnapshotStorage:
         assert self.store.list("nonexistent") == []
 
     def test_checksum(self):
-        snap = SessionSnapshot("s1", "snap_test", state="active", memory_ids=["a","b"])
+        snap = SessionSnapshot("s1", "snap_test", state="active", memory_ids=["a", "b"])
         cs = snap.compute_checksum()
         assert len(cs) == 16
 

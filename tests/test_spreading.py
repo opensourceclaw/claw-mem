@@ -25,16 +25,18 @@ class TestSpreadingBFS:
 
     def test_single_seed(self):
         seeds = {"n0": 1.0}
-        activations = spreading_bfs(seeds, self.graph, max_depth=2,
-                                    decay_factor=0.5, threshold=0.05)
+        activations = spreading_bfs(
+            seeds, self.graph, max_depth=2, decay_factor=0.5, threshold=0.05
+        )
         assert "n0" in activations
         assert activations["n0"] == 1.0
         assert "n1" in activations  # depth 1
 
     def test_activation_decays_with_depth(self):
         seeds = {"n0": 1.0}
-        activations = spreading_bfs(seeds, self.graph, max_depth=2,
-                                    decay_factor=0.5, threshold=0.01)
+        activations = spreading_bfs(
+            seeds, self.graph, max_depth=2, decay_factor=0.5, threshold=0.01
+        )
         # n1 depth=1: 1.0 * 0.5^1 = 0.5 * edge_weight
         act_n1 = activations.get("n1", 0)
         # n2 depth=2: 0.5 * 0.5 = 0.25 * edge_weight
@@ -43,16 +45,16 @@ class TestSpreadingBFS:
 
     def test_threshold_pruning(self):
         seeds = {"n0": 1.0}
-        activations = spreading_bfs(seeds, self.graph, max_depth=2,
-                                    decay_factor=0.1, threshold=0.5)
+        activations = spreading_bfs(seeds, self.graph, max_depth=2, decay_factor=0.1, threshold=0.5)
         # With heavy decay, deep nodes should be pruned
         total = len(activations)
         assert total <= 3  # n0 + maybe n1
 
     def test_depth_limit(self):
         seeds = {"n0": 1.0}
-        activations = spreading_bfs(seeds, self.graph, max_depth=0,
-                                    decay_factor=0.5, threshold=0.01)
+        activations = spreading_bfs(
+            seeds, self.graph, max_depth=0, decay_factor=0.5, threshold=0.01
+        )
         assert len(activations) == 1  # only seed
 
     def test_empty_seeds(self):
@@ -61,9 +63,9 @@ class TestSpreadingBFS:
 
     def test_max_nodes_limit(self):
         seeds = {f"n{i}": 1.0 for i in range(3)}
-        activations = spreading_bfs(seeds, self.graph, max_depth=2,
-                                    decay_factor=0.5, threshold=0.01,
-                                    max_nodes=4)
+        activations = spreading_bfs(
+            seeds, self.graph, max_depth=2, decay_factor=0.5, threshold=0.01, max_nodes=4
+        )
         # max_nodes includes seeds; up to 1 spill allowed before next check
         assert len(activations) <= 4
 
@@ -72,8 +74,9 @@ class TestSpreadingBFS:
         # Add direct edge n0→n2
         self.graph.add_edge("n0", "n2", EdgeType.RELATED_TO, 0.6)
         seeds = {"n0": 1.0}
-        activations = spreading_bfs(seeds, self.graph, max_depth=2,
-                                    decay_factor=0.5, threshold=0.01)
+        activations = spreading_bfs(
+            seeds, self.graph, max_depth=2, decay_factor=0.5, threshold=0.01
+        )
         assert "n2" in activations
 
 

@@ -13,14 +13,16 @@ import re
 
 class CompressionLevel(Enum):
     """压缩级别"""
-    LIGHT = "light"     # 轻度压缩 (30%)
-    MEDIUM = "medium"   # 中度压缩 (50%)
+
+    LIGHT = "light"  # 轻度压缩 (30%)
+    MEDIUM = "medium"  # 中度压缩 (50%)
     AGGRESSIVE = "aggressive"  # 激进压缩 (70%)
 
 
 @dataclass
 class CompressionResult:
     """压缩结果"""
+
     original_length: int
     compressed_length: int
     compression_ratio: float  # 压缩率
@@ -86,9 +88,7 @@ class MemoryCompressor:
     """
 
     def __init__(
-        self,
-        level: CompressionLevel = CompressionLevel.MEDIUM,
-        preserve_key_info: bool = True
+        self, level: CompressionLevel = CompressionLevel.MEDIUM, preserve_key_info: bool = True
     ):
         self.level = level
         self.preserve_key_info = preserve_key_info
@@ -139,22 +139,22 @@ class MemoryCompressor:
             compression_ratio=ratio,
             preserved_content=compressed,
             extracted_keys=self._flatten_keys(key_info),
-            summary=summary
+            summary=summary,
         )
 
     def _compress_light(self, content: str) -> str:
         """轻度压缩:移除多余空白和短词"""
         # Remove extra whitespace
-        lines = content.split('\n')
+        lines = content.split("\n")
         cleaned = [line.strip() for line in lines if line.strip()]
 
         # Remove very short lines (< 10 chars)
         result = [line for line in cleaned if len(line) >= 10]
-        return '\n'.join(result)
+        return "\n".join(result)
 
     def _compress_medium(self, content: str) -> str:
         """中度压缩:移除重复和低信息量内容"""
-        lines = content.split('\n')
+        lines = content.split("\n")
         cleaned = [line.strip() for line in lines if line.strip()]
 
         # Remove consecutive duplicate lines
@@ -168,7 +168,7 @@ class MemoryCompressor:
         # Remove very short lines (< 15 chars)
         result = [line for line in result if len(line) >= 15]
 
-        return '\n'.join(result)
+        return "\n".join(result)
 
     def _compress_aggressive(self, content: str) -> str:
         """激进压缩:只保留关键信息"""
@@ -176,7 +176,7 @@ class MemoryCompressor:
         key_info = self._extractor.extract(content)
 
         # Get all key sentences
-        sentences = re.split(r'[.!?.!?\n]', content)
+        sentences = re.split(r"[.!?.!?\n]", content)
         key_sentences = []
 
         for sentence in sentences:
@@ -188,19 +188,37 @@ class MemoryCompressor:
 
             # Keep sentences with key information
             keep = False
-            if any(sentence_lower in info.lower() or info.lower() in sentence_lower
-                   for info in key_info.get('decisions', [])):
+            if any(
+                sentence_lower in info.lower() or info.lower() in sentence_lower
+                for info in key_info.get("decisions", [])
+            ):
                 keep = True
-            elif any(sentence_lower in info.lower() or info.lower() in sentence_lower
-                     for info in key_info.get('tasks', [])):
+            elif any(
+                sentence_lower in info.lower() or info.lower() in sentence_lower
+                for info in key_info.get("tasks", [])
+            ):
                 keep = True
-            elif any(sentence_lower in info.lower() or info.lower() in sentence_lower
-                     for info in key_info.get('facts', [])):
+            elif any(
+                sentence_lower in info.lower() or info.lower() in sentence_lower
+                for info in key_info.get("facts", [])
+            ):
                 keep = True
 
             # Keep sentences that are important (contain key words)
             if not keep:
-                important_words = ['important', 'critical', 'key', 'essential', 'must', 'need', 'should', 'will', 'decide', 'agree', 'plan']
+                important_words = [
+                    "important",
+                    "critical",
+                    "key",
+                    "essential",
+                    "must",
+                    "need",
+                    "should",
+                    "will",
+                    "decide",
+                    "agree",
+                    "plan",
+                ]
                 if any(word in sentence_lower for word in important_words):
                     keep = True
 
@@ -211,7 +229,7 @@ class MemoryCompressor:
             if keep:
                 key_sentences.append(sentence)
 
-        return '. '.join(key_sentences) + '.' if key_sentences else content[:500]
+        return ". ".join(key_sentences) + "." if key_sentences else content[:500]
         key_sentences = []
 
         key_info = self._extractor.extract(content)
@@ -222,41 +240,41 @@ class MemoryCompressor:
                 continue
 
             # Keep sentences with key information
-            if any(sentence.lower() in info.lower() for info in key_info.get('decisions', [])):
+            if any(sentence.lower() in info.lower() for info in key_info.get("decisions", [])):
                 key_sentences.append(sentence)
-            elif any(sentence.lower() in info.lower() for info in key_info.get('tasks', [])):
+            elif any(sentence.lower() in info.lower() for info in key_info.get("tasks", [])):
                 key_sentences.append(sentence)
-            elif any(sentence.lower() in info.lower() for info in key_info.get('facts', [])):
+            elif any(sentence.lower() in info.lower() for info in key_info.get("facts", [])):
                 key_sentences.append(sentence)
             elif len(sentence) < 100:  # Keep short sentences
                 key_sentences.append(sentence)
 
-        return '. '.join(key_sentences) + '.'
+        return ". ".join(key_sentences) + "."
 
     def _build_summary(self, key_info: Dict[str, List[str]]) -> str:
         """从关键信息构建摘要"""
         parts = []
 
-        if key_info.get('decisions'):
-            decisions = key_info['decisions'][:3]  # Limit to 3
+        if key_info.get("decisions"):
+            decisions = key_info["decisions"][:3]  # Limit to 3
             parts.append(f"决策: {', '.join(decisions)}")
 
-        if key_info.get('tasks'):
-            tasks = key_info['tasks'][:3]
+        if key_info.get("tasks"):
+            tasks = key_info["tasks"][:3]
             parts.append(f"任务: {', '.join(tasks)}")
 
-        if key_info.get('facts'):
-            facts = key_info['facts'][:3]
+        if key_info.get("facts"):
+            facts = key_info["facts"][:3]
             parts.append(f"事实: {', '.join(facts)}")
 
-        return ' | '.join(parts) if parts else ''
+        return " | ".join(parts) if parts else ""
 
     def _flatten_keys(self, key_info: Dict[str, List[str]]) -> List[str]:
         """扁平化关键信息"""
         keys = []
-        keys.extend(key_info.get('decisions', []))
-        keys.extend(key_info.get('facts', []))
-        keys.extend(key_info.get('tasks', []))
+        keys.extend(key_info.get("decisions", []))
+        keys.extend(key_info.get("facts", []))
+        keys.extend(key_info.get("tasks", []))
         return list(set(keys))
 
 
@@ -264,9 +282,7 @@ class MemoryCompressor:
 _compressor: Optional[MemoryCompressor] = None
 
 
-def get_compressor(
-    level: CompressionLevel = CompressionLevel.MEDIUM
-) -> MemoryCompressor:
+def get_compressor(level: CompressionLevel = CompressionLevel.MEDIUM) -> MemoryCompressor:
     """获取压缩器实例"""
     global _compressor
     if _compressor is None:
@@ -275,8 +291,7 @@ def get_compressor(
 
 
 def compress_memory(
-    content: str,
-    level: CompressionLevel = CompressionLevel.MEDIUM
+    content: str, level: CompressionLevel = CompressionLevel.MEDIUM
 ) -> CompressionResult:
     """快速压缩函数"""
     compressor = MemoryCompressor(level)
