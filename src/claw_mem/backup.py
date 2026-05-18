@@ -188,7 +188,9 @@ def list_command(workspace: str):
     for backup in backups[:5]:
         status = "✅ 有效" if backup["valid"] else "❌ 损坏"
         print(
-            f"{backup['timestamp']:<25} {backup['type']:<12} {backup['size']/1024:<10.1f} KB {status:<8} {backup['path']}"
+            f"{backup['timestamp']:<25} {backup['type']:<12} "
+            f"{backup['size']/1024:<10.1f} KB {status:<8} "
+            f"{backup['path']}"
         )
 
 

@@ -60,7 +60,7 @@ from .context_injection import (
     format_memory_context,
     inject_memories_to_prompt,
 )
-from .timeline import (
+from .timeline import (  # noqa: F401
     Timeline,
     TimelineEvent,
     TimelineQuery,
@@ -74,9 +74,9 @@ from .timeline import (
     FirstEventsDetector,
     FirstEvent,
     FirstEventType,
-    EventImportanceScorer,  # noqa: F401
-    EventImportanceScore,  # noqa: F401
-    ImportanceFactor,  # noqa: F401
+    EventImportanceScorer,
+    EventImportanceScore,
+    ImportanceFactor,
 )
 from .knowledge_graph import (  # noqa: F401
     KnowledgeGraph,

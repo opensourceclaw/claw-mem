@@ -26,8 +26,7 @@ import os
 from typing import Any, Dict, Optional
 
 from claw_mem.adapters import AdapterRegistry
-from claw_mem.classifier import (
-    classify_content,
+from claw_mem.classifier import (  # noqa
     extract_important_content,
     generate_session_summary,
     detect_content_type as _detect_content_type_fn,

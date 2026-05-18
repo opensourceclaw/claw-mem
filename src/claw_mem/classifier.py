@@ -19,7 +19,7 @@ Classifies conversation messages by type (decision, preference, task_context,
 fact, chat) and assigns importance scores for memory persistence decisions.
 """
 
-from dataclasses import dataclass, field
+from dataclasses import dataclass
 from typing import List, Literal
 
 ContentType = Literal["decision", "preference", "task_context", "fact", "chat"]

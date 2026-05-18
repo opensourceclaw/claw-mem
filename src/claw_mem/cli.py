@@ -149,9 +149,8 @@ def cmd_stats(args):
         print(f"Semantic memories: {stats['semantic_count']}")
         print(f"Procedural memories: {stats['procedural_count']}")
         print("=" * 40)
-        print(
-            f"Total memories: {stats['episodic_count'] + stats['semantic_count'] + stats['procedural_count']}"
-        )
+        total = stats['episodic_count'] + stats['semantic_count'] + stats['procedural_count']
+        print(f"Total memories: {total}")
 
 
 def cmd_search(args):
@@ -164,7 +163,7 @@ def cmd_search(args):
         sys.exit(1)
 
     # Parse layers
-    layers = [l.strip() for l in args.layers.split(",")]
+    layers = [layer.strip() for layer in args.layers.split(",")]
 
     # Initialize retriever
     retriever = ThreeTierRetriever(Path(workspace))
