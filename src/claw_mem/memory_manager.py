@@ -95,7 +95,11 @@ class MemoryManager:
                  # v2.15.0: Engram + Spreading + Compression
                  enable_engram: bool = True,
                  enable_spreading: bool = True,
-                 enable_compression_spectrum: bool = False,
+                 enable_compression_spectrum: bool = True,
+                 # v2.18.0: CompressionSpectrum thresholds
+                 compression_trigger_access: int = 5,
+                 compression_trigger_apply: int = 3,
+                 compression_trigger_verify: int = 2,
                  engram_ngram_size: int = 3,
                  spreading_max_depth: int = 2,
                  spreading_decay_factor: float = 0.5,
@@ -182,6 +186,10 @@ class MemoryManager:
         self._spreader: Optional[SpreadingActivation] = None
         self._decoupled_retriever: Optional[DecoupledRetriever] = None
         self._compression_spectrum: Optional[CompressionSpectrum] = None
+        self.enable_compression_spectrum = enable_compression_spectrum
+        self._compression_trigger_access = compression_trigger_access
+        self._compression_trigger_apply = compression_trigger_apply
+        self._compression_trigger_verify = compression_trigger_verify
 
         # Search mode
         self.search_mode = os.environ.get('CLAW_MEM_SEARCH_MODE', 'enhanced_smart')
@@ -1210,7 +1218,12 @@ class MemoryManager:
     @property
     def compression_spectrum(self) -> Optional[CompressionSpectrum]:
         if self._compression_spectrum is None and self.enable_compression_spectrum:
-            self._compression_spectrum = CompressionSpectrum(self)
+            self._compression_spectrum = CompressionSpectrum(
+                self,
+                access_threshold=self._compression_trigger_access,
+                apply_threshold=self._compression_trigger_apply,
+                verify_threshold=self._compression_trigger_verify,
+            )
         return self._compression_spectrum
 
     # ── v2.15.0: Operations ──────────────────────────────────────────

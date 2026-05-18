@@ -124,6 +124,10 @@ class ClawMemBridge:
             "extract_important_content": self._handle_extract_important_content,
             "generate_session_summary": self._handle_generate_session_summary,
             "detect_content_type": self._handle_detect_content_type,
+            # v2.18.0: Compression spectrum
+            "get_compression_stats": self._handle_get_compression_stats,
+            "manual_compress": self._handle_manual_compress,
+            "configure_compression": self._handle_configure_compression,
         }
 
         handler = handlers.get(method)
@@ -210,6 +214,37 @@ class ClawMemBridge:
         if not content:
             return {"type": "chat", "importance": 0.0}
         return _detect_content_type_fn(str(content))
+
+    # ---- v2.18.0: Compression spectrum handlers ------------------------
+
+    def _handle_get_compression_stats(self, params: Dict) -> Dict:
+        """Get compression spectrum statistics."""
+        if not self.memory_manager:
+            return {"enabled": False}
+        return self.memory_manager.get_compression_stats()
+
+    def _handle_manual_compress(self, params: Dict) -> Dict:
+        """Manually trigger compression for a memory."""
+        if not self.memory_manager:
+            return {"success": False, "error": "Memory manager not initialized"}
+        result = self.memory_manager.manual_compress(
+            params.get("memory_id", "")
+        )
+        return {"success": result is not None, "result": result}
+
+    def _handle_configure_compression(self, params: Dict) -> Dict:
+        """Runtime configuration of compression thresholds."""
+        if not self.memory_manager:
+            return {"success": False, "error": "Memory manager not initialized"}
+        cs = self.memory_manager.compression_spectrum
+        if cs:
+            cs.configure_thresholds(
+                access=params.get("access"),
+                apply=params.get("apply"),
+                verify=params.get("verify"),
+            )
+            return {"success": True}
+        return {"success": False, "error": "Compression not enabled"}
 
     # ---- main loop ------------------------------------------------------
 
