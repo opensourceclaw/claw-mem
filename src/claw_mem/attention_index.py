@@ -7,7 +7,6 @@ parsing Frontmatter, and building a high-performance in-memory index
 for the Attention Engine.
 """
 
-import os
 import yaml
 from pathlib import Path
 from typing import Dict, List, Optional

@@ -1,6 +1,13 @@
 # Copyright 2026 Peter Cheng
 """LRU cache with TTL for query results (v2.19.0)."""
 
+import warnings
+warnings.warn(
+    "claw_mem.cache.query_cache is deprecated, use claw_mem.retrieval.query_cache instead",
+    DeprecationWarning,
+    stacklevel=2
+)
+
 import time
 import threading
 from typing import Dict, List, Optional
