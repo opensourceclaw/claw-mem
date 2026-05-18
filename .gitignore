@@ -99,6 +99,10 @@ docs/
 **/.audit_log.jsonl
 workspace-test*/
 workspace_test*/
+workspace/
+comm/
+demo_*.py
+hanoi_*.py
 *.pyc
 __pycache__/
 .pytest_cache/
