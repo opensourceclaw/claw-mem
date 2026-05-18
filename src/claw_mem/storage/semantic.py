@@ -185,7 +185,9 @@ class SemanticStorage:
                 # Parse metadata comments
                 if line.startswith("<!--") and line.endswith("-->"):
                     meta_content = line[4:-3].strip()
-                    for item in meta_content.split(";"):
+                    items = meta_content.split("; ") if "; " in meta_content else meta_content.split(";")
+                    for item in items:
+                        item = item.strip()
                         if ":" in item:
                             key, value = item.split(":", 1)
                             current_meta[key.strip()] = value.strip()
