@@ -81,12 +81,31 @@ class KeywordRetriever:
         if rank_by_importance and results:
             results = self.scorer.rank_memories(results)
 
+        # Normalize result fields for consistency
+        results = self._normalize_results(results)
+
         # Limit results
         return results[:limit]
 
-        # Sort and return
-        results.sort(key=lambda x: x.get("timestamp", ""), reverse=True)
-        return results[:limit]
+    def _normalize_results(self, results: List[Dict]) -> List[Dict]:
+        """Normalize result fields to ensure consistent structure."""
+        normalized = []
+        for i, r in enumerate(results):
+            tags = r.get("tags", [])
+            if isinstance(tags, str):
+                tags = [t.strip() for t in tags.split(",") if t.strip()]
+            metadata = r.get("metadata", {})
+            if not isinstance(metadata, dict):
+                metadata = {}
+            normalized.append({
+                "id": r.get("id", str(hash(r.get("content", r.get("text", ""))))),
+                "text": r.get("content", r.get("text", "")),
+                "created_at": r.get("timestamp", r.get("created_at", "")),
+                "source": r.get("source", r.get("session_id", "")),
+                "metadata": metadata,
+                "tags": tags,
+            })
+        return normalized
 
     def _match(self, query_lower: str, memory: Dict) -> bool:
         """
