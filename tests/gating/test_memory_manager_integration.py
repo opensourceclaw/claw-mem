@@ -28,12 +28,12 @@ class TestMemoryManagerWithGating:
 
         # Store important information - should be stored
         mm.store(
-            text="User prefers Chinese language and uses Python 3.12",
+            content="User prefers Chinese language and uses Python 3.12",
             metadata={"source": "user", "priority": "high"},
         )
 
         # Store low-salience information
-        mm.store(text="hello", metadata={"source": "external", "priority": "low"})
+        mm.store(content="hello", metadata={"source": "external", "priority": "low"})
 
         stats = mm.get_gating_stats()
         assert "active_count" in stats
@@ -43,8 +43,8 @@ class TestMemoryManagerWithGating:
         mm = MemoryManager(workspace=str(tmp_path / "test"), enable_gating=False)
 
         # Should work normally without gating
-        mm.store(text="test1", metadata={"source": "user"}, memory_type="semantic")
-        mm.store(text="test2", metadata={"source": "agent"}, memory_type="episodic")
+        mm.store(content="test1", metadata={"source": "user"}, memory_type="semantic")
+        mm.store(content="test2", metadata={"source": "agent"}, memory_type="episodic")
 
         results = mm.search("test", limit=10)
         assert len(results) > 0
@@ -98,7 +98,7 @@ class TestPerformanceEndToEnd:
         store_start = time.time()
         for i in range(100):
             mm.store(
-                text=f"User likes feature {i}", metadata={"source": "user"}, memory_type="semantic"
+                content=f"User likes feature {i}", metadata={"source": "user"}, memory_type="semantic"
             )
         store_elapsed = (time.time() - store_start) * 1000
         print(f"\n100 stores: {store_elapsed:.2f}ms")
@@ -124,7 +124,7 @@ class TestPerformanceEndToEnd:
             try:
                 for i in range(50):
                     mm.store(
-                        text=f"concurrent test {i}",
+                        content=f"concurrent test {i}",
                         metadata={"source": "user"},
                         memory_type="semantic",
                     )
