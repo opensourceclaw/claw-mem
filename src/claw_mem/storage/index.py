@@ -162,7 +162,7 @@ class InMemoryIndex:
         try:
             from rank_bm25 import BM25Okapi
 
-            self.bm25_index = BM25Okapi(self.documents)
+            self.bm25_index = BM25Okapi(self.documents) if self.documents else None
         except ImportError:
             _log("⚠️  rank-bm25 not installed, BM25 search disabled")
             self.bm25_index = None
@@ -407,7 +407,7 @@ class InMemoryIndex:
             try:
                 from rank_bm25 import BM25Okapi
 
-                self.bm25_index = BM25Okapi(self.documents)
+                self.bm25_index = BM25Okapi(self.documents) if self.documents else None
             except ImportError:
                 self.bm25_index = None
 
@@ -858,7 +858,7 @@ class InMemoryIndex:
         try:
             from rank_bm25 import BM25Okapi
 
-            self.bm25_index = BM25Okapi(self.documents)
+            self.bm25_index = BM25Okapi(self.documents) if self.documents else None
         except ImportError:
             self.bm25_index = None
 
