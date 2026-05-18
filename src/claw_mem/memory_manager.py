@@ -950,19 +950,28 @@ class MemoryManager:
                 cached_results = []
                 for mid in cached_ids[:limit]:
                     node = self.multi_graph.get_node(mid) if self.multi_graph else None
-                    cached_results.append({
+                    r = {
                         "id": mid,
                         "content": getattr(node, 'content', '')[:200] if node else f"[cached:{mid}]",
                         "score": 1.0,
                         "type": "cached",
-                    })
-                return critical_rules + cached_results
+                    }
+                    if node:
+                        md = getattr(node, 'metadata', None)
+                        if md:
+                            r["metadata"] = md
+                        tags = getattr(node, 'tags', None)
+                        if tags:
+                            r["tags"] = tags
+                    cached_results.append(r)
+                return (critical_rules + cached_results)[:limit]
             if self._performance_monitor:
                 self._performance_monitor.record_cache_miss()
 
         # v2.15.0: 优先使用 Engram + Spreading 检索管线
-        if (self.decoupled_retriever and memory_type is None
-                and metadata is None and mode is None):
+        # Graph required for metadata/tags in results
+        if (self.decoupled_retriever and self.multi_graph
+                and memory_type is None and metadata is None and mode is None):
             results = self.decoupled_retriever.search(
                 query, top_k=limit,
                 intent=getattr(self, 'search_mode', 'general'),
@@ -977,7 +986,7 @@ class MemoryManager:
                 if self.search_stats:
                     latency = (time.time() - t0) * 1000
                     self.search_stats.record_search(latency, cache_hit=False)
-                return critical_rules + results[:limit]
+                return (critical_rules + results[:limit])[:limit]
 
         # v2.9.0: Check query cache first
         if self.query_cache and metadata is None and memory_type is None:
