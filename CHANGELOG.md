@@ -5,6 +5,53 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.17.0] - 2026-05-18
+
+### Added
+
+**Engram + Spreading Activation — Full Integration**
+
+- **EngramIndex** (`retrieval/engram.py`): O(1) N-gram hash inverted index
+  - SHA-256 based n-gram hashing for deterministic indexing
+  - Jaccard similarity scoring with frequency weighting
+  - Batch indexing support (`index_batch()`)
+  - Memory stats and estimation
+
+- **SpreadingActivation** (`retrieval/spreading.py`): Graph-based activation spreading
+  - BFS traversal from seed nodes across four-orthogonal subgraphs
+  - Configurable decay factor, depth limit, threshold pruning
+  - Intent-aware edge type filtering (temporal/causal/semantic/entity)
+
+- **DecoupledRetriever** (`retrieval/decoupled.py`): Unified retrieval pipeline
+  - Query → Engram → Spreading → Ranking → Top-K
+  - Multi-factor ranking: activation (50%) + freshness (30%) + type weight (20%)
+  - Target: search() < 5ms
+
+- **CompressionSpectrum** (`compression/spectrum.py`): Four-tier memory compression
+  - Episodes → Skills → Rules → Principles abstraction
+  - Trigger-based compression (access/apply/verify counts)
+  - Rule-based extraction (no LLM dependency in MVP)
+  - Default: disabled (enable_compression_spectrum=False)
+
+### Changed
+
+- **MemoryManager Integration**:
+  - `store()`: Auto-index into EngramIndex on successful store
+  - `search()`: Prioritizes DecoupledRetriever pipeline over legacy search
+  - New parameters: `enable_engram`, `enable_spreading`, `engram_ngram_size`, `spreading_max_depth`
+  - New methods: `get_engram_stats()`, `rebuild_engram()`, `get_spreading_stats()`, `get_compression_stats()`
+
+### Tests
+
+- 144 tests (all passing)
+  - `test_engram.py`: 18 tests for EngramIndex and EngramHasher
+  - `test_spreading.py`: 14 tests for SpreadingActivation and spreading_bfs
+  - `test_compression.py`: 12 tests for CompressionSpectrum
+  - `test_integration_v215.py`: 13 integration tests
+  - Plus existing 87 tests from previous versions
+
+---
+
 ## [2.12.5] - 2026-05-10
 
 ### Fixed
