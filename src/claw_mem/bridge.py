@@ -132,6 +132,11 @@ class ClawMemBridge:
             "get_capacity_stats": self._handle_get_capacity_stats,
             "get_importance_scores": self._handle_get_importance_scores,
             "get_important_memories": self._handle_get_important_memories,
+            # v3.0.0-rc.3: CMS Phase 3 State Machine
+            "save_snapshot": self._handle_save_snapshot,
+            "recover_session": self._handle_recover_session,
+            "switch_context": self._handle_switch_context,
+            "list_snapshots": self._handle_list_snapshots,
         }
 
         handler = handlers.get(method)
@@ -275,6 +280,43 @@ class ClawMemBridge:
         return {"memories": important} if important else {"error": "CMS not enabled"}
 
     # ---- main loop ------------------------------------------------------
+
+    # ---- v3.0.0-rc.3: CMS Phase 3 State Machine handlers -----------
+
+    def _handle_save_snapshot(self, params: Dict) -> Dict:
+        if not self.memory_manager:
+            return {"error": "Memory manager not initialized"}
+        sid = params.get("session_id", "default")
+        return {"snapshot_id": self.memory_manager.save_snapshot(sid)}
+
+    def _handle_recover_session(self, params: Dict) -> Dict:
+        if not self.memory_manager:
+            return {"error": "Memory manager not initialized"}
+        result = self.memory_manager.recover_session(
+            session_id=params.get("session_id", ""),
+            snapshot_id=params.get("snapshot_id"),
+            strategy=params.get("strategy", "latest"),
+        )
+        return result if result else {"error": "Recovery failed"}
+
+    def _handle_switch_context(self, params: Dict) -> Dict:
+        if not self.memory_manager:
+            return {"error": "Memory manager not initialized"}
+        result = self.memory_manager.switch_context(
+            from_id=params.get("from_id", ""),
+            to_id=params.get("to_id", ""),
+            strategy=params.get("strategy", "preserve_important"),
+        )
+        return result if result else {"error": "Switch failed"}
+
+    def _handle_list_snapshots(self, params: Dict) -> Dict:
+        if not self.memory_manager:
+            return {"snapshots": []}
+        return {
+            "snapshots": self.memory_manager.list_snapshots(
+                params.get("session_id", "default")
+            )
+        }
 
     def run(self):
         """Main loop: read JSON-RPC lines from stdin, respond on stdout."""

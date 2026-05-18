@@ -73,6 +73,7 @@ from .cms import (
     CapacityMonitor, ContextWarningHook, ImportanceEvaluator,
     SessionSummaryGenerator, MemoryDeduplicator,
     CompressionStrategySelector,
+    SessionStateMachine, ContextSwitcher, RecoveryMechanism, SnapshotStorage,
 )
 from .cms.compression_result import CompressionResult
 import time
@@ -1517,6 +1518,63 @@ class MemoryManager:
             execution_time_ms=elapsed,
         )
         return result.to_dict()
+
+    # ── v3.0.0-rc.3: State Machine ───────────────────────────────
+
+    @property
+    def cms_snap_storage(self) -> Optional[SnapshotStorage]:
+        if not hasattr(self, '_cms_snap'):
+            self._cms_snap = SnapshotStorage(str(self.workspace))
+        return self._cms_snap
+
+    def get_session_state(self, session_id: str) -> str:
+        if not hasattr(self, '_cms_state_machine'):
+            self._cms_state_machine = SessionStateMachine()
+        return self._cms_state_machine.get_current_state(session_id)
+
+    def set_session_state(self, session_id: str, state: str) -> None:
+        if not hasattr(self, '_cms_state_machine'):
+            self._cms_state_machine = SessionStateMachine()
+        self._cms_state_machine.set_state(session_id, state)
+
+    def save_snapshot(self, session_id: str) -> str:
+        s = self.cms_snap_storage
+        mem_ids = []
+        for m in self._gather_session_memories(session_id):
+            mid = m.get("id", "")
+            if mid:
+                mem_ids.append(mid)
+        return s.save(session_id, state="active", memory_ids=mem_ids)
+
+    def load_snapshot(self, snapshot_id: str) -> Optional[dict]:
+        s = self.cms_snap_storage
+        snap = s.load(snapshot_id)
+        return snap.to_dict() if snap else None
+
+    def list_snapshots(self, session_id: str) -> List:
+        return [
+            {"snapshot_id": i.snapshot_id, "timestamp": i.timestamp.isoformat(),
+             "state": i.state, "size_bytes": i.size_bytes}
+            for i in self.cms_snap_storage.list(session_id)
+        ]
+
+    def delete_snapshot(self, snapshot_id: str) -> bool:
+        return self.cms_snap_storage.delete(snapshot_id)
+
+    def switch_context(self, from_id: str, to_id: str,
+                       strategy: str = "preserve_important") -> Optional[dict]:
+        switcher = ContextSwitcher(
+            importance_evaluator=self.cms_importance, memory_manager=self
+        )
+        return switcher.switch(from_id, to_id, strategy).to_dict()
+
+    def recover_session(self, session_id: str,
+                        snapshot_id: str = None,
+                        strategy: str = "latest") -> Optional[dict]:
+        recovery = RecoveryMechanism(
+            snapshot_storage=self.cms_snap_storage, memory_manager=self
+        )
+        return recovery.recover(session_id, snapshot_id, strategy).to_dict()
 
     def _gather_session_memories(self, session_id: str) -> List[Dict]:
         memories = []
