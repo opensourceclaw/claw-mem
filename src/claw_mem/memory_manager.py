@@ -294,7 +294,7 @@ class MemoryManager:
         # v2.13.0: Critical rules — never compressed, always injected
         self._critical_rules: Dict[str, dict] = {}
         self._critical_rules_file = os.path.join(
-            os.path.expanduser("~/.claw-mem"), "critical_rules.json"
+            str(self.workspace), "critical_rules.json"
         )
         self._load_critical_rules()
 
@@ -1009,6 +1009,12 @@ class MemoryManager:
         critical_rules = []
         if include_critical:
             critical_rules = self.get_critical_rules()
+            # Ensure consistent structure
+            for r in critical_rules:
+                if "tags" not in r:
+                    r["tags"] = []
+                if "metadata" not in r:
+                    r["metadata"] = {}
 
         # v2.19.0: Check QueryCache first
         if self._query_cache is not None:
