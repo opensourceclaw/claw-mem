@@ -111,13 +111,27 @@ class DecoupledRetriever:
 
             score = activation * 0.5 + freshness * 0.3 + type_w * 0.2
 
-            scored.append({
+            # Collect metadata and tags from node if available
+            node_metadata = {}
+            node_tags = []
+            if self._graph:
+                node = self._graph.get_node(node_id)
+                if node:
+                    node_metadata = getattr(node, 'metadata', {}) or {}
+                    node_tags = getattr(node, 'tags', []) or []
+
+            result = {
                 "id": node_id,
                 "content": content[:500] if content else f"[node:{node_id}]",
                 "score": round(score, 4),
                 "type": node_type_str,
                 "source": "engram_spreading",
-            })
+            }
+            if node_metadata:
+                result["metadata"] = node_metadata
+            if node_tags:
+                result["tags"] = node_tags
+            scored.append(result)
 
         scored.sort(key=lambda x: x["score"], reverse=True)
         return scored[:top_k]
