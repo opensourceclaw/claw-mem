@@ -1,128 +1,128 @@
-# Phase 2 计划
+# Phase 2 Plan
 
-**开始时间:** 2026-03-31 00:25  
-**状态:** Phase 2 开始
-
----
-
-## 🎯 Phase 2 目标
-
-完善和优化 claw-mem Plugin,准备发布.
+**Start Time:** 2026-03-31 00:25
+**Status:** Phase 2 Started
 
 ---
 
-## 📋 任务清单
+## 🎯 Phase 2 Goal
 
-### 1. 构建 Plugin(进行中)
+Polish and optimize the claw-mem Plugin, prepare for release.
 
-**命令:**
+---
+
+## 📋 Task Checklist
+
+### 1. Build Plugin (In Progress)
+
+**Commands:**
 ```bash
 cd claw_mem_plugin
 npm install --legacy-peer-deps
 npm run build
 ```
 
-**状态:** ⏳ npm install 进行中(遇到 esbuild 兼容性问题,已清理重新安装)
+**Status:** ⏳ npm install in progress (encountered esbuild compatibility issue, cleaned and reinstalled)
 
-### 2. 完善 TypeScript Plugin(已完成)
+### 2. Polish TypeScript Plugin (Completed)
 
-**已更新:**
-- ✅ 增强错误处理
-- ✅ 添加重连逻辑
-- ✅ 添加日志系统
-- ✅ 添加 debug 模式
-- ✅ 改进类型定义
+**Updated:**
+- ✅ Enhanced error handling
+- ✅ Added reconnection logic
+- ✅ Added logging system
+- ✅ Added debug mode
+- ✅ Improved type definitions
 
-**文件:** `claw_mem_plugin/index.ts` (已更新到最新版本)
+**File:** `claw_mem_plugin/index.ts` (updated to latest version)
 
-### 3. 测试和验证(待进行)
+### 3. Testing and Verification (Pending)
 
-**测试项:**
-- ⏸️ 本地测试(不依赖 OpenClaw)
-- ⏸️ 集成测试(需要 OpenClaw)
-- ⏸️ 性能测试
-- ⏸️ 错误处理测试
+**Test Items:**
+- ⏸️ Local testing (without OpenClaw)
+- ⏸️ Integration testing (requires OpenClaw)
+- ⏸️ Performance testing
+- ⏸️ Error handling testing
 
-### 4. 文档完善(待进行)
+### 4. Documentation Polish (Pending)
 
-**文档:**
-- ⏸️ 安装指南
-- ⏸️ 使用示例
-- ⏸️ API 文档
-- ⏸️ 性能数据
+**Documentation:**
+- ⏸️ Installation guide
+- ⏸️ Usage examples
+- ⏸️ API documentation
+- ⏸️ Performance data
 
-### 5. 发布准备(待进行)
+### 5. Release Preparation (Pending)
 
-**发布:**
-- ⏸️ 更新 README
-- ⏸️ 发布到 NPM
-- ⏸️ 创建 GitHub Release
+**Release:**
+- ⏸️ Update README
+- ⏸️ Publish to NPM
+- ⏸️ Create GitHub Release
 
 ---
 
-## ⚠️ 已知问题
+## ⚠️ Known Issues
 
-### 1. esbuild 兼容性问题
+### 1. esbuild Compatibility Issue
 
-**问题:**
+**Problem:**
 ```
 dyld: Symbol not found: _SecTrustCopyCertificateChain
 ```
 
-**原因:** macOS 版本太旧(11 Big Sur),esbuild 需要 macOS 12+
+**Cause:** macOS version too old (11 Big Sur), esbuild requires macOS 12+
 
-**解决方案:**
-- 清理 node_modules
-- 使用 `--legacy-peer-deps` 重新安装
-- 或使用 bun 替代 npm
+**Solution:**
+- Clean node_modules
+- Reinstall with `--legacy-peer-deps`
+- Or use bun instead of npm
 
-### 2. MemoryManager API 限制
+### 2. MemoryManager API Limitations
 
-**限制:**
-- ❌ 不支持 `get()` 方法
-- ❌ 不支持 `delete()` 方法
+**Limitations:**
+- ❌ `get()` method not supported
+- ❌ `delete()` method not supported
 
-**解决方案:**
-- 使用 `search()` 替代 `get()`
-- 在 Plugin 中返回错误提示
-
----
-
-## 📊 当前进度
-
-| 任务 | 状态 | 进度 |
-|------|------|------|
-| 构建 Plugin | ⏳ 进行中 | 50% |
-| 完善 Plugin | ✅ 完成 | 100% |
-| 测试验证 | ⏸️ 待进行 | 0% |
-| 文档完善 | ⏸️ 待进行 | 0% |
-| 发布准备 | ⏸️ 待进行 | 0% |
-
-**总体进度:** 30%
+**Solution:**
+- Use `search()` instead of `get()`
+- Return error message in Plugin
 
 ---
 
-## 🚀 下一步
+## 📊 Current Progress
 
-1. **等待 npm install 完成**
-   - 解决 esbuild 兼容性问题
-   - 确保所有依赖正确安装
+| Task | Status | Progress |
+|------|--------|----------|
+| Build Plugin | ⏳ In Progress | 50% |
+| Polish Plugin | ✅ Completed | 100% |
+| Testing & Verification | ⏸️ Pending | 0% |
+| Documentation Polish | ⏸️ Pending | 0% |
+| Release Preparation | ⏸️ Pending | 0% |
 
-2. **运行 npm run build**
-   - 构建 TypeScript
-   - 生成 dist 文件
-
-3. **创建本地测试**
-   - 不依赖 OpenClaw
-   - 测试 Bridge 通信
-   - 验证性能
-
-4. **准备发布**
-   - 更新文档
-   - 发布到 NPM
+**Overall Progress:** 30%
 
 ---
 
-**创建时间:** 2026-03-31 00:25  
-**创建者:** Friday (AI Assistant)  
-**状态:** Phase 2 进行中
+## 🚀 Next Steps
+
+1. **Wait for npm install to complete**
+   - Resolve esbuild compatibility issue
+   - Ensure all dependencies are correctly installed
+
+2. **Run npm run build**
+   - Build TypeScript
+   - Generate dist files
+
+3. **Create local tests**
+   - Without OpenClaw dependency
+   - Test Bridge communication
+   - Verify performance
+
+4. **Prepare release**
+   - Update documentation
+   - Publish to NPM
+
+---
+
+**Created:** 2026-03-31 00:25
+**Created by:** Friday (AI Assistant)
+**Status:** Phase 2 In Progress
