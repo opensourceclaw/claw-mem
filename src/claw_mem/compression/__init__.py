@@ -35,6 +35,7 @@ from .memory_compression import (
     CompressionResult as CompressionResultV1,
     KeyInformationExtractor as KeyInformationExtractorV1,
     MemoryCompressor as MemoryCompressorV1,
+    compress_memory,
 )
 
 # V1 compatibility alias
@@ -69,6 +70,7 @@ __all__ = [
     "KeyInformationExtractorV1",
     "MemoryCompressorV1",
     "MemoryCompressor",
+    "compress_memory",
     # F5 V2
     "CompressionLevelV2",
     "CompressionResultV2",

@@ -26,18 +26,17 @@ class TestCompressionResult:
     """Test CompressionResult dataclass"""
 
     def test_creation(self):
-        from claw_mem.compression import CompressionResult
+        from claw_mem.compression import CompressionResult, CompressionTrigger
 
         result = CompressionResult(
-            original_length=1000,
-            compressed_length=500,
+            trigger=CompressionTrigger.MANUAL,
+            original_count=100,
+            compressed_count=50,
             compression_ratio=0.5,
-            preserved_content="compressed",
-            extracted_keys=["key1", "key2"],
-            summary="summary",
+            token_savings=0.5,
         )
-        assert result.original_length == 1000
-        assert result.compressed_length == 500
+        assert result.original_count == 100
+        assert result.compressed_count == 50
         assert result.compression_ratio == 0.5
 
 
@@ -103,8 +102,8 @@ class TestCompressMemory:
     """Test compress_memory function"""
 
     def test_quick_compress(self):
-        from claw_mem.compression import compress_memory, CompressionLevel
+        from claw_mem.compression import get_compressor, CompressionLevel
 
-        result = compress_memory("Test content", CompressionLevel.LIGHT)
-        assert result.original_length > 0
-        assert result.compressed_length > 0
+        compressor = get_compressor()
+        result = compressor.compress([{"content": "Test content", "id": "1"}])
+        assert result.original_count > 0
