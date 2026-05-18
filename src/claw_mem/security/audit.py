@@ -52,6 +52,7 @@ class AuditLogger:
         log_entry = {"timestamp": datetime.now().isoformat(), "action": action, "details": details}
 
         # Append to log file
+        Path(self.log_file).parent.mkdir(parents=True, exist_ok=True)
         with open(self.log_file, "a", encoding="utf-8") as f:
             f.write(json.dumps(log_entry, ensure_ascii=False) + "\n")
 

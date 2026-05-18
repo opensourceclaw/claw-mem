@@ -98,7 +98,9 @@ class TestPerformanceEndToEnd:
         store_start = time.time()
         for i in range(100):
             mm.store(
-                content=f"User likes feature {i}", metadata={"source": "user"}, memory_type="semantic"
+                content=f"User likes feature {i}",
+                metadata={"source": "user"},
+                memory_type="semantic",
             )
         store_elapsed = (time.time() - store_start) * 1000
         print(f"\n100 stores: {store_elapsed:.2f}ms")
