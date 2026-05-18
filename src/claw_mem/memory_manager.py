@@ -60,6 +60,9 @@ from .retrieval.engram import EngramIndex
 from .retrieval.spreading import SpreadingActivation
 from .retrieval.decoupled import DecoupledRetriever
 from .compression.spectrum import CompressionSpectrum
+# v2.19.0: Cache + Monitor
+from .cache.query_cache import QueryCache
+from .monitor.performance import PerformanceMonitor
 import time
 
 
@@ -190,6 +193,12 @@ class MemoryManager:
         self._compression_trigger_access = compression_trigger_access
         self._compression_trigger_apply = compression_trigger_apply
         self._compression_trigger_verify = compression_trigger_verify
+
+        # v2.19.0: Cache + Monitor
+        self.enable_query_cache = True
+        self._cache_max_size = 1000
+        self._query_cache: Optional[QueryCache] = None
+        self._performance_monitor: Optional[PerformanceMonitor] = None
 
         # Search mode
         self.search_mode = os.environ.get('CLAW_MEM_SEARCH_MODE', 'enhanced_smart')
@@ -864,6 +873,26 @@ class MemoryManager:
         if include_critical:
             critical_rules = self.get_critical_rules()
 
+        # v2.19.0: Check QueryCache first
+        if self._query_cache is not None:
+            cached_ids = self._query_cache.get(query)
+            if cached_ids is not None:
+                if self._performance_monitor:
+                    self._performance_monitor.record_cache_hit()
+                # Reconstruct results from cached IDs
+                cached_results = []
+                for mid in cached_ids[:limit]:
+                    node = self.multi_graph.get_node(mid) if self.multi_graph else None
+                    cached_results.append({
+                        "id": mid,
+                        "content": getattr(node, 'content', '')[:200] if node else f"[cached:{mid}]",
+                        "score": 1.0,
+                        "type": "cached",
+                    })
+                return critical_rules + cached_results
+            if self._performance_monitor:
+                self._performance_monitor.record_cache_miss()
+
         # v2.15.0: 优先使用 Engram + Spreading 检索管线
         if (self.decoupled_retriever and memory_type is None
                 and metadata is None and mode is None):
@@ -872,6 +901,12 @@ class MemoryManager:
                 intent=getattr(self, 'search_mode', 'general'),
             )
             if results:
+                # v2.19.0: Cache the results
+                if self._query_cache is not None:
+                    self._query_cache.set(query, [r["id"] for r in results])
+                if self._performance_monitor:
+                    latency = (time.time() - t0) * 1000
+                    self._performance_monitor.record_search(latency)
                 if self.search_stats:
                     latency = (time.time() - t0) * 1000
                     self.search_stats.record_search(latency, cache_hit=False)
@@ -1258,6 +1293,21 @@ class MemoryManager:
             return None
         result = c.record_access(memory_id)
         return result.__dict__ if result else None
+
+    # ── v2.19.0: Performance monitor ──────────────────────────────
+
+    @property
+    def performance_monitor(self) -> Optional[PerformanceMonitor]:
+        if self._performance_monitor is None:
+            self._performance_monitor = PerformanceMonitor()
+        return self._performance_monitor
+
+    def get_performance_stats(self) -> dict:
+        pm = self.performance_monitor
+        stats = pm.get_stats() if pm else {"enabled": False}
+        if self._query_cache:
+            stats["cache"] = self._query_cache.stats()
+        return stats
 
     def __repr__(self) -> str:
         return f"MemoryManager(workspace={self.workspace}, session={self.session_id})"
