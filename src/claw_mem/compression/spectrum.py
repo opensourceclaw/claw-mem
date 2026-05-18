@@ -79,16 +79,19 @@ class CompressionSpectrum:
     Complements existing MemoryCompressorV2 and F5CompressorV2.
     """
 
-    def __init__(self, memory_manager=None):
+    def __init__(self, memory_manager=None,
+                 access_threshold: int = 5,
+                 apply_threshold: int = 3,
+                 verify_threshold: int = 2):
         self._mm = memory_manager
         self._skills: Dict[str, SkillEntry] = {}
         self._rules: Dict[str, RuleEntry] = {}
         self._principles: Dict[str, PrincipleEntry] = {}
         self._episode_access: Dict[str, int] = {}
 
-        self._skill_access_threshold = 5
-        self._rule_apply_threshold = 3
-        self._principle_verify_threshold = 2
+        self._skill_access_threshold = access_threshold
+        self._rule_apply_threshold = apply_threshold
+        self._principle_verify_threshold = verify_threshold
 
     # ── Trigger ──────────────────────────────────────────────
 
@@ -146,6 +149,9 @@ class CompressionSpectrum:
         body = "[Skill] " + title + "\n" + "\n".join(
             f"  {i+1}. {s}" for i, s in enumerate(steps)
         )
+        # Sync to Engram
+        self._sync_to_engram(skill_id, body)
+
         return CompressedMemory(
             memory_id=skill_id, level=1, content=body,
             source_ids=[episode_id], created_at=time.time(),
@@ -168,6 +174,9 @@ class CompressionSpectrum:
         )
         self._rules[rule_id] = rule
 
+        rule_body = f"[Rule] IF {condition} THEN {action}"
+        self._sync_to_engram(rule_id, rule_body)
+
         return CompressedMemory(
             memory_id=rule_id, level=2,
             content=f"[Rule] IF {condition} THEN {action}",
@@ -189,12 +198,38 @@ class CompressionSpectrum:
         )
         self._principles[principle_id] = principle
 
+        principle_body = f"[Principle] {content}"
+        self._sync_to_engram(principle_id, principle_body)
+
         return CompressedMemory(
             memory_id=principle_id, level=3,
-            content=f"[Principle] {content}",
+            content=principle_body,
             source_ids=[rule_id], created_at=time.time(),
             metadata={"type": "principle", "confidence": rule.confidence},
         )
+
+    # ── Engram Sync ──────────────────────────────────────────
+
+    def _sync_to_engram(self, memory_id: str, content: str) -> None:
+        """Sync compressed memory to Engram index (non-blocking)."""
+        if self._mm and hasattr(self._mm, 'engram') and self._mm.engram:
+            try:
+                self._mm.engram.index(memory_id, content)
+            except Exception:
+                pass
+
+    # ── Runtime config ───────────────────────────────────────
+
+    def configure_thresholds(self, access: int = None,
+                             apply: int = None,
+                             verify: int = None) -> None:
+        """Runtime threshold configuration."""
+        if access is not None:
+            self._skill_access_threshold = access
+        if apply is not None:
+            self._rule_apply_threshold = apply
+        if verify is not None:
+            self._principle_verify_threshold = verify
 
     # ── Query ────────────────────────────────────────────────
 
@@ -263,4 +298,5 @@ class CompressionSpectrum:
                 "rule_apply": self._rule_apply_threshold,
                 "principle_verify": self._principle_verify_threshold,
             },
+            "enabled": True,
         }

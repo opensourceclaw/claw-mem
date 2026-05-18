@@ -60,6 +60,14 @@ from .retrieval.engram import EngramIndex
 from .retrieval.spreading import SpreadingActivation
 from .retrieval.decoupled import DecoupledRetriever
 from .compression.spectrum import CompressionSpectrum
+# v2.19.0: Cache + Monitor
+from .cache.query_cache import QueryCache
+from .monitor.performance import PerformanceMonitor
+# v2.20.0: Error types
+from .errors import (
+    ClawMemError, StorageError, RetrievalError,
+    MemoryNotFoundError, IndexNotReadyError, QueryTooLongError,
+)
 import time
 
 
@@ -95,7 +103,11 @@ class MemoryManager:
                  # v2.15.0: Engram + Spreading + Compression
                  enable_engram: bool = True,
                  enable_spreading: bool = True,
-                 enable_compression_spectrum: bool = False,
+                 enable_compression_spectrum: bool = True,
+                 # v2.18.0: CompressionSpectrum thresholds
+                 compression_trigger_access: int = 5,
+                 compression_trigger_apply: int = 3,
+                 compression_trigger_verify: int = 2,
                  engram_ngram_size: int = 3,
                  spreading_max_depth: int = 2,
                  spreading_decay_factor: float = 0.5,
@@ -182,6 +194,16 @@ class MemoryManager:
         self._spreader: Optional[SpreadingActivation] = None
         self._decoupled_retriever: Optional[DecoupledRetriever] = None
         self._compression_spectrum: Optional[CompressionSpectrum] = None
+        self.enable_compression_spectrum = enable_compression_spectrum
+        self._compression_trigger_access = compression_trigger_access
+        self._compression_trigger_apply = compression_trigger_apply
+        self._compression_trigger_verify = compression_trigger_verify
+
+        # v2.19.0: Cache + Monitor
+        self.enable_query_cache = True
+        self._cache_max_size = 1000
+        self._query_cache: Optional[QueryCache] = None
+        self._performance_monitor: Optional[PerformanceMonitor] = None
 
         # Search mode
         self.search_mode = os.environ.get('CLAW_MEM_SEARCH_MODE', 'enhanced_smart')
@@ -205,6 +227,27 @@ class MemoryManager:
             os.path.expanduser("~/.claw-mem"), "critical_rules.json"
         )
         self._load_critical_rules()
+
+    # ── v2.20.0: State validation ─────────────────────────────────
+
+    def _validate_state(self) -> None:
+        """Validate MemoryManager state before operations."""
+        if not self.workspace or not self.workspace.exists():
+            raise StorageError("Workspace does not exist")
+        if self.index is None:
+            raise IndexNotReadyError("Memory index not initialized")
+
+    # ── v2.20.0: Error handling ───────────────────────────────────
+
+    def _handle_error(self, error: Exception, operation: str,
+                      fallback=None):
+        """Centralized error handling with graceful degradation."""
+        import logging
+        logger = logging.getLogger("claw_mem")
+        logger.warning(f"{operation} failed: {error}", exc_info=False)
+        if fallback is not None:
+            return fallback
+        raise
 
     def _validate_session_memory(self):
         """Validate memory at session start (F000 fix)"""
@@ -679,6 +722,12 @@ class MemoryManager:
         Returns:
             bool: Success status
         """
+        # v2.20.0: Parameter validation
+        if not content or not content.strip():
+            raise ValueError("Content cannot be empty")
+        if memory_type not in ("episodic", "semantic", "procedural"):
+            raise ValueError(f"Invalid memory_type: {memory_type}")
+
         # Security validation
         if not self.validator.validate(content):
             _log(f"❌ Memory write validation failed: {content[:50]}...")
@@ -847,6 +896,16 @@ class MemoryManager:
         Returns:
             List[Dict]: Memory records
         """
+        # v2.20.0: Parameter validation
+        if not query or not query.strip():
+            raise ValueError("Query cannot be empty")
+        if len(query) > 2000:
+            raise QueryTooLongError(
+                f"Query length {len(query)} exceeds 2000 chars"
+            )
+        if limit < 1:
+            limit = 1
+
         cache_hit = False
         t0 = time.time()
         search_mode = mode or self.search_mode
@@ -856,6 +915,26 @@ class MemoryManager:
         if include_critical:
             critical_rules = self.get_critical_rules()
 
+        # v2.19.0: Check QueryCache first
+        if self._query_cache is not None:
+            cached_ids = self._query_cache.get(query)
+            if cached_ids is not None:
+                if self._performance_monitor:
+                    self._performance_monitor.record_cache_hit()
+                # Reconstruct results from cached IDs
+                cached_results = []
+                for mid in cached_ids[:limit]:
+                    node = self.multi_graph.get_node(mid) if self.multi_graph else None
+                    cached_results.append({
+                        "id": mid,
+                        "content": getattr(node, 'content', '')[:200] if node else f"[cached:{mid}]",
+                        "score": 1.0,
+                        "type": "cached",
+                    })
+                return critical_rules + cached_results
+            if self._performance_monitor:
+                self._performance_monitor.record_cache_miss()
+
         # v2.15.0: 优先使用 Engram + Spreading 检索管线
         if (self.decoupled_retriever and memory_type is None
                 and metadata is None and mode is None):
@@ -864,6 +943,12 @@ class MemoryManager:
                 intent=getattr(self, 'search_mode', 'general'),
             )
             if results:
+                # v2.19.0: Cache the results
+                if self._query_cache is not None:
+                    self._query_cache.set(query, [r["id"] for r in results])
+                if self._performance_monitor:
+                    latency = (time.time() - t0) * 1000
+                    self._performance_monitor.record_search(latency)
                 if self.search_stats:
                     latency = (time.time() - t0) * 1000
                     self.search_stats.record_search(latency, cache_hit=False)
@@ -1210,7 +1295,12 @@ class MemoryManager:
     @property
     def compression_spectrum(self) -> Optional[CompressionSpectrum]:
         if self._compression_spectrum is None and self.enable_compression_spectrum:
-            self._compression_spectrum = CompressionSpectrum(self)
+            self._compression_spectrum = CompressionSpectrum(
+                self,
+                access_threshold=self._compression_trigger_access,
+                apply_threshold=self._compression_trigger_apply,
+                verify_threshold=self._compression_trigger_verify,
+            )
         return self._compression_spectrum
 
     # ── v2.15.0: Operations ──────────────────────────────────────────
@@ -1245,6 +1335,21 @@ class MemoryManager:
             return None
         result = c.record_access(memory_id)
         return result.__dict__ if result else None
+
+    # ── v2.19.0: Performance monitor ──────────────────────────────
+
+    @property
+    def performance_monitor(self) -> Optional[PerformanceMonitor]:
+        if self._performance_monitor is None:
+            self._performance_monitor = PerformanceMonitor()
+        return self._performance_monitor
+
+    def get_performance_stats(self) -> dict:
+        pm = self.performance_monitor
+        stats = pm.get_stats() if pm else {"enabled": False}
+        if self._query_cache:
+            stats["cache"] = self._query_cache.stats()
+        return stats
 
     def __repr__(self) -> str:
         return f"MemoryManager(workspace={self.workspace}, session={self.session_id})"
