@@ -19,6 +19,13 @@ Provides time decay and heuristic rules to improve search relevance.
 Part of the hybrid search strategy for MVP stage.
 """
 
+import warnings
+warnings.warn(
+    "heuristic_retriever is deprecated and will be removed in v4.0. " 
+    "Use SmartRetriever in smart.py instead.",
+    DeprecationWarning,
+    stacklevel=2,
+)
 import re
 from datetime import datetime, timedelta
 from typing import List, Dict, Optional, Tuple

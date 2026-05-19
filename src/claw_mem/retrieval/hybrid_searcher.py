@@ -17,6 +17,13 @@ Hybrid Searcher for claw-mem v2.5.0
 Combines BM25 (keyword) + Semantic (embedding) search
 """
 
+import warnings
+warnings.warn(
+    "hybrid_searcher is deprecated and will be removed in v4.0. " 
+    "Use KeywordRetriever in keyword.py instead.",
+    DeprecationWarning,
+    stacklevel=2,
+)
 from typing import List, Optional, Dict, Any, Tuple
 import math
 

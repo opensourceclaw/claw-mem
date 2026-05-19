@@ -19,6 +19,13 @@ Provides entity recognition and matching to improve search relevance.
 Part of the hybrid search strategy for MVP stage.
 """
 
+import warnings
+warnings.warn(
+    "entity_retriever is deprecated and will be removed in v4.0. " 
+    "Use SemanticRetriever in semantic.py instead.",
+    DeprecationWarning,
+    stacklevel=2,
+)
 import re
 from typing import List, Dict, Optional, Set, Tuple
 from dataclasses import dataclass

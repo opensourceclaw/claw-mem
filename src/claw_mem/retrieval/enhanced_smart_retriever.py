@@ -18,6 +18,13 @@ Enhanced Smart Retriever
 Fully integrated retriever with all features including time parsing and preference detection.
 """
 
+import warnings
+warnings.warn(
+    "enhanced_smart_retriever is deprecated and will be removed in v4.0. " 
+    "Use SmartRetriever in smart.py instead.",
+    DeprecationWarning,
+    stacklevel=2,
+)
 from typing import List, Dict, Optional
 from .heuristic_retriever import HeuristicRetriever, HeuristicConfig
 from .time_parser import TimeExpressionParser
