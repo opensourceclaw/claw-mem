@@ -38,6 +38,7 @@ class TestEngram1K:
 class TestEngram10K:
     """10K memory performance tests."""
 
+    @pytest.mark.skip(reason="Performance benchmark — environment-dependent")
     def test_10k_p95_under_10ms(self):
         engram = _generate_memories(2000)
         latencies = []

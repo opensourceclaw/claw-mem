@@ -10,7 +10,8 @@ from .heuristic_retriever import HeuristicRetriever, SmartRetriever, HeuristicCo
 warnings.warn(
     "Importing from heuristic_retriever is deprecated. "
     "Use claw_mem.retrieval.smart import SmartRetriever instead.",
-    DeprecationWarning, stacklevel=2,
+    DeprecationWarning,
+    stacklevel=2,
 )
 
 from .enhanced_smart_retriever import EnhancedSmartRetriever
