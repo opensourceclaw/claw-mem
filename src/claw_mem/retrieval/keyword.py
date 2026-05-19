@@ -102,6 +102,7 @@ class KeywordRetriever:
                 "text": r.get("content", r.get("text", "")),
                 "created_at": r.get("timestamp", r.get("created_at", "")),
                 "source": r.get("source", r.get("session_id", "")),
+                "type": r.get("type", r.get("memory_type", "episodic")),
                 "metadata": metadata,
                 "tags": tags,
             })
