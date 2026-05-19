@@ -56,7 +56,9 @@ class KeywordRetriever:
             rank_by_importance: Sort by importance score (default: True)
 
         Returns:
-            List[Dict]: Memory records (sorted by importance if enabled)
+            List[Dict]: Memory records with standardized fields:
+                id, content, created_at, source, memory_type, metadata, tags
+                (text and type are deprecated aliases)
         """
         results = []
         query_lower = query.lower()
@@ -97,43 +99,29 @@ class KeywordRetriever:
             metadata = r.get("metadata", {})
             if not isinstance(metadata, dict):
                 metadata = {}
+            c = r.get("content", r.get("text", ""))
+            t = r.get("type", r.get("memory_type", "episodic"))
             normalized.append({
-                "id": r.get("id", str(hash(r.get("content", r.get("text", ""))))),
-                "text": r.get("content", r.get("text", "")),
+                "id": r.get("id", str(hash(c))),
+                "content": c,
+                "text": c,
                 "created_at": r.get("timestamp", r.get("created_at", "")),
                 "source": r.get("source", r.get("session_id", "")),
-                "type": r.get("type", r.get("memory_type", "episodic")),
+                "memory_type": t,
+                "type": t,
                 "metadata": metadata,
                 "tags": tags,
             })
         return normalized
 
     def _match(self, query_lower: str, memory: Dict) -> bool:
-        """
-        Check if memory matches query
-
-        Args:
-            query_lower: Lowercase query
-            memory: Memory record
-
-        Returns:
-            bool: Match status
-        """
         content = memory.get("content", "").lower()
         tags = [tag.lower() for tag in memory.get("tags", [])]
-
-        # Check if content contains query (support both English and Chinese)
         if query_lower in content:
             return True
-
-        # Check if tags match
         for tag in tags:
             if query_lower in tag:
                 return True
-
-        # Check individual characters for Chinese queries
-        # This helps match language preferences in user text
-        if any(char in content for char in query_lower if "\u4e00" <= char <= "\u9fff"):
+        if any(char in content for char in query_lower if "一" <= char <= "鿿"):
             return True
-
         return False
