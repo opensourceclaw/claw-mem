@@ -26,7 +26,8 @@ class TestAtomicWriter:
     def sample_file(self, temp_dir):
         """Create a sample markdown file"""
         file_path = Path(temp_dir) / "test.md"
-        file_path.write_text("""---
+        file_path.write_text(
+            """---
 id: test_001
 attention_score: 0.8
 parents: []
@@ -35,7 +36,8 @@ last_updated: 2026-04-10T12:00:00
 ---
 
 This is test content.
-""")
+"""
+        )
         return file_path
 
     @pytest.fixture

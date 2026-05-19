@@ -305,11 +305,13 @@ class TestMemoryFixPlugin:
         """Test reading memories from valid file"""
         # Create a MEMORY.md file with proper format
         memory_file = Path(temp_workspace) / "MEMORY.md"
-        memory_file.write_text("""# MEMORY.md
+        memory_file.write_text(
+            """# MEMORY.md
 
 [2024-01-01T12:00:00] First memory <!-- tags: tag1, tag2 -->
 [2024-01-02T12:00:00] Second memory
-""")
+"""
+        )
 
         memories = plugin._read_memories()
         assert len(memories) == 2
@@ -379,12 +381,14 @@ class TestMemoryFixPlugin:
     def test_validate_session_memory_valid_memories(self, plugin, temp_workspace):
         """Test validation with valid memories"""
         memory_file = Path(temp_workspace) / "MEMORY.md"
-        memory_file.write_text("""
+        memory_file.write_text(
+            """
 # MEMORY.md
 
 [2024-01-01T12:00:00] First memory
 [2024-01-02T12:00:00] Second memory
-""")
+"""
+        )
 
         result = plugin.validate_session_memory()
         assert result["valid"] is True

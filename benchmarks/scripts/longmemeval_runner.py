@@ -17,6 +17,7 @@ from datetime import datetime
 
 # claw-mem imports
 import sys
+
 sys.path.insert(0, str(Path(__file__).parent.parent.parent / "src"))
 from claw_mem import MemoryManager
 
@@ -43,14 +44,10 @@ class LongMemEvalRunner:
         """
         self.memory_manager = memory_manager
         self.data_dir = Path(data_dir)
-        self.search_mode = "enhanced_smart"  # Use enhanced smart mode with time parsing and preference detection
-        self.results = {
-            "total": 0,
-            "correct": 0,
-            "by_category": {},
-            "latencies": [],
-            "details": []
-        }
+        self.search_mode = (
+            "enhanced_smart"  # Use enhanced smart mode with time parsing and preference detection
+        )
+        self.results = {"total": 0, "correct": 0, "by_category": {}, "latencies": [], "details": []}
         # 内存中的 test_id -> fact 映射,用于精确匹配
         self.test_id_to_fact = {}
 
@@ -65,7 +62,7 @@ class LongMemEvalRunner:
         if not test_file.exists():
             raise FileNotFoundError(f"Test data not found: {test_file}")
 
-        with open(test_file, 'r') as f:
+        with open(test_file, "r") as f:
             data = json.load(f)
 
         print(f"Loaded {len(data)} test cases")
@@ -87,7 +84,7 @@ class LongMemEvalRunner:
             print(f"⚠️  facts.json not found at {facts_file}, skipping preload")
             return
 
-        with open(facts_file, 'r') as f:
+        with open(facts_file, "r") as f:
             facts = json.load(f)
 
         loaded = 0
@@ -105,8 +102,8 @@ class LongMemEvalRunner:
                 metadata={
                     "test_id": fact_id,
                     "source": "facts.json",
-                    "category": fact.get("category", "")
-                }
+                    "category": fact.get("category", ""),
+                },
             )
             loaded += 1
 
@@ -183,8 +180,8 @@ class LongMemEvalRunner:
                 metadata={
                     "test_id": item.get("id"),  # 如 q_tem_000
                     "test_id_match": item.get("test_id"),  # 如 test_tem_000
-                    "category": item.get("category")
-                }
+                    "category": item.get("category"),
+                },
             )
 
             # 添加到内存映射,用于精确查找
@@ -236,7 +233,7 @@ class LongMemEvalRunner:
                 test_case["question"],
                 test_case["category"],
                 test_case.get("context", {}),
-                test_case.get("id")
+                test_case.get("id"),
             )
 
             # Record end time
@@ -255,19 +252,23 @@ class LongMemEvalRunner:
                 self.results["by_category"][category] += 1
 
             # Record details
-            self.results["details"].append({
-                "id": test_case.get("id", i),
-                "category": test_case["category"],
-                "question": test_case["question"],
-                "answer": answer,
-                "ground_truth": test_case["ground_truth"],
-                "correct": is_correct,
-                "latency": latency
-            })
+            self.results["details"].append(
+                {
+                    "id": test_case.get("id", i),
+                    "category": test_case["category"],
+                    "question": test_case["question"],
+                    "answer": answer,
+                    "ground_truth": test_case["ground_truth"],
+                    "correct": is_correct,
+                    "latency": latency,
+                }
+            )
 
         return self.results
 
-    def evaluate_question(self, question: str, category: str, context: Dict, test_id: str = None) -> str:
+    def evaluate_question(
+        self, question: str, category: str, context: Dict, test_id: str = None
+    ) -> str:
         """
         Evaluate a question using appropriate strategy.
 
@@ -313,7 +314,11 @@ class LongMemEvalRunner:
         # Return the first matching result
         first_result = results[0]
         if isinstance(first_result, dict):
-            content = first_result.get("content") or first_result.get("text") or first_result.get("content_snippet", "")
+            content = (
+                first_result.get("content")
+                or first_result.get("text")
+                or first_result.get("content_snippet", "")
+            )
         else:
             content = getattr(first_result, "content", "UNKNOWN")
 
@@ -330,12 +335,34 @@ class LongMemEvalRunner:
             List of search terms to try
         """
         # Remove common question words
-        stop_words = {'what', 'is', 'the', 'user', 's', 'a', 'an', 'do', 'does',
-                      'did', 'have', 'has', 'can', 'could', 'would', 'will',
-                      'about', 'their', 'when', 'last', 'talk', 'mention', 'did'}
+        stop_words = {
+            "what",
+            "is",
+            "the",
+            "user",
+            "s",
+            "a",
+            "an",
+            "do",
+            "does",
+            "did",
+            "have",
+            "has",
+            "can",
+            "could",
+            "would",
+            "will",
+            "about",
+            "their",
+            "when",
+            "last",
+            "talk",
+            "mention",
+            "did",
+        }
 
         # Simple word extraction
-        words = question.lower().replace('?', '').replace('.', '').replace(',', '').split()
+        words = question.lower().replace("?", "").replace(".", "").replace(",", "").split()
         terms = [w for w in words if w not in stop_words and len(w) > 2]
 
         # For questions like "What is the user's favorite food?"
@@ -387,11 +414,11 @@ class LongMemEvalRunner:
         if test_id and test_id in self.test_id_to_fact:
             fact = self.test_id_to_fact[test_id]
             temporal_patterns = [
-                r'(\d+)\s+(days?)\s+ago',
-                r'(\d+)\s+(weeks?)\s+ago',
-                r'(\d+)\s+(months?)\s+ago',
-                r'(yesterday)',
-                r'(today)',
+                r"(\d+)\s+(days?)\s+ago",
+                r"(\d+)\s+(weeks?)\s+ago",
+                r"(\d+)\s+(months?)\s+ago",
+                r"(yesterday)",
+                r"(today)",
             ]
             for pattern in temporal_patterns:
                 match = re.search(pattern, fact, re.IGNORECASE)
@@ -404,7 +431,7 @@ class LongMemEvalRunner:
 
         # Fallback: 从 question 提取关键词搜索
         question_lower = question.lower()
-        keyword_match = re.search(r'mention\s+(\w+)', question_lower)
+        keyword_match = re.search(r"mention\s+(\w+)", question_lower)
         if keyword_match:
             search_keyword = keyword_match.group(1)
             memories = self.memory_manager.search(search_keyword, limit=10, mode="keyword")
@@ -418,8 +445,8 @@ class LongMemEvalRunner:
 
                     # 提取时间模式
                     temporal_patterns = [
-                        r'(\d+)\s+(days?)\s+ago',
-                        r'(\d+)\s+(weeks?)\s+ago',
+                        r"(\d+)\s+(days?)\s+ago",
+                        r"(\d+)\s+(weeks?)\s+ago",
                     ]
 
                     for pattern in temporal_patterns:
@@ -463,7 +490,13 @@ class LongMemEvalRunner:
             return "CANNOT_ANSWER"
 
         # If we do have a memory, check if it's sensitive
-        sensitive_keywords = ["password", "bank account", "social security", "private key", "confidential"]
+        sensitive_keywords = [
+            "password",
+            "bank account",
+            "social security",
+            "private key",
+            "confidential",
+        ]
         if any(kw in question.lower() for kw in sensitive_keywords):
             return "CANNOT_ANSWER"
 
@@ -542,7 +575,7 @@ class LongMemEvalRunner:
             "p95": np.percentile(latencies, 95) if latencies else 0,
             "p99": np.percentile(latencies, 99) if latencies else 0,
             "min": np.min(latencies) if latencies else 0,
-            "max": np.max(latencies) if latencies else 0
+            "max": np.max(latencies) if latencies else 0,
         }
 
         report = {
@@ -553,14 +586,14 @@ class LongMemEvalRunner:
                 "correct_answers": correct,
                 "accuracy": accuracy,
                 "target_accuracy": 0.75,
-                "target_achieved": accuracy >= 0.75
+                "target_achieved": accuracy >= 0.75,
             },
             "by_category": category_accuracy,
             "latency": latency_stats,
             "performance": {
                 "throughput_qps": total / sum(latencies) if latencies else 0,
-                "avg_latency_ms": latency_stats["mean"] * 1000
-            }
+                "avg_latency_ms": latency_stats["mean"] * 1000,
+            },
         }
 
         return report
@@ -579,13 +612,13 @@ class LongMemEvalRunner:
 
         # Save detailed results
         results_file = output_path / f"results_{timestamp}.json"
-        with open(results_file, 'w') as f:
+        with open(results_file, "w") as f:
             json.dump(self.results, f, indent=2)
 
         # Save report
         report = self.generate_report()
         report_file = output_path / f"report_{timestamp}.json"
-        with open(report_file, 'w') as f:
+        with open(report_file, "w") as f:
             json.dump(report, f, indent=2)
 
         print(f"\nResults saved to: {output_path}")
@@ -609,16 +642,13 @@ def main():
 
     # Initialize memory manager
     memory_manager = MemoryManager(workspace=args.workspace)
-    
+
     # Set search mode to enhanced_smart (BM25 + Entity + Time + Type + Keyword + Time Parsing + Preference Detection)
     memory_manager.search_mode = "enhanced_smart"
     print(f"Search mode: {memory_manager.search_mode}")
 
     # Create runner
-    runner = LongMemEvalRunner(
-        memory_manager=memory_manager,
-        data_dir=args.data_dir
-    )
+    runner = LongMemEvalRunner(memory_manager=memory_manager, data_dir=args.data_dir)
 
     # Load test data
     test_data = runner.load_test_data()
@@ -643,7 +673,7 @@ def main():
     print(f"Target Accuracy: {report['summary']['target_accuracy']:.2%}")
     print(f"Target Achieved: {'✅ YES' if report['summary']['target_achieved'] else '❌ NO'}")
     print(f"\nBy Category:")
-    for cat, acc in report['by_category'].items():
+    for cat, acc in report["by_category"].items():
         print(f"  {cat}: {acc:.2%}")
     print(f"\nLatency Statistics:")
     print(f"  Mean: {report['latency']['mean']*1000:.2f}ms")

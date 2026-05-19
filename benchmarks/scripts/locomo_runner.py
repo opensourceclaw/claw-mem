@@ -17,6 +17,7 @@ from datetime import datetime
 
 # claw-mem imports
 import sys
+
 sys.path.insert(0, str(Path(__file__).parent.parent.parent / "src"))
 from claw_mem import MemoryManager
 
@@ -41,12 +42,7 @@ class LoCoMoRunner:
         """
         self.memory_manager = memory_manager
         self.data_dir = Path(data_dir)
-        self.results = {
-            "qa": {},
-            "event_summarization": {},
-            "dialog_generation": {},
-            "overall": {}
-        }
+        self.results = {"qa": {}, "event_summarization": {}, "dialog_generation": {}, "overall": {}}
 
     def load_conversations(self) -> List[Dict]:
         """
@@ -59,7 +55,7 @@ class LoCoMoRunner:
         if not conv_file.exists():
             raise FileNotFoundError(f"Conversation data not found: {conv_file}")
 
-        with open(conv_file, 'r') as f:
+        with open(conv_file, "r") as f:
             data = json.load(f)
 
         print(f"Loaded {len(data)} conversations")
@@ -71,7 +67,7 @@ class LoCoMoRunner:
         if not facts_file.exists():
             return []
 
-        with open(facts_file, 'r') as f:
+        with open(facts_file, "r") as f:
             data = json.load(f)
 
         print(f"Loaded {len(data)} facts")
@@ -88,7 +84,7 @@ class LoCoMoRunner:
         if not qa_file.exists():
             raise FileNotFoundError(f"QA pairs not found: {qa_file}")
 
-        with open(qa_file, 'r') as f:
+        with open(qa_file, "r") as f:
             data = json.load(f)
 
         print(f"Loaded {len(data)} QA pairs")
@@ -110,7 +106,7 @@ class LoCoMoRunner:
             print(f"⚠️  facts.json not found at {facts_file}, skipping preload")
             return
 
-        with open(facts_file, 'r') as f:
+        with open(facts_file, "r") as f:
             facts = json.load(f)
 
         loaded = 0
@@ -125,11 +121,7 @@ class LoCoMoRunner:
             self.memory_manager.store(
                 content=fact_content,
                 memory_type="semantic",
-                metadata={
-                    "test_id": fact_id,
-                    "source": "facts.json",
-                    "type": fact.get("type", "")
-                }
+                metadata={"test_id": fact_id, "source": "facts.json", "type": fact.get("type", "")},
             )
             loaded += 1
 
@@ -195,7 +187,9 @@ class LoCoMoRunner:
 
         # Run event summarization evaluation
         print("Running event summarization evaluation...")
-        self.results["event_summarization"] = self.evaluate_event_summarization(conversations, facts)
+        self.results["event_summarization"] = self.evaluate_event_summarization(
+            conversations, facts
+        )
 
         # Run dialog generation evaluation
         print("Running dialog generation evaluation...")
@@ -222,7 +216,7 @@ class LoCoMoRunner:
             "multi_hop": {"correct": 0, "total": 0, "latencies": []},
             "temporal": {"correct": 0, "total": 0, "latencies": []},
             "open_domain": {"correct": 0, "total": 0, "latencies": []},
-            "adversarial": {"correct": 0, "total": 0, "latencies": []}
+            "adversarial": {"correct": 0, "total": 0, "latencies": []},
         }
 
         # Store conversations in memory
@@ -239,8 +233,8 @@ class LoCoMoRunner:
                         "turn_id": turn["id"],
                         "test_id": turn.get("test_id"),  # Store test_id for exact matching
                         "speaker": turn.get("speaker", "user"),
-                        "timestamp": turn.get("timestamp")
-                    }
+                        "timestamp": turn.get("timestamp"),
+                    },
                 )
 
         # Evaluate QA pairs
@@ -254,9 +248,7 @@ class LoCoMoRunner:
 
             # Answer question
             answer = self.answer_question(
-                qa["question"],
-                category,
-                qa.get("id") or qa.get("test_id")
+                qa["question"], category, qa.get("id") or qa.get("test_id")
             )
             latency = time.time() - start_time
 
@@ -277,7 +269,7 @@ class LoCoMoRunner:
                 "accuracy": accuracy,
                 "correct": data["correct"],
                 "total": data["total"],
-                "avg_latency": np.mean(data["latencies"]) if data["latencies"] else 0
+                "avg_latency": np.mean(data["latencies"]) if data["latencies"] else 0,
             }
 
         # Overall QA accuracy
@@ -286,7 +278,7 @@ class LoCoMoRunner:
         results["overall"] = {
             "accuracy": total_correct / total_questions if total_questions > 0 else 0,
             "correct": total_correct,
-            "total": total_questions
+            "total": total_questions,
         }
 
         return results
@@ -373,8 +365,10 @@ class LoCoMoRunner:
         try:
             sorted_memories = sorted(
                 memories,
-                key=lambda m: m.get("timestamp", 0) if isinstance(m, dict) else getattr(m, "timestamp", 0),
-                reverse=True
+                key=lambda m: (
+                    m.get("timestamp", 0) if isinstance(m, dict) else getattr(m, "timestamp", 0)
+                ),
+                reverse=True,
             )
             first = sorted_memories[0]
         except Exception:
@@ -449,13 +443,7 @@ class LoCoMoRunner:
         Returns:
             Event summarization results
         """
-        results = {
-            "total": 0,
-            "correct": 0,
-            "precision": 0.0,
-            "recall": 0.0,
-            "f1": 0.0
-        }
+        results = {"total": 0, "correct": 0, "precision": 0.0, "recall": 0.0, "f1": 0.0}
 
         # Build conversation_id to facts mapping
         facts_by_conv = {}
@@ -508,7 +496,13 @@ class LoCoMoRunner:
 
         results["precision"] = results["correct"] / results["total"] if results["total"] > 0 else 0
         results["recall"] = results["correct"] / results["total"] if results["total"] > 0 else 0
-        results["f1"] = 2 * (results["precision"] * results["recall"]) / (results["precision"] + results["recall"]) if (results["precision"] + results["recall"]) > 0 else 0
+        results["f1"] = (
+            2
+            * (results["precision"] * results["recall"])
+            / (results["precision"] + results["recall"])
+            if (results["precision"] + results["recall"]) > 0
+            else 0
+        )
 
         return results
 
@@ -518,11 +512,13 @@ class LoCoMoRunner:
         for turn in conversation.get("turns", []):
             if turn.get("speaker") == "user":
                 # Extract user events
-                events.append({
-                    "type": "user_message",
-                    "content": turn["content"],
-                    "timestamp": turn.get("timestamp")
-                })
+                events.append(
+                    {
+                        "type": "user_message",
+                        "content": turn["content"],
+                        "timestamp": turn.get("timestamp"),
+                    }
+                )
         return events
 
     def generate_event_summary(self, events: List[Dict]) -> str:
@@ -547,12 +543,7 @@ class LoCoMoRunner:
         Returns:
             Dialog generation results
         """
-        results = {
-            "total": 0,
-            "coherent": 0,
-            "relevant": 0,
-            "consistent": 0
-        }
+        results = {"total": 0, "coherent": 0, "relevant": 0, "consistent": 0}
 
         # This is a simplified implementation
         # In practice, you would use an LLM judge to evaluate responses
@@ -608,7 +599,7 @@ class LoCoMoRunner:
             "qa_accuracy": overall_accuracy,
             "event_summary_f1": event_f1,
             "dialog_coherence": dialog_coherent,
-            "average_score": (overall_accuracy + event_f1 + dialog_coherent) / 3
+            "average_score": (overall_accuracy + event_f1 + dialog_coherent) / 3,
         }
 
     def generate_report(self) -> Dict:
@@ -624,8 +615,8 @@ class LoCoMoRunner:
                 "qa_accuracy": 0.80,
                 "event_summary_f1": 0.75,
                 "dialog_coherence": 0.85,
-                "target_achieved": self.results["overall"].get("average_score", 0) >= 0.75
-            }
+                "target_achieved": self.results["overall"].get("average_score", 0) >= 0.75,
+            },
         }
 
     def save_results(self, output_dir: str = "results/locomo"):
@@ -637,13 +628,13 @@ class LoCoMoRunner:
 
         # Save results
         results_file = output_path / f"results_{timestamp}.json"
-        with open(results_file, 'w') as f:
+        with open(results_file, "w") as f:
             json.dump(self.results, f, indent=2, default=str)
 
         # Save report
         report = self.generate_report()
         report_file = output_path / f"report_{timestamp}.json"
-        with open(report_file, 'w') as f:
+        with open(report_file, "w") as f:
             json.dump(report, f, indent=2, default=str)
 
         print(f"\nResults saved to: {output_path}")
@@ -666,10 +657,7 @@ def main():
     memory_manager = MemoryManager(workspace=args.workspace)
 
     # Create runner
-    runner = LoCoMoRunner(
-        memory_manager=memory_manager,
-        data_dir=args.data_dir
-    )
+    runner = LoCoMoRunner(memory_manager=memory_manager, data_dir=args.data_dir)
 
     # Run evaluation
     results = runner.run_evaluation()
@@ -684,21 +672,23 @@ def main():
     print(f"QA Accuracy: {report['overall']['qa_accuracy']:.2%}")
     # Handle missing categories
     category_map = {
-        'single_hop': 'Single-hop',
-        'multi_hop': 'Multi-hop',
-        'temporal_reasoning': 'Temporal',
-        'open_domain': 'Open-domain',
-        'adversarial': 'Adversarial'
+        "single_hop": "Single-hop",
+        "multi_hop": "Multi-hop",
+        "temporal_reasoning": "Temporal",
+        "open_domain": "Open-domain",
+        "adversarial": "Adversarial",
     }
     for cat_key, cat_name in category_map.items():
-        if cat_key in report['qa']:
+        if cat_key in report["qa"]:
             print(f"  - {cat_name}: {report['qa'][cat_key]['accuracy']:.2%}")
         else:
             print(f"  - {cat_name}: N/A (no data)")
     print(f"\nEvent Summary F1: {report['overall']['event_summary_f1']:.2%}")
     print(f"Dialog Coherence: {report['overall']['dialog_coherence']:.2%}")
     print(f"\nAverage Score: {report['overall']['average_score']:.2%}")
-    print(f"Target Achieved: {'✅ YES' if report['target_metrics']['target_achieved'] else '❌ NO'}")
+    print(
+        f"Target Achieved: {'✅ YES' if report['target_metrics']['target_achieved'] else '❌ NO'}"
+    )
     print(f"{'='*80}\n")
 
     # Save results
