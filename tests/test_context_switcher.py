@@ -1,39 +1,70 @@
-"""Tests for ContextSwitcher (v3.0.0-rc.3)."""
+# Copyright 2026 Peter Cheng
+"""Tests for cms/context_switcher.py."""
 
 import pytest
-from claw_mem.cms.context_switcher import ContextSwitcher, SwitchResult, MergeResult
+from claw_mem.cms.context_switcher import (
+    SwitchResult, MergeResult, ContextSwitcher,
+)
+
+
+class TestSwitchResult:
+    def test_create(self):
+        sr = SwitchResult(from_session="a", to_session="b", strategy="preserve_important")
+        assert sr.from_session == "a"
+        assert sr.to_session == "b"
+        assert sr.success is True
+
+    def test_to_dict(self):
+        sr = SwitchResult(from_session="a", to_session="b", strategy="full_switch",
+                          preserved_memories=["m1"], total_memories=1)
+        d = sr.to_dict()
+        assert d["from_session"] == "a"
+        assert "m1" in d["preserved_memories"]
+        assert d["total_memories"] == 1
+
+
+class TestMergeResult:
+    def test_create(self):
+        mr = MergeResult(session_ids=["a", "b"], merged_count=2, total_unique=5)
+        assert mr.merged_count == 2
+        assert mr.total_unique == 5
+
+    def test_to_dict(self):
+        mr = MergeResult(session_ids=["a"], merged_count=1, total_unique=3)
+        d = mr.to_dict()
+        assert d["merged_count"] == 1
 
 
 class TestContextSwitcher:
-    def setup_method(self):
-        self.cs = ContextSwitcher()
+    @pytest.fixture
+    def switcher(self):
+        return ContextSwitcher()
 
-    def test_switch_preserve_important(self):
-        r = self.cs.switch("s1", "s2", "preserve_important")
-        assert isinstance(r, SwitchResult)
-        assert r.from_session == "s1"
-        assert r.strategy == "preserve_important"
+    def test_no_evaluator_no_error(self, switcher):
+        result = switcher.switch("a", "b", strategy="preserve_important")
+        assert result.success is True
+        assert result.preserved_memories == []
 
-    def test_switch_full_switch(self):
-        r = self.cs.switch("a", "b", "full_switch")
-        assert r.to_session == "b"
-        assert r.preserved_memories == []
+    def test_full_switch(self, switcher):
+        result = switcher.switch("a", "b", strategy="full_switch")
+        assert result.success is True
+        assert result.from_session == "a"
+        assert result.to_session == "b"
 
-    def test_merge_contexts(self):
-        r = self.cs.merge(["s1", "s2", "s3"])
-        assert isinstance(r, MergeResult)
-        assert r.merged_count == 3
+    def test_merge_context(self, switcher):
+        result = switcher.switch("a", "b", strategy="merge_context")
+        assert result.success is True
+        assert result.strategy == "merge_context"
 
-    def test_switch_result_to_dict(self):
-        r = SwitchResult("a", "b", "preserve_important", ["m1"], 1)
-        d = r.to_dict()
-        assert d["from_session"] == "a"
-        assert d["preserved_memories"] == ["m1"]
+    def test_merge_multiple(self, switcher):
+        result = switcher.merge(["a", "b", "c"])
+        assert result.merged_count == 3
+        assert result.total_unique >= 0
 
-    def test_merge_result_to_dict(self):
-        r = MergeResult(["a", "b"], 2, 10)
-        d = r.to_dict()
-        assert d["merged_count"] == 2
+    def test_get_active_contexts_empty(self, switcher):
+        assert switcher.get_active_contexts() == []
 
-    def test_active_contexts_default(self):
-        assert self.cs.get_active_contexts() == []
+    def test_switch_result_errors(self, switcher):
+        result = switcher.switch("a", "b")
+        assert result.success
+        assert isinstance(result.preserved_memories, list)
