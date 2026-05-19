@@ -338,9 +338,7 @@ class MemoryManager:
 
         # v2.13.0: Critical rules — never compressed, always injected
         self._critical_rules: Dict[str, dict] = {}
-        self._critical_rules_file = os.path.join(
-            str(self.workspace), "critical_rules.json"
-        )
+        self._critical_rules_file = os.path.join(str(self.workspace), "critical_rules.json")
         self._load_critical_rules()
 
     # ── v2.20.0: State validation ─────────────────────────────────
@@ -1057,14 +1055,22 @@ class MemoryManager:
         search_mode = mode or self.search_mode
 
         # v3.0.0: Map deprecated search modes to consolidated modes
-        _deprecated_modes = {"bm25": "keyword", "hybrid": "keyword",
-                             "entity": "semantic", "hybrid_entity": "semantic"}
+        _deprecated_modes = {
+            "bm25": "keyword",
+            "hybrid": "keyword",
+            "entity": "semantic",
+            "hybrid_entity": "semantic",
+        }
         if search_mode in _deprecated_modes:
             import warnings
+
             new_mode = _deprecated_modes[search_mode]
-            warnings.warn(f"Search mode '{search_mode}' is deprecated, "
-                         f"use '{new_mode}' instead. See CHANGELOG for migration.",
-                         DeprecationWarning, stacklevel=2)
+            warnings.warn(
+                f"Search mode '{search_mode}' is deprecated, "
+                f"use '{new_mode}' instead. See CHANGELOG for migration.",
+                DeprecationWarning,
+                stacklevel=2,
+            )
             search_mode = new_mode
 
         # v2.13.0: Gather critical rules (never cached, always prepended)

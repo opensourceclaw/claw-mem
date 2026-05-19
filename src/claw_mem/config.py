@@ -21,7 +21,7 @@ Automatically detects OpenClaw workspace path.
 
 import os
 from pathlib import Path
-from typing import Optional, List
+from typing import Any, Optional, List
 
 from .errors import WorkspaceNotFoundError
 

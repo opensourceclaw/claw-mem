@@ -155,7 +155,9 @@ class TestMemoryManagerExtended:
         results = memory.search("tech", mode="keyword")
         assert len(results) > 0
 
-    @pytest.mark.skip(reason="Flaky — passes solo, fails in suite due to test ordering (v3.0.0-rc.14)")
+    @pytest.mark.skip(
+        reason="Flaky — passes solo, fails in suite due to test ordering (v3.0.0-rc.14)"
+    )
     def test_multiple_memories_with_tags(self, temp_workspace):
         """Test storing multiple memories with tags"""
         memory = MemoryManager(str(temp_workspace))
@@ -191,7 +193,9 @@ class TestMemoryManagerExtended:
         results = memory.search("Test", limit=10, mode="keyword")
         assert len(results) <= 10
 
-    @pytest.mark.skip(reason="Flaky — passes solo, fails in suite due to test ordering (v3.0.0-rc.14)")
+    @pytest.mark.skip(
+        reason="Flaky — passes solo, fails in suite due to test ordering (v3.0.0-rc.14)"
+    )
     def test_store_without_update_index(self, temp_workspace):
         """Test store without updating index"""
         memory = MemoryManager(str(temp_workspace))

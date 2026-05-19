@@ -3,7 +3,9 @@
 
 import pytest
 from claw_mem.cms.context_switcher import (
-    SwitchResult, MergeResult, ContextSwitcher,
+    SwitchResult,
+    MergeResult,
+    ContextSwitcher,
 )
 
 
@@ -15,8 +17,13 @@ class TestSwitchResult:
         assert sr.success is True
 
     def test_to_dict(self):
-        sr = SwitchResult(from_session="a", to_session="b", strategy="full_switch",
-                          preserved_memories=["m1"], total_memories=1)
+        sr = SwitchResult(
+            from_session="a",
+            to_session="b",
+            strategy="full_switch",
+            preserved_memories=["m1"],
+            total_memories=1,
+        )
         d = sr.to_dict()
         assert d["from_session"] == "a"
         assert "m1" in d["preserved_memories"]

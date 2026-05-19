@@ -3,8 +3,11 @@
 
 import pytest
 from claw_mem.cms.state_machine import (
-    SessionState, StateEvent, TRANSITIONS,
-    StateTransition, SessionStateMachine,
+    SessionState,
+    StateEvent,
+    TRANSITIONS,
+    StateTransition,
+    SessionStateMachine,
 )
 
 
@@ -56,7 +59,9 @@ class TestStateTransition:
         assert t.to_state == "paused"
 
     def test_to_dict(self):
-        t = StateTransition(session_id="s1", from_state="active", to_state="compressed", event="compress")
+        t = StateTransition(
+            session_id="s1", from_state="active", to_state="compressed", event="compress"
+        )
         d = t.to_dict()
         assert d["session_id"] == "s1"
         assert d["from_state"] == "active"

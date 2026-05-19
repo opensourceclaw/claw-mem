@@ -149,7 +149,7 @@ def cmd_stats(args):
         print(f"Semantic memories: {stats['semantic_count']}")
         print(f"Procedural memories: {stats['procedural_count']}")
         print("=" * 40)
-        total = stats['episodic_count'] + stats['semantic_count'] + stats['procedural_count']
+        total = stats["episodic_count"] + stats["semantic_count"] + stats["procedural_count"]
         print(f"Total memories: {total}")
 
 

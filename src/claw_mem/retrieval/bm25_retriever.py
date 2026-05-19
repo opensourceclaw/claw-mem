@@ -23,8 +23,9 @@ and version-based incremental rebuild detection.
 """
 
 import warnings
+
 warnings.warn(
-    "bm25_retriever is deprecated and will be removed in v4.0. " 
+    "bm25_retriever is deprecated and will be removed in v4.0. "
     "Use KeywordRetriever in keyword.py instead.",
     DeprecationWarning,
     stacklevel=2,

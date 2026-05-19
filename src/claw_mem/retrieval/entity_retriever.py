@@ -20,8 +20,9 @@ Part of the hybrid search strategy for MVP stage.
 """
 
 import warnings
+
 warnings.warn(
-    "entity_retriever is deprecated and will be removed in v4.0. " 
+    "entity_retriever is deprecated and will be removed in v4.0. "
     "Use SemanticRetriever in semantic.py instead.",
     DeprecationWarning,
     stacklevel=2,
