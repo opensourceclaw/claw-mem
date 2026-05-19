@@ -174,6 +174,11 @@ class MemoryManager:
             enable_synonyms: Enable synonym expansion (default: True)
             enable_stats: Enable search statistics tracking (default: True)
         """
+        # Backward compatibility: if config is a string, treat as workspace
+        if isinstance(config, str):
+            workspace = config
+            config = None
+
         # v3.0.0: MemoryConfig support
         if config is not None:
             workspace = config.workspace or workspace
