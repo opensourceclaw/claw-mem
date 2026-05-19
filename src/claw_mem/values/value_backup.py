@@ -22,7 +22,7 @@ from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any, Dict, List, Optional
 
-from claw_mem.values import UserValueStore
+from .user_value_store import UserValueStore
 
 
 @dataclass

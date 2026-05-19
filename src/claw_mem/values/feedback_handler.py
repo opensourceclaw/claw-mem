@@ -21,7 +21,7 @@ from datetime import datetime, timezone
 from enum import Enum
 from typing import Any, Dict, List, Optional
 
-from claw_mem.values import UserValueStore
+from .user_value_store import UserValueStore
 
 
 class FeedbackStatus(Enum):
