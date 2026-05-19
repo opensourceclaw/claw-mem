@@ -196,7 +196,11 @@ class MemoryManager:
         # Lightweight working state (kept eager)
         self.working_cache = WorkingMemoryCache(max_size=100, ttl_seconds=300)
         self.working_memory: List[Dict] = []
-        self.index = InMemoryIndex(ngram_size=3, enable_persistence=True)
+        self.index = InMemoryIndex(
+            ngram_size=3,
+            index_dir=str(self.workspace / ".claw-mem" / "index"),
+            enable_persistence=True,
+        )
 
         # Lazy-initialized caches
         self._episodic = None
@@ -334,7 +338,11 @@ class MemoryManager:
 
         # L1: Working Memory (In-Memory Index + Cache)
         # Enable index persistence for fast startup
-        self.index = InMemoryIndex(ngram_size=3, enable_persistence=True)
+        self.index = InMemoryIndex(
+            ngram_size=3,
+            index_dir=str(self.workspace / ".claw-mem" / "index"),
+            enable_persistence=True,
+        )
         self.working_cache = WorkingMemoryCache(max_size=100, ttl_seconds=300)
         self.working_memory: List[Dict] = []
 
