@@ -20,7 +20,8 @@ class TestClawMemContextManager:
             # Create sample markdown files
             for i in range(3):
                 file_path = Path(tmpdir) / f"note_{i}.md"
-                file_path.write_text(f"""---
+                file_path.write_text(
+                    f"""---
 id: note_{i}
 attention_score: 0.{i + 5}
 parents: []
@@ -29,7 +30,8 @@ last_updated: 2026-04-10T12:00:00
 ---
 
 This is note {i} content.
-""")
+"""
+                )
             yield tmpdir
 
     @pytest.fixture

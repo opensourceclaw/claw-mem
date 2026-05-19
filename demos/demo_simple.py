@@ -47,59 +47,54 @@ print()
 
 messages = [
     {
-        'content': '用户决定:使用 Python 作为主要开发语言',
-        'source': 'user',
-        'context': {'type': 'decision', 'importance': 'high'},
-        'verified': True,
-        'desc': '⭐⭐⭐ 用户重要决策'
+        "content": "用户决定:使用 Python 作为主要开发语言",
+        "source": "user",
+        "context": {"type": "decision", "importance": "high"},
+        "verified": True,
+        "desc": "⭐⭐⭐ 用户重要决策",
     },
     {
-        'content': 'Agent 建议:推荐使用 FastAPI 框架',
-        'source': 'agent',
-        'context': {'type': 'suggestion'},
-        'desc': '⭐⭐ Agent 建议'
+        "content": "Agent 建议:推荐使用 FastAPI 框架",
+        "source": "agent",
+        "context": {"type": "suggestion"},
+        "desc": "⭐⭐ Agent 建议",
     },
     {
-        'content': '系统日志:内存使用 256MB',
-        'source': 'system',
-        'context': {},
-        'desc': '⭐ 系统日志'
+        "content": "系统日志:内存使用 256MB",
+        "source": "system",
+        "context": {},
+        "desc": "⭐ 系统日志",
     },
     {
-        'content': '用户需求:实现用户认证功能',
-        'source': 'user',
-        'context': {'type': 'requirement'},
-        'desc': '⭐⭐⭐ 用户需求'
+        "content": "用户需求:实现用户认证功能",
+        "source": "user",
+        "context": {"type": "requirement"},
+        "desc": "⭐⭐⭐ 用户需求",
     },
     {
-        'content': '外部信息:今日天气晴朗',
-        'source': 'external',
-        'context': {},
-        'desc': '⭐ 外部信息'
+        "content": "外部信息:今日天气晴朗",
+        "source": "external",
+        "context": {},
+        "desc": "⭐ 外部信息",
     },
     {
-        'content': '用户决策:选择 PostgreSQL 作为数据库',
-        'source': 'user',
-        'context': {'type': 'decision', 'importance': 'high'},
-        'verified': True,
-        'desc': '⭐⭐⭐ 用户重要决策'
+        "content": "用户决策:选择 PostgreSQL 作为数据库",
+        "source": "user",
+        "context": {"type": "decision", "importance": "high"},
+        "verified": True,
+        "desc": "⭐⭐⭐ 用户重要决策",
     },
-    {
-        'content': '系统日志:缓存已清理',
-        'source': 'system',
-        'context': {},
-        'desc': '⭐ 系统日志'
-    },
+    {"content": "系统日志:缓存已清理", "source": "system", "context": {}, "desc": "⭐ 系统日志"},
 ]
 
 for i, msg in enumerate(messages, 1):
     result = gating.write(msg)
-    
+
     # 可视化
-    tier_emoji = "🔥" if result.tier == 'active' else "❄️"
-    tier_name = "活跃记忆" if result.tier == 'active' else "冷存储"
+    tier_emoji = "🔥" if result.tier == "active" else "❄️"
+    tier_name = "活跃记忆" if result.tier == "active" else "冷存储"
     bar = "█" * int(result.salience_score * 20) + "░" * (20 - int(result.salience_score * 20))
-    
+
     print(f"   [{i}] {msg['desc']}")
     print(f"       内容: \"{msg['content'][:35]}...\"")
     print(f"       来源: {msg['source']}")
@@ -160,7 +155,7 @@ print("       - 评分延迟: ~0.02ms (目标 <5ms) - 超标 250 倍 ⚡")
 print()
 
 print("   4️⃣  实际效果")
-active_ratio = stats['active_count'] / (stats['active_count'] + stats['cold_count']) * 100
+active_ratio = stats["active_count"] / (stats["active_count"] + stats["cold_count"]) * 100
 print(f"       - {stats['active_count']} 条重要记忆在活跃层 ({active_ratio:.0f}%)")
 print(f"       - {stats['cold_count']} 条普通记忆在冷存储 ({100-active_ratio:.0f}%)")
 print("       - 智能分层,高效管理!")

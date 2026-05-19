@@ -16,7 +16,7 @@ print("\n2. 写入测试数据...")
 result = manager.store(
     content="测试 claw-mem v2.1.0 部署",
     memory_type="episodic",
-    metadata={"source": "user", "test": True}
+    metadata={"source": "user", "test": True},
 )
 print(f"   ✅ 写入成功: {result}")
 
@@ -25,14 +25,10 @@ print("\n3. 写入更多数据...")
 manager.store(
     content="重要决策:使用 Python 作为主要开发语言",
     memory_type="semantic",
-    metadata={"source": "user", "verified": True}
+    metadata={"source": "user", "verified": True},
 )
 
-manager.store(
-    content="普通日志信息",
-    memory_type="episodic",
-    metadata={"source": "system"}
-)
+manager.store(content="普通日志信息", memory_type="episodic", metadata={"source": "system"})
 
 # 查看统计
 print("\n4. 查看统计信息...")

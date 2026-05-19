@@ -44,10 +44,10 @@ messages = [
 print("📊 评分结果:")
 print()
 for source, content, desc in messages:
-    score = scorer.compute({'content': content, 'source': source})
+    score = scorer.compute({"content": content, "source": source})
     bar = "█" * int(score * 20) + "░" * (20 - int(score * 20))
     print(f"   [{source:8s}] {desc}")
-    print(f"   内容: \"{content}\"")
+    print(f'   内容: "{content}"')
     print(f"   评分: {score:.2f} {bar}")
     print()
 
@@ -93,13 +93,13 @@ print()
 for i, (source, content, desc) in enumerate(conversation, 1):
     # 不使用 gating - 所有都存储
     manager_without_gating.store(content, memory_type="episodic", metadata={"source": source})
-    
+
     # 使用 gating - 智能分层
     manager_with_gating.store(content, memory_type="episodic", metadata={"source": source})
-    
+
     # 获取统计
     stats = manager_with_gating.get_gating_stats()
-    
+
     print(f"   [{i}] {source:8s}: {content[:30]}...")
     print(f"       活跃记忆: {stats['active_count']:2d} | 冷存储: {stats['cold_count']:2d}")
     print()
@@ -114,7 +114,9 @@ stats_without = manager_without_gating.get_stats()
 stats_with = manager_with_gating.get_gating_stats()
 
 print(f"   ❌ 不使用 Gating:")
-print(f"      总记忆数: {stats_without.get('total_memories', stats_without.get('working_memory_size', 'N/A'))}")
+print(
+    f"      总记忆数: {stats_without.get('total_memories', stats_without.get('working_memory_size', 'N/A'))}"
+)
 print(f"      所有记忆都在同一层级,无差别存储")
 print()
 
@@ -135,7 +137,7 @@ print()
 
 query = "技术决策"
 
-print(f"🔍 查询: \"{query}\"")
+print(f'🔍 查询: "{query}"')
 print()
 
 # 不使用 gating

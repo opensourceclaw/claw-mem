@@ -14,6 +14,7 @@ from typing import Dict, Any
 
 # claw-mem imports
 import sys
+
 sys.path.insert(0, str(Path(__file__).parent.parent.parent / "src"))
 from claw_mem import MemoryManager
 
@@ -35,12 +36,7 @@ class BenchmarkOrchestrator:
         """
         self.workspace = workspace
         self.memory_manager = MemoryManager(workspace)
-        self.results = {
-            "longmemeval": None,
-            "locomo": None,
-            "convomem": None,
-            "overall": {}
-        }
+        self.results = {"longmemeval": None, "locomo": None, "convomem": None, "overall": {}}
 
     def run_all_benchmarks(self, data_dirs: Dict[str, str] = None) -> Dict:
         """
@@ -56,7 +52,7 @@ class BenchmarkOrchestrator:
             data_dirs = {
                 "longmemeval": "data/longmemeval",
                 "locomo": "data/locomo",
-                "convomem": "data/convomem"
+                "convomem": "data/convomem",
             }
 
         print(f"\n{'='*80}")
@@ -68,13 +64,12 @@ class BenchmarkOrchestrator:
         start_time = time.time()
 
         # Run LongMemEval
-        print("\n" + "="*80)
+        print("\n" + "=" * 80)
         print("Running LongMemEval Benchmark...")
-        print("="*80 + "\n")
+        print("=" * 80 + "\n")
         try:
             longmemeval_runner = LongMemEvalRunner(
-                memory_manager=self.memory_manager,
-                data_dir=data_dirs["longmemeval"]
+                memory_manager=self.memory_manager, data_dir=data_dirs["longmemeval"]
             )
             self.results["longmemeval"] = longmemeval_runner.run_test()
             longmemeval_report = longmemeval_runner.generate_report()
@@ -87,13 +82,12 @@ class BenchmarkOrchestrator:
         self.memory_manager = MemoryManager(self.workspace)
 
         # Run LoCoMo
-        print("\n" + "="*80)
+        print("\n" + "=" * 80)
         print("Running LoCoMo Benchmark...")
-        print("="*80 + "\n")
+        print("=" * 80 + "\n")
         try:
             locomo_runner = LoCoMoRunner(
-                memory_manager=self.memory_manager,
-                data_dir=data_dirs["locomo"]
+                memory_manager=self.memory_manager, data_dir=data_dirs["locomo"]
             )
             self.results["locomo"] = locomo_runner.run_evaluation()
             locomo_report = locomo_runner.generate_report()
@@ -106,13 +100,12 @@ class BenchmarkOrchestrator:
         self.memory_manager = MemoryManager(self.workspace)
 
         # Run ConvoMem
-        print("\n" + "="*80)
+        print("\n" + "=" * 80)
         print("Running ConvoMem Benchmark...")
-        print("="*80 + "\n")
+        print("=" * 80 + "\n")
         try:
             convomem_runner = ConvoMemRunner(
-                memory_manager=self.memory_manager,
-                data_dir=data_dirs["convomem"]
+                memory_manager=self.memory_manager, data_dir=data_dirs["convomem"]
             )
             self.results["convomem"] = convomem_runner.run_evaluation()
             convomem_report = convomem_runner.generate_report()
@@ -137,7 +130,7 @@ class BenchmarkOrchestrator:
             "longmemeval_accuracy": 0.0,
             "locomo_accuracy": 0.0,
             "convomem_accuracy": 0.0,
-            "overall_score": 0.0
+            "overall_score": 0.0,
         }
 
         # LongMemEval accuracy
@@ -155,9 +148,9 @@ class BenchmarkOrchestrator:
         # Calculate overall score (weighted average)
         # Weights: LongMemEval 40%, LoCoMo 35%, ConvoMem 25%
         scores["overall_score"] = (
-            scores["longmemeval_accuracy"] * 0.40 +
-            scores["locomo_accuracy"] * 0.35 +
-            scores["convomem_accuracy"] * 0.25
+            scores["longmemeval_accuracy"] * 0.40
+            + scores["locomo_accuracy"] * 0.35
+            + scores["convomem_accuracy"] * 0.25
         )
 
         return scores
@@ -176,7 +169,9 @@ class BenchmarkOrchestrator:
             print("LongMemEval:")
             print(f"  Accuracy: {self.results['longmemeval']['summary']['accuracy']:.2%}")
             print(f"  Target: {self.results['longmemeval']['summary']['target_accuracy']:.2%}")
-            print(f"  Status: {'✅ PASS' if self.results['longmemeval']['summary']['target_achieved'] else '❌ FAIL'}")
+            print(
+                f"  Status: {'✅ PASS' if self.results['longmemeval']['summary']['target_achieved'] else '❌ FAIL'}"
+            )
         else:
             print("LongMemEval: ⚠️  SKIPPED (no data)")
 
@@ -184,8 +179,12 @@ class BenchmarkOrchestrator:
         if self.results["locomo"] and "overall" in self.results["locomo"]:
             print("\nLoCoMo:")
             print(f"  QA Accuracy: {self.results['locomo']['overall']['qa_accuracy']:.2%}")
-            print(f"  Event Summary F1: {self.results['locomo']['overall']['event_summary_f1']:.2%}")
-            print(f"  Dialog Coherence: {self.results['locomo']['overall']['dialog_coherence']:.2%}")
+            print(
+                f"  Event Summary F1: {self.results['locomo']['overall']['event_summary_f1']:.2%}"
+            )
+            print(
+                f"  Dialog Coherence: {self.results['locomo']['overall']['dialog_coherence']:.2%}"
+            )
             print(f"  Average Score: {self.results['locomo']['overall']['average_score']:.2%}")
         else:
             print("\nLoCoMo: ⚠️  SKIPPED (no data)")
@@ -195,7 +194,9 @@ class BenchmarkOrchestrator:
             print("\nConvoMem:")
             print(f"  Accuracy: {self.results['convomem']['overall']['accuracy']:.2%}")
             print(f"  Average Recall: {self.results['convomem']['overall']['avg_recall']:.2%}")
-            print(f"  Average Precision: {self.results['convomem']['overall']['avg_precision']:.2%}")
+            print(
+                f"  Average Precision: {self.results['convomem']['overall']['avg_precision']:.2%}"
+            )
             print(f"  Average F1: {self.results['convomem']['overall']['avg_f1']:.2%}")
         else:
             print("\nConvoMem: ⚠️  SKIPPED (no data)")
@@ -207,11 +208,13 @@ class BenchmarkOrchestrator:
 
         # Target achievement
         target_achieved = (
-            self.results['overall']['longmemeval_accuracy'] >= 0.75 and
-            self.results['overall']['locomo_accuracy'] >= 0.80 and
-            self.results['overall']['convomem_accuracy'] >= 0.75
+            self.results["overall"]["longmemeval_accuracy"] >= 0.75
+            and self.results["overall"]["locomo_accuracy"] >= 0.80
+            and self.results["overall"]["convomem_accuracy"] >= 0.75
         )
-        print(f"\nTarget Achievement: {'✅ ALL TARGETS MET' if target_achieved else '❌ SOME TARGETS NOT MET'}")
+        print(
+            f"\nTarget Achievement: {'✅ ALL TARGETS MET' if target_achieved else '❌ SOME TARGETS NOT MET'}"
+        )
         print(f"{'='*80}\n")
 
     def save_comprehensive_report(self, output_dir: str = "reports"):
@@ -231,17 +234,17 @@ class BenchmarkOrchestrator:
                 "longmemeval_accuracy": 0.75,
                 "locomo_accuracy": 0.80,
                 "convomem_accuracy": 0.75,
-                "overall_score": 0.75
+                "overall_score": 0.75,
             },
             "achievement": {
-                "longmemeval": self.results['overall']['longmemeval_accuracy'] >= 0.75,
-                "locomo": self.results['overall']['locomo_accuracy'] >= 0.80,
-                "convomem": self.results['overall']['convomem_accuracy'] >= 0.75,
-                "overall": self.results['overall']['overall_score'] >= 0.75
-            }
+                "longmemeval": self.results["overall"]["longmemeval_accuracy"] >= 0.75,
+                "locomo": self.results["overall"]["locomo_accuracy"] >= 0.80,
+                "convomem": self.results["overall"]["convomem_accuracy"] >= 0.75,
+                "overall": self.results["overall"]["overall_score"] >= 0.75,
+            },
         }
 
-        with open(report_file, 'w') as f:
+        with open(report_file, "w") as f:
             json.dump(report, f, indent=2, default=str)
 
         print(f"Comprehensive report saved to: {report_file}")
@@ -256,7 +259,9 @@ def main():
     parser = argparse.ArgumentParser(description="Run all claw-mem benchmarks")
     parser.add_argument("--workspace", default="workspace", help="Memory manager workspace")
     parser.add_argument("--output-dir", default="reports", help="Output directory for reports")
-    parser.add_argument("--longmemeval-data", default="data/longmemeval", help="LongMemEval data directory")
+    parser.add_argument(
+        "--longmemeval-data", default="data/longmemeval", help="LongMemEval data directory"
+    )
     parser.add_argument("--locomo-data", default="data/locomo", help="LoCoMo data directory")
     parser.add_argument("--convomem-data", default="data/convomem", help="ConvoMem data directory")
 
@@ -266,7 +271,7 @@ def main():
     data_dirs = {
         "longmemeval": args.longmemeval_data,
         "locomo": args.locomo_data,
-        "convomem": args.convomem_data
+        "convomem": args.convomem_data,
     }
 
     # Create orchestrator

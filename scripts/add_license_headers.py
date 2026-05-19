@@ -28,88 +28,93 @@ LICENSE_HEADER = """# Copyright 2026 Peter Cheng
 
 """
 
+
 def add_header_to_file(filepath: Path) -> bool:
     """
     Add license header to a Python file if not present.
-    
+
     Args:
         filepath: Path to the Python file
-        
+
     Returns:
         True if header was added, False if already present
     """
-    with open(filepath, 'r', encoding='utf-8') as f:
+    with open(filepath, "r", encoding="utf-8") as f:
         content = f.read()
-    
+
     # Skip if already has header
-    if 'Licensed under the Apache License' in content:
+    if "Licensed under the Apache License" in content:
         return False
-    
+
     # Handle shebang lines
-    if content.startswith('#!'):
+    if content.startswith("#!"):
         # Find the end of the shebang line
-        first_newline = content.find('\n')
+        first_newline = content.find("\n")
         if first_newline != -1:
             # Insert header after shebang
-            new_content = content[:first_newline + 1] + LICENSE_HEADER + content[first_newline + 1:]
+            new_content = (
+                content[: first_newline + 1] + LICENSE_HEADER + content[first_newline + 1 :]
+            )
         else:
-            new_content = content + '\n' + LICENSE_HEADER
+            new_content = content + "\n" + LICENSE_HEADER
     else:
         # Add header at the beginning
         new_content = LICENSE_HEADER + content
-    
+
     # Write back
-    with open(filepath, 'w', encoding='utf-8') as f:
+    with open(filepath, "w", encoding="utf-8") as f:
         f.write(new_content)
-    
+
     return True
+
 
 def main():
     """Main entry point."""
     # Get the project root directory
     script_dir = Path(__file__).parent
     project_root = script_dir.parent
-    
+
     # Directories to process
     directories = [
-        project_root / 'src',
-        project_root / 'tests',
-        project_root / 'scripts',
+        project_root / "src",
+        project_root / "tests",
+        project_root / "scripts",
     ]
-    
+
     total_count = 0
     updated_count = 0
     skipped_count = 0
-    
+
     print("Adding Apache 2.0 license headers...\n")
-    
+
     for directory in directories:
         if not directory.exists():
             print(f"Skipping {directory} (does not exist)")
             continue
-        
+
         print(f"Processing {directory}...")
-        
-        for py_file in directory.rglob('*.py'):
+
+        for py_file in directory.rglob("*.py"):
             total_count += 1
-            
+
             if add_header_to_file(py_file):
                 print(f"  ✅ Added: {py_file.relative_to(project_root)}")
                 updated_count += 1
             else:
                 skipped_count += 1
-    
+
     print(f"\n{'='*60}")
     print(f"Summary:")
     print(f"  Total files checked: {total_count}")
     print(f"  Headers added: {updated_count}")
     print(f"  Already had headers: {skipped_count}")
     print(f"{'='*60}")
-    
+
     if updated_count > 0:
         print(f"\n✅ Successfully added {updated_count} license header(s)")
     else:
         print(f"\n✅ All files already have license headers")
 
-if __name__ == '__main__':
+
+if __name__ == "__main__":
     main()

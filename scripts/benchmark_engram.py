@@ -7,7 +7,7 @@ import json
 import time
 import random
 
-sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', 'src'))
+sys.path.insert(0, os.path.join(os.path.dirname(__file__), "..", "src"))
 
 from claw_mem.retrieval.engram import EngramIndex
 
@@ -116,12 +116,12 @@ def main():
         "benchmark": "engram",
         "results": results,
     }
-    out_path = os.path.join(os.path.dirname(__file__), '..', 'reports', 'benchmark_engram.json')
+    out_path = os.path.join(os.path.dirname(__file__), "..", "reports", "benchmark_engram.json")
     os.makedirs(os.path.dirname(out_path), exist_ok=True)
-    with open(out_path, 'w') as f:
+    with open(out_path, "w") as f:
         json.dump(output, f, indent=2)
     print(f"\n  Results saved to: {out_path}")
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()
