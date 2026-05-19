@@ -9,7 +9,6 @@ sys.path.insert(0, str(Path(__file__).parent.parent.parent / "src"))
 
 import pytest
 
-pytestmark = pytest.mark.skip(reason="Multimodal dependency issues — fix in rc.15")
 from datetime import datetime
 
 
