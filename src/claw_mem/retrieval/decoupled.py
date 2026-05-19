@@ -21,6 +21,13 @@ Pipeline: Query → EngramIndex.lookup() → SpreadingActivation.activate()
 Target: search() < 5ms.
 """
 
+import warnings
+warnings.warn(
+    "decoupled is deprecated and will be removed in v4.0. " 
+    "Use SmartRetriever in smart.py instead.",
+    DeprecationWarning,
+    stacklevel=2,
+)
 import time
 from typing import Dict, List, Optional
 
