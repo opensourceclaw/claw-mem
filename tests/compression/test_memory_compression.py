@@ -9,6 +9,14 @@ sys.path.insert(0, str(Path(__file__).parent.parent.parent / "src"))
 
 import pytest
 from datetime import datetime
+from claw_mem.compression.memory_compression_v2 import reset_compressor
+
+
+@pytest.fixture(autouse=True)
+def _reset_compression_singleton():
+    """Reset global compressor singleton to prevent test isolation issues."""
+    yield
+    reset_compressor()
 
 
 class TestCompressionLevel:

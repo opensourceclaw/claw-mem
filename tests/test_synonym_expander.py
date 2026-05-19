@@ -4,11 +4,19 @@
 """Tests for retrieval/synonym_expander.py (v2.9.0)"""
 
 import pytest
+from claw_mem.retrieval import synonym_expander
 from claw_mem.retrieval.synonym_expander import (
     SynonymExpander,
     get_synonym_expander,
     BUILTIN_SYNONYMS,
 )
+
+
+@pytest.fixture(autouse=True)
+def _reset_synonym_singleton():
+    """Reset global synonym_expander singleton to prevent test isolation issues."""
+    yield
+    synonym_expander._synonym_expander = None
 
 
 class TestSynonymExpander:
