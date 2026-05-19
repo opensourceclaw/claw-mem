@@ -5,6 +5,40 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [3.0.0rc14] - 2026-05-19
+
+### Added
+
+- **CMS Phase 3**: State Machine (`cms/state_machine.py`, `cms/context_switcher.py`, `cms/recovery.py`)
+- **MemoryConfig dataclass** for API simplicity — replaces 32-parameter `__init__`
+- 46 CMS tests + 46 values/ tests + 6 adapters/ tests (+98 total)
+
+### Changed
+
+- **Field name standardization**: `content` and `memory_type` as canonical; `text`/`type` deprecated aliases
+- **Retriever consolidation**: Mode mapping (`bm25→keyword`, `entity→semantic`) with deprecation warnings
+- **Workspace-scoped index**: `InMemoryIndex` uses workspace path instead of global `~/.claw-mem/`
+- Version badge: `3.0.0rc4` → `3.0.0rc14`
+
+### Deprecated
+
+- `bm25`, `hybrid`, `entity`, `hybrid_entity` search modes → use `keyword` or `semantic`
+- 6 retriever imports (bm25_retriever, entity_retriever, heuristic_retriever, etc.)
+
+## [3.0.0rc13] - 2026-05-19
+
+### Fixed
+
+- Workspace-scoped index directory for test isolation
+- Singleton cleanup: `get_synonym_expander()` / `get_compressor()` reset after tests
+
+## [3.0.0rc12] - 2026-05-19
+
+### Fixed
+
+- CI failures: import paths, missing watchdog dependency, black formatting
+- English migration P0-P2 complete
+
 ## [2.18.0] - 2026-05-18
 
 ### Added
