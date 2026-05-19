@@ -3,6 +3,7 @@
 
 Formerly three_tier.py. Provides STM/LTM/Archive memory retrieval.
 """
+
 import warnings
 
 from .three_tier import (
@@ -18,7 +19,8 @@ TieredRetriever = ThreeTierRetriever
 
 warnings.warn(
     "three_tier module is deprecated. Import from tiered instead.",
-    DeprecationWarning, stacklevel=2,
+    DeprecationWarning,
+    stacklevel=2,
 )
 
 __all__ = [
