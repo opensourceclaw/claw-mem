@@ -41,7 +41,7 @@ from .retrieval.search_stats import SearchStats, get_search_stats
 from .security.validation import WriteValidator
 from .security.checkpoint import CheckpointManager
 from .security.audit import AuditLogger
-from .config import ConfigDetector
+from .config import ConfigDetector, MemoryConfig
 from .importance import ImportanceScorer
 from .memory_fix_plugin import MemoryFixPlugin
 from .memory_decay import MemoryDecay
@@ -117,6 +117,7 @@ class MemoryManager:
 
     def __init__(
         self,
+        config: "MemoryConfig" = None,
         workspace: Optional[str] = None,
         auto_detect: bool = True,
         enable_gating: bool = False,
@@ -173,6 +174,41 @@ class MemoryManager:
             enable_synonyms: Enable synonym expansion (default: True)
             enable_stats: Enable search statistics tracking (default: True)
         """
+        # v3.0.0: MemoryConfig support
+        if config is not None:
+            workspace = config.workspace or workspace
+            auto_detect = config.auto_detect
+            enable_gating = config.enable_gating
+            gating_threshold = config.gating_threshold
+            enable_graph = config.enable_graph
+            bm25_k1 = config.bm25_k1
+            bm25_b = config.bm25_b
+            bm25_weight = config.bm25_weight
+            keyword_weight = config.keyword_weight
+            recency_boost = config.recency_boost
+            frequency_boost = config.frequency_boost
+            enable_cache = config.enable_cache
+            enable_synonyms = config.enable_synonyms
+            enable_stats = config.enable_stats
+            enable_compression = config.enable_compression
+            enable_decay = config.enable_decay
+            enable_ground_truth = config.enable_ground_truth
+            decay_config = config.decay_config
+            enable_engram = config.enable_engram
+            enable_spreading = config.enable_spreading
+            enable_compression_spectrum = config.enable_compression_spectrum
+            compression_trigger_access = config.compression_trigger_access
+            compression_trigger_apply = config.compression_trigger_apply
+            compression_trigger_verify = config.compression_trigger_verify
+            engram_ngram_size = config.engram_ngram_size
+            spreading_max_depth = config.spreading_max_depth
+            spreading_decay_factor = config.spreading_decay_factor
+            spreading_threshold = config.spreading_threshold
+            enable_cms = config.enable_cms
+            cms_token_threshold = config.cms_token_threshold
+            cms_memory_threshold = config.cms_memory_threshold
+            cms_warning_level = config.cms_warning_level
+
         # Auto-detect workspace if not provided
         if workspace is None and auto_detect:
             workspace = ConfigDetector.detect_workspace()

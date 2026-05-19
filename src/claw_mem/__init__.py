@@ -30,7 +30,7 @@ v0.9.0 Features (2026-03-22):
 - 100% English documentation
 """
 
-__version__ = "3.0.0rc13"
+__version__ = "3.0.0rc14"
 __author__ = "Peter Cheng"
 
 from .memory_manager import MemoryManager
@@ -41,7 +41,7 @@ from .storage.index import InMemoryIndex, WorkingMemoryCache
 from .retrieval.keyword import KeywordRetriever
 from .retrieval.bm25_retriever import BM25Retriever, HybridBM25Retriever
 from .retrieval.entity_retriever import EntityEnhancedRetriever, HybridEntityRetriever
-from .config import ConfigDetector
+from .config import ConfigDetector, MemoryConfig
 from .importance import ImportanceScorer
 from .memory_fix_plugin import MemoryFixPlugin
 from .memory_decay import MemoryDecay
@@ -140,6 +140,7 @@ __all__ = [
     "EntityEnhancedRetriever",
     "HybridEntityRetriever",
     "ConfigDetector",
+    "MemoryConfig",
     "ImportanceScorer",
     "MemoryFixPlugin",
     "MemoryDecay",
