@@ -18,10 +18,9 @@ Episodic Memory Storage
 Stores daily conversation records, format: memory/YYYY-MM-DD.md
 """
 
-import os
 from datetime import datetime, timedelta
-from typing import List, Dict, Optional
 from pathlib import Path
+from typing import Dict, List
 
 
 class EpisodicStorage:

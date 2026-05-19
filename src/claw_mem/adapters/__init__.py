@@ -19,11 +19,11 @@ Strategy-based abstraction layer for OpenClaw version compatibilty.
 Decouples claw-mem core from OpenClaw plugin architecture changes.
 """
 
-from .base import BaseAdapter, AdapterError
-from .v2 import V2Strategy
-from .v1 import V1Strategy
+from .base import AdapterError, BaseAdapter
 from .openclaw_adapter import OpenClawAdapter, SearchCache
 from .registry import AdapterRegistry
+from .v1 import V1Strategy
+from .v2 import V2Strategy
 
 __all__ = [
     "BaseAdapter",

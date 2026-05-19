@@ -4,11 +4,10 @@ Memory Compression Module for claw-mem v2.4.0
 Provides long conversation memory compression with >50% compression ratio while preserving key information.
 """
 
-from typing import List, Dict, Any, Optional, Tuple
-from dataclasses import dataclass, field
-from datetime import datetime
-from enum import Enum
 import re
+from dataclasses import dataclass, field
+from enum import Enum
+from typing import Dict, List, Optional
 
 
 class CompressionLevel(Enum):

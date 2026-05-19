@@ -16,9 +16,9 @@
 Values Module - User values storage
 """
 
+from .feedback_handler import FeedbackHandler, FeedbackStatus, ValueSuggestion
 from .user_value_store import UserValue, UserValueStore
-from .feedback_handler import FeedbackHandler, ValueSuggestion, FeedbackStatus
-from .value_backup import ValueBackup, BackupMetadata
+from .value_backup import BackupMetadata, ValueBackup
 
 __all__ = [
     "UserValue",

@@ -24,11 +24,11 @@ v0.7.0 Features:
 - Incremental updates
 """
 
-import os
-import re
-import pickle
-import hashlib
 import asyncio
+import hashlib
+import os
+import pickle
+import re
 
 
 def _log(message: str):
@@ -38,10 +38,10 @@ def _log(message: str):
 
 
 import gzip
-from typing import Dict, List, Set, Tuple, Optional
 from collections import defaultdict
-from pathlib import Path
 from datetime import datetime
+from pathlib import Path
+from typing import Dict, List, Optional, Set, Tuple
 
 # Optional Jieba import for Chinese tokenization
 try:
@@ -360,7 +360,7 @@ class InMemoryIndex:
             return False
 
         try:
-            import json
+            pass
 
             # Load index data
             with open(self.index_file, "rb") as f:
@@ -804,7 +804,6 @@ class InMemoryIndex:
         Returns:
             Dict: Statistics
         """
-        import os
 
         stats = {
             "memory_count": len(self.memory_ids),
@@ -866,7 +865,7 @@ class InMemoryIndex:
         if save_async and self.enable_persistence:
             # Schedule async save (non-blocking) - with fallback for no event loop
             try:
-                loop = asyncio.get_running_loop()
+                _loop = asyncio.get_running_loop()
                 asyncio.create_task(self._async_save_index())
             except RuntimeError:
                 # No running event loop, skip async save

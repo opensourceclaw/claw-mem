@@ -18,10 +18,9 @@ Procedural Memory Storage
 Stores skill and process memories, format: memory/skills/*.md
 """
 
-import os
 from datetime import datetime
-from typing import List, Dict, Optional
 from pathlib import Path
+from typing import Dict, List
 
 
 class ProceduralStorage:

@@ -9,10 +9,10 @@ warnings.warn(
     stacklevel=2,
 )
 
-import time
 import threading
-from typing import Dict, List, Optional
+import time
 from collections import OrderedDict
+from typing import Dict, List, Optional
 
 
 class QueryCache:

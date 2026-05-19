@@ -26,11 +26,12 @@ warnings.warn(
     DeprecationWarning,
     stacklevel=2,
 )
-from typing import List, Dict, Optional
-from .heuristic_retriever import HeuristicRetriever, HeuristicConfig
-from .time_parser import TimeExpressionParser
-from .preference_detector import PreferenceDetector
+from typing import Dict, List, Optional
+
 from ..importance import ImportanceScorer
+from .heuristic_retriever import HeuristicConfig, HeuristicRetriever
+from .preference_detector import PreferenceDetector
+from .time_parser import TimeExpressionParser
 
 
 class EnhancedSmartRetriever:
@@ -109,7 +110,7 @@ class EnhancedSmartRetriever:
 
                             if start_time <= timestamp <= end_time:
                                 filtered.append(memory)
-                        except:
+                        except Exception:
                             pass
 
                 # If we have filtered results, use them; otherwise keep all

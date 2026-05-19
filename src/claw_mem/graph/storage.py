@@ -20,14 +20,13 @@ Supports:
 - File persistence (FileGraphStorage)
 """
 
-from typing import List, Dict, Optional, Any, Set
-from dataclasses import dataclass, field
 import json
 import os
 from datetime import datetime
+from typing import Any, Dict, List, Optional, Set
 
+from .edges import Edge
 from .nodes import Node, NodeType
-from .edges import Edge, EdgeType
 
 
 class GraphStorage:

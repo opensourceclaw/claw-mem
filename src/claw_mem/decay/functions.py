@@ -20,7 +20,7 @@ Core formula: weight(t) = base * exp(-lambda * days)
 """
 
 import math
-from dataclasses import dataclass, field
+from dataclasses import dataclass
 from typing import Dict
 
 # ── Half-life constants (days) ──────────────────────────────────────

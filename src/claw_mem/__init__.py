@@ -33,26 +33,7 @@ v0.9.0 Features (2026-03-22):
 __version__ = "3.0.0rc14"
 __author__ = "Peter Cheng"
 
-from .memory_manager import MemoryManager
-from .storage.episodic import EpisodicStorage
-from .storage.semantic import SemanticStorage
-from .storage.procedural import ProceduralStorage
-from .storage.index import InMemoryIndex, WorkingMemoryCache
-from .retrieval.keyword import KeywordRetriever
-from .retrieval.bm25_retriever import BM25Retriever, HybridBM25Retriever
-from .retrieval.entity_retriever import EntityEnhancedRetriever, HybridEntityRetriever
 from .config import ConfigDetector, MemoryConfig
-from .importance import ImportanceScorer
-from .memory_fix_plugin import MemoryFixPlugin
-from .memory_decay import MemoryDecay
-from .rule_extractor import RuleExtractor
-from .retrieval.three_tier import (
-    ThreeTierRetriever,
-    MemoryResult,
-    MemoryLayer,
-    search_memory,
-    SessionStartupHook,
-)
 from .context_injection import (
     ContextFormatter,
     ContextInjector,
@@ -60,71 +41,90 @@ from .context_injection import (
     format_memory_context,
     inject_memories_to_prompt,
 )
-from .timeline import (  # noqa: F401
-    Timeline,
-    TimelineEvent,
-    TimelineQuery,
-    EventType,
-    MilestoneDetector,
-    MilestoneType,
-    DecisionTracker,
-    Decision,
-    DecisionType,
-    DecisionStatus,
-    FirstEventsDetector,
-    FirstEvent,
-    FirstEventType,
-    EventImportanceScorer,
-    EventImportanceScore,
-    ImportanceFactor,
-)
-from .knowledge_graph import (  # noqa: F401
-    KnowledgeGraph,
-    Entity,
-    EntityType,
-    Relation,
-    RelationType,
-)
-from .data_portability import (  # noqa: F401
+from .data_portability import (
     DataPortability,
-    ExportOptions,
-    ImportOptions,
+    ExportOptions,  # noqa: F401
     ExportResult,
+    ImportOptions,
     ImportResult,
 )
 from .errors import (
+    ConfigurationError,
+    DependencyError,
     FriendlyError,
     IndexNotFoundError,
-    WorkspaceNotFoundError,
     MemoryCorruptedError,
-    PermissionDeniedError,
-    ConfigurationError,
     MemoryRetrievalError,
-    ValidationError,
     NetworkError,
-    DependencyError,
+    PermissionDeniedError,
+    ValidationError,
+    WorkspaceNotFoundError,
     get_error_documentation,
 )
 from .gating import (
-    WriteTimeGating,
-    SalienceScorer,
+    DiskStorage,
     GatingResult,
     InMemoryStorage,
-    DiskStorage,
+    SalienceScorer,
     VersionChain,
+    WriteTimeGating,
 )
 from .graph import (
     ConceptMediatedGraph,
-    NodeType,
+    ConceptNode,
+    DummyEmbedder,
+    EdgeType,
     EpisodeNode,
     FactNode,
-    ReflectionNode,
-    ConceptNode,
-    EdgeType,
     InMemoryGraphStorage,
-    DummyEmbedder,
-    LLMExtractor,
     KeywordExtractor,
+    LLMExtractor,
+    NodeType,
+    ReflectionNode,
+)
+from .importance import ImportanceScorer
+from .knowledge_graph import (
+    Entity,
+    EntityType,
+    KnowledgeGraph,  # noqa: F401
+    Relation,
+    RelationType,
+)
+from .memory_decay import MemoryDecay
+from .memory_fix_plugin import MemoryFixPlugin
+from .memory_manager import MemoryManager
+from .retrieval.bm25_retriever import BM25Retriever, HybridBM25Retriever
+from .retrieval.entity_retriever import EntityEnhancedRetriever, HybridEntityRetriever
+from .retrieval.keyword import KeywordRetriever
+from .retrieval.three_tier import (
+    MemoryLayer,
+    MemoryResult,
+    SessionStartupHook,
+    ThreeTierRetriever,
+    search_memory,
+)
+from .rule_extractor import RuleExtractor
+from .storage.episodic import EpisodicStorage
+from .storage.index import InMemoryIndex, WorkingMemoryCache
+from .storage.procedural import ProceduralStorage
+from .storage.semantic import SemanticStorage
+from .timeline import (
+    Decision,
+    DecisionStatus,
+    DecisionTracker,  # noqa: F401
+    DecisionType,
+    EventImportanceScore,
+    EventImportanceScorer,
+    EventType,
+    FirstEvent,
+    FirstEventsDetector,
+    FirstEventType,
+    ImportanceFactor,
+    MilestoneDetector,
+    MilestoneType,
+    Timeline,
+    TimelineEvent,
+    TimelineQuery,
 )
 
 __all__ = [

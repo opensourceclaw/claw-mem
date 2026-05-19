@@ -22,8 +22,8 @@ Provides one-click backup and restore functionality for memory data.
 import json
 from datetime import datetime
 from pathlib import Path
-from typing import Optional, Dict, Any
-from zipfile import ZipFile, ZIP_DEFLATED
+from typing import Any, Dict, Optional
+from zipfile import ZIP_DEFLATED, ZipFile
 
 
 class BackupManager:

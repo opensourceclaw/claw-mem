@@ -23,10 +23,10 @@ Based on GAAMA paper's five edge types:
 - HAS_CONCEPT: Concept association (Any node → Concept)
 """
 
-from enum import Enum
 from dataclasses import dataclass, field
-from typing import Optional, Dict, Any, List
 from datetime import datetime
+from enum import Enum
+from typing import Any, Dict, List
 
 
 class EdgeType(Enum):

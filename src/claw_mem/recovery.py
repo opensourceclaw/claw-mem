@@ -30,17 +30,15 @@ Performance Targets:
 - Success rate: >95%
 """
 
-import os
 import json
-import time
 import shutil
+import time
 import traceback
-from pathlib import Path
-from typing import Dict, List, Any, Optional, Callable
-from dataclasses import dataclass, asdict
+from dataclasses import asdict, dataclass
 from datetime import datetime
 from enum import Enum
-import threading
+from pathlib import Path
+from typing import Any, Callable, Dict, List, Optional
 
 
 class RecoveryStrategy(Enum):
@@ -247,8 +245,7 @@ class RecoveryManager:
             diagnosis = self.diagnose(error)
 
             # Step 2: Select recovery strategy
-            strategy = self._select_strategy(diagnosis)
-
+            _strategy = self._select_strategy(diagnosis)
             # Step 3: Execute recovery
             if diagnosis.problem_type in self.recovery_handlers:
                 handler = self.recovery_handlers[diagnosis.problem_type]

@@ -24,10 +24,10 @@ Syntax:
 
 from .memory_links import (
     MemoryLink,
-    MemoryTags,
+    MemoryLinkManager,
     MemoryLinkParser,
     MemoryTagParser,
-    MemoryLinkManager,
+    MemoryTags,
 )
 
 __all__ = ["MemoryLink", "MemoryTags", "MemoryLinkParser", "MemoryTagParser", "MemoryLinkManager"]

@@ -15,14 +15,14 @@ Phase 4-5 pending (requires LLM):
 - Phase 5: Self-verification
 """
 
-from typing import List, Dict, Any, Optional, Callable, Set
+import hashlib
+import json
+import os
+import re
 from dataclasses import dataclass, field
 from datetime import datetime
 from enum import Enum
-import re
-import json
-import hashlib
-import os
+from typing import Any, Callable, Dict, List, Optional, Set
 
 
 class CompressionLevel(Enum):
@@ -259,8 +259,7 @@ class SemanticDeduplicator:
         sorted_memories = sorted(memories, key=lambda m: m.get("importance", 0.5), reverse=True)
 
         unique = []
-        seen_content: Set[str] = set()
-
+        _seen_content: Set[str] = set()
         for mem in sorted_memories:
             content = mem.get("content", "")
             if not content:

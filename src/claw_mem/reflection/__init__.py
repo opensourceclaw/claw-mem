@@ -4,9 +4,9 @@
 # tracks belief changes over time, and coordinates the
 # Observation → Belief → Learning pipeline.
 
+from .belief_tracker import BeliefHistory, BeliefTracker, BeliefVersion
 from .orchestrator import ReflectionOrchestrator, ReflectionResult
-from .synthesizer import BeliefSynthesizer, Belief, Observation, SynthesizerConfig
-from .belief_tracker import BeliefTracker, BeliefVersion, BeliefHistory
+from .synthesizer import Belief, BeliefSynthesizer, Observation, SynthesizerConfig
 
 __all__ = [
     "ReflectionOrchestrator",

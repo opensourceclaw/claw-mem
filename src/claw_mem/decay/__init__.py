@@ -24,15 +24,15 @@ Core components:
   - DecayScheduler: Periodic + event-driven decay triggering.
 """
 
+from .controller import DecayController
 from .functions import (
-    exponential_decay,
-    calculate_weight,
-    half_life_to_days,
-    DecayConfig,
     HALF_LIFE,
     LAMBDA,
+    DecayConfig,
+    calculate_weight,
+    exponential_decay,
+    half_life_to_days,
 )
-from .controller import DecayController
 from .scheduler import DecayScheduler
 
 __all__ = [

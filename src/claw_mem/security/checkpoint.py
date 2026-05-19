@@ -20,8 +20,8 @@ Creates regular memory snapshots with rollback support.
 
 import json
 from datetime import datetime
-from typing import Dict, Optional
 from pathlib import Path
+from typing import Optional
 
 
 class CheckpointManager:

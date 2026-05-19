@@ -20,8 +20,8 @@ Records all memory operations for auditing and debugging.
 
 import json
 from datetime import datetime
-from typing import Dict, Optional
 from pathlib import Path
+from typing import Dict, Optional
 
 
 class AuditLogger:

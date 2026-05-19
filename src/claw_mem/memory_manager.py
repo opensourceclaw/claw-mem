@@ -18,84 +18,76 @@ claw-mem Core Memory Manager
 Coordinates three-layer memory architecture (Working/Short-term/Long-term) and three memory types (Episodic/Semantic/Procedural).
 """
 
-import os
 import json
+import os
+import time
 import uuid
 from datetime import datetime
-from typing import List, Dict, Optional
 from pathlib import Path
-
-from .storage.episodic import EpisodicStorage
-from .storage.semantic import SemanticStorage
-from .storage.procedural import ProceduralStorage
-from .storage.index import InMemoryIndex, WorkingMemoryCache
-from .retrieval.keyword import KeywordRetriever
-from .retrieval.bm25_retriever import BM25Retriever, HybridBM25Retriever
-from .retrieval.entity_retriever import EntityEnhancedRetriever, HybridEntityRetriever
-from .retrieval.heuristic_retriever import HeuristicRetriever, SmartRetriever, HeuristicConfig
-from .retrieval.enhanced_smart_retriever import EnhancedSmartRetriever
-from .retrieval.three_tier import ThreeTierRetriever, SessionStartupHook
-from .retrieval.query_cache import QueryCache, get_query_cache
-from .retrieval.synonym_expander import SynonymExpander, get_synonym_expander
-from .retrieval.search_stats import SearchStats, get_search_stats
-from .security.validation import WriteValidator
-from .security.checkpoint import CheckpointManager
-from .security.audit import AuditLogger
-from .config import ConfigDetector, MemoryConfig
-from .importance import ImportanceScorer
-from .memory_fix_plugin import MemoryFixPlugin
-from .memory_decay import MemoryDecay
-from .rule_extractor import RuleExtractor
-from .gating import WriteTimeGating
-from .reflection import ReflectionOrchestrator, ReflectionResult
-from .temporal import TimeWeightCalculator, TimeWeightConfig
-from .compression.memory_compression_v2 import (
-    MemoryCompressorV2,
-    CompressionConfig,
-    CompressionResult,
-)
-
-# v2.14.0: Graph + Decay + GroundTruth
-from .graph.multi_graph import MultiGraphMemory
-from .graph.dual_layer import DualLayerMemory
-from .decay import DecayController, DecayScheduler, DecayConfig
-from .storage.ground_truth import GroundTruthStore
-
-# v2.15.0: Engram + Spreading + Compression
-from .retrieval.engram import EngramIndex
-from .retrieval.spreading import SpreadingActivation
-from .retrieval.decoupled import DecoupledRetriever
-from .compression.spectrum import CompressionSpectrum
+from typing import Dict, List, Optional
 
 # v2.19.0: Cache + Monitor
 from .cache.query_cache import QueryCache
-from .monitor.performance import PerformanceMonitor
-
-# v2.20.0: Error types
-from .errors import (
-    ClawMemError,
-    StorageError,
-    RetrievalError,
-    MemoryNotFoundError,
-    IndexNotReadyError,
-    QueryTooLongError,
-)
 
 # v3.0.0-rc.1: CMS Perception Layer
 from .cms import (
     CapacityMonitor,
+    CompressionStrategySelector,
+    ContextSwitcher,
     ContextWarningHook,
     ImportanceEvaluator,
-    SessionSummaryGenerator,
     MemoryDeduplicator,
-    CompressionStrategySelector,
-    SessionStateMachine,
-    ContextSwitcher,
     RecoveryMechanism,
+    SessionStateMachine,
+    SessionSummaryGenerator,
     SnapshotStorage,
 )
 from .cms.compression_result import CompressionResult
-import time
+from .compression.memory_compression_v2 import (
+    CompressionConfig,
+    CompressionResult,
+    MemoryCompressorV2,
+)
+from .compression.spectrum import CompressionSpectrum
+from .config import ConfigDetector, MemoryConfig
+from .decay import DecayConfig, DecayController, DecayScheduler
+
+# v2.20.0: Error types
+from .errors import IndexNotReadyError, QueryTooLongError, StorageError
+from .gating import WriteTimeGating
+from .graph.dual_layer import DualLayerMemory
+
+# v2.14.0: Graph + Decay + GroundTruth
+from .graph.multi_graph import MultiGraphMemory
+from .importance import ImportanceScorer
+from .memory_decay import MemoryDecay
+from .memory_fix_plugin import MemoryFixPlugin
+from .monitor.performance import PerformanceMonitor
+from .reflection import ReflectionOrchestrator, ReflectionResult
+from .retrieval.bm25_retriever import BM25Retriever, HybridBM25Retriever
+from .retrieval.decoupled import DecoupledRetriever
+
+# v2.15.0: Engram + Spreading + Compression
+from .retrieval.engram import EngramIndex
+from .retrieval.enhanced_smart_retriever import EnhancedSmartRetriever
+from .retrieval.entity_retriever import EntityEnhancedRetriever, HybridEntityRetriever
+from .retrieval.heuristic_retriever import HeuristicRetriever, SmartRetriever
+from .retrieval.keyword import KeywordRetriever
+from .retrieval.query_cache import QueryCache, get_query_cache
+from .retrieval.search_stats import SearchStats, get_search_stats
+from .retrieval.spreading import SpreadingActivation
+from .retrieval.synonym_expander import SynonymExpander
+from .retrieval.three_tier import SessionStartupHook, ThreeTierRetriever
+from .rule_extractor import RuleExtractor
+from .security.audit import AuditLogger
+from .security.checkpoint import CheckpointManager
+from .security.validation import WriteValidator
+from .storage.episodic import EpisodicStorage
+from .storage.ground_truth import GroundTruthStore
+from .storage.index import InMemoryIndex, WorkingMemoryCache
+from .storage.procedural import ProceduralStorage
+from .storage.semantic import SemanticStorage
+from .temporal import TimeWeightCalculator
 
 
 def _log(message: str):
@@ -1144,7 +1136,7 @@ class MemoryManager:
         if self.query_cache and metadata is None and memory_type is None:
             cached = self.query_cache.get(query, limit)
             if cached is not None:
-                cache_hit = True
+                _cache_hit = True
                 if self.search_stats:
                     latency = (time.time() - t0) * 1000
                     self.search_stats.record_search(latency, cache_hit=True)

@@ -1,11 +1,11 @@
 # Copyright 2026 Peter Cheng
 """Structured JSON logging configuration (v2.20.0)."""
 
-import logging
 import json
+import logging
 import sys
-from datetime import datetime, timezone
 from dataclasses import dataclass
+from datetime import datetime, timezone
 from typing import Optional
 
 

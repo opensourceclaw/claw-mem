@@ -6,13 +6,11 @@ This module provides a clean API for Friday (neoclaw) to interact with
 the Attention OS, handling initialization, updates, and context assembly.
 """
 
-import os
-from pathlib import Path
+import logging
 from typing import List, Optional
+
 from .attention_index import AttentionIndex
 from .context_assembler import ContextAssembler
-from .atomic_writer import AtomicWriter
-import logging
 
 logger = logging.getLogger(__name__)
 

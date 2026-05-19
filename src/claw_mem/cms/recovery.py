@@ -4,7 +4,7 @@
 from dataclasses import dataclass, field
 from typing import List, Optional
 
-from .snapshot import SnapshotStorage, SessionSnapshot, SnapshotInfo
+from .snapshot import SessionSnapshot, SnapshotInfo, SnapshotStorage
 
 
 @dataclass

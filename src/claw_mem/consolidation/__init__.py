@@ -6,11 +6,11 @@
 # Architecture:
 #   C-Engineering (Retrieval)  +  θ-Engineering (Weight) = True Memory
 
-from .experience_classifier import ExperienceClassifier, ExperienceScore, ClassificationResult
-from .weight_consolidator import WeightConsolidator, ConsolidationConfig
-from .experience_queue import ExperienceQueue, QueueItem
 from .daemon import ConsolidationDaemon, DaemonConfig
+from .experience_classifier import ClassificationResult, ExperienceClassifier, ExperienceScore
+from .experience_queue import ExperienceQueue, QueueItem
 from .injection_detector import InjectionDetector, InjectionResult
+from .weight_consolidator import ConsolidationConfig, WeightConsolidator
 
 __all__ = [
     "ExperienceClassifier",

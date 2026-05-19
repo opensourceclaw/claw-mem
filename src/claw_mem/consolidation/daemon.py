@@ -4,11 +4,11 @@ claw-mem v2.10.0 - Consolidation Daemon
 Periodic background process for weight consolidation.
 """
 
-import time
 import threading
+import time
 from dataclasses import dataclass
-from typing import Any, Callable, Dict, List, Optional
-from datetime import datetime, timedelta
+from datetime import datetime
+from typing import Any, Callable, Dict, Optional
 
 
 @dataclass
@@ -78,7 +78,7 @@ class ConsolidationDaemon:
         if self.detector:
             safe_batch = [e for e in batch if self.detector.is_safe(e.get("content", ""))]
             if len(safe_batch) < len(batch):
-                from datetime import datetime as dt
+                pass
         else:
             safe_batch = batch
 

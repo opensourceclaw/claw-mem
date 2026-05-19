@@ -21,8 +21,8 @@ Strategies:
   - Manual: schedule_now() for on-demand triggering.
 """
 
-import threading
 import logging
+import threading
 from typing import Callable, List, Optional, Tuple
 
 from claw_mem.decay.controller import DecayController

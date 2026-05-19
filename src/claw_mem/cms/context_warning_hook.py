@@ -8,7 +8,7 @@ with cooldown to prevent warning spam.
 import time
 from dataclasses import dataclass, field
 from datetime import datetime
-from typing import Optional, List
+from typing import Optional
 
 
 @dataclass

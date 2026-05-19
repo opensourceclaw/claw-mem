@@ -8,11 +8,10 @@ References:
     - Selective Memory: Learning what to remember
 """
 
-from typing import Dict, Any, Optional, List, Callable
+import time
 from dataclasses import dataclass, field
 from datetime import datetime
-import time
-import math
+from typing import Any, Callable, Dict, List, Optional
 
 
 @dataclass
@@ -343,7 +342,6 @@ class DiskStorage:
     def archive(self, item: Dict[str, Any]) -> Dict[str, Any]:
         """Archive to cold storage"""
         import json
-        import os
 
         stored_item = {**item, "_stored_at": datetime.now().isoformat(), "_tier": "cold"}
 
@@ -472,8 +470,7 @@ class WriteTimeGating:
         # 3. Update version chain
         self.version_chain.append(stored_item)
 
-        elapsed_ms = (time.time() - start_time) * 1000
-
+        _elapsed_ms = (time.time() - start_time) * 1000
         return GatingResult(stored=stored, tier=tier, salience_score=salience, reason=reason)
 
     def should_store(self, item: Dict[str, Any]) -> bool:

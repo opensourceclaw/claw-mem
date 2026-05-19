@@ -66,15 +66,15 @@ Version:
 """
 
 from .write_time_gating import (
-    WriteTimeGating,
-    SalienceScorer,
-    GatingResult,
-    InMemoryStorage,
+    AdaptiveThreshold,
     DiskStorage,
-    VersionChain,
     GatingFilter,
     GatingFilterResult,
-    AdaptiveThreshold,
+    GatingResult,
+    InMemoryStorage,
+    SalienceScorer,
+    VersionChain,
+    WriteTimeGating,
 )
 
 __all__ = [

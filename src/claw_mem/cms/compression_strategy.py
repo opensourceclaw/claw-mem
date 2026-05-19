@@ -5,7 +5,6 @@ Selects optimal compression strategy based on capacity utilization
 and recommends specific compression actions.
 """
 
-from typing import Dict, Optional
 from .compression_result import CompressionPlan
 
 

@@ -5,7 +5,6 @@ Tracks memory and token capacity in real-time, providing utilization
 statistics and growth trends for context warning decisions.
 """
 
-import time
 from dataclasses import dataclass, field
 from datetime import datetime
 from typing import Dict, List, Optional

@@ -10,10 +10,10 @@ Observation → Belief pipeline:
   3. Synthesize into beliefs with confidence scores
 """
 
+import re
 from dataclasses import dataclass, field
 from datetime import datetime
 from typing import Any, Dict, List, Optional
-import re
 
 
 @dataclass

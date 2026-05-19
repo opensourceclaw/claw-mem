@@ -7,9 +7,9 @@ Runs all benchmarks and generates structured reports.
 from dataclasses import dataclass, field
 from typing import Any, Dict
 
-from .membench import MemBench
-from .memory_arena import MemoryArena, ArenaTask, ArenaTaskType
 from .evo_memory import EvoMemory, StreamTask
+from .membench import MemBench
+from .memory_arena import ArenaTask, ArenaTaskType, MemoryArena
 
 
 @dataclass

@@ -4,9 +4,9 @@ claw-mem v2.10.0 - Experience Queue
 Priority queue for experiences awaiting weight consolidation.
 """
 
-from dataclasses import dataclass, field
-from typing import Any, Dict, List, Optional
 import heapq
+from dataclasses import dataclass, field
+from typing import Any, Dict, List
 
 
 @dataclass(order=True)

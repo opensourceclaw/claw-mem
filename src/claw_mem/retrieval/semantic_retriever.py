@@ -17,10 +17,11 @@ Semantic Retriever for claw-mem v2.5.0
 Embedding-based semantic search over memory
 """
 
-from typing import List, Optional, Dict, Any, Tuple
+from typing import Any, Dict, List, Optional, Tuple
+
 import numpy as np
 
-from .embedding_service import get_embedding_service, EmbeddingService
+from .embedding_service import get_embedding_service
 
 
 class SemanticRetriever:

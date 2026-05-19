@@ -24,15 +24,16 @@ Core features:
 4. Hybrid retrieval
 """
 
-from typing import List, Dict, Any, Optional, Callable, Set
-from dataclasses import dataclass, field
 import uuid
+from dataclasses import dataclass
+from typing import Any, Callable, Dict, List, Optional
+
 import numpy as np
 
-from .nodes import Node, NodeType, EpisodeNode, FactNode, ReflectionNode, ConceptNode
-from .edges import Edge, EdgeType, create_edge
-from .storage import GraphStorage, InMemoryGraphStorage
+from .edges import EdgeType, create_edge
 from .extractors import BaseExtractor, DummyExtractor
+from .nodes import ConceptNode, EpisodeNode, FactNode, Node, NodeType, ReflectionNode
+from .storage import GraphStorage, InMemoryGraphStorage
 
 
 @dataclass

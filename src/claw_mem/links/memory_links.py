@@ -24,9 +24,9 @@ Syntax:
 """
 
 import re
-from typing import Dict, List, Optional, Set, Tuple
 from dataclasses import dataclass, field
 from datetime import datetime
+from typing import Dict, List, Set, Tuple
 
 
 @dataclass

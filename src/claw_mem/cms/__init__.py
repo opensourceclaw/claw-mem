@@ -2,25 +2,21 @@
 """CMS (Context Management System) — v3.0.0-rc.1~rc.3."""
 
 from .capacity_monitor import CapacityMonitor, CapacityStats, CapacityTrend
-from .context_warning_hook import ContextWarningHook, WarningEvent
-from .importance_evaluator import (
-    ImportanceEvaluator,
-    ImportanceScore,
-    TYPE_IMPORTANCE,
-)
 from .compression_result import (
-    SessionSummary,
-    DeduplicationResult,
     CompressionPlan,
     CompressionResult,
+    DeduplicationResult,
+    SessionSummary,
 )
-from .session_summary import SessionSummaryGenerator
-from .memory_deduplicator import MemoryDeduplicator
 from .compression_strategy import CompressionStrategySelector
-from .state_machine import SessionStateMachine, SessionState, StateEvent, StateTransition
-from .context_switcher import ContextSwitcher, SwitchResult, MergeResult
+from .context_switcher import ContextSwitcher, MergeResult, SwitchResult
+from .context_warning_hook import ContextWarningHook, WarningEvent
+from .importance_evaluator import TYPE_IMPORTANCE, ImportanceEvaluator, ImportanceScore
+from .memory_deduplicator import MemoryDeduplicator
 from .recovery import RecoveryMechanism, RecoveryResult, ValidationResult
-from .snapshot import SnapshotStorage, SessionSnapshot, SnapshotInfo
+from .session_summary import SessionSummaryGenerator
+from .snapshot import SessionSnapshot, SnapshotInfo, SnapshotStorage
+from .state_machine import SessionState, SessionStateMachine, StateEvent, StateTransition
 
 __all__ = [
     # Phase 1

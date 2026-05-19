@@ -25,12 +25,11 @@ warnings.warn(
     DeprecationWarning,
     stacklevel=2,
 )
-from typing import List, Optional, Dict, Any, Tuple
-import math
+from typing import Any, Dict, List, Optional
 
 from .bm25_retriever import BM25Retriever
-from .semantic_retriever import SemanticRetriever
 from .query_cache import get_query_cache
+from .semantic_retriever import SemanticRetriever
 
 
 class HybridSearcher:

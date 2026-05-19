@@ -5,7 +5,7 @@ Abstract weight consolidation interface with LoRA and EWC strategy support.
 Bridges from episodic experience to weight-level learning.
 """
 
-from dataclasses import dataclass, field
+from dataclasses import dataclass
 from typing import Any, Dict, List, Optional
 
 

@@ -24,10 +24,10 @@ Simplified behaviors:
 from datetime import datetime as dt
 from typing import Any, Dict
 
-from .base import BaseAdapter
-
 # Dynamically import version number to avoid hardcoding
 from claw_mem import __version__ as CLAW_MEM_VERSION
+
+from .base import BaseAdapter
 
 
 class V1Strategy(BaseAdapter):

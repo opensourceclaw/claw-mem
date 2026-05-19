@@ -17,13 +17,12 @@ Value Backup - Values local storage
 """
 
 import json
-import shutil
-from dataclasses import dataclass, field
+from dataclasses import dataclass
 from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any, Dict, List, Optional
 
-from claw_mem.values import UserValueStore, UserValue
+from claw_mem.values import UserValueStore
 
 
 @dataclass

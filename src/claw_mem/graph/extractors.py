@@ -21,9 +21,9 @@ Supports:
 - Dummy extractor (for testing)
 """
 
-from typing import List, Dict, Any, Optional
-from abc import ABC, abstractmethod
 import re
+from abc import ABC, abstractmethod
+from typing import Any, List
 
 
 class BaseExtractor(ABC):
@@ -32,12 +32,10 @@ class BaseExtractor(ABC):
     @abstractmethod
     def extract_facts(self, text: str) -> List[str]:
         """Extract facts"""
-        pass
 
     @abstractmethod
     def extract_concepts(self, text: str) -> List[str]:
         """Extract concepts"""
-        pass
 
 
 class LLMExtractor(BaseExtractor):

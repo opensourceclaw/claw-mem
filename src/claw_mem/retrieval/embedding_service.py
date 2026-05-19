@@ -17,11 +17,10 @@ Embedding Service for claw-mem v2.5.0
 Supports OpenAI and local embedding models
 """
 
+import hashlib
 import os
 import time
-from typing import List, Optional, Dict, Any
-from functools import lru_cache
-import hashlib
+from typing import Dict, List, Optional
 
 
 class EmbeddingService:
@@ -125,7 +124,7 @@ class EmbeddingService:
                     data = json.load(f)
                     self._cache[key] = data["embedding"]
                     return data["embedding"]
-            except:
+            except Exception:
                 pass
 
         return None
@@ -142,7 +141,7 @@ class EmbeddingService:
             cache_file = os.path.join(self.cache_dir, f"{key}.json")
             with open(cache_file, "w") as f:
                 json.dump({"text": text, "embedding": embedding}, f)
-        except:
+        except Exception:
             pass
 
     def encode(self, texts: List[str], batch_size: int = 32) -> List[List[float]]:

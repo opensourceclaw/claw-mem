@@ -6,12 +6,12 @@ This module dynamically assembles the context for the LLM processor
 by combining static Core Blocks with high-attention dynamic nodes.
 """
 
+import logging
 import os
 from pathlib import Path
 from typing import List, Optional
+
 from .attention_index import AttentionIndex
-from .attention_node import AttentionNode
-import logging
 
 logger = logging.getLogger(__name__)
 

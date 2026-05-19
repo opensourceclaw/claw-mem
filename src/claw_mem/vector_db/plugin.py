@@ -6,9 +6,9 @@ allowing easy switching between different backends (ChromaDB, Qdrant, Pinecone, 
 """
 
 from abc import ABC, abstractmethod
-from typing import List, Dict, Optional, Any
 from dataclasses import dataclass
 from enum import Enum
+from typing import Any, Dict, List, Optional
 
 
 class VectorDBType(Enum):
@@ -56,12 +56,10 @@ class VectorDBPlugin(ABC):
         Returns:
             True if successful, False otherwise
         """
-        pass
 
     @abstractmethod
     def disconnect(self) -> None:
         """Close connection to the vector database"""
-        pass
 
     @abstractmethod
     def add(
@@ -78,7 +76,6 @@ class VectorDBPlugin(ABC):
         Returns:
             True if successful
         """
-        pass
 
     @abstractmethod
     def search(
@@ -95,7 +92,6 @@ class VectorDBPlugin(ABC):
         Returns:
             List of search results, sorted by relevance
         """
-        pass
 
     @abstractmethod
     def delete(self, ids: List[str]) -> bool:
@@ -108,7 +104,6 @@ class VectorDBPlugin(ABC):
         Returns:
             True if successful
         """
-        pass
 
     @abstractmethod
     def get(self, id: str) -> Optional[SearchResult]:
@@ -121,7 +116,6 @@ class VectorDBPlugin(ABC):
         Returns:
             SearchResult if found, None otherwise
         """
-        pass
 
     @abstractmethod
     def count(self) -> int:
@@ -131,7 +125,6 @@ class VectorDBPlugin(ABC):
         Returns:
             Document count
         """
-        pass
 
     @abstractmethod
     def exists(self) -> bool:
@@ -141,7 +134,6 @@ class VectorDBPlugin(ABC):
         Returns:
             True if database exists
         """
-        pass
 
 
 class VectorDBFactory:

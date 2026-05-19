@@ -5,7 +5,8 @@ Extracts structured summaries from session memories using
 keyword-based detection (decisions, preferences, actions).
 """
 
-from typing import Dict, List, Optional
+from typing import Dict, List
+
 from .compression_result import SessionSummary
 
 

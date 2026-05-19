@@ -20,17 +20,14 @@ Protocol: JSON-RPC 2.0, one JSON object per line on stdout.
 All diagnostic output goes to stderr.
 """
 
-import sys
 import json
 import os
+import sys
 from typing import Any, Dict, Optional
 
 from claw_mem.adapters import AdapterRegistry
-from claw_mem.classifier import (  # noqa
-    extract_important_content,
-    generate_session_summary,
-    detect_content_type as _detect_content_type_fn,
-)
+from claw_mem.classifier import detect_content_type as _detect_content_type_fn  # noqa
+from claw_mem.classifier import extract_important_content, generate_session_summary
 
 
 class ClawMemBridge:

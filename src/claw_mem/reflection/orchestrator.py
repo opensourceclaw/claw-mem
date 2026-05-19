@@ -16,8 +16,8 @@ from dataclasses import dataclass, field
 from datetime import datetime
 from typing import Any, Dict, List, Optional
 
-from .synthesizer import BeliefSynthesizer, Belief, Observation, SynthesizerConfig
-from .belief_tracker import BeliefTracker, BeliefVersion
+from .belief_tracker import BeliefTracker
+from .synthesizer import Belief, BeliefSynthesizer, Observation, SynthesizerConfig
 
 
 @dataclass

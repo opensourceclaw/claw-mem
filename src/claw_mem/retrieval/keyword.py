@@ -18,7 +18,8 @@ Keyword Retriever (MVP Version)
 Provides basic keyword search functionality with importance ranking.
 """
 
-from typing import List, Dict, Optional
+from typing import Dict, List, Optional
+
 from ..importance import ImportanceScorer
 
 
