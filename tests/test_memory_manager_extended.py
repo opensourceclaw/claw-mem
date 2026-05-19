@@ -227,15 +227,15 @@ class TestMemoryManagerExtended:
         assert len(results) > 0
 
     def test_search_empty_query(self, temp_workspace):
-        """Test search with empty query"""
+        """Empty query raises ValueError (v2.20.0 parameter validation)."""
         memory = MemoryManager(str(temp_workspace))
         memory.start_session("test_session")
 
         memory.store("Test memory", memory_type="episodic")
 
-        # Search with empty query
-        results = memory.search("", mode="keyword")
-        assert isinstance(results, list)
+        # Empty query should raise ValueError
+        with pytest.raises(ValueError, match="Query cannot be empty"):
+            memory.search("", mode="keyword")
 
     def test_get_stats_after_operations(self, temp_workspace):
         """Test get_stats after various operations"""

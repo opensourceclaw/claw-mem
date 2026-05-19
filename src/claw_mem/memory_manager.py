@@ -503,7 +503,7 @@ class MemoryManager:
     def synonym_expander(self) -> Optional[SynonymExpander]:
         """v2.9.0: Synonym expander for improved recall."""
         if self._synonym_expander is None and self.enable_synonyms:
-            self._synonym_expander = get_synonym_expander()
+            self._synonym_expander = SynonymExpander()
         return self._synonym_expander
 
     @property
