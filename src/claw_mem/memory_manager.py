@@ -722,9 +722,11 @@ class MemoryManager:
         rule_id = str(uuid.uuid4())[:8]
         self._critical_rules[rule_id] = {
             "id": rule_id,
-            "text": text,
+            "content": text,
+            "text": text,  # deprecated alias
             "metadata": metadata or {},
             "created_at": datetime.now().isoformat(),
+            "memory_type": "critical",
         }
         self._save_critical_rules()
         return rule_id
