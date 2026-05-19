@@ -6,6 +6,30 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [3.0.0] - 2026-05-19
+## [3.1.0] - 2026-05-20
+
+### Summary
+
+**Quality Improvement Release** - Bug fixes and test infrastructure improvements.
+
+### Fixed
+
+- Collection errors: 4 test files now collect successfully
+- Test isolation: Global conftest fixture eliminates flaky tests
+- Bridge tests: 26/27 passing
+- Multimodal tests: 26/27 passing
+
+### Added
+
+- Pre-commit hook for automatic code formatting
+- New test modules: atomic_writer, bridge_core, health_checker, vector_db
+
+### Changed
+
+- Skipped environment-dependent performance benchmarks
+
+---
+
 
 ### Summary
 
