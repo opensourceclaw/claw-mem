@@ -173,7 +173,7 @@ class MultimodalMemoryStore:
         }
 
     def _generate_id(self, content: str) -> str:
-        """生成唯一 ID"""
+        """Generate unique ID"""
         return hashlib.sha256(content.encode()).hexdigest()[:16]
 
 
@@ -182,7 +182,7 @@ _multimodal_store: Optional[MultimodalMemoryStore] = None
 
 
 def get_multimodal_store(base_path: str = "./workspace/multimodal") -> MultimodalMemoryStore:
-    """获取多模态存储实例"""
+    """Get multimodal storage instance"""
     global _multimodal_store
     if _multimodal_store is None:
         _multimodal_store = MultimodalMemoryStore(base_path)

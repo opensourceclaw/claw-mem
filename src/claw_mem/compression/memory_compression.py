@@ -1,7 +1,7 @@
 """
 Memory Compression Module for claw-mem v2.4.0
 
-提供长对话记忆压缩功能,压缩率 > 50%,保持关键信息.
+Provides long conversation memory compression with >50% compression ratio while preserving key information.
 """
 
 from typing import List, Dict, Any, Optional, Tuple
@@ -12,20 +12,20 @@ import re
 
 
 class CompressionLevel(Enum):
-    """压缩级别"""
+    """Compression level"""
 
-    LIGHT = "light"  # 轻度压缩 (30%)
-    MEDIUM = "medium"  # 中度压缩 (50%)
-    AGGRESSIVE = "aggressive"  # 激进压缩 (70%)
+    LIGHT = "light"  # Light compression (30%)
+    MEDIUM = "medium"  # Medium compression (50%)
+    AGGRESSIVE = "aggressive"  # Aggressive compression (70%)
 
 
 @dataclass
 class CompressionResult:
-    """压缩结果"""
+    """Compression result"""
 
     original_length: int
     compressed_length: int
-    compression_ratio: float  # 压缩率
+    compression_ratio: float  # Compression ratio
     preserved_content: str
     extracted_keys: List[str] = field(default_factory=list)
     summary: str = ""
@@ -33,13 +33,13 @@ class CompressionResult:
 
 class KeyInformationExtractor:
     """
-    关键信息提取器
+    Key information extractor
 
-    从文本中提取关键信息:
-    - 决策
-    - 承诺
-    - 重要事实
-    - 任务/目标
+    Extract key information from text:
+    - Decisions
+    - Commitments
+    - Important facts
+    - Tasks/goals
     """
 
     # Key patterns for extraction
@@ -64,7 +64,7 @@ class KeyInformationExtractor:
         self._task_re = [re.compile(p, re.IGNORECASE) for p in self.TASK_PATTERNS]
 
     def extract(self, text: str) -> Dict[str, List[str]]:
-        """提取关键信息"""
+        """Extract key information"""
         return {
             "decisions": self._extract_matches(text, self._decision_re),
             "facts": self._extract_matches(text, self._fact_re),
@@ -72,7 +72,7 @@ class KeyInformationExtractor:
         }
 
     def _extract_matches(self, text: str, patterns: List[re.Pattern]) -> List[str]:
-        """提取匹配的内容"""
+        """Extract matched content"""
         matches = []
         for pattern in patterns:
             found = pattern.findall(text)
@@ -82,9 +82,9 @@ class KeyInformationExtractor:
 
 class MemoryCompressor:
     """
-    记忆压缩器
+    Memory compressor
 
-    支持多种压缩级别,保留关键信息.
+    Supports multiple compression levels while preserving key information.
     """
 
     def __init__(
@@ -103,13 +103,13 @@ class MemoryCompressor:
 
     def compress(self, content: str) -> CompressionResult:
         """
-        压缩记忆内容
+        Compress memory content
 
         Args:
-            content: 原始内容
+            content: Original content
 
         Returns:
-            压缩结果
+            Compression result
         """
         original_length = len(content)
 
@@ -143,7 +143,7 @@ class MemoryCompressor:
         )
 
     def _compress_light(self, content: str) -> str:
-        """轻度压缩:移除多余空白和短词"""
+        """Light compression: remove extra whitespace and short words"""
         # Remove extra whitespace
         lines = content.split("\n")
         cleaned = [line.strip() for line in lines if line.strip()]
@@ -153,7 +153,7 @@ class MemoryCompressor:
         return "\n".join(result)
 
     def _compress_medium(self, content: str) -> str:
-        """中度压缩:移除重复和低信息量内容"""
+        """Medium compression: remove duplicates and low-information content"""
         lines = content.split("\n")
         cleaned = [line.strip() for line in lines if line.strip()]
 
@@ -171,7 +171,7 @@ class MemoryCompressor:
         return "\n".join(result)
 
     def _compress_aggressive(self, content: str) -> str:
-        """激进压缩:只保留关键信息"""
+        """Aggressive compression: only preserve key information"""
         # First extract key information
         key_info = self._extractor.extract(content)
 
@@ -252,25 +252,25 @@ class MemoryCompressor:
         return ". ".join(key_sentences) + "."
 
     def _build_summary(self, key_info: Dict[str, List[str]]) -> str:
-        """从关键信息构建摘要"""
+        """Build summary from key information"""
         parts = []
 
         if key_info.get("decisions"):
             decisions = key_info["decisions"][:3]  # Limit to 3
-            parts.append(f"决策: {', '.join(decisions)}")
+            parts.append(f"Decisions: {', '.join(decisions)}")
 
         if key_info.get("tasks"):
             tasks = key_info["tasks"][:3]
-            parts.append(f"任务: {', '.join(tasks)}")
+            parts.append(f"Tasks: {', '.join(tasks)}")
 
         if key_info.get("facts"):
             facts = key_info["facts"][:3]
-            parts.append(f"事实: {', '.join(facts)}")
+            parts.append(f"Facts: {', '.join(facts)}")
 
         return " | ".join(parts) if parts else ""
 
     def _flatten_keys(self, key_info: Dict[str, List[str]]) -> List[str]:
-        """扁平化关键信息"""
+        """Flatten key information"""
         keys = []
         keys.extend(key_info.get("decisions", []))
         keys.extend(key_info.get("facts", []))
@@ -283,7 +283,7 @@ _compressor: Optional[MemoryCompressor] = None
 
 
 def get_compressor(level: CompressionLevel = CompressionLevel.MEDIUM) -> MemoryCompressor:
-    """获取压缩器实例"""
+    """Get compressor instance"""
     global _compressor
     if _compressor is None:
         _compressor = MemoryCompressor(level)
@@ -293,6 +293,6 @@ def get_compressor(level: CompressionLevel = CompressionLevel.MEDIUM) -> MemoryC
 def compress_memory(
     content: str, level: CompressionLevel = CompressionLevel.MEDIUM
 ) -> CompressionResult:
-    """快速压缩函数"""
+    """Quick compression function"""
     compressor = MemoryCompressor(level)
     return compressor.compress(content)
