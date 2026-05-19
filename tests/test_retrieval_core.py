@@ -8,6 +8,7 @@ class TestKeywordRetriever:
     @pytest.fixture
     def retriever(self):
         from claw_mem.retrieval.keyword import KeywordRetriever
+
         return KeywordRetriever()
 
     def test_init(self, retriever):
@@ -16,6 +17,7 @@ class TestKeywordRetriever:
 
     def test_empty_query(self, retriever):
         from unittest.mock import MagicMock
+
         ep = MagicMock()
         ep.get_recent.return_value = []
         sem = MagicMock()
@@ -27,6 +29,7 @@ class TestKeywordRetriever:
 
     def test_keyword_match(self, retriever):
         from unittest.mock import MagicMock
+
         ep = MagicMock()
         ep.get_recent.return_value = [{"content": "Python is great", "id": "1"}]
         sem = MagicMock()
@@ -39,6 +42,7 @@ class TestKeywordRetriever:
 
     def test_returns_normalized_fields(self, retriever):
         from unittest.mock import MagicMock
+
         ep = MagicMock()
         ep.get_recent.return_value = [{"content": "test", "id": "abc"}]
         sem = MagicMock()
@@ -53,6 +57,7 @@ class TestKeywordRetriever:
 
     def test_limit_respected(self, retriever):
         from unittest.mock import MagicMock
+
         mems = [{"content": f"test{i}", "id": str(i)} for i in range(20)]
         ep = MagicMock()
         ep.get_recent.return_value = mems
@@ -67,10 +72,12 @@ class TestKeywordRetriever:
 class TestTieredRetriever:
     def test_import(self):
         from claw_mem.retrieval.tiered import TieredRetriever
+
         assert TieredRetriever is not None
 
     def test_import_aliased(self):
         from claw_mem.retrieval.tiered import MemoryLayer, MemoryResult
+
         assert MemoryLayer is not None
         assert MemoryResult is not None
 
@@ -78,32 +85,37 @@ class TestTieredRetriever:
 class TestSmartRetriever:
     def test_imports(self):
         from claw_mem.retrieval.smart import (
-            SmartRetriever, HeuristicRetriever,
-            EnhancedSmartRetriever, DecoupledRetriever
+            SmartRetriever,
+            HeuristicRetriever,
+            EnhancedSmartRetriever,
+            DecoupledRetriever,
         )
+
         assert SmartRetriever is not None
 
     def test_heuristic_import(self):
         from claw_mem.retrieval.smart import HeuristicConfig
+
         assert HeuristicConfig is not None
 
 
 class TestRetrievalInit:
     def test_consolidated_exports(self):
-        from claw_mem.retrieval import (
-            KeywordRetriever, SmartRetriever, TieredRetriever
-        )
+        from claw_mem.retrieval import KeywordRetriever, SmartRetriever, TieredRetriever
+
         assert KeywordRetriever is not None
         assert SmartRetriever is not None
         assert TieredRetriever is not None
 
     def test_legacy_exports(self):
         from claw_mem.retrieval import BM25Retriever, HybridSearcher
+
         assert BM25Retriever is not None
         assert HybridSearcher is not None
 
     def test_infrastructure_exports(self):
         from claw_mem.retrieval import QueryCache, SynonymExpander, SearchStats
+
         assert QueryCache is not None
         assert SynonymExpander is not None
         assert SearchStats is not None
