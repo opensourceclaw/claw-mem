@@ -13,9 +13,9 @@
 # limitations under the License.
 
 """
-claw-mem graph module - 概念介导知识图谱
+claw-mem graph module - Concept-Mediated Knowledge Graph
 
-基于 GAAMA 论文的四节点五边图谱结构.
+Four-node, five-edge graph structure based on the GAAMA paper.
 """
 
 from .nodes import (

@@ -1,7 +1,7 @@
 """
 Multimodal Memory Module for claw-mem v2.4.0
 
-支持图像,文件等多模态记忆存储.
+Supports multimodal memory storage for images, files, etc.
 """
 
 from typing import Optional, Dict, Any, List
@@ -14,7 +14,7 @@ import json
 
 
 class MemoryType(Enum):
-    """记忆类型"""
+    """Memory type"""
 
     TEXT = "text"
     IMAGE = "image"
@@ -25,7 +25,7 @@ class MemoryType(Enum):
 
 @dataclass
 class ImageMemory:
-    """图像记忆"""
+    """Image memory"""
 
     image_id: str
     description: str
@@ -37,7 +37,7 @@ class ImageMemory:
 
 @dataclass
 class FileMemory:
-    """文件记忆"""
+    """File memory"""
 
     file_id: str
     filename: str
@@ -50,9 +50,9 @@ class FileMemory:
 
 class MultimodalMemoryStore:
     """
-    多模态记忆存储
+    Multimodal memory storage
 
-    支持图像,文件等非文本内容的记忆存储.
+    Supports memory storage for non-text content such as images and files.
     """
 
     def __init__(self, base_path: str = "./workspace/multimodal"):
@@ -67,15 +67,15 @@ class MultimodalMemoryStore:
         self, image_path: str, description: str, metadata: Optional[Dict[str, Any]] = None
     ) -> str:
         """
-        存储图像记忆
+        Store image memory
 
         Args:
-            image_path: 图像文件路径
-            description: 图像描述
-            metadata: 额外元数据
+            image_path: Image file path
+            description: Image description
+            metadata: Additional metadata
 
         Returns:
-            图像记忆 ID
+            Image memory ID
         """
         # Generate ID from content hash
         image_id = self._generate_id(image_path)
@@ -104,15 +104,15 @@ class MultimodalMemoryStore:
         metadata: Optional[Dict[str, Any]] = None,
     ) -> str:
         """
-        存储文件记忆
+        Store file memory
 
         Args:
-            file_path: 文件路径
-            file_type: 文件类型
-            metadata: 额外元数据
+            file_path: File path
+            file_type: File type
+            metadata: Additional metadata
 
         Returns:
-            文件记忆 ID
+            File memory ID
         """
         file_path_obj = Path(file_path)
         file_id = self._generate_id(file_path)
@@ -143,15 +143,15 @@ class MultimodalMemoryStore:
         return file_id
 
     def get_image(self, image_id: str) -> Optional[ImageMemory]:
-        """获取图像记忆"""
+        """Get image memory"""
         return self._image_memories.get(image_id)
 
     def get_file(self, file_id: str) -> Optional[FileMemory]:
-        """获取文件记忆"""
+        """Get file memory"""
         return self._file_memories.get(file_id)
 
     def search_by_description(self, query: str, limit: int = 10) -> List[ImageMemory]:
-        """通过描述搜索图像"""
+        """Search images by description"""
         query_lower = query.lower()
         results = []
 
@@ -162,7 +162,7 @@ class MultimodalMemoryStore:
         return results[:limit]
 
     def get_stats(self) -> Dict[str, Any]:
-        """获取统计信息"""
+        """Get statistics"""
         total_size = sum(f.size_bytes for f in self._file_memories.values())
 
         return {

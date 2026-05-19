@@ -1,20 +1,20 @@
 """
-Write-Time Gating Module - 写时门控模块
+Write-Time Gating Module
 
-基于 Selective Memory 论文实现的智能记忆storage系统.
+Intelligent memory storage system based on Selective Memory paper.
 
-核心思想:
-    只storage显著信息,avoid记忆冗余.
-    通过多维度显著性评分,决定记忆的storage层级.
+Core idea:
+    Only store salient information, avoid memory redundancy.
+    Use multi-dimensional salience scoring to determine storage tier.
 
-架构:
+Architecture:
     ┌─────────────────────────────────────┐
     │         WriteTimeGating             │
     │  ┌─────────────────────────────┐   │
     │  │     SalienceScorer          │   │
-    │  │  - 来源声誉 (40%)           │   │
-    │  │  - 新颖性 (30%)             │   │
-    │  │  - 可靠性 (30%)             │   │
+    │  │  - Source reputation (40%)  │   │
+    │  │  - Novelty (30%)             │   │
+    │  │  - Reliability (30%)         │   │
     │  └─────────────────────────────┘   │
     │              ↓                      │
     │  ┌──────────┐    ┌──────────┐      │
@@ -23,45 +23,45 @@ Write-Time Gating Module - 写时门控模块
     │  └──────────┘    └──────────┘      │
     └─────────────────────────────────────┘
 
-主要类:
-    WriteTimeGating: 写时门控主控制器
-    SalienceScorer: 显著性评分器
-    InMemoryStorage: 活跃记忆storage
-    DiskStorage: 冷storage
-    VersionChain: 版本链管理
-    GatingResult: 门控结果
+Main classes:
+    WriteTimeGating: Write-time gating controller
+    SalienceScorer: Salience scorer
+    InMemoryStorage: Active memory storage
+    DiskStorage: Cold storage
+    VersionChain: Version chain management
+    GatingResult: Gating result
 
-使用示例:
+Usage:
     >>> from claw_mem.gating import WriteTimeGating
     >>>
-    >>> # 创建门控器
+    >>> # Create gating controller
     >>> gating = WriteTimeGating(threshold=0.6)
     >>>
-    >>> # 写入高显著性信息
+    >>> # Write high-salience information
     >>> result = gating.write({
-    ...     'content': '重要决策...',
+    ...     'content': 'important decision...',
     ...     'source': 'user',
-    ...     'context': {'topic': '技术选型'},
+    ...     'context': {'topic': 'tech stack selection'},
     ...     'verified': True
     ... })
     >>>
-    >>> print(f"storage层级: {result.tier}")  # 'active'
-    >>> print(f"显著性: {result.salience_score:.2f}")  # 0.85
+    >>> print(f"Storage tier: {result.tier}")  # 'active'
+    >>> print(f"Salience: {result.salience_score:.2f}")  # 0.85
     >>>
-    >>> # 查看统计
+    >>> # View statistics
     >>> stats = gating.get_stats()
-    >>> print(f"活跃记忆: {stats['active_count']}")
-    >>> print(f"冷storage: {stats['cold_count']}")
+    >>> print(f"Active memories: {stats['active_count']}")
+    >>> print(f"Cold storage: {stats['cold_count']}")
 
-性能指标:
-    - 写入延迟: < 10ms (实测 ~0.5ms)
-    - 评分延迟: < 5ms (实测 ~0.02ms)
-    - 内存占用: < 10MB (实测 < 5MB)
+Performance:
+    - Write latency: < 10ms (measured ~0.5ms)
+    - Scoring latency: < 5ms (measured ~0.02ms)
+    - Memory usage: < 10MB (measured < 5MB)
 
-参考文献:
+References:
     Selective Memory: Learning what to remember
 
-版本:
+Version:
     Since: claw-mem v2.1.0
 """
 

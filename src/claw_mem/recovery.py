@@ -464,7 +464,7 @@ class RecoveryManager:
                 success=True,
                 strategy_used=RecoveryStrategy.DEGRADE,
                 time_taken_ms=0,
-                description="已创建新的记忆文件",
+                description="Created new memory file",
                 data_recovered=False,
                 user_action_needed=False,
             )
@@ -474,7 +474,7 @@ class RecoveryManager:
                 success=False,
                 strategy_used=RecoveryStrategy.MANUAL,
                 time_taken_ms=0,
-                description=f"记忆restore失败:{str(e)}",
+                description=f"Memory restore failed: {str(e)}",
                 user_action_needed=True,
                 error_details=str(e),
             )
@@ -504,7 +504,7 @@ class RecoveryManager:
                 success=False,
                 strategy_used=RecoveryStrategy.MANUAL,
                 time_taken_ms=0,
-                description=f"通用restore失败:{str(e)}",
+                description=f"Generic restore failed: {str(e)}",
                 user_action_needed=True,
                 error_details=str(e),
             )
