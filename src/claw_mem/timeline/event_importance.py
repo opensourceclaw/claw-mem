@@ -19,11 +19,10 @@ Automatically scores the importance of life events for timeline navigation.
 This is a key differentiator from short-term context management systems.
 """
 
-from dataclasses import dataclass, field
-from datetime import datetime
-from typing import List, Dict, Optional, Any
-from enum import Enum
 import re
+from dataclasses import dataclass, field
+from enum import Enum
+from typing import Any, Dict, List, Optional
 
 
 class ImportanceFactor(Enum):

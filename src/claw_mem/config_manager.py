@@ -30,16 +30,16 @@ Performance Targets:
 - Validation: automatic
 """
 
-import os
 import json
-import yaml
-import time
-from pathlib import Path
-from typing import Dict, Any, Optional, List
-from dataclasses import dataclass, field, asdict
-from watchdog.observers import Observer
-from watchdog.events import FileSystemEventHandler
 import threading
+import time
+from dataclasses import asdict, dataclass, field
+from pathlib import Path
+from typing import Any, Dict, List, Optional
+
+import yaml
+from watchdog.events import FileSystemEventHandler
+from watchdog.observers import Observer
 
 
 @dataclass

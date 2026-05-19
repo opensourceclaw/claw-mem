@@ -18,10 +18,9 @@ Search Statistics Tracker for claw-mem v2.9.0
 Real-time monitoring of search accuracy, latency, and throughput.
 """
 
-import time
 import threading
-from typing import Any, Dict, List, Optional
 from collections import deque
+from typing import Any, Dict, Optional
 
 
 class SearchStats:

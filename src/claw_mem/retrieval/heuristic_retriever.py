@@ -27,12 +27,9 @@ warnings.warn(
     DeprecationWarning,
     stacklevel=2,
 )
-import re
-from datetime import datetime, timedelta
-from typing import List, Dict, Optional, Tuple
 from dataclasses import dataclass
-from .time_parser import TimeExpressionParser
-from .preference_detector import PreferenceDetector
+from datetime import datetime
+from typing import Dict, List, Optional
 
 
 @dataclass
@@ -425,8 +422,6 @@ class SmartRetriever:
         Args:
             config: Heuristic configuration
         """
-        from .bm25_retriever import HybridBM25Retriever
-        from .entity_retriever import HybridEntityRetriever
         from ..importance import ImportanceScorer
 
         self.config = config or HeuristicConfig()

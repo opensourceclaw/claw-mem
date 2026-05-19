@@ -25,8 +25,8 @@ Features:
 """
 
 import re
-from typing import Dict, List, Optional, Any
 from dataclasses import dataclass
+from typing import Dict, List, Optional
 
 
 @dataclass
@@ -178,8 +178,7 @@ class ContextFormatter:
                 content = memory.content
             else:
                 layer = memory.get("layer") or "unknown"
-                content = memory.get("content", "")
-
+                _content = memory.get("content", "")
             if layer not in by_layer:
                 by_layer[layer] = []
             by_layer[layer].append(memory)
@@ -253,7 +252,7 @@ class ContextFormatter:
             content = memory.get("content", "")
             layer = memory.get("layer") or "unknown"
             memory_id = memory.get("memory_id", "")
-            source = memory.get("source", "")
+            _source = memory.get("source", "")
             score = memory.get("score")
             tags = memory.get("tags", [])
             timestamp = memory.get("timestamp")

@@ -1,10 +1,8 @@
 # Copyright 2026 Peter Cheng
 """Performance monitor with latency histogram and hit-rate tracking (v2.19.0)."""
 
-import time
 import threading
-import os
-from collections import defaultdict
+import time
 from typing import Dict, List
 
 

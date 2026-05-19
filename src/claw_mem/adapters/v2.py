@@ -24,10 +24,10 @@ Encapsulates version-specific behavior for the current (v2.x) OpenClaw:
 from datetime import datetime as dt
 from typing import Any, Dict
 
-from .base import BaseAdapter
-
 # Dynamically import version number to avoid hardcoding
 from claw_mem import __version__ as CLAW_MEM_VERSION
+
+from .base import BaseAdapter
 
 
 class V2Strategy(BaseAdapter):
@@ -78,10 +78,7 @@ class V2Strategy(BaseAdapter):
             top_k = params.get("topK", 10)
             query = params.get("query", "")
 
-            from claw_mem.context_injection import (
-                format_memory_context,
-                LayeredContextFormatter,
-            )
+            from claw_mem.context_injection import LayeredContextFormatter, format_memory_context
 
             layered = LayeredContextFormatter()
             token_info = layered.token_report(query)

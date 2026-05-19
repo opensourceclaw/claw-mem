@@ -6,13 +6,15 @@ Uses the "Write-to-Temp + os.replace()" pattern to guarantee that
 Markdown files are never left in a corrupted state, even during crashes.
 """
 
+import logging
 import os
 import tempfile
-import yaml
 from pathlib import Path
-from typing import Dict, Any
+from typing import Any, Dict
+
+import yaml
+
 from .attention_node import AttentionNode
-import logging
 
 logger = logging.getLogger(__name__)
 

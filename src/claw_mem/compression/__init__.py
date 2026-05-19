@@ -11,31 +11,24 @@ Phase 1-3 implementation (kept lightweight):
 - Phase 3: Semantic deduplication (BM25 similarity)
 """
 
-from .memory_compression_v2 import (
-    # Config
+# Retain V1 compatibility
+from .memory_compression import CompressionLevel as CompressionLevelV1
+from .memory_compression import CompressionResult as CompressionResultV1
+from .memory_compression import KeyInformationExtractor as KeyInformationExtractorV1
+from .memory_compression import MemoryCompressor as MemoryCompressorV1
+from .memory_compression import compress_memory
+from .memory_compression_v2 import (  # Config; Results; Components; Main class
     CompressionConfig,
-    CompressionTrigger,
     CompressionLevel,
-    # Results
     CompressionResult,
-    KnowledgeEntry,
-    # Components
+    CompressionTrigger,
     KeyInformationExtractor,
-    SemanticDeduplicator,
     KnowledgeBlock,
-    # Main class
+    KnowledgeEntry,
     MemoryCompressorV2,
+    SemanticDeduplicator,
     get_compressor,
     reset_compressor,
-)
-
-# Retain V1 compatibility
-from .memory_compression import (
-    CompressionLevel as CompressionLevelV1,
-    CompressionResult as CompressionResultV1,
-    KeyInformationExtractor as KeyInformationExtractorV1,
-    MemoryCompressor as MemoryCompressorV1,
-    compress_memory,
 )
 
 # V1 compatibility alias
@@ -46,9 +39,9 @@ from .f5_v2 import (
     CompressionResultV2,
     F5CompressorV2,
     UltraCompressor,
+    compress_v2,
     get_f5_compressor,
     get_ultra_compressor,
-    compress_v2,
 )
 
 __all__ = [

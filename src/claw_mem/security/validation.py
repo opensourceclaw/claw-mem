@@ -19,7 +19,6 @@ Validates memory write requests, rejects unsafe content.
 """
 
 import re
-from typing import List
 
 
 class WriteValidator:

@@ -22,11 +22,11 @@ Based on GAAMA paper's four node types:
 - Concept: abstract concepts, themes
 """
 
-from enum import Enum
-from dataclasses import dataclass, field
-from typing import Optional, Dict, Any, List
-from datetime import datetime
 import time
+from dataclasses import dataclass, field
+from datetime import datetime
+from enum import Enum
+from typing import Any, Dict, List, Optional
 
 
 class NodeType(Enum):

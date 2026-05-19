@@ -23,8 +23,6 @@ from typing import Any, Dict
 class AdapterError(Exception):
     """Adapter-level error for version detection or strategy failures."""
 
-    pass
-
 
 class BaseAdapter(ABC):
     """

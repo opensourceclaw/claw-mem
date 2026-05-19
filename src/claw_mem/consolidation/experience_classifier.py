@@ -9,10 +9,9 @@ Four dimensions:
   - Durability: cross-session persistence value
 """
 
-from dataclasses import dataclass, field
-from typing import Any, Dict, List, Optional
 import re
-import math
+from dataclasses import dataclass
+from typing import Any, Dict
 
 
 @dataclass
@@ -121,8 +120,7 @@ class ExperienceClassifier:
         """
         exp_id = experience.get("id", "unknown")
         content = experience.get("content", "")
-        metadata = experience.get("metadata", {})
-
+        _metadata = experience.get("metadata", {})
         if not content:
             return ClassificationResult(
                 experience_id=exp_id,

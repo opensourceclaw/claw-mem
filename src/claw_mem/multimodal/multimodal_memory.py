@@ -4,13 +4,12 @@ Multimodal Memory Module for claw-mem v2.4.0
 Supports multimodal memory storage for images, files, etc.
 """
 
-from typing import Optional, Dict, Any, List
+import hashlib
 from dataclasses import dataclass, field
 from datetime import datetime
 from enum import Enum
 from pathlib import Path
-import hashlib
-import json
+from typing import Any, Dict, List, Optional
 
 
 class MemoryType(Enum):

@@ -33,8 +33,10 @@ warnings.warn(
 import re
 import time as _time
 from datetime import datetime
-from typing import List, Dict, Optional, Tuple
+from typing import Dict, List, Optional, Tuple
+
 from rank_bm25 import BM25Okapi
+
 from ..importance import ImportanceScorer
 
 

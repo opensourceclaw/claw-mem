@@ -19,12 +19,12 @@ Query Cache for claw-mem v2.5.0
 LRU cache with TTL for search results
 """
 
-import time
 import hashlib
-from typing import Any, Dict, List, Optional, Tuple
+import threading
+import time
 from collections import OrderedDict
 from dataclasses import dataclass
-import threading
+from typing import Any, Dict, List, Optional
 
 
 @dataclass

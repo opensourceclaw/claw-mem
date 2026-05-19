@@ -19,15 +19,12 @@ Manages the lifelong weight calculation, edge classification, and
 cleanup of expired edges in the MultiGraphMemory.
 """
 
-import time
 import threading
+import time
 from typing import Dict, List, Tuple
 
+from claw_mem.decay.functions import DecayConfig, calculate_weight
 from claw_mem.graph.multi_graph import MultiGraphMemory, SubGraphType
-from claw_mem.decay.functions import (
-    calculate_weight,
-    DecayConfig,
-)
 
 
 class DecayController:

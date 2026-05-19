@@ -21,7 +21,7 @@ Part of the temporal reasoning enhancement for claw-mem.
 
 import re
 from datetime import datetime, timedelta
-from typing import Optional, Tuple, List, Dict
+from typing import Dict, List, Optional, Tuple
 
 
 class TimeExpressionParser:

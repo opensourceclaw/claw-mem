@@ -28,8 +28,8 @@ warnings.warn(
     stacklevel=2,
 )
 import re
-from typing import List, Dict, Optional, Set, Tuple
 from dataclasses import dataclass
+from typing import Dict, List, Set
 
 
 @dataclass

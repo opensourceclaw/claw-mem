@@ -7,12 +7,14 @@ parsing Frontmatter, and building a high-performance in-memory index
 for the Attention Engine.
 """
 
-import yaml
+import logging
 from pathlib import Path
 from typing import Dict, List, Optional
-from .attention_node import AttentionNode
+
+import yaml
+
 from .atomic_writer import AtomicWriter
-import logging
+from .attention_node import AttentionNode
 
 logger = logging.getLogger(__name__)
 

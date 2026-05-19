@@ -4,11 +4,10 @@ ChromaDB Plugin for claw-mem vector database
 Local-first, embedded vector database implementation
 """
 
-from typing import List, Dict, Optional, Any
 import os
-from pathlib import Path
+from typing import Any, Dict, List, Optional
 
-from .plugin import VectorDBPlugin, SearchResult, VectorDBType
+from .plugin import SearchResult, VectorDBPlugin, VectorDBType
 
 
 class ChromaDBPlugin(VectorDBPlugin):

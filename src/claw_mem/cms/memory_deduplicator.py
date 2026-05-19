@@ -5,7 +5,8 @@ Uses EngramIndex for fast similarity lookup, then clusters and
 merges duplicate/similar memories.
 """
 
-from typing import Dict, List, Optional, Set, Tuple
+from typing import Dict, List, Tuple
+
 from .compression_result import DeduplicationResult
 
 

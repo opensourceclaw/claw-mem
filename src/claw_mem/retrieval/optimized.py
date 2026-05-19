@@ -20,8 +20,9 @@ Provides high-performance keyword search with multi-level caching.
 
 import hashlib
 import time
-from typing import List, Dict, Optional, Tuple
 from collections import OrderedDict
+from typing import Dict, List, Optional
+
 from ..importance import ImportanceScorer
 
 

@@ -1,7 +1,6 @@
 # Copyright 2026 Peter Cheng
 """Factory classes for dependency injection (v3.0.0-rc.5)."""
 
-from typing import Optional
 from .retrieval.base import BaseRetriever
 from .storage.base import BaseStorage
 

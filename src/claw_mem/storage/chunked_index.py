@@ -30,17 +30,13 @@ Performance Targets:
 - Support search during rebuild
 """
 
-import os
+import gzip
 import json
 import pickle
-import gzip
-import hashlib
 import time
-from typing import Dict, List, Set, Optional, Any
 from collections import defaultdict
 from pathlib import Path
-from concurrent.futures import ThreadPoolExecutor
-import asyncio
+from typing import Dict, List, Optional
 
 # Optional imports
 try:
@@ -52,7 +48,7 @@ except ImportError:
     JIEBA_AVAILABLE = False
 
 try:
-    from rank_bm25 import BM25Okapi
+    pass
 
     BM25_AVAILABLE = True
 except ImportError:

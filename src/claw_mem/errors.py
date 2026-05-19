@@ -288,8 +288,6 @@ def get_error_documentation(error_code: str) -> str:
 class ClawMemError(Exception):
     """Base class for all claw-mem exceptions (v2.20.0)."""
 
-    pass
-
 
 # ── Storage errors ──────────────────────────────────────────────
 
@@ -297,25 +295,17 @@ class ClawMemError(Exception):
 class StorageError(ClawMemError):
     """Base class for storage-related errors."""
 
-    pass
-
 
 class MemoryNotFoundError(StorageError):
     """Memory ID not found in storage."""
-
-    pass
 
 
 class StorageFullError(StorageError):
     """Storage capacity exceeded."""
 
-    pass
-
 
 class StorageCorruptedError(StorageError):
     """Storage data integrity error."""
-
-    pass
 
 
 # ── Retrieval errors ─────────────────────────────────────────────
@@ -324,19 +314,13 @@ class StorageCorruptedError(StorageError):
 class RetrievalError(ClawMemError):
     """Base class for retrieval-related errors."""
 
-    pass
-
 
 class IndexNotReadyError(RetrievalError):
     """Search index not yet built or unavailable."""
 
-    pass
-
 
 class QueryTooLongError(RetrievalError):
     """Query exceeds maximum length."""
-
-    pass
 
 
 # ── Compression errors ───────────────────────────────────────────
@@ -345,13 +329,9 @@ class QueryTooLongError(RetrievalError):
 class CompressionError(ClawMemError):
     """Base class for compression-related errors."""
 
-    pass
-
 
 class CompressionDisabledError(CompressionError):
     """Compression feature is not enabled."""
-
-    pass
 
 
 # ── Configuration errors ─────────────────────────────────────────
@@ -359,8 +339,6 @@ class CompressionDisabledError(CompressionError):
 
 class InvalidThresholdError(ClawMemError):
     """Invalid configuration threshold value."""
-
-    pass
 
 
 if __name__ == "__main__":

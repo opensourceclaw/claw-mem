@@ -26,11 +26,11 @@ Key Features:
 - Event importance scoring
 """
 
-from .timeline import Timeline, TimelineEvent, TimelineQuery, EventType
+from .decision import Decision, DecisionStatus, DecisionTracker, DecisionType
+from .event_importance import EventImportanceScore, EventImportanceScorer, ImportanceFactor
+from .firsts import FirstEvent, FirstEventsDetector, FirstEventType
 from .milestone import MilestoneDetector, MilestoneType
-from .decision import DecisionTracker, Decision, DecisionType, DecisionStatus
-from .firsts import FirstEventsDetector, FirstEvent, FirstEventType
-from .event_importance import EventImportanceScorer, EventImportanceScore, ImportanceFactor
+from .timeline import EventType, Timeline, TimelineEvent, TimelineQuery
 
 __all__ = [
     # Timeline

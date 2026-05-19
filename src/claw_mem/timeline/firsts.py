@@ -20,11 +20,11 @@ Detect and track "first time" experiences in life.
 These are memorable first experiences that shape who we are.
 """
 
+import re
 from dataclasses import dataclass, field
 from datetime import datetime
-from typing import List, Dict, Optional, Tuple
 from enum import Enum
-import re
+from typing import Dict, List, Optional, Tuple
 
 
 class FirstEventType(Enum):

@@ -21,12 +21,12 @@ This module enables users to navigate their digital life through time,
 making claw-mem different from short-term context management systems.
 """
 
+import json
 from dataclasses import dataclass, field
-from datetime import datetime, date
-from typing import List, Dict, Optional, Any
+from datetime import date, datetime
 from enum import Enum
 from pathlib import Path
-import json
+from typing import Any, Dict, List, Optional
 
 
 class EventType(Enum):

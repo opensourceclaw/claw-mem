@@ -20,8 +20,7 @@ Supports built-in bilingual (Chinese/English) synonym dictionary and
 custom user-defined synonym mappings.
 """
 
-from typing import Dict, List, Set, Optional
-import re
+from typing import Dict, List, Optional, Set
 
 # ── Built-in Synonym Dictionary ───────────────────────────────────────────────
 

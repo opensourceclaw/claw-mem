@@ -18,11 +18,9 @@ Semantic Memory Storage
 Stores core factual memories, format: MEMORY.md
 """
 
-import os
-import re
 from datetime import datetime
-from typing import List, Dict, Optional
 from pathlib import Path
+from typing import Dict, List
 
 
 class SemanticStorage:

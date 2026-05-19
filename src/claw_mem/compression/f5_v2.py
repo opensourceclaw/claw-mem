@@ -17,11 +17,10 @@ F5 Compression V2 for claw-mem v2.5.0
 Improved memory compression with better quality-to-size ratio
 """
 
-from typing import List, Dict, Any, Optional, Tuple
+import re
 from dataclasses import dataclass, field
 from enum import Enum
-import re
-import hashlib
+from typing import List, Optional
 
 
 class CompressionLevelV2(Enum):
@@ -247,8 +246,7 @@ class F5CompressorV2:
 
     def _get_target_sentence_count(self, total: int) -> int:
         """Get target number of sentences based on compression level"""
-        target_ratio = 1 - self.level.value
-
+        _target_ratio = 1 - self.level.value
         if self.level == CompressionLevelV2.LIGHT:
             return max(int(total * 0.8), 1)
         elif self.level == CompressionLevelV2.MEDIUM:

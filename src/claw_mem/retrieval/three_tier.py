@@ -26,14 +26,13 @@ Performance targets:
 - Cold start: < 2 seconds
 """
 
-import os
 import re
 import time
-from datetime import datetime, timedelta
-from pathlib import Path
-from typing import Dict, List, Optional, Tuple, Any
 from dataclasses import dataclass, field
+from datetime import datetime, timedelta
 from enum import Enum
+from pathlib import Path
+from typing import Any, Dict, List, Optional, Tuple
 
 # Optional Jieba import for Chinese tokenization
 try:
@@ -615,8 +614,7 @@ class ThreeTierRetriever:
         self._total_latency_ms += latency_ms
         self._last_search_time = datetime.now()
 
-        avg_latency = self._total_latency_ms / self._search_count
-
+        _avg_latency = self._total_latency_ms / self._search_count
         # Log slow searches
         if latency_ms > 500:
             print(f"Warning: Slow search detected: {latency_ms:.2f}ms for query: {query[:50]}")

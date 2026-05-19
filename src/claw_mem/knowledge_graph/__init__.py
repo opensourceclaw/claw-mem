@@ -22,13 +22,13 @@ it builds a network of connected entities (people, places, things, concepts)
 that mirrors how human memory actually works.
 """
 
-from dataclasses import dataclass, field
-from datetime import datetime
-from typing import List, Dict, Optional, Set, Any
-from enum import Enum
-from pathlib import Path
 import json
 import uuid
+from dataclasses import dataclass, field
+from datetime import datetime
+from enum import Enum
+from pathlib import Path
+from typing import Any, Dict, List, Optional
 
 
 class EntityType(Enum):

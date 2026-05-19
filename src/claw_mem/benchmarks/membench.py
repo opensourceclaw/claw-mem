@@ -9,9 +9,9 @@ Four dimensions of memory capability:
 """
 
 from dataclasses import dataclass, field
-from typing import Any, Dict, List, Set, Optional
+from typing import Any, Dict, List, Optional, Set
 
-from .metrics import RecallAtK, MRR, Precision, EvaluationMetrics
+from .metrics import MRR, EvaluationMetrics, Precision, RecallAtK
 
 
 @dataclass

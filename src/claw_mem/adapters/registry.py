@@ -26,10 +26,10 @@ import os
 from pathlib import Path
 from typing import Any, Optional
 
-from .base import BaseAdapter, AdapterError
+from .base import AdapterError, BaseAdapter
+from .openclaw_adapter import OpenClawAdapter
 from .v1 import V1Strategy
 from .v2 import V2Strategy
-from .openclaw_adapter import OpenClawAdapter
 
 
 class AdapterRegistry:

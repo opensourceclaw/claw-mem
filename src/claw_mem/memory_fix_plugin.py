@@ -27,7 +27,7 @@ Fixes:
 import re
 from datetime import datetime
 from pathlib import Path
-from typing import List, Dict, Optional, Tuple
+from typing import Dict, List, Optional, Tuple
 
 
 class MemoryFixPlugin:

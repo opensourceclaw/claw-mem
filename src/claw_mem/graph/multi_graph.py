@@ -27,10 +27,10 @@ Built on top of existing graph module's Node/Edge primitives.
 from dataclasses import dataclass, field
 from enum import Enum
 from threading import Lock
-from typing import Dict, List, Set, Tuple, Optional
+from typing import Dict, List, Optional, Set, Tuple
 
-from claw_mem.graph.nodes import Node, NodeType, create_node
 from claw_mem.graph.edges import EdgeType
+from claw_mem.graph.nodes import Node, NodeType, create_node
 
 
 class SubGraphType(Enum):

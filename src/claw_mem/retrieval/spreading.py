@@ -19,10 +19,10 @@ From seed nodes, BFS along four-orthogonal graph edges, simulating
 neuroscience-inspired spreading activation with decay and pruning.
 """
 
-from typing import Dict, List, Set, Tuple
 from collections import deque
+from typing import Dict, List, Set, Tuple
 
-from claw_mem.graph.multi_graph import MultiGraphMemory, SubGraphType
+from claw_mem.graph.multi_graph import MultiGraphMemory
 
 # Default subgraph expansion weights
 DEFAULT_EDGE_WEIGHTS: Dict[str, float] = {

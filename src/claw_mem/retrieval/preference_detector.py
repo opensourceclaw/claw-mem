@@ -20,8 +20,8 @@ Part of the preference matching enhancement for claw-mem.
 """
 
 import re
-from typing import List, Dict, Tuple, Optional
 from dataclasses import dataclass
+from typing import Dict, List, Optional
 
 
 @dataclass
@@ -316,8 +316,7 @@ class PreferenceDetector:
             if isinstance(memory, dict)
             else getattr(memory, "content", "")
         )
-        content_lower = content.lower()
-
+        _content_lower = content.lower()
         # Check if memory contains preference
         preference = self.detect_preference(content)
         if not preference:

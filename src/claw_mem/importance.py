@@ -19,9 +19,9 @@ claw-mem Memory Importance Scoring
 Ranks memories by importance for smarter retrieval and context injection.
 """
 
+from dataclasses import dataclass
 from datetime import datetime, timedelta
 from typing import Optional
-from dataclasses import dataclass
 
 
 @dataclass

@@ -3,7 +3,7 @@
 
 from abc import ABC, abstractmethod
 from dataclasses import dataclass, field
-from typing import Dict, List, Any, Optional
+from typing import Any, Dict, List, Optional
 
 
 @dataclass
@@ -41,7 +41,6 @@ class BaseRetriever(ABC):
 
     def clear(self) -> None:
         """Clear all indexed data. Default: no-op."""
-        pass
 
     def get_stats(self) -> Dict[str, Any]:
         """Get retriever statistics. Default: empty dict."""
