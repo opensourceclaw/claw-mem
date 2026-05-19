@@ -178,6 +178,125 @@ class ConfigDetector:
 
 
 # ============================================================================
+# Memory Configuration
+# ============================================================================
+
+
+class MemoryConfig:
+    """Configuration for MemoryManager.
+
+    Encapsulates all MemoryManager initialization parameters in a single
+    dataclass-style object for cleaner API. Replaces the 32-parameter
+    __init__ with a single config parameter.
+
+    Usage:
+        # Default config with workspace
+        config = MemoryConfig(workspace="/path/to/workspace")
+
+        # Custom retrieval config
+        config = MemoryConfig(
+            workspace="/path/to/workspace",
+            enable_gating=True,
+            gating_threshold=0.8,
+            bm25_weight=0.6,
+        )
+
+        mm = MemoryManager(config=config)
+    """
+
+    def __init__(
+        self,
+        # Workspace
+        workspace: Optional[str] = None,
+        auto_detect: bool = True,
+        # Retrieval
+        bm25_k1: float = 1.5,
+        bm25_b: float = 0.75,
+        bm25_weight: float = 0.7,
+        keyword_weight: float = 0.3,
+        recency_boost: float = 1.0,
+        frequency_boost: float = 1.0,
+        # Features
+        enable_gating: bool = False,
+        gating_threshold: float = 0.6,
+        enable_graph: bool = False,
+        enable_cache: bool = True,
+        enable_synonyms: bool = True,
+        enable_stats: bool = True,
+        enable_compression: bool = True,
+        # v2.14.0: Decay + GroundTruth
+        enable_decay: bool = False,
+        enable_ground_truth: bool = False,
+        decay_config: Optional[Any] = None,
+        # v2.15.0: Engram + Spreading
+        enable_engram: bool = True,
+        enable_spreading: bool = True,
+        enable_compression_spectrum: bool = True,
+        # v2.18.0: Compression thresholds
+        compression_trigger_access: int = 5,
+        compression_trigger_apply: int = 3,
+        compression_trigger_verify: int = 2,
+        engram_ngram_size: int = 3,
+        spreading_max_depth: int = 2,
+        spreading_decay_factor: float = 0.5,
+        spreading_threshold: float = 0.1,
+        # v3.0.0-rc.1: CMS Perception Layer
+        enable_cms: bool = False,
+        cms_token_threshold: int = 8000,
+        cms_memory_threshold: int = 1000,
+        cms_warning_level: float = 0.8,
+    ):
+        # Workspace
+        self.workspace = workspace
+        self.auto_detect = auto_detect
+        # Retrieval
+        self.bm25_k1 = bm25_k1
+        self.bm25_b = bm25_b
+        self.bm25_weight = bm25_weight
+        self.keyword_weight = keyword_weight
+        self.recency_boost = recency_boost
+        self.frequency_boost = frequency_boost
+        # Features
+        self.enable_gating = enable_gating
+        self.gating_threshold = gating_threshold
+        self.enable_graph = enable_graph
+        self.enable_cache = enable_cache
+        self.enable_synonyms = enable_synonyms
+        self.enable_stats = enable_stats
+        self.enable_compression = enable_compression
+        # v2.14.0
+        self.enable_decay = enable_decay
+        self.enable_ground_truth = enable_ground_truth
+        self.decay_config = decay_config
+        # v2.15.0
+        self.enable_engram = enable_engram
+        self.enable_spreading = enable_spreading
+        self.enable_compression_spectrum = enable_compression_spectrum
+        # v2.18.0
+        self.compression_trigger_access = compression_trigger_access
+        self.compression_trigger_apply = compression_trigger_apply
+        self.compression_trigger_verify = compression_trigger_verify
+        self.engram_ngram_size = engram_ngram_size
+        self.spreading_max_depth = spreading_max_depth
+        self.spreading_decay_factor = spreading_decay_factor
+        self.spreading_threshold = spreading_threshold
+        # v3.0.0-rc.1
+        self.enable_cms = enable_cms
+        self.cms_token_threshold = cms_token_threshold
+        self.cms_memory_threshold = cms_memory_threshold
+        self.cms_warning_level = cms_warning_level
+
+    @classmethod
+    def default(cls) -> "MemoryConfig":
+        """Create default configuration."""
+        return cls()
+
+    def to_dict(self) -> dict:
+        """Convert to dictionary (for serialization)."""
+        return {k: v for k, v in self.__dict__.items() if not k.startswith("_")}
+
+
+# ============================================================================
 # Usage examples
 # ============================================================================
 
