@@ -11,6 +11,7 @@ class TestUserValue:
     def test_create_default(self):
         from claw_mem.values.user_value_store import UserValue
         from datetime import datetime
+
         uv = UserValue(user_id="test_user")
         assert uv.user_id == "test_user"
         assert uv.principles == []
@@ -18,6 +19,7 @@ class TestUserValue:
 
     def test_to_dict(self):
         from claw_mem.values.user_value_store import UserValue
+
         uv = UserValue(user_id="test_user", principles=["Be honest"])
         d = uv.to_dict()
         assert d["user_id"] == "test_user"
@@ -25,11 +27,13 @@ class TestUserValue:
 
     def test_from_dict(self):
         from claw_mem.values.user_value_store import UserValue
+
         uv = UserValue.from_dict({"user_id": "test_user", "principles": ["Be kind"]})
         assert uv.user_id == "test_user"
 
     def test_from_dict_partial(self):
         from claw_mem.values.user_value_store import UserValue
+
         uv = UserValue.from_dict({"user_id": "partial_user"})
         assert uv.user_id == "partial_user"
 
@@ -40,6 +44,7 @@ class TestUserValueStore:
     @pytest.fixture
     def store(self, tmp_path):
         from claw_mem.values.user_value_store import UserValueStore
+
         return UserValueStore(storage_path=tmp_path / "values")
 
     def test_save_principle(self, store):
@@ -91,6 +96,7 @@ class TestUserValueStore:
 
     def test_persistence(self, tmp_path):
         from claw_mem.values.user_value_store import UserValueStore
+
         p = tmp_path / "v2"
         s1 = UserValueStore(storage_path=p)
         s1.save_principle("user1", "P1")
@@ -105,10 +111,12 @@ class TestFeedbackHandler:
     def handler(self, tmp_path):
         from claw_mem.values.user_value_store import UserValueStore
         from claw_mem.values.feedback_handler import FeedbackHandler
+
         return FeedbackHandler(UserValueStore(storage_path=tmp_path / "fb"))
 
     def test_request_confirmation(self, handler):
         from claw_mem.values.feedback_handler import FeedbackStatus
+
         s = handler.request_confirmation("user1", "principle", "Be honest")
         assert s.status == FeedbackStatus.PENDING
 
@@ -120,6 +128,7 @@ class TestFeedbackHandler:
 
     def test_reject(self, handler):
         from claw_mem.values.feedback_handler import FeedbackStatus
+
         s = handler.request_confirmation("user1", "principle", "Bad")
         handler.process_feedback(s.id, accepted=False)
         assert s.status == FeedbackStatus.REJECTED
@@ -156,18 +165,18 @@ class TestFeedbackHandler:
 
     def test_clear_expired(self, handler):
         from datetime import timedelta
+
         s = handler.request_confirmation("user1", "principle", "P1")
         s.created_at = s.created_at - timedelta(hours=48)
         assert handler.clear_expired(max_age_hours=24) == 1
 
     def test_suggest_update(self, handler):
-        s = handler.suggest_update({
-            "user_id": "user1", "type": "principle", "content": "S"
-        })
+        s = handler.suggest_update({"user_id": "user1", "type": "principle", "content": "S"})
         assert s.user_id == "user1"
 
     def test_value_suggestion_to_dict(self):
         from claw_mem.values.feedback_handler import ValueSuggestion
+
         vs = ValueSuggestion(id="abc", user_id="u1", suggestion_type="p", content="T")
         assert vs.to_dict()["id"] == "abc"
 
@@ -179,12 +188,14 @@ class TestValueBackup:
     def backup(self, tmp_path):
         from claw_mem.values.user_value_store import UserValueStore
         from claw_mem.values.value_backup import ValueBackup
+
         store = UserValueStore(storage_path=tmp_path / "vb")
         store.save_principle("user1", "P1")
         return ValueBackup(value_store=store, backup_dir=tmp_path / "backups")
 
     def test_export(self, backup):
         from claw_mem.values.value_backup import BackupMetadata
+
         meta = backup.export_values("user1")
         assert isinstance(meta, BackupMetadata)
         assert meta.user_id == "user1"
@@ -232,8 +243,14 @@ class TestValueBackup:
     def test_backup_metadata_dc(self):
         from claw_mem.values.value_backup import BackupMetadata
         from datetime import datetime, timezone
-        bm = BackupMetadata(user_id="u1", backup_id="abc",
+
+        bm = BackupMetadata(
+            user_id="u1",
+            backup_id="abc",
             created_at=datetime.now(timezone.utc),
-            file_path="/t.json", file_size=100, values_count=3)
+            file_path="/t.json",
+            file_size=100,
+            values_count=3,
+        )
         bm2 = BackupMetadata.from_dict(bm.to_dict())
         assert bm2.user_id == "u1"

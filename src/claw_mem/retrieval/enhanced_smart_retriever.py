@@ -19,8 +19,9 @@ Fully integrated retriever with all features including time parsing and preferen
 """
 
 import warnings
+
 warnings.warn(
-    "enhanced_smart_retriever is deprecated and will be removed in v4.0. " 
+    "enhanced_smart_retriever is deprecated and will be removed in v4.0. "
     "Use SmartRetriever in smart.py instead.",
     DeprecationWarning,
     stacklevel=2,

@@ -88,7 +88,9 @@ class TestSynonymExpander:
         result = expander.expand("newterm test")
         assert "syn1" in result or "syn2" in result
 
-    @pytest.mark.skip(reason="Flaky — passes solo, fails in suite due to test ordering (v3.0.0-rc.14)")
+    @pytest.mark.skip(
+        reason="Flaky — passes solo, fails in suite due to test ordering (v3.0.0-rc.14)"
+    )
     def test_add_synonyms_existing_keyword(self):
         expander = SynonymExpander()
         expander.add_synonyms("ai", ["smart_system"])

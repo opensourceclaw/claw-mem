@@ -101,17 +101,19 @@ class KeywordRetriever:
                 metadata = {}
             c = r.get("content", r.get("text", ""))
             t = r.get("type", r.get("memory_type", "episodic"))
-            normalized.append({
-                "id": r.get("id", str(hash(c))),
-                "content": c,
-                "text": c,
-                "created_at": r.get("timestamp", r.get("created_at", "")),
-                "source": r.get("source", r.get("session_id", "")),
-                "memory_type": t,
-                "type": t,
-                "metadata": metadata,
-                "tags": tags,
-            })
+            normalized.append(
+                {
+                    "id": r.get("id", str(hash(c))),
+                    "content": c,
+                    "text": c,
+                    "created_at": r.get("timestamp", r.get("created_at", "")),
+                    "source": r.get("source", r.get("session_id", "")),
+                    "memory_type": t,
+                    "type": t,
+                    "metadata": metadata,
+                    "tags": tags,
+                }
+            )
         return normalized
 
     def _match(self, query_lower: str, memory: Dict) -> bool:

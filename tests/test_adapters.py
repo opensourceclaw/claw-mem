@@ -408,7 +408,9 @@ class TestOpenClawAdapter:
     def test_ping(self, adapter):
         assert adapter.ping() == {"pong": True}
 
-    @pytest.mark.skip(reason="Test passes alone, fails in full suite — FileNotFoundError, known test isolation issue (v3.0.0-rc.14)")
+    @pytest.mark.skip(
+        reason="Test passes alone, fails in full suite — FileNotFoundError, known test isolation issue (v3.0.0-rc.14)"
+    )
     def test_status(self, adapter):
         result = adapter.status()
         assert result["status"] == "ok"

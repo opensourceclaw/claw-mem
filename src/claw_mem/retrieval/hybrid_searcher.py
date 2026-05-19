@@ -18,8 +18,9 @@ Combines BM25 (keyword) + Semantic (embedding) search
 """
 
 import warnings
+
 warnings.warn(
-    "hybrid_searcher is deprecated and will be removed in v4.0. " 
+    "hybrid_searcher is deprecated and will be removed in v4.0. "
     "Use KeywordRetriever in keyword.py instead.",
     DeprecationWarning,
     stacklevel=2,
