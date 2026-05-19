@@ -252,7 +252,7 @@ class ContextFormatter:
             content = memory.get("content", "")
             layer = memory.get("layer") or "unknown"
             memory_id = memory.get("memory_id", "")
-            _source = memory.get("source", "")
+            source = memory.get("source", "")
             score = memory.get("score")
             tags = memory.get("tags", [])
             timestamp = memory.get("timestamp")
