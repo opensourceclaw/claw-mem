@@ -12,12 +12,14 @@ def _reset_global_singletons():
     # Reset synonym expander
     try:
         from claw_mem.retrieval import synonym_expander
+
         synonym_expander._synonym_expander = None
     except Exception:
         pass
     # Reset compressor V2
     try:
         from claw_mem.compression.memory_compression_v2 import reset_compressor
+
         reset_compressor()
     except Exception:
         pass
@@ -29,6 +31,7 @@ def _reset_global_singletons():
     try:
         from claw_mem.compression.memory_compression import _compressor
         import claw_mem.compression.memory_compression as mc
+
         mc._compressor = None
     except Exception:
         pass
