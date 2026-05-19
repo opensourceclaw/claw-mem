@@ -1,6 +1,6 @@
 Metadata-Version: 2.4
 Name: claw-mem
-Version: 3.0.0rc1
+Version: 3.0.0
 Summary: Intelligent Memory System for AI Agents with Write-Time Gating and Concept-Mediated Graph
 Author: Peter Cheng
 License: Apache-2.0
@@ -23,10 +23,16 @@ License-File: LICENSE
 License-File: NOTICE
 Requires-Dist: rank-bm25>=0.2.2
 Requires-Dist: cachetools>=5.0.0
+Requires-Dist: watchdog>=3.0.0
 Provides-Extra: dev
-Requires-Dist: pytest>=7.0.0; extra == "dev"
-Requires-Dist: pytest-benchmark; extra == "dev"
-Requires-Dist: pytest-cov>=3.0.0; extra == "dev"
+Requires-Dist: pytest>=7.0; extra == "dev"
+Requires-Dist: pytest-cov>=4.0; extra == "dev"
+Requires-Dist: pytest-benchmark>=4.0; extra == "dev"
+Requires-Dist: pytest-asyncio>=0.21; extra == "dev"
+Requires-Dist: black>=24.0; extra == "dev"
+Requires-Dist: flake8>=7.0; extra == "dev"
+Requires-Dist: mypy>=1.9; extra == "dev"
+Requires-Dist: pre-commit>=3.0; extra == "dev"
 Provides-Extra: zh
 Requires-Dist: jieba>=0.42.1; extra == "zh"
 Dynamic: license-file
@@ -41,7 +47,9 @@ Dynamic: license-file
 
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
 [![Python](https://img.shields.io/badge/Python-3.10%2B-brightgreen.svg)](https://www.python.org/)
-[![Version](https://img.shields.io/badge/Version-3.0.0rc1-blue.svg)](https://github.com/opensourceclaw/claw-mem)
+[![Version](https://img.shields.io/badge/Version-3.0.0-blue.svg)](https://github.com/opensourceclaw/claw-mem)
+[![CI](https://github.com/opensourceclaw/claw-mem/actions/workflows/ci.yml/badge.svg)](https://github.com/opensourceclaw/claw-mem/actions/workflows/ci.yml)
+[![codecov](https://codecov.io/gh/opensourceclaw/claw-mem/branch/main/graph/badge.svg)](https://codecov.io/gh/opensourceclaw/claw-mem)
 
 </div>
 
@@ -586,6 +594,12 @@ Apache License 2.0 - See [LICENSE](LICENSE)
 - [GAAMA](https://arxiv.org/abs/2406.06215) - Concept-Mediated Graph Paper
 
 ---
+
+## Test Coverage
+
+We maintain **>=80%** test coverage for the core modules.
+
+Current status: [![codecov](https://codecov.io/gh/opensourceclaw/claw-mem/branch/main/graph/badge.svg)](https://codecov.io/gh/opensourceclaw/claw-mem)
 
 ## Documentation
 

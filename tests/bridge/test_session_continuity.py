@@ -2,7 +2,6 @@
 
 import pytest
 
-pytestmark = pytest.mark.skip(reason="Bridge dependency issues — fix in rc.15")
 from claw_mem.bridge import ClawMemBridge
 from claw_mem.classifier import detect_content_type, classify_content
 
