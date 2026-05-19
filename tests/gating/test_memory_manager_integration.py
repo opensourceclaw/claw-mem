@@ -69,20 +69,21 @@ class TestWriteTimeGatingIsolation:
 
     def test_promote_from_cold(self, tmp_path):
         """Test promote memory from cold to active layer"""
-        gating = WriteTimeGating(threshold=0.6)
+        from claw_mem.gating import DiskStorage
 
-        # Store as cold first
-        cold_item = {
-            "id": "test_id_123",
-            "content": "cold content",
-            "source": "external",
-            "context": {},
-        }
-        gating.write(cold_item)
+        # Use disk storage for cold items
+        cold_path = str(tmp_path / "cold")
+        cold = DiskStorage(storage_path=cold_path)
+        gating = WriteTimeGating(threshold=0.6, cold_storage=cold)
+
+        # Archive directly to cold
+        cold_item = {"id": "test_id_123", "content": "cold content"}
+        cold.archive(cold_item)
 
         # Promote to active
-        success = gating.promote("test_id_123", target_tier="active")
+        success = gating.promote("test_id_123")
         assert success is True
+        assert gating.active_memory.count() >= 1
 
 
 class TestPerformanceEndToEnd:
