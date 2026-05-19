@@ -26,7 +26,7 @@ from typing import Any, Dict
 
 from .base import BaseAdapter
 
-# 动态导入版本号，避免硬编码
+# Dynamically import version number to avoid hardcoding
 from claw_mem import __version__ as CLAW_MEM_VERSION
 
 

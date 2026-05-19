@@ -1095,7 +1095,7 @@ class MemoryManager:
             if self._performance_monitor:
                 self._performance_monitor.record_cache_miss()
 
-        # v2.15.0: 优先使用 Engram + Spreading 检索管线
+        # v2.15.0: Prioritize Engram + Spreading retrieval pipeline
         # Graph required for metadata/tags in results
         if (
             self.decoupled_retriever
