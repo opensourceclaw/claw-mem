@@ -886,6 +886,38 @@ class MemoryManager:
         # Convert MemoryResult objects to dicts
         return [r.to_dict() for r in results]
 
+    def save_session_summary(self, summary) -> bool:
+        """Save session summary to semantic memory for cross-session retrieval.
+
+        Args:
+            summary: SessionSummary from claw_mem.session_summary
+
+        Returns:
+            bool: Success status
+        """
+        return self.store(
+            content=f"[session_summary] {summary.summary}",
+            memory_type="semantic",
+            tags=["session_summary"] + summary.topics,
+            metadata={
+                "session_id": summary.session_id,
+                "timestamp": summary.timestamp,
+                "pending_tasks": summary.pending_tasks,
+                "key_points": summary.key_points,
+            },
+        )
+
+    def get_session_summaries(self, limit: int = 5) -> List[Dict]:
+        """Retrieve recent session summaries from semantic memory.
+
+        Args:
+            limit: Maximum number of summaries to return
+
+        Returns:
+            List[Dict]: Session summary memory records
+        """
+        return self.search("session_summary", memory_type="semantic", limit=limit)
+
     def _load_and_build_index(self) -> None:
         """
         Load all memories and build in-memory index
