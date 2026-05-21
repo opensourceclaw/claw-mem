@@ -743,3 +743,7 @@ def search_memory(
     results = retriever.search(query, layers=layers, limit=limit)
 
     return [r.to_dict() for r in results]
+
+
+# v3.2.0: TieredRetriever is the new name for ThreeTierRetriever
+TieredRetriever = ThreeTierRetriever

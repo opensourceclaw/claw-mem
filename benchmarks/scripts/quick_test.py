@@ -19,13 +19,20 @@ def quick_test():
     print("Quick Benchmark Test (50 samples)")
     print("=" * 80)
 
+    # Get benchmark directory
+    benchmark_dir = Path(__file__).parent.parent
+    workspace_path = benchmark_dir / "workspace_test"
+    
     # Initialize memory manager with smart mode
-    mm = MemoryManager(workspace="workspace_test")
+    mm = MemoryManager(workspace=str(workspace_path))
     mm.search_mode = "smart"  # Use our new smart retriever
 
+    # Get benchmark directory
+    benchmark_dir = Path(__file__).parent.parent
+    
     # Load test data
-    data_file = Path("data/longmemeval/test_data.json")
-    facts_file = Path("data/longmemeval/facts.json")
+    data_file = benchmark_dir / "data/longmemeval/test_data.json"
+    facts_file = benchmark_dir / "data/longmemeval/facts.json"
 
     with open(data_file, "r") as f:
         test_data = json.load(f)
@@ -37,9 +44,9 @@ def quick_test():
     print(f"\nPreloading {len(facts)} facts...")
     for fact in facts:
         mm.store(
-            content=fact["fact"],
+            content=fact["content"],
             memory_type="semantic",
-            metadata={"test_id": fact["id"], "category": fact.get("category", "")},
+            metadata={"test_id": fact["test_id"], "category": fact.get("category", "")},
         )
     print(f"✓ Preloaded {len(facts)} facts")
 

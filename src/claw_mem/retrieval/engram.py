@@ -21,8 +21,16 @@ scoring. Complements the existing InMemoryIndex as the primary search path.
 
 import hashlib
 import re
+import warnings
 from collections import Counter
 from dataclasses import dataclass, field
+
+warnings.warn(
+    "EngramIndex is deprecated and will be removed in v4.0. "
+    "Use InMemoryIndex (storage.index) for n-gram search instead.",
+    DeprecationWarning,
+    stacklevel=2,
+)
 from typing import Dict, List, Set, Tuple
 
 

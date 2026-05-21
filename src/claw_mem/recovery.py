@@ -560,18 +560,7 @@ class RecoveryManager:
         print("✅ Recovery history cleared")
 
 
-# Global recovery manager instance
-_global_recovery: Optional[RecoveryManager] = None
-
-
-def get_recovery_manager(config) -> RecoveryManager:
-    """Get global recovery manager"""
-    global _global_recovery
-
-    if _global_recovery is None:
-        _global_recovery = RecoveryManager(config)
-
-    return _global_recovery
+# v3.2.0: Singleton removed — use RecoveryManager() directly
 
 
 def recover_from_error(error: Exception, config, context: Dict = None) -> RecoveryResult:
@@ -586,5 +575,5 @@ def recover_from_error(error: Exception, config, context: Dict = None) -> Recove
     Returns:
         RecoveryResult
     """
-    manager = get_recovery_manager(config)
+    manager = RecoveryManager(config)
     return manager.recover(error, context)

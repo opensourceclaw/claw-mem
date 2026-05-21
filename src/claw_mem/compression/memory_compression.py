@@ -289,6 +289,12 @@ def get_compressor(level: CompressionLevel = CompressionLevel.MEDIUM) -> MemoryC
     return _compressor
 
 
+def reset_compressor() -> None:
+    """Reset global compressor instance (for testing)."""
+    global _compressor
+    _compressor = None
+
+
 def compress_memory(
     content: str, level: CompressionLevel = CompressionLevel.MEDIUM
 ) -> CompressionResult:

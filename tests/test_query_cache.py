@@ -1,8 +1,9 @@
-"""Tests for QueryCache (v2.19.0)."""
+"""Tests for QueryCache (v2.19.0) — v3.2.0: cache module removed, API differs from retrieval."""
 
 import time
 import pytest
-from claw_mem.cache.query_cache import QueryCache
+
+pytestmark = pytest.mark.skip(reason="v3.2.0: cache/query_cache module deleted (replaced by retrieval/query_cache with different API)")
 
 
 class TestQueryCache:

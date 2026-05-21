@@ -235,17 +235,4 @@ class EmbeddingService:
         return 384
 
 
-# Global instance
-_embedding_service: Optional[EmbeddingService] = None
-
-
-def get_embedding_service(
-    provider: str = "auto", model: str = "text-embedding-3-small"
-) -> EmbeddingService:
-    """Get global embedding service instance"""
-    global _embedding_service
-
-    if _embedding_service is None:
-        _embedding_service = EmbeddingService(provider=provider, model=model)
-
-    return _embedding_service
+# v3.2.0: Singleton removed — use EmbeddingService() directly

@@ -189,9 +189,7 @@ class TestCriticalRulesCompression:
         mm.start_session("test_compression")
         return mm
 
-    @pytest.mark.skip(
-        reason="Test passes alone, fails in full suite — known test isolation issue (v3.0.0-rc.14)"
-    )
+
     def test_critical_rules_survive_compression(self, mem):
         """Critical rules remain intact after compression."""
         mem.store_critical_rule("Critical rule survives compression")

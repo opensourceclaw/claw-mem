@@ -148,9 +148,11 @@ src/claw_mem/vector_db/plugin.py
 tests/test_adapters.py
 tests/test_adapters_unit.py
 tests/test_atomic_writer.py
+tests/test_atomic_writer_unit.py
 tests/test_benchmark.py
 tests/test_benchmarks.py
 tests/test_bm25_retriever.py
+tests/test_bridge_core.py
 tests/test_cms_integration.py
 tests/test_cms_perception.py
 tests/test_cms_recovery.py
@@ -181,6 +183,7 @@ tests/test_f2_lazy_loading.py
 tests/test_f5_compression.py
 tests/test_f6_recovery.py
 tests/test_feedback_handler.py
+tests/test_health_checker_unit.py
 tests/test_heuristic_retriever.py
 tests/test_importance_extended.py
 tests/test_integration_v090.py
@@ -227,3 +230,4 @@ tests/test_time_parser.py
 tests/test_timeline.py
 tests/test_value_backup.py
 tests/test_values.py
+tests/test_vector_db.py
