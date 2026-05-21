@@ -1,11 +1,11 @@
 {
   "name": "@opensourceclaw/openclaw-claw-mem",
-  "version": "3.0.0-rc.4",
+  "version": "3.2.2",
   "description": "Claw Memory System - Local-First OpenClaw Plugin (Plugin Slots Enabled)",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "scripts": {
-    "build": "tsc",
+    "build": "tsc && cp openclaw.plugin.json dist/",
     "test": "node test/test_real_bridge.js",
     "typecheck": "tsc --noEmit",
     "postinstall": "node scripts/post-install.js"
