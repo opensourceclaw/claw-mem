@@ -409,6 +409,18 @@ def get_ultra_compressor() -> UltraCompressor:
     return _ultra_compressor
 
 
+def reset_f5_compressor() -> None:
+    """Reset F5 compressor instance (for testing)."""
+    global _f5_compressor
+    _f5_compressor = None
+
+
+def reset_ultra_compressor() -> None:
+    """Reset ultra compressor instance (for testing)."""
+    global _ultra_compressor
+    _ultra_compressor = None
+
+
 def compress_v2(
     content: str, level: CompressionLevelV2 = CompressionLevelV2.MEDIUM
 ) -> CompressionResultV2:

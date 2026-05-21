@@ -177,3 +177,9 @@ def get_query_cache(max_size: int = 1000, ttl_seconds: float = 300.0) -> QueryCa
         _query_cache = QueryCache(max_size=max_size, ttl_seconds=ttl_seconds)
 
     return _query_cache
+
+
+def reset_query_cache() -> None:
+    """Reset global query cache instance (for testing)."""
+    global _query_cache
+    _query_cache = None

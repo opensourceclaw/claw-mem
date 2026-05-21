@@ -186,3 +186,9 @@ def get_multimodal_store(base_path: str = "./workspace/multimodal") -> Multimoda
     if _multimodal_store is None:
         _multimodal_store = MultimodalMemoryStore(base_path)
     return _multimodal_store
+
+
+def reset_multimodal_store() -> None:
+    """Reset global multimodal store instance (for testing)."""
+    global _multimodal_store
+    _multimodal_store = None

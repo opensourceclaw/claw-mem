@@ -5,6 +5,32 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [3.2.0] - 2026-05-21
+
+### Summary
+
+**Architecture Optimization Release** — Major refactoring and code cleanup.
+
+### Highlights
+
+- **Singleton Reduction**: 13→2 (QueryCache, SearchStats only)
+- **Dead Code Removal**: ~2300 lines deleted
+- **Plugin Base Class**: New `MemoryPlugin` abstract base class
+- **MemoryManager Optimization**: 1746→1332 lines (-24%)
+
+### Changed
+
+- Removed 8 dead source files + 2 directories (cache/, graph_memory/)
+- Removed wrapper modules: smart.py, tiered.py, optimized.py
+- EngramIndex marked as deprecated (will be removed in v4.0.0)
+- Removed 4 unused singleton getters
+
+### Deprecated
+
+- `EngramIndex` → use `InMemoryIndex` from `storage.index`
+
+---
+
 ## [3.0.0] - 2026-05-19
 ## [3.1.0] - 2026-05-20
 

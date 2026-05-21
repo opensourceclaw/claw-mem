@@ -26404,3 +26404,2403 @@
 <!-- id: 59914afa; test_id: test_kno_099; source: facts.json; category: knowledge_updates -->
 [2026-04-29T00:38:51.513987] The user's email is user@example.com
 
+<!-- id: 3a75c6f8; test_id: test_inf_000; source: facts.json; category: information_extraction -->
+[2026-05-20T01:05:04.786928] The user's favorite food is Pizza
+
+<!-- id: 72e91a2c; test_id: test_inf_001; source: facts.json; category: information_extraction -->
+[2026-05-20T01:05:04.802682] The user's favorite color is Blue
+
+<!-- id: 8aeab943; test_id: test_inf_002; source: facts.json; category: information_extraction -->
+[2026-05-20T01:05:04.803665] The user's favorite color is Blue
+
+<!-- id: 356443ed; test_id: test_inf_003; source: facts.json; category: information_extraction -->
+[2026-05-20T01:05:04.804451] The user's favorite food is Pizza
+
+<!-- id: 0b4310c8; test_id: test_inf_004; source: facts.json; category: information_extraction -->
+[2026-05-20T01:05:04.805288] The user's favorite book is Dune
+
+<!-- id: ce9e4c8b; test_id: test_inf_005; source: facts.json; category: information_extraction -->
+[2026-05-20T01:05:04.806323] The user's favorite color is Blue
+
+<!-- id: 2e1d25fb; test_id: test_inf_006; source: facts.json; category: information_extraction -->
+[2026-05-20T01:05:04.807040] The user's favorite color is Blue
+
+<!-- id: 6fd4957d; test_id: test_inf_007; source: facts.json; category: information_extraction -->
+[2026-05-20T01:05:04.807977] The user's favorite movie is Star Wars
+
+<!-- id: 893e0063; test_id: test_inf_008; source: facts.json; category: information_extraction -->
+[2026-05-20T01:05:04.808726] The user's favorite food is Pizza
+
+<!-- id: e332ee0b; test_id: test_inf_009; source: facts.json; category: information_extraction -->
+[2026-05-20T01:05:04.809293] The user's favorite hobby is Hiking
+
+<!-- id: 511b8b5d; test_id: test_inf_010; source: facts.json; category: information_extraction -->
+[2026-05-20T01:05:04.809855] The user's favorite book is Dune
+
+<!-- id: f4ecc855; test_id: test_inf_011; source: facts.json; category: information_extraction -->
+[2026-05-20T01:05:04.810410] The user's favorite book is Dune
+
+<!-- id: d39d8ca3; test_id: test_inf_012; source: facts.json; category: information_extraction -->
+[2026-05-20T01:05:04.811172] The user's favorite hobby is Hiking
+
+<!-- id: cc054f86; test_id: test_inf_013; source: facts.json; category: information_extraction -->
+[2026-05-20T01:05:04.812037] The user's favorite hobby is Hiking
+
+<!-- id: 72f27555; test_id: test_inf_014; source: facts.json; category: information_extraction -->
+[2026-05-20T01:05:04.812766] The user's favorite book is Dune
+
+<!-- id: d05b85f4; test_id: test_inf_015; source: facts.json; category: information_extraction -->
+[2026-05-20T01:05:04.813376] The user's favorite food is Pizza
+
+<!-- id: dd70e1a3; test_id: test_inf_016; source: facts.json; category: information_extraction -->
+[2026-05-20T01:05:04.814255] The user's favorite book is Dune
+
+<!-- id: f187eb0c; test_id: test_inf_017; source: facts.json; category: information_extraction -->
+[2026-05-20T01:05:04.815594] The user's favorite color is Blue
+
+<!-- id: 77e5a7e0; test_id: test_inf_018; source: facts.json; category: information_extraction -->
+[2026-05-20T01:05:04.816572] The user's favorite color is Blue
+
+<!-- id: 9dd52d16; test_id: test_inf_019; source: facts.json; category: information_extraction -->
+[2026-05-20T01:05:04.817184] The user's favorite food is Pizza
+
+<!-- id: acb5c68d; test_id: test_inf_020; source: facts.json; category: information_extraction -->
+[2026-05-20T01:05:04.818220] The user's favorite color is Blue
+
+<!-- id: f2e44250; test_id: test_inf_021; source: facts.json; category: information_extraction -->
+[2026-05-20T01:05:04.818817] The user's favorite color is Blue
+
+<!-- id: 0bf86e49; test_id: test_inf_022; source: facts.json; category: information_extraction -->
+[2026-05-20T01:05:04.819400] The user's favorite color is Blue
+
+<!-- id: 90d0e488; test_id: test_inf_023; source: facts.json; category: information_extraction -->
+[2026-05-20T01:05:04.820051] The user's favorite food is Pizza
+
+<!-- id: f434d2da; test_id: test_inf_024; source: facts.json; category: information_extraction -->
+[2026-05-20T01:05:04.821772] The user's favorite hobby is Hiking
+
+<!-- id: dc66e4e8; test_id: test_inf_025; source: facts.json; category: information_extraction -->
+[2026-05-20T01:05:04.822683] The user's favorite movie is Star Wars
+
+<!-- id: 0eeb0402; test_id: test_inf_026; source: facts.json; category: information_extraction -->
+[2026-05-20T01:05:04.823270] The user's favorite color is Blue
+
+<!-- id: cb929a60; test_id: test_inf_027; source: facts.json; category: information_extraction -->
+[2026-05-20T01:05:04.824033] The user's favorite food is Pizza
+
+<!-- id: 3d57b61f; test_id: test_inf_028; source: facts.json; category: information_extraction -->
+[2026-05-20T01:05:04.824827] The user's favorite food is Pizza
+
+<!-- id: c0c8b45f; test_id: test_inf_029; source: facts.json; category: information_extraction -->
+[2026-05-20T01:05:04.825547] The user's favorite hobby is Hiking
+
+<!-- id: 3e3b80aa; test_id: test_inf_030; source: facts.json; category: information_extraction -->
+[2026-05-20T01:05:04.826245] The user's favorite movie is Star Wars
+
+<!-- id: 297d2458; test_id: test_inf_031; source: facts.json; category: information_extraction -->
+[2026-05-20T01:05:04.826835] The user's favorite movie is Star Wars
+
+<!-- id: 315d012c; test_id: test_inf_032; source: facts.json; category: information_extraction -->
+[2026-05-20T01:05:04.827423] The user's favorite hobby is Hiking
+
+<!-- id: 9710b4c2; test_id: test_inf_033; source: facts.json; category: information_extraction -->
+[2026-05-20T01:05:04.828047] The user's favorite food is Pizza
+
+<!-- id: 5f962f39; test_id: test_inf_034; source: facts.json; category: information_extraction -->
+[2026-05-20T01:05:04.828729] The user's favorite book is Dune
+
+<!-- id: 7e920aae; test_id: test_inf_035; source: facts.json; category: information_extraction -->
+[2026-05-20T01:05:04.829321] The user's favorite food is Pizza
+
+<!-- id: 936ff9d4; test_id: test_inf_036; source: facts.json; category: information_extraction -->
+[2026-05-20T01:05:04.829877] The user's favorite food is Pizza
+
+<!-- id: c7eeb26b; test_id: test_inf_037; source: facts.json; category: information_extraction -->
+[2026-05-20T01:05:04.830544] The user's favorite movie is Star Wars
+
+<!-- id: 7e76150a; test_id: test_inf_038; source: facts.json; category: information_extraction -->
+[2026-05-20T01:05:04.831137] The user's favorite movie is Star Wars
+
+<!-- id: e0d0dc78; test_id: test_inf_039; source: facts.json; category: information_extraction -->
+[2026-05-20T01:05:04.831695] The user's favorite color is Blue
+
+<!-- id: 65e5d909; test_id: test_inf_040; source: facts.json; category: information_extraction -->
+[2026-05-20T01:05:04.832241] The user's favorite food is Pizza
+
+<!-- id: c0898188; test_id: test_inf_041; source: facts.json; category: information_extraction -->
+[2026-05-20T01:05:04.832787] The user's favorite movie is Star Wars
+
+<!-- id: c78a6b4b; test_id: test_inf_042; source: facts.json; category: information_extraction -->
+[2026-05-20T01:05:04.833473] The user's favorite movie is Star Wars
+
+<!-- id: efa97084; test_id: test_inf_043; source: facts.json; category: information_extraction -->
+[2026-05-20T01:05:04.834049] The user's favorite movie is Star Wars
+
+<!-- id: cf553780; test_id: test_inf_044; source: facts.json; category: information_extraction -->
+[2026-05-20T01:05:04.834621] The user's favorite hobby is Hiking
+
+<!-- id: 4234858a; test_id: test_inf_045; source: facts.json; category: information_extraction -->
+[2026-05-20T01:05:04.835169] The user's favorite food is Pizza
+
+<!-- id: a998e2b4; test_id: test_inf_046; source: facts.json; category: information_extraction -->
+[2026-05-20T01:05:04.835712] The user's favorite food is Pizza
+
+<!-- id: 3ec1ae16; test_id: test_inf_047; source: facts.json; category: information_extraction -->
+[2026-05-20T01:05:04.836271] The user's favorite hobby is Hiking
+
+<!-- id: 65a21d5c; test_id: test_inf_048; source: facts.json; category: information_extraction -->
+[2026-05-20T01:05:04.836832] The user's favorite food is Pizza
+
+<!-- id: f22dd7a6; test_id: test_inf_049; source: facts.json; category: information_extraction -->
+[2026-05-20T01:05:04.837380] The user's favorite color is Blue
+
+<!-- id: 700979aa; test_id: test_inf_050; source: facts.json; category: information_extraction -->
+[2026-05-20T01:05:04.837986] The user's favorite movie is Star Wars
+
+<!-- id: e0b8aa8e; test_id: test_inf_051; source: facts.json; category: information_extraction -->
+[2026-05-20T01:05:04.838609] The user's favorite book is Dune
+
+<!-- id: 2f47d4c9; test_id: test_inf_052; source: facts.json; category: information_extraction -->
+[2026-05-20T01:05:04.839261] The user's favorite color is Blue
+
+<!-- id: 2ff54264; test_id: test_inf_053; source: facts.json; category: information_extraction -->
+[2026-05-20T01:05:04.839833] The user's favorite hobby is Hiking
+
+<!-- id: 9e74d241; test_id: test_inf_054; source: facts.json; category: information_extraction -->
+[2026-05-20T01:05:04.840504] The user's favorite color is Blue
+
+<!-- id: f406d5af; test_id: test_inf_055; source: facts.json; category: information_extraction -->
+[2026-05-20T01:05:04.841054] The user's favorite book is Dune
+
+<!-- id: 3221dbf2; test_id: test_inf_056; source: facts.json; category: information_extraction -->
+[2026-05-20T01:05:04.841602] The user's favorite movie is Star Wars
+
+<!-- id: aa91a2ab; test_id: test_inf_057; source: facts.json; category: information_extraction -->
+[2026-05-20T01:05:04.842159] The user's favorite movie is Star Wars
+
+<!-- id: 9bea1ef9; test_id: test_inf_058; source: facts.json; category: information_extraction -->
+[2026-05-20T01:05:04.842722] The user's favorite food is Pizza
+
+<!-- id: bcc80fcd; test_id: test_inf_059; source: facts.json; category: information_extraction -->
+[2026-05-20T01:05:04.843268] The user's favorite hobby is Hiking
+
+<!-- id: 3dc0625a; test_id: test_inf_060; source: facts.json; category: information_extraction -->
+[2026-05-20T01:05:04.843975] The user's favorite color is Blue
+
+<!-- id: f48d9266; test_id: test_inf_061; source: facts.json; category: information_extraction -->
+[2026-05-20T01:05:04.844574] The user's favorite food is Pizza
+
+<!-- id: 7345141c; test_id: test_inf_062; source: facts.json; category: information_extraction -->
+[2026-05-20T01:05:04.845176] The user's favorite food is Pizza
+
+<!-- id: c2d6da73; test_id: test_inf_063; source: facts.json; category: information_extraction -->
+[2026-05-20T01:05:04.845738] The user's favorite food is Pizza
+
+<!-- id: 9ab03a17; test_id: test_inf_064; source: facts.json; category: information_extraction -->
+[2026-05-20T01:05:04.846308] The user's favorite color is Blue
+
+<!-- id: 717c06f8; test_id: test_inf_065; source: facts.json; category: information_extraction -->
+[2026-05-20T01:05:04.846873] The user's favorite color is Blue
+
+<!-- id: eed6630a; test_id: test_inf_066; source: facts.json; category: information_extraction -->
+[2026-05-20T01:05:04.847447] The user's favorite food is Pizza
+
+<!-- id: 2fe3de90; test_id: test_inf_067; source: facts.json; category: information_extraction -->
+[2026-05-20T01:05:04.848005] The user's favorite color is Blue
+
+<!-- id: d29492ca; test_id: test_inf_068; source: facts.json; category: information_extraction -->
+[2026-05-20T01:05:04.848663] The user's favorite movie is Star Wars
+
+<!-- id: 2adcd4eb; test_id: test_inf_069; source: facts.json; category: information_extraction -->
+[2026-05-20T01:05:04.849351] The user's favorite book is Dune
+
+<!-- id: 2c74ea78; test_id: test_inf_070; source: facts.json; category: information_extraction -->
+[2026-05-20T01:05:04.849990] The user's favorite book is Dune
+
+<!-- id: 7a2ba755; test_id: test_inf_071; source: facts.json; category: information_extraction -->
+[2026-05-20T01:05:04.850624] The user's favorite hobby is Hiking
+
+<!-- id: dc4fe66f; test_id: test_inf_072; source: facts.json; category: information_extraction -->
+[2026-05-20T01:05:04.851202] The user's favorite movie is Star Wars
+
+<!-- id: 74a8c76e; test_id: test_inf_073; source: facts.json; category: information_extraction -->
+[2026-05-20T01:05:04.851799] The user's favorite food is Pizza
+
+<!-- id: ce36583c; test_id: test_inf_074; source: facts.json; category: information_extraction -->
+[2026-05-20T01:05:04.852397] The user's favorite book is Dune
+
+<!-- id: 0d43fe51; test_id: test_inf_075; source: facts.json; category: information_extraction -->
+[2026-05-20T01:05:04.852955] The user's favorite food is Pizza
+
+<!-- id: a90006e2; test_id: test_inf_076; source: facts.json; category: information_extraction -->
+[2026-05-20T01:05:04.853522] The user's favorite movie is Star Wars
+
+<!-- id: 5aa43a2d; test_id: test_inf_077; source: facts.json; category: information_extraction -->
+[2026-05-20T01:05:04.854113] The user's favorite color is Blue
+
+<!-- id: 3c535751; test_id: test_inf_078; source: facts.json; category: information_extraction -->
+[2026-05-20T01:05:04.854684] The user's favorite hobby is Hiking
+
+<!-- id: 74889ce7; test_id: test_inf_079; source: facts.json; category: information_extraction -->
+[2026-05-20T01:05:04.855423] The user's favorite movie is Star Wars
+
+<!-- id: 95d01f9f; test_id: test_inf_080; source: facts.json; category: information_extraction -->
+[2026-05-20T01:05:04.856020] The user's favorite movie is Star Wars
+
+<!-- id: 4d13bfdd; test_id: test_inf_081; source: facts.json; category: information_extraction -->
+[2026-05-20T01:05:04.856816] The user's favorite hobby is Hiking
+
+<!-- id: 60d44bd8; test_id: test_inf_082; source: facts.json; category: information_extraction -->
+[2026-05-20T01:05:04.857449] The user's favorite movie is Star Wars
+
+<!-- id: 63390b77; test_id: test_inf_083; source: facts.json; category: information_extraction -->
+[2026-05-20T01:05:04.858066] The user's favorite food is Pizza
+
+<!-- id: cf0233c5; test_id: test_inf_084; source: facts.json; category: information_extraction -->
+[2026-05-20T01:05:04.858652] The user's favorite movie is Star Wars
+
+<!-- id: 9f7f675b; test_id: test_inf_085; source: facts.json; category: information_extraction -->
+[2026-05-20T01:05:04.859236] The user's favorite hobby is Hiking
+
+<!-- id: 0b65510e; test_id: test_inf_086; source: facts.json; category: information_extraction -->
+[2026-05-20T01:05:04.859832] The user's favorite food is Pizza
+
+<!-- id: 862c4398; test_id: test_inf_087; source: facts.json; category: information_extraction -->
+[2026-05-20T01:05:04.860501] The user's favorite color is Blue
+
+<!-- id: 842102e8; test_id: test_inf_088; source: facts.json; category: information_extraction -->
+[2026-05-20T01:05:04.861157] The user's favorite food is Pizza
+
+<!-- id: d80dd35e; test_id: test_inf_089; source: facts.json; category: information_extraction -->
+[2026-05-20T01:05:04.861736] The user's favorite book is Dune
+
+<!-- id: 1b1e1051; test_id: test_inf_090; source: facts.json; category: information_extraction -->
+[2026-05-20T01:05:04.862317] The user's favorite food is Pizza
+
+<!-- id: 0a9d733b; test_id: test_inf_091; source: facts.json; category: information_extraction -->
+[2026-05-20T01:05:04.862907] The user's favorite food is Pizza
+
+<!-- id: 058cd7d2; test_id: test_inf_092; source: facts.json; category: information_extraction -->
+[2026-05-20T01:05:04.863486] The user's favorite book is Dune
+
+<!-- id: 84f83417; test_id: test_inf_093; source: facts.json; category: information_extraction -->
+[2026-05-20T01:05:04.864077] The user's favorite movie is Star Wars
+
+<!-- id: b14fcc2d; test_id: test_inf_094; source: facts.json; category: information_extraction -->
+[2026-05-20T01:05:04.864668] The user's favorite movie is Star Wars
+
+<!-- id: cc6f5726; test_id: test_inf_095; source: facts.json; category: information_extraction -->
+[2026-05-20T01:05:04.865252] The user's favorite food is Pizza
+
+<!-- id: f4d52ab6; test_id: test_inf_096; source: facts.json; category: information_extraction -->
+[2026-05-20T01:05:04.866050] The user's favorite hobby is Hiking
+
+<!-- id: 612f0890; test_id: test_inf_097; source: facts.json; category: information_extraction -->
+[2026-05-20T01:05:04.866769] The user's favorite food is Pizza
+
+<!-- id: 095c6b89; test_id: test_inf_098; source: facts.json; category: information_extraction -->
+[2026-05-20T01:05:04.867622] The user's favorite movie is Star Wars
+
+<!-- id: 72dfacc4; test_id: test_inf_099; source: facts.json; category: information_extraction -->
+[2026-05-20T01:05:04.868493] The user's favorite movie is Star Wars
+
+<!-- id: 45a796a0; test_id: test_cro_000; source: facts.json; category: cross_session_reasoning -->
+[2026-05-20T01:05:04.869373] The user works as a software engineer
+
+<!-- id: 8bd78059; test_id: test_cro_001; source: facts.json; category: cross_session_reasoning -->
+[2026-05-20T01:05:04.870114] The user has a dog named Max
+
+<!-- id: 0292b9f0; test_id: test_cro_002; source: facts.json; category: cross_session_reasoning -->
+[2026-05-20T01:05:04.870768] The user wants to travel to Japan
+
+<!-- id: 0905455e; test_id: test_cro_003; source: facts.json; category: cross_session_reasoning -->
+[2026-05-20T01:05:04.871490] The user works as a software engineer
+
+<!-- id: 148b738b; test_id: test_cro_004; source: facts.json; category: cross_session_reasoning -->
+[2026-05-20T01:05:04.872178] The user wants to travel to Japan
+
+<!-- id: 883cfefb; test_id: test_cro_005; source: facts.json; category: cross_session_reasoning -->
+[2026-05-20T01:05:04.872740] The user works as a software engineer
+
+<!-- id: d66e8b78; test_id: test_cro_006; source: facts.json; category: cross_session_reasoning -->
+[2026-05-20T01:05:04.873278] The user wants to travel to Japan
+
+<!-- id: eedbc995; test_id: test_cro_007; source: facts.json; category: cross_session_reasoning -->
+[2026-05-20T01:05:04.873926] The user plans to learn Python
+
+<!-- id: 3efa232e; test_id: test_cro_008; source: facts.json; category: cross_session_reasoning -->
+[2026-05-20T01:05:04.874462] The user has a dog named Max
+
+<!-- id: 00718c8b; test_id: test_cro_009; source: facts.json; category: cross_session_reasoning -->
+[2026-05-20T01:05:04.874982] The user enjoys hiking on weekends
+
+<!-- id: 4c2231df; test_id: test_cro_010; source: facts.json; category: cross_session_reasoning -->
+[2026-05-20T01:05:04.875515] The user has a dog named Max
+
+<!-- id: fd7d42f9; test_id: test_cro_011; source: facts.json; category: cross_session_reasoning -->
+[2026-05-20T01:05:04.876296] The user wants to travel to Japan
+
+<!-- id: 20204b6f; test_id: test_cro_012; source: facts.json; category: cross_session_reasoning -->
+[2026-05-20T01:05:04.876874] The user plans to learn Python
+
+<!-- id: 5d2fa84e; test_id: test_cro_013; source: facts.json; category: cross_session_reasoning -->
+[2026-05-20T01:05:04.877437] The user has a dog named Max
+
+<!-- id: 5d8e6868; test_id: test_cro_014; source: facts.json; category: cross_session_reasoning -->
+[2026-05-20T01:05:04.878000] The user has a dog named Max
+
+<!-- id: edd0e922; test_id: test_cro_015; source: facts.json; category: cross_session_reasoning -->
+[2026-05-20T01:05:04.878605] The user has a dog named Max
+
+<!-- id: b6b432cd; test_id: test_cro_016; source: facts.json; category: cross_session_reasoning -->
+[2026-05-20T01:05:04.879155] The user works as a software engineer
+
+<!-- id: c373654f; test_id: test_cro_017; source: facts.json; category: cross_session_reasoning -->
+[2026-05-20T01:05:04.879743] The user wants to travel to Japan
+
+<!-- id: 54f8f564; test_id: test_cro_018; source: facts.json; category: cross_session_reasoning -->
+[2026-05-20T01:05:04.880416] The user enjoys hiking on weekends
+
+<!-- id: 203c9829; test_id: test_cro_019; source: facts.json; category: cross_session_reasoning -->
+[2026-05-20T01:05:04.881142] The user enjoys hiking on weekends
+
+<!-- id: 465704bc; test_id: test_cro_020; source: facts.json; category: cross_session_reasoning -->
+[2026-05-20T01:05:04.881977] The user plans to learn Python
+
+<!-- id: 7e716f2c; test_id: test_cro_021; source: facts.json; category: cross_session_reasoning -->
+[2026-05-20T01:05:04.882636] The user plans to learn Python
+
+<!-- id: 03a62e61; test_id: test_cro_022; source: facts.json; category: cross_session_reasoning -->
+[2026-05-20T01:05:04.883221] The user plans to learn Python
+
+<!-- id: 1e3300c6; test_id: test_cro_023; source: facts.json; category: cross_session_reasoning -->
+[2026-05-20T01:05:04.883788] The user has a dog named Max
+
+<!-- id: b7a2e050; test_id: test_cro_024; source: facts.json; category: cross_session_reasoning -->
+[2026-05-20T01:05:04.884356] The user plans to learn Python
+
+<!-- id: bcad03ea; test_id: test_cro_025; source: facts.json; category: cross_session_reasoning -->
+[2026-05-20T01:05:04.884922] The user works as a software engineer
+
+<!-- id: ae4276ab; test_id: test_cro_026; source: facts.json; category: cross_session_reasoning -->
+[2026-05-20T01:05:04.885532] The user wants to travel to Japan
+
+<!-- id: 94cdd51c; test_id: test_cro_027; source: facts.json; category: cross_session_reasoning -->
+[2026-05-20T01:05:04.886128] The user has a dog named Max
+
+<!-- id: 859a9570; test_id: test_cro_028; source: facts.json; category: cross_session_reasoning -->
+[2026-05-20T01:05:04.886902] The user has a dog named Max
+
+<!-- id: b85a4fd9; test_id: test_cro_029; source: facts.json; category: cross_session_reasoning -->
+[2026-05-20T01:05:04.887726] The user wants to travel to Japan
+
+<!-- id: 9eb9542f; test_id: test_cro_030; source: facts.json; category: cross_session_reasoning -->
+[2026-05-20T01:05:04.888312] The user enjoys hiking on weekends
+
+<!-- id: 5044e111; test_id: test_cro_031; source: facts.json; category: cross_session_reasoning -->
+[2026-05-20T01:05:04.888867] The user wants to travel to Japan
+
+<!-- id: 49e67646; test_id: test_cro_032; source: facts.json; category: cross_session_reasoning -->
+[2026-05-20T01:05:04.889435] The user has a dog named Max
+
+<!-- id: ec7c94e9; test_id: test_cro_033; source: facts.json; category: cross_session_reasoning -->
+[2026-05-20T01:05:04.889973] The user plans to learn Python
+
+<!-- id: 689c1a5e; test_id: test_cro_034; source: facts.json; category: cross_session_reasoning -->
+[2026-05-20T01:05:04.890497] The user works as a software engineer
+
+<!-- id: 5aaa01f1; test_id: test_cro_035; source: facts.json; category: cross_session_reasoning -->
+[2026-05-20T01:05:04.891444] The user wants to travel to Japan
+
+<!-- id: 5a3e34e5; test_id: test_cro_036; source: facts.json; category: cross_session_reasoning -->
+[2026-05-20T01:05:04.892419] The user works as a software engineer
+
+<!-- id: 0d71fae4; test_id: test_cro_037; source: facts.json; category: cross_session_reasoning -->
+[2026-05-20T01:05:04.893036] The user plans to learn Python
+
+<!-- id: f2f07ceb; test_id: test_cro_038; source: facts.json; category: cross_session_reasoning -->
+[2026-05-20T01:05:04.893664] The user has a dog named Max
+
+<!-- id: de6daf1a; test_id: test_cro_039; source: facts.json; category: cross_session_reasoning -->
+[2026-05-20T01:05:04.894331] The user works as a software engineer
+
+<!-- id: a5c4d0fc; test_id: test_cro_040; source: facts.json; category: cross_session_reasoning -->
+[2026-05-20T01:05:04.895037] The user wants to travel to Japan
+
+<!-- id: 714162fb; test_id: test_cro_041; source: facts.json; category: cross_session_reasoning -->
+[2026-05-20T01:05:04.895925] The user plans to learn Python
+
+<!-- id: 537659e4; test_id: test_cro_042; source: facts.json; category: cross_session_reasoning -->
+[2026-05-20T01:05:04.896577] The user enjoys hiking on weekends
+
+<!-- id: 0fc7ff5d; test_id: test_cro_043; source: facts.json; category: cross_session_reasoning -->
+[2026-05-20T01:05:04.897235] The user wants to travel to Japan
+
+<!-- id: 063916d6; test_id: test_cro_044; source: facts.json; category: cross_session_reasoning -->
+[2026-05-20T01:05:04.898419] The user works as a software engineer
+
+<!-- id: 443399bb; test_id: test_cro_045; source: facts.json; category: cross_session_reasoning -->
+[2026-05-20T01:05:04.899433] The user has a dog named Max
+
+<!-- id: 7f7557a4; test_id: test_cro_046; source: facts.json; category: cross_session_reasoning -->
+[2026-05-20T01:05:04.900082] The user plans to learn Python
+
+<!-- id: 239c7d02; test_id: test_cro_047; source: facts.json; category: cross_session_reasoning -->
+[2026-05-20T01:05:04.900694] The user wants to travel to Japan
+
+<!-- id: 1d2f3cfd; test_id: test_cro_048; source: facts.json; category: cross_session_reasoning -->
+[2026-05-20T01:05:04.901358] The user wants to travel to Japan
+
+<!-- id: 0a703ae4; test_id: test_cro_049; source: facts.json; category: cross_session_reasoning -->
+[2026-05-20T01:05:04.902070] The user wants to travel to Japan
+
+<!-- id: 8a5690b4; test_id: test_cro_050; source: facts.json; category: cross_session_reasoning -->
+[2026-05-20T01:05:04.902652] The user plans to learn Python
+
+<!-- id: d848f838; test_id: test_cro_051; source: facts.json; category: cross_session_reasoning -->
+[2026-05-20T01:05:04.903404] The user works as a software engineer
+
+<!-- id: d872b14f; test_id: test_cro_052; source: facts.json; category: cross_session_reasoning -->
+[2026-05-20T01:05:04.904038] The user has a dog named Max
+
+<!-- id: f5c9f0fd; test_id: test_cro_053; source: facts.json; category: cross_session_reasoning -->
+[2026-05-20T01:05:04.904602] The user plans to learn Python
+
+<!-- id: a5a3d9fe; test_id: test_cro_054; source: facts.json; category: cross_session_reasoning -->
+[2026-05-20T01:05:04.905176] The user enjoys hiking on weekends
+
+<!-- id: 1d6e9117; test_id: test_cro_055; source: facts.json; category: cross_session_reasoning -->
+[2026-05-20T01:05:04.905950] The user plans to learn Python
+
+<!-- id: e42a874c; test_id: test_cro_056; source: facts.json; category: cross_session_reasoning -->
+[2026-05-20T01:05:04.906613] The user has a dog named Max
+
+<!-- id: 29f9ab07; test_id: test_cro_057; source: facts.json; category: cross_session_reasoning -->
+[2026-05-20T01:05:04.907231] The user has a dog named Max
+
+<!-- id: 8a731c5f; test_id: test_cro_058; source: facts.json; category: cross_session_reasoning -->
+[2026-05-20T01:05:04.907810] The user plans to learn Python
+
+<!-- id: 3d89b70e; test_id: test_cro_059; source: facts.json; category: cross_session_reasoning -->
+[2026-05-20T01:05:04.908461] The user enjoys hiking on weekends
+
+<!-- id: 5d4b905c; test_id: test_cro_060; source: facts.json; category: cross_session_reasoning -->
+[2026-05-20T01:05:04.909097] The user plans to learn Python
+
+<!-- id: 88f8ce61; test_id: test_cro_061; source: facts.json; category: cross_session_reasoning -->
+[2026-05-20T01:05:04.909677] The user has a dog named Max
+
+<!-- id: f8d6fae5; test_id: test_cro_062; source: facts.json; category: cross_session_reasoning -->
+[2026-05-20T01:05:04.910385] The user has a dog named Max
+
+<!-- id: d47ce210; test_id: test_cro_063; source: facts.json; category: cross_session_reasoning -->
+[2026-05-20T01:05:04.910969] The user enjoys hiking on weekends
+
+<!-- id: f30a5e26; test_id: test_cro_064; source: facts.json; category: cross_session_reasoning -->
+[2026-05-20T01:05:04.911555] The user has a dog named Max
+
+<!-- id: 2198766a; test_id: test_cro_065; source: facts.json; category: cross_session_reasoning -->
+[2026-05-20T01:05:04.912197] The user wants to travel to Japan
+
+<!-- id: c3bf83a7; test_id: test_cro_066; source: facts.json; category: cross_session_reasoning -->
+[2026-05-20T01:05:04.912820] The user has a dog named Max
+
+<!-- id: c56a5179; test_id: test_cro_067; source: facts.json; category: cross_session_reasoning -->
+[2026-05-20T01:05:04.913392] The user enjoys hiking on weekends
+
+<!-- id: e0d9191b; test_id: test_cro_068; source: facts.json; category: cross_session_reasoning -->
+[2026-05-20T01:05:04.914220] The user plans to learn Python
+
+<!-- id: 549af1b2; test_id: test_cro_069; source: facts.json; category: cross_session_reasoning -->
+[2026-05-20T01:05:04.914804] The user works as a software engineer
+
+<!-- id: 603c1d5b; test_id: test_cro_070; source: facts.json; category: cross_session_reasoning -->
+[2026-05-20T01:05:04.915377] The user plans to learn Python
+
+<!-- id: 7456bb1c; test_id: test_cro_071; source: facts.json; category: cross_session_reasoning -->
+[2026-05-20T01:05:04.915992] The user enjoys hiking on weekends
+
+<!-- id: 125ee7ea; test_id: test_cro_072; source: facts.json; category: cross_session_reasoning -->
+[2026-05-20T01:05:04.916594] The user works as a software engineer
+
+<!-- id: d82e982d; test_id: test_cro_073; source: facts.json; category: cross_session_reasoning -->
+[2026-05-20T01:05:04.917191] The user has a dog named Max
+
+<!-- id: 91d6296d; test_id: test_cro_074; source: facts.json; category: cross_session_reasoning -->
+[2026-05-20T01:05:04.917773] The user plans to learn Python
+
+<!-- id: 834b526f; test_id: test_cro_075; source: facts.json; category: cross_session_reasoning -->
+[2026-05-20T01:05:04.918337] The user enjoys hiking on weekends
+
+<!-- id: 85480475; test_id: test_cro_076; source: facts.json; category: cross_session_reasoning -->
+[2026-05-20T01:05:04.918950] The user has a dog named Max
+
+<!-- id: c0bb37fc; test_id: test_cro_077; source: facts.json; category: cross_session_reasoning -->
+[2026-05-20T01:05:04.919600] The user works as a software engineer
+
+<!-- id: 389739b6; test_id: test_cro_078; source: facts.json; category: cross_session_reasoning -->
+[2026-05-20T01:05:04.920192] The user enjoys hiking on weekends
+
+<!-- id: 95db3e0c; test_id: test_cro_079; source: facts.json; category: cross_session_reasoning -->
+[2026-05-20T01:05:04.920785] The user enjoys hiking on weekends
+
+<!-- id: 085d6dba; test_id: test_cro_080; source: facts.json; category: cross_session_reasoning -->
+[2026-05-20T01:05:04.921351] The user enjoys hiking on weekends
+
+<!-- id: f6d1e48c; test_id: test_cro_081; source: facts.json; category: cross_session_reasoning -->
+[2026-05-20T01:05:04.921941] The user works as a software engineer
+
+<!-- id: 9f4866a1; test_id: test_cro_082; source: facts.json; category: cross_session_reasoning -->
+[2026-05-20T01:05:04.922520] The user works as a software engineer
+
+<!-- id: 78508fbe; test_id: test_cro_083; source: facts.json; category: cross_session_reasoning -->
+[2026-05-20T01:05:04.923097] The user has a dog named Max
+
+<!-- id: ed7a40dc; test_id: test_cro_084; source: facts.json; category: cross_session_reasoning -->
+[2026-05-20T01:05:04.923676] The user has a dog named Max
+
+<!-- id: 5123ee94; test_id: test_cro_085; source: facts.json; category: cross_session_reasoning -->
+[2026-05-20T01:05:04.924356] The user wants to travel to Japan
+
+<!-- id: f5b97ccd; test_id: test_cro_086; source: facts.json; category: cross_session_reasoning -->
+[2026-05-20T01:05:04.924946] The user has a dog named Max
+
+<!-- id: d3b43459; test_id: test_cro_087; source: facts.json; category: cross_session_reasoning -->
+[2026-05-20T01:05:04.925617] The user enjoys hiking on weekends
+
+<!-- id: 2a859c40; test_id: test_cro_088; source: facts.json; category: cross_session_reasoning -->
+[2026-05-20T01:05:04.926189] The user enjoys hiking on weekends
+
+<!-- id: f95a7025; test_id: test_cro_089; source: facts.json; category: cross_session_reasoning -->
+[2026-05-20T01:05:04.926882] The user wants to travel to Japan
+
+<!-- id: 38735e2f; test_id: test_cro_090; source: facts.json; category: cross_session_reasoning -->
+[2026-05-20T01:05:04.927480] The user works as a software engineer
+
+<!-- id: 6dcf1a19; test_id: test_cro_091; source: facts.json; category: cross_session_reasoning -->
+[2026-05-20T01:05:04.928063] The user wants to travel to Japan
+
+<!-- id: 4b095ea2; test_id: test_cro_092; source: facts.json; category: cross_session_reasoning -->
+[2026-05-20T01:05:04.928625] The user wants to travel to Japan
+
+<!-- id: 59fd01fe; test_id: test_cro_093; source: facts.json; category: cross_session_reasoning -->
+[2026-05-20T01:05:04.929170] The user works as a software engineer
+
+<!-- id: 940a1b34; test_id: test_cro_094; source: facts.json; category: cross_session_reasoning -->
+[2026-05-20T01:05:04.929765] The user has a dog named Max
+
+<!-- id: ce30c3fc; test_id: test_cro_095; source: facts.json; category: cross_session_reasoning -->
+[2026-05-20T01:05:04.930473] The user wants to travel to Japan
+
+<!-- id: a64477e2; test_id: test_cro_096; source: facts.json; category: cross_session_reasoning -->
+[2026-05-20T01:05:04.931126] The user enjoys hiking on weekends
+
+<!-- id: 1578deaa; test_id: test_cro_097; source: facts.json; category: cross_session_reasoning -->
+[2026-05-20T01:05:04.931719] The user has a dog named Max
+
+<!-- id: 8e737525; test_id: test_cro_098; source: facts.json; category: cross_session_reasoning -->
+[2026-05-20T01:05:04.932290] The user enjoys hiking on weekends
+
+<!-- id: 6c4d5515; test_id: test_cro_099; source: facts.json; category: cross_session_reasoning -->
+[2026-05-20T01:05:04.932882] The user enjoys hiking on weekends
+
+<!-- id: 68f63f52; test_id: test_tem_000; source: facts.json; category: temporal_reasoning -->
+[2026-05-20T01:05:04.933578] The user went on vacation 27 days ago
+
+<!-- id: 7e1cd32f; test_id: test_tem_001; source: facts.json; category: temporal_reasoning -->
+[2026-05-20T01:05:04.934208] The user's birthday was 27 days ago
+
+<!-- id: e0472bfd; test_id: test_tem_002; source: facts.json; category: temporal_reasoning -->
+[2026-05-20T01:05:04.934789] The user had a deadline 12 days ago
+
+<!-- id: 0d932c21; test_id: test_tem_003; source: facts.json; category: temporal_reasoning -->
+[2026-05-20T01:05:04.935392] The user had a deadline 19 days ago
+
+<!-- id: 06f81d92; test_id: test_tem_004; source: facts.json; category: temporal_reasoning -->
+[2026-05-20T01:05:04.936188] The user went on vacation 20 days ago
+
+<!-- id: cea5d448; test_id: test_tem_005; source: facts.json; category: temporal_reasoning -->
+[2026-05-20T01:05:04.936813] The user had a meeting 21 days ago
+
+<!-- id: 64c80419; test_id: test_tem_006; source: facts.json; category: temporal_reasoning -->
+[2026-05-20T01:05:04.937421] The user had a meeting 26 days ago
+
+<!-- id: fa2843d1; test_id: test_tem_007; source: facts.json; category: temporal_reasoning -->
+[2026-05-20T01:05:04.938016] The user went on vacation 15 days ago
+
+<!-- id: 6f43b8f6; test_id: test_tem_008; source: facts.json; category: temporal_reasoning -->
+[2026-05-20T01:05:04.938627] The user's birthday was 11 days ago
+
+<!-- id: 4f010139; test_id: test_tem_009; source: facts.json; category: temporal_reasoning -->
+[2026-05-20T01:05:04.939223] The user had a deadline 27 days ago
+
+<!-- id: 85390b42; test_id: test_tem_010; source: facts.json; category: temporal_reasoning -->
+[2026-05-20T01:05:04.939810] The user's birthday was 27 days ago
+
+<!-- id: 696fd6bc; test_id: test_tem_011; source: facts.json; category: temporal_reasoning -->
+[2026-05-20T01:05:04.940414] The user went on vacation 6 days ago
+
+<!-- id: d46b06fc; test_id: test_tem_012; source: facts.json; category: temporal_reasoning -->
+[2026-05-20T01:05:04.941134] The user had a deadline 12 days ago
+
+<!-- id: a3a74146; test_id: test_tem_013; source: facts.json; category: temporal_reasoning -->
+[2026-05-20T01:05:04.941852] The user had a deadline 11 days ago
+
+<!-- id: 7b1958a7; test_id: test_tem_014; source: facts.json; category: temporal_reasoning -->
+[2026-05-20T01:05:04.942482] The user had a meeting 4 days ago
+
+<!-- id: ce9ec000; test_id: test_tem_015; source: facts.json; category: temporal_reasoning -->
+[2026-05-20T01:05:04.943051] The user's birthday was 1 days ago
+
+<!-- id: cf885f7e; test_id: test_tem_016; source: facts.json; category: temporal_reasoning -->
+[2026-05-20T01:05:04.943755] The user's birthday was 22 days ago
+
+<!-- id: 9408f1df; test_id: test_tem_017; source: facts.json; category: temporal_reasoning -->
+[2026-05-20T01:05:04.944334] The user started a new project 24 days ago
+
+<!-- id: 3bf77a6e; test_id: test_tem_018; source: facts.json; category: temporal_reasoning -->
+[2026-05-20T01:05:04.944943] The user had a deadline 9 days ago
+
+<!-- id: a4964408; test_id: test_tem_019; source: facts.json; category: temporal_reasoning -->
+[2026-05-20T01:05:04.945537] The user's birthday was 23 days ago
+
+<!-- id: fe41ea9a; test_id: test_tem_020; source: facts.json; category: temporal_reasoning -->
+[2026-05-20T01:05:04.946160] The user went on vacation 11 days ago
+
+<!-- id: 4bcb0b04; test_id: test_tem_021; source: facts.json; category: temporal_reasoning -->
+[2026-05-20T01:05:04.946896] The user had a deadline 16 days ago
+
+<!-- id: 2bb5e656; test_id: test_tem_022; source: facts.json; category: temporal_reasoning -->
+[2026-05-20T01:05:04.947512] The user started a new project 23 days ago
+
+<!-- id: 76de21e6; test_id: test_tem_023; source: facts.json; category: temporal_reasoning -->
+[2026-05-20T01:05:04.948121] The user went on vacation 4 days ago
+
+<!-- id: ff23ce18; test_id: test_tem_024; source: facts.json; category: temporal_reasoning -->
+[2026-05-20T01:05:04.948721] The user's birthday was 3 days ago
+
+<!-- id: cf600539; test_id: test_tem_025; source: facts.json; category: temporal_reasoning -->
+[2026-05-20T01:05:04.949306] The user had a meeting 16 days ago
+
+<!-- id: d15e2003; test_id: test_tem_026; source: facts.json; category: temporal_reasoning -->
+[2026-05-20T01:05:04.949899] The user had a meeting 2 days ago
+
+<!-- id: 1830bb1b; test_id: test_tem_027; source: facts.json; category: temporal_reasoning -->
+[2026-05-20T01:05:04.950492] The user went on vacation 19 days ago
+
+<!-- id: cf25dd5b; test_id: test_tem_028; source: facts.json; category: temporal_reasoning -->
+[2026-05-20T01:05:04.951088] The user started a new project 30 days ago
+
+<!-- id: 23de8a39; test_id: test_tem_029; source: facts.json; category: temporal_reasoning -->
+[2026-05-20T01:05:04.951845] The user went on vacation 22 days ago
+
+<!-- id: 4cb74039; test_id: test_tem_030; source: facts.json; category: temporal_reasoning -->
+[2026-05-20T01:05:04.952469] The user had a meeting 28 days ago
+
+<!-- id: 6c8f96d7; test_id: test_tem_031; source: facts.json; category: temporal_reasoning -->
+[2026-05-20T01:05:04.953067] The user went on vacation 24 days ago
+
+<!-- id: 1a0e0121; test_id: test_tem_032; source: facts.json; category: temporal_reasoning -->
+[2026-05-20T01:05:04.953673] The user went on vacation 10 days ago
+
+<!-- id: 81b3e03b; test_id: test_tem_033; source: facts.json; category: temporal_reasoning -->
+[2026-05-20T01:05:04.954296] The user had a meeting 12 days ago
+
+<!-- id: 55d01343; test_id: test_tem_034; source: facts.json; category: temporal_reasoning -->
+[2026-05-20T01:05:04.954885] The user went on vacation 27 days ago
+
+<!-- id: cc9d2a47; test_id: test_tem_035; source: facts.json; category: temporal_reasoning -->
+[2026-05-20T01:05:04.955484] The user had a meeting 3 days ago
+
+<!-- id: 5be89f8a; test_id: test_tem_036; source: facts.json; category: temporal_reasoning -->
+[2026-05-20T01:05:04.956075] The user's birthday was 29 days ago
+
+<!-- id: 0e19b550; test_id: test_tem_037; source: facts.json; category: temporal_reasoning -->
+[2026-05-20T01:05:04.956781] The user had a meeting 16 days ago
+
+<!-- id: 9c7b0c5f; test_id: test_tem_038; source: facts.json; category: temporal_reasoning -->
+[2026-05-20T01:05:04.957438] The user had a meeting 12 days ago
+
+<!-- id: 90e71883; test_id: test_tem_039; source: facts.json; category: temporal_reasoning -->
+[2026-05-20T01:05:04.958036] The user's birthday was 20 days ago
+
+<!-- id: 7a4b01c8; test_id: test_tem_040; source: facts.json; category: temporal_reasoning -->
+[2026-05-20T01:05:04.958639] The user had a meeting 13 days ago
+
+<!-- id: 2011d61b; test_id: test_tem_041; source: facts.json; category: temporal_reasoning -->
+[2026-05-20T01:05:04.959238] The user went on vacation 5 days ago
+
+<!-- id: 50704777; test_id: test_tem_042; source: facts.json; category: temporal_reasoning -->
+[2026-05-20T01:05:04.960043] The user had a deadline 6 days ago
+
+<!-- id: c5c0a6c6; test_id: test_tem_043; source: facts.json; category: temporal_reasoning -->
+[2026-05-20T01:05:04.960660] The user started a new project 1 days ago
+
+<!-- id: 38ffa3ca; test_id: test_tem_044; source: facts.json; category: temporal_reasoning -->
+[2026-05-20T01:05:04.961276] The user's birthday was 1 days ago
+
+<!-- id: 177c8078; test_id: test_tem_045; source: facts.json; category: temporal_reasoning -->
+[2026-05-20T01:05:04.961861] The user had a meeting 30 days ago
+
+<!-- id: 038794cf; test_id: test_tem_046; source: facts.json; category: temporal_reasoning -->
+[2026-05-20T01:05:04.962585] The user had a meeting 22 days ago
+
+<!-- id: d82be267; test_id: test_tem_047; source: facts.json; category: temporal_reasoning -->
+[2026-05-20T01:05:04.963186] The user had a deadline 3 days ago
+
+<!-- id: 2cd51e00; test_id: test_tem_048; source: facts.json; category: temporal_reasoning -->
+[2026-05-20T01:05:04.963800] The user's birthday was 25 days ago
+
+<!-- id: 6be2d956; test_id: test_tem_049; source: facts.json; category: temporal_reasoning -->
+[2026-05-20T01:05:04.964395] The user's birthday was 8 days ago
+
+<!-- id: d0c2b492; test_id: test_tem_050; source: facts.json; category: temporal_reasoning -->
+[2026-05-20T01:05:04.964991] The user had a deadline 10 days ago
+
+<!-- id: b112853a; test_id: test_tem_051; source: facts.json; category: temporal_reasoning -->
+[2026-05-20T01:05:04.965590] The user went on vacation 4 days ago
+
+<!-- id: 3d5c26f9; test_id: test_tem_052; source: facts.json; category: temporal_reasoning -->
+[2026-05-20T01:05:04.966191] The user had a deadline 22 days ago
+
+<!-- id: b754174b; test_id: test_tem_053; source: facts.json; category: temporal_reasoning -->
+[2026-05-20T01:05:04.966787] The user had a deadline 14 days ago
+
+<!-- id: 5dc04a63; test_id: test_tem_054; source: facts.json; category: temporal_reasoning -->
+[2026-05-20T01:05:04.967660] The user had a meeting 23 days ago
+
+<!-- id: a8527aeb; test_id: test_tem_055; source: facts.json; category: temporal_reasoning -->
+[2026-05-20T01:05:04.968303] The user's birthday was 23 days ago
+
+<!-- id: e72d219a; test_id: test_tem_056; source: facts.json; category: temporal_reasoning -->
+[2026-05-20T01:05:04.969206] The user had a meeting 1 days ago
+
+<!-- id: 680eef5c; test_id: test_tem_057; source: facts.json; category: temporal_reasoning -->
+[2026-05-20T01:05:04.969857] The user's birthday was 6 days ago
+
+<!-- id: bcfec858; test_id: test_tem_058; source: facts.json; category: temporal_reasoning -->
+[2026-05-20T01:05:04.970466] The user's birthday was 21 days ago
+
+<!-- id: 495fdc9a; test_id: test_tem_059; source: facts.json; category: temporal_reasoning -->
+[2026-05-20T01:05:04.971075] The user went on vacation 18 days ago
+
+<!-- id: 251ead5a; test_id: test_tem_060; source: facts.json; category: temporal_reasoning -->
+[2026-05-20T01:05:04.971687] The user started a new project 27 days ago
+
+<!-- id: a8740554; test_id: test_tem_061; source: facts.json; category: temporal_reasoning -->
+[2026-05-20T01:05:04.972479] The user started a new project 9 days ago
+
+<!-- id: 36ac9a4f; test_id: test_tem_062; source: facts.json; category: temporal_reasoning -->
+[2026-05-20T01:05:04.973479] The user started a new project 6 days ago
+
+<!-- id: 0a3ab7e0; test_id: test_tem_063; source: facts.json; category: temporal_reasoning -->
+[2026-05-20T01:05:04.974202] The user went on vacation 19 days ago
+
+<!-- id: 332016a8; test_id: test_tem_064; source: facts.json; category: temporal_reasoning -->
+[2026-05-20T01:05:04.974915] The user's birthday was 11 days ago
+
+<!-- id: a1d1c403; test_id: test_tem_065; source: facts.json; category: temporal_reasoning -->
+[2026-05-20T01:05:04.975630] The user started a new project 24 days ago
+
+<!-- id: 81c9372e; test_id: test_tem_066; source: facts.json; category: temporal_reasoning -->
+[2026-05-20T01:05:04.976428] The user had a deadline 14 days ago
+
+<!-- id: 68283343; test_id: test_tem_067; source: facts.json; category: temporal_reasoning -->
+[2026-05-20T01:05:04.977264] The user's birthday was 15 days ago
+
+<!-- id: efc1a7b0; test_id: test_tem_068; source: facts.json; category: temporal_reasoning -->
+[2026-05-20T01:05:04.978041] The user started a new project 13 days ago
+
+<!-- id: 3b0e9182; test_id: test_tem_069; source: facts.json; category: temporal_reasoning -->
+[2026-05-20T01:05:04.979144] The user had a deadline 20 days ago
+
+<!-- id: 00e3558e; test_id: test_tem_070; source: facts.json; category: temporal_reasoning -->
+[2026-05-20T01:05:04.979800] The user went on vacation 16 days ago
+
+<!-- id: c4d50839; test_id: test_tem_071; source: facts.json; category: temporal_reasoning -->
+[2026-05-20T01:05:04.980426] The user had a meeting 24 days ago
+
+<!-- id: 9fe64884; test_id: test_tem_072; source: facts.json; category: temporal_reasoning -->
+[2026-05-20T01:05:04.981148] The user went on vacation 11 days ago
+
+<!-- id: 847ac5a5; test_id: test_tem_073; source: facts.json; category: temporal_reasoning -->
+[2026-05-20T01:05:04.981852] The user's birthday was 19 days ago
+
+<!-- id: 324a0bef; test_id: test_tem_074; source: facts.json; category: temporal_reasoning -->
+[2026-05-20T01:05:04.982775] The user had a meeting 2 days ago
+
+<!-- id: 7ae0d175; test_id: test_tem_075; source: facts.json; category: temporal_reasoning -->
+[2026-05-20T01:05:04.983534] The user had a meeting 15 days ago
+
+<!-- id: 56a38308; test_id: test_tem_076; source: facts.json; category: temporal_reasoning -->
+[2026-05-20T01:05:04.984242] The user started a new project 24 days ago
+
+<!-- id: 239d8cdb; test_id: test_tem_077; source: facts.json; category: temporal_reasoning -->
+[2026-05-20T01:05:04.985183] The user's birthday was 25 days ago
+
+<!-- id: 32242aa4; test_id: test_tem_078; source: facts.json; category: temporal_reasoning -->
+[2026-05-20T01:05:04.985851] The user's birthday was 16 days ago
+
+<!-- id: bbdb764b; test_id: test_tem_079; source: facts.json; category: temporal_reasoning -->
+[2026-05-20T01:05:04.986473] The user started a new project 6 days ago
+
+<!-- id: 576e3c5c; test_id: test_tem_080; source: facts.json; category: temporal_reasoning -->
+[2026-05-20T01:05:04.987108] The user started a new project 5 days ago
+
+<!-- id: 7900c055; test_id: test_tem_081; source: facts.json; category: temporal_reasoning -->
+[2026-05-20T01:05:04.987734] The user's birthday was 23 days ago
+
+<!-- id: 8b560718; test_id: test_tem_082; source: facts.json; category: temporal_reasoning -->
+[2026-05-20T01:05:04.988412] The user's birthday was 1 days ago
+
+<!-- id: f0d385f8; test_id: test_tem_083; source: facts.json; category: temporal_reasoning -->
+[2026-05-20T01:05:04.989322] The user had a deadline 29 days ago
+
+<!-- id: 040a02a0; test_id: test_tem_084; source: facts.json; category: temporal_reasoning -->
+[2026-05-20T01:05:04.989943] The user had a meeting 28 days ago
+
+<!-- id: ac2fa725; test_id: test_tem_085; source: facts.json; category: temporal_reasoning -->
+[2026-05-20T01:05:04.990572] The user went on vacation 23 days ago
+
+<!-- id: 29535380; test_id: test_tem_086; source: facts.json; category: temporal_reasoning -->
+[2026-05-20T01:05:04.991190] The user started a new project 10 days ago
+
+<!-- id: 665abafe; test_id: test_tem_087; source: facts.json; category: temporal_reasoning -->
+[2026-05-20T01:05:04.991814] The user started a new project 29 days ago
+
+<!-- id: 659345cc; test_id: test_tem_088; source: facts.json; category: temporal_reasoning -->
+[2026-05-20T01:05:04.992433] The user's birthday was 27 days ago
+
+<!-- id: 92b64679; test_id: test_tem_089; source: facts.json; category: temporal_reasoning -->
+[2026-05-20T01:05:04.993041] The user started a new project 6 days ago
+
+<!-- id: 80be3f0f; test_id: test_tem_090; source: facts.json; category: temporal_reasoning -->
+[2026-05-20T01:05:04.993673] The user went on vacation 12 days ago
+
+<!-- id: e008de7a; test_id: test_tem_091; source: facts.json; category: temporal_reasoning -->
+[2026-05-20T01:05:04.994513] The user went on vacation 23 days ago
+
+<!-- id: e4ca02da; test_id: test_tem_092; source: facts.json; category: temporal_reasoning -->
+[2026-05-20T01:05:04.995141] The user went on vacation 22 days ago
+
+<!-- id: 0c9cd3f7; test_id: test_tem_093; source: facts.json; category: temporal_reasoning -->
+[2026-05-20T01:05:04.995860] The user had a deadline 20 days ago
+
+<!-- id: 3a9b9398; test_id: test_tem_094; source: facts.json; category: temporal_reasoning -->
+[2026-05-20T01:05:04.996522] The user had a meeting 17 days ago
+
+<!-- id: 231f3f63; test_id: test_tem_095; source: facts.json; category: temporal_reasoning -->
+[2026-05-20T01:05:04.997477] The user's birthday was 24 days ago
+
+<!-- id: 0a532797; test_id: test_tem_096; source: facts.json; category: temporal_reasoning -->
+[2026-05-20T01:05:04.998130] The user had a meeting 7 days ago
+
+<!-- id: bd826853; test_id: test_tem_097; source: facts.json; category: temporal_reasoning -->
+[2026-05-20T01:05:04.998731] The user had a meeting 19 days ago
+
+<!-- id: 73df8d49; test_id: test_tem_098; source: facts.json; category: temporal_reasoning -->
+[2026-05-20T01:05:04.999386] The user went on vacation 29 days ago
+
+<!-- id: 85d58589; test_id: test_tem_099; source: facts.json; category: temporal_reasoning -->
+[2026-05-20T01:05:05.000186] The user's birthday was 26 days ago
+
+<!-- id: 4a15da09; test_id: test_kno_000; source: facts.json; category: knowledge_updates -->
+[2026-05-20T01:05:05.000822] The user's phone number is 555-1234
+
+<!-- id: 04023513; test_id: test_kno_001; source: facts.json; category: knowledge_updates -->
+[2026-05-20T01:05:05.001427] The user's phone number is 555-1234
+
+<!-- id: f282a750; test_id: test_kno_002; source: facts.json; category: knowledge_updates -->
+[2026-05-20T01:05:05.002040] The user's phone number is 555-1234
+
+<!-- id: b8a97728; test_id: test_kno_003; source: facts.json; category: knowledge_updates -->
+[2026-05-20T01:05:05.002644] The user's relationship status is Married
+
+<!-- id: 05e31785; test_id: test_kno_004; source: facts.json; category: knowledge_updates -->
+[2026-05-20T01:05:05.003265] The user's relationship status is Married
+
+<!-- id: 35442e55; test_id: test_kno_005; source: facts.json; category: knowledge_updates -->
+[2026-05-20T01:05:05.003878] The user's email is user@example.com
+
+<!-- id: d381053b; test_id: test_kno_006; source: facts.json; category: knowledge_updates -->
+[2026-05-20T01:05:05.004486] The user's address is 123 Main St
+
+<!-- id: a0060694; test_id: test_kno_007; source: facts.json; category: knowledge_updates -->
+[2026-05-20T01:05:05.005139] The user's job title is Senior Engineer
+
+<!-- id: c9ff46ef; test_id: test_kno_008; source: facts.json; category: knowledge_updates -->
+[2026-05-20T01:05:05.005819] The user's email is user@example.com
+
+<!-- id: a1df94de; test_id: test_kno_009; source: facts.json; category: knowledge_updates -->
+[2026-05-20T01:05:05.006465] The user's email is user@example.com
+
+<!-- id: de6fcbf2; test_id: test_kno_010; source: facts.json; category: knowledge_updates -->
+[2026-05-20T01:05:05.007060] The user's address is 123 Main St
+
+<!-- id: 4191448e; test_id: test_kno_011; source: facts.json; category: knowledge_updates -->
+[2026-05-20T01:05:05.007661] The user's relationship status is Married
+
+<!-- id: ff745ecf; test_id: test_kno_012; source: facts.json; category: knowledge_updates -->
+[2026-05-20T01:05:05.008849] The user's relationship status is Married
+
+<!-- id: 22e23e14; test_id: test_kno_013; source: facts.json; category: knowledge_updates -->
+[2026-05-20T01:05:05.009816] The user's relationship status is Married
+
+<!-- id: e433cf28; test_id: test_kno_014; source: facts.json; category: knowledge_updates -->
+[2026-05-20T01:05:05.011264] The user's address is 123 Main St
+
+<!-- id: 2015db66; test_id: test_kno_015; source: facts.json; category: knowledge_updates -->
+[2026-05-20T01:05:05.012052] The user's phone number is 555-1234
+
+<!-- id: 8264789b; test_id: test_kno_016; source: facts.json; category: knowledge_updates -->
+[2026-05-20T01:05:05.012721] The user's address is 123 Main St
+
+<!-- id: 5ca2fc13; test_id: test_kno_017; source: facts.json; category: knowledge_updates -->
+[2026-05-20T01:05:05.013380] The user's email is user@example.com
+
+<!-- id: fad44c99; test_id: test_kno_018; source: facts.json; category: knowledge_updates -->
+[2026-05-20T01:05:05.014091] The user's address is 123 Main St
+
+<!-- id: ffc18a91; test_id: test_kno_019; source: facts.json; category: knowledge_updates -->
+[2026-05-20T01:05:05.015434] The user's phone number is 555-1234
+
+<!-- id: ae24721e; test_id: test_kno_020; source: facts.json; category: knowledge_updates -->
+[2026-05-20T01:05:05.017338] The user's job title is Senior Engineer
+
+<!-- id: 6f3e52ec; test_id: test_kno_021; source: facts.json; category: knowledge_updates -->
+[2026-05-20T01:05:05.018483] The user's job title is Senior Engineer
+
+<!-- id: 2f53f0d5; test_id: test_kno_022; source: facts.json; category: knowledge_updates -->
+[2026-05-20T01:05:05.019735] The user's email is user@example.com
+
+<!-- id: b2b5da6f; test_id: test_kno_023; source: facts.json; category: knowledge_updates -->
+[2026-05-20T01:05:05.020594] The user's job title is Senior Engineer
+
+<!-- id: cfea631b; test_id: test_kno_024; source: facts.json; category: knowledge_updates -->
+[2026-05-20T01:05:05.021362] The user's phone number is 555-1234
+
+<!-- id: 44d03195; test_id: test_kno_025; source: facts.json; category: knowledge_updates -->
+[2026-05-20T01:05:05.022089] The user's phone number is 555-1234
+
+<!-- id: 9a3061f0; test_id: test_kno_026; source: facts.json; category: knowledge_updates -->
+[2026-05-20T01:05:05.023195] The user's relationship status is Married
+
+<!-- id: 92d593bb; test_id: test_kno_027; source: facts.json; category: knowledge_updates -->
+[2026-05-20T01:05:05.024179] The user's relationship status is Married
+
+<!-- id: fadfbab1; test_id: test_kno_028; source: facts.json; category: knowledge_updates -->
+[2026-05-20T01:05:05.024881] The user's relationship status is Married
+
+<!-- id: 132a273a; test_id: test_kno_029; source: facts.json; category: knowledge_updates -->
+[2026-05-20T01:05:05.025645] The user's phone number is 555-1234
+
+<!-- id: d4298376; test_id: test_kno_030; source: facts.json; category: knowledge_updates -->
+[2026-05-20T01:05:05.026688] The user's phone number is 555-1234
+
+<!-- id: 880107f4; test_id: test_kno_031; source: facts.json; category: knowledge_updates -->
+[2026-05-20T01:05:05.027481] The user's job title is Senior Engineer
+
+<!-- id: bdff17fc; test_id: test_kno_032; source: facts.json; category: knowledge_updates -->
+[2026-05-20T01:05:05.028225] The user's phone number is 555-1234
+
+<!-- id: c4458b63; test_id: test_kno_033; source: facts.json; category: knowledge_updates -->
+[2026-05-20T01:05:05.028846] The user's phone number is 555-1234
+
+<!-- id: 4fc99f80; test_id: test_kno_034; source: facts.json; category: knowledge_updates -->
+[2026-05-20T01:05:05.029662] The user's job title is Senior Engineer
+
+<!-- id: 54f7f226; test_id: test_kno_035; source: facts.json; category: knowledge_updates -->
+[2026-05-20T01:05:05.030449] The user's email is user@example.com
+
+<!-- id: a4a9a456; test_id: test_kno_036; source: facts.json; category: knowledge_updates -->
+[2026-05-20T01:05:05.031307] The user's job title is Senior Engineer
+
+<!-- id: 5d41cb26; test_id: test_kno_037; source: facts.json; category: knowledge_updates -->
+[2026-05-20T01:05:05.032331] The user's relationship status is Married
+
+<!-- id: ab29a7e0; test_id: test_kno_038; source: facts.json; category: knowledge_updates -->
+[2026-05-20T01:05:05.033378] The user's address is 123 Main St
+
+<!-- id: 9f2442fd; test_id: test_kno_039; source: facts.json; category: knowledge_updates -->
+[2026-05-20T01:05:05.034272] The user's job title is Senior Engineer
+
+<!-- id: 6f553a67; test_id: test_kno_040; source: facts.json; category: knowledge_updates -->
+[2026-05-20T01:05:05.035051] The user's relationship status is Married
+
+<!-- id: 8a5700ab; test_id: test_kno_041; source: facts.json; category: knowledge_updates -->
+[2026-05-20T01:05:05.035731] The user's job title is Senior Engineer
+
+<!-- id: 019aad89; test_id: test_kno_042; source: facts.json; category: knowledge_updates -->
+[2026-05-20T01:05:05.036693] The user's address is 123 Main St
+
+<!-- id: 69410938; test_id: test_kno_043; source: facts.json; category: knowledge_updates -->
+[2026-05-20T01:05:05.037604] The user's address is 123 Main St
+
+<!-- id: d16b51a6; test_id: test_kno_044; source: facts.json; category: knowledge_updates -->
+[2026-05-20T01:05:05.038331] The user's relationship status is Married
+
+<!-- id: eceea7e8; test_id: test_kno_045; source: facts.json; category: knowledge_updates -->
+[2026-05-20T01:05:05.039275] The user's phone number is 555-1234
+
+<!-- id: a8430472; test_id: test_kno_046; source: facts.json; category: knowledge_updates -->
+[2026-05-20T01:05:05.040517] The user's email is user@example.com
+
+<!-- id: b70f32aa; test_id: test_kno_047; source: facts.json; category: knowledge_updates -->
+[2026-05-20T01:05:05.041442] The user's email is user@example.com
+
+<!-- id: 66f727b9; test_id: test_kno_048; source: facts.json; category: knowledge_updates -->
+[2026-05-20T01:05:05.042128] The user's relationship status is Married
+
+<!-- id: 96ed3488; test_id: test_kno_049; source: facts.json; category: knowledge_updates -->
+[2026-05-20T01:05:05.042789] The user's relationship status is Married
+
+<!-- id: 12ede420; test_id: test_kno_050; source: facts.json; category: knowledge_updates -->
+[2026-05-20T01:05:05.043427] The user's address is 123 Main St
+
+<!-- id: e25800d4; test_id: test_kno_051; source: facts.json; category: knowledge_updates -->
+[2026-05-20T01:05:05.044038] The user's phone number is 555-1234
+
+<!-- id: bbbc9bbb; test_id: test_kno_052; source: facts.json; category: knowledge_updates -->
+[2026-05-20T01:05:05.044770] The user's job title is Senior Engineer
+
+<!-- id: a2d5651a; test_id: test_kno_053; source: facts.json; category: knowledge_updates -->
+[2026-05-20T01:05:05.045409] The user's address is 123 Main St
+
+<!-- id: 2193ac3f; test_id: test_kno_054; source: facts.json; category: knowledge_updates -->
+[2026-05-20T01:05:05.045996] The user's relationship status is Married
+
+<!-- id: cbaaa49b; test_id: test_kno_055; source: facts.json; category: knowledge_updates -->
+[2026-05-20T01:05:05.046590] The user's relationship status is Married
+
+<!-- id: 5a1ac991; test_id: test_kno_056; source: facts.json; category: knowledge_updates -->
+[2026-05-20T01:05:05.047524] The user's address is 123 Main St
+
+<!-- id: d5853cb4; test_id: test_kno_057; source: facts.json; category: knowledge_updates -->
+[2026-05-20T01:05:05.049044] The user's email is user@example.com
+
+<!-- id: 7e395e89; test_id: test_kno_058; source: facts.json; category: knowledge_updates -->
+[2026-05-20T01:05:05.050081] The user's phone number is 555-1234
+
+<!-- id: cae5f591; test_id: test_kno_059; source: facts.json; category: knowledge_updates -->
+[2026-05-20T01:05:05.051140] The user's job title is Senior Engineer
+
+<!-- id: e3efa97b; test_id: test_kno_060; source: facts.json; category: knowledge_updates -->
+[2026-05-20T01:05:05.051942] The user's address is 123 Main St
+
+<!-- id: b54b71c2; test_id: test_kno_061; source: facts.json; category: knowledge_updates -->
+[2026-05-20T01:05:05.053473] The user's address is 123 Main St
+
+<!-- id: 551b77f3; test_id: test_kno_062; source: facts.json; category: knowledge_updates -->
+[2026-05-20T01:05:05.054835] The user's address is 123 Main St
+
+<!-- id: e20956bf; test_id: test_kno_063; source: facts.json; category: knowledge_updates -->
+[2026-05-20T01:05:05.056494] The user's email is user@example.com
+
+<!-- id: add56d74; test_id: test_kno_064; source: facts.json; category: knowledge_updates -->
+[2026-05-20T01:05:05.057528] The user's email is user@example.com
+
+<!-- id: 9bd4c5af; test_id: test_kno_065; source: facts.json; category: knowledge_updates -->
+[2026-05-20T01:05:05.058186] The user's relationship status is Married
+
+<!-- id: 5af23108; test_id: test_kno_066; source: facts.json; category: knowledge_updates -->
+[2026-05-20T01:05:05.059042] The user's address is 123 Main St
+
+<!-- id: e372c664; test_id: test_kno_067; source: facts.json; category: knowledge_updates -->
+[2026-05-20T01:05:05.059742] The user's job title is Senior Engineer
+
+<!-- id: 6526fad7; test_id: test_kno_068; source: facts.json; category: knowledge_updates -->
+[2026-05-20T01:05:05.060640] The user's address is 123 Main St
+
+<!-- id: e190d143; test_id: test_kno_069; source: facts.json; category: knowledge_updates -->
+[2026-05-20T01:05:05.061361] The user's address is 123 Main St
+
+<!-- id: b3a9988a; test_id: test_kno_070; source: facts.json; category: knowledge_updates -->
+[2026-05-20T01:05:05.061951] The user's address is 123 Main St
+
+<!-- id: 4c8ff178; test_id: test_kno_071; source: facts.json; category: knowledge_updates -->
+[2026-05-20T01:05:05.062892] The user's email is user@example.com
+
+<!-- id: 3fa813ee; test_id: test_kno_072; source: facts.json; category: knowledge_updates -->
+[2026-05-20T01:05:05.063705] The user's phone number is 555-1234
+
+<!-- id: 0e57b92c; test_id: test_kno_073; source: facts.json; category: knowledge_updates -->
+[2026-05-20T01:05:05.064538] The user's address is 123 Main St
+
+<!-- id: 835fbdd7; test_id: test_kno_074; source: facts.json; category: knowledge_updates -->
+[2026-05-20T01:05:05.066044] The user's phone number is 555-1234
+
+<!-- id: 5ebe37f0; test_id: test_kno_075; source: facts.json; category: knowledge_updates -->
+[2026-05-20T01:05:05.067053] The user's email is user@example.com
+
+<!-- id: 9b0d3dba; test_id: test_kno_076; source: facts.json; category: knowledge_updates -->
+[2026-05-20T01:05:05.068088] The user's address is 123 Main St
+
+<!-- id: 1db20fc8; test_id: test_kno_077; source: facts.json; category: knowledge_updates -->
+[2026-05-20T01:05:05.069218] The user's email is user@example.com
+
+<!-- id: a82a99c2; test_id: test_kno_078; source: facts.json; category: knowledge_updates -->
+[2026-05-20T01:05:05.069930] The user's email is user@example.com
+
+<!-- id: c59b9069; test_id: test_kno_079; source: facts.json; category: knowledge_updates -->
+[2026-05-20T01:05:05.070636] The user's address is 123 Main St
+
+<!-- id: 8e1545b8; test_id: test_kno_080; source: facts.json; category: knowledge_updates -->
+[2026-05-20T01:05:05.071309] The user's phone number is 555-1234
+
+<!-- id: d4228713; test_id: test_kno_081; source: facts.json; category: knowledge_updates -->
+[2026-05-20T01:05:05.071969] The user's job title is Senior Engineer
+
+<!-- id: 357b5c3d; test_id: test_kno_082; source: facts.json; category: knowledge_updates -->
+[2026-05-20T01:05:05.073671] The user's job title is Senior Engineer
+
+<!-- id: 32f3e602; test_id: test_kno_083; source: facts.json; category: knowledge_updates -->
+[2026-05-20T01:05:05.074588] The user's job title is Senior Engineer
+
+<!-- id: a8cb329e; test_id: test_kno_084; source: facts.json; category: knowledge_updates -->
+[2026-05-20T01:05:05.075425] The user's job title is Senior Engineer
+
+<!-- id: e85fb90d; test_id: test_kno_085; source: facts.json; category: knowledge_updates -->
+[2026-05-20T01:05:05.076733] The user's job title is Senior Engineer
+
+<!-- id: 6b953540; test_id: test_kno_086; source: facts.json; category: knowledge_updates -->
+[2026-05-20T01:05:05.077465] The user's email is user@example.com
+
+<!-- id: 05894c12; test_id: test_kno_087; source: facts.json; category: knowledge_updates -->
+[2026-05-20T01:05:05.078114] The user's phone number is 555-1234
+
+<!-- id: 73f061f6; test_id: test_kno_088; source: facts.json; category: knowledge_updates -->
+[2026-05-20T01:05:05.078754] The user's job title is Senior Engineer
+
+<!-- id: c3dd5a23; test_id: test_kno_089; source: facts.json; category: knowledge_updates -->
+[2026-05-20T01:05:05.079423] The user's phone number is 555-1234
+
+<!-- id: 64519154; test_id: test_kno_090; source: facts.json; category: knowledge_updates -->
+[2026-05-20T01:05:05.080082] The user's relationship status is Married
+
+<!-- id: 38e04f76; test_id: test_kno_091; source: facts.json; category: knowledge_updates -->
+[2026-05-20T01:05:05.080975] The user's relationship status is Married
+
+<!-- id: 80c9f67f; test_id: test_kno_092; source: facts.json; category: knowledge_updates -->
+[2026-05-20T01:05:05.082192] The user's address is 123 Main St
+
+<!-- id: 087a3db7; test_id: test_kno_093; source: facts.json; category: knowledge_updates -->
+[2026-05-20T01:05:05.083526] The user's email is user@example.com
+
+<!-- id: b18f9c8b; test_id: test_kno_094; source: facts.json; category: knowledge_updates -->
+[2026-05-20T01:05:05.084453] The user's job title is Senior Engineer
+
+<!-- id: 9dff0851; test_id: test_kno_095; source: facts.json; category: knowledge_updates -->
+[2026-05-20T01:05:05.085338] The user's address is 123 Main St
+
+<!-- id: 4afa1c7c; test_id: test_kno_096; source: facts.json; category: knowledge_updates -->
+[2026-05-20T01:05:05.086121] The user's relationship status is Married
+
+<!-- id: aab7fcda; test_id: test_kno_097; source: facts.json; category: knowledge_updates -->
+[2026-05-20T01:05:05.087212] The user's phone number is 555-1234
+
+<!-- id: fb0537d4; test_id: test_kno_098; source: facts.json; category: knowledge_updates -->
+[2026-05-20T01:05:05.088097] The user's relationship status is Married
+
+<!-- id: 9eb64523; test_id: test_kno_099; source: facts.json; category: knowledge_updates -->
+[2026-05-20T01:05:05.088843] The user's email is user@example.com
+
+<!-- id: 251840f1; test_id: test_inf_000; source: facts.json; category: information_extraction -->
+[2026-05-20T01:05:12.974206] The user's favorite food is Pizza
+
+<!-- id: be23cb5c; test_id: test_inf_001; source: facts.json; category: information_extraction -->
+[2026-05-20T01:05:12.977292] The user's favorite color is Blue
+
+<!-- id: e1e2700b; test_id: test_inf_002; source: facts.json; category: information_extraction -->
+[2026-05-20T01:05:12.977910] The user's favorite color is Blue
+
+<!-- id: f539f02f; test_id: test_inf_003; source: facts.json; category: information_extraction -->
+[2026-05-20T01:05:12.978471] The user's favorite food is Pizza
+
+<!-- id: e9611da6; test_id: test_inf_004; source: facts.json; category: information_extraction -->
+[2026-05-20T01:05:12.979030] The user's favorite book is Dune
+
+<!-- id: 443598b0; test_id: test_inf_005; source: facts.json; category: information_extraction -->
+[2026-05-20T01:05:12.979601] The user's favorite color is Blue
+
+<!-- id: 2c1ec10d; test_id: test_inf_006; source: facts.json; category: information_extraction -->
+[2026-05-20T01:05:12.980162] The user's favorite color is Blue
+
+<!-- id: 4e235d3c; test_id: test_inf_007; source: facts.json; category: information_extraction -->
+[2026-05-20T01:05:12.980730] The user's favorite movie is Star Wars
+
+<!-- id: 2e50dff9; test_id: test_inf_008; source: facts.json; category: information_extraction -->
+[2026-05-20T01:05:12.981405] The user's favorite food is Pizza
+
+<!-- id: 7e737ca0; test_id: test_inf_009; source: facts.json; category: information_extraction -->
+[2026-05-20T01:05:12.982148] The user's favorite hobby is Hiking
+
+<!-- id: b348b392; test_id: test_inf_010; source: facts.json; category: information_extraction -->
+[2026-05-20T01:05:12.982799] The user's favorite book is Dune
+
+<!-- id: 40c21525; test_id: test_inf_011; source: facts.json; category: information_extraction -->
+[2026-05-20T01:05:12.983446] The user's favorite book is Dune
+
+<!-- id: 808ddf1e; test_id: test_inf_012; source: facts.json; category: information_extraction -->
+[2026-05-20T01:05:12.984022] The user's favorite hobby is Hiking
+
+<!-- id: 055b2eda; test_id: test_inf_013; source: facts.json; category: information_extraction -->
+[2026-05-20T01:05:12.984673] The user's favorite hobby is Hiking
+
+<!-- id: 2d0930e7; test_id: test_inf_014; source: facts.json; category: information_extraction -->
+[2026-05-20T01:05:12.985404] The user's favorite book is Dune
+
+<!-- id: d089ed08; test_id: test_inf_015; source: facts.json; category: information_extraction -->
+[2026-05-20T01:05:12.985971] The user's favorite food is Pizza
+
+<!-- id: 8bd38aae; test_id: test_inf_016; source: facts.json; category: information_extraction -->
+[2026-05-20T01:05:12.986533] The user's favorite book is Dune
+
+<!-- id: 3602cc5b; test_id: test_inf_017; source: facts.json; category: information_extraction -->
+[2026-05-20T01:05:12.987087] The user's favorite color is Blue
+
+<!-- id: 68cc17aa; test_id: test_inf_018; source: facts.json; category: information_extraction -->
+[2026-05-20T01:05:12.987643] The user's favorite color is Blue
+
+<!-- id: 6394a09f; test_id: test_inf_019; source: facts.json; category: information_extraction -->
+[2026-05-20T01:05:12.988196] The user's favorite food is Pizza
+
+<!-- id: 759d7d94; test_id: test_inf_020; source: facts.json; category: information_extraction -->
+[2026-05-20T01:05:12.988737] The user's favorite color is Blue
+
+<!-- id: 0bfa2e41; test_id: test_inf_021; source: facts.json; category: information_extraction -->
+[2026-05-20T01:05:12.989280] The user's favorite color is Blue
+
+<!-- id: bda5678d; test_id: test_inf_022; source: facts.json; category: information_extraction -->
+[2026-05-20T01:05:12.989958] The user's favorite color is Blue
+
+<!-- id: 388a82b6; test_id: test_inf_023; source: facts.json; category: information_extraction -->
+[2026-05-20T01:05:12.990513] The user's favorite food is Pizza
+
+<!-- id: 77ab4642; test_id: test_inf_024; source: facts.json; category: information_extraction -->
+[2026-05-20T01:05:12.991063] The user's favorite hobby is Hiking
+
+<!-- id: 0ef1e69d; test_id: test_inf_025; source: facts.json; category: information_extraction -->
+[2026-05-20T01:05:12.991634] The user's favorite movie is Star Wars
+
+<!-- id: 4a0bde8c; test_id: test_inf_026; source: facts.json; category: information_extraction -->
+[2026-05-20T01:05:12.992208] The user's favorite color is Blue
+
+<!-- id: 064ea8e4; test_id: test_inf_027; source: facts.json; category: information_extraction -->
+[2026-05-20T01:05:12.992772] The user's favorite food is Pizza
+
+<!-- id: c9ebed00; test_id: test_inf_028; source: facts.json; category: information_extraction -->
+[2026-05-20T01:05:12.993319] The user's favorite food is Pizza
+
+<!-- id: ebadbee5; test_id: test_inf_029; source: facts.json; category: information_extraction -->
+[2026-05-20T01:05:12.993900] The user's favorite hobby is Hiking
+
+<!-- id: 6bd1ca3e; test_id: test_inf_030; source: facts.json; category: information_extraction -->
+[2026-05-20T01:05:12.994608] The user's favorite movie is Star Wars
+
+<!-- id: 731d9ac1; test_id: test_inf_031; source: facts.json; category: information_extraction -->
+[2026-05-20T01:05:12.995271] The user's favorite movie is Star Wars
+
+<!-- id: 8f8f845d; test_id: test_inf_032; source: facts.json; category: information_extraction -->
+[2026-05-20T01:05:12.995837] The user's favorite hobby is Hiking
+
+<!-- id: 0613bf7f; test_id: test_inf_033; source: facts.json; category: information_extraction -->
+[2026-05-20T01:05:12.996512] The user's favorite food is Pizza
+
+<!-- id: 26a39244; test_id: test_inf_034; source: facts.json; category: information_extraction -->
+[2026-05-20T01:05:12.997068] The user's favorite book is Dune
+
+<!-- id: bd438955; test_id: test_inf_035; source: facts.json; category: information_extraction -->
+[2026-05-20T01:05:12.997623] The user's favorite food is Pizza
+
+<!-- id: 25ee5bd2; test_id: test_inf_036; source: facts.json; category: information_extraction -->
+[2026-05-20T01:05:12.998174] The user's favorite food is Pizza
+
+<!-- id: ef2f5765; test_id: test_inf_037; source: facts.json; category: information_extraction -->
+[2026-05-20T01:05:12.998720] The user's favorite movie is Star Wars
+
+<!-- id: 37b20bf9; test_id: test_inf_038; source: facts.json; category: information_extraction -->
+[2026-05-20T01:05:12.999279] The user's favorite movie is Star Wars
+
+<!-- id: a54685b9; test_id: test_inf_039; source: facts.json; category: information_extraction -->
+[2026-05-20T01:05:12.999833] The user's favorite color is Blue
+
+<!-- id: 682240f7; test_id: test_inf_040; source: facts.json; category: information_extraction -->
+[2026-05-20T01:05:13.000380] The user's favorite food is Pizza
+
+<!-- id: 25895a77; test_id: test_inf_041; source: facts.json; category: information_extraction -->
+[2026-05-20T01:05:13.001099] The user's favorite movie is Star Wars
+
+<!-- id: 3a58ec7b; test_id: test_inf_042; source: facts.json; category: information_extraction -->
+[2026-05-20T01:05:13.001805] The user's favorite movie is Star Wars
+
+<!-- id: 14b6c578; test_id: test_inf_043; source: facts.json; category: information_extraction -->
+[2026-05-20T01:05:13.002442] The user's favorite movie is Star Wars
+
+<!-- id: 43e69df1; test_id: test_inf_044; source: facts.json; category: information_extraction -->
+[2026-05-20T01:05:13.003034] The user's favorite hobby is Hiking
+
+<!-- id: 4c6daf61; test_id: test_inf_045; source: facts.json; category: information_extraction -->
+[2026-05-20T01:05:13.003614] The user's favorite food is Pizza
+
+<!-- id: f1e66a26; test_id: test_inf_046; source: facts.json; category: information_extraction -->
+[2026-05-20T01:05:13.004184] The user's favorite food is Pizza
+
+<!-- id: 58ad4530; test_id: test_inf_047; source: facts.json; category: information_extraction -->
+[2026-05-20T01:05:13.004772] The user's favorite hobby is Hiking
+
+<!-- id: d4c1539c; test_id: test_inf_048; source: facts.json; category: information_extraction -->
+[2026-05-20T01:05:13.005458] The user's favorite food is Pizza
+
+<!-- id: 11614a05; test_id: test_inf_049; source: facts.json; category: information_extraction -->
+[2026-05-20T01:05:13.006224] The user's favorite color is Blue
+
+<!-- id: 4e931a66; test_id: test_inf_050; source: facts.json; category: information_extraction -->
+[2026-05-20T01:05:13.007077] The user's favorite movie is Star Wars
+
+<!-- id: 05f4ee18; test_id: test_inf_051; source: facts.json; category: information_extraction -->
+[2026-05-20T01:05:13.007836] The user's favorite book is Dune
+
+<!-- id: 77c457c0; test_id: test_inf_052; source: facts.json; category: information_extraction -->
+[2026-05-20T01:05:13.008404] The user's favorite color is Blue
+
+<!-- id: 4c2be36a; test_id: test_inf_053; source: facts.json; category: information_extraction -->
+[2026-05-20T01:05:13.008993] The user's favorite hobby is Hiking
+
+<!-- id: a8f8592e; test_id: test_inf_054; source: facts.json; category: information_extraction -->
+[2026-05-20T01:05:13.009579] The user's favorite color is Blue
+
+<!-- id: 0e7334d8; test_id: test_inf_055; source: facts.json; category: information_extraction -->
+[2026-05-20T01:05:13.010213] The user's favorite book is Dune
+
+<!-- id: 69602ac5; test_id: test_inf_056; source: facts.json; category: information_extraction -->
+[2026-05-20T01:05:13.011175] The user's favorite movie is Star Wars
+
+<!-- id: 80ab9ebf; test_id: test_inf_057; source: facts.json; category: information_extraction -->
+[2026-05-20T01:05:13.011949] The user's favorite movie is Star Wars
+
+<!-- id: 578b6334; test_id: test_inf_058; source: facts.json; category: information_extraction -->
+[2026-05-20T01:05:13.012650] The user's favorite food is Pizza
+
+<!-- id: cb885348; test_id: test_inf_059; source: facts.json; category: information_extraction -->
+[2026-05-20T01:05:13.013591] The user's favorite hobby is Hiking
+
+<!-- id: 2dd7dfb7; test_id: test_inf_060; source: facts.json; category: information_extraction -->
+[2026-05-20T01:05:13.014673] The user's favorite color is Blue
+
+<!-- id: e20b0dfe; test_id: test_inf_061; source: facts.json; category: information_extraction -->
+[2026-05-20T01:05:13.016139] The user's favorite food is Pizza
+
+<!-- id: c0a4b4f2; test_id: test_inf_062; source: facts.json; category: information_extraction -->
+[2026-05-20T01:05:13.017106] The user's favorite food is Pizza
+
+<!-- id: eff3a073; test_id: test_inf_063; source: facts.json; category: information_extraction -->
+[2026-05-20T01:05:13.017956] The user's favorite food is Pizza
+
+<!-- id: e3f3d6c2; test_id: test_inf_064; source: facts.json; category: information_extraction -->
+[2026-05-20T01:05:13.018865] The user's favorite color is Blue
+
+<!-- id: 6529be96; test_id: test_inf_065; source: facts.json; category: information_extraction -->
+[2026-05-20T01:05:13.019612] The user's favorite color is Blue
+
+<!-- id: 64cb338f; test_id: test_inf_066; source: facts.json; category: information_extraction -->
+[2026-05-20T01:05:13.020247] The user's favorite food is Pizza
+
+<!-- id: 6d8dc1b6; test_id: test_inf_067; source: facts.json; category: information_extraction -->
+[2026-05-20T01:05:13.020975] The user's favorite color is Blue
+
+<!-- id: 99986dee; test_id: test_inf_068; source: facts.json; category: information_extraction -->
+[2026-05-20T01:05:13.021642] The user's favorite movie is Star Wars
+
+<!-- id: f13ee137; test_id: test_inf_069; source: facts.json; category: information_extraction -->
+[2026-05-20T01:05:13.022256] The user's favorite book is Dune
+
+<!-- id: f9f04d88; test_id: test_inf_070; source: facts.json; category: information_extraction -->
+[2026-05-20T01:05:13.022963] The user's favorite book is Dune
+
+<!-- id: 5f1b28fe; test_id: test_inf_071; source: facts.json; category: information_extraction -->
+[2026-05-20T01:05:13.023547] The user's favorite hobby is Hiking
+
+<!-- id: 0ba6d1a5; test_id: test_inf_072; source: facts.json; category: information_extraction -->
+[2026-05-20T01:05:13.024187] The user's favorite movie is Star Wars
+
+<!-- id: 10633118; test_id: test_inf_073; source: facts.json; category: information_extraction -->
+[2026-05-20T01:05:13.024821] The user's favorite food is Pizza
+
+<!-- id: 2cfa92d8; test_id: test_inf_074; source: facts.json; category: information_extraction -->
+[2026-05-20T01:05:13.025403] The user's favorite book is Dune
+
+<!-- id: e0e3521d; test_id: test_inf_075; source: facts.json; category: information_extraction -->
+[2026-05-20T01:05:13.025977] The user's favorite food is Pizza
+
+<!-- id: 433ae0f4; test_id: test_inf_076; source: facts.json; category: information_extraction -->
+[2026-05-20T01:05:13.026553] The user's favorite movie is Star Wars
+
+<!-- id: c87a2340; test_id: test_inf_077; source: facts.json; category: information_extraction -->
+[2026-05-20T01:05:13.027157] The user's favorite color is Blue
+
+<!-- id: 9ad67766; test_id: test_inf_078; source: facts.json; category: information_extraction -->
+[2026-05-20T01:05:13.027755] The user's favorite hobby is Hiking
+
+<!-- id: 644d18e4; test_id: test_inf_079; source: facts.json; category: information_extraction -->
+[2026-05-20T01:05:13.028326] The user's favorite movie is Star Wars
+
+<!-- id: c31c1ba2; test_id: test_inf_080; source: facts.json; category: information_extraction -->
+[2026-05-20T01:05:13.028971] The user's favorite movie is Star Wars
+
+<!-- id: 39d0746f; test_id: test_inf_081; source: facts.json; category: information_extraction -->
+[2026-05-20T01:05:13.029698] The user's favorite hobby is Hiking
+
+<!-- id: a5b8598b; test_id: test_inf_082; source: facts.json; category: information_extraction -->
+[2026-05-20T01:05:13.030288] The user's favorite movie is Star Wars
+
+<!-- id: c8f78c95; test_id: test_inf_083; source: facts.json; category: information_extraction -->
+[2026-05-20T01:05:13.030990] The user's favorite food is Pizza
+
+<!-- id: 4222f3ff; test_id: test_inf_084; source: facts.json; category: information_extraction -->
+[2026-05-20T01:05:13.031571] The user's favorite movie is Star Wars
+
+<!-- id: 1f72b556; test_id: test_inf_085; source: facts.json; category: information_extraction -->
+[2026-05-20T01:05:13.032162] The user's favorite hobby is Hiking
+
+<!-- id: 2eeb796e; test_id: test_inf_086; source: facts.json; category: information_extraction -->
+[2026-05-20T01:05:13.032763] The user's favorite food is Pizza
+
+<!-- id: 88a21bb0; test_id: test_inf_087; source: facts.json; category: information_extraction -->
+[2026-05-20T01:05:13.033333] The user's favorite color is Blue
+
+<!-- id: 2531d624; test_id: test_inf_088; source: facts.json; category: information_extraction -->
+[2026-05-20T01:05:13.033905] The user's favorite food is Pizza
+
+<!-- id: b1adb3c3; test_id: test_inf_089; source: facts.json; category: information_extraction -->
+[2026-05-20T01:05:13.034546] The user's favorite book is Dune
+
+<!-- id: 67bbf234; test_id: test_inf_090; source: facts.json; category: information_extraction -->
+[2026-05-20T01:05:13.035177] The user's favorite food is Pizza
+
+<!-- id: 16b427ab; test_id: test_inf_091; source: facts.json; category: information_extraction -->
+[2026-05-20T01:05:13.035761] The user's favorite food is Pizza
+
+<!-- id: c0bcdc45; test_id: test_inf_092; source: facts.json; category: information_extraction -->
+[2026-05-20T01:05:13.036399] The user's favorite book is Dune
+
+<!-- id: bb4fff32; test_id: test_inf_093; source: facts.json; category: information_extraction -->
+[2026-05-20T01:05:13.036985] The user's favorite movie is Star Wars
+
+<!-- id: a736eadc; test_id: test_inf_094; source: facts.json; category: information_extraction -->
+[2026-05-20T01:05:13.037585] The user's favorite movie is Star Wars
+
+<!-- id: 3cd465b7; test_id: test_inf_095; source: facts.json; category: information_extraction -->
+[2026-05-20T01:05:13.038184] The user's favorite food is Pizza
+
+<!-- id: b69fce4d; test_id: test_inf_096; source: facts.json; category: information_extraction -->
+[2026-05-20T01:05:13.038770] The user's favorite hobby is Hiking
+
+<!-- id: e2308e04; test_id: test_inf_097; source: facts.json; category: information_extraction -->
+[2026-05-20T01:05:13.039359] The user's favorite food is Pizza
+
+<!-- id: 970166fe; test_id: test_inf_098; source: facts.json; category: information_extraction -->
+[2026-05-20T01:05:13.040119] The user's favorite movie is Star Wars
+
+<!-- id: d2990cee; test_id: test_inf_099; source: facts.json; category: information_extraction -->
+[2026-05-20T01:05:13.040753] The user's favorite movie is Star Wars
+
+<!-- id: 244e44bf; test_id: test_cro_000; source: facts.json; category: cross_session_reasoning -->
+[2026-05-20T01:05:13.041366] The user works as a software engineer
+
+<!-- id: 4e7e7dc2; test_id: test_cro_001; source: facts.json; category: cross_session_reasoning -->
+[2026-05-20T01:05:13.041966] The user has a dog named Max
+
+<!-- id: 022f9ac0; test_id: test_cro_002; source: facts.json; category: cross_session_reasoning -->
+[2026-05-20T01:05:13.042548] The user wants to travel to Japan
+
+<!-- id: eb83f29e; test_id: test_cro_003; source: facts.json; category: cross_session_reasoning -->
+[2026-05-20T01:05:13.043123] The user works as a software engineer
+
+<!-- id: b3f6c289; test_id: test_cro_004; source: facts.json; category: cross_session_reasoning -->
+[2026-05-20T01:05:13.043751] The user wants to travel to Japan
+
+<!-- id: 00633663; test_id: test_cro_005; source: facts.json; category: cross_session_reasoning -->
+[2026-05-20T01:05:13.044325] The user works as a software engineer
+
+<!-- id: cd0efa36; test_id: test_cro_006; source: facts.json; category: cross_session_reasoning -->
+[2026-05-20T01:05:13.045008] The user wants to travel to Japan
+
+<!-- id: 1dd58ad7; test_id: test_cro_007; source: facts.json; category: cross_session_reasoning -->
+[2026-05-20T01:05:13.045651] The user plans to learn Python
+
+<!-- id: 4d122349; test_id: test_cro_008; source: facts.json; category: cross_session_reasoning -->
+[2026-05-20T01:05:13.046230] The user has a dog named Max
+
+<!-- id: 8a5b6178; test_id: test_cro_009; source: facts.json; category: cross_session_reasoning -->
+[2026-05-20T01:05:13.046786] The user enjoys hiking on weekends
+
+<!-- id: d7bc2bb4; test_id: test_cro_010; source: facts.json; category: cross_session_reasoning -->
+[2026-05-20T01:05:13.047388] The user has a dog named Max
+
+<!-- id: 4fb8db46; test_id: test_cro_011; source: facts.json; category: cross_session_reasoning -->
+[2026-05-20T01:05:13.047979] The user wants to travel to Japan
+
+<!-- id: 9ed1f057; test_id: test_cro_012; source: facts.json; category: cross_session_reasoning -->
+[2026-05-20T01:05:13.048556] The user plans to learn Python
+
+<!-- id: 8060c015; test_id: test_cro_013; source: facts.json; category: cross_session_reasoning -->
+[2026-05-20T01:05:13.049126] The user has a dog named Max
+
+<!-- id: 57320c39; test_id: test_cro_014; source: facts.json; category: cross_session_reasoning -->
+[2026-05-20T01:05:13.049688] The user has a dog named Max
+
+<!-- id: ed6ee57c; test_id: test_cro_015; source: facts.json; category: cross_session_reasoning -->
+[2026-05-20T01:05:13.050418] The user has a dog named Max
+
+<!-- id: b4bf678c; test_id: test_cro_016; source: facts.json; category: cross_session_reasoning -->
+[2026-05-20T01:05:13.051666] The user works as a software engineer
+
+<!-- id: 7e4cf419; test_id: test_cro_017; source: facts.json; category: cross_session_reasoning -->
+[2026-05-20T01:05:13.052554] The user wants to travel to Japan
+
+<!-- id: 86ad81e8; test_id: test_cro_018; source: facts.json; category: cross_session_reasoning -->
+[2026-05-20T01:05:13.053648] The user enjoys hiking on weekends
+
+<!-- id: ab7e2d96; test_id: test_cro_019; source: facts.json; category: cross_session_reasoning -->
+[2026-05-20T01:05:13.054478] The user enjoys hiking on weekends
+
+<!-- id: 34eaa180; test_id: test_cro_020; source: facts.json; category: cross_session_reasoning -->
+[2026-05-20T01:05:13.055144] The user plans to learn Python
+
+<!-- id: f26eaadd; test_id: test_cro_021; source: facts.json; category: cross_session_reasoning -->
+[2026-05-20T01:05:13.055754] The user plans to learn Python
+
+<!-- id: d1811f02; test_id: test_cro_022; source: facts.json; category: cross_session_reasoning -->
+[2026-05-20T01:05:13.056342] The user plans to learn Python
+
+<!-- id: 90d1d9da; test_id: test_cro_023; source: facts.json; category: cross_session_reasoning -->
+[2026-05-20T01:05:13.056932] The user has a dog named Max
+
+<!-- id: 9720fdcc; test_id: test_cro_024; source: facts.json; category: cross_session_reasoning -->
+[2026-05-20T01:05:13.057669] The user plans to learn Python
+
+<!-- id: cfb6f3eb; test_id: test_cro_025; source: facts.json; category: cross_session_reasoning -->
+[2026-05-20T01:05:13.058287] The user works as a software engineer
+
+<!-- id: e68b77ca; test_id: test_cro_026; source: facts.json; category: cross_session_reasoning -->
+[2026-05-20T01:05:13.058934] The user wants to travel to Japan
+
+<!-- id: 782799b3; test_id: test_cro_027; source: facts.json; category: cross_session_reasoning -->
+[2026-05-20T01:05:13.059512] The user has a dog named Max
+
+<!-- id: b90cd961; test_id: test_cro_028; source: facts.json; category: cross_session_reasoning -->
+[2026-05-20T01:05:13.060074] The user has a dog named Max
+
+<!-- id: 2d654906; test_id: test_cro_029; source: facts.json; category: cross_session_reasoning -->
+[2026-05-20T01:05:13.060649] The user wants to travel to Japan
+
+<!-- id: e6332782; test_id: test_cro_030; source: facts.json; category: cross_session_reasoning -->
+[2026-05-20T01:05:13.061382] The user enjoys hiking on weekends
+
+<!-- id: f461ed38; test_id: test_cro_031; source: facts.json; category: cross_session_reasoning -->
+[2026-05-20T01:05:13.061974] The user wants to travel to Japan
+
+<!-- id: d5ca5f60; test_id: test_cro_032; source: facts.json; category: cross_session_reasoning -->
+[2026-05-20T01:05:13.062555] The user has a dog named Max
+
+<!-- id: 8d4dbecf; test_id: test_cro_033; source: facts.json; category: cross_session_reasoning -->
+[2026-05-20T01:05:13.063243] The user plans to learn Python
+
+<!-- id: 6caca593; test_id: test_cro_034; source: facts.json; category: cross_session_reasoning -->
+[2026-05-20T01:05:13.064036] The user works as a software engineer
+
+<!-- id: 796bd15b; test_id: test_cro_035; source: facts.json; category: cross_session_reasoning -->
+[2026-05-20T01:05:13.065230] The user wants to travel to Japan
+
+<!-- id: 1ee552ef; test_id: test_cro_036; source: facts.json; category: cross_session_reasoning -->
+[2026-05-20T01:05:13.066356] The user works as a software engineer
+
+<!-- id: 215842cc; test_id: test_cro_037; source: facts.json; category: cross_session_reasoning -->
+[2026-05-20T01:05:13.067539] The user plans to learn Python
+
+<!-- id: bbebabd7; test_id: test_cro_038; source: facts.json; category: cross_session_reasoning -->
+[2026-05-20T01:05:13.069170] The user has a dog named Max
+
+<!-- id: 586a93ff; test_id: test_cro_039; source: facts.json; category: cross_session_reasoning -->
+[2026-05-20T01:05:13.070463] The user works as a software engineer
+
+<!-- id: 844a15a8; test_id: test_cro_040; source: facts.json; category: cross_session_reasoning -->
+[2026-05-20T01:05:13.071325] The user wants to travel to Japan
+
+<!-- id: 24cccab4; test_id: test_cro_041; source: facts.json; category: cross_session_reasoning -->
+[2026-05-20T01:05:13.072830] The user plans to learn Python
+
+<!-- id: 11d02bcc; test_id: test_cro_042; source: facts.json; category: cross_session_reasoning -->
+[2026-05-20T01:05:13.074250] The user enjoys hiking on weekends
+
+<!-- id: ed795d21; test_id: test_cro_043; source: facts.json; category: cross_session_reasoning -->
+[2026-05-20T01:05:13.075114] The user wants to travel to Japan
+
+<!-- id: dcfb08aa; test_id: test_cro_044; source: facts.json; category: cross_session_reasoning -->
+[2026-05-20T01:05:13.075964] The user works as a software engineer
+
+<!-- id: 2ce796c3; test_id: test_cro_045; source: facts.json; category: cross_session_reasoning -->
+[2026-05-20T01:05:13.077066] The user has a dog named Max
+
+<!-- id: bdb11531; test_id: test_cro_046; source: facts.json; category: cross_session_reasoning -->
+[2026-05-20T01:05:13.077733] The user plans to learn Python
+
+<!-- id: 162f9ced; test_id: test_cro_047; source: facts.json; category: cross_session_reasoning -->
+[2026-05-20T01:05:13.078354] The user wants to travel to Japan
+
+<!-- id: 07037436; test_id: test_cro_048; source: facts.json; category: cross_session_reasoning -->
+[2026-05-20T01:05:13.079063] The user wants to travel to Japan
+
+<!-- id: c6030f6b; test_id: test_cro_049; source: facts.json; category: cross_session_reasoning -->
+[2026-05-20T01:05:13.079907] The user wants to travel to Japan
+
+<!-- id: 49e6112a; test_id: test_cro_050; source: facts.json; category: cross_session_reasoning -->
+[2026-05-20T01:05:13.081375] The user plans to learn Python
+
+<!-- id: 2ac98aa5; test_id: test_cro_051; source: facts.json; category: cross_session_reasoning -->
+[2026-05-20T01:05:13.082335] The user works as a software engineer
+
+<!-- id: 401d1975; test_id: test_cro_052; source: facts.json; category: cross_session_reasoning -->
+[2026-05-20T01:05:13.083599] The user has a dog named Max
+
+<!-- id: 26c6a4e1; test_id: test_cro_053; source: facts.json; category: cross_session_reasoning -->
+[2026-05-20T01:05:13.084433] The user plans to learn Python
+
+<!-- id: 2b0a0063; test_id: test_cro_054; source: facts.json; category: cross_session_reasoning -->
+[2026-05-20T01:05:13.085561] The user enjoys hiking on weekends
+
+<!-- id: eb863b41; test_id: test_cro_055; source: facts.json; category: cross_session_reasoning -->
+[2026-05-20T01:05:13.086387] The user plans to learn Python
+
+<!-- id: 3d69c2f6; test_id: test_cro_056; source: facts.json; category: cross_session_reasoning -->
+[2026-05-20T01:05:13.087202] The user has a dog named Max
+
+<!-- id: 760be93b; test_id: test_cro_057; source: facts.json; category: cross_session_reasoning -->
+[2026-05-20T01:05:13.087828] The user has a dog named Max
+
+<!-- id: 6ce63e3b; test_id: test_cro_058; source: facts.json; category: cross_session_reasoning -->
+[2026-05-20T01:05:13.088406] The user plans to learn Python
+
+<!-- id: 703ba2dd; test_id: test_cro_059; source: facts.json; category: cross_session_reasoning -->
+[2026-05-20T01:05:13.089858] The user enjoys hiking on weekends
+
+<!-- id: 117c42d8; test_id: test_cro_060; source: facts.json; category: cross_session_reasoning -->
+[2026-05-20T01:05:13.091234] The user plans to learn Python
+
+<!-- id: ecbf7c94; test_id: test_cro_061; source: facts.json; category: cross_session_reasoning -->
+[2026-05-20T01:05:13.092526] The user has a dog named Max
+
+<!-- id: ea8e0160; test_id: test_cro_062; source: facts.json; category: cross_session_reasoning -->
+[2026-05-20T01:05:13.093276] The user has a dog named Max
+
+<!-- id: b80e7e82; test_id: test_cro_063; source: facts.json; category: cross_session_reasoning -->
+[2026-05-20T01:05:13.094130] The user enjoys hiking on weekends
+
+<!-- id: 76052580; test_id: test_cro_064; source: facts.json; category: cross_session_reasoning -->
+[2026-05-20T01:05:13.094887] The user has a dog named Max
+
+<!-- id: ffda5620; test_id: test_cro_065; source: facts.json; category: cross_session_reasoning -->
+[2026-05-20T01:05:13.095731] The user wants to travel to Japan
+
+<!-- id: 7671d77f; test_id: test_cro_066; source: facts.json; category: cross_session_reasoning -->
+[2026-05-20T01:05:13.096659] The user has a dog named Max
+
+<!-- id: f11d7cf9; test_id: test_cro_067; source: facts.json; category: cross_session_reasoning -->
+[2026-05-20T01:05:13.097692] The user enjoys hiking on weekends
+
+<!-- id: 180695c0; test_id: test_cro_068; source: facts.json; category: cross_session_reasoning -->
+[2026-05-20T01:05:13.099158] The user plans to learn Python
+
+<!-- id: 5293b5a6; test_id: test_cro_069; source: facts.json; category: cross_session_reasoning -->
+[2026-05-20T01:05:13.099994] The user works as a software engineer
+
+<!-- id: 7b966750; test_id: test_cro_070; source: facts.json; category: cross_session_reasoning -->
+[2026-05-20T01:05:13.100866] The user plans to learn Python
+
+<!-- id: 52d9af68; test_id: test_cro_071; source: facts.json; category: cross_session_reasoning -->
+[2026-05-20T01:05:13.102183] The user enjoys hiking on weekends
+
+<!-- id: e2c6027a; test_id: test_cro_072; source: facts.json; category: cross_session_reasoning -->
+[2026-05-20T01:05:13.103321] The user works as a software engineer
+
+<!-- id: 50ffa68e; test_id: test_cro_073; source: facts.json; category: cross_session_reasoning -->
+[2026-05-20T01:05:13.104578] The user has a dog named Max
+
+<!-- id: c3781375; test_id: test_cro_074; source: facts.json; category: cross_session_reasoning -->
+[2026-05-20T01:05:13.105960] The user plans to learn Python
+
+<!-- id: b35fcfb3; test_id: test_cro_075; source: facts.json; category: cross_session_reasoning -->
+[2026-05-20T01:05:13.107416] The user enjoys hiking on weekends
+
+<!-- id: 1536d5a3; test_id: test_cro_076; source: facts.json; category: cross_session_reasoning -->
+[2026-05-20T01:05:13.108213] The user has a dog named Max
+
+<!-- id: 84f94791; test_id: test_cro_077; source: facts.json; category: cross_session_reasoning -->
+[2026-05-20T01:05:13.109080] The user works as a software engineer
+
+<!-- id: 07389896; test_id: test_cro_078; source: facts.json; category: cross_session_reasoning -->
+[2026-05-20T01:05:13.110108] The user enjoys hiking on weekends
+
+<!-- id: f7c687a2; test_id: test_cro_079; source: facts.json; category: cross_session_reasoning -->
+[2026-05-20T01:05:13.110825] The user enjoys hiking on weekends
+
+<!-- id: 251d4f67; test_id: test_cro_080; source: facts.json; category: cross_session_reasoning -->
+[2026-05-20T01:05:13.111466] The user enjoys hiking on weekends
+
+<!-- id: 12303daf; test_id: test_cro_081; source: facts.json; category: cross_session_reasoning -->
+[2026-05-20T01:05:13.112249] The user works as a software engineer
+
+<!-- id: 0c102c07; test_id: test_cro_082; source: facts.json; category: cross_session_reasoning -->
+[2026-05-20T01:05:13.113106] The user works as a software engineer
+
+<!-- id: 222d0608; test_id: test_cro_083; source: facts.json; category: cross_session_reasoning -->
+[2026-05-20T01:05:13.114124] The user has a dog named Max
+
+<!-- id: 5d50a864; test_id: test_cro_084; source: facts.json; category: cross_session_reasoning -->
+[2026-05-20T01:05:13.115413] The user has a dog named Max
+
+<!-- id: 5dcea81e; test_id: test_cro_085; source: facts.json; category: cross_session_reasoning -->
+[2026-05-20T01:05:13.116523] The user wants to travel to Japan
+
+<!-- id: 4cb2f644; test_id: test_cro_086; source: facts.json; category: cross_session_reasoning -->
+[2026-05-20T01:05:13.117672] The user has a dog named Max
+
+<!-- id: 2984ea02; test_id: test_cro_087; source: facts.json; category: cross_session_reasoning -->
+[2026-05-20T01:05:13.118775] The user enjoys hiking on weekends
+
+<!-- id: 977c53fc; test_id: test_cro_088; source: facts.json; category: cross_session_reasoning -->
+[2026-05-20T01:05:13.119510] The user enjoys hiking on weekends
+
+<!-- id: f782a078; test_id: test_cro_089; source: facts.json; category: cross_session_reasoning -->
+[2026-05-20T01:05:13.120193] The user wants to travel to Japan
+
+<!-- id: 76ea782e; test_id: test_cro_090; source: facts.json; category: cross_session_reasoning -->
+[2026-05-20T01:05:13.120965] The user works as a software engineer
+
+<!-- id: 67d7da08; test_id: test_cro_091; source: facts.json; category: cross_session_reasoning -->
+[2026-05-20T01:05:13.121652] The user wants to travel to Japan
+
+<!-- id: bf58005f; test_id: test_cro_092; source: facts.json; category: cross_session_reasoning -->
+[2026-05-20T01:05:13.123048] The user wants to travel to Japan
+
+<!-- id: b7b07afd; test_id: test_cro_093; source: facts.json; category: cross_session_reasoning -->
+[2026-05-20T01:05:13.124095] The user works as a software engineer
+
+<!-- id: 39612f19; test_id: test_cro_094; source: facts.json; category: cross_session_reasoning -->
+[2026-05-20T01:05:13.124923] The user has a dog named Max
+
+<!-- id: 9738c5b8; test_id: test_cro_095; source: facts.json; category: cross_session_reasoning -->
+[2026-05-20T01:05:13.126118] The user wants to travel to Japan
+
+<!-- id: b9bb65eb; test_id: test_cro_096; source: facts.json; category: cross_session_reasoning -->
+[2026-05-20T01:05:13.126817] The user enjoys hiking on weekends
+
+<!-- id: 9bc01d06; test_id: test_cro_097; source: facts.json; category: cross_session_reasoning -->
+[2026-05-20T01:05:13.127439] The user has a dog named Max
+
+<!-- id: a57d3a5f; test_id: test_cro_098; source: facts.json; category: cross_session_reasoning -->
+[2026-05-20T01:05:13.128014] The user enjoys hiking on weekends
+
+<!-- id: 89d248c8; test_id: test_cro_099; source: facts.json; category: cross_session_reasoning -->
+[2026-05-20T01:05:13.128597] The user enjoys hiking on weekends
+
+<!-- id: 8935fd88; test_id: test_tem_000; source: facts.json; category: temporal_reasoning -->
+[2026-05-20T01:05:13.129200] The user went on vacation 27 days ago
+
+<!-- id: 9822670d; test_id: test_tem_001; source: facts.json; category: temporal_reasoning -->
+[2026-05-20T01:05:13.129921] The user's birthday was 27 days ago
+
+<!-- id: cc0f8369; test_id: test_tem_002; source: facts.json; category: temporal_reasoning -->
+[2026-05-20T01:05:13.130832] The user had a deadline 12 days ago
+
+<!-- id: 322fc52b; test_id: test_tem_003; source: facts.json; category: temporal_reasoning -->
+[2026-05-20T01:05:13.132216] The user had a deadline 19 days ago
+
+<!-- id: 9bf627e0; test_id: test_tem_004; source: facts.json; category: temporal_reasoning -->
+[2026-05-20T01:05:13.133409] The user went on vacation 20 days ago
+
+<!-- id: 4c8b5332; test_id: test_tem_005; source: facts.json; category: temporal_reasoning -->
+[2026-05-20T01:05:13.134410] The user had a meeting 21 days ago
+
+<!-- id: cce11877; test_id: test_tem_006; source: facts.json; category: temporal_reasoning -->
+[2026-05-20T01:05:13.135713] The user had a meeting 26 days ago
+
+<!-- id: d5a94b54; test_id: test_tem_007; source: facts.json; category: temporal_reasoning -->
+[2026-05-20T01:05:13.137464] The user went on vacation 15 days ago
+
+<!-- id: c517fa5a; test_id: test_tem_008; source: facts.json; category: temporal_reasoning -->
+[2026-05-20T01:05:13.138644] The user's birthday was 11 days ago
+
+<!-- id: 038a57b0; test_id: test_tem_009; source: facts.json; category: temporal_reasoning -->
+[2026-05-20T01:05:13.140541] The user had a deadline 27 days ago
+
+<!-- id: 2981dc01; test_id: test_tem_010; source: facts.json; category: temporal_reasoning -->
+[2026-05-20T01:05:13.141564] The user's birthday was 27 days ago
+
+<!-- id: 2d800f9c; test_id: test_tem_011; source: facts.json; category: temporal_reasoning -->
+[2026-05-20T01:05:13.142300] The user went on vacation 6 days ago
+
+<!-- id: 7bc9ccbb; test_id: test_tem_012; source: facts.json; category: temporal_reasoning -->
+[2026-05-20T01:05:13.142944] The user had a deadline 12 days ago
+
+<!-- id: eb6caa2b; test_id: test_tem_013; source: facts.json; category: temporal_reasoning -->
+[2026-05-20T01:05:13.143560] The user had a deadline 11 days ago
+
+<!-- id: 2da59b46; test_id: test_tem_014; source: facts.json; category: temporal_reasoning -->
+[2026-05-20T01:05:13.144161] The user had a meeting 4 days ago
+
+<!-- id: 330f1d1e; test_id: test_tem_015; source: facts.json; category: temporal_reasoning -->
+[2026-05-20T01:05:13.144819] The user's birthday was 1 days ago
+
+<!-- id: 53d922b3; test_id: test_tem_016; source: facts.json; category: temporal_reasoning -->
+[2026-05-20T01:05:13.145617] The user's birthday was 22 days ago
+
+<!-- id: 243dd1ad; test_id: test_tem_017; source: facts.json; category: temporal_reasoning -->
+[2026-05-20T01:05:13.146247] The user started a new project 24 days ago
+
+<!-- id: 83679648; test_id: test_tem_018; source: facts.json; category: temporal_reasoning -->
+[2026-05-20T01:05:13.146952] The user had a deadline 9 days ago
+
+<!-- id: 50e2ab40; test_id: test_tem_019; source: facts.json; category: temporal_reasoning -->
+[2026-05-20T01:05:13.148127] The user's birthday was 23 days ago
+
+<!-- id: 5bfd2d1e; test_id: test_tem_020; source: facts.json; category: temporal_reasoning -->
+[2026-05-20T01:05:13.149352] The user went on vacation 11 days ago
+
+<!-- id: 6842f610; test_id: test_tem_021; source: facts.json; category: temporal_reasoning -->
+[2026-05-20T01:05:13.150287] The user had a deadline 16 days ago
+
+<!-- id: aaebc9a2; test_id: test_tem_022; source: facts.json; category: temporal_reasoning -->
+[2026-05-20T01:05:13.151118] The user started a new project 23 days ago
+
+<!-- id: 23891bb4; test_id: test_tem_023; source: facts.json; category: temporal_reasoning -->
+[2026-05-20T01:05:13.151787] The user went on vacation 4 days ago
+
+<!-- id: c226d381; test_id: test_tem_024; source: facts.json; category: temporal_reasoning -->
+[2026-05-20T01:05:13.152473] The user's birthday was 3 days ago
+
+<!-- id: 44b72ca7; test_id: test_tem_025; source: facts.json; category: temporal_reasoning -->
+[2026-05-20T01:05:13.153351] The user had a meeting 16 days ago
+
+<!-- id: fc0c8507; test_id: test_tem_026; source: facts.json; category: temporal_reasoning -->
+[2026-05-20T01:05:13.154208] The user had a meeting 2 days ago
+
+<!-- id: 75f5fe50; test_id: test_tem_027; source: facts.json; category: temporal_reasoning -->
+[2026-05-20T01:05:13.155253] The user went on vacation 19 days ago
+
+<!-- id: 4967539f; test_id: test_tem_028; source: facts.json; category: temporal_reasoning -->
+[2026-05-20T01:05:13.156407] The user started a new project 30 days ago
+
+<!-- id: df3fbe73; test_id: test_tem_029; source: facts.json; category: temporal_reasoning -->
+[2026-05-20T01:05:13.157049] The user went on vacation 22 days ago
+
+<!-- id: 61649ec4; test_id: test_tem_030; source: facts.json; category: temporal_reasoning -->
+[2026-05-20T01:05:13.157658] The user had a meeting 28 days ago
+
+<!-- id: 1627a7b3; test_id: test_tem_031; source: facts.json; category: temporal_reasoning -->
+[2026-05-20T01:05:13.158250] The user went on vacation 24 days ago
+
+<!-- id: 76b8b82b; test_id: test_tem_032; source: facts.json; category: temporal_reasoning -->
+[2026-05-20T01:05:13.158948] The user went on vacation 10 days ago
+
+<!-- id: 9b501036; test_id: test_tem_033; source: facts.json; category: temporal_reasoning -->
+[2026-05-20T01:05:13.159577] The user had a meeting 12 days ago
+
+<!-- id: f6fcd4ac; test_id: test_tem_034; source: facts.json; category: temporal_reasoning -->
+[2026-05-20T01:05:13.160173] The user went on vacation 27 days ago
+
+<!-- id: 41300945; test_id: test_tem_035; source: facts.json; category: temporal_reasoning -->
+[2026-05-20T01:05:13.160770] The user had a meeting 3 days ago
+
+<!-- id: 53c9e0b2; test_id: test_tem_036; source: facts.json; category: temporal_reasoning -->
+[2026-05-20T01:05:13.161375] The user's birthday was 29 days ago
+
+<!-- id: 46747ec1; test_id: test_tem_037; source: facts.json; category: temporal_reasoning -->
+[2026-05-20T01:05:13.161976] The user had a meeting 16 days ago
+
+<!-- id: 227e5397; test_id: test_tem_038; source: facts.json; category: temporal_reasoning -->
+[2026-05-20T01:05:13.162587] The user had a meeting 12 days ago
+
+<!-- id: 77495605; test_id: test_tem_039; source: facts.json; category: temporal_reasoning -->
+[2026-05-20T01:05:13.163277] The user's birthday was 20 days ago
+
+<!-- id: 759dad04; test_id: test_tem_040; source: facts.json; category: temporal_reasoning -->
+[2026-05-20T01:05:13.164205] The user had a meeting 13 days ago
+
+<!-- id: 383881d4; test_id: test_tem_041; source: facts.json; category: temporal_reasoning -->
+[2026-05-20T01:05:13.165417] The user went on vacation 5 days ago
+
+<!-- id: 57a4c9dd; test_id: test_tem_042; source: facts.json; category: temporal_reasoning -->
+[2026-05-20T01:05:13.166666] The user had a deadline 6 days ago
+
+<!-- id: 6309d69d; test_id: test_tem_043; source: facts.json; category: temporal_reasoning -->
+[2026-05-20T01:05:13.168181] The user started a new project 1 days ago
+
+<!-- id: b11b2a00; test_id: test_tem_044; source: facts.json; category: temporal_reasoning -->
+[2026-05-20T01:05:13.170827] The user's birthday was 1 days ago
+
+<!-- id: 11d6cdac; test_id: test_tem_045; source: facts.json; category: temporal_reasoning -->
+[2026-05-20T01:05:13.171890] The user had a meeting 30 days ago
+
+<!-- id: 8c9b3e94; test_id: test_tem_046; source: facts.json; category: temporal_reasoning -->
+[2026-05-20T01:05:13.173276] The user had a meeting 22 days ago
+
+<!-- id: f6f81ada; test_id: test_tem_047; source: facts.json; category: temporal_reasoning -->
+[2026-05-20T01:05:13.174516] The user had a deadline 3 days ago
+
+<!-- id: cc53409a; test_id: test_tem_048; source: facts.json; category: temporal_reasoning -->
+[2026-05-20T01:05:13.175450] The user's birthday was 25 days ago
+
+<!-- id: 43b7b80b; test_id: test_tem_049; source: facts.json; category: temporal_reasoning -->
+[2026-05-20T01:05:13.176093] The user's birthday was 8 days ago
+
+<!-- id: 4d430336; test_id: test_tem_050; source: facts.json; category: temporal_reasoning -->
+[2026-05-20T01:05:13.176739] The user had a deadline 10 days ago
+
+<!-- id: b49ddc90; test_id: test_tem_051; source: facts.json; category: temporal_reasoning -->
+[2026-05-20T01:05:13.177451] The user went on vacation 4 days ago
+
+<!-- id: 74965730; test_id: test_tem_052; source: facts.json; category: temporal_reasoning -->
+[2026-05-20T01:05:13.178787] The user had a deadline 22 days ago
+
+<!-- id: d281312a; test_id: test_tem_053; source: facts.json; category: temporal_reasoning -->
+[2026-05-20T01:05:13.179452] The user had a deadline 14 days ago
+
+<!-- id: 57815b56; test_id: test_tem_054; source: facts.json; category: temporal_reasoning -->
+[2026-05-20T01:05:13.180091] The user had a meeting 23 days ago
+
+<!-- id: 3f728bfc; test_id: test_tem_055; source: facts.json; category: temporal_reasoning -->
+[2026-05-20T01:05:13.181264] The user's birthday was 23 days ago
+
+<!-- id: 2e8a53e2; test_id: test_tem_056; source: facts.json; category: temporal_reasoning -->
+[2026-05-20T01:05:13.182153] The user had a meeting 1 days ago
+
+<!-- id: ba03fe78; test_id: test_tem_057; source: facts.json; category: temporal_reasoning -->
+[2026-05-20T01:05:13.183439] The user's birthday was 6 days ago
+
+<!-- id: 0599c135; test_id: test_tem_058; source: facts.json; category: temporal_reasoning -->
+[2026-05-20T01:05:13.184792] The user's birthday was 21 days ago
+
+<!-- id: cb4e8740; test_id: test_tem_059; source: facts.json; category: temporal_reasoning -->
+[2026-05-20T01:05:13.185585] The user went on vacation 18 days ago
+
+<!-- id: cadfbdcb; test_id: test_tem_060; source: facts.json; category: temporal_reasoning -->
+[2026-05-20T01:05:13.186259] The user started a new project 27 days ago
+
+<!-- id: 294fec46; test_id: test_tem_061; source: facts.json; category: temporal_reasoning -->
+[2026-05-20T01:05:13.187041] The user started a new project 9 days ago
+
+<!-- id: c3f12b59; test_id: test_tem_062; source: facts.json; category: temporal_reasoning -->
+[2026-05-20T01:05:13.187987] The user started a new project 6 days ago
+
+<!-- id: ded52453; test_id: test_tem_063; source: facts.json; category: temporal_reasoning -->
+[2026-05-20T01:05:13.189113] The user went on vacation 19 days ago
+
+<!-- id: 08c9684f; test_id: test_tem_064; source: facts.json; category: temporal_reasoning -->
+[2026-05-20T01:05:13.190638] The user's birthday was 11 days ago
+
+<!-- id: 0f130c6e; test_id: test_tem_065; source: facts.json; category: temporal_reasoning -->
+[2026-05-20T01:05:13.191591] The user started a new project 24 days ago
+
+<!-- id: ff2497dc; test_id: test_tem_066; source: facts.json; category: temporal_reasoning -->
+[2026-05-20T01:05:13.192320] The user had a deadline 14 days ago
+
+<!-- id: 00f7fed0; test_id: test_tem_067; source: facts.json; category: temporal_reasoning -->
+[2026-05-20T01:05:13.192922] The user's birthday was 15 days ago
+
+<!-- id: c4c725b1; test_id: test_tem_068; source: facts.json; category: temporal_reasoning -->
+[2026-05-20T01:05:13.193597] The user started a new project 13 days ago
+
+<!-- id: 89bec76f; test_id: test_tem_069; source: facts.json; category: temporal_reasoning -->
+[2026-05-20T01:05:13.194239] The user had a deadline 20 days ago
+
+<!-- id: 13bc6363; test_id: test_tem_070; source: facts.json; category: temporal_reasoning -->
+[2026-05-20T01:05:13.194861] The user went on vacation 16 days ago
+
+<!-- id: e35537e4; test_id: test_tem_071; source: facts.json; category: temporal_reasoning -->
+[2026-05-20T01:05:13.195471] The user had a meeting 24 days ago
+
+<!-- id: 98152ed3; test_id: test_tem_072; source: facts.json; category: temporal_reasoning -->
+[2026-05-20T01:05:13.196173] The user went on vacation 11 days ago
+
+<!-- id: d8b460a0; test_id: test_tem_073; source: facts.json; category: temporal_reasoning -->
+[2026-05-20T01:05:13.196922] The user's birthday was 19 days ago
+
+<!-- id: 96ac1043; test_id: test_tem_074; source: facts.json; category: temporal_reasoning -->
+[2026-05-20T01:05:13.198208] The user had a meeting 2 days ago
+
+<!-- id: 361e3ee3; test_id: test_tem_075; source: facts.json; category: temporal_reasoning -->
+[2026-05-20T01:05:13.199202] The user had a meeting 15 days ago
+
+<!-- id: 4d25e967; test_id: test_tem_076; source: facts.json; category: temporal_reasoning -->
+[2026-05-20T01:05:13.200196] The user started a new project 24 days ago
+
+<!-- id: 2e06be8e; test_id: test_tem_077; source: facts.json; category: temporal_reasoning -->
+[2026-05-20T01:05:13.201194] The user's birthday was 25 days ago
+
+<!-- id: 079c4de4; test_id: test_tem_078; source: facts.json; category: temporal_reasoning -->
+[2026-05-20T01:05:13.202309] The user's birthday was 16 days ago
+
+<!-- id: e8bc3d45; test_id: test_tem_079; source: facts.json; category: temporal_reasoning -->
+[2026-05-20T01:05:13.203344] The user started a new project 6 days ago
+
+<!-- id: dd4a635e; test_id: test_tem_080; source: facts.json; category: temporal_reasoning -->
+[2026-05-20T01:05:13.204357] The user started a new project 5 days ago
+
+<!-- id: 6488824c; test_id: test_tem_081; source: facts.json; category: temporal_reasoning -->
+[2026-05-20T01:05:13.205045] The user's birthday was 23 days ago
+
+<!-- id: fa887eba; test_id: test_tem_082; source: facts.json; category: temporal_reasoning -->
+[2026-05-20T01:05:13.205763] The user's birthday was 1 days ago
+
+<!-- id: bba895f2; test_id: test_tem_083; source: facts.json; category: temporal_reasoning -->
+[2026-05-20T01:05:13.206692] The user had a deadline 29 days ago
+
+<!-- id: e4cf2354; test_id: test_tem_084; source: facts.json; category: temporal_reasoning -->
+[2026-05-20T01:05:13.207333] The user had a meeting 28 days ago
+
+<!-- id: 1c827088; test_id: test_tem_085; source: facts.json; category: temporal_reasoning -->
+[2026-05-20T01:05:13.207962] The user went on vacation 23 days ago
+
+<!-- id: 60f19151; test_id: test_tem_086; source: facts.json; category: temporal_reasoning -->
+[2026-05-20T01:05:13.208694] The user started a new project 10 days ago
+
+<!-- id: 193a0b49; test_id: test_tem_087; source: facts.json; category: temporal_reasoning -->
+[2026-05-20T01:05:13.209446] The user started a new project 29 days ago
+
+<!-- id: 463e49a3; test_id: test_tem_088; source: facts.json; category: temporal_reasoning -->
+[2026-05-20T01:05:13.210082] The user's birthday was 27 days ago
+
+<!-- id: 5a2fec60; test_id: test_tem_089; source: facts.json; category: temporal_reasoning -->
+[2026-05-20T01:05:13.210708] The user started a new project 6 days ago
+
+<!-- id: ffb6f16a; test_id: test_tem_090; source: facts.json; category: temporal_reasoning -->
+[2026-05-20T01:05:13.211338] The user went on vacation 12 days ago
+
+<!-- id: d9136a25; test_id: test_tem_091; source: facts.json; category: temporal_reasoning -->
+[2026-05-20T01:05:13.211984] The user went on vacation 23 days ago
+
+<!-- id: a647a79f; test_id: test_tem_092; source: facts.json; category: temporal_reasoning -->
+[2026-05-20T01:05:13.212666] The user went on vacation 22 days ago
+
+<!-- id: e47fa64b; test_id: test_tem_093; source: facts.json; category: temporal_reasoning -->
+[2026-05-20T01:05:13.213517] The user had a deadline 20 days ago
+
+<!-- id: 990ee38a; test_id: test_tem_094; source: facts.json; category: temporal_reasoning -->
+[2026-05-20T01:05:13.214453] The user had a meeting 17 days ago
+
+<!-- id: fe233bca; test_id: test_tem_095; source: facts.json; category: temporal_reasoning -->
+[2026-05-20T01:05:13.215585] The user's birthday was 24 days ago
+
+<!-- id: be3f353a; test_id: test_tem_096; source: facts.json; category: temporal_reasoning -->
+[2026-05-20T01:05:13.216497] The user had a meeting 7 days ago
+
+<!-- id: 1e2ba704; test_id: test_tem_097; source: facts.json; category: temporal_reasoning -->
+[2026-05-20T01:05:13.217343] The user had a meeting 19 days ago
+
+<!-- id: 1c7e44ec; test_id: test_tem_098; source: facts.json; category: temporal_reasoning -->
+[2026-05-20T01:05:13.218237] The user went on vacation 29 days ago
+
+<!-- id: 7d986418; test_id: test_tem_099; source: facts.json; category: temporal_reasoning -->
+[2026-05-20T01:05:13.218996] The user's birthday was 26 days ago
+
+<!-- id: e74a7162; test_id: test_kno_000; source: facts.json; category: knowledge_updates -->
+[2026-05-20T01:05:13.220070] The user's phone number is 555-1234
+
+<!-- id: 9345feb6; test_id: test_kno_001; source: facts.json; category: knowledge_updates -->
+[2026-05-20T01:05:13.220982] The user's phone number is 555-1234
+
+<!-- id: 87974d54; test_id: test_kno_002; source: facts.json; category: knowledge_updates -->
+[2026-05-20T01:05:13.221624] The user's phone number is 555-1234
+
+<!-- id: a0280f8e; test_id: test_kno_003; source: facts.json; category: knowledge_updates -->
+[2026-05-20T01:05:13.222238] The user's relationship status is Married
+
+<!-- id: 336a3922; test_id: test_kno_004; source: facts.json; category: knowledge_updates -->
+[2026-05-20T01:05:13.223131] The user's relationship status is Married
+
+<!-- id: 3f06b3cb; test_id: test_kno_005; source: facts.json; category: knowledge_updates -->
+[2026-05-20T01:05:13.224038] The user's email is user@example.com
+
+<!-- id: f56e0228; test_id: test_kno_006; source: facts.json; category: knowledge_updates -->
+[2026-05-20T01:05:13.224653] The user's address is 123 Main St
+
+<!-- id: b8210874; test_id: test_kno_007; source: facts.json; category: knowledge_updates -->
+[2026-05-20T01:05:13.225261] The user's job title is Senior Engineer
+
+<!-- id: 4d97ad6c; test_id: test_kno_008; source: facts.json; category: knowledge_updates -->
+[2026-05-20T01:05:13.225895] The user's email is user@example.com
+
+<!-- id: bcb475c8; test_id: test_kno_009; source: facts.json; category: knowledge_updates -->
+[2026-05-20T01:05:13.226521] The user's email is user@example.com
+
+<!-- id: 7440713b; test_id: test_kno_010; source: facts.json; category: knowledge_updates -->
+[2026-05-20T01:05:13.227128] The user's address is 123 Main St
+
+<!-- id: bb917b78; test_id: test_kno_011; source: facts.json; category: knowledge_updates -->
+[2026-05-20T01:05:13.227756] The user's relationship status is Married
+
+<!-- id: 5cd44fc1; test_id: test_kno_012; source: facts.json; category: knowledge_updates -->
+[2026-05-20T01:05:13.228388] The user's relationship status is Married
+
+<!-- id: d42e4b97; test_id: test_kno_013; source: facts.json; category: knowledge_updates -->
+[2026-05-20T01:05:13.229141] The user's relationship status is Married
+
+<!-- id: 1c7f67f6; test_id: test_kno_014; source: facts.json; category: knowledge_updates -->
+[2026-05-20T01:05:13.229780] The user's address is 123 Main St
+
+<!-- id: 30f669ce; test_id: test_kno_015; source: facts.json; category: knowledge_updates -->
+[2026-05-20T01:05:13.230459] The user's phone number is 555-1234
+
+<!-- id: 56a8eb94; test_id: test_kno_016; source: facts.json; category: knowledge_updates -->
+[2026-05-20T01:05:13.231594] The user's address is 123 Main St
+
+<!-- id: 314d8aec; test_id: test_kno_017; source: facts.json; category: knowledge_updates -->
+[2026-05-20T01:05:13.232533] The user's email is user@example.com
+
+<!-- id: b0677461; test_id: test_kno_018; source: facts.json; category: knowledge_updates -->
+[2026-05-20T01:05:13.233729] The user's address is 123 Main St
+
+<!-- id: 887d0983; test_id: test_kno_019; source: facts.json; category: knowledge_updates -->
+[2026-05-20T01:05:13.234783] The user's phone number is 555-1234
+
+<!-- id: 1859c08d; test_id: test_kno_020; source: facts.json; category: knowledge_updates -->
+[2026-05-20T01:05:13.235672] The user's job title is Senior Engineer
+
+<!-- id: c4fddf11; test_id: test_kno_021; source: facts.json; category: knowledge_updates -->
+[2026-05-20T01:05:13.236785] The user's job title is Senior Engineer
+
+<!-- id: 20543a8a; test_id: test_kno_022; source: facts.json; category: knowledge_updates -->
+[2026-05-20T01:05:13.237621] The user's email is user@example.com
+
+<!-- id: df22fb56; test_id: test_kno_023; source: facts.json; category: knowledge_updates -->
+[2026-05-20T01:05:13.238278] The user's job title is Senior Engineer
+
+<!-- id: 72c932c3; test_id: test_kno_024; source: facts.json; category: knowledge_updates -->
+[2026-05-20T01:05:13.238945] The user's phone number is 555-1234
+
+<!-- id: 7d21e2cd; test_id: test_kno_025; source: facts.json; category: knowledge_updates -->
+[2026-05-20T01:05:13.239911] The user's phone number is 555-1234
+
+<!-- id: dc898f8c; test_id: test_kno_026; source: facts.json; category: knowledge_updates -->
+[2026-05-20T01:05:13.241016] The user's relationship status is Married
+
+<!-- id: 7ed78c50; test_id: test_kno_027; source: facts.json; category: knowledge_updates -->
+[2026-05-20T01:05:13.241784] The user's relationship status is Married
+
+<!-- id: 92c01453; test_id: test_kno_028; source: facts.json; category: knowledge_updates -->
+[2026-05-20T01:05:13.242620] The user's relationship status is Married
+
+<!-- id: 9fb6707e; test_id: test_kno_029; source: facts.json; category: knowledge_updates -->
+[2026-05-20T01:05:13.243378] The user's phone number is 555-1234
+
+<!-- id: d2546651; test_id: test_kno_030; source: facts.json; category: knowledge_updates -->
+[2026-05-20T01:05:13.244110] The user's phone number is 555-1234
+
+<!-- id: eea059b2; test_id: test_kno_031; source: facts.json; category: knowledge_updates -->
+[2026-05-20T01:05:13.244699] The user's job title is Senior Engineer
+
+<!-- id: 53e44022; test_id: test_kno_032; source: facts.json; category: knowledge_updates -->
+[2026-05-20T01:05:13.245471] The user's phone number is 555-1234
+
+<!-- id: 41ea9cef; test_id: test_kno_033; source: facts.json; category: knowledge_updates -->
+[2026-05-20T01:05:13.246187] The user's phone number is 555-1234
+
+<!-- id: b8018b3a; test_id: test_kno_034; source: facts.json; category: knowledge_updates -->
+[2026-05-20T01:05:13.247075] The user's job title is Senior Engineer
+
+<!-- id: 6cbc69ae; test_id: test_kno_035; source: facts.json; category: knowledge_updates -->
+[2026-05-20T01:05:13.249365] The user's email is user@example.com
+
+<!-- id: fb1b7eb0; test_id: test_kno_036; source: facts.json; category: knowledge_updates -->
+[2026-05-20T01:05:13.250577] The user's job title is Senior Engineer
+
+<!-- id: 2d81a0f5; test_id: test_kno_037; source: facts.json; category: knowledge_updates -->
+[2026-05-20T01:05:13.251501] The user's relationship status is Married
+
+<!-- id: 6143d193; test_id: test_kno_038; source: facts.json; category: knowledge_updates -->
+[2026-05-20T01:05:13.252508] The user's address is 123 Main St
+
+<!-- id: 23513205; test_id: test_kno_039; source: facts.json; category: knowledge_updates -->
+[2026-05-20T01:05:13.254110] The user's job title is Senior Engineer
+
+<!-- id: 062e2299; test_id: test_kno_040; source: facts.json; category: knowledge_updates -->
+[2026-05-20T01:05:13.255152] The user's relationship status is Married
+
+<!-- id: 8e882621; test_id: test_kno_041; source: facts.json; category: knowledge_updates -->
+[2026-05-20T01:05:13.255891] The user's job title is Senior Engineer
+
+<!-- id: 262c34a9; test_id: test_kno_042; source: facts.json; category: knowledge_updates -->
+[2026-05-20T01:05:13.257277] The user's address is 123 Main St
+
+<!-- id: 0a815063; test_id: test_kno_043; source: facts.json; category: knowledge_updates -->
+[2026-05-20T01:05:13.258534] The user's address is 123 Main St
+
+<!-- id: eb2e5e98; test_id: test_kno_044; source: facts.json; category: knowledge_updates -->
+[2026-05-20T01:05:13.259436] The user's relationship status is Married
+
+<!-- id: 7186fed3; test_id: test_kno_045; source: facts.json; category: knowledge_updates -->
+[2026-05-20T01:05:13.260420] The user's phone number is 555-1234
+
+<!-- id: 2aae4ac5; test_id: test_kno_046; source: facts.json; category: knowledge_updates -->
+[2026-05-20T01:05:13.261049] The user's email is user@example.com
+
+<!-- id: 3c74eaa7; test_id: test_kno_047; source: facts.json; category: knowledge_updates -->
+[2026-05-20T01:05:13.261672] The user's email is user@example.com
+
+<!-- id: b1cbbc06; test_id: test_kno_048; source: facts.json; category: knowledge_updates -->
+[2026-05-20T01:05:13.262360] The user's relationship status is Married
+
+<!-- id: c4d809ea; test_id: test_kno_049; source: facts.json; category: knowledge_updates -->
+[2026-05-20T01:05:13.263109] The user's relationship status is Married
+
+<!-- id: 3af62bc9; test_id: test_kno_050; source: facts.json; category: knowledge_updates -->
+[2026-05-20T01:05:13.263866] The user's address is 123 Main St
+
+<!-- id: 3102d1c1; test_id: test_kno_051; source: facts.json; category: knowledge_updates -->
+[2026-05-20T01:05:13.265017] The user's phone number is 555-1234
+
+<!-- id: e0397dca; test_id: test_kno_052; source: facts.json; category: knowledge_updates -->
+[2026-05-20T01:05:13.266296] The user's job title is Senior Engineer
+
+<!-- id: 5cc96fc4; test_id: test_kno_053; source: facts.json; category: knowledge_updates -->
+[2026-05-20T01:05:13.267286] The user's address is 123 Main St
+
+<!-- id: e08d1eba; test_id: test_kno_054; source: facts.json; category: knowledge_updates -->
+[2026-05-20T01:05:13.268273] The user's relationship status is Married
+
+<!-- id: e346fe7b; test_id: test_kno_055; source: facts.json; category: knowledge_updates -->
+[2026-05-20T01:05:13.269178] The user's relationship status is Married
+
+<!-- id: 27db3975; test_id: test_kno_056; source: facts.json; category: knowledge_updates -->
+[2026-05-20T01:05:13.269894] The user's address is 123 Main St
+
+<!-- id: 254fe1b5; test_id: test_kno_057; source: facts.json; category: knowledge_updates -->
+[2026-05-20T01:05:13.270594] The user's email is user@example.com
+
+<!-- id: 5b0c12e4; test_id: test_kno_058; source: facts.json; category: knowledge_updates -->
+[2026-05-20T01:05:13.271331] The user's phone number is 555-1234
+
+<!-- id: 09248ef3; test_id: test_kno_059; source: facts.json; category: knowledge_updates -->
+[2026-05-20T01:05:13.272273] The user's job title is Senior Engineer
+
+<!-- id: e79baa09; test_id: test_kno_060; source: facts.json; category: knowledge_updates -->
+[2026-05-20T01:05:13.273849] The user's address is 123 Main St
+
+<!-- id: 68568c3b; test_id: test_kno_061; source: facts.json; category: knowledge_updates -->
+[2026-05-20T01:05:13.274844] The user's address is 123 Main St
+
+<!-- id: f8b0791c; test_id: test_kno_062; source: facts.json; category: knowledge_updates -->
+[2026-05-20T01:05:13.275519] The user's address is 123 Main St
+
+<!-- id: 45e5d518; test_id: test_kno_063; source: facts.json; category: knowledge_updates -->
+[2026-05-20T01:05:13.276189] The user's email is user@example.com
+
+<!-- id: d644baa0; test_id: test_kno_064; source: facts.json; category: knowledge_updates -->
+[2026-05-20T01:05:13.276847] The user's email is user@example.com
+
+<!-- id: bd5f7c98; test_id: test_kno_065; source: facts.json; category: knowledge_updates -->
+[2026-05-20T01:05:13.277689] The user's relationship status is Married
+
+<!-- id: d632f991; test_id: test_kno_066; source: facts.json; category: knowledge_updates -->
+[2026-05-20T01:05:13.278380] The user's address is 123 Main St
+
+<!-- id: 649f499f; test_id: test_kno_067; source: facts.json; category: knowledge_updates -->
+[2026-05-20T01:05:13.279018] The user's job title is Senior Engineer
+
+<!-- id: a642bb85; test_id: test_kno_068; source: facts.json; category: knowledge_updates -->
+[2026-05-20T01:05:13.279662] The user's address is 123 Main St
+
+<!-- id: 0d7ec472; test_id: test_kno_069; source: facts.json; category: knowledge_updates -->
+[2026-05-20T01:05:13.280338] The user's address is 123 Main St
+
+<!-- id: 2f8fe8cb; test_id: test_kno_070; source: facts.json; category: knowledge_updates -->
+[2026-05-20T01:05:13.281193] The user's address is 123 Main St
+
+<!-- id: d02fa756; test_id: test_kno_071; source: facts.json; category: knowledge_updates -->
+[2026-05-20T01:05:13.282226] The user's email is user@example.com
+
+<!-- id: 4981ec28; test_id: test_kno_072; source: facts.json; category: knowledge_updates -->
+[2026-05-20T01:05:13.283152] The user's phone number is 555-1234
+
+<!-- id: 2859788d; test_id: test_kno_073; source: facts.json; category: knowledge_updates -->
+[2026-05-20T01:05:13.284367] The user's address is 123 Main St
+
+<!-- id: d34eee4d; test_id: test_kno_074; source: facts.json; category: knowledge_updates -->
+[2026-05-20T01:05:13.285487] The user's phone number is 555-1234
+
+<!-- id: 90a42467; test_id: test_kno_075; source: facts.json; category: knowledge_updates -->
+[2026-05-20T01:05:13.286274] The user's email is user@example.com
+
+<!-- id: fdaa81f5; test_id: test_kno_076; source: facts.json; category: knowledge_updates -->
+[2026-05-20T01:05:13.287676] The user's address is 123 Main St
+
+<!-- id: d57302c8; test_id: test_kno_077; source: facts.json; category: knowledge_updates -->
+[2026-05-20T01:05:13.288645] The user's email is user@example.com
+
+<!-- id: da76819d; test_id: test_kno_078; source: facts.json; category: knowledge_updates -->
+[2026-05-20T01:05:13.289735] The user's email is user@example.com
+
+<!-- id: 2b48ce27; test_id: test_kno_079; source: facts.json; category: knowledge_updates -->
+[2026-05-20T01:05:13.290654] The user's address is 123 Main St
+
+<!-- id: 014c47c6; test_id: test_kno_080; source: facts.json; category: knowledge_updates -->
+[2026-05-20T01:05:13.291413] The user's phone number is 555-1234
+
+<!-- id: 05d55d2f; test_id: test_kno_081; source: facts.json; category: knowledge_updates -->
+[2026-05-20T01:05:13.292183] The user's job title is Senior Engineer
+
+<!-- id: a1779d86; test_id: test_kno_082; source: facts.json; category: knowledge_updates -->
+[2026-05-20T01:05:13.292870] The user's job title is Senior Engineer
+
+<!-- id: 4221af38; test_id: test_kno_083; source: facts.json; category: knowledge_updates -->
+[2026-05-20T01:05:13.293512] The user's job title is Senior Engineer
+
+<!-- id: 326ce295; test_id: test_kno_084; source: facts.json; category: knowledge_updates -->
+[2026-05-20T01:05:13.294173] The user's job title is Senior Engineer
+
+<!-- id: ae261485; test_id: test_kno_085; source: facts.json; category: knowledge_updates -->
+[2026-05-20T01:05:13.294913] The user's job title is Senior Engineer
+
+<!-- id: bb2b060d; test_id: test_kno_086; source: facts.json; category: knowledge_updates -->
+[2026-05-20T01:05:13.295649] The user's email is user@example.com
+
+<!-- id: c234d3a8; test_id: test_kno_087; source: facts.json; category: knowledge_updates -->
+[2026-05-20T01:05:13.296295] The user's phone number is 555-1234
+
+<!-- id: 29a7e25e; test_id: test_kno_088; source: facts.json; category: knowledge_updates -->
+[2026-05-20T01:05:13.297041] The user's job title is Senior Engineer
+
+<!-- id: c4ed90a3; test_id: test_kno_089; source: facts.json; category: knowledge_updates -->
+[2026-05-20T01:05:13.298156] The user's phone number is 555-1234
+
+<!-- id: 31163ea4; test_id: test_kno_090; source: facts.json; category: knowledge_updates -->
+[2026-05-20T01:05:13.299160] The user's relationship status is Married
+
+<!-- id: 6998220b; test_id: test_kno_091; source: facts.json; category: knowledge_updates -->
+[2026-05-20T01:05:13.300474] The user's relationship status is Married
+
+<!-- id: 126c648b; test_id: test_kno_092; source: facts.json; category: knowledge_updates -->
+[2026-05-20T01:05:13.301400] The user's address is 123 Main St
+
+<!-- id: c0aba293; test_id: test_kno_093; source: facts.json; category: knowledge_updates -->
+[2026-05-20T01:05:13.302271] The user's email is user@example.com
+
+<!-- id: 5d8b4fa0; test_id: test_kno_094; source: facts.json; category: knowledge_updates -->
+[2026-05-20T01:05:13.303060] The user's job title is Senior Engineer
+
+<!-- id: e86f7de6; test_id: test_kno_095; source: facts.json; category: knowledge_updates -->
+[2026-05-20T01:05:13.304422] The user's address is 123 Main St
+
+<!-- id: 3daa4593; test_id: test_kno_096; source: facts.json; category: knowledge_updates -->
+[2026-05-20T01:05:13.305145] The user's relationship status is Married
+
+<!-- id: 190de583; test_id: test_kno_097; source: facts.json; category: knowledge_updates -->
+[2026-05-20T01:05:13.306136] The user's phone number is 555-1234
+
+<!-- id: 3d180028; test_id: test_kno_098; source: facts.json; category: knowledge_updates -->
+[2026-05-20T01:05:13.306891] The user's relationship status is Married
+
+<!-- id: 9acc75f7; test_id: test_kno_099; source: facts.json; category: knowledge_updates -->
+[2026-05-20T01:05:13.307698] The user's email is user@example.com
+

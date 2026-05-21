@@ -4,19 +4,10 @@
 """Tests for retrieval/synonym_expander.py (v2.9.0)"""
 
 import pytest
-from claw_mem.retrieval import synonym_expander
 from claw_mem.retrieval.synonym_expander import (
     SynonymExpander,
-    get_synonym_expander,
     BUILTIN_SYNONYMS,
 )
-
-
-@pytest.fixture(autouse=True)
-def _reset_synonym_singleton():
-    """Reset global synonym_expander singleton to prevent test isolation issues."""
-    yield
-    synonym_expander._synonym_expander = None
 
 
 class TestSynonymExpander:
@@ -88,9 +79,7 @@ class TestSynonymExpander:
         result = expander.expand("newterm test")
         assert "syn1" in result or "syn2" in result
 
-    @pytest.mark.skip(
-        reason="Flaky — passes solo, fails in suite due to test ordering (v3.0.0-rc.14)"
-    )
+
     def test_add_synonyms_existing_keyword(self):
         expander = SynonymExpander()
         expander.add_synonyms("ai", ["smart_system"])
@@ -113,7 +102,9 @@ class TestSynonymExpander:
         syns2 = expander.get_synonyms("ai")
         assert syns1 == syns2
 
-    def test_global_instance(self):
-        e1 = get_synonym_expander()
-        e2 = get_synonym_expander()
-        assert e1 is e2
+    def test_separate_instances(self):
+        """v3.2.0: Singleton removed — each call creates a new instance."""
+        e1 = SynonymExpander()
+        e2 = SynonymExpander()
+        assert isinstance(e1, SynonymExpander)
+        assert isinstance(e2, SynonymExpander)

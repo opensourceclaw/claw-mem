@@ -38,9 +38,7 @@ class TestMemoryManagerWithGating:
         stats = mm.get_gating_stats()
         assert "active_count" in stats
 
-    @pytest.mark.skip(
-        reason="Flaky — passes solo, fails in suite due to test ordering (v3.0.0-rc.14)"
-    )
+
     def test_gating_disabled(self, tmp_path):
         """Test MemoryManager without gating"""
         mm = MemoryManager(workspace=str(tmp_path / "test"), enable_gating=False)

@@ -173,7 +173,14 @@ def get_search_stats() -> SearchStats:
     return _search_stats
 
 
+def reset_search_stats() -> None:
+    """Reset global search stats instance (for testing)."""
+    global _search_stats
+    _search_stats = None
+
+
 __all__ = [
     "SearchStats",
     "get_search_stats",
+    "reset_search_stats",
 ]

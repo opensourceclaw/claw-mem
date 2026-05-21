@@ -31,9 +31,7 @@ class TestBeliefSynthesizer:
         assert len(obs) == 1
         assert obs[0].metadata["category"] == "user_preference"
 
-    @pytest.mark.skip(
-        reason="Flaky — passes solo, fails in suite due to test ordering (v3.0.0-rc.14)"
-    )
+
     def test_synthesize_beliefs(self):
         synth = BeliefSynthesizer()
         obs = [

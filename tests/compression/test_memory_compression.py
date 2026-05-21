@@ -109,9 +109,7 @@ class TestMemoryCompressor:
 class TestCompressMemory:
     """Test compress_memory function"""
 
-    @pytest.mark.skip(
-        reason="Test passes alone, fails in full suite — compressor singleton, known test isolation issue (v3.0.0-rc.14)"
-    )
+
     def test_quick_compress(self):
         from claw_mem.compression import get_compressor, CompressionLevel
 

@@ -321,19 +321,4 @@ class HybridSearcher:
         return self.semantic.count()
 
 
-# Default instance
-_hybrid_searcher: Optional[HybridSearcher] = None
-
-
-def get_hybrid_searcher(
-    bm25_weight: float = 1.0, semantic_weight: float = 0.0, top_k: int = 10
-) -> HybridSearcher:
-    """Get global hybrid searcher instance (BM25-only by default)"""
-    global _hybrid_searcher
-
-    if _hybrid_searcher is None:
-        _hybrid_searcher = HybridSearcher(
-            bm25_weight=bm25_weight, semantic_weight=semantic_weight, semantic_top_k=top_k * 2
-        )
-
-    return _hybrid_searcher
+# v3.2.0: Singleton removed — use HybridSearcher() directly

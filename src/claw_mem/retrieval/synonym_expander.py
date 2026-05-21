@@ -201,22 +201,7 @@ class SynonymExpander:
         return self._synonyms.get(keyword.lower(), [])
 
 
-# Global instance
-_synonym_expander: Optional[SynonymExpander] = None
-
-
-def get_synonym_expander(
-    custom_synonyms: Optional[Dict[str, List[str]]] = None, enabled: bool = True
-) -> SynonymExpander:
-    """Get or create global synonym expander instance."""
-    global _synonym_expander
-    if _synonym_expander is None:
-        _synonym_expander = SynonymExpander(custom_synonyms=custom_synonyms, enabled=enabled)
-    return _synonym_expander
-
-
 __all__ = [
     "SynonymExpander",
-    "get_synonym_expander",
     "BUILTIN_SYNONYMS",
 ]

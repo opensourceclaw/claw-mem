@@ -34,6 +34,7 @@ __version__ = "3.0.0"
 __author__ = "Peter Cheng"
 
 from .config import ConfigDetector, MemoryConfig
+from .factories import ComponentFactory, get_default_factory
 from .context_injection import (
     ContextFormatter,
     ContextInjector,
@@ -93,8 +94,6 @@ from .knowledge_graph import (
 from .memory_decay import MemoryDecay
 from .memory_fix_plugin import MemoryFixPlugin
 from .memory_manager import MemoryManager
-from .retrieval.bm25_retriever import BM25Retriever, HybridBM25Retriever
-from .retrieval.entity_retriever import EntityEnhancedRetriever, HybridEntityRetriever
 from .retrieval.keyword import KeywordRetriever
 from .retrieval.three_tier import (
     MemoryLayer,
@@ -135,10 +134,6 @@ __all__ = [
     "InMemoryIndex",
     "WorkingMemoryCache",
     "KeywordRetriever",
-    "BM25Retriever",
-    "HybridBM25Retriever",
-    "EntityEnhancedRetriever",
-    "HybridEntityRetriever",
     "ConfigDetector",
     "MemoryConfig",
     "ImportanceScorer",
@@ -200,4 +195,7 @@ __all__ = [
     "DummyEmbedder",
     "LLMExtractor",
     "KeywordExtractor",
+    # v3.2.0: Factory for dependency injection
+    "ComponentFactory",
+    "get_default_factory",
 ]

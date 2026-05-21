@@ -21,7 +21,7 @@ from typing import Any, Dict, List, Optional, Tuple
 
 import numpy as np
 
-from .embedding_service import get_embedding_service
+from .embedding_service import EmbeddingService
 
 
 class SemanticRetriever:
@@ -51,7 +51,7 @@ class SemanticRetriever:
         """
         self.top_k = top_k
         self.score_threshold = score_threshold
-        self.embedding_service = get_embedding_service(provider=provider, model=model)
+        self.embedding_service = EmbeddingService(provider=provider, model=model)
         self.dimension = self.embedding_service.get_dimension()
 
         # Index storage: list of (id, text, embedding, metadata)
@@ -188,17 +188,4 @@ class SemanticRetriever:
             self.add(id=doc["id"], text=doc["text"], metadata=doc.get("metadata"))
 
 
-# Default instance
-_semantic_retriever: Optional[SemanticRetriever] = None
-
-
-def get_semantic_retriever(
-    provider: str = "auto", model: str = "text-embedding-3-small", top_k: int = 10
-) -> SemanticRetriever:
-    """Get global semantic retriever instance"""
-    global _semantic_retriever
-
-    if _semantic_retriever is None:
-        _semantic_retriever = SemanticRetriever(provider=provider, model=model, top_k=top_k)
-
-    return _semantic_retriever
+# v3.2.0: Singleton removed — use SemanticRetriever() directly

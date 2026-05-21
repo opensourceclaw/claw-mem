@@ -24,13 +24,14 @@ import time
 import tempfile
 import os
 
+import pytest
+
 sys.path.insert(0, "/Users/liantian/workspace/osprojects/claw-mem/src")
 
 from claw_mem.config_manager import ConfigManager, UnifiedConfig
 from claw_mem.health_checker import HealthChecker
 from claw_mem.recovery import RecoveryManager
-from claw_mem.retrieval.optimized import OptimizedRetriever
-from claw_mem.storage.chunked_index import ChunkedIndex
+# v3.2.0: Removed dead code - OptimizedRetriever and ChunkedIndex modules deleted
 
 
 class MockStorage:
@@ -46,6 +47,7 @@ class MockStorage:
         return self.memories[:limit]
 
 
+@pytest.mark.skip(reason="v3.2.0: Removed dead code - OptimizedRetriever module deleted")
 def test_scenario_1_e2e_operations():
     """Scenario 1: End-to-End Memory Operations"""
     print("\n" + "=" * 60)
@@ -108,6 +110,7 @@ def test_scenario_1_e2e_operations():
         return True
 
 
+@pytest.mark.skip(reason="v3.2.0: Removed dead code - ChunkedIndex module deleted")
 def test_scenario_2_large_dataset():
     """Scenario 2: Large Dataset Performance"""
     print("\n" + "=" * 60)
@@ -161,9 +164,6 @@ def test_scenario_2_large_dataset():
 
         print("\n✅ Scenario 2: PASSED\n")
         return True
-
-
-import pytest
 
 
 @pytest.mark.skip(reason="Performance test - reload time may vary on system load")

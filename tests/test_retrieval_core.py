@@ -71,12 +71,12 @@ class TestKeywordRetriever:
 
 class TestTieredRetriever:
     def test_import(self):
-        from claw_mem.retrieval.tiered import TieredRetriever
+        from claw_mem.retrieval.three_tier import ThreeTierRetriever as TieredRetriever
 
         assert TieredRetriever is not None
 
     def test_import_aliased(self):
-        from claw_mem.retrieval.tiered import MemoryLayer, MemoryResult
+        from claw_mem.retrieval.three_tier import MemoryLayer, MemoryResult
 
         assert MemoryLayer is not None
         assert MemoryResult is not None
@@ -84,17 +84,17 @@ class TestTieredRetriever:
 
 class TestSmartRetriever:
     def test_imports(self):
-        from claw_mem.retrieval.smart import (
+        from claw_mem.retrieval.heuristic_retriever import (
             SmartRetriever,
             HeuristicRetriever,
-            EnhancedSmartRetriever,
-            DecoupledRetriever,
         )
+        from claw_mem.retrieval.enhanced_smart_retriever import EnhancedSmartRetriever
+        from claw_mem.retrieval.decoupled import DecoupledRetriever
 
         assert SmartRetriever is not None
 
     def test_heuristic_import(self):
-        from claw_mem.retrieval.smart import HeuristicConfig
+        from claw_mem.retrieval.heuristic_retriever import HeuristicConfig
 
         assert HeuristicConfig is not None
 
