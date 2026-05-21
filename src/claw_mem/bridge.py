@@ -23,6 +23,7 @@ All diagnostic output goes to stderr.
 import json
 import os
 import sys
+import uuid
 from typing import Any, Dict, Optional
 
 from claw_mem.adapters import AdapterRegistry
@@ -113,6 +114,8 @@ class ClawMemBridge:
             "build_context": self._handle_build_context,
             "start_session": self._handle_start_session,
             "end_session": self._handle_end_session,
+            "new_session": self._handle_new_session,
+            "reset_session": self._handle_reset_session,
             "resolve_flush_plan": self._handle_resolve_flush_plan,
             # v2.13.0: Critical rules
             "get_critical_rules": self._handle_get_critical_rules,
@@ -178,6 +181,24 @@ class ClawMemBridge:
 
     def _handle_resolve_flush_plan(self, params: Dict) -> Dict:
         return self._adapter.resolve_flush_plan(params)
+
+    def _handle_new_session(self, params: Dict) -> Dict:
+        """v3.2.1: Start new session, auto-save old session first."""
+        self._handle_end_session({})
+        new_id = params.get("sessionId", f"session_{uuid.uuid4().hex[:8]}")
+        self._handle_start_session({"sessionId": new_id})
+        if self.memory_manager:
+            self.memory_manager.working_memory.clear()
+            self.memory_manager.working_cache.clear()
+        return {"status": "new_session", "sessionId": new_id}
+
+    def _handle_reset_session(self, params: Dict) -> Dict:
+        """v3.2.1: Reset current session, keep history, clear working memory."""
+        self._handle_end_session({})
+        if self.memory_manager:
+            self.memory_manager.working_memory.clear()
+            self.memory_manager.working_cache.clear()
+        return {"status": "reset"}
 
     def _handle_get_critical_rules(self, params: Dict) -> Dict:
         """v2.13.0: Get all critical rules."""

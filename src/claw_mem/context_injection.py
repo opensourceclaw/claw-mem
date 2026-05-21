@@ -460,8 +460,32 @@ DEFAULT_CONTEXT_LAYERS = [
 
 
 def estimate_tokens(text: str) -> int:
-    """Rough token count estimation (~4 chars per token for CJK/English mix)."""
-    return max(1, len(text) // 4)
+    """Token count estimation with CJK support.
+
+    CJK characters (U+4E00–U+9FFF): ~1 token per char.
+    Other characters (ASCII, punctuation, etc.): ~4 chars per token.
+    """
+    cjk = sum(1 for c in text if '\u4e00' <= c <= '\u9fff')
+    other = len(text) - cjk
+    return max(1, cjk + (other + 3) // 4)
+
+
+def check_overflow_threshold(text: str, max_tokens: int = 8000, warn_ratio: float = 0.8) -> dict:
+    """Check if context is approaching token overflow.
+
+    Returns dict with: overflow (bool), tokens (int), usage_ratio (float), warning (str).
+    """
+    tokens = estimate_tokens(text)
+    ratio = tokens / max_tokens
+    return {
+        "overflow": ratio >= 1.0,
+        "tokens": tokens,
+        "max_tokens": max_tokens,
+        "usage_ratio": round(ratio, 3),
+        "warning": (
+            "⚠️ Context near overflow ({:.0%})".format(ratio) if ratio >= warn_ratio else ""
+        ),
+    }
 
 
 class LayeredContextFormatter:
