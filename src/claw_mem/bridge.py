@@ -183,7 +183,8 @@ class ClawMemBridge:
         return self._adapter.resolve_flush_plan(params)
 
     def _handle_new_session(self, params: Dict) -> Dict:
-        """v3.2.1: Start new session, auto-save old session first."""
+        """v3.2.1: Start new session, auto-save old session summary first."""
+        self._save_session_summary_if_needed()
         self._handle_end_session({})
         new_id = params.get("sessionId", f"session_{uuid.uuid4().hex[:8]}")
         self._handle_start_session({"sessionId": new_id})
@@ -194,11 +195,23 @@ class ClawMemBridge:
 
     def _handle_reset_session(self, params: Dict) -> Dict:
         """v3.2.1: Reset current session, keep history, clear working memory."""
+        self._save_session_summary_if_needed()
         self._handle_end_session({})
         if self.memory_manager:
             self.memory_manager.working_memory.clear()
             self.memory_manager.working_cache.clear()
         return {"status": "reset"}
+
+    def _save_session_summary_if_needed(self) -> None:
+        """Extract and save session summary from working memory before clearing."""
+        if not self.memory_manager or not self.memory_manager.working_memory:
+            return
+        try:
+            from claw_mem.session_summary import extract_summary
+            summary = extract_summary(self.memory_manager.working_memory)
+            self.memory_manager.save_session_summary(summary)
+        except Exception:
+            pass  # Never block session operations on summary failure
 
     def _handle_get_critical_rules(self, params: Dict) -> Dict:
         """v2.13.0: Get all critical rules."""
