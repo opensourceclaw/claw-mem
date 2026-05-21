@@ -245,6 +245,10 @@ class MemoryConfig:
         cms_token_threshold: int = 8000,
         cms_memory_threshold: int = 1000,
         cms_warning_level: float = 0.8,
+        # v3.2.2: Proactive compression
+        enable_proactive_compression: bool = True,
+        proactive_threshold: float = 0.7,
+        max_working_memory: int = 100,
     ):
         # Workspace
         self.workspace = workspace
@@ -285,6 +289,10 @@ class MemoryConfig:
         self.cms_token_threshold = cms_token_threshold
         self.cms_memory_threshold = cms_memory_threshold
         self.cms_warning_level = cms_warning_level
+        # v3.2.2
+        self.enable_proactive_compression = enable_proactive_compression
+        self.proactive_threshold = proactive_threshold
+        self.max_working_memory = max_working_memory
 
     @classmethod
     def default(cls) -> "MemoryConfig":
