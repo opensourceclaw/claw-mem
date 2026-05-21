@@ -58,6 +58,7 @@ from .importance import ImportanceScorer
 from .memory_decay import MemoryDecay
 from .memory_fix_plugin import MemoryFixPlugin
 from .monitor.performance import PerformanceMonitor
+from .proactive_compression import ProactiveCompressionChecker, ProactiveCompressionConfig
 from .reflection import ReflectionOrchestrator, ReflectionResult
 from .retrieval.keyword import KeywordRetriever
 from .retrieval.search_stats import SearchStats
@@ -105,6 +106,10 @@ class MemoryManager:
         cms_token_threshold: int = 8000,
         cms_memory_threshold: int = 1000,
         cms_warning_level: float = 0.8,
+        # v3.2.2: Proactive compression
+        enable_proactive_compression: bool = True,
+        proactive_threshold: float = 0.7,
+        max_working_memory: int = 100,
         factory: "ComponentFactory" = None,
     ):
         """Initialize Memory Manager. See MemoryConfig for full parameter docs."""
@@ -126,6 +131,9 @@ class MemoryManager:
                 config.compression_trigger_access, config.compression_trigger_apply, config.compression_trigger_verify
             enable_cms, cms_token_threshold, cms_memory_threshold, cms_warning_level = \
                 config.enable_cms, config.cms_token_threshold, config.cms_memory_threshold, config.cms_warning_level
+            enable_proactive_compression = getattr(config, 'enable_proactive_compression', True)
+            proactive_threshold = getattr(config, 'proactive_threshold', 0.7)
+            max_working_memory = getattr(config, 'max_working_memory', 100)
 
         if workspace is None:
             workspace = ConfigDetector.detect_workspace() if auto_detect else "~/.openclaw/workspace"
@@ -199,6 +207,12 @@ class MemoryManager:
         self._cms_summarizer: Optional[SessionSummaryGenerator] = None
         self._cms_deduplicator: Optional[MemoryDeduplicator] = None
         self._cms_strategy: Optional[CompressionStrategySelector] = None
+
+        # v3.2.2: Proactive compression
+        self.enable_proactive_compression = enable_proactive_compression
+        self._proactive_threshold = proactive_threshold
+        self._max_working_memory = max_working_memory
+        self._proactive_compressor: Optional[ProactiveCompressionChecker] = None
 
         # Search mode
         self.search_mode = os.environ.get("CLAW_MEM_SEARCH_MODE", "keyword")
@@ -723,6 +737,12 @@ class MemoryManager:
 
         self.audit.log("memory_stored", {"type": memory_type, "content": content[:100]})
 
+        # L1 capacity proactive compression (v3.2.2)
+        if self.enable_proactive_compression:
+            compressor = self.proactive_compressor
+            if compressor is not None:
+                compressor.check_and_compress()
+
         _log(f"✅ Memory stored ({memory_type}): {content[:50]}...")
         return True
 
@@ -1206,6 +1226,18 @@ class MemoryManager:
         if self._cms_strategy is None and self.enable_cms:
             self._cms_strategy = CompressionStrategySelector()
         return self._cms_strategy
+
+    @property
+    def proactive_compressor(self) -> Optional[ProactiveCompressionChecker]:
+        """Lazy-init proactive compression checker (v3.2.2)."""
+        if self._proactive_compressor is None and self.enable_proactive_compression:
+            config = ProactiveCompressionConfig(
+                enabled=True,
+                proactive_threshold=self._proactive_threshold,
+                max_working_memory=self._max_working_memory,
+            )
+            self._proactive_compressor = ProactiveCompressionChecker(self, config)
+        return self._proactive_compressor
 
     def generate_summary(
         self, session_id: str, memories: List[Dict] = None, strategy: str = "key_points"
