@@ -1,9 +1,9 @@
 {
   "project": "claw-mem",
-  "version": "3.3.0",
-  "next_version": "3.4.0",
+  "version": "3.4.0",
+  "next_version": "3.5.0",
   "createdAt": "2026-05-25T00:37:00+08:00",
-  "phase": "performance",
+  "phase": "completed",
   "phases": {
     "P1": {
       "name": "API Polish",
@@ -12,7 +12,7 @@
     },
     "P2": {
       "name": "Performance Optimization",
-      "status": "in_progress",
+      "status": "completed",
       "spec": "docs/v3.4.0/specs/performance.md"
     }
   },
