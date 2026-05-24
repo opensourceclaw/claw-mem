@@ -5,6 +5,48 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [3.3.0] - 2026-05-24
+
+### Summary
+
+**Dual System Memory Release** — Hippocampus-Neocortex inspired dual memory system for rapid learning and long-term consolidation.
+
+### Added
+
+- **HippocampalStore**: Fast, short-term memory with LRU cache and TTL
+  - Rapid encoding (< 1ms)
+  - Short-term memory storage (default 24h TTL)
+  - LRU cache for hot access optimization
+  - Importance tagging for consolidation priority
+- **NeocorticalStore**: Slow, long-term memory with concept abstraction
+  - Concept abstraction from memories
+  - Long-term consolidation
+  - Ebbinghaus forgetting curve
+  - Semantic connections between concepts
+- **ConsolidationLoop**: Periodic memory consolidation
+  - Background thread execution
+  - Importance-weighted consolidation
+  - Forgetting curve application
+  - Automatic hippocampal cleanup after consolidation
+- **DualSystemConfig**: Configuration for dual system parameters
+- **Unit Tests**: Comprehensive test suite for dual system components
+
+### Performance
+
+| Operation | Latency | Description |
+|-----------|---------|-------------|
+| Hippocampal Store | < 1ms | Fast memory encoding |
+| Hippocampal Retrieve | < 10ms | LRU-cached retrieval |
+| Neocortical Consolidate | ~50ms | Background consolidation |
+
+### Architecture
+
+```
+HippocampalStore (Fast) → ConsolidationLoop → NeocorticalStore (Slow)
+```
+
+---
+
 ## [3.2.1] - 2026-05-21
 
 ### Summary
