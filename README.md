@@ -8,7 +8,7 @@
 
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
 [![Python](https://img.shields.io/badge/Python-3.10%2B-brightgreen.svg)](https://www.python.org/)
-[![Version](https://img.shields.io/badge/Version-3.2.2-blue.svg)](https://github.com/opensourceclaw/claw-mem/releases/tag/v3.2.2)
+[![Version](https://img.shields.io/badge/Version-3.3.0-blue.svg)](https://github.com/opensourceclaw/claw-mem/releases/tag/v3.3.0)
 [![CI](https://github.com/opensourceclaw/claw-mem/actions/workflows/ci.yml/badge.svg)](https://github.com/opensourceclaw/claw-mem/actions/workflows/ci.yml)
 [![codecov](https://codecov.io/gh/opensourceclaw/claw-mem/branch/main/graph/badge.svg)](https://codecov.io/gh/opensourceclaw/claw-mem)
 
@@ -314,6 +314,72 @@ openclaw doctor
 ---
 
 ## 🔧 Advanced Features
+
+### 0. Dual System Memory (v3.3.0+)
+
+Hippocampus-Neocortex inspired dual memory system for rapid learning and long-term consolidation.
+
+```python
+from claw_mem.dual_system import (
+    HippocampalStore, NeocorticalStore, ConsolidationLoop,
+    Memory, Concept, DualSystemConfig,
+)
+
+# Initialize dual system
+hippo = HippocampalStore(capacity=1000, lru_cache_size=100)
+cortex = NeocorticalStore()
+loop = ConsolidationLoop(hippo, cortex, interval_seconds=3600)
+
+# Fast storage (hippocampus) - < 1ms
+memory_id = hippo.store(Memory(
+    content="User prefers dark mode",
+    importance=0.8,
+    ttl_seconds=86400  # 24h TTL
+))
+
+# Fast retrieval (hippocampus) - < 10ms
+results = hippo.retrieve("dark mode", limit=5)
+
+# Start background consolidation
+loop.start_background()
+
+# Check consolidation stats
+stats = loop.get_stats()
+print(f"Consolidated: {stats['consolidated_count']}")
+print(f"Pending: {stats['pending_count']}")
+```
+
+**Architecture**:
+
+```
+┌─────────────────────────────────────────┐
+│       HippocampalStore (Fast)          │
+│  • Rapid encoding (< 1ms)              │
+│  • Short-term memory (24h TTL)         │
+│  • LRU cache for hot access            │
+│  • Importance tagging                  │
+└──────────────────┬──────────────────────┘
+                   │ ConsolidationLoop
+                   ▼
+┌─────────────────────────────────────────┐
+│      NeocorticalStore (Slow)           │
+│  • Concept abstraction                 │
+│  • Long-term consolidation             │
+│  • Forgetting curve (Ebbinghaus)       │
+│  • Semantic connections                │
+└─────────────────────────────────────────┘
+```
+
+**Performance**:
+
+| Operation | Latency | Description |
+|-----------|---------|-------------|
+| Hippocampal Store | < 1ms | Fast memory encoding |
+| Hippocampal Retrieve | < 10ms | LRU-cached retrieval |
+| Neocortical Consolidate | ~50ms | Background consolidation |
+| Forgetting Curve | < 1ms | Ebbinghaus calculation |
+
+---
 
 ### 1. Write-Time Gating (v2.1.0+)
 
