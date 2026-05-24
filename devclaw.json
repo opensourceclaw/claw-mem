@@ -1,0 +1,25 @@
+{
+  "project": "claw-mem",
+  "version": "3.3.0",
+  "next_version": "3.4.0",
+  "createdAt": "2026-05-25T00:37:00+08:00",
+  "phase": "performance",
+  "phases": {
+    "P1": {
+      "name": "API Polish",
+      "status": "completed",
+      "spec": "docs/v3.4.0/specs/api-polish.md"
+    },
+    "P2": {
+      "name": "Performance Optimization",
+      "status": "in_progress",
+      "spec": "docs/v3.4.0/specs/performance.md"
+    }
+  },
+  "constraints": [
+    "All code and comments in English",
+    "Type hints required",
+    "Docstrings required",
+    "Coverage >= 85%"
+  ]
+}
