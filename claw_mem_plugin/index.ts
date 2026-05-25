@@ -218,6 +218,13 @@ class ClawMemBridge {
         for (const line of lines) {
           const trimmed = line.trim();
           if (!trimmed) continue;
+          
+          // Skip non-JSON lines gracefully (e.g., diagnostic output that leaked through)
+          if (!trimmed.startsWith('{')) {
+            if (this.logger.debug) this.logger.debug(`[claw-mem bridge] Skipping non-JSON line: ${trimmed.slice(0, 50)}...`);
+            continue;
+          }
+          
           try {
             const response: JSONRPCResponse = JSON.parse(trimmed);
             const pending = this.pendingRequests.get(response.id!);
@@ -230,9 +237,13 @@ class ClawMemBridge {
               } else {
                 pending.resolve(response.result);
               }
+            } else if (response.id === 0) {
+              // Handle initialization response (id=0) even without pending request
+              // This catches cases where initialization completed but response was delayed
+              if (this.logger.debug) this.logger.debug('[claw-mem bridge] Received init response');
             }
           } catch (e) {
-            this.logger.error(`[claw-mem bridge] Failed to parse response: ${trimmed.slice(0, 200)}`, e);
+            this.logger.warn(`[claw-mem bridge] Failed to parse response: ${trimmed.slice(0, 100)}`, e);
           }
         }
       });
@@ -263,15 +274,47 @@ class ClawMemBridge {
       });
       
       // Bridge auto-initializes in __init__ and sends id=0 response.
-      // Wait for that response instead of sending a separate initialize call.
+      // Wait for that response with a timeout and retry logic.
+      const initTimeout = setTimeout(() => {
+        // If initialization times out, try sending a ping to check if bridge is alive
+        this.logger.warn('[claw-mem bridge] Init timeout, sending ping to check...');
+        const pingId = -1;
+        this.pendingRequests.set(pingId, {
+          resolve: () => {
+            this.ready = true;
+            this.starting = false;
+            this.logger.info('[claw-mem bridge] Started successfully (via ping)');
+            resolve();
+          },
+          reject: (err: Error) => {
+            this.starting = false;
+            this.logger.error('[claw-mem bridge] Failed to initialize:', err);
+            reject(err);
+          },
+        });
+        if (this.process?.stdin) {
+          try {
+            this.process.stdin.write(JSON.stringify({
+              jsonrpc: '2.0',
+              method: 'ping',
+              id: pingId,
+            }) + '\n');
+          } catch {
+            this.pendingRequests.delete(pingId);
+          }
+        }
+      }, 10000); // 10 second timeout for initialization
+
       this.pendingRequests.set(0, {
         resolve: () => {
+          clearTimeout(initTimeout);
           this.ready = true;
           this.starting = false;
           this.logger.info('[claw-mem bridge] Started successfully');
           resolve();
         },
         reject: (err: Error) => {
+          clearTimeout(initTimeout);
           this.starting = false;
           this.logger.error('[claw-mem bridge] Failed to initialize:', err);
           reject(err);
@@ -349,7 +392,13 @@ function extractQueryFromEvent(event: any): string {
     const userMessages = event.messages.filter((m: any) => m.role === 'user');
     if (userMessages.length > 0) {
       const lastMessage = userMessages[userMessages.length - 1];
-      return lastMessage.content || '';
+      const content = lastMessage.content;
+      // Handle content that may be a non-string (array, object, etc.)
+      if (typeof content === 'string') return content;
+      if (Array.isArray(content)) {
+        return content.map((c: any) => typeof c === 'string' ? c : c?.text || '').join(' ');
+      }
+      return String(content || '');
     }
   }
   return '';
@@ -704,7 +753,7 @@ const plugin: PluginDefinition = {
 
         let searchResults: any[] = [];
 
-        if (query && query.trim()) {
+        if (query && typeof query === 'string' && query.trim()) {
           // Normal search with query from event
           try {
             const result = await bridge.call('search', {
