@@ -93,6 +93,7 @@ from .knowledge_graph import (
 )
 from .memory_decay import MemoryDecay
 from .memory_fix_plugin import MemoryFixPlugin
+from .memory import AgentAgnosticMemory, CrossAgentSync, MemoryPool, MemoryRecord
 from .memory_manager import MemoryManager
 from .retrieval.keyword import KeywordRetriever
 from .retrieval.three_tier import (
@@ -127,6 +128,11 @@ from .timeline import (
 )
 
 __all__ = [
+    # v4.0.0: Cross-Agent Memory
+    "AgentAgnosticMemory",
+    "CrossAgentSync",
+    "MemoryPool",
+    "MemoryRecord",
     "MemoryManager",
     "EpisodicStorage",
     "SemanticStorage",
