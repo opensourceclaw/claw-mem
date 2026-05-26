@@ -70,7 +70,7 @@ class LLMExtractor(BaseExtractor):
             response = self._call_llm(prompt)
             facts = self._parse_lines(response)
             return facts
-        except Exception as e:
+        except Exception:
             # Fall back to rule-based extraction
             return self._extract_facts_rule_based(text)
 
@@ -92,7 +92,7 @@ class LLMExtractor(BaseExtractor):
             response = self._call_llm(prompt)
             concepts = self._parse_lines(response)
             return concepts
-        except Exception as e:
+        except Exception:
             # Fall back to rule-based extraction
             return self._extract_concepts_rule_based(text)
 

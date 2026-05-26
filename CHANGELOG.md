@@ -5,6 +5,28 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [4.0.0] - 2026-05-26
+
+### Added
+
+- **Cross-Agent Memory Sharing**: Share memory context across agent instances
+  - AgentAgnosticMemory: Standardized MemoryRecord format with to_shared/from_shared conversion
+  - MemoryPool: Thread-safe shared pool with file-backed JSON persistence
+  - CrossAgentSync: Push/Pull sync with event-driven subscriptions and conflict detection
+- **PII Filtering**: Automatic PII detection and stripping (email, phone, SSN, API keys) before sharing
+
+### MemoryManager Integration
+
+- `enable_memory_pool` parameter (default: False for backward compat)
+- `enable_cross_agent_sync` parameter (default: False)
+- `pool` and `sync` properties (lazy initialization)
+- `store()` enhanced: auto-store to MemoryPool when enabled
+
+### Tests
+
+- 29 new tests for cross-agent memory modules
+- All existing tests pass with zero regressions
+
 ## [3.3.0] - 2026-05-24
 
 ### Summary

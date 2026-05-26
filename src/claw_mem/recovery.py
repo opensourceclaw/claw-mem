@@ -38,7 +38,7 @@ from dataclasses import asdict, dataclass
 from datetime import datetime
 from enum import Enum
 from pathlib import Path
-from typing import Any, Callable, Dict, List, Optional
+from typing import Any, Callable, Dict, List
 
 
 class RecoveryStrategy(Enum):
@@ -122,7 +122,7 @@ class RecoveryManager:
         # Setup default handlers
         self._setup_default_handlers()
 
-        print(f"✅ RecoveryManager initialized")
+        print("✅ RecoveryManager initialized")
 
     def _setup_default_handlers(self):
         """Setup default recovery handlers"""

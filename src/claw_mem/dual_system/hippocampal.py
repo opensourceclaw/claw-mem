@@ -5,12 +5,10 @@ Simulates the hippocampus: rapid encoding, temporary storage,
 importance tagging for consolidation to neocortex.
 """
 
-import math
 import threading
 import time
 from collections import OrderedDict
 from dataclasses import dataclass, field
-from datetime import datetime
 from typing import Any, Dict, List, Optional
 from uuid import uuid4
 
@@ -137,7 +135,7 @@ class HippocampalStore:
                     results.append(mem)
 
             # Sort by importance * recency
-            now = time.time()
+            time.time()
             results.sort(
                 key=lambda m: (m.importance * 5.0) + (1.0 / max(m.age_seconds, 1)),
                 reverse=True,

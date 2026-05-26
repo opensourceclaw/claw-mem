@@ -70,7 +70,7 @@ class ClawMemHandler(BaseHTTPRequestHandler):
             self._send_error(400, "Invalid JSON")
             return
 
-        content = request_data.get("content", "")
+        request_data.get("content", "")
         memory_type = request_data.get("memory_type", "semantic")
         metadata = request_data.get("metadata", {})
 
@@ -98,7 +98,7 @@ class ClawMemHandler(BaseHTTPRequestHandler):
             return
 
         query = request_data.get("query", "")
-        limit = request_data.get("limit", 10)
+        request_data.get("limit", 10)
 
         self._send_json(
             {

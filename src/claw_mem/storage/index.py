@@ -419,7 +419,7 @@ class InMemoryIndex:
                 content_str = str(self.ngram_index)
                 current_checksum = hashlib.md5(content_str.encode()).hexdigest()
                 if current_checksum != index_data["checksum"]:
-                    _log(f"⚠️  Index checksum mismatch, data may be corrupted")
+                    _log("⚠️  Index checksum mismatch, data may be corrupted")
                     if BACKUP_ENABLED:
                         print("🔄 Attempting recovery from backup...")
                         if self._restore_from_backup():
@@ -1090,4 +1090,3 @@ class WorkingMemoryCache:
 
 
 # Import datetime for cache
-from datetime import datetime

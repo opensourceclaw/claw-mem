@@ -179,7 +179,7 @@ if __name__ == "__main__":
     if rule:
         print(f"  ✅ Extracted: {rule.rule_type} - {rule.condition}")
     else:
-        print(f"  ❌ Extraction failed")
+        print("  ❌ Extraction failed")
 
     # Test 2
     print("\nTest 2: Extract preference rule")
@@ -187,7 +187,7 @@ if __name__ == "__main__":
     if rule:
         print(f"  ✅ Extracted: {rule.rule_type} - {rule.condition}")
     else:
-        print(f"  ❌ Extraction failed")
+        print("  ❌ Extraction failed")
 
     # Test 3
     print("\nTest 3: Pre-operation rule check")

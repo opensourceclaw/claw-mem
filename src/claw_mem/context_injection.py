@@ -175,7 +175,6 @@ class ContextFormatter:
             # Handle both dict and MemoryResult objects
             if hasattr(memory, "layer"):
                 layer = memory.layer or "unknown"
-                content = memory.content
             else:
                 layer = memory.get("layer") or "unknown"
                 _content = memory.get("content", "")
@@ -243,7 +242,7 @@ class ContextFormatter:
         if hasattr(memory, "content"):
             content = memory.content
             layer = memory.layer or "unknown"
-            memory_id = memory.memory_id if hasattr(memory, "memory_id") else ""
+            memory.memory_id if hasattr(memory, "memory_id") else ""
             source = memory.source if hasattr(memory, "source") else ""
             score = memory.score if hasattr(memory, "score") else None
             tags = memory.tags if hasattr(memory, "tags") else []
@@ -251,7 +250,7 @@ class ContextFormatter:
         else:
             content = memory.get("content", "")
             layer = memory.get("layer") or "unknown"
-            memory_id = memory.get("memory_id", "")
+            memory.get("memory_id", "")
             source = memory.get("source", "")
             score = memory.get("score")
             tags = memory.get("tags", [])

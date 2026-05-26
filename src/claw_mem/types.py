@@ -2,7 +2,7 @@
 
 from dataclasses import dataclass, field
 from enum import Enum
-from typing import Any, Dict, Generic, List, Optional, Protocol, TypeVar
+from typing import Any, Dict, List, Optional, Protocol, TypeVar
 
 T = TypeVar("T")
 

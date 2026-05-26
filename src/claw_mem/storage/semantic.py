@@ -155,7 +155,7 @@ class SemanticStorage:
 
         # Format output
         lines = []
-        lines.append(f"<!-- " + "; ".join(meta) + " -->")
+        lines.append("<!-- " + "; ".join(meta) + " -->")
         lines.append(f"[{timestamp}] {content}")
         lines.append("")  # Empty line separator
 
