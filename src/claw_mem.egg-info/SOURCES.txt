@@ -8,6 +8,7 @@ src/claw_mem/attention_index.py
 src/claw_mem/attention_node.py
 src/claw_mem/backup.py
 src/claw_mem/bridge.py
+src/claw_mem/cache.py
 src/claw_mem/classifier.py
 src/claw_mem/cli.py
 src/claw_mem/config.py
@@ -24,9 +25,14 @@ src/claw_mem/logging_config.py
 src/claw_mem/memory_decay.py
 src/claw_mem/memory_fix_plugin.py
 src/claw_mem/memory_manager.py
+src/claw_mem/pool.py
+src/claw_mem/proactive_compression.py
 src/claw_mem/py.typed
 src/claw_mem/recovery.py
 src/claw_mem/rule_extractor.py
+src/claw_mem/search.py
+src/claw_mem/session_summary.py
+src/claw_mem/types.py
 src/claw_mem.egg-info/PKG-INFO
 src/claw_mem.egg-info/SOURCES.txt
 src/claw_mem.egg-info/dependency_links.txt
@@ -39,6 +45,9 @@ src/claw_mem/adapters/openclaw_adapter.py
 src/claw_mem/adapters/registry.py
 src/claw_mem/adapters/v1.py
 src/claw_mem/adapters/v2.py
+src/claw_mem/api/__init__.py
+src/claw_mem/api/cli.py
+src/claw_mem/api/server.py
 src/claw_mem/benchmarks/__init__.py
 src/claw_mem/benchmarks/evo_memory.py
 src/claw_mem/benchmarks/membench.py
@@ -75,6 +84,11 @@ src/claw_mem/decay/__init__.py
 src/claw_mem/decay/controller.py
 src/claw_mem/decay/functions.py
 src/claw_mem/decay/scheduler.py
+src/claw_mem/dual_system/__init__.py
+src/claw_mem/dual_system/config.py
+src/claw_mem/dual_system/consolidation.py
+src/claw_mem/dual_system/hippocampal.py
+src/claw_mem/dual_system/neocortical.py
 src/claw_mem/gating/__init__.py
 src/claw_mem/gating/write_time_gating.py
 src/claw_mem/graph/__init__.py
@@ -202,6 +216,7 @@ tests/test_memory_manager_v290.py
 tests/test_multi_graph.py
 tests/test_performance_monitor.py
 tests/test_preference_detector.py
+tests/test_proactive_compression.py
 tests/test_procedural_storage.py
 tests/test_query_cache.py
 tests/test_recovery.py

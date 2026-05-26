@@ -2,7 +2,7 @@
 Dual system configuration for hippocampus-neocortex memory model.
 """
 
-from dataclasses import dataclass, field
+from dataclasses import dataclass
 
 
 @dataclass
