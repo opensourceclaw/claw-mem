@@ -110,6 +110,9 @@ class MemoryManager:
         enable_proactive_compression: bool = True,
         proactive_threshold: float = 0.7,
         max_working_memory: int = 100,
+        # v4.0.0: Cross-agent memory sharing
+        enable_memory_pool: bool = False,
+        enable_cross_agent_sync: bool = False,
         factory: "ComponentFactory" = None,
     ):
         """Initialize Memory Manager. See MemoryConfig for full parameter docs."""
@@ -145,6 +148,12 @@ class MemoryManager:
         
         self.session_id: Optional[str] = None
         self.session_start: Optional[datetime] = None
+
+        # v4.0.0: Cross-agent memory sharing
+        self.enable_memory_pool = enable_memory_pool
+        self.enable_cross_agent_sync = enable_cross_agent_sync
+        self._memory_pool: Any = None
+        self._cross_agent_sync: Any = None
 
         # Lightweight working state (kept eager)
         self.working_cache = WorkingMemoryCache(max_size=100, ttl_seconds=300)
@@ -744,6 +753,26 @@ class MemoryManager:
                 compressor.check_and_compress()
 
         _log(f"✅ Memory stored ({memory_type}): {content[:50]}...")
+
+        # v4.0.0: Store to cross-agent memory pool if enabled
+        if self.enable_memory_pool:
+            try:
+                pool = self.pool
+                if pool is not None:
+                    from .memory.agnostic import MemoryRecord
+                    record = MemoryRecord(
+                        id=memory_record["id"],
+                        agent_id=metadata.get("neo_agent", "unknown") if metadata else "unknown",
+                        memory_type=memory_type,
+                        content=content,
+                        tags=tags or [],
+                        timestamp=time.time(),
+                        source="local",
+                    )
+                    pool.store(record)
+            except Exception:
+                pass  # Silently fail — don't break main store for pool issues
+
         return True
 
     def search(
@@ -1238,6 +1267,24 @@ class MemoryManager:
             )
             self._proactive_compressor = ProactiveCompressionChecker(self, config)
         return self._proactive_compressor
+
+    @property
+    def pool(self) -> Any:
+        """Lazy-init MemoryPool for cross-agent memory sharing (v4.0.0)."""
+        if self._memory_pool is None and self.enable_memory_pool:
+            from .memory.pool import MemoryPool
+            self._memory_pool = MemoryPool()
+        return self._memory_pool
+
+    @property
+    def sync(self) -> Any:
+        """Lazy-init CrossAgentSync for cross-agent sync (v4.0.0)."""
+        if self._cross_agent_sync is None and self.enable_cross_agent_sync:
+            from .memory.sync import CrossAgentSync
+            # Share the pool if available
+            pool = self.pool if self.enable_memory_pool else None
+            self._cross_agent_sync = CrossAgentSync(pool=pool)
+        return self._cross_agent_sync
 
     def generate_summary(
         self, session_id: str, memories: List[Dict] = None, strategy: str = "key_points"
