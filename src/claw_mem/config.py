@@ -260,6 +260,9 @@ class MemoryConfig:
         enable_conflict_detect: bool = True,
         llm_provider: str = "auto",
         llm_model: str = "gpt-4o-mini",
+        # v4.8.0: Query reconstruction + hybrid routing
+        enable_query_reconstruction: bool = True,
+        enable_hybrid_routing: bool = False,
     ):
         # Workspace
         self.workspace = workspace
@@ -315,6 +318,9 @@ class MemoryConfig:
         self.enable_conflict_detect = enable_conflict_detect
         self.llm_provider = llm_provider
         self.llm_model = llm_model
+        # v4.8.0
+        self.enable_query_reconstruction = enable_query_reconstruction
+        self.enable_hybrid_routing = enable_hybrid_routing
 
     @classmethod
     def default(cls) -> "MemoryConfig":
