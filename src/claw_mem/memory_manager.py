@@ -144,6 +144,9 @@ class MemoryManager:
         openie_mode: str = "auto",
         openie_llm_max_tokens: int = 512,
         graph_reasoner_max_depth: int = 3,
+        # v4.11.0: Skill extraction from triplets
+        enable_skill_extraction: bool = False,
+        skill_extraction_mode: str = "auto",
     ):
         """Initialize Memory Manager. See MemoryConfig for full parameter docs."""
         # Backward compatibility: if config is a string, treat as workspace
@@ -197,6 +200,9 @@ class MemoryManager:
             openie_mode = getattr(config, 'openie_mode', openie_mode)
             openie_llm_max_tokens = getattr(config, 'openie_llm_max_tokens', openie_llm_max_tokens)
             graph_reasoner_max_depth = getattr(config, 'graph_reasoner_max_depth', graph_reasoner_max_depth)
+            # v4.11.0
+            enable_skill_extraction = getattr(config, 'enable_skill_extraction', enable_skill_extraction)
+            skill_extraction_mode = getattr(config, 'skill_extraction_mode', skill_extraction_mode)
 
         if workspace is None:
             workspace = ConfigDetector.detect_workspace() if auto_detect else "~/.openclaw/workspace"
@@ -326,6 +332,12 @@ class MemoryManager:
         self._graph_reasoner_max_depth = graph_reasoner_max_depth
         self._openie_extractor: Any = None
         self._graph_reasoner: Any = None
+
+        # v4.11.0: Skill extraction from triplets
+        self.enable_skill_extraction = enable_skill_extraction
+        self._skill_extraction_mode = skill_extraction_mode
+        self._skill_extractor: Any = None
+        self._skill_store: Any = None
 
         # Search mode
         self.search_mode = os.environ.get("CLAW_MEM_SEARCH_MODE", "keyword")
@@ -1318,6 +1330,27 @@ class MemoryManager:
             from .graph.graph_reasoner import GraphReasoner
             self._graph_reasoner = GraphReasoner()
         return self._graph_reasoner
+
+    # ── v4.11.0: Skill extraction ─────────────────────────────────────
+
+    @property
+    def skill_extractor(self):
+        """Skill extractor for abstracting triplets into skills (lazy)."""
+        if self._skill_extractor is None and self.enable_skill_extraction:
+            from .extraction.skill_extractor import SkillExtractor
+            self._skill_extractor = SkillExtractor(
+                llm_provider=self.llm,
+                mode=self._skill_extraction_mode,
+            )
+        return self._skill_extractor
+
+    @property
+    def skill_store(self):
+        """In-memory skill store (lazy)."""
+        if self._skill_store is None:
+            from .extraction.skill_store import SkillStore
+            self._skill_store = SkillStore()
+        return self._skill_store
 
     def search_with_control(
         self,
