@@ -30,7 +30,7 @@ v0.9.0 Features (2026-03-22):
 - 100% English documentation
 """
 
-__version__ = "4.8.0"
+__version__ = "4.9.0"
 __author__ = "Peter Cheng"
 
 from .config import ConfigDetector, MemoryConfig
@@ -45,6 +45,13 @@ from .context_injection import (
     InjectedContext,
     format_memory_context,
     inject_memories_to_prompt,
+)
+from .context import (
+    ConfidenceGate,
+    ConfidenceLevel,
+    GateResult,
+    InjectorResult,
+    MemoryInjector,
 )
 from .data_portability import (
     DataPortability,
@@ -219,4 +226,10 @@ __all__ = [
     "QueryReconstructor",
     "HybridRouter",
     "QueryType",
+    # v4.9.0: Context control plane
+    "MemoryInjector",
+    "ConfidenceGate",
+    "ConfidenceLevel",
+    "GateResult",
+    "InjectorResult",
 ]

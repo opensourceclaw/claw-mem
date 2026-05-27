@@ -128,6 +128,16 @@ class MemoryManager:
         # v4.8.0: Query reconstruction + hybrid routing
         enable_query_reconstruction: bool = True,
         enable_hybrid_routing: bool = False,
+        # v4.9.0: Context control plane
+        enable_context_control: bool = False,
+        enable_memory_injector: bool = True,
+        injector_max_tokens: int = 2000,
+        injector_diversity_threshold: float = 0.8,
+        injector_relevance_threshold: float = 0.3,
+        injector_recency_weight: float = 0.4,
+        enable_confidence_gate: bool = True,
+        confidence_high_threshold: float = 0.7,
+        confidence_low_threshold: float = 0.4,
     ):
         """Initialize Memory Manager. See MemoryConfig for full parameter docs."""
         # Backward compatibility: if config is a string, treat as workspace
@@ -165,6 +175,16 @@ class MemoryManager:
             # v4.8.0
             enable_query_reconstruction = getattr(config, 'enable_query_reconstruction', enable_query_reconstruction)
             enable_hybrid_routing = getattr(config, 'enable_hybrid_routing', enable_hybrid_routing)
+            # v4.9.0
+            enable_context_control = getattr(config, 'enable_context_control', enable_context_control)
+            enable_memory_injector = getattr(config, 'enable_memory_injector', enable_memory_injector)
+            injector_max_tokens = getattr(config, 'injector_max_tokens', injector_max_tokens)
+            injector_diversity_threshold = getattr(config, 'injector_diversity_threshold', injector_diversity_threshold)
+            injector_relevance_threshold = getattr(config, 'injector_relevance_threshold', injector_relevance_threshold)
+            injector_recency_weight = getattr(config, 'injector_recency_weight', injector_recency_weight)
+            enable_confidence_gate = getattr(config, 'enable_confidence_gate', enable_confidence_gate)
+            confidence_high_threshold = getattr(config, 'confidence_high_threshold', confidence_high_threshold)
+            confidence_low_threshold = getattr(config, 'confidence_low_threshold', confidence_low_threshold)
 
         if workspace is None:
             workspace = ConfigDetector.detect_workspace() if auto_detect else "~/.openclaw/workspace"
@@ -272,6 +292,19 @@ class MemoryManager:
         self.enable_hybrid_routing = enable_hybrid_routing
         self._query_reconstructor: Any = None
         self._hybrid_router: Any = None
+
+        # v4.9.0: Context control plane
+        self.enable_context_control = enable_context_control
+        self.enable_memory_injector = enable_memory_injector
+        self._injector_max_tokens = injector_max_tokens
+        self._injector_diversity_threshold = injector_diversity_threshold
+        self._injector_relevance_threshold = injector_relevance_threshold
+        self._injector_recency_weight = injector_recency_weight
+        self.enable_confidence_gate = enable_confidence_gate
+        self._confidence_high_threshold = confidence_high_threshold
+        self._confidence_low_threshold = confidence_low_threshold
+        self._confidence_gate: Any = None
+        self._memory_injector: Any = None
 
         # Search mode
         self.search_mode = os.environ.get("CLAW_MEM_SEARCH_MODE", "keyword")
@@ -1214,6 +1247,62 @@ class MemoryManager:
                 llm_provider=self.llm,
             )
         return self._hybrid_router
+
+    # ── v4.9.0: Context control plane ──────────────────────────────────
+
+    @property
+    def confidence_gate(self):
+        """Confidence gate for filtering memories by quality (lazy)."""
+        if self._confidence_gate is None and self.enable_confidence_gate:
+            from .context import ConfidenceGate
+            self._confidence_gate = ConfidenceGate(
+                manager=self,
+                high_threshold=self._confidence_high_threshold,
+                low_threshold=self._confidence_low_threshold,
+            )
+        return self._confidence_gate
+
+    @property
+    def memory_injector(self):
+        """Memory injector for 5-stage pipeline between retrieval and context formatting (lazy)."""
+        if self._memory_injector is None and self.enable_memory_injector:
+            from .context import MemoryInjector
+            self._memory_injector = MemoryInjector(
+                confidence_gate=self.confidence_gate if self.enable_confidence_gate else None,
+                max_tokens=self._injector_max_tokens,
+                diversity_threshold=self._injector_diversity_threshold,
+                relevance_threshold=self._injector_relevance_threshold,
+                recency_weight=self._injector_recency_weight,
+                enable_confidence_gate=self.enable_confidence_gate,
+            )
+        return self._memory_injector
+
+    def search_with_control(
+        self,
+        query: str,
+        memory_type: Optional[str] = None,
+        metadata: Optional[Dict] = None,
+        limit: int = 10,
+        mode: Optional[str] = None,
+        include_critical: bool = True,
+    ) -> List[Dict]:
+        """Search with context control plane (v4.9.0).
+
+        Runs a normal search and then passes results through the
+        MemoryInjector pipeline when enable_context_control is True.
+        When disabled, fall through to standard search.
+        """
+        results = self.search(
+            query=query,
+            memory_type=memory_type,
+            metadata=metadata,
+            limit=limit,
+            mode=mode,
+            include_critical=include_critical,
+        )
+        if self.enable_context_control and self.memory_injector is not None:
+            return self.memory_injector.refine(results).refined_memories
+        return results
 
     def get_graph_stats(self) -> dict:
         """Get graph structure statistics."""

@@ -263,6 +263,16 @@ class MemoryConfig:
         # v4.8.0: Query reconstruction + hybrid routing
         enable_query_reconstruction: bool = True,
         enable_hybrid_routing: bool = False,
+        # v4.9.0: Context control plane
+        enable_context_control: bool = False,
+        enable_memory_injector: bool = True,
+        injector_max_tokens: int = 2000,
+        injector_diversity_threshold: float = 0.8,
+        injector_relevance_threshold: float = 0.3,
+        injector_recency_weight: float = 0.4,
+        enable_confidence_gate: bool = True,
+        confidence_high_threshold: float = 0.7,
+        confidence_low_threshold: float = 0.4,
     ):
         # Workspace
         self.workspace = workspace
@@ -321,6 +331,16 @@ class MemoryConfig:
         # v4.8.0
         self.enable_query_reconstruction = enable_query_reconstruction
         self.enable_hybrid_routing = enable_hybrid_routing
+        # v4.9.0
+        self.enable_context_control = enable_context_control
+        self.enable_memory_injector = enable_memory_injector
+        self.injector_max_tokens = injector_max_tokens
+        self.injector_diversity_threshold = injector_diversity_threshold
+        self.injector_relevance_threshold = injector_relevance_threshold
+        self.injector_recency_weight = injector_recency_weight
+        self.enable_confidence_gate = enable_confidence_gate
+        self.confidence_high_threshold = confidence_high_threshold
+        self.confidence_low_threshold = confidence_low_threshold
 
     @classmethod
     def default(cls) -> "MemoryConfig":
