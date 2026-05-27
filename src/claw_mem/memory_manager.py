@@ -145,7 +145,7 @@ class MemoryManager:
         openie_llm_max_tokens: int = 512,
         graph_reasoner_max_depth: int = 3,
         # v4.11.0: Skill extraction from triplets
-        enable_skill_extraction: bool = False,
+        enable_skill_extraction: bool = True,
         skill_extraction_mode: str = "auto",
     ):
         """Initialize Memory Manager. See MemoryConfig for full parameter docs."""
@@ -338,6 +338,8 @@ class MemoryManager:
         self._skill_extraction_mode = skill_extraction_mode
         self._skill_extractor: Any = None
         self._skill_store: Any = None
+        self._SKILL_TRIGGER_THRESHOLD = 50
+        self._triplet_accumulator: List = []
 
         # Search mode
         self.search_mode = os.environ.get("CLAW_MEM_SEARCH_MODE", "keyword")
@@ -1011,6 +1013,17 @@ class MemoryManager:
             },
         )
 
+        # v4.11.0: L2 skill search fusion — skills get priority over L1 memories
+        if self.enable_skill_extraction:
+            try:
+                skill_results = self._search_skills(query, limit)
+                if skill_results:
+                    # Prepend L2 skills to results (higher priority, better SNR)
+                    results = skill_results + results
+                    _log(f"🧠 L2 Skills matched: {len(skill_results)}")
+            except Exception:
+                pass  # Never break search for skill extraction issues
+
         _log(f"🔍 Retrieved {len(results)} memories ({method}): {query}")
 
         return critical_rules + results
@@ -1335,22 +1348,128 @@ class MemoryManager:
 
     @property
     def skill_extractor(self):
-        """Skill extractor for abstracting triplets into skills (lazy)."""
+        """Skill extractor for abstracting triplets into skills (lazy).
+
+        Auto-checks LLMProvider availability:
+        - LLM available & mode="auto"/"llm" → LLM-powered extraction
+        - LLM unavailable → falls back to rule mode automatically
+        - enable_skill_extraction=False → returns None (disabled)
+        """
         if self._skill_extractor is None and self.enable_skill_extraction:
             from .extraction.skill_extractor import SkillExtractor
+            # Check if LLMProvider is available
+            llm = None
+            try:
+                provider = self.llm
+                if provider is not None and provider.health_check():
+                    llm = provider
+            except Exception:
+                pass
+
+            # If LLM unavailable but mode is "auto" or "llm", fall back to rule
+            mode = self._skill_extraction_mode
+            if llm is None and mode in ("auto", "llm"):
+                mode = "rule"
+
             self._skill_extractor = SkillExtractor(
-                llm_provider=self.llm,
-                mode=self._skill_extraction_mode,
+                llm_provider=llm,
+                mode=mode,
             )
         return self._skill_extractor
 
     @property
     def skill_store(self):
-        """In-memory skill store (lazy)."""
+        """In-memory skill store (lazy). Always available for search fusion."""
         if self._skill_store is None:
             from .extraction.skill_store import SkillStore
             self._skill_store = SkillStore()
         return self._skill_store
+
+    def accumulate_triplets(self, triplets: List) -> int:
+        """Accumulate triplets and auto-trigger skill extraction.
+
+        Args:
+            triplets: List of Triplet objects from OpenIEExtractor.
+
+        Returns:
+            Number of accumulated triplets. Returns 0 if skill extraction
+            is disabled.
+
+        The SkillExtractor fires automatically when accumulated triplets
+        reach the threshold (default 50). Extracted skills are stored in
+        self.skill_store. This is designed to be called after each OpenIE
+        extraction — it is synchronous and fast; rule mode completes in
+        under 1ms even at threshold.
+        """
+        if not self.enable_skill_extraction:
+            return 0
+
+        self._triplet_accumulator.extend(triplets)
+        return self._check_skill_trigger()
+
+    def _check_skill_trigger(self) -> int:
+        """Check if accumulator has reached threshold and run extraction.
+
+        Returns:
+            Number of skills extracted (0 if below threshold).
+        """
+        if len(self._triplet_accumulator) >= self._SKILL_TRIGGER_THRESHOLD:
+            extractor = self.skill_extractor
+            store = self.skill_store
+            if extractor is None:
+                self._triplet_accumulator.clear()
+                return 0
+
+            skills = extractor.extract(self._triplet_accumulator)
+            for skill in skills:
+                store.store(skill)
+
+            self._triplet_accumulator.clear()
+            return len(skills)
+
+        return 0
+
+    def _search_skills(self, query: str, limit: int) -> List[Dict]:
+        """Search L2 skills and convert to memory-format dicts.
+
+        Searches skill_store by keyword. Skills represent high-compression,
+        high-SNR procedural knowledge. Called internally by search().
+
+        Args:
+            query: Search query.
+            limit: Max results.
+
+        Returns:
+            List of dicts in memory search result format.
+        """
+        store = self.skill_store
+        if store is None or store.count() == 0:
+            return []
+
+        matched = store.search(query)
+        if not matched:
+            return []
+
+        results: List[Dict] = []
+        for skill in matched[:limit]:
+            results.append({
+                "id": f"skill_{skill.name}",
+                "content": f"[L2 Skill] {skill.name}: {'; '.join(skill.steps)}",
+                "type": "procedural",
+                "tags": ["skill", f"ratio_{skill.compression_ratio:.0f}x"],
+                "metadata": {
+                    "skill_name": skill.name,
+                    "skill_applicability": skill.applicability,
+                    "skill_confidence": skill.confidence,
+                    "skill_compression_ratio": skill.compression_ratio,
+                    "skill_source": skill.source,
+                    "memory_layer": "L2",
+                },
+                "timestamp": "",
+                "session_id": None,
+            })
+
+        return results
 
     def search_with_control(
         self,
