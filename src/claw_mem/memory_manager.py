@@ -138,6 +138,12 @@ class MemoryManager:
         enable_confidence_gate: bool = True,
         confidence_high_threshold: float = 0.7,
         confidence_low_threshold: float = 0.4,
+        # v4.10.0: OpenIE extraction + graph reasoning
+        enable_openie: bool = False,
+        enable_graph_reasoner: bool = False,
+        openie_mode: str = "auto",
+        openie_llm_max_tokens: int = 512,
+        graph_reasoner_max_depth: int = 3,
     ):
         """Initialize Memory Manager. See MemoryConfig for full parameter docs."""
         # Backward compatibility: if config is a string, treat as workspace
@@ -185,6 +191,12 @@ class MemoryManager:
             enable_confidence_gate = getattr(config, 'enable_confidence_gate', enable_confidence_gate)
             confidence_high_threshold = getattr(config, 'confidence_high_threshold', confidence_high_threshold)
             confidence_low_threshold = getattr(config, 'confidence_low_threshold', confidence_low_threshold)
+            # v4.10.0
+            enable_openie = getattr(config, 'enable_openie', enable_openie)
+            enable_graph_reasoner = getattr(config, 'enable_graph_reasoner', enable_graph_reasoner)
+            openie_mode = getattr(config, 'openie_mode', openie_mode)
+            openie_llm_max_tokens = getattr(config, 'openie_llm_max_tokens', openie_llm_max_tokens)
+            graph_reasoner_max_depth = getattr(config, 'graph_reasoner_max_depth', graph_reasoner_max_depth)
 
         if workspace is None:
             workspace = ConfigDetector.detect_workspace() if auto_detect else "~/.openclaw/workspace"
@@ -305,6 +317,15 @@ class MemoryManager:
         self._confidence_low_threshold = confidence_low_threshold
         self._confidence_gate: Any = None
         self._memory_injector: Any = None
+
+        # v4.10.0: OpenIE extraction + graph reasoning
+        self.enable_openie = enable_openie
+        self.enable_graph_reasoner = enable_graph_reasoner
+        self._openie_mode = openie_mode
+        self._openie_llm_max_tokens = openie_llm_max_tokens
+        self._graph_reasoner_max_depth = graph_reasoner_max_depth
+        self._openie_extractor: Any = None
+        self._graph_reasoner: Any = None
 
         # Search mode
         self.search_mode = os.environ.get("CLAW_MEM_SEARCH_MODE", "keyword")
@@ -1276,6 +1297,27 @@ class MemoryManager:
                 enable_confidence_gate=self.enable_confidence_gate,
             )
         return self._memory_injector
+
+    # ── v4.10.0: OpenIE extraction + graph reasoning ────────────────────
+
+    @property
+    def openie_extractor(self):
+        """OpenIE triplet extractor (lazy)."""
+        if self._openie_extractor is None and self.enable_openie:
+            from .extraction.openie_extractor import OpenIEExtractor
+            self._openie_extractor = OpenIEExtractor(
+                llm_provider=self.llm,
+                mode=self._openie_mode,
+            )
+        return self._openie_extractor
+
+    @property
+    def graph_reasoner(self):
+        """Graph reasoner for multi-hop reasoning over triplets (lazy)."""
+        if self._graph_reasoner is None and self.enable_graph_reasoner:
+            from .graph.graph_reasoner import GraphReasoner
+            self._graph_reasoner = GraphReasoner()
+        return self._graph_reasoner
 
     def search_with_control(
         self,

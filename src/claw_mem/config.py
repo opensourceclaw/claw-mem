@@ -273,6 +273,12 @@ class MemoryConfig:
         enable_confidence_gate: bool = True,
         confidence_high_threshold: float = 0.7,
         confidence_low_threshold: float = 0.4,
+        # v4.10.0: OpenIE extraction + graph reasoning
+        enable_openie: bool = False,
+        enable_graph_reasoner: bool = False,
+        openie_mode: str = "auto",  # "llm" | "rule" | "auto"
+        openie_llm_max_tokens: int = 512,
+        graph_reasoner_max_depth: int = 3,
     ):
         # Workspace
         self.workspace = workspace
@@ -341,6 +347,12 @@ class MemoryConfig:
         self.enable_confidence_gate = enable_confidence_gate
         self.confidence_high_threshold = confidence_high_threshold
         self.confidence_low_threshold = confidence_low_threshold
+        # v4.10.0
+        self.enable_openie = enable_openie
+        self.enable_graph_reasoner = enable_graph_reasoner
+        self.openie_mode = openie_mode
+        self.openie_llm_max_tokens = openie_llm_max_tokens
+        self.graph_reasoner_max_depth = graph_reasoner_max_depth
 
     @classmethod
     def default(cls) -> "MemoryConfig":
