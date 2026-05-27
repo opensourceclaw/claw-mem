@@ -20,6 +20,7 @@ Four-node, five-edge graph structure based on the GAAMA paper.
 
 from .concept_graph import ConceptMediatedGraph, DummyEmbedder, Embedder, RetrievalResult
 from .dual_layer import DualLayerMemory, Event, Topic
+from .graph_reasoner import GraphReasoner, PathResult
 from .edges import (
     DerivedFromEdge,
     Edge,
@@ -84,4 +85,7 @@ __all__ = [
     "Event",
     "Topic",
     "DualLayerMemory",
+    # v4.10.0: Graph reasoning
+    "GraphReasoner",
+    "PathResult",
 ]

@@ -30,7 +30,7 @@ v0.9.0 Features (2026-03-22):
 - 100% English documentation
 """
 
-__version__ = "4.9.0"
+__version__ = "4.10.0"
 __author__ = "Peter Cheng"
 
 from .config import ConfigDetector, MemoryConfig
@@ -116,6 +116,8 @@ from .retrieval.three_tier import (
     ThreeTierRetriever,
     search_memory,
 )
+from .extraction import OpenIEExtractor, Triplet
+from .graph.graph_reasoner import GraphReasoner, PathResult
 from .rule_extractor import RuleExtractor
 from .storage.episodic import EpisodicStorage
 from .storage.index import InMemoryIndex, WorkingMemoryCache
@@ -232,4 +234,9 @@ __all__ = [
     "ConfidenceLevel",
     "GateResult",
     "InjectorResult",
+    # v4.10.0: OpenIE extraction + graph reasoning
+    "OpenIEExtractor",
+    "Triplet",
+    "GraphReasoner",
+    "PathResult",
 ]
