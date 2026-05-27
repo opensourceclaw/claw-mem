@@ -21,7 +21,7 @@ and importance.
 """
 
 import time
-from datetime import datetime, timedelta
+from datetime import datetime
 from enum import Enum
 from typing import Any, Dict, List, Optional, TYPE_CHECKING
 
@@ -88,7 +88,6 @@ class TieredDecayEngine:
 
     def classify(self, memory: Dict[str, Any]) -> TierLevel:
         """Classify a single memory into a tier based on its age and metadata."""
-        mid = memory.get("id", "")
         meta = memory.get("metadata", {})
 
         # Deprecated memories go directly to COLD for immediate eviction
@@ -137,12 +136,16 @@ class TieredDecayEngine:
         if current in (TierLevel.HOT, TierLevel.WARM):
             return current
         # COLD → WARM promotion: record access and return
-        return TierLevel.WARM if self._access_frequency(memory_id) >= 2 else TierLevel.COLD
+        freq = self._access_frequency(memory_id)
+        return TierLevel.WARM if freq >= 2 else TierLevel.COLD
 
     # ── importance scoring ─────────────────────────────────────────────
 
     def get_importance(self, memory: Dict[str, Any]) -> float:
-        """Score memory importance (0.0–1.0). Uses cached LLM score or rule-based fallback."""
+        """Score memory importance (0.0–1.0).
+
+        Uses cached LLM score or rule-based fallback.
+        """
         mid = memory.get("id", "")
         if mid and mid in self._importance_cache:
             return self._importance_cache[mid]
@@ -242,7 +245,8 @@ class TieredDecayEngine:
         if recency == float("inf") or recency <= 0:
             norm_rec = 0.0
         else:
-            norm_rec = max(0.0, 1.0 - recency / (self.cold_ttl * 2))  # more recent = higher
+            ttl_x2 = self.cold_ttl * 2
+            norm_rec = max(0.0, 1.0 - recency / ttl_x2)
 
         freq = self._access_frequency(mid)
         norm_freq = min(1.0, freq / 5.0)  # cap at 5 accesses
@@ -281,7 +285,11 @@ class TieredDecayEngine:
             tiers[tier].append(m)
 
         # Evict from COLD tier if over capacity
-        max_map = {TierLevel.HOT: self.max_hot, TierLevel.WARM: self.max_warm, TierLevel.COLD: self.max_cold}
+        max_map = {
+            TierLevel.HOT: self.max_hot,
+            TierLevel.WARM: self.max_warm,
+            TierLevel.COLD: self.max_cold,
+        }
 
         for tier, max_cap in max_map.items():
             if tier == TierLevel.HOT:

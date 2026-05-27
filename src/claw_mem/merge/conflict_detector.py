@@ -21,7 +21,7 @@ by keeping the higher-confidence version with optional LLM arbitration.
 
 import re
 import time
-from dataclasses import dataclass, field
+from dataclasses import dataclass
 from typing import Any, Dict, List, Optional, TYPE_CHECKING
 
 if TYPE_CHECKING:
@@ -98,7 +98,7 @@ _CONFLICT_RESOLVE_PROMPT = (
 _ENTITY_PATTERNS = [
     re.compile(r'\b([A-Z][a-z]+(?:\s+[A-Z][a-z]+)*)\b'),       # Proper names
     re.compile(r'@(\w+)'),                                       # @mentions
-    re.compile(r'(?:city|country|company|person|project)\s*[:=]\s*(\S+)', re.I),  # key:value
+    re.compile(r'(?:city|country|company|person|project)\s*[:=]\s*(\S+)', re.I),  # k:v
 ]
 
 
@@ -166,7 +166,8 @@ class ConflictDetector:
         all_memories = storage.get_all()
         active = [m for m in all_memories
                   if m.get("id") and m.get("content")
-                  and m.get("metadata", {}).get("deprecated") not in ("true", "True", "1")]
+                  and m.get("metadata", {}).get("deprecated")
+                  not in ("true", "True", "1")]
 
         if len(active) < 2:
             return []
@@ -185,7 +186,9 @@ class ConflictDetector:
         self._conflict_history.extend(conflicts)
         return conflicts
 
-    def _detect_entity_conflicts(self, active: List[Dict[str, Any]]) -> List[ConflictReport]:
+    def _detect_entity_conflicts(
+        self, active: List[Dict[str, Any]]
+    ) -> List[ConflictReport]:
         """Detect same-entity, different-attribute-value conflicts."""
         conflicts: List[ConflictReport] = []
 
@@ -212,7 +215,8 @@ class ConflictDetector:
                     conflicts_found = []
                     for key in set(attrs_a) & set(attrs_b):
                         if attrs_a[key].lower() != attrs_b[key].lower():
-                            conflicts_found.append(f"{key}: {attrs_a[key]} vs {attrs_b[key]}")
+                            attr_conflict = f"{key}: {attrs_a[key]} vs {attrs_b[key]}"
+                            conflicts_found.append(attr_conflict)
 
                     if conflicts_found:
                         conflicts.append(ConflictReport(
@@ -221,13 +225,17 @@ class ConflictDetector:
                             memory_id_b=mid_b,
                             content_a=mems[i]["content"],
                             content_b=mems[j]["content"],
-                            description=f"Entity '{entity}' has conflicting attributes: "
-                                        f"{', '.join(conflicts_found)}",
+                            description=(
+                                f"Entity '{entity}' has conflicting attributes: "
+                                f"{', '.join(conflicts_found)}"
+                            ),
                         ))
         return conflicts
 
-    def _detect_timeline_conflicts(self, active: List[Dict[str, Any]]) -> List[ConflictReport]:
-        """Detect timeline inconsistencies (event A happens before B but described differently)."""
+    def _detect_timeline_conflicts(
+        self, active: List[Dict[str, Any]]
+    ) -> List[ConflictReport]:
+        """Detect timeline inconsistencies (event order described differently)."""
         conflicts: List[ConflictReport] = []
 
         # Find memories with temporal expressions
@@ -269,7 +277,9 @@ class ConflictDetector:
 
         return conflicts
 
-    def _detect_semantic_conflicts(self, active: List[Dict[str, Any]]) -> List[ConflictReport]:
+    def _detect_semantic_conflicts(
+        self, active: List[Dict[str, Any]]
+    ) -> List[ConflictReport]:
         """Detect highly similar but contradictory memories via embeddings + LLM."""
         conflicts: List[ConflictReport] = []
         if len(active) < 2:
