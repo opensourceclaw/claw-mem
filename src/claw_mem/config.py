@@ -280,7 +280,7 @@ class MemoryConfig:
         openie_llm_max_tokens: int = 512,
         graph_reasoner_max_depth: int = 3,
         # v4.11.0: Skill extraction from triplets
-        enable_skill_extraction: bool = False,
+        enable_skill_extraction: bool = True,
         skill_extraction_mode: str = "auto",  # "llm" | "rule" | "auto"
     ):
         # Workspace
