@@ -125,6 +125,9 @@ class MemoryManager:
         enable_conflict_detect: bool = True,
         llm_provider: str = "auto",
         llm_model: str = "gpt-4o-mini",
+        # v4.8.0: Query reconstruction + hybrid routing
+        enable_query_reconstruction: bool = True,
+        enable_hybrid_routing: bool = False,
     ):
         """Initialize Memory Manager. See MemoryConfig for full parameter docs."""
         # Backward compatibility: if config is a string, treat as workspace
@@ -159,6 +162,9 @@ class MemoryManager:
             enable_conflict_detect = getattr(config, 'enable_conflict_detect', enable_conflict_detect)
             llm_provider = getattr(config, 'llm_provider', llm_provider)
             llm_model = getattr(config, 'llm_model', llm_model)
+            # v4.8.0
+            enable_query_reconstruction = getattr(config, 'enable_query_reconstruction', enable_query_reconstruction)
+            enable_hybrid_routing = getattr(config, 'enable_hybrid_routing', enable_hybrid_routing)
 
         if workspace is None:
             workspace = ConfigDetector.detect_workspace() if auto_detect else "~/.openclaw/workspace"
@@ -260,6 +266,12 @@ class MemoryManager:
         self._llm_provider: Any = None
         self._llm_provider_name = llm_provider
         self._llm_model = llm_model
+
+        # v4.8.0: Query reconstruction + hybrid routing
+        self.enable_query_reconstruction = enable_query_reconstruction
+        self.enable_hybrid_routing = enable_hybrid_routing
+        self._query_reconstructor: Any = None
+        self._hybrid_router: Any = None
 
         # Search mode
         self.search_mode = os.environ.get("CLAW_MEM_SEARCH_MODE", "keyword")
@@ -1181,6 +1193,27 @@ class MemoryManager:
                 llm_provider=self.llm,
             )
         return self._conflict_detector
+
+    # ── v4.8.0: Query reconstruction + hybrid routing ──────────────────
+
+    @property
+    def query_reconstructor(self):
+        """Query reconstructor for semantic query expansion (lazy)."""
+        if self._query_reconstructor is None and self.enable_query_reconstruction:
+            from .retrieval.query_reconstructor import QueryReconstructor
+            self._query_reconstructor = QueryReconstructor(llm_provider=self.llm)
+        return self._query_reconstructor
+
+    @property
+    def hybrid_router(self):
+        """Hybrid query router: classify → route → optimal pipeline (lazy)."""
+        if self._hybrid_router is None and self.enable_hybrid_routing:
+            from .retrieval.hybrid_router import HybridRouter
+            self._hybrid_router = HybridRouter(
+                manager=self,
+                llm_provider=self.llm,
+            )
+        return self._hybrid_router
 
     def get_graph_stats(self) -> dict:
         """Get graph structure statistics."""

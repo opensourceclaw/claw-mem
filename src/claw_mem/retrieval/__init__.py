@@ -21,6 +21,8 @@ from .hybrid_searcher import HybridSearcher
 from .query_cache import QueryCache, get_query_cache
 from .search_stats import SearchStats, get_search_stats
 from .synonym_expander import BUILTIN_SYNONYMS, SynonymExpander
+from .query_reconstructor import QueryReconstructor
+from .hybrid_router import HybridRouter, QueryType
 
 __all__ = [
     # Consolidated
@@ -43,4 +45,8 @@ __all__ = [
     "BUILTIN_SYNONYMS",
     "SearchStats",
     "get_search_stats",
+    # v4.8.0: Query reconstruction + hybrid routing
+    "QueryReconstructor",
+    "HybridRouter",
+    "QueryType",
 ]

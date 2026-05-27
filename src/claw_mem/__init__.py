@@ -30,7 +30,7 @@ v0.9.0 Features (2026-03-22):
 - 100% English documentation
 """
 
-__version__ = "4.7.0"
+__version__ = "4.8.0"
 __author__ = "Peter Cheng"
 
 from .config import ConfigDetector, MemoryConfig
@@ -99,7 +99,9 @@ from .memory_decay import MemoryDecay
 from .memory_fix_plugin import MemoryFixPlugin
 from .memory import AgentAgnosticMemory, CrossAgentSync, MemoryPool, MemoryRecord
 from .memory_manager import MemoryManager
+from .retrieval.hybrid_router import HybridRouter, QueryType
 from .retrieval.keyword import KeywordRetriever
+from .retrieval.query_reconstructor import QueryReconstructor
 from .retrieval.three_tier import (
     MemoryLayer,
     MemoryResult,
@@ -213,4 +215,8 @@ __all__ = [
     "TieredDecayEngine",
     "ConflictDetector",
     "LLMProvider",
+    # v4.8.0: Query reconstruction + hybrid routing
+    "QueryReconstructor",
+    "HybridRouter",
+    "QueryType",
 ]
