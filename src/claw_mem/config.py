@@ -279,6 +279,9 @@ class MemoryConfig:
         openie_mode: str = "auto",  # "llm" | "rule" | "auto"
         openie_llm_max_tokens: int = 512,
         graph_reasoner_max_depth: int = 3,
+        # v4.11.0: Skill extraction from triplets
+        enable_skill_extraction: bool = False,
+        skill_extraction_mode: str = "auto",  # "llm" | "rule" | "auto"
     ):
         # Workspace
         self.workspace = workspace
@@ -353,6 +356,9 @@ class MemoryConfig:
         self.openie_mode = openie_mode
         self.openie_llm_max_tokens = openie_llm_max_tokens
         self.graph_reasoner_max_depth = graph_reasoner_max_depth
+        # v4.11.0
+        self.enable_skill_extraction = enable_skill_extraction
+        self.skill_extraction_mode = skill_extraction_mode
 
     @classmethod
     def default(cls) -> "MemoryConfig":

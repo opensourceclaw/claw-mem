@@ -17,8 +17,13 @@ claw-mem extraction module - OpenIE-style structured memory extraction
 """
 
 from .openie_extractor import OpenIEExtractor, Triplet
+from .skill_extractor import Skill, SkillExtractor
+from .skill_store import SkillStore
 
 __all__ = [
     "OpenIEExtractor",
     "Triplet",
+    "Skill",
+    "SkillExtractor",
+    "SkillStore",
 ]
