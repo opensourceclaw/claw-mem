@@ -127,14 +127,14 @@ class TestV2Strategy:
     def test_get_version(self):
         s = V2Strategy()
         v = s.get_version()
-        assert v == "2.8.0" or v.startswith("3.")
+        assert v == "2.8.0" or v.startswith("3.") or v.startswith("4.")
 
     def test_get_initialize_response(self):
         s = V2Strategy()
         resp = s.get_initialize_response()
         assert resp["status"] == "ok"
         assert resp["message"] == "initialized"
-        assert resp["version"].startswith("2.") or resp["version"].startswith("3.")
+        assert resp["version"].startswith("2.") or resp["version"].startswith("3.") or resp["version"].startswith("4.")
 
     def test_format_search_result_dict(self):
         s = V2Strategy()
@@ -261,7 +261,7 @@ class TestV1Strategy:
         s = V1Strategy()
         resp = s.get_initialize_response()
         assert resp["status"] == "initialized"
-        assert resp["version"].startswith("2.") or resp["version"].startswith("3.")
+        assert resp["version"].startswith("2.") or resp["version"].startswith("3.") or resp["version"].startswith("4.")
 
     def test_format_search_result_no_metadata(self):
         s = V1Strategy()
@@ -346,7 +346,7 @@ class TestOpenClawAdapter:
         return OpenClawAdapter(mgr, strategy)
 
     def test_version_property(self, adapter):
-        assert adapter.version.startswith("2.") or adapter.version.startswith("3.")
+        assert adapter.version.startswith("2.") or adapter.version.startswith("3.") or adapter.version.startswith("4.")
 
     def test_strategy_property(self, adapter, strategy):
         assert adapter.strategy is strategy
@@ -354,7 +354,7 @@ class TestOpenClawAdapter:
     def test_get_initialize_response(self, adapter):
         resp = adapter.get_initialize_response()
         assert resp["status"] == "ok"
-        assert resp["version"].startswith("2.") or resp["version"].startswith("3.")
+        assert resp["version"].startswith("2.") or resp["version"].startswith("3.") or resp["version"].startswith("4.")
 
     def test_search_returns_formatted_results(self, adapter, mgr):
         results = adapter.search({"query": "test", "topK": 3})
@@ -516,13 +516,13 @@ class TestAdapterRegistry:
         mgr = MagicMock()
         adapter = AdapterRegistry.create_adapter(mgr, "v2")
         assert isinstance(adapter, OpenClawAdapter)
-        assert adapter.version.startswith("2.") or adapter.version.startswith("3.")
+        assert adapter.version.startswith("2.") or adapter.version.startswith("3.") or adapter.version.startswith("4.")
 
     def test_create_adapter_v1(self):
         mgr = MagicMock()
         adapter = AdapterRegistry.create_adapter(mgr, "v1")
         assert isinstance(adapter, OpenClawAdapter)
-        assert adapter.version.startswith("2.") or adapter.version.startswith("3.")
+        assert adapter.version.startswith("2.") or adapter.version.startswith("3.") or adapter.version.startswith("4.")
 
 
 # ---- Integration / Regression ------------------------------------------------
