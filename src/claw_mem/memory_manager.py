@@ -114,6 +114,17 @@ class MemoryManager:
         enable_memory_pool: bool = False,
         enable_cross_agent_sync: bool = False,
         factory: "ComponentFactory" = None,
+        # v4.7.0: Semantic merge + tiered decay + conflict detection
+        enable_merge: bool = True,
+        merge_interval: int = 100,
+        merge_sim_threshold: float = 0.65,
+        enable_tiered_decay: bool = False,
+        tiered_hot_ttl: int = 3600,
+        tiered_warm_ttl_days: int = 7,
+        tiered_cold_ttl_days: int = 30,
+        enable_conflict_detect: bool = True,
+        llm_provider: str = "auto",
+        llm_model: str = "gpt-4o-mini",
     ):
         """Initialize Memory Manager. See MemoryConfig for full parameter docs."""
         # Backward compatibility: if config is a string, treat as workspace
@@ -137,6 +148,17 @@ class MemoryManager:
             enable_proactive_compression = getattr(config, 'enable_proactive_compression', True)
             proactive_threshold = getattr(config, 'proactive_threshold', 0.7)
             max_working_memory = getattr(config, 'max_working_memory', 100)
+            # v4.7.0
+            enable_merge = getattr(config, 'enable_merge', enable_merge)
+            merge_interval = getattr(config, 'merge_interval', merge_interval)
+            merge_sim_threshold = getattr(config, 'merge_sim_threshold', merge_sim_threshold)
+            enable_tiered_decay = getattr(config, 'enable_tiered_decay', enable_tiered_decay)
+            tiered_hot_ttl = getattr(config, 'tiered_hot_ttl', tiered_hot_ttl)
+            tiered_warm_ttl_days = getattr(config, 'tiered_warm_ttl_days', tiered_warm_ttl_days)
+            tiered_cold_ttl_days = getattr(config, 'tiered_cold_ttl_days', tiered_cold_ttl_days)
+            enable_conflict_detect = getattr(config, 'enable_conflict_detect', enable_conflict_detect)
+            llm_provider = getattr(config, 'llm_provider', llm_provider)
+            llm_model = getattr(config, 'llm_model', llm_model)
 
         if workspace is None:
             workspace = ConfigDetector.detect_workspace() if auto_detect else "~/.openclaw/workspace"
@@ -222,6 +244,22 @@ class MemoryManager:
         self._proactive_threshold = proactive_threshold
         self._max_working_memory = max_working_memory
         self._proactive_compressor: Optional[ProactiveCompressionChecker] = None
+
+        # v4.7.0: Semantic merge + tiered decay + conflict detection
+        self.enable_merge = enable_merge
+        self._merge_interval = merge_interval
+        self._merge_sim_threshold = merge_sim_threshold
+        self._merge_scheduler: Any = None
+        self.enable_tiered_decay = enable_tiered_decay
+        self._tiered_hot_ttl = tiered_hot_ttl
+        self._tiered_warm_ttl_days = tiered_warm_ttl_days
+        self._tiered_cold_ttl_days = tiered_cold_ttl_days
+        self._tiered_decay: Any = None
+        self.enable_conflict_detect = enable_conflict_detect
+        self._conflict_detector: Any = None
+        self._llm_provider: Any = None
+        self._llm_provider_name = llm_provider
+        self._llm_model = llm_model
 
         # Search mode
         self.search_mode = os.environ.get("CLAW_MEM_SEARCH_MODE", "keyword")
@@ -1092,6 +1130,57 @@ class MemoryManager:
         if self._ground_truth is None and self.enable_ground_truth:
             self._ground_truth = GroundTruthStore(str(self.workspace))
         return self._ground_truth
+
+    # ── v4.7.0: Semantic merge pipeline ────────────────────────────────
+
+    @property
+    def llm(self):
+        """Lazy-created LLMProvider shared by merge and conflict detect."""
+        if self._llm_provider is None:
+            from .llm_provider import LLMProvider
+            self._llm_provider = LLMProvider(
+                provider=self._llm_provider_name,
+                model=self._llm_model,
+            )
+        return self._llm_provider
+
+    @property
+    def merge_scheduler(self):
+        """Semantic merge scheduler (lazy)."""
+        if self._merge_scheduler is None and self.enable_merge:
+            from .merge.semantic_merger import SemanticMergeScheduler
+            self._merge_scheduler = SemanticMergeScheduler(
+                manager=self,
+                llm_provider=self.llm,
+                merge_interval=self._merge_interval,
+                med_sim_threshold=self._merge_sim_threshold,
+            )
+        return self._merge_scheduler
+
+    @property
+    def tiered_decay(self):
+        """Tiered decay engine (lazy)."""
+        if self._tiered_decay is None and self.enable_tiered_decay:
+            from .decay.tiered_decay import TieredDecayEngine
+            self._tiered_decay = TieredDecayEngine(
+                manager=self,
+                llm_provider=self.llm,
+                hot_ttl=self._tiered_hot_ttl,
+                warm_ttl_days=self._tiered_warm_ttl_days,
+                cold_ttl_days=self._tiered_cold_ttl_days,
+            )
+        return self._tiered_decay
+
+    @property
+    def conflict_detector(self):
+        """Conflict detector (lazy)."""
+        if self._conflict_detector is None and self.enable_conflict_detect:
+            from .merge.conflict_detector import ConflictDetector
+            self._conflict_detector = ConflictDetector(
+                manager=self,
+                llm_provider=self.llm,
+            )
+        return self._conflict_detector
 
     def get_graph_stats(self) -> dict:
         """Get graph structure statistics."""

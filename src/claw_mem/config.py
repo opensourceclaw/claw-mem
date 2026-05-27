@@ -249,6 +249,17 @@ class MemoryConfig:
         enable_proactive_compression: bool = True,
         proactive_threshold: float = 0.7,
         max_working_memory: int = 100,
+        # v4.7.0: Semantic merge + tiered decay + conflict detection
+        enable_merge: bool = True,
+        merge_interval: int = 100,
+        merge_sim_threshold: float = 0.65,
+        enable_tiered_decay: bool = False,
+        tiered_hot_ttl: int = 3600,
+        tiered_warm_ttl_days: int = 7,
+        tiered_cold_ttl_days: int = 30,
+        enable_conflict_detect: bool = True,
+        llm_provider: str = "auto",
+        llm_model: str = "gpt-4o-mini",
     ):
         # Workspace
         self.workspace = workspace
@@ -293,6 +304,17 @@ class MemoryConfig:
         self.enable_proactive_compression = enable_proactive_compression
         self.proactive_threshold = proactive_threshold
         self.max_working_memory = max_working_memory
+        # v4.7.0
+        self.enable_merge = enable_merge
+        self.merge_interval = merge_interval
+        self.merge_sim_threshold = merge_sim_threshold
+        self.enable_tiered_decay = enable_tiered_decay
+        self.tiered_hot_ttl = tiered_hot_ttl
+        self.tiered_warm_ttl_days = tiered_warm_ttl_days
+        self.tiered_cold_ttl_days = tiered_cold_ttl_days
+        self.enable_conflict_detect = enable_conflict_detect
+        self.llm_provider = llm_provider
+        self.llm_model = llm_model
 
     @classmethod
     def default(cls) -> "MemoryConfig":

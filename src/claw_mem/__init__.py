@@ -30,10 +30,14 @@ v0.9.0 Features (2026-03-22):
 - 100% English documentation
 """
 
-__version__ = "4.5.0"
+__version__ = "4.7.0"
 __author__ = "Peter Cheng"
 
 from .config import ConfigDetector, MemoryConfig
+from .decay.tiered_decay import TieredDecayEngine
+from .llm_provider import LLMProvider
+from .merge.conflict_detector import ConflictDetector
+from .merge.semantic_merger import SemanticMergeScheduler
 from .factories import ComponentFactory, get_default_factory
 from .context_injection import (
     ContextFormatter,
@@ -204,4 +208,9 @@ __all__ = [
     # v3.2.0: Factory for dependency injection
     "ComponentFactory",
     "get_default_factory",
+    # v4.7.0: Semantic merge pipeline
+    "SemanticMergeScheduler",
+    "TieredDecayEngine",
+    "ConflictDetector",
+    "LLMProvider",
 ]
