@@ -32,21 +32,27 @@ if TYPE_CHECKING:
 
 _MERGE_SYSTEM_PROMPT = (
     "You are a memory consolidation assistant. Merge the following related memories "
-    "into one concise, factual statement. Preserve all unique information from both memories. "
-    "Do not add new information. If the memories contradict each other, keep the more specific one."
+    "into one concise, factual statement. "
+    "Preserve all unique information from both memories. "
+    "Do not add new information. "
+    "If the memories contradict each other, keep the more specific one."
 )
 
-_MERGE_PROMPT_TEMPLATE = """You are a memory consolidation assistant. Merge the following related memories into one concise, factual statement. Preserve all unique information.
-
-Memory A: {mem_a}
-
-Memory B: {mem_b}
-
-Merged memory:"""
+_MERGE_PROMPT_TEMPLATE = (
+    "You are a memory consolidation assistant. "
+    "Merge the following related memories into one concise, "
+    "factual statement. Preserve all unique information."
+    "\n\n"
+    "Memory A: {mem_a}"
+    "\n\n"
+    "Memory B: {mem_b}"
+    "\n\n"
+    "Merged memory:"
+)
 
 
 def _cosine_similarity(a: List[float], b: List[float]) -> float:
-    """Compute cosine similarity between two vectors (pure Python, no numpy dependency)."""
+    """Cosine similarity between two vectors (pure Python, no numpy)."""
     dot = sum(x * y for x, y in zip(a, b))
     norm_a = math.sqrt(sum(x * x for x in a))
     norm_b = math.sqrt(sum(x * x for x in b))

@@ -84,7 +84,10 @@ class LLMProvider:
         try:
             from openai import OpenAI  # type: ignore
 
-            client = OpenAI(api_key=self.api_key or "not-needed", base_url=self.base_url)
+            client = OpenAI(
+                api_key=self.api_key or "not-needed",
+                base_url=self.base_url,
+            )
             messages = []
             if system:
                 messages.append({"role": "system", "content": system})
