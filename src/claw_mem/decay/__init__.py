@@ -13,7 +13,7 @@
 # limitations under the License.
 
 """
-claw-mem decay module - Oblivion forgetting mechanism (v2.14.0)
+claw-mem decay module - Oblivion forgetting mechanism (v2.14.0+)
 
 Provides edge-level exponential decay for the MultiGraphMemory,
 replacing the legacy MemoryDecay class.
@@ -22,6 +22,7 @@ Core components:
   - DecayConfig: Tunable configuration dataclass.
   - DecayController: Edge weight computation and cleanup.
   - DecayScheduler: Periodic + event-driven decay triggering.
+  - TieredDecayEngine (v4.7.0): HOT/WARM/COLD tier lifecycle management.
 """
 
 from .controller import DecayController
@@ -34,6 +35,7 @@ from .functions import (
     half_life_to_days,
 )
 from .scheduler import DecayScheduler
+from .tiered_decay import TieredDecayEngine
 
 __all__ = [
     "exponential_decay",
@@ -44,4 +46,5 @@ __all__ = [
     "LAMBDA",
     "DecayController",
     "DecayScheduler",
+    "TieredDecayEngine",
 ]
