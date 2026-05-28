@@ -138,6 +138,10 @@ class ClawMemBridge:
             "recover_session": self._handle_recover_session,
             "switch_context": self._handle_switch_context,
             "list_snapshots": self._handle_list_snapshots,
+            # v4.12.0: Dreaming Engine
+            "dreaming_run": self._handle_dreaming_run,
+            "dreaming_status": self._handle_dreaming_status,
+            "dreaming_dry_run": self._handle_dreaming_dry_run,
         }
 
         handler = handlers.get(method)
@@ -343,6 +347,55 @@ class ClawMemBridge:
         return {
             "snapshots": self.memory_manager.list_snapshots(params.get("session_id", "default"))
         }
+
+    # ---- v4.12.0: Dreaming Engine handlers ----------------------------
+
+    def _get_dreaming_pipeline(self):
+        """Lazy-init the DreamingPipeline from existing MemoryManager."""
+        from claw_mem.dreaming import DreamingConfig, DreamingPipeline
+
+        config = DreamingConfig(dry_run=False)
+        return DreamingPipeline(self.memory_manager, config=config)
+
+    def _handle_dreaming_run(self, params: Dict) -> Dict:
+        """v4.12.0: Execute full dreaming pipeline (light→deep→REM→promote)."""
+        if not self.memory_manager:
+            return {"error": "Memory manager not initialized"}
+        try:
+            pipeline = self._get_dreaming_pipeline()
+            result = pipeline.run()
+            return result.to_dict()
+        except Exception as e:
+            return {"error": str(e)}
+
+    def _handle_dreaming_status(self, params: Dict) -> Dict:
+        """v4.12.0: Return last dreaming run statistics."""
+        if not self.memory_manager:
+            return {"error": "Memory manager not initialized"}
+        try:
+            pipeline = self._get_dreaming_pipeline()
+            last = pipeline.last_result()
+            if last is None:
+                return {"status": "no_run"}
+            return last.to_dict()
+        except Exception as e:
+            return {"error": str(e)}
+
+    def _handle_dreaming_dry_run(self, params: Dict) -> Dict:
+        """v4.12.0: Score-only dreaming run (no persistence)."""
+        if not self.memory_manager:
+            return {"error": "Memory manager not initialized"}
+        try:
+            from claw_mem.dreaming import DreamingConfig, DreamingPipeline
+
+            config = DreamingConfig(dry_run=True)
+            pipeline = DreamingPipeline(self.memory_manager, config=config)
+            result = pipeline.run()
+            return result.to_dict()
+        except Exception as e:
+            return {"error": str(e)}
+
+    # ---- main loop ------------------------------------------------------
 
     def run(self):
         """Main loop: read JSON-RPC lines from stdin, respond on stdout."""

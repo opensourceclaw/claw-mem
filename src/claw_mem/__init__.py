@@ -30,7 +30,7 @@ v0.9.0 Features (2026-03-22):
 - 100% English documentation
 """
 
-__version__ = "4.11.1"
+__version__ = "4.12.0"
 __author__ = "Peter Cheng"
 
 from .config import ConfigDetector, MemoryConfig
@@ -110,6 +110,19 @@ from .retrieval.three_tier import (
     search_memory,
 )
 from .extraction import OpenIEExtractor, Skill, SkillExtractor, SkillStore, Triplet
+from .dreaming import (
+    DreamingConfig,
+    DreamingPipeline,
+    DreamingResult,
+    SignalIngestor,
+    CandidateScorer,
+    ScoredCandidate,
+    PatternExtractor,
+    REMResult,
+    Promoter,
+    PromotionResult,
+    Signal,
+)
 from .graph.graph_reasoner import GraphReasoner, PathResult
 from .rule_extractor import RuleExtractor
 from .storage.episodic import EpisodicStorage
@@ -204,4 +217,16 @@ __all__ = [
     "Skill",
     "SkillExtractor",
     "SkillStore",
+    # v4.12.0: Dreaming Engine
+    "DreamingConfig",
+    "DreamingPipeline",
+    "DreamingResult",
+    "SignalIngestor",
+    "CandidateScorer",
+    "ScoredCandidate",
+    "PatternExtractor",
+    "REMResult",
+    "Promoter",
+    "PromotionResult",
+    "Signal",
 ]
