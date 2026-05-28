@@ -23,6 +23,7 @@ ensuring 100% data portability.
 """
 
 import json
+import logging
 import os
 import shutil
 import tempfile
@@ -31,6 +32,8 @@ from dataclasses import dataclass
 from datetime import datetime
 from pathlib import Path
 from typing import Any, Dict, List, Optional
+
+logger = logging.getLogger(__name__)
 
 
 @dataclass
@@ -518,25 +521,8 @@ class DataPortability:
 
     def _export_knowledge_graph(self) -> Dict[str, Any]:
         """Export knowledge graph data"""
-        kg_dir = self.workspace / "knowledge_graph"
-        if not kg_dir.exists():
-            return {"entities": [], "relations": []}
-
-        entities = []
-        entities_file = kg_dir / "entities.json"
-        if entities_file.exists():
-            with open(entities_file, "r", encoding="utf-8") as f:
-                data = json.load(f)
-                entities = data.get("entities", [])
-
-        relations = []
-        relations_file = kg_dir / "relations.json"
-        if relations_file.exists():
-            with open(relations_file, "r", encoding="utf-8") as f:
-                data = json.load(f)
-                relations = data.get("relations", [])
-
-        return {"entities": entities, "relations": relations}
+        logger.warning("Knowledge graph module is no longer available; returning empty data.")
+        return {"entities": [], "relations": []}
 
     def _export_decisions(self) -> List[Dict[str, Any]]:
         """Export decisions data"""
@@ -643,66 +629,7 @@ https://github.com/opensourceclaw/claw-mem
 
     def _export_knowledge_graph_markdown(self) -> str:
         """Export knowledge graph as Markdown"""
-        kg_data = self._export_knowledge_graph()
-        entities = kg_data.get("entities", [])
-        relations = kg_data.get("relations", [])
-
-        md = "# Knowledge Graph\n\n"
-
-        if not entities:
-            md += "No entities recorded yet.\n"
-            return md
-
-        # Group entities by type
-        entities_by_type = {}
-        for entity in entities:
-            etype = entity.get("entity_type", "other")
-            if etype not in entities_by_type:
-                entities_by_type[etype] = []
-            entities_by_type[etype].append(entity)
-
-        # Export by type
-        type_names = {
-            "person": "People",
-            "place": "Places",
-            "organization": "Organizations",
-            "thing": "Things",
-            "concept": "Concepts",
-            "event": "Events",
-            "skill": "Skills",
-            "project": "Projects",
-            "topic": "Topics",
-            "other": "Other",
-        }
-
-        for etype, type_entities in entities_by_type.items():
-            type_name = type_names.get(etype, etype.title())
-            md += f"## {type_name}\n\n"
-
-            for entity in type_entities:
-                name = entity.get("name", "Unknown")
-                md += f"- **{name}**"
-
-                if entity.get("aliases"):
-                    md += f" ({', '.join(entity['aliases'])})"
-
-                if entity.get("description"):
-                    md += f"\n  {entity['description']}"
-
-                md += "\n"
-
-            md += "\n"
-
-        # Relations
-        if relations:
-            md += "## Relationships\n\n"
-            for relation in relations:
-                from_id = relation.get("from_entity_id", "")
-                to_id = relation.get("to_entity_id", "")
-                rel_type = relation.get("relation_type", "related_to")
-                md += f"- {from_id} → {rel_type} → {to_id}\n"
-
-        return md
+        return "## Knowledge Graph\n\n_No knowledge graph data available._\n\n"
 
     def _export_decisions_markdown(self) -> str:
         """Export decisions as Markdown"""
@@ -823,61 +750,8 @@ https://github.com/opensourceclaw/claw-mem
         merge: bool = True,
     ) -> tuple:
         """Import knowledge graph data"""
-        entities = kg_data.get("entities", [])
-        relations = kg_data.get("relations", [])
-
-        imported = 0
-        skipped = 0
-        errors = []
-
-        kg_dir = self.workspace / "knowledge_graph"
-        kg_dir.mkdir(parents=True, exist_ok=True)
-
-        # Import entities
-        entities_file = kg_dir / "entities.json"
-        existing_entities = []
-        if entities_file.exists() and merge:
-            with open(entities_file, "r", encoding="utf-8") as f:
-                data = json.load(f)
-                existing_entities = data.get("entities", [])
-
-        entity_ids = {e.get("entity_id") for e in existing_entities}
-
-        for entity in entities:
-            entity_id = entity.get("entity_id")
-            if merge and entity_id in entity_ids:
-                skipped += 1
-                continue
-
-            existing_entities.append(entity)
-            imported += 1
-
-        with open(entities_file, "w", encoding="utf-8") as f:
-            json.dump({"entities": existing_entities}, f, indent=2, ensure_ascii=False)
-
-        # Import relations
-        relations_file = kg_dir / "relations.json"
-        existing_relations = []
-        if relations_file.exists() and merge:
-            with open(relations_file, "r", encoding="utf-8") as f:
-                data = json.load(f)
-                existing_relations = data.get("relations", [])
-
-        relation_ids = {r.get("relation_id") for r in existing_relations}
-
-        for relation in relations:
-            relation_id = relation.get("relation_id")
-            if merge and relation_id in relation_ids:
-                skipped += 1
-                continue
-
-            existing_relations.append(relation)
-            imported += 1
-
-        with open(relations_file, "w", encoding="utf-8") as f:
-            json.dump({"relations": existing_relations}, f, indent=2, ensure_ascii=False)
-
-        return imported, skipped, errors
+        logger.warning("Knowledge graph module is no longer available; skipping import.")
+        return 0, 0, []
 
     def _import_decisions(
         self,

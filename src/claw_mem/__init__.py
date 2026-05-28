@@ -95,13 +95,6 @@ from .graph import (
     ReflectionNode,
 )
 from .importance import ImportanceScorer
-from .knowledge_graph import (
-    Entity,
-    EntityType,
-    KnowledgeGraph,  # noqa: F401
-    Relation,
-    RelationType,
-)
 from .memory_decay import MemoryDecay
 from .memory_fix_plugin import MemoryFixPlugin
 from .memory import AgentAgnosticMemory, CrossAgentSync, MemoryPool, MemoryRecord
@@ -123,24 +116,6 @@ from .storage.episodic import EpisodicStorage
 from .storage.index import InMemoryIndex, WorkingMemoryCache
 from .storage.procedural import ProceduralStorage
 from .storage.semantic import SemanticStorage
-from .timeline import (
-    Decision,
-    DecisionStatus,
-    DecisionTracker,  # noqa: F401
-    DecisionType,
-    EventImportanceScore,
-    EventImportanceScorer,
-    EventType,
-    FirstEvent,
-    FirstEventsDetector,
-    FirstEventType,
-    ImportanceFactor,
-    MilestoneDetector,
-    MilestoneType,
-    Timeline,
-    TimelineEvent,
-    TimelineQuery,
-)
 
 __all__ = [
     # v4.0.0: Cross-Agent Memory
@@ -171,20 +146,6 @@ __all__ = [
     "InjectedContext",
     "format_memory_context",
     "inject_memories_to_prompt",
-    # Timeline module
-    "Timeline",
-    "TimelineEvent",
-    "TimelineQuery",
-    "EventType",
-    "MilestoneDetector",
-    "MilestoneType",
-    "DecisionTracker",
-    "Decision",
-    "DecisionType",
-    "DecisionStatus",
-    "FirstEventsDetector",
-    "FirstEvent",
-    "FirstEventType",
     # Error classes
     "FriendlyError",
     "IndexNotFoundError",

@@ -152,9 +152,6 @@ class CompressionSpectrum:
         self._skills[skill_id] = skill
 
         body = "[Skill] " + title + "\n" + "\n".join(f"  {i+1}. {s}" for i, s in enumerate(steps))
-        # Sync to Engram
-        self._sync_to_engram(skill_id, body)
-
         return CompressedMemory(
             memory_id=skill_id,
             level=1,
@@ -184,9 +181,6 @@ class CompressionSpectrum:
         )
         self._rules[rule_id] = rule
 
-        rule_body = f"[Rule] IF {condition} THEN {action}"
-        self._sync_to_engram(rule_id, rule_body)
-
         return CompressedMemory(
             memory_id=rule_id,
             level=2,
@@ -212,9 +206,6 @@ class CompressionSpectrum:
         )
         self._principles[principle_id] = principle
 
-        principle_body = f"[Principle] {content}"
-        self._sync_to_engram(principle_id, principle_body)
-
         return CompressedMemory(
             memory_id=principle_id,
             level=3,
@@ -223,16 +214,6 @@ class CompressionSpectrum:
             created_at=time.time(),
             metadata={"type": "principle", "confidence": rule.confidence},
         )
-
-    # ── Engram Sync ──────────────────────────────────────────
-
-    def _sync_to_engram(self, memory_id: str, content: str) -> None:
-        """Sync compressed memory to Engram index (non-blocking)."""
-        if self._mm and hasattr(self._mm, "engram") and self._mm.engram:
-            try:
-                self._mm.engram.index(memory_id, content)
-            except Exception:
-                pass
 
     # ── Runtime config ───────────────────────────────────────
 

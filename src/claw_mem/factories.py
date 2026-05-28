@@ -160,10 +160,6 @@ class RetrieverFactory:
             from .retrieval.keyword import KeywordRetriever
 
             return KeywordRetriever()
-        elif retriever_type == "engram":
-            from .retrieval.engram import EngramIndex
-
-            return EngramIndex(**kwargs)
         raise ValueError(f"Unknown retriever type: {retriever_type}")
 
 
