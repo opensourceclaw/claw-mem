@@ -28,7 +28,7 @@ import pytest
 
 sys.path.insert(0, "/Users/liantian/workspace/osprojects/claw-mem/src")
 
-from claw_mem.config_manager import ConfigManager, UnifiedConfig
+from claw_mem.config import ConfigManager, UnifiedConfig
 from claw_mem.health_checker import HealthChecker
 from claw_mem.recovery import RecoveryManager
 # v3.2.0: Removed dead code - OptimizedRetriever and ChunkedIndex modules deleted

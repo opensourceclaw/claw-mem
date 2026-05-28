@@ -9,7 +9,7 @@ import tempfile
 import time
 import threading
 from pathlib import Path
-from claw_mem.config_manager import (
+from claw_mem.config import (
     StorageConfig,
     RetrievalConfig,
     PerformanceConfig,
