@@ -5,6 +5,37 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [4.11.1] - 2026-05-28
+
+### Summary
+
+**Architecture Optimization & Token Compression Baseline** — Major internal cleanup preparing for v5.0.0.
+
+### Removed (Phase 1 — Orphan Modules)
+
+- **timeline/** — Full event timeline module (never integrated into core pipeline)
+- **dual_system/** — Hippocampus-neocortex model implementation (paper-driven, never integrated)
+- **consolidation/** — Background consolidation engine (overlapped with merge/)
+- **knowledge_graph/** — Early entity-relation graph (data portability adapted to graph/ module)
+- **cms/** — 10 of 11 files removed; kept `session_summary.py` (the only integrated component)
+- **retrieval/**: decoupled, engram, enhanced_smart_retriever, spreading — 4 orphan retrievers
+- **proactive_compression.py** — Bound to CMS, no longer referenced
+- **~37 files / ~7,100 lines** of dead code removed
+
+### Changed (Phase 2 — Architecture Streamlining)
+
+- **config merged**: `config.py` + `config_manager.py` consolidated into single `config.py` (876→378 lines)
+- **retrieval streamlined**: bm25_retriever, embedding_service, hybrid_searcher moved to `_legacy.py` shim
+- **MemoryManager constructor**: 48→19 parameters; ~60 lines of `getattr` config extraction eliminated
+- **Fixes**: `compression/spectrum.py` engram dead code removed; `knowledge_graph`→`graph` adaptation in data_portability
+
+### Added
+
+- **Token Compression Benchmark**: 14-scenario benchmark establishing compression baseline:
+  - OpenIE Triplet (rule mode): 2.86× compression, 50.6% accuracy
+  - SkillExtractor (rule mode): 2.95× compression, 42.3% accuracy
+  - Full report: `docs/benchmarks/token-compression-results.md`
+
 ## [4.0.0] - 2026-05-26
 
 ### Added
