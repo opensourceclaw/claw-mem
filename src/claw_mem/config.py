@@ -229,26 +229,11 @@ class MemoryConfig:
         enable_ground_truth: bool = False,
         decay_config: Optional[Any] = None,
         # v2.15.0: Engram + Spreading
-        enable_engram: bool = True,
-        enable_spreading: bool = True,
         enable_compression_spectrum: bool = True,
         # v2.18.0: Compression thresholds
         compression_trigger_access: int = 5,
         compression_trigger_apply: int = 3,
         compression_trigger_verify: int = 2,
-        engram_ngram_size: int = 3,
-        spreading_max_depth: int = 2,
-        spreading_decay_factor: float = 0.5,
-        spreading_threshold: float = 0.1,
-        # v3.0.0-rc.1: CMS Perception Layer
-        enable_cms: bool = False,
-        cms_token_threshold: int = 8000,
-        cms_memory_threshold: int = 1000,
-        cms_warning_level: float = 0.8,
-        # v3.2.2: Proactive compression
-        enable_proactive_compression: bool = True,
-        proactive_threshold: float = 0.7,
-        max_working_memory: int = 100,
         # v4.7.0: Semantic merge + tiered decay + conflict detection
         enable_merge: bool = True,
         merge_interval: int = 100,
@@ -306,26 +291,11 @@ class MemoryConfig:
         self.enable_ground_truth = enable_ground_truth
         self.decay_config = decay_config
         # v2.15.0
-        self.enable_engram = enable_engram
-        self.enable_spreading = enable_spreading
         self.enable_compression_spectrum = enable_compression_spectrum
         # v2.18.0
         self.compression_trigger_access = compression_trigger_access
         self.compression_trigger_apply = compression_trigger_apply
         self.compression_trigger_verify = compression_trigger_verify
-        self.engram_ngram_size = engram_ngram_size
-        self.spreading_max_depth = spreading_max_depth
-        self.spreading_decay_factor = spreading_decay_factor
-        self.spreading_threshold = spreading_threshold
-        # v3.0.0-rc.1
-        self.enable_cms = enable_cms
-        self.cms_token_threshold = cms_token_threshold
-        self.cms_memory_threshold = cms_memory_threshold
-        self.cms_warning_level = cms_warning_level
-        # v3.2.2
-        self.enable_proactive_compression = enable_proactive_compression
-        self.proactive_threshold = proactive_threshold
-        self.max_working_memory = max_working_memory
         # v4.7.0
         self.enable_merge = enable_merge
         self.merge_interval = merge_interval

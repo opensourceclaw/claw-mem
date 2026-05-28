@@ -4,14 +4,12 @@
 #   keyword.py  — KeywordRetriever (keyword + BM25 + HybridBM25)
 #   semantic.py — SemanticRetriever (entity-aware + hybrid)
 #   tiered.py   — TieredRetriever (STM/LTM/Archive, was three_tier)
-#   smart.py    — SmartRetriever (heuristic + engram + spreading + enhanced)
+#   smart.py    — SmartRetriever (heuristic + enhanced)
 
 # === Consolidated imports (v3.0.0 → v3.2.0: direct from source) ===
 from .keyword import KeywordRetriever
 from .semantic_retriever import SemanticRetriever
 from .heuristic_retriever import SmartRetriever, HeuristicRetriever
-from .enhanced_smart_retriever import EnhancedSmartRetriever
-from .decoupled import DecoupledRetriever
 from .three_tier import TieredRetriever, MemoryLayer, MemoryResult
 
 # === Legacy imports (deprecated, backward compat) ===
@@ -30,8 +28,6 @@ __all__ = [
     "SemanticRetriever",
     "SmartRetriever",
     "HeuristicRetriever",
-    "EnhancedSmartRetriever",
-    "DecoupledRetriever",
     "TieredRetriever",
     "MemoryLayer",
     "MemoryResult",

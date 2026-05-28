@@ -26,19 +26,6 @@ from datetime import datetime
 from pathlib import Path
 from typing import Dict, List, Optional
 
-from .cms import (
-    CapacityMonitor,
-    CompressionStrategySelector,
-    ContextSwitcher,
-    ContextWarningHook,
-    ImportanceEvaluator,
-    MemoryDeduplicator,
-    RecoveryMechanism,
-    SessionStateMachine,
-    SessionSummaryGenerator,
-    SnapshotStorage,
-)
-from .cms.compression_result import CompressionResult
 from .compression.memory_compression_v2 import (
     CompressionConfig,
     CompressionResult,
@@ -58,7 +45,6 @@ from .importance import ImportanceScorer
 from .memory_decay import MemoryDecay
 from .memory_fix_plugin import MemoryFixPlugin
 from .monitor.performance import PerformanceMonitor
-from .proactive_compression import ProactiveCompressionChecker, ProactiveCompressionConfig
 from .reflection import ReflectionOrchestrator, ReflectionResult
 from .retrieval.keyword import KeywordRetriever
 from .retrieval.search_stats import SearchStats
@@ -102,14 +88,6 @@ class MemoryManager:
         compression_trigger_access: int = 5,
         compression_trigger_apply: int = 3,
         compression_trigger_verify: int = 2,
-        enable_cms: bool = False,
-        cms_token_threshold: int = 8000,
-        cms_memory_threshold: int = 1000,
-        cms_warning_level: float = 0.8,
-        # v3.2.2: Proactive compression
-        enable_proactive_compression: bool = True,
-        proactive_threshold: float = 0.7,
-        max_working_memory: int = 100,
         # v4.0.0: Cross-agent memory sharing
         enable_memory_pool: bool = False,
         enable_cross_agent_sync: bool = False,
@@ -165,11 +143,6 @@ class MemoryManager:
             enable_compression_spectrum = config.enable_compression_spectrum
             compression_trigger_access, compression_trigger_apply, compression_trigger_verify = \
                 config.compression_trigger_access, config.compression_trigger_apply, config.compression_trigger_verify
-            enable_cms, cms_token_threshold, cms_memory_threshold, cms_warning_level = \
-                config.enable_cms, config.cms_token_threshold, config.cms_memory_threshold, config.cms_warning_level
-            enable_proactive_compression = getattr(config, 'enable_proactive_compression', True)
-            proactive_threshold = getattr(config, 'proactive_threshold', 0.7)
-            max_working_memory = getattr(config, 'max_working_memory', 100)
             # v4.7.0
             enable_merge = getattr(config, 'enable_merge', enable_merge)
             merge_interval = getattr(config, 'merge_interval', merge_interval)
@@ -271,23 +244,6 @@ class MemoryManager:
         self._compression_trigger_verify = compression_trigger_verify
 
         self._performance_monitor: Optional[PerformanceMonitor] = None
-
-        self.enable_cms = enable_cms
-        self._cms_token_threshold = cms_token_threshold
-        self._cms_memory_threshold = cms_memory_threshold
-        self._cms_warning_level = cms_warning_level
-        self._cms_capacity: Optional[CapacityMonitor] = None
-        self._cms_hook: Optional[ContextWarningHook] = None
-        self._cms_importance: Optional[ImportanceEvaluator] = None
-        self._cms_summarizer: Optional[SessionSummaryGenerator] = None
-        self._cms_deduplicator: Optional[MemoryDeduplicator] = None
-        self._cms_strategy: Optional[CompressionStrategySelector] = None
-
-        # v3.2.2: Proactive compression
-        self.enable_proactive_compression = enable_proactive_compression
-        self._proactive_threshold = proactive_threshold
-        self._max_working_memory = max_working_memory
-        self._proactive_compressor: Optional[ProactiveCompressionChecker] = None
 
         # v4.7.0: Semantic merge + tiered decay + conflict detection
         self.enable_merge = enable_merge
@@ -863,12 +819,6 @@ class MemoryManager:
                 self.index.add_memory(content, memory_id, save_async=True)
 
         self.audit.log("memory_stored", {"type": memory_type, "content": content[:100]})
-
-        # L1 capacity proactive compression (v3.2.2)
-        if self.enable_proactive_compression:
-            compressor = self.proactive_compressor
-            if compressor is not None:
-                compressor.check_and_compress()
 
         _log(f"✅ Memory stored ({memory_type}): {content[:50]}...")
 
@@ -1603,77 +1553,6 @@ class MemoryManager:
         return self._performance_monitor
 
     @property
-    def cms_capacity(self) -> Optional[CapacityMonitor]:
-        if self._cms_capacity is None and self.enable_cms:
-            self._cms_capacity = CapacityMonitor(
-                self,
-                token_threshold=self._cms_token_threshold,
-                memory_threshold=self._cms_memory_threshold,
-                warning_level=self._cms_warning_level,
-            )
-        return self._cms_capacity
-
-    @property
-    def cms_hook(self) -> Optional[ContextWarningHook]:
-        if self._cms_hook is None and self.cms_capacity:
-            self._cms_hook = ContextWarningHook(self.cms_capacity)
-        return self._cms_hook
-
-    @property
-    def cms_importance(self) -> Optional[ImportanceEvaluator]:
-        if self._cms_importance is None and self.enable_cms:
-            self._cms_importance = ImportanceEvaluator(self)
-        return self._cms_importance
-
-    def get_capacity_stats(self) -> Optional[dict]:
-        c = self.cms_capacity
-        if c is None:
-            return None
-        return c.get_stats().to_dict()
-
-    def get_importance_scores(self, memory_ids: List[str]) -> Optional[Dict]:
-        i = self.cms_importance
-        if i is None:
-            return None
-        return {k: v.to_dict() for k, v in i.evaluate_batch(memory_ids).items()}
-
-    def get_important_memories(self, threshold: float = 0.5, limit: int = 50) -> Optional[List]:
-        i = self.cms_importance
-        if i is None:
-            return None
-        return [s.to_dict() for s in i.get_important_memories(threshold, limit)]
-
-    @property
-    def cms_summarizer(self) -> Optional[SessionSummaryGenerator]:
-        if self._cms_summarizer is None and self.enable_cms:
-            self._cms_summarizer = SessionSummaryGenerator()
-        return self._cms_summarizer
-
-    @property
-    def cms_deduplicator(self) -> Optional[MemoryDeduplicator]:
-        if self._cms_deduplicator is None and self.enable_cms:
-            self._cms_deduplicator = MemoryDeduplicator(self)
-        return self._cms_deduplicator
-
-    @property
-    def cms_strategy(self) -> Optional[CompressionStrategySelector]:
-        if self._cms_strategy is None and self.enable_cms:
-            self._cms_strategy = CompressionStrategySelector()
-        return self._cms_strategy
-
-    @property
-    def proactive_compressor(self) -> Optional[ProactiveCompressionChecker]:
-        """Lazy-init proactive compression checker (v3.2.2)."""
-        if self._proactive_compressor is None and self.enable_proactive_compression:
-            config = ProactiveCompressionConfig(
-                enabled=True,
-                proactive_threshold=self._proactive_threshold,
-                max_working_memory=self._max_working_memory,
-            )
-            self._proactive_compressor = ProactiveCompressionChecker(self, config)
-        return self._proactive_compressor
-
-    @property
     def pool(self) -> Any:
         """Lazy-init MemoryPool for cross-agent memory sharing (v4.0.0)."""
         if self._memory_pool is None and self.enable_memory_pool:
@@ -1690,143 +1569,6 @@ class MemoryManager:
             pool = self.pool if self.enable_memory_pool else None
             self._cross_agent_sync = CrossAgentSync(pool=pool)
         return self._cross_agent_sync
-
-    def generate_summary(
-        self, session_id: str, memories: List[Dict] = None, strategy: str = "key_points"
-    ) -> Optional[dict]:
-        s = self.cms_summarizer
-        if s is None:
-            return None
-        if memories is None:
-            memories = []
-        return s.generate(session_id, memories, strategy).to_dict()
-
-    def deduplicate_memories(
-        self, memory_ids: List[str], threshold: float = 0.85
-    ) -> Optional[dict]:
-        d = self.cms_deduplicator
-        if d is None:
-            return None
-        d._similarity_threshold = threshold
-        return d.deduplicate(memory_ids).to_dict()
-
-    def compress_session(self, session_id: str, strategy: str = "auto") -> Optional[dict]:
-        if not self.enable_cms:
-            return None
-        import time as _time
-
-        t0 = _time.time()
-
-        # Get capacity info
-        stats = self.get_capacity_stats()
-        utilization = stats.get("utilization", 0.5) if stats else 0.5
-
-        # Select strategy
-        sel = self.cms_strategy
-        if strategy == "auto":
-            plan = sel.select(utilization) if sel else None
-        else:
-            plan = (
-                sel.select(
-                    0.99 if strategy == "aggressive" else 0.8 if strategy == "balanced" else 0.5
-                )
-                if sel
-                else None
-            )
-
-        if plan is None:
-            return None
-
-        # Gather memories for this session
-        memories = self._gather_session_memories(session_id)
-
-        # Execute plan
-        summary = None
-        dedup = None
-
-        if "summarize" in plan.suggested_actions:
-            s = self.cms_summarizer
-            if s:
-                summary = s.generate(session_id, memories)
-        if "deduplicate" in plan.suggested_actions:
-            d = self.cms_deduplicator
-            if d:
-                mem_ids = [m.get("id", "") for m in memories if m.get("id")]
-                dedup = d.deduplicate(mem_ids)
-
-        original_tokens = sum(len(m.get("content", "").split()) for m in memories)
-        final_tokens = original_tokens
-        if dedup:
-            final_tokens = int(original_tokens * (1 - dedup.reduction_ratio))
-
-        elapsed = (_time.time() - t0) * 1000
-        result = CompressionResult(
-            session_id=session_id,
-            plan=plan,
-            summary=summary,
-            dedup=dedup,
-            original_token_count=original_tokens,
-            final_token_count=final_tokens,
-            reduction_ratio=1.0 - final_tokens / max(1, original_tokens),
-            execution_time_ms=elapsed,
-        )
-        return result.to_dict()
-
-    @property
-    def cms_snap_storage(self) -> Optional[SnapshotStorage]:
-        if not hasattr(self, "_cms_snap"):
-            self._cms_snap = SnapshotStorage(str(self.workspace))
-        return self._cms_snap
-
-    def get_session_state(self, session_id: str) -> str:
-        if not hasattr(self, "_cms_state_machine"):
-            self._cms_state_machine = SessionStateMachine()
-        return self._cms_state_machine.get_current_state(session_id)
-
-    def set_session_state(self, session_id: str, state: str) -> None:
-        if not hasattr(self, "_cms_state_machine"):
-            self._cms_state_machine = SessionStateMachine()
-        self._cms_state_machine.set_state(session_id, state)
-
-    def save_snapshot(self, session_id: str) -> str:
-        s = self.cms_snap_storage
-        mem_ids = []
-        for m in self._gather_session_memories(session_id):
-            mid = m.get("id", "")
-            if mid:
-                mem_ids.append(mid)
-        return s.save(session_id, state="active", memory_ids=mem_ids)
-
-    def load_snapshot(self, snapshot_id: str) -> Optional[dict]:
-        s = self.cms_snap_storage
-        snap = s.load(snapshot_id)
-        return snap.to_dict() if snap else None
-
-    def list_snapshots(self, session_id: str) -> List:
-        return [
-            {
-                "snapshot_id": i.snapshot_id,
-                "timestamp": i.timestamp.isoformat(),
-                "state": i.state,
-                "size_bytes": i.size_bytes,
-            }
-            for i in self.cms_snap_storage.list(session_id)
-        ]
-
-    def delete_snapshot(self, snapshot_id: str) -> bool:
-        return self.cms_snap_storage.delete(snapshot_id)
-
-    def switch_context(
-        self, from_id: str, to_id: str, strategy: str = "preserve_important"
-    ) -> Optional[dict]:
-        switcher = ContextSwitcher(importance_evaluator=self.cms_importance, memory_manager=self)
-        return switcher.switch(from_id, to_id, strategy).to_dict()
-
-    def recover_session(
-        self, session_id: str, snapshot_id: str = None, strategy: str = "latest"
-    ) -> Optional[dict]:
-        recovery = RecoveryMechanism(snapshot_storage=self.cms_snap_storage, memory_manager=self)
-        return recovery.recover(session_id, snapshot_id, strategy).to_dict()
 
     def _gather_session_memories(self, session_id: str) -> List[Dict]:
         memories = []
