@@ -24,7 +24,7 @@ import time
 import uuid
 from datetime import datetime
 from pathlib import Path
-from typing import Dict, List, Optional
+from typing import Any, Dict, List, Optional
 
 from .compression.memory_compression_v2 import (
     CompressionConfig,
@@ -75,56 +75,21 @@ class MemoryManager:
         workspace: Optional[str] = None,
         auto_detect: bool = True,
         enable_gating: bool = False,
-        gating_threshold: float = 0.6,
         enable_graph: bool = False,
         enable_cache: bool = True,
-        enable_synonyms: bool = True,
-        enable_stats: bool = True,
         enable_compression: bool = True,
         enable_decay: bool = True,
         enable_ground_truth: bool = True,
-        decay_config: "DecayConfig" = None,
         enable_compression_spectrum: bool = True,
         compression_trigger_access: int = 5,
         compression_trigger_apply: int = 3,
         compression_trigger_verify: int = 2,
-        # v4.0.0: Cross-agent memory sharing
         enable_memory_pool: bool = False,
         enable_cross_agent_sync: bool = False,
-        factory: "ComponentFactory" = None,
-        # v4.7.0: Semantic merge + tiered decay + conflict detection
-        enable_merge: bool = True,
-        merge_interval: int = 100,
-        merge_sim_threshold: float = 0.65,
-        enable_tiered_decay: bool = False,
-        tiered_hot_ttl: int = 3600,
-        tiered_warm_ttl_days: int = 7,
-        tiered_cold_ttl_days: int = 30,
-        enable_conflict_detect: bool = True,
-        llm_provider: str = "auto",
-        llm_model: str = "gpt-4o-mini",
-        # v4.8.0: Query reconstruction + hybrid routing
-        enable_query_reconstruction: bool = True,
-        enable_hybrid_routing: bool = False,
-        # v4.9.0: Context control plane
-        enable_context_control: bool = False,
-        enable_memory_injector: bool = True,
-        injector_max_tokens: int = 2000,
-        injector_diversity_threshold: float = 0.8,
-        injector_relevance_threshold: float = 0.3,
-        injector_recency_weight: float = 0.4,
-        enable_confidence_gate: bool = True,
-        confidence_high_threshold: float = 0.7,
-        confidence_low_threshold: float = 0.4,
-        # v4.10.0: OpenIE extraction + graph reasoning
         enable_openie: bool = False,
-        enable_graph_reasoner: bool = False,
-        openie_mode: str = "auto",
-        openie_llm_max_tokens: int = 512,
-        graph_reasoner_max_depth: int = 3,
-        # v4.11.0: Skill extraction from triplets
         enable_skill_extraction: bool = True,
-        skill_extraction_mode: str = "auto",
+        decay_config: "DecayConfig" = None,
+        factory: "ComponentFactory" = None,
     ):
         """Initialize Memory Manager. See MemoryConfig for full parameter docs."""
         # Backward compatibility: if config is a string, treat as workspace
@@ -133,49 +98,45 @@ class MemoryManager:
             config = None
 
         if config is not None:
+            self.config = config
+            # Pull backward-compat overrides from config
             workspace = config.workspace or workspace
-            auto_detect, enable_gating, gating_threshold, enable_graph = \
-                config.auto_detect, config.enable_gating, config.gating_threshold, config.enable_graph
-            enable_cache, enable_synonyms, enable_stats, enable_compression = \
-                config.enable_cache, config.enable_synonyms, config.enable_stats, config.enable_compression
-            enable_decay, enable_ground_truth, decay_config = \
-                config.enable_decay, config.enable_ground_truth, config.decay_config
+            auto_detect = config.auto_detect
+            enable_gating = config.enable_gating
+            enable_graph = config.enable_graph
+            enable_cache = config.enable_cache
+            enable_compression = config.enable_compression
+            enable_decay = config.enable_decay
+            enable_ground_truth = config.enable_ground_truth
+            decay_config = config.decay_config
             enable_compression_spectrum = config.enable_compression_spectrum
-            compression_trigger_access, compression_trigger_apply, compression_trigger_verify = \
-                config.compression_trigger_access, config.compression_trigger_apply, config.compression_trigger_verify
-            # v4.7.0
-            enable_merge = getattr(config, 'enable_merge', enable_merge)
-            merge_interval = getattr(config, 'merge_interval', merge_interval)
-            merge_sim_threshold = getattr(config, 'merge_sim_threshold', merge_sim_threshold)
-            enable_tiered_decay = getattr(config, 'enable_tiered_decay', enable_tiered_decay)
-            tiered_hot_ttl = getattr(config, 'tiered_hot_ttl', tiered_hot_ttl)
-            tiered_warm_ttl_days = getattr(config, 'tiered_warm_ttl_days', tiered_warm_ttl_days)
-            tiered_cold_ttl_days = getattr(config, 'tiered_cold_ttl_days', tiered_cold_ttl_days)
-            enable_conflict_detect = getattr(config, 'enable_conflict_detect', enable_conflict_detect)
-            llm_provider = getattr(config, 'llm_provider', llm_provider)
-            llm_model = getattr(config, 'llm_model', llm_model)
-            # v4.8.0
-            enable_query_reconstruction = getattr(config, 'enable_query_reconstruction', enable_query_reconstruction)
-            enable_hybrid_routing = getattr(config, 'enable_hybrid_routing', enable_hybrid_routing)
-            # v4.9.0
-            enable_context_control = getattr(config, 'enable_context_control', enable_context_control)
-            enable_memory_injector = getattr(config, 'enable_memory_injector', enable_memory_injector)
-            injector_max_tokens = getattr(config, 'injector_max_tokens', injector_max_tokens)
-            injector_diversity_threshold = getattr(config, 'injector_diversity_threshold', injector_diversity_threshold)
-            injector_relevance_threshold = getattr(config, 'injector_relevance_threshold', injector_relevance_threshold)
-            injector_recency_weight = getattr(config, 'injector_recency_weight', injector_recency_weight)
-            enable_confidence_gate = getattr(config, 'enable_confidence_gate', enable_confidence_gate)
-            confidence_high_threshold = getattr(config, 'confidence_high_threshold', confidence_high_threshold)
-            confidence_low_threshold = getattr(config, 'confidence_low_threshold', confidence_low_threshold)
-            # v4.10.0
-            enable_openie = getattr(config, 'enable_openie', enable_openie)
-            enable_graph_reasoner = getattr(config, 'enable_graph_reasoner', enable_graph_reasoner)
-            openie_mode = getattr(config, 'openie_mode', openie_mode)
-            openie_llm_max_tokens = getattr(config, 'openie_llm_max_tokens', openie_llm_max_tokens)
-            graph_reasoner_max_depth = getattr(config, 'graph_reasoner_max_depth', graph_reasoner_max_depth)
-            # v4.11.0
-            enable_skill_extraction = getattr(config, 'enable_skill_extraction', enable_skill_extraction)
-            skill_extraction_mode = getattr(config, 'skill_extraction_mode', skill_extraction_mode)
+            compression_trigger_access = config.compression_trigger_access
+            compression_trigger_apply = config.compression_trigger_apply
+            compression_trigger_verify = config.compression_trigger_verify
+            enable_memory_pool = getattr(config, 'enable_memory_pool', False)
+            enable_cross_agent_sync = getattr(config, 'enable_cross_agent_sync', False)
+            enable_openie = getattr(config, 'enable_openie', False)
+            enable_skill_extraction = getattr(config, 'enable_skill_extraction', True)
+        else:
+            self.config = MemoryConfig(
+                workspace=workspace,
+                auto_detect=auto_detect,
+                enable_gating=enable_gating,
+                enable_graph=enable_graph,
+                enable_cache=enable_cache,
+                enable_compression=enable_compression,
+                enable_decay=enable_decay,
+                enable_ground_truth=enable_ground_truth,
+                decay_config=decay_config,
+                enable_compression_spectrum=enable_compression_spectrum,
+                compression_trigger_access=compression_trigger_access,
+                compression_trigger_apply=compression_trigger_apply,
+                compression_trigger_verify=compression_trigger_verify,
+                enable_memory_pool=enable_memory_pool,
+                enable_cross_agent_sync=enable_cross_agent_sync,
+                enable_openie=enable_openie,
+                enable_skill_extraction=enable_skill_extraction,
+            )
 
         if workspace is None:
             workspace = ConfigDetector.detect_workspace() if auto_detect else "~/.openclaw/workspace"
@@ -189,8 +150,8 @@ class MemoryManager:
         self.session_start: Optional[datetime] = None
 
         # v4.0.0: Cross-agent memory sharing
-        self.enable_memory_pool = enable_memory_pool
-        self.enable_cross_agent_sync = enable_cross_agent_sync
+        self.enable_memory_pool = getattr(self.config, 'enable_memory_pool', False)
+        self.enable_cross_agent_sync = getattr(self.config, 'enable_cross_agent_sync', False)
         self._memory_pool: Any = None
         self._cross_agent_sync: Any = None
 
@@ -218,99 +179,87 @@ class MemoryManager:
         self._memory_decay = None
         self._rule_extractor = None
 
-        # Write-Time Gating (lazy init)
-        self.enable_gating = enable_gating
-        self.gating_threshold = gating_threshold
+        # Config-derived instance variables
+        self.enable_gating = self.config.enable_gating
+        self.gating_threshold = self.config.gating_threshold
+        self.enable_graph = self.config.enable_graph
+        self.enable_cache = self.config.enable_cache
+        self.enable_synonyms = self.config.enable_synonyms
+        self.enable_stats = self.config.enable_stats
+        self.enable_compression = self.config.enable_compression
+        self.enable_decay = self.config.enable_decay
+        self.enable_ground_truth = self.config.enable_ground_truth
+        self._decay_config = self.config.decay_config or DecayConfig.default()
+        self.enable_compression_spectrum = self.config.enable_compression_spectrum
+        self._compression_trigger_access = self.config.compression_trigger_access
+        self._compression_trigger_apply = self.config.compression_trigger_apply
+        self._compression_trigger_verify = self.config.compression_trigger_verify
+        self.enable_merge = getattr(self.config, 'enable_merge', True)
+        self._merge_interval = getattr(self.config, 'merge_interval', 100)
+        self._merge_sim_threshold = getattr(self.config, 'merge_sim_threshold', 0.65)
+        self.enable_tiered_decay = getattr(self.config, 'enable_tiered_decay', False)
+        self._tiered_hot_ttl = getattr(self.config, 'tiered_hot_ttl', 3600)
+        self._tiered_warm_ttl_days = getattr(self.config, 'tiered_warm_ttl_days', 7)
+        self._tiered_cold_ttl_days = getattr(self.config, 'tiered_cold_ttl_days', 30)
+        self.enable_conflict_detect = getattr(self.config, 'enable_conflict_detect', True)
+        self._llm_provider_name = getattr(self.config, 'llm_provider', 'auto')
+        self._llm_model = getattr(self.config, 'llm_model', 'gpt-4o-mini')
+        self.enable_query_reconstruction = getattr(self.config, 'enable_query_reconstruction', True)
+        self.enable_hybrid_routing = getattr(self.config, 'enable_hybrid_routing', False)
+        self.enable_context_control = getattr(self.config, 'enable_context_control', False)
+        self.enable_memory_injector = getattr(self.config, 'enable_memory_injector', True)
+        self._injector_max_tokens = getattr(self.config, 'injector_max_tokens', 2000)
+        self._injector_diversity_threshold = getattr(self.config, 'injector_diversity_threshold', 0.8)
+        self._injector_relevance_threshold = getattr(self.config, 'injector_relevance_threshold', 0.3)
+        self._injector_recency_weight = getattr(self.config, 'injector_recency_weight', 0.4)
+        self.enable_confidence_gate = getattr(self.config, 'enable_confidence_gate', True)
+        self._confidence_high_threshold = getattr(self.config, 'confidence_high_threshold', 0.7)
+        self._confidence_low_threshold = getattr(self.config, 'confidence_low_threshold', 0.4)
+        self.enable_openie = getattr(self.config, 'enable_openie', False)
+        self.enable_graph_reasoner = getattr(self.config, 'enable_graph_reasoner', False)
+        self._openie_mode = getattr(self.config, 'openie_mode', 'auto')
+        self._openie_llm_max_tokens = getattr(self.config, 'openie_llm_max_tokens', 512)
+        self._graph_reasoner_max_depth = getattr(self.config, 'graph_reasoner_max_depth', 3)
+        self.enable_skill_extraction = getattr(self.config, 'enable_skill_extraction', True)
+        self._skill_extraction_mode = getattr(self.config, 'skill_extraction_mode', 'auto')
+
+        # Lazy-initialized component references
         self._gating = None
-
-        # Concept-Mediated Graph (lazy init)
-        self.enable_graph = enable_graph
         self._graph = None
-
-        self.enable_decay = enable_decay
-        self.enable_ground_truth = enable_ground_truth
-        self._decay_config = decay_config or DecayConfig.default()
         self._multi_graph: Optional[MultiGraphMemory] = None
         self._dual_layer: Optional[DualLayerMemory] = None
         self._decay_controller: Optional[DecayController] = None
         self._decay_scheduler: Optional[DecayScheduler] = None
         self._ground_truth: Optional[GroundTruthStore] = None
-
-        self.enable_compression = enable_compression
         self._compression_spectrum: Optional[CompressionSpectrum] = None
-        self.enable_compression_spectrum = enable_compression_spectrum
-        self._compression_trigger_access = compression_trigger_access
-        self._compression_trigger_apply = compression_trigger_apply
-        self._compression_trigger_verify = compression_trigger_verify
-
         self._performance_monitor: Optional[PerformanceMonitor] = None
-
-        # v4.7.0: Semantic merge + tiered decay + conflict detection
-        self.enable_merge = enable_merge
-        self._merge_interval = merge_interval
-        self._merge_sim_threshold = merge_sim_threshold
         self._merge_scheduler: Any = None
-        self.enable_tiered_decay = enable_tiered_decay
-        self._tiered_hot_ttl = tiered_hot_ttl
-        self._tiered_warm_ttl_days = tiered_warm_ttl_days
-        self._tiered_cold_ttl_days = tiered_cold_ttl_days
         self._tiered_decay: Any = None
-        self.enable_conflict_detect = enable_conflict_detect
         self._conflict_detector: Any = None
         self._llm_provider: Any = None
-        self._llm_provider_name = llm_provider
-        self._llm_model = llm_model
-
-        # v4.8.0: Query reconstruction + hybrid routing
-        self.enable_query_reconstruction = enable_query_reconstruction
-        self.enable_hybrid_routing = enable_hybrid_routing
         self._query_reconstructor: Any = None
         self._hybrid_router: Any = None
-
-        # v4.9.0: Context control plane
-        self.enable_context_control = enable_context_control
-        self.enable_memory_injector = enable_memory_injector
-        self._injector_max_tokens = injector_max_tokens
-        self._injector_diversity_threshold = injector_diversity_threshold
-        self._injector_relevance_threshold = injector_relevance_threshold
-        self._injector_recency_weight = injector_recency_weight
-        self.enable_confidence_gate = enable_confidence_gate
-        self._confidence_high_threshold = confidence_high_threshold
-        self._confidence_low_threshold = confidence_low_threshold
         self._confidence_gate: Any = None
         self._memory_injector: Any = None
-
-        # v4.10.0: OpenIE extraction + graph reasoning
-        self.enable_openie = enable_openie
-        self.enable_graph_reasoner = enable_graph_reasoner
-        self._openie_mode = openie_mode
-        self._openie_llm_max_tokens = openie_llm_max_tokens
-        self._graph_reasoner_max_depth = graph_reasoner_max_depth
         self._openie_extractor: Any = None
         self._graph_reasoner: Any = None
-
-        # v4.11.0: Skill extraction from triplets
-        self.enable_skill_extraction = enable_skill_extraction
-        self._skill_extraction_mode = skill_extraction_mode
         self._skill_extractor: Any = None
         self._skill_store: Any = None
+        self._query_cache = None
+        self._synonym_expander = None
+        self._search_stats = None
+        self._reflection = None
+        self._time_weight = None
+        self._compressor: Optional[MemoryCompressorV2] = None
+
+        # Skill extraction trigger state
         self._SKILL_TRIGGER_THRESHOLD = 50
         self._triplet_accumulator: List = []
 
         # Search mode
         self.search_mode = os.environ.get("CLAW_MEM_SEARCH_MODE", "keyword")
 
-        self.enable_cache = enable_cache
-        self.enable_synonyms = enable_synonyms
-        self.enable_stats = enable_stats
-        self._query_cache = None
-        self._synonym_expander = None
-        self._search_stats = None
-        self._reflection = None  # v2.9.1
-        self._time_weight = None  # v2.9.1
-        self.enable_compression = enable_compression
-        self._compressor: Optional[MemoryCompressorV2] = None  # v2.12.0
-        self._compression_config = CompressionConfig()  # v2.12.0
+        self._compression_config = CompressionConfig()
 
         self._critical_rules: Dict[str, dict] = {}
         self._critical_rules_file = os.path.join(str(self.workspace), "critical_rules.json")
