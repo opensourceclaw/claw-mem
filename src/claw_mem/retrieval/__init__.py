@@ -12,10 +12,8 @@ from .semantic_retriever import SemanticRetriever
 from .heuristic_retriever import SmartRetriever, HeuristicRetriever
 from .three_tier import TieredRetriever, MemoryLayer, MemoryResult
 
-# === Legacy imports (deprecated, backward compat) ===
-from .bm25_retriever import BM25Retriever
-from .embedding_service import EmbeddingService
-from .hybrid_searcher import HybridSearcher
+# === Legacy imports (via _legacy.py — deprecation-wrapped) ===
+from ._legacy import BM25Retriever, EmbeddingService, HybridSearcher
 from .query_cache import QueryCache, get_query_cache
 from .search_stats import SearchStats, get_search_stats
 from .synonym_expander import BUILTIN_SYNONYMS, SynonymExpander

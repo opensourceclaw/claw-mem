@@ -56,16 +56,6 @@ class ComponentFactory:
         from .retrieval.embedding_service import EmbeddingService
         return EmbeddingService(model_name=model_name, device=device)
 
-    def create_hybrid_searcher(self, **kwargs) -> "HybridSearcher":
-        """Create HybridSearcher instance."""
-        from .retrieval.hybrid_searcher import HybridSearcher
-        return HybridSearcher(**kwargs)
-
-    def create_semantic_retriever(self, **kwargs) -> "SemanticRetriever":
-        """Create SemanticRetriever instance."""
-        from .retrieval.semantic_retriever import SemanticRetriever
-        return SemanticRetriever(**kwargs)
-
     # ── Compression Components ───────────────────────────────────────────────
 
     def create_memory_compressor(self, config: Optional[Dict] = None) -> "MemoryCompressorV2":
@@ -102,7 +92,7 @@ class ComponentFactory:
 
     def create_config_manager(self) -> "ConfigManager":
         """Create ConfigManager instance."""
-        from .config_manager import ConfigManager
+        from .config import ConfigManager
         return ConfigManager()
 
     def create_recovery_manager(self, config: Optional[Dict] = None) -> "RecoveryManager":

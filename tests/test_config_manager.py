@@ -10,7 +10,7 @@ from unittest.mock import MagicMock, patch
 
 import pytest
 
-from claw_mem.config_manager import (
+from claw_mem.config import (
     ConfigManager,
     ConfigFileHandler,
     HealthConfig,
@@ -175,7 +175,7 @@ class TestConfigManager:
 
     def test_init_default_path(self):
         """Test initialization with default path"""
-        with patch("claw_mem.config_manager.Path.home") as mock_home:
+        with patch("claw_mem.config.Path.home") as mock_home:
             mock_home.return_value = Path("/test/home")
             
             with tempfile.TemporaryDirectory() as tmpdir:
@@ -395,7 +395,7 @@ class TestGlobalConfig:
     def test_get_config(self):
         """Test getting global config instance"""
         # Reset global config
-        import claw_mem.config_manager as cm
+        import claw_mem.config as cm
         cm._global_config = None
         
         with tempfile.TemporaryDirectory() as tmpdir:
@@ -408,7 +408,7 @@ class TestGlobalConfig:
 
     def test_reload_config(self):
         """Test reloading global config"""
-        import claw_mem.config_manager as cm
+        import claw_mem.config as cm
         
         # Set up a mock config
         mock_config = MagicMock()

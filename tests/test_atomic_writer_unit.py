@@ -60,6 +60,6 @@ class TestCLI:
 
 class TestConfigManager:
     def test_import(self):
-        from claw_mem.config_manager import ConfigManager
+        from claw_mem.config import ConfigManager
 
         assert ConfigManager is not None

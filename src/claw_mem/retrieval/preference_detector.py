@@ -17,6 +17,8 @@ Preference Detector
 
 Detects and extracts user preferences from memories.
 Part of the preference matching enhancement for claw-mem.
+
+Note: internal helper, subject to removal.
 """
 
 import re

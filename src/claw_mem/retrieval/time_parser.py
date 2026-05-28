@@ -17,6 +17,8 @@ Time Expression Parser
 
 Parses time expressions from natural language queries.
 Part of the temporal reasoning enhancement for claw-mem.
+
+Note: internal helper, subject to removal.
 """
 
 import re

@@ -7,7 +7,7 @@ import pytest
 # Each entry: (module_path, function_name)
 _SINGLETON_RESETS = [
     # Config
-    ("claw_mem.config_manager", None),  # reset_config not needed, reload_config exists
+    ("claw_mem.config", None),  # reset_config not needed, reload_config exists
     # v3.2.0: Factory
     ("claw_mem.factories", "reset_default_factory"),
     # Compression
