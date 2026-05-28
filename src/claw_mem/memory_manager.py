@@ -132,8 +132,6 @@ class MemoryManager:
                 compression_trigger_access=compression_trigger_access,
                 compression_trigger_apply=compression_trigger_apply,
                 compression_trigger_verify=compression_trigger_verify,
-                enable_memory_pool=enable_memory_pool,
-                enable_cross_agent_sync=enable_cross_agent_sync,
                 enable_openie=enable_openie,
                 enable_skill_extraction=enable_skill_extraction,
             )

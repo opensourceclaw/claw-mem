@@ -156,7 +156,7 @@ except Exception as e:
 print("\n2. Unified Configuration")
 print("-" * 80)
 try:
-    from claw_mem.config_manager import UnifiedConfig
+    from claw_mem.config import UnifiedConfig
 
     config = UnifiedConfig.load()
     print(f"✅ Unified config available")

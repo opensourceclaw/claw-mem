@@ -15,8 +15,10 @@ from claw_mem.context.confidence_gate import (
 # ── helpers ───────────────────────────────────────────────────────────
 
 def _make_manager(workspace_dir: str, **flags):
+    from claw_mem.config import MemoryConfig
     from claw_mem.memory_manager import MemoryManager
-    defaults = dict(
+    cfg_kwargs = dict(
+        workspace=workspace_dir,
         enable_graph=False,
         enable_decay=False,
         enable_ground_truth=False,
@@ -24,8 +26,9 @@ def _make_manager(workspace_dir: str, **flags):
         enable_conflict_detect=False,
         enable_tiered_decay=False,
     )
-    defaults.update(flags)
-    return MemoryManager(workspace=workspace_dir, **defaults)
+    cfg_kwargs.update(flags)
+    cfg = MemoryConfig(**cfg_kwargs)
+    return MemoryManager(config=cfg)
 
 
 def _store_semantic(manager, content, tags=None, metadata=None):

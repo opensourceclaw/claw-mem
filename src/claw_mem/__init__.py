@@ -30,7 +30,7 @@ v0.9.0 Features (2026-03-22):
 - 100% English documentation
 """
 
-__version__ = "4.11.0"
+__version__ = "4.11.1"
 __author__ = "Peter Cheng"
 
 from .config import ConfigDetector, MemoryConfig
