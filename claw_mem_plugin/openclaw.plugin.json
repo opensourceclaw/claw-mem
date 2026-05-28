@@ -30,6 +30,28 @@
         "type": "number",
         "description": "Max memories to recall (default: 10)"
       },
+      "dreaming": {
+        "type": "object",
+        "description": "Dreaming Engine v4.12.0 configuration",
+        "properties": {
+          "enabled": {
+            "type": "boolean",
+            "description": "Enable dreaming engine for automated memory consolidation"
+          },
+          "scheduleCron": {
+            "type": "string",
+            "description": "Cron expression for dreaming schedule (e.g. '0 */6 * * *')"
+          },
+          "scoreThreshold": {
+            "type": "number",
+            "description": "Minimum composite score to promote (0.0-1.0, default: 0.35)"
+          },
+          "topKCandidates": {
+            "type": "number",
+            "description": "Max candidates after deep scoring (default: 20)"
+          }
+        }
+      },
       "attentionEngine": {
         "type": "object",
         "description": "Attention OS v2.0.0-rc.2 configuration",
