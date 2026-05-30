@@ -26,3 +26,18 @@ export {
   BUILTIN_SYNONYMS,
 } from "./retrieval";
 export type { RetrievalResult, RetrievalDocument, MemoryResult, LayerRetrievalContext } from "./retrieval";
+
+// Core (beta.3)
+export { MemoryManager, getMemoryManager, resetMemoryManager } from "./memory_manager";
+export { ComponentFactory, getDefaultFactory, resetDefaultFactory } from "./factories";
+export type { FactoryConfig } from "./factories";
+export { MemoryConfig, ConfigManager, getConfig, reloadConfig } from "./config";
+export { ContextFormatter, ContextInjector, formatMemoryContext, injectMemoriesToPrompt } from "./context_injection";
+export type { InjectedContext } from "./context_injection";
+export { handleRequest, plugin } from "./bridge";
+export type { JsonRpcRequest, JsonRpcResponse } from "./bridge";
+export { DataPortability } from "./data_portability";
+export { ImportanceScorer } from "./importance";
+export type { ImportanceResult } from "./importance";
+export { extractSummary } from "./session_summary";
+export type { SessionSummary } from "./session_summary";
