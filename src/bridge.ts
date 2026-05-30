@@ -93,6 +93,11 @@ export function handleRequest(req: JsonRpcRequest, mm?: MemoryManager): JsonRpcR
       case "system.stats":
         result = manager.getStats();
         break;
+      case "system.integrityCheck": {
+        const { IntegrityChecker } = require("./integrity_checker");
+        result = new IntegrityChecker(manager.workspace, manager.index).quickCheck();
+        break;
+      }
       case "export":
         result = {
           exported: new (require("./data_portability").DataPortability)(manager.workspace)
