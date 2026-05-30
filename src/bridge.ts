@@ -106,7 +106,7 @@ export const plugin = {
   version: "5.0.0",
   register(api: ClawMemPluginApi) {
     const config = api.pluginConfig ?? {};
-    const mm = new MemoryManager({
+    void new MemoryManager({
       workspace: (config.workspaceDir as string) || undefined,
       enableGating: !!(config.enableGating ?? false),
       enableDecay: !!(config.enableDecay ?? false),

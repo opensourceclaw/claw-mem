@@ -8,6 +8,7 @@
  * Lazy-loads subsystems on first access to keep startup fast.
  */
 
+import * as fs from "fs";
 import * as os from "os";
 import * as path from "path";
 import { EpisodicStorage } from "./storage/episodic";
@@ -18,19 +19,15 @@ import { InMemoryIndex } from "./storage/index";
 // MemoryEntry type for indexing
 interface MemoryEntry { id: string; content: string; }
 import { MemoryConfig } from "./config";
-import { ComponentFactory, type FactoryConfig, getDefaultFactory } from "./factories";
+import { ComponentFactory, getDefaultFactory } from "./factories";
 // Import types only to avoid circular deps
 import type { WriteTimeGating } from "./gating/write_time_gating";
 import type { ThreeTierRetriever } from "./retrieval/three_tier";
 import type { HybridRouter } from "./retrieval/hybrid_router";
-import type { ConflictDetector } from "./merge/conflict_detector";
-import type { SemanticMergeScheduler } from "./merge/semantic_merger";
 import type { TieredDecayEngine } from "./decay/tiered_decay";
 import type { ConceptMediatedGraph } from "./graph/concept_graph";
 import type { MemoryCompressorV2 } from "./compression/memory_compression_v2";
 import type { CompressionSpectrum } from "./compression/spectrum";
-import type { ContextInjector } from "./context_injection";
-import type { ConfidenceGate } from "./context/confidence_gate";
 
 let _silent = false;
 export function setSilent(v: boolean): void { _silent = v; }
@@ -53,15 +50,13 @@ export class MemoryManager {
   // ── lazy subsystems ──
   private _writeGating: WriteTimeGating | null = null;
   private _decayEngine: TieredDecayEngine | null = null;
-  private _conflictDetector: ConflictDetector | null = null;
-  private _merger: SemanticMergeScheduler | null = null;
   private _retriever: ThreeTierRetriever | null = null;
   private _hybridRouter: HybridRouter | null = null;
   private _graph: ConceptMediatedGraph | null = null;
   private _compressor: MemoryCompressorV2 | null = null;
   private _compressionSpectrum: CompressionSpectrum | null = null;
-  private _injector: ContextInjector | null = null;
-  private _confidenceGate: ConfidenceGate | null = null;
+  // Future: private _injector: ContextInjector | null = null;
+  // Future: private _confidenceGate: ConfidenceGate | null = null;
 
   constructor(opts?: Partial<{
     workspace?: string; config?: MemoryConfig; autoDetect?: boolean;
@@ -77,7 +72,7 @@ export class MemoryManager {
       this.workspace = this.config.workspace || path.join(os.homedir(), ".openclaw", "workspace");
     }
     // Ensure workspace exists
-    require("fs").mkdirSync(this.workspace, { recursive: true });
+    fs.mkdirSync(this.workspace, { recursive: true });
 
     // Eager-init core storage + index
     this._episodic = new EpisodicStorage(this.workspace);
@@ -100,7 +95,10 @@ export class MemoryManager {
   get index(): InMemoryIndex { return this._index; }
   get workingMemory(): unknown[] { return this._working; }
 
-  // ── feature accessors (lazy) ───────────────────────────────────
+  // ── feature accessors (lazy via require() for fast startup) ────
+  // Using sync require() pattern because tsc compiles to CommonJS
+  // modules. Async dynamic import() would require getters to become
+  // async, breaking the sync API expected by callers.
 
   get writeGating(): WriteTimeGating | null {
     if (!this.config.enableGating) return null;
@@ -271,7 +269,7 @@ export class MemoryManager {
     for (const c of candidates) {
       try {
         const p = path.join(c, "MEMORY.md");
-        if (require("fs").existsSync(p)) return c;
+        if (fs.existsSync(p)) return c;
       } catch { continue; }
     }
     return candidates[0];
