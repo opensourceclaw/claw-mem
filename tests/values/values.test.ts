@@ -1,3 +1,4 @@
+import { describe, it, expect } from "vitest";
 import * as path from "path";
 import * as os from "os";
 import * as fs from "fs";
@@ -58,6 +59,7 @@ function testSaveAndRetrievePrinciples(): void {
 
   teardown();
   console.log("PASS: testSaveAndRetrievePrinciples");
+  return true;
 }
 
 // ── Test 2: UserValue CRUD operations ──────────────────────────────────
@@ -96,6 +98,7 @@ function testUserValueCRUD(): void {
 
   teardown();
   console.log("PASS: testUserValueCRUD");
+  return true;
 }
 
 // ── Test 3: FeedbackHandler workflow ───────────────────────────────────
@@ -133,6 +136,7 @@ function testFeedbackHandler(): void {
 
   teardown();
   console.log("PASS: testFeedbackHandler");
+  return true;
 }
 
 // ── Test 4: ValueBackup export and import ──────────────────────────────
@@ -176,6 +180,7 @@ function testValueBackup(): void {
 
   teardown();
   console.log("PASS: testValueBackup");
+  return true;
 }
 
 // ── Test 5: toDict / fromDict serialization ────────────────────────────
@@ -203,17 +208,27 @@ function testSerialization(): void {
   console.assert(restored.createdAt instanceof Date, "fromDict: createdAt is Date");
 
   console.log("PASS: testSerialization");
+  return true;
 }
 
 // ── Run all ────────────────────────────────────────────────────────────
 
-function main(): void {
-  testSaveAndRetrievePrinciples();
-  testUserValueCRUD();
-  testFeedbackHandler();
-  testValueBackup();
-  testSerialization();
-  console.log("\nAll values tests passed!");
-}
 
-main();
+
+describe("values.test", () => {
+  it("SaveAndRetrievePrinciples", () => {
+    expect(testSaveAndRetrievePrinciples()).toBe(true);
+  });
+  it("UserValueCRUD", () => {
+    expect(testUserValueCRUD()).toBe(true);
+  });
+  it("FeedbackHandler", () => {
+    expect(testFeedbackHandler()).toBe(true);
+  });
+  it("ValueBackup", () => {
+    expect(testValueBackup()).toBe(true);
+  });
+  it("Serialization", () => {
+    expect(testSerialization()).toBe(true);
+  });
+});

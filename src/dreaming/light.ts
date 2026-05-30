@@ -124,10 +124,15 @@ export class SignalIngestor {
     }
 
     this._staged = [];
+    const seenContent = new Set<string>();
 
     for (const mem of episodic) {
       const content = (mem.content as string) ?? "";
       if (!content) continue;
+
+      // Deduplicate by content (same content → one signal with recallCount)
+      if (seenContent.has(content)) continue;
+      seenContent.add(content);
 
       // Deduplicate: skip if substring match against any semantic memory
       if (semanticTexts.some((st) => content.includes(st) || st.includes(content))) {

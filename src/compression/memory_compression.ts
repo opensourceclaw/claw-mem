@@ -153,7 +153,7 @@ export class MemoryCompressor {
     // Calculate metrics
     const compressedLength = compressed.length;
     const ratio =
-      originalLength > 0 ? 1 - compressedLength / originalLength : 0;
+      originalLength > 0 ? Math.max(0, 1 - compressedLength / originalLength) : 0;
 
     // Build summary from key info
     const summary = this._buildSummary(keyInfo);

@@ -1,3 +1,4 @@
+import { describe, it, expect } from "vitest";
 import { cosineSimilarity, SemanticMergeScheduler } from "../../src/merge/semantic_merger";
 import { ConflictDetector, conflictReportToDict, conflictResolutionToDict } from "../../src/merge/conflict_detector";
 
@@ -21,6 +22,7 @@ function testCosineSimilarity(): void {
   console.assert(Math.abs(sim4) < 0.001, `Expected 0.0, got ${sim4}`);
 
   console.log("PASS: testCosineSimilarity");
+  return true;
 }
 
 // ── Test 2: ConflictDetector handles empty memory store ────────────────
@@ -44,6 +46,7 @@ function testConflictDetectorEmpty(): void {
   console.assert(history.length === 0, "Expected empty history");
 
   console.log("PASS: testConflictDetectorEmpty");
+  return true;
 }
 
 // ── Test 3: ConflictDetector clears history ────────────────────────────
@@ -65,6 +68,7 @@ function testConflictDetectorClearHistory(): void {
   console.assert(detector.getHistory().length === 0, "History should be empty after clear");
 
   console.log("PASS: testConflictDetectorClearHistory");
+  return true;
 }
 
 // ── Test 4: toDict serialization ──────────────────────────────────────
@@ -97,6 +101,7 @@ function testConflictReportToDict(): void {
   console.assert(rd.reasoning === "A is more recent", "Expected reasoning");
 
   console.log("PASS: testConflictReportToDict");
+  return true;
 }
 
 // ── Test 5: SemanticMergeScheduler shouldRun ──────────────────────────
@@ -142,17 +147,27 @@ function testShouldRun(): void {
   console.assert(merger.shouldRun(200), "shouldRun(200) should be true");
 
   console.log("PASS: testShouldRun");
+  return true;
 }
 
 // ── Run all ────────────────────────────────────────────────────────────
 
-function main(): void {
-  testCosineSimilarity();
-  testConflictDetectorEmpty();
-  testConflictDetectorClearHistory();
-  testConflictReportToDict();
-  testShouldRun();
-  console.log("\nAll merge tests passed!");
-}
 
-main();
+
+describe("merge.test", () => {
+  it("CosineSimilarity", () => {
+    expect(testCosineSimilarity()).toBe(true);
+  });
+  it("ConflictDetectorEmpty", () => {
+    expect(testConflictDetectorEmpty()).toBe(true);
+  });
+  it("ConflictDetectorClearHistory", () => {
+    expect(testConflictDetectorClearHistory()).toBe(true);
+  });
+  it("ConflictReportToDict", () => {
+    expect(testConflictReportToDict()).toBe(true);
+  });
+  it("ShouldRun", () => {
+    expect(testShouldRun()).toBe(true);
+  });
+});

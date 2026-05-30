@@ -12,7 +12,7 @@
 import type { DecayConfig } from "./functions";
 
 // ── External type stubs ────────────────────────────────────────────────
-
+import * as fs from "fs";
 /**
  * Minimal interface for a storage backend that TieredDecayEngine interacts with.
  * In the full system this is SemanticStorage.
@@ -352,7 +352,7 @@ export class TieredDecayEngine {
 
   /** Rewrite the MEMORY.md file with updated memories. */
   private _rewriteFile(storage: StorageBackend, memories: Record<string, unknown>[]): void {
-    const fs = require("fs") as typeof import("fs");
+
     const lines: string[] = [];
     lines.push("# MEMORY.md\n");
     lines.push("<!-- Core Memory - Permanent Storage -->\n");

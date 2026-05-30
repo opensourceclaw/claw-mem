@@ -44,7 +44,7 @@ export class CheckpointManager {
       .replace(/\.\d{3}/, "")
       .replace("T", "_")
       .slice(0, 15);
-    const checkpointId = `${sessionId}_${ts}`;
+    const checkpointId = `${sessionId}_${ts}_${Math.random().toString(36).slice(2, 6)}`;
 
     const data: CheckpointData = {
       checkpoint_id: checkpointId,
@@ -72,7 +72,7 @@ export class CheckpointManager {
       .replace(/\.\d{3}/, "")
       .replace("T", "_")
       .slice(0, 15);
-    const checkpointId = `${sessionId}_${ts}`;
+    const checkpointId = `${sessionId}_${ts}_${Math.random().toString(36).slice(2, 6)}`;
 
     const data: CheckpointData = {
       checkpoint_id: checkpointId,

@@ -2,11 +2,12 @@
 // Licensed under Apache-2.0
 
 import * as fs from "fs";
-import * as path from "os";
+import * as path from "path";
 import { AuditLogger } from "../../src/security/audit";
 import { CheckpointManager } from "../../src/security/checkpoint";
 import { WriteValidator } from "../../src/security/validation";
 import * as os from "os";
+import { describe, it, expect } from "vitest";
 
 function tmpDir(): string {
   return fs.mkdtempSync(path.join(os.tmpdir(), "security-test-"));
@@ -196,38 +197,13 @@ function testWriteValidatorRejectionReason(): boolean {
 
 // ── Run ────────────────────────────────────────────────────────────
 
-function run(): void {
-  console.log("\nSecurity Module Tests\n");
 
-  let passed = 0;
-  let failed = 0;
-
-  const tests: [string, () => boolean][] = [
-    ["AuditLogger log and retrieve", testAuditLoggerLogAndRetrieve],
-    ["AuditLogger clear", testAuditLoggerClear],
-    ["CheckpointManager create and list", testCheckpointCreateAndList],
-    ["CheckpointManager save and rollback", testCheckpointSaveAndRollback],
-    ["WriteValidator valid content", testWriteValidatorValidContent],
-    ["WriteValidator rejects unsafe patterns", testWriteValidatorRejectsUnsafePatterns],
-    ["WriteValidator rejection reason", testWriteValidatorRejectionReason],
-  ];
-
-  for (const [name, fn] of tests) {
-    try {
-      if (fn()) {
-        passed++;
-      } else {
-        console.error(`  FAIL: ${name}`);
-        failed++;
-      }
-    } catch (err) {
-      console.error(`  ERROR: ${name} — ${err}`);
-      failed++;
-    }
-  }
-
-  console.log(`\nResults: ${passed} passed, ${failed} failed\n`);
-  if (failed > 0) process.exit(1);
-}
-
-run();
+describe("security.test", () => {
+  it("AuditLogger log and retrieve", () => {    expect(testAuditLoggerLogAndRetrieve()).toBe(true);  });
+  it("AuditLogger clear", () => {    expect(testAuditLoggerClear()).toBe(true);  });
+  it("CheckpointManager create and list", () => {    expect(testCheckpointCreateAndList()).toBe(true);  });
+  it("CheckpointManager save and rollback", () => {    expect(testCheckpointSaveAndRollback()).toBe(true);  });
+  it("WriteValidator valid content", () => {    expect(testWriteValidatorValidContent()).toBe(true);  });
+  it("WriteValidator rejects unsafe patterns", () => {    expect(testWriteValidatorRejectsUnsafePatterns()).toBe(true);  });
+  it("WriteValidator rejection reason", () => {    expect(testWriteValidatorRejectionReason()).toBe(true);  });
+});

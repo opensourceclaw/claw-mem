@@ -2,6 +2,7 @@
 // Licensed under Apache-2.0
 
 import { TimeWeightCalculator, TimeWeightConfig } from "../../src/temporal/time_aware";
+import { describe, it, expect } from "vitest";
 
 // ── Time Weight Calculator Tests ───────────────────────────────────
 
@@ -57,33 +58,8 @@ function testLinearDecay(): boolean {
 
 // ── Run ────────────────────────────────────────────────────────────
 
-function run(): void {
-  console.log("\nTemporal Module Tests\n");
 
-  let passed = 0;
-  let failed = 0;
-
-  const tests: [string, () => boolean][] = [
-    ["Exponential decay calculation", testExponentialDecay],
-    ["Linear decay calculation", testLinearDecay],
-  ];
-
-  for (const [name, fn] of tests) {
-    try {
-      if (fn()) {
-        passed++;
-      } else {
-        console.error(`  FAIL: ${name}`);
-        failed++;
-      }
-    } catch (err) {
-      console.error(`  ERROR: ${name} — ${err}`);
-      failed++;
-    }
-  }
-
-  console.log(`\nResults: ${passed} passed, ${failed} failed\n`);
-  if (failed > 0) process.exit(1);
-}
-
-run();
+describe("temporal.test", () => {
+  it("Exponential decay calculation", () => {    expect(testExponentialDecay()).toBe(true);  });
+  it("Linear decay calculation", () => {    expect(testLinearDecay()).toBe(true);  });
+});

@@ -2,6 +2,7 @@
 // Licensed under Apache-2.0
 
 import { MemoryLinkManager, MemoryLinkParser, MemoryTagParser } from "../../src/links/memory_links";
+import { describe, it, expect } from "vitest";
 
 // ── Link Parser Tests ──────────────────────────────────────────────
 
@@ -130,34 +131,9 @@ function testLinkManagerRelationships(): boolean {
 
 // ── Run ────────────────────────────────────────────────────────────
 
-function run(): void {
-  console.log("\nLinks Module Tests\n");
 
-  let passed = 0;
-  let failed = 0;
-
-  const tests: [string, () => boolean][] = [
-    ["Link parsing and removal", testLinkParsing],
-    ["Tag parsing and normalization", testTagParsing],
-    ["Link manager relationships and export", testLinkManagerRelationships],
-  ];
-
-  for (const [name, fn] of tests) {
-    try {
-      if (fn()) {
-        passed++;
-      } else {
-        console.error(`  FAIL: ${name}`);
-        failed++;
-      }
-    } catch (err) {
-      console.error(`  ERROR: ${name} — ${err}`);
-      failed++;
-    }
-  }
-
-  console.log(`\nResults: ${passed} passed, ${failed} failed\n`);
-  if (failed > 0) process.exit(1);
-}
-
-run();
+describe("links.test", () => {
+  it("Link parsing and removal", () => {    expect(testLinkParsing()).toBe(true);  });
+  it("Tag parsing and normalization", () => {    expect(testTagParsing()).toBe(true);  });
+  it("Link manager relationships and export", () => {    expect(testLinkManagerRelationships()).toBe(true);  });
+});

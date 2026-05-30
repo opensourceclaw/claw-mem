@@ -2,6 +2,7 @@
 // Licensed under Apache-2.0
 
 import { MultimodalMemoryStore, resetMultimodalStore, MemoryType } from "../../src/multimodal/multimodal_memory";
+import { describe, it, expect } from "vitest";
 
 // ── Multimodal Memory Tests ────────────────────────────────────────
 
@@ -95,36 +96,8 @@ function testSearchByDescription(): boolean {
 
 // ── Run ────────────────────────────────────────────────────────────
 
-function run(): void {
-  console.log("\nMultimodal Module Tests\n");
 
-  let passed = 0;
-  let failed = 0;
-
-  const tests: [string, () => boolean][] = [
-    ["Store and retrieve multimodal memories", testStoreAndRetrieve],
-    ["Search by description and stats", testSearchByDescription],
-  ];
-
-  for (const [name, fn] of tests) {
-    try {
-      if (fn()) {
-        passed++;
-      } else {
-        console.error(`  FAIL: ${name}`);
-        failed++;
-      }
-    } catch (err) {
-      console.error(`  ERROR: ${name} — ${err}`);
-      failed++;
-    }
-  }
-
-  // Cleanup
-  resetMultimodalStore();
-
-  console.log(`\nResults: ${passed} passed, ${failed} failed\n`);
-  if (failed > 0) process.exit(1);
-}
-
-run();
+describe("multimodal.test", () => {
+  it("Store and retrieve multimodal memories", () => {    expect(testStoreAndRetrieve()).toBe(true);  });
+  it("Search by description and stats", () => {    expect(testSearchByDescription()).toBe(true);  });
+});

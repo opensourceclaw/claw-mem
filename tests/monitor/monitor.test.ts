@@ -2,6 +2,7 @@
 // Licensed under Apache-2.0
 
 import { PerformanceMonitor } from "../../src/monitor/performance";
+import { describe, it, expect } from "vitest";
 
 // ── Performance Monitor Tests ──────────────────────────────────────
 
@@ -79,33 +80,8 @@ function testPercentileCalculation(): boolean {
 
 // ── Run ────────────────────────────────────────────────────────────
 
-function run(): void {
-  console.log("\nMonitor Module Tests\n");
 
-  let passed = 0;
-  let failed = 0;
-
-  const tests: [string, () => boolean][] = [
-    ["Metric tracking accuracy", testMetricTracking],
-    ["Percentile calculation accuracy", testPercentileCalculation],
-  ];
-
-  for (const [name, fn] of tests) {
-    try {
-      if (fn()) {
-        passed++;
-      } else {
-        console.error(`  FAIL: ${name}`);
-        failed++;
-      }
-    } catch (err) {
-      console.error(`  ERROR: ${name} — ${err}`);
-      failed++;
-    }
-  }
-
-  console.log(`\nResults: ${passed} passed, ${failed} failed\n`);
-  if (failed > 0) process.exit(1);
-}
-
-run();
+describe("monitor.test", () => {
+  it("Metric tracking accuracy", () => {    expect(testMetricTracking()).toBe(true);  });
+  it("Percentile calculation accuracy", () => {    expect(testPercentileCalculation()).toBe(true);  });
+});

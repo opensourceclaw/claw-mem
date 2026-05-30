@@ -28,7 +28,8 @@ import {
   type MemoryManagerWithStorage,
 } from "../../src/dreaming/promote";
 import { createREMResult, PatternExtractor } from "../../src/dreaming/rem";
-import { describe, it, assert } from "../../src/globals";
+import { describe, it, expect } from "vitest";
+import assert from "assert";
 
 // --------------------------------------------------------------------------
 // Test 1: DreamingConfig validation

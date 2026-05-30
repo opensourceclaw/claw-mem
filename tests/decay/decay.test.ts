@@ -1,3 +1,4 @@
+import { describe, it, expect } from "vitest";
 import {
   exponentialDecay,
   calculateWeight,
@@ -27,6 +28,7 @@ function testExponentialDecay(): void {
   console.assert(wLarge < 0.001, `Expected near 0, got ${wLarge}`);
 
   console.log("PASS: testExponentialDecay");
+  return true;
 }
 
 // ── Test 2: calculateWeight uses correct half-life per category ────────
@@ -54,6 +56,7 @@ function testCalculateWeight(): void {
   );
 
   console.log("PASS: testCalculateWeight");
+  return true;
 }
 
 // ── Test 3: TieredDecayEngine classifies memories correctly ────────────
@@ -107,6 +110,7 @@ function testTieredDecayEngineClassify(): void {
   );
 
   console.log("PASS: testTieredDecayEngineClassify");
+  return true;
 }
 
 // ── Test 4: halfLifeToDays infers correct values ───────────────────────
@@ -124,6 +128,7 @@ function testHalfLifeToDays(): void {
   );
 
   console.log("PASS: testHalfLifeToDays");
+  return true;
 }
 
 // ── Test 5: DecayConfig default values ─────────────────────────────────
@@ -135,6 +140,7 @@ function testDefaultDecayConfig(): void {
   console.assert(cfg.decayIntervalHours === 24, "decayIntervalHours should be 24");
   console.assert(cfg.protectCritical === true, "protectCritical should be true");
   console.log("PASS: testDefaultDecayConfig");
+  return true;
 }
 
 // ── Test 6: DecayScheduler lifecycle ───────────────────────────────────
@@ -157,18 +163,30 @@ function testDecaySchedulerLifecycle(): void {
   console.assert(!scheduler.isRunning(), "Should not be running after stop");
 
   console.log("PASS: testDecaySchedulerLifecycle");
+  return true;
 }
 
 // ── Run all ────────────────────────────────────────────────────────────
 
-function main(): void {
-  testExponentialDecay();
-  testCalculateWeight();
-  testTieredDecayEngineClassify();
-  testHalfLifeToDays();
-  testDefaultDecayConfig();
-  testDecaySchedulerLifecycle();
-  console.log("\nAll decay tests passed!");
-}
 
-main();
+
+describe("decay.test", () => {
+  it("ExponentialDecay", () => {
+    expect(testExponentialDecay()).toBe(true);
+  });
+  it("CalculateWeight", () => {
+    expect(testCalculateWeight()).toBe(true);
+  });
+  it("TieredDecayEngineClassify", () => {
+    expect(testTieredDecayEngineClassify()).toBe(true);
+  });
+  it("HalfLifeToDays", () => {
+    expect(testHalfLifeToDays()).toBe(true);
+  });
+  it("DefaultDecayConfig", () => {
+    expect(testDefaultDecayConfig()).toBe(true);
+  });
+  it("DecaySchedulerLifecycle", () => {
+    expect(testDecaySchedulerLifecycle()).toBe(true);
+  });
+});

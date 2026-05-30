@@ -9,7 +9,7 @@ import * as fs from "fs";
 import * as path from "path";
 import * as os from "os";
 import * as crypto from "crypto";
-import { UserValueStore } from "./user_value_store";
+import { UserValueStore, userValueToDict } from "./user_value_store";
 
 // ── Backup metadata type ───────────────────────────────────────────────
 
@@ -83,7 +83,7 @@ export class ValueBackup {
       );
 
     // Export data
-    const { userValueToDict } = require("./user_value_store");
+
     const exportData: Record<string, unknown> = {
       user_id: userId,
       exported_at: new Date().toISOString(),

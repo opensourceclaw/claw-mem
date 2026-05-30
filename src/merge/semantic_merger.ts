@@ -7,7 +7,7 @@
  * Detects semantically similar memories, merges them via LLM generation,
  * and marks source memories as deprecated.
  */
-
+import * as fs from "fs";
 // ── External type stubs ────────────────────────────────────────────────
 
 interface StorageBackend {
@@ -221,7 +221,7 @@ export class SemanticMergeScheduler {
     storage: StorageBackend,
     memories: Record<string, unknown>[],
   ): void {
-    const fs = require("fs") as typeof import("fs");
+
     const lines: string[] = [];
     lines.push("# MEMORY.md\n");
     lines.push("<!-- Core Memory - Permanent Storage -->\n");

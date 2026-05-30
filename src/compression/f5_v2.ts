@@ -122,7 +122,7 @@ export class F5CompressorV2 {
 
     const compressedLength = compressed.length;
     const ratio =
-      originalLength > 0 ? 1 - compressedLength / originalLength : 0;
+      originalLength > 0 ? Math.max(0, 1 - compressedLength / originalLength) : 0;
 
     return {
       originalLength,
