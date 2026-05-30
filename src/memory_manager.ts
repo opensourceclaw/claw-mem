@@ -80,7 +80,29 @@ export class MemoryManager {
     this._procedural = new ProceduralStorage(this.workspace);
     this._index = new InMemoryIndex(3, path.join(os.homedir(), ".claw-mem", "index"), true);
 
+    // Stats tracking
+    this._searchCount = 0;
+    this._storeCount = 0;
+    this._cacheHits = 0;
+
+    // Async BM25 warmup (non-blocking)
+    this._bm25Ready = false;
+    this._startAsyncBuild();
+
     log(`claw-mem TS v5.0.0 initialized, workspace: ${this.workspace}`);
+  }
+
+  private _searchCount = 0;
+  private _storeCount = 0;
+  private _cacheHits = 0;
+  private _bm25Ready = false;
+
+  private _startAsyncBuild(): void {
+    // Defer index build to next tick so constructor returns fast
+    setTimeout(() => {
+      try { this.buildIndex(); this._bm25Ready = true; }
+      catch { /* best effort */ }
+    }, 10);
   }
 
   // ── storage accessors ──────────────────────────────────────────
@@ -182,6 +204,7 @@ export class MemoryManager {
         default: return false;
       }
       this._working.push(record);
+      this._storeCount++;
 
       // Incremental index update
       try {
@@ -198,6 +221,7 @@ export class MemoryManager {
 
   search(query: string, memoryType?: string, limit = 10): Array<Record<string, unknown>> {
     if (!query?.trim()) return [];
+    this._searchCount++;
 
     // Gather all memories
     const all: Array<Record<string, unknown>> = [];
@@ -230,14 +254,39 @@ export class MemoryManager {
   }
 
   getStats(): Record<string, unknown> {
+    const memMb = Math.round(process.memoryUsage().heapUsed / 1024 / 1024 * 100) / 100;
     return {
       workspace: this.workspace,
       sessionId: this.sessionId,
       workingMemoryCount: this._working.length,
       indexBuilt: this._index.built,
+      bm25Ready: this._bm25Ready,
       episodicCount: this._episodic.count(),
       semanticCount: this._semantic.count(),
       proceduralCount: this._procedural.count(),
+      searches: this._searchCount,
+      stores: this._storeCount,
+      cacheHits: this._cacheHits,
+      memoryMb: memMb,
+      bm25DocCount: this._index.built ? this._index.bm25.doc_count : 0,
+      indexDir: path.join(os.homedir(), ".claw-mem", "index"),
+    };
+  }
+
+  /** Health check: storage integrity, index state, memory usage. */
+  health(): Record<string, unknown> {
+    const stats = this.getStats();
+    const issues: string[] = [];
+    if (!this._index.built) issues.push("index not built");
+    if (!this._bm25Ready) issues.push("bm25 warmup pending");
+    const epCount = this._episodic.count();
+    const semCount = this._semantic.count();
+    return {
+      status: issues.length === 0 ? "healthy" : "degraded",
+      issues,
+      storage: { episodic: epCount, semantic: semCount, procedural: this._procedural.count() },
+      index: { built: this._index.built, bm25Ready: this._bm25Ready },
+      performance: { searches: stats.searches, stores: stats.stores, memoryMb: stats.memoryMb },
     };
   }
 

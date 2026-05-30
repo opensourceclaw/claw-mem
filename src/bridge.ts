@@ -87,6 +87,24 @@ export function handleRequest(req: JsonRpcRequest, mm?: MemoryManager): JsonRpcR
       case "dreaming_dry_run":
         result = { staged: 0, scored: 0, passed: 0, promoted: 0, duration_ms: 0, dry_run: true };
         break;
+      case "system.health":
+        result = manager.health();
+        break;
+      case "system.stats":
+        result = manager.getStats();
+        break;
+      case "export":
+        result = {
+          exported: new (require("./data_portability").DataPortability)(manager.workspace)
+            .exportData(String(params.outputDir || "/tmp/claw-mem-export")),
+        };
+        break;
+      case "import":
+        result = {
+          imported: new (require("./data_portability").DataPortability)(manager.workspace)
+            .importData(String(params.inputDir || "/tmp/claw-mem-import")),
+        };
+        break;
       default:
         return { jsonrpc: "2.0", id, error: { code: -32601, message: `Method '${method}' not found` } };
     }
