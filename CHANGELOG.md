@@ -729,3 +729,17 @@ WriteTimeGating
 - chore: restructure directory layout to devclaw standard
 - Move demo files to demos/, bridge.py to scripts/, experiment data to data/
 - Create configs/, examples/ directories
+
+## [5.0.0] - 2026-05-30
+
+### ⚠️ Breaking
+- Stack: Python → TypeScript. Python in legacy mode.
+### ✨ New
+- Atomic writes, index auto-repair, BM25 async warmup
+- Health check API (system.health/stats), IntegrityChecker
+- IndexEvolver, MemoryFederation preview, Import/Export
+### 🔧
+- 201 tests, js-yaml config, pure TS BM25/cosine
+### 📦
+- Removed: numpy, rank_bm25, spacy, chromadb, openai, watchdog, psutil, click
+- Added: js-yaml, systeminformation
