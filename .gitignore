@@ -111,3 +111,9 @@ dist/
 build/
 *.egg-info/
 venv/
+
+# TypeScript
+src/storage/*.ts
+!src/types.ts
+*.tsbuildinfo
+node_modules/

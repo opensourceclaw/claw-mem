@@ -1,11 +1,25 @@
 {
   "name": "claw-mem",
-  "version": "1.0.9",
-  "description": "OpenClaw Memory System - Make OpenClaw Truly Remember. Compatible with existing formats, enhanced memory management.",
-  "main": "index.js",
+  "version": "5.0.0-beta.1",
+  "description": "Local-First Three-Tier Memory System for OpenClaw (TypeScript)",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build": "tsc",
+    "test": "vitest run",
+    "test:watch": "vitest"
   },
-  "author": "OpenClaw Community",
+  "dependencies": {
+    "js-yaml": "^4.1.0"
+  },
+  "devDependencies": {
+    "@types/js-yaml": "^4.0.0",
+    "@types/node": "^20.0.0",
+    "@vitest/coverage-v8": "^4.1.6",
+    "typescript": "^5.0.0",
+    "vitest": "^4.1.6"
+  },
+  "keywords": ["memory", "ai", "llm", "openclaw"],
+  "author": "Peter Cheng",
   "license": "Apache-2.0"
 }
