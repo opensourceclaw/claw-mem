@@ -267,6 +267,9 @@ class MemoryManager:
         from .constitution import ConstitutionStore
         self.constitution_store: ConstitutionStore = ConstitutionStore(str(self.workspace))
 
+        # One-time migration: legacy critical_rules → ConstitutionStore L2
+        self._migrate_critical_rules_to_constitution()
+
     def _validate_state(self) -> None:
         """Validate MemoryManager state before operations."""
         if not self.workspace or not self.workspace.exists():
@@ -567,6 +570,55 @@ class MemoryManager:
             List of critical rule dicts
         """
         return list(self._critical_rules.values())
+
+    def _migrate_critical_rules_to_constitution(self) -> int:
+        """One-time migration: legacy critical_rules → ConstitutionStore L2.
+
+        Reads all entries from the old critical_rules.json, promotes them
+        to ConstitutionStore L2, then clears the legacy file. Only runs if
+        the legacy file exists and has entries.
+
+        Returns:
+            Number of rules migrated (0 if nothing to migrate).
+        """
+        if not self._critical_rules:
+            return 0
+
+        # Check if already migrated (legacy file renamed)
+        migrated_flag = self._critical_rules_file + ".migrated_to_constitution"
+        if os.path.exists(migrated_flag):
+            return 0
+
+        count = 0
+        for rule_id, entry in self._critical_rules.items():
+            content = entry.get("content") or entry.get("text", "")
+            if not content:
+                continue
+            metadata = entry.get("metadata", {})
+            # Preserve original type hint
+            if isinstance(metadata, dict):
+                metadata["_migrated_from"] = "critical_rules"
+                metadata["_migrated_rule_id"] = rule_id
+
+            if hasattr(self, 'constitution_store'):
+                self.constitution_store.promote_to_l2(
+                    content=content, tags=["legacy_critical", "migrated_v5.1"],
+                    metadata=metadata or {}
+                )
+            count += 1
+
+        # Mark migration as done
+        try:
+            with open(migrated_flag, 'w') as f:
+                f.write(json.dumps({"migrated_at": datetime.now().isoformat(),
+                                   "count": count}))
+        except Exception:
+            pass
+
+        if count > 0:
+            _log(f"🔧 Migrated {count} critical_rules to ConstitutionStore L2")
+
+        return count
 
     def delete_critical_rule(self, rule_id: str) -> bool:
         """Delete a critical rule by ID.
