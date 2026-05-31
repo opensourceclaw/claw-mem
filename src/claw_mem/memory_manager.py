@@ -263,6 +263,10 @@ class MemoryManager:
         self._critical_rules_file = os.path.join(str(self.workspace), "critical_rules.json")
         self._load_critical_rules()
 
+        # v5.1.0: Tiered Constitution Store — persistent identity, immune to decay
+        from .constitution import ConstitutionStore
+        self.constitution_store: ConstitutionStore = ConstitutionStore(str(self.workspace))
+
     def _validate_state(self) -> None:
         """Validate MemoryManager state before operations."""
         if not self.workspace or not self.workspace.exists():
@@ -592,6 +596,13 @@ class MemoryManager:
         self.working_memory = []
         self.working_cache.clear()
 
+        # Stage 0: Constitution injection (v5.1.0)
+        # Injects persistent identity rules BEFORE any memory retrieval.
+        # This ensures constitution data (tech stack, protocols, roles) is
+        # ALWAYS available at the start of every session, regardless of
+        # memory decay, compression, or session reset.
+        self._inject_constitution()
+
         # Load all memories and build index
         self._load_and_build_index()
 
@@ -608,6 +619,29 @@ class MemoryManager:
         self.audit.log("session_start", {"session_id": session_id})
 
         _log(f"✅ Session {session_id} started, indexed {len(self.working_memory)} memories")
+
+    def _inject_constitution(self) -> None:
+        """Inject constitution entries into working memory (Stage 0)."""
+        try:
+            entries = self.constitution_store.assemble()
+            if not entries:
+                _log("ℹ️  No constitution entries to inject")
+                return
+
+            for entry in entries:
+                self.working_memory.append({
+                    "id": entry["id"],
+                    "content": entry["content"],
+                    "type": "constitution",
+                    "tags": entry.get("tags", []) + ["constitution", f"L{entry['layer']}"],
+                    "layer": entry["layer"],
+                    "timestamp": entry.get("created_at", datetime.now().isoformat()),
+                    "source": entry.get("source", "constitution_store"),
+                })
+
+            _log(f"⚖️  Injected {len(entries)} constitution entries (L0+L1+L2) into session")
+        except Exception as exc:
+            _log(f"⚠️  Constitution injection failed (non-fatal): {exc}")
 
     def _retrieve_contextual_memories(self, context: str) -> None:
         """
@@ -660,6 +694,16 @@ class MemoryManager:
         )
 
         _log(f"✅ Session {self.session_id} ended, memories saved")
+
+        # v5.1.0: Scan for constitution candidates
+        try:
+            suggestions = self.constitution_store.scan_and_suggest(self.working_memory)
+            if suggestions:
+                _log(f"⚖️  Found {len(suggestions)} constitution candidates in session — use scan_and_suggest_rule to promote")
+                for s in suggestions[:3]:
+                    _log(f"  💡 L1 candidate (conf={s['confidence']:.0%}): {s['content'][:60]}")
+        except Exception as exc:
+            _log(f"⚠️  Constitution scan failed (non-fatal): {exc}")
 
         self.session_id = None
         self.session_start = None

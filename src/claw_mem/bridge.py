@@ -419,6 +419,70 @@ class ClawMemBridge:
         self._log(f"Shutting down. Total requests: {self.request_count}")
 
 
+    # ── v5.1.0: Constitution management ──────────────────────────────────
+
+    def _handle_get_constitution(self, params: Dict) -> Dict:
+        """Return all constitution entries."""
+        if not self.memory_manager:
+            return {"error": "Memory manager not initialized"}
+        try:
+            entries = self.memory_manager.constitution_store.get_all()
+            stats = self.memory_manager.constitution_store.get_stats()
+            return {"entries": entries, "stats": stats}
+        except Exception as exc:
+            return {"error": str(exc)}
+
+    def _handle_scan_and_suggest_rule(self, params: Dict) -> Dict:
+        """Scan session memory for constitution-level suggestions."""
+        if not self.memory_manager:
+            return {"error": "Memory manager not initialized"}
+        try:
+            messages = params.get("messages", self.memory_manager.working_memory)
+            suggestions = self.memory_manager.constitution_store.scan_and_suggest(
+                messages or []
+            )
+            return {"suggestions": suggestions, "count": len(suggestions)}
+        except Exception as exc:
+            return {"error": str(exc)}
+
+    def _handle_promote_constitution_rule(self, params: Dict) -> Dict:
+        """Promote content to L1 (persistent rule, pending approval)."""
+        if not self.memory_manager:
+            return {"error": "Memory manager not initialized"}
+        try:
+            content_text = params.get("content", "")
+            if not content_text:
+                return {"error": "content is required"}
+            source = params.get("source", "rpc_api")
+            layer = params.get("layer", 1)
+            if layer == 2:
+                entry_id = self.memory_manager.constitution_store.promote_to_l2(
+                    content_text, source=source, tags=params.get("tags")
+                )
+            else:
+                entry_id = self.memory_manager.constitution_store.promote_to_l1(
+                    content_text, source=source
+                )
+            if entry_id:
+                return {"status": "promoted", "entry_id": entry_id}
+            return {"status": "already_exists"}
+        except Exception as exc:
+            return {"error": str(exc)}
+
+    def _handle_delete_constitution_rule(self, params: Dict) -> Dict:
+        """Delete a constitution entry by ID."""
+        if not self.memory_manager:
+            return {"error": "Memory manager not initialized"}
+        try:
+            entry_id = params.get("entry_id", "")
+            if not entry_id:
+                return {"error": "entry_id is required"}
+            ok = self.memory_manager.constitution_store.delete(entry_id)
+            return {"status": "deleted" if ok else "not_found"}
+        except Exception as exc:
+            return {"error": str(exc)}
+
+
 def main():
     """Entry point"""
     # Ensure CLAW_MEM_SILENT is set to prevent diagnostic print() from

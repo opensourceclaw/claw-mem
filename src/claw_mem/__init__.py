@@ -125,12 +125,15 @@ from .dreaming import (
 )
 from .graph.graph_reasoner import GraphReasoner, PathResult
 from .rule_extractor import RuleExtractor
+from .constitution import ConstitutionStore, ConstitutionEntry
 from .storage.episodic import EpisodicStorage
 from .storage.index import InMemoryIndex, WorkingMemoryCache
 from .storage.procedural import ProceduralStorage
 from .storage.semantic import SemanticStorage
 
 __all__ = [
+    "ConstitutionStore",
+    "ConstitutionEntry",
     # v4.0.0: Cross-Agent Memory
     "AgentAgnosticMemory",
     "CrossAgentSync",

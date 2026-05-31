@@ -22,7 +22,45 @@ fact, chat) and assigns importance scores for memory persistence decisions.
 from dataclasses import dataclass
 from typing import List, Literal
 
-ContentType = Literal["decision", "preference", "task_context", "fact", "chat"]
+ContentType = Literal["constitution", "decision", "preference", "task_context", "fact", "chat"]
+
+# Constitution-level patterns — content that should survive session resets
+# These are technical/protocol/role decisions that define the agent's identity.
+CONSTITUTION_PATTERNS = [
+    # English
+    "let's use",
+    "let us use",
+    "we'll use",
+    "we will use",
+    "we'll go with",
+    "we will go with",
+    "we decided",
+    "decided to",
+    "project uses",
+    "project is built with",
+    "runs on",
+    "communication protocol",
+    "communication method",
+    "comm via",
+    "responsible for",
+    "role is",
+    "job is to",
+    "always use",
+    "never use",
+    "must always",
+    "do not use",
+    # Chinese
+    "\u4f7f\u7528",  # 使用
+    "\u51b3\u5b9a\u7528",  # 决定用
+    "\u9009\u62e9\u7528",  # 选择用
+    "\u9879\u76ee\u4f7f\u7528",  # 项目使用
+    "\u901a\u4fe1\u534f\u8bae",  # 通信协议
+    "\u8d1f\u8d23",  # 负责
+    "\u89d2\u8272\u662f",  # 角色是
+    "\u603b\u662f\u4f7f\u7528",  # 总是使用
+    "\u4ece\u4e0d\u4f7f\u7528",  # 从不使用
+    "\u4e0d\u8981\u4f7f\u7528",  # 不要使用
+]
 
 # Detection patterns (EN + ZH)
 DECISION_PATTERNS = [
@@ -220,6 +258,9 @@ class ContentClassification:
 def classify_content(content: str) -> ContentClassification:
     """Classify a single content string by type and importance.
 
+    Priority: constitution (1.0) > decision (0.9) > preference (0.8) >
+              task_context (0.7) > fact (0.6) > chat (0.3-0.5)
+
     Args:
         content: Text to classify.
 
@@ -236,7 +277,17 @@ def classify_content(content: str) -> ContentClassification:
 
     content_lower = content.lower()
 
-    # Check content types in priority order
+    # ---- Tier 0: constitution (highest priority) ----
+    for keyword in CONSTITUTION_PATTERNS:
+        if keyword in content_lower:
+            return ContentClassification(
+                type="constitution",
+                importance=1.0,
+                should_save=True,
+                reasoning=f"Constitution-level match: '{keyword}'",
+            )
+
+    # ---- Tier 1-4: existing detection rules ----
     for content_type in ["decision", "preference", "task_context", "fact"]:
         rules = DETECTION_RULES[content_type]
         for keyword in rules["keywords"]:
@@ -248,8 +299,7 @@ def classify_content(content: str) -> ContentClassification:
                     reasoning=f"Matched keyword: '{keyword}'",
                 )
 
-    # Default: chat
-    # Longer content is more likely to be meaningful
+    # ---- Default: chat ----
     importance = min(0.5, len(content) / 200.0)
     return ContentClassification(
         type="chat",
