@@ -98,6 +98,36 @@ export function handleRequest(req: JsonRpcRequest, mm?: MemoryManager): JsonRpcR
         result = new IntegrityChecker(manager.workspace, manager.index).quickCheck();
         break;
       }
+      // v5.1.0: Constitution RPC endpoints
+      case "get_constitution":
+        result = {
+          entries: manager.constitutionStore.getAll(),
+          stats: manager.constitutionStore.getStats(),
+        };
+        break;
+      case "scan_and_suggest_rule":
+        result = {
+          suggestions: manager.constitutionStore.scanAndSuggest(
+            (params.messages as Array<{ content: string }>) ?? [],
+          ),
+          count: 0,
+        };
+        break;
+      case "promote_constitution_rule":
+        result = {
+          status: "ok",
+          entryId: manager.constitutionStore.promoteToL2(
+            String(params.content ?? ""),
+            (params.tags as string[]) ?? [],
+          ),
+        };
+        break;
+      case "delete_constitution_rule":
+        result = {
+          status: manager.constitutionStore.delete(String(params.entryId ?? ""))
+            ? "deleted" : "not_found",
+        };
+        break;
       case "export":
         result = {
           exported: new (require("./data_portability").DataPortability)(manager.workspace)

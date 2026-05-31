@@ -20,6 +20,7 @@ import { InMemoryIndex } from "./storage/index";
 interface MemoryEntry { id: string; content: string; }
 import { MemoryConfig } from "./config";
 import { ComponentFactory, getDefaultFactory } from "./factories";
+import { ConstitutionStore } from "./constitution";
 // Import types only to avoid circular deps
 import type { WriteTimeGating } from "./gating/write_time_gating";
 import type { ThreeTierRetriever } from "./retrieval/three_tier";
@@ -89,7 +90,50 @@ export class MemoryManager {
     this._bm25Ready = false;
     this._startAsyncBuild();
 
-    log(`claw-mem TS v5.0.0 initialized, workspace: ${this.workspace}`);
+    // v5.1.0: Constitution Store
+    this.constitutionStore = new ConstitutionStore(this.workspace);
+    this._migrateCriticalRulesToConstitution();
+
+    log(`claw-mem TS v5.1.0 initialized, workspace: ${this.workspace}`);
+  }
+
+  // v5.1.0: Constitution Store — 3-layer persistent identity
+  constitutionStore!: ConstitutionStore;
+  private _constitutionInjected = false;
+
+  injectConstitution(): void {
+    if (this._constitutionInjected) return;
+    const entries = this.constitutionStore.assemble();
+    for (const e of entries) {
+      this._working.push({
+        id: e.id, content: e.content,
+        type: "constitution",
+        tags: [...e.tags, "constitution", `L${e.layer}`],
+        layer: e.layer,
+        timestamp: e.createdAt,
+        source: e.source,
+      });
+    }
+    this._constitutionInjected = true;
+  }
+
+  private _migrateCriticalRulesToConstitution(): void {
+    const rulesPath = path.join(this.workspace, "critical_rules.json");
+    const flagPath = rulesPath + ".migrated_to_constitution";
+    if (fs.existsSync(flagPath)) return;
+    if (!fs.existsSync(rulesPath)) return;
+    try {
+      const data = JSON.parse(fs.readFileSync(rulesPath, "utf-8")) as Record<string, { content?: string; text?: string }>;
+      let count = 0;
+      for (const [id, entry] of Object.entries(data)) {
+        const content = entry.content || entry.text || "";
+        if (!content) continue;
+        this.constitutionStore.promoteToL2(content, ["legacy_critical", "migrated_v5.1"], { _migrated_from: "critical_rules", _migrated_rule_id: id });
+        count++;
+      }
+      fs.writeFileSync(flagPath, JSON.stringify({ migrated_at: new Date().toISOString(), count }), "utf-8");
+      if (count > 0) log(`Migrated ${count} critical_rules to ConstitutionStore L2`);
+    } catch { /* best-effort */ }
   }
 
   private _searchCount = 0;
