@@ -1,11 +1,11 @@
 {
   "name": "@opensourceclaw/openclaw-claw-mem",
-  "version": "3.2.2",
+  "version": "5.2.0",
   "description": "Claw Memory System - Local-First OpenClaw Plugin (Plugin Slots Enabled)",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "scripts": {
-    "build": "tsc && cp openclaw.plugin.json dist/",
+    "build": "tsc && for d in dist/src dist/claw_mem_plugin; do mkdir -p $d && cp openclaw.plugin.json $d/; done && cp openclaw.plugin.json dist/",
     "test": "node test/test_real_bridge.js",
     "typecheck": "tsc --noEmit",
     "postinstall": "node scripts/post-install.js"

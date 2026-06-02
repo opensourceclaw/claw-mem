@@ -5,6 +5,37 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [5.2.0] - 2026-06-02
+
+### Added
+
+- **OpenClaw Context Engine Interface** (`claw_mem_plugin/src/context_engine.ts`) — Complete implementation:
+  - `bootstrap()` — Session initialization + Constitution injection
+  - `ingest()` — Single message ingestion
+  - `ingestBatch()` — Batch processing with deduplication
+  - `assemble()` — Memory retrieval + ConfidenceGate filtering + Token Budget control + Graph integration
+  - `compact()` — MemoryCompressorV2 integration
+  - `maintain()` — TieredDecayEngine integration
+  - `afterTurn()` — Post-turn processing with "recent" tagging
+  - `prepareSubagentSpawn()` — Subagent fork/isolated mode support
+  - `onSubagentEnded()` — Child session memory merging
+  - `dispose()` — Resource cleanup
+  - `SearchCache` — Search result caching (30s TTL)
+
+- **Plugin manifest update** — `kind` extended to `["memory", "context-engine"]`
+
+### Changed
+
+- Context Engine registration: Factory function pattern instead of instance
+- Configuration support: `plugins.slots.contextEngine: "claw-mem"`
+- Memory injection now works via both Hook and Context Engine interfaces
+
+### Technical Details
+
+- File: `claw_mem_plugin/src/context_engine.ts` (266 lines)
+- Zero Python subprocess overhead (100% TypeScript)
+- Compatible with OpenClaw 2026.5.x runtime
+
 ## [5.1.0] - 2026-05-31
 
 ### Added

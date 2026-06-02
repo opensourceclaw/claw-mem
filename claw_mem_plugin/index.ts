@@ -1,5 +1,5 @@
 /**
- * claw-mem v5.1.0 Plugin for OpenClaw
+ * claw-mem v5.2.0 Plugin for OpenClaw
  *
  * Architecture: Direct TypeScript (no Python subprocess)
  * - Plugin imports TS MemoryManager directly
@@ -11,6 +11,7 @@ import * as path from "path";
 import { handleRequest, type JsonRpcRequest } from "../src/bridge";
 import { getMemoryManager, type MemoryManager } from "../src/memory_manager";
 import { ConstitutionStore } from "../src/constitution";
+import { createClawMemContextEngine } from "./src/context_engine";
 
 // ============================================================================
 // Type Definitions
@@ -289,6 +290,20 @@ const plugin: PluginDefinition = {
         },
       },
     });
+
+    // ========================================================================
+    // Register Context Engine (v5.2.0)
+    // ========================================================================
+
+    try {
+      const ceConfig = { workspaceDir: config.workspaceDir, topK: config.topK, debug: config.debug };
+      (api as any).registerContextEngine("claw-mem", (_ctx: any) => {
+        return createClawMemContextEngine(ceConfig, api.logger);
+      });
+      api.logger.info("[claw-mem TS] Context Engine registered (v5.2.0)");
+    } catch (error) {
+      api.logger.warn("[claw-mem TS] Context Engine registration failed:", error);
+    }
 
     // ========================================================================
     // Register Tools

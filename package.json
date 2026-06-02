@@ -5,7 +5,7 @@
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "scripts": {
-    "build": "tsc",
+    "build": "tsc && for d in dist/src dist/claw_mem_plugin; do mkdir -p $d && cp openclaw.plugin.json $d/; done && cp openclaw.plugin.json dist/",
     "test": "vitest run",
     "test:watch": "vitest"
   },
@@ -19,7 +19,12 @@
     "typescript": "^5.0.0",
     "vitest": "^4.1.6"
   },
-  "keywords": ["memory", "ai", "llm", "openclaw"],
+  "keywords": [
+    "memory",
+    "ai",
+    "llm",
+    "openclaw"
+  ],
   "author": "Peter Cheng",
   "license": "Apache-2.0"
 }

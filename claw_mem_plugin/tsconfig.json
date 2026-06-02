@@ -2,7 +2,9 @@
   "compilerOptions": {
     "target": "ES2022",
     "module": "CommonJS",
-    "lib": ["ES2022"],
+    "lib": [
+      "ES2022"
+    ],
     "moduleResolution": "node",
     "esModuleInterop": true,
     "strict": true,
@@ -12,8 +14,18 @@
     "outDir": "./dist",
     "rootDir": "..",
     "resolveJsonModule": true,
-    "types": ["node"]
+    "types": [
+      "node"
+    ]
   },
-  "include": ["*.ts", "../src/**/*.ts"],
-  "exclude": ["node_modules", "dist"]
+  "include": [
+    "*.ts",
+    "src/**/*.ts",
+    "../src/**/*.ts"
+  ],
+  "exclude": [
+    "node_modules",
+    "dist",
+    "src/**/*.test.ts"
+  ]
 }

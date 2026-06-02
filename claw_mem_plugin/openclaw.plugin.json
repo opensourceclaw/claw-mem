@@ -1,91 +1,18 @@
 {
   "id": "claw-mem",
-  "kind": "memory",
+  "kind": ["memory", "context-engine"],
   "name": "Claw Memory System",
-  "description": "Three-tier memory system for OpenClaw (Local-First)",
+  "description": "Three-tier memory system with Context Engine support (Local-First)",
   "configSchema": {
     "type": "object",
     "properties": {
-      "pythonPath": {
-        "type": "string",
-        "description": "Python executable path (default: python3)"
-      },
-      "bridgePath": {
-        "type": "string",
-        "description": "Bridge module path (default: -m claw_mem.bridge)"
-      },
-      "workspaceDir": {
-        "type": "string",
-        "description": "Workspace directory (default: OpenClaw workspace)"
-      },
-      "autoRecall": {
-        "type": "boolean",
-        "description": "Auto-inject memories before agent starts (default: true)"
-      },
-      "autoCapture": {
-        "type": "boolean",
-        "description": "Auto-store memories after agent ends (default: true)"
-      },
-      "topK": {
-        "type": "number",
-        "description": "Max memories to recall (default: 10)"
-      },
-      "dreaming": {
-        "type": "object",
-        "description": "Dreaming Engine v4.12.0 configuration",
-        "properties": {
-          "enabled": {
-            "type": "boolean",
-            "description": "Enable dreaming engine for automated memory consolidation"
-          },
-          "scheduleCron": {
-            "type": "string",
-            "description": "Cron expression for dreaming schedule (e.g. '0 */6 * * *')"
-          },
-          "scoreThreshold": {
-            "type": "number",
-            "description": "Minimum composite score to promote (0.0-1.0, default: 0.35)"
-          },
-          "topKCandidates": {
-            "type": "number",
-            "description": "Max candidates after deep scoring (default: 20)"
-          }
-        }
-      },
-      "attentionEngine": {
-        "type": "object",
-        "description": "Attention OS v2.0.0-rc.2 configuration",
-        "properties": {
-          "enabled": {
-            "type": "boolean",
-            "description": "Enable attention-based context filtering (default: true)"
-          },
-          "decayFactor": {
-            "type": "number",
-            "description": "Attention decay factor per cycle (default: 0.9)"
-          },
-          "maxNodesInContext": {
-            "type": "number",
-            "description": "Max high-attention nodes to include in context (default: 5)"
-          },
-          "causalDepth": {
-            "type": "number",
-            "description": "DAG traversal depth for causal chain (default: 1)"
-          }
-        }
-      }
-    },
-    "additionalProperties": false
+      "workspaceDir": { "type": "string", "description": "Workspace directory" },
+      "autoRecall": { "type": "boolean", "description": "Auto-inject memories (default: true)" },
+      "autoCapture": { "type": "boolean", "description": "Auto-store memories (default: true)" },
+      "topK": { "type": "number", "description": "Max memories to recall (default: 10)" },
+      "debug": { "type": "boolean", "description": "Enable debug logging (default: false)" }
+    }
   },
-  "activation": {
-    "onStartup": true
-  },
-  "contracts": {
-    "tools": [
-      "memory_search",
-      "memory_store",
-      "memory_get",
-      "memory_forget"
-    ]
-  }
+  "activation": { "onStartup": true },
+  "contracts": { "tools": ["memory_search", "memory_store", "memory_get", "memory_forget"] }
 }
