@@ -216,18 +216,6 @@ const plugin: PluginDefinition = {
         }
       },
 
-      flushPlanResolver: (_params: { cfg?: any; nowMs?: number }) => {
-        const ts = new Date().toISOString().replace(/[:.]/g, "-").slice(0, 19);
-        return {
-          softThresholdTokens: 100000,
-          forceFlushTranscriptBytes: 500000,
-          reserveTokensFloor: 20000,
-          prompt: "Summarize the conversation, preserving key context, decisions, preferences, and action items.",
-          systemPrompt: "You are a conversation summarizer for an AI memory system.",
-          relativePath: `compaction/flush-${ts}.md`,
-        };
-      },
-
       runtime: {
         getMemorySearchManager: async (params: { cfg: any; agentId: string; purpose?: string }) => {
           if (!bridge.isReady()) {
@@ -446,6 +434,205 @@ const plugin: PluginDefinition = {
     bridgeReady.catch((err) => {
       api.logger.error("[claw-mem TS] Failed to start:", err);
     });
+
+    // v5.3.0: Dispatch History tools for neoclaw perception loop
+    api.registerTool((_ctx: any) => ({
+      name: "memory_dispatch_store",
+      description: "Store agent dispatch history record (for neoclaw perception loop)",
+      parameters: {
+        type: "object",
+        properties: {
+          agent: { type: "string", description: "Target agent (stark/pepper/happy)" },
+          intent_type: { type: "string", description: "Intent type (tech/business/economic/body/mind/relationship/asset/investment/risk)" },
+          task: { type: "string", description: "Task description" },
+          result: { type: "string", description: "Result (success/failure/timeout/rejected)" },
+          latency_ms: { type: "number", description: "Latency in milliseconds" },
+          confidence: { type: "number", description: "Confidence 0-1" },
+          metadata: { type: "object", description: "Additional metadata" },
+        },
+        required: ["agent", "intent_type", "task", "result"],
+      },
+      execute: async (_id: string, params: any) => {
+        if (!bridge.isReady()) return { error: "Bridge not initialized" };
+        try { return await bridge.call("store_dispatch_history", params); }
+        catch (error) { return { error: (error as Error).message }; }
+      },
+    }), { names: ["memory_dispatch_store"] });
+
+    api.registerTool((_ctx: any) => ({
+      name: "memory_dispatch_query",
+      description: "Query dispatch history with filters and statistics",
+      parameters: {
+        type: "object",
+        properties: {
+          agent: { type: "string", description: "Filter by agent" },
+          intent_type: { type: "string", description: "Filter by intent type" },
+          result: { type: "string", description: "Filter by result" },
+          stats: { type: "boolean", description: "Return aggregated statistics instead of raw records" },
+          limit: { type: "number", description: "Max records", default: 100 },
+        },
+      },
+      execute: async (_id: string, params: any) => {
+        if (!bridge.isReady()) return { error: "Bridge not initialized" };
+        try {
+          if (params.stats) return await bridge.call("get_dispatch_stats", params);
+          return await bridge.call("get_dispatch_history", params);
+        } catch (error) { return { error: (error as Error).message }; }
+      },
+    }), { names: ["memory_dispatch_query"] });
+
+    api.registerTool((_ctx: any) => ({
+      name: "memory_failure_classify",
+      description: "Classify a failure signal for typed feedback collection",
+      parameters: {
+        type: "object",
+        properties: {
+          error_message: { type: "string", description: "Error message to classify" },
+          context: { type: "object", description: "Error context (agent, task, etc.)" },
+        },
+        required: ["error_message"],
+      },
+      execute: async (_id: string, params: any) => {
+        if (!bridge.isReady()) return { error: "Bridge not initialized" };
+        try { return await bridge.call("classify_failure_signal", params); }
+        catch (error) { return { error: (error as Error).message }; }
+      },
+    }), { names: ["memory_failure_classify"] });
+
+    // v5.4.0: Cross-Domain Signal tools for neoclaw v5.1.0
+    api.registerTool((_ctx: any) => ({
+      name: "memory_cross_domain_store",
+      description: "Store cross-domain signal for inter-pillar correlation detection",
+      parameters: {
+        type: "object",
+        properties: {
+          pillar: { type: "string", description: "Pillar (stark/pepper/happy)" },
+          agent: { type: "string", description: "Agent name" },
+          signal_type: { type: "string", description: "Signal type (task_start/task_complete/alert/insight)" },
+          summary: { type: "string", description: "Human-readable summary" },
+          impact_score: { type: "number", description: "Impact score 0-1" },
+          related_domains: { type: "array", items: { type: "string" } },
+          metadata: { type: "object" },
+          ttl: { type: "number", description: "TTL in seconds (optional)" },
+        },
+        required: ["pillar", "agent", "signal_type", "summary"],
+      },
+      execute: async (_id: string, params: any) => {
+        if (!bridge.isReady()) return { error: "Bridge not initialized" };
+        try { return await bridge.call("store_cross_domain_signal", params); }
+        catch (error) { return { error: (error as Error).message }; }
+      },
+    }), { names: ["memory_cross_domain_store"] });
+
+    api.registerTool((_ctx: any) => ({
+      name: "memory_cross_domain_query",
+      description: "Query cross-domain signals with pillar/time/impact filters",
+      parameters: {
+        type: "object",
+        properties: {
+          pillars: { type: "array", items: { type: "string" } },
+          min_impact: { type: "number", description: "Minimum impact score" },
+          limit: { type: "number", default: 100 },
+        },
+      },
+      execute: async (_id: string, params: any) => {
+        if (!bridge.isReady()) return { error: "Bridge not initialized" };
+        try { return await bridge.call("get_cross_domain_signals", params); }
+        catch (error) { return { error: (error as Error).message }; }
+      },
+    }), { names: ["memory_cross_domain_query"] });
+
+    api.registerTool((_ctx: any) => ({
+      name: "memory_cross_domain_correlate",
+      description: "Detect cross-domain correlations between current intent and other pillar signals",
+      parameters: {
+        type: "object",
+        properties: {
+          current_pillar: { type: "string" },
+          current_intent: { type: "string" },
+          time_range: { type: "string", default: "6h" },
+          threshold: { type: "number", default: 0.5 },
+        },
+        required: ["current_pillar", "current_intent"],
+      },
+      execute: async (_id: string, params: any) => {
+        if (!bridge.isReady()) return { error: "Bridge not initialized" };
+        try { return await bridge.call("detect_cross_domain_correlation", params); }
+        catch (error) { return { error: (error as Error).message }; }
+      },
+    }), { names: ["memory_cross_domain_correlate"] });
+
+    // v5.5.0: Tech Debt Tracking tools for devclaw v4.0.0
+    api.registerTool((_ctx: any) => ({
+      name: "memory_debt_store",
+      description: "Store technical debt record for project tracking",
+      parameters: {
+        type: "object",
+        properties: {
+          project: { type: "string", description: "Project name" },
+          debt_type: { type: "string", description: "Debt type (code_smell/architecture/dependency/documentation/test_coverage/security/performance/compatibility)" },
+          location: { type: "string", description: "Location (file:line or module)" },
+          description: { type: "string", description: "Description" },
+          severity: { type: "string", description: "Severity (critical/high/medium/low)" },
+          impact_score: { type: "number", description: "Impact score 0-1" },
+          priority: { type: "string", description: "Priority (auto-inferred if omitted)" },
+          assigned_to: { type: "string" },
+          metadata: { type: "object" },
+        },
+        required: ["project", "debt_type", "location", "description", "severity"],
+      },
+      execute: async (_id: string, params: any) => {
+        if (!bridge.isReady()) return { error: "Bridge not initialized" };
+        try { return await bridge.call("store_tech_debt", params); }
+        catch (error) { return { error: (error as Error).message }; }
+      },
+    }), { names: ["memory_debt_store"] });
+
+    api.registerTool((_ctx: any) => ({
+      name: "memory_debt_query",
+      description: "Query technical debts with filters and get statistics",
+      parameters: {
+        type: "object",
+        properties: {
+          project: { type: "string" },
+          severities: { type: "array", items: { type: "string" } },
+          status: { type: "string" },
+          stats: { type: "boolean", description: "Return aggregated statistics" },
+          limit: { type: "number", default: 100 },
+        },
+      },
+      execute: async (_id: string, params: any) => {
+        if (!bridge.isReady()) return { error: "Bridge not initialized" };
+        try {
+          if (params.stats) return await bridge.call("get_debt_stats", params);
+          return await bridge.call("get_tech_debts", params);
+        } catch (error) { return { error: (error as Error).message }; }
+      },
+    }), { names: ["memory_debt_query"] });
+
+    api.registerTool((_ctx: any) => ({
+      name: "memory_debt_update",
+      description: "Update tech debt status or priority",
+      parameters: {
+        type: "object",
+        properties: {
+          debt_id: { type: "string" },
+          status: { type: "string", description: "New status (open/in_progress/resolved/wont_fix)" },
+          priority: { type: "string", description: "New priority (urgent/high/normal/low)" },
+          resolution: { type: "string", description: "Resolution description (required for resolved)" },
+          reason: { type: "string", description: "Update reason" },
+        },
+        required: ["debt_id"],
+      },
+      execute: async (_id: string, params: any) => {
+        if (!bridge.isReady()) return { error: "Bridge not initialized" };
+        try {
+          if (params.status) return await bridge.call("update_debt_status", params);
+          if (params.priority) return await bridge.call("update_debt_priority", params);
+          return { error: "Must provide status or priority" };
+        } catch (error) { return { error: (error as Error).message }; }
+      },
+    }), { names: ["memory_debt_update"] });
 
     api.registerService({
       id: "claw-mem",

@@ -1,11 +1,11 @@
 {
   "name": "claw-mem",
-  "version": "5.1.1",
+  "version": "5.5.0",
   "description": "Local-First Three-Tier Memory System for OpenClaw (TypeScript)",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "scripts": {
-    "build": "tsc && for d in dist/src dist/claw_mem_plugin; do mkdir -p $d && cp openclaw.plugin.json $d/; done && cp openclaw.plugin.json dist/",
+    "build": "tsc && cp openclaw.plugin.json dist/ && mkdir -p dist/src && cp openclaw.plugin.json dist/src/ && mkdir -p dist/claw_mem_plugin && cp openclaw.plugin.json dist/claw_mem_plugin/",
     "test": "vitest run",
     "test:watch": "vitest"
   },
