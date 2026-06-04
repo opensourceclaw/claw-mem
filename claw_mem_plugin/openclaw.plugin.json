@@ -1,18 +1,54 @@
 {
   "id": "claw-mem",
-  "kind": ["memory", "context-engine"],
+  "kind": [
+    "memory",
+    "context-engine"
+  ],
   "name": "Claw Memory System",
   "description": "Three-tier memory system with Context Engine support (Local-First)",
   "configSchema": {
     "type": "object",
     "properties": {
-      "workspaceDir": { "type": "string", "description": "Workspace directory" },
-      "autoRecall": { "type": "boolean", "description": "Auto-inject memories (default: true)" },
-      "autoCapture": { "type": "boolean", "description": "Auto-store memories (default: true)" },
-      "topK": { "type": "number", "description": "Max memories to recall (default: 10)" },
-      "debug": { "type": "boolean", "description": "Enable debug logging (default: false)" }
+      "workspaceDir": {
+        "type": "string",
+        "description": "Workspace directory"
+      },
+      "autoRecall": {
+        "type": "boolean",
+        "description": "Auto-inject memories (default: true)"
+      },
+      "autoCapture": {
+        "type": "boolean",
+        "description": "Auto-store memories (default: true)"
+      },
+      "topK": {
+        "type": "number",
+        "description": "Max memories to recall (default: 10)"
+      },
+      "debug": {
+        "type": "boolean",
+        "description": "Enable debug logging (default: false)"
+      }
     }
   },
-  "activation": { "onStartup": true },
-  "contracts": { "tools": ["memory_search", "memory_store", "memory_get", "memory_forget"] }
+  "activation": {
+    "onStartup": true
+  },
+  "contracts": {
+    "tools": [
+      "memory_search",
+      "memory_store",
+      "memory_get",
+      "memory_forget",
+      "memory_dispatch_store",
+      "memory_dispatch_query",
+      "memory_failure_classify",
+      "memory_cross_domain_store",
+      "memory_cross_domain_query",
+      "memory_cross_domain_correlate",
+      "memory_debt_store",
+      "memory_debt_query",
+      "memory_debt_update"
+    ]
+  }
 }
