@@ -41,3 +41,4 @@ export { ImportanceScorer } from "./importance";
 export type { ImportanceResult } from "./importance";
 export { extractSummary } from "./session_summary";
 export type { SessionSummary } from "./session_summary";
+export { DriftHistoryStore, DEFAULT_DRIFT_HISTORY_CONFIG, type DriftRecord, type DriftTrend, type DriftHistoryConfig, type DriftSummary } from "./drift-history-store";

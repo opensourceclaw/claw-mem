@@ -5,6 +5,19 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [6.5.0] - 2026-06-05
+
+### Added
+- **`DriftHistoryStore`**: 漂移历史持久化存储
+  - `record(drift)` + `recordBatch(drifts)`: 记录漂移事件
+  - `getHistory(sessionId?)` / `getHistoryInRange(start, end)`: 查询
+  - `getAverageDrift()` / `getAverageDriftForSession()`: 平均值
+  - `getDriftTrend()`: 趋势分析 (increasing/decreasing/stable)
+  - `getSummary()`: 综合摘要
+  - `isDriftIncreasing()`: 漂移上升判断
+  - JSON 文件持久化 + retentionDays 自动清理
+- **集成**: 可供 DriftAwareRetriever 使用历史漂移数据
+
 ## [6.0.2] - 2026-06-05
 
 ### Fixed

@@ -84,6 +84,15 @@ export {
   type MonitorConfig,
 } from "./compression-quality-monitor";
 
+// Progressive Summarizer (v6.4.0)
+export {
+  ProgressiveSummarizer,
+  COMPRESSION_LEVELS,
+  type CompressionLevelKey,
+  type ProgressiveLevel,
+  type ProgressiveResult,
+} from "./progressive-summarizer";
+
 // Compression spectrum
 export {
   CompressionSpectrum,
