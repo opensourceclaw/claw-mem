@@ -93,6 +93,15 @@ export {
   type ProgressiveResult,
 } from "./progressive-summarizer";
 
+// LLM Compressor V2 (v6.7.0)
+export {
+  LLMCompressorV2,
+  DEFAULT_ADAPTIVE_CONFIG,
+  type CompressionQualityMetrics,
+  type CompressionResult as LLMCompressionResultV2,
+  type AdaptiveConfig,
+} from "./llm-compressor-v2";
+
 // Compression spectrum
 export {
   CompressionSpectrum,
