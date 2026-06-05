@@ -317,20 +317,75 @@ export class MemoryManager {
     };
   }
 
-  /** Health check: storage integrity, index state, memory usage. */
+  /** v6.9.0: Enhanced health check with score and detailed metrics. */
   health(): Record<string, unknown> {
-    const stats = this.getStats();
+    const rawStats = this.getStats();
+    const stats = { searches: rawStats.searches as number ?? 0, stores: rawStats.stores as number ?? 0, memoryMb: rawStats.memoryMb as number ?? 0, cacheHits: rawStats.cacheHits as number ?? 0 };
     const issues: string[] = [];
-    if (!this._index.built) issues.push("index not built");
-    if (!this._bm25Ready) issues.push("bm25 warmup pending");
-    const epCount = this._episodic.count();
-    const semCount = this._semantic.count();
+    const checks: Record<string, boolean> = {};
+    let score = 1.0;
+
+    // Storage integrity
+    try {
+      const epCount = this._episodic.count();
+      const semCount = this._semantic.count();
+      const procCount = this._procedural.count();
+      checks.episodicStorage = true;
+      checks.semanticStorage = true;
+      checks.proceduralStorage = true;
+      checks.storageAccessible = epCount >= 0 && semCount >= 0 && procCount >= 0;
+    } catch {
+      checks.storageAccessible = false;
+      issues.push("storage inaccessible");
+      score -= 0.3;
+    }
+
+    // Index health
+    checks.indexBuilt = this._index.built;
+    if (!this._index.built) {
+      issues.push("index not built");
+      score -= 0.15;
+    }
+    checks.bm25Ready = this._bm25Ready;
+    if (!this._bm25Ready) {
+      issues.push("bm25 warmup pending");
+      score -= 0.1;
+    }
+
+    // Performance metrics
+    if ((stats.searches as number) > 100) {
+      issues.push("high search count without index rebuild");
+      score -= 0.05;
+    }
+
+    // Memory usage
+    const memMb = process.memoryUsage().heapUsed / (1024 * 1024);
+    checks.memoryOk = memMb < 500;
+    if (memMb >= 500) {
+      issues.push(`high memory usage: ${memMb.toFixed(0)}MB`);
+      score -= 0.1;
+    }
+
+    const overallScore = Math.max(0, score);
+    const status = overallScore >= 0.8 ? "healthy" : overallScore >= 0.5 ? "degraded" : "unhealthy";
+
     return {
-      status: issues.length === 0 ? "healthy" : "degraded",
+      status,
+      score: overallScore,
       issues,
-      storage: { episodic: epCount, semantic: semCount, procedural: this._procedural.count() },
+      checks,
+      storage: {
+        episodic: this._episodic.count(),
+        semantic: this._semantic.count(),
+        procedural: this._procedural.count(),
+      },
       index: { built: this._index.built, bm25Ready: this._bm25Ready },
-      performance: { searches: stats.searches, stores: stats.stores, memoryMb: stats.memoryMb },
+      performance: {
+        searches: stats.searches,
+        stores: stats.stores,
+        memoryMb: Math.round(memMb * 100) / 100,
+        cacheHits: stats.cacheHits,
+      },
     };
   }
 

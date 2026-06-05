@@ -23,30 +23,30 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">52.94% </span>
+                <span class="strong">0% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>18/34</span>
+                <span class='fraction'>0/34</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">26.66% </span>
+                <span class="strong">0% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>4/15</span>
+                <span class='fraction'>0/15</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">50% </span>
+                <span class="strong">0% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>5/10</span>
+                <span class='fraction'>0/10</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">58.06% </span>
+                <span class="strong">0% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>18/31</span>
+                <span class='fraction'>0/31</span>
             </div>
         
             
@@ -171,43 +171,43 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -263,43 +263,43 @@ import type { DecayController } from "./controller";
 import { type DecayConfig, DEFAULT_DECAY_CONFIG } from "./functions";
 &nbsp;
 export class DecayScheduler {
-  private _timer: ReturnType&lt;typeof setInterval&gt; | null = null;
-  private _running = false;
-  private _storeCounter = 0;
-  private _storesPerDecay = 100;
+  private _timer: ReturnType&lt;typeof setInterval&gt; | null = <span class="cstat-no" title="statement not covered" >null;</span>
+  private _running = <span class="cstat-no" title="statement not covered" >false;</span>
+  private _storeCounter = <span class="cstat-no" title="statement not covered" >0;</span>
+  private _storesPerDecay = <span class="cstat-no" title="statement not covered" >100;</span>
   private _onComplete:
     | ((removed: Array&lt;{ source: string; target: string }&gt;) =&gt; void)
-    | null = null;
+    | null = <span class="cstat-no" title="statement not covered" >null;</span>
 &nbsp;
-  constructor(
-    private _controller: DecayController,
-    private _config: DecayConfig = DEFAULT_DECAY_CONFIG,
+<span class="fstat-no" title="function not covered" >  constructor(</span>
+    private <span class="cstat-no" title="statement not covered" >_controller: DecayController,</span>
+    private <span class="cstat-no" title="statement not covered" >_config: DecayConfig = <span class="branch-0 cbranch-no" title="branch not covered" >D</span>EFAULT_DECAY_CONFIG,</span>
   ) {}
 &nbsp;
   /** Start periodic scheduling. */
-  start(): void {
-    <span class="missing-if-branch" title="if path not taken" >I</span>if (this._running) <span class="cstat-no" title="statement not covered" >return;</span>
-    this._running = true;
-    this._scheduleNext();
+<span class="fstat-no" title="function not covered" >  start(): void {</span>
+<span class="cstat-no" title="statement not covered" >    if (this._running) <span class="cstat-no" title="statement not covered" >return;</span></span>
+<span class="cstat-no" title="statement not covered" >    this._running = true;</span>
+<span class="cstat-no" title="statement not covered" >    this._scheduleNext();</span>
   }
 &nbsp;
   /** Stop scheduling. */
-  stop(): void {
-    this._running = false;
-    <span class="missing-if-branch" title="else path not taken" >E</span>if (this._timer !== null) {
-      clearInterval(this._timer);
-      this._timer = null;
+<span class="fstat-no" title="function not covered" >  stop(): void {</span>
+<span class="cstat-no" title="statement not covered" >    this._running = false;</span>
+<span class="cstat-no" title="statement not covered" >    if (this._timer !== null) {</span>
+<span class="cstat-no" title="statement not covered" >      clearInterval(this._timer);</span>
+<span class="cstat-no" title="statement not covered" >      this._timer = null;</span>
     }
   }
 &nbsp;
-  isRunning(): boolean {
-    return this._running;
+<span class="fstat-no" title="function not covered" >  isRunning(): boolean {</span>
+<span class="cstat-no" title="statement not covered" >    return this._running;</span>
   }
 &nbsp;
-  private _scheduleNext(): void {
-    <span class="missing-if-branch" title="if path not taken" >I</span>if (!this._running) <span class="cstat-no" title="statement not covered" >return;</span>
-    const interval = this._config.decayIntervalHours * 3600 * 1000; // ms
-    this._timer = <span class="fstat-no" title="function not covered" >setInterval(() =&gt; <span class="cstat-no" title="statement not covered" >t</span>his._runDecayCycle(), i</span>nterval);
+<span class="fstat-no" title="function not covered" >  private _</span>scheduleNext(): void {
+<span class="cstat-no" title="statement not covered" >    if (!this._running) <span class="cstat-no" title="statement not covered" >return;</span></span>
+    const interval = <span class="cstat-no" title="statement not covered" >this._config.decayIntervalHours * 3600 * 1000; // ms</span>
+<span class="cstat-no" title="statement not covered" >    this._timer = <span class="fstat-no" title="function not covered" >setInterval(() =&gt; <span class="cstat-no" title="statement not covered" >t</span>his._runDecayCycle(), i</span>nterval);</span>
   }
 &nbsp;
   /** Execute one full decay cycle: compute -&gt; apply -&gt; cleanup. */
@@ -346,7 +346,7 @@ export class DecayScheduler {
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2026-06-05T08:27:54.138Z
+                at 2026-06-05T14:27:17.875Z
             </div>
         <script src="../../prettify.js"></script>
         <script>
