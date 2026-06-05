@@ -90,11 +90,11 @@ export class MemoryManager {
     this._bm25Ready = false;
     this._startAsyncBuild();
 
-    // v5.1.0: Constitution Store
+    // v6.0.2: Constitution Store
     this.constitutionStore = new ConstitutionStore(this.workspace);
     this._migrateCriticalRulesToConstitution();
 
-    log(`claw-mem TS v5.1.0 initialized, workspace: ${this.workspace}`);
+    log(`claw-mem TS v6.0.2 initialized, workspace: ${this.workspace}`);
   }
 
   // v5.1.0: Constitution Store — 3-layer persistent identity

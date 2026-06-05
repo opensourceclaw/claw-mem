@@ -62,6 +62,28 @@ export {
   type CompressionResultV2,
 } from "./f5_v2";
 
+// LLM Compressor (v6.1.0)
+export {
+  LLMCompressor,
+  LLMCompressorMonitor,
+  DEFAULT_LLM_COMPRESSION_CONFIG,
+  type LLMCompressedMemory,
+  type CompressionQuality,
+  type CompressionConfig as LLMCompressionConfig,
+} from "./llm-compressor";
+
+// Compression Quality Monitor (v6.2.0)
+export {
+  CompressionQualityMonitor,
+  DEFAULT_MONITOR_CONFIG,
+  type QualityMetrics,
+  type TrackedCompression,
+  type CompressionQualityStats,
+  type QualityTrend,
+  type Alert,
+  type MonitorConfig,
+} from "./compression-quality-monitor";
+
 // Compression spectrum
 export {
   CompressionSpectrum,

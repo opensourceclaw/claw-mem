@@ -1,19 +1,46 @@
 {
   "project": "claw-mem",
-  "version": "3.4.0",
-  "next_version": "3.5.0",
+  "version": "6.3.0",
+  "next_version": "7.0.0",
   "createdAt": "2026-05-25T00:37:00+08:00",
   "phase": "completed",
+  "specDir": "docs/v6.x/specs",
+  "planDir": "docs/v6.x/plans",
+  "mixMode": {
+    "planner": "friday",
+    "executor": "jarvis",
+    "validator": "friday",
+    "description": "Friday plans via inbox, Jarvis executes, Friday validates"
+  },
+  "harness": {
+    "mode": "plan",
+    "sandbox": true,
+    "selfTest": true,
+    "coverageThreshold": 85
+  },
+  "rsi": {
+    "enabled": true,
+    "cycle": "per_version",
+    "metrics": ["test_coverage", "latency", "memory_usage"]
+  },
   "phases": {
-    "P1": {
-      "name": "API Polish",
+    "v6.1.0": {
+      "name": "LLM 驱动记忆压缩",
       "status": "completed",
-      "spec": "docs/v3.4.0/specs/api-polish.md"
+      "spec": "docs/v6.x/specs/v610-llm-compressor.md",
+      "completedAt": "2026-06-05"
     },
-    "P2": {
-      "name": "Performance Optimization",
+    "v6.2.0": {
+      "name": "压缩质量监控",
       "status": "completed",
-      "spec": "docs/v3.4.0/specs/performance.md"
+      "spec": "docs/v6.x/specs/v620-quality-monitor.md",
+      "completedAt": "2026-06-05"
+    },
+    "v6.3.0": {
+      "name": "漂移感知记忆",
+      "status": "completed",
+      "spec": "docs/v6.x/specs/v630-drift-aware.md",
+      "completedAt": "2026-06-05"
     }
   },
   "constraints": [

@@ -29,3 +29,15 @@ export { HybridRouter, QueryType } from "./hybrid_router";
 export { QueryCache, getQueryCache, resetQueryCache } from "./query_cache";
 
 export { SynonymExpander, BUILTIN_SYNONYMS } from "./synonym";
+
+// Drift-aware retriever (v6.3.0)
+export {
+  DriftAwareRetriever,
+  DEFAULT_WEIGHT_CONFIG,
+  DEFAULT_DRIFT_AWARE_CONFIG,
+  type WeightConfig,
+  type DriftAwareResult,
+  type DriftMode,
+  type DriftDetectorLike,
+  type DriftAwareConfig,
+} from "./drift-aware-retriever";

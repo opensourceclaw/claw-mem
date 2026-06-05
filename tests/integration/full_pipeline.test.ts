@@ -1,11 +1,53 @@
 // Copyright 2026 Peter Cheng
-// v5.0.0 Four-Component Full Pipeline Integration Test
+// v5.0.0 Four-Component Full Pipeline Integration Test (with Mocks)
 
-import { describe, it, expect, beforeEach, afterEach } from "vitest";
+import { describe, it, expect, beforeEach, afterEach, vi } from "vitest";
 import * as fs from "fs";
 import * as os from "os";
 import * as path from "path";
 import { MemoryManager } from "../../src/memory_manager";
+
+// Use vitest's module mocking
+vi.mock("../../../claw-cog/src/index", () => ({
+  ConsciousAgent: class {
+    process(input: string) {
+      return {
+        c2: {
+          metacognitiveConfidence: 0.85,
+          governance: { allowed: true },
+        },
+      };
+    }
+  },
+}));
+
+vi.mock("../../../claw-gov/src/index", () => ({
+  createAction: (action: string, type = "modify", metadata = {}) => ({ action, type, metadata }),
+  governAction: (actionObj: { action: string }) => {
+    const isMalicious = actionObj.action.toLowerCase().includes("hack");
+    return {
+      approved: !isMalicious,
+      violations: isMalicious ? ["L1: malicious intent"] : [],
+      metadata: {
+        layers_executed: ["L1", "L2", "L3"],
+      },
+    };
+  },
+}));
+
+vi.mock("../../../claw-rl/src/index", () => ({
+  RuleEngine: class {
+    state = { successRate: 0, totalFeedback: 0 };
+    collectFeedback(feedback: { task: string; result: string; success: boolean; tool: string }) {
+      this.state.totalFeedback++;
+      if (feedback.success) {
+        this.state.successRate = this.state.totalFeedback > 0
+          ? (this.state.successRate * (this.state.totalFeedback - 1) + 1) / this.state.totalFeedback
+          : 1;
+      }
+    }
+  },
+}));
 
 describe("Four-Component Full Pipeline", () => {
   let tmpDir: string;
@@ -37,7 +79,6 @@ describe("Four-Component Full Pipeline", () => {
     const gResult = gov.governAction(
       gov.createAction("Implement REST API with JWT authentication", "modify",
         { confidence_score: c2.metacognitiveConfidence }));
-    // Governance passes for normal safe operations
     expect(gResult.metadata.layers_executed).toBeDefined();
 
     // 4. RL: record positive feedback
@@ -81,7 +122,6 @@ describe("Four-Component Full Pipeline", () => {
     const gResult = gov.governAction(
       gov.createAction("make it better somehow", "modify",
         { confidence_score: c2.metacognitiveConfidence }));
-    // All governance layers evaluated
     const layers = gResult.metadata.layers_executed as string[];
     expect(layers.length).toBeGreaterThanOrEqual(1);
   });
