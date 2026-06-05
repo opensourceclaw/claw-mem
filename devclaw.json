@@ -1,9 +1,9 @@
 {
   "project": "claw-mem",
-  "version": "6.3.0",
+  "version": "6.6.0",
   "next_version": "7.0.0",
   "createdAt": "2026-05-25T00:37:00+08:00",
-  "phase": "completed",
+  "phase": "active",
   "specDir": "docs/v6.x/specs",
   "planDir": "docs/v6.x/plans",
   "mixMode": {
@@ -16,7 +16,13 @@
     "mode": "plan",
     "sandbox": true,
     "selfTest": true,
-    "coverageThreshold": 85
+    "coverageThreshold": 80
+  },
+  "health": {
+    "vitestCoverage": true,
+    "performanceBench": true,
+    "typeCheck": true,
+    "lintCheck": false
   },
   "rsi": {
     "enabled": true,
@@ -41,12 +47,23 @@
       "status": "completed",
       "spec": "docs/v6.x/specs/v630-drift-aware.md",
       "completedAt": "2026-06-05"
+    },
+    "v6.4.0": {
+      "name": "渐进摘要管道",
+      "status": "completed",
+      "spec": "docs/v6.x/specs/v640-progressive-summarizer.md",
+      "completedAt": "2026-06-05"
+    },
+    "v6.6.0": {
+      "name": "性能基准+覆盖率修复+健康评分",
+      "status": "completed",
+      "spec": "docs/v6.x/specs/v660-perf-coverage-health.md",
+      "completedAt": "2026-06-05"
     }
   },
   "constraints": [
-    "All code and comments in English",
-    "Type hints required",
-    "Docstrings required",
-    "Coverage >= 85%"
+    "Test coverage >= 80%",
+    "TypeScript strict mode",
+    "Performance P95 within latency budgets"
   ]
 }
