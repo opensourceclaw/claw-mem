@@ -49,6 +49,14 @@ export function handleRequest(req: JsonRpcRequest, mm?: MemoryManager): JsonRpcR
       case "status":
         result = manager.getStats();
         break;
+      case "start_session":
+        manager.sessionId = String(params.sessionId ?? "");
+        result = { sessionId: manager.sessionId, status: "started" };
+        break;
+      case "end_session":
+        manager.sessionId = null;
+        result = { status: "ended" };
+        break;
       case "store":
         result = {
           success: manager.store(
