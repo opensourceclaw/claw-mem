@@ -23,30 +23,30 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">0% </span>
+                <span class="strong">82.35% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>0/17</span>
+                <span class='fraction'>14/17</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">0% </span>
+                <span class="strong">62.5% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>0/8</span>
+                <span class='fraction'>5/8</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">0% </span>
+                <span class="strong">66.66% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>0/3</span>
+                <span class='fraction'>2/3</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">0% </span>
+                <span class="strong">82.35% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>0/17</span>
+                <span class='fraction'>14/17</span>
             </div>
         
             
@@ -61,7 +61,7 @@
             </div>
         </template>
     </div>
-    <div class='status-line low'></div>
+    <div class='status-line high'></div>
     <pre><table class="coverage">
 <tr><td class="line-count quiet"><a name='L1'></a><a href='#L1'>1</a>
 <a name='L2'></a><a href='#L2'>2</a>
@@ -154,9 +154,9 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -164,28 +164,28 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -219,39 +219,39 @@ export class MemoryFederation {
   private _sharedTags: string[];
   private _maxResults: number;
 &nbsp;
-<span class="fstat-no" title="function not covered" >  constructor(c</span>onfig: FederationConfig) {
-<span class="cstat-no" title="statement not covered" >    this._workspaces = config.workspaces;</span>
-<span class="cstat-no" title="statement not covered" >    this._sharedTags = config.sharedTags ?? [];</span>
-<span class="cstat-no" title="statement not covered" >    this._maxResults = config.maxResults ?? 50;</span>
+  constructor(config: FederationConfig) {
+    this._workspaces = config.workspaces;
+    this._sharedTags = config.sharedTags ?? [];
+    this._maxResults = config.maxResults ?? 50;
   }
 &nbsp;
   /**
    * Search across all federated workspaces.
    * Returns deduplicated results by content.
    */
-<span class="fstat-no" title="function not covered" >  search(q</span>uery: string): Array&lt;{ content: string; workspace: string; source: string }&gt; {
-    const all: Array&lt;{ content: string; workspace: string; source: string }&gt; = <span class="cstat-no" title="statement not covered" >[];</span>
-    const q = <span class="cstat-no" title="statement not covered" >query.toLowerCase();</span>
+  search(query: string): Array&lt;{ content: string; workspace: string; source: string }&gt; {
+    const all: Array&lt;{ content: string; workspace: string; source: string }&gt; = [];
+    const q = query.toLowerCase();
 &nbsp;
-<span class="cstat-no" title="statement not covered" >    for (const ws of this._workspaces) {</span>
-<span class="cstat-no" title="statement not covered" >      try {</span>
-        const ep = <span class="cstat-no" title="statement not covered" >new EpisodicStorage(ws);</span>
-        const sem = <span class="cstat-no" title="statement not covered" >new SemanticStorage(ws);</span>
+    for (const ws of this._workspaces) {
+      try {
+        const ep = new EpisodicStorage(ws);
+        const sem = new SemanticStorage(ws);
 &nbsp;
-<span class="cstat-no" title="statement not covered" >        for (const m of ep.getRecent(100)) {</span>
+        for (const m of ep.getRecent(100)) {
 <span class="cstat-no" title="statement not covered" >          if (m.content.toLowerCase().includes(q)) {</span>
 <span class="cstat-no" title="statement not covered" >            all.push({ content: m.content, workspace: ws, source: "episodic" });</span>
           }
         }
-<span class="cstat-no" title="statement not covered" >        for (const m of sem.getAll()) {</span>
-<span class="cstat-no" title="statement not covered" >          if (m.content.toLowerCase().includes(q)) {</span>
-<span class="cstat-no" title="statement not covered" >            all.push({ content: m.content, workspace: ws, source: "semantic" });</span>
+        for (const m of sem.getAll()) {
+          <span class="missing-if-branch" title="else path not taken" >E</span>if (m.content.toLowerCase().includes(q)) {
+            all.push({ content: m.content, workspace: ws, source: "semantic" });
           }
         }
       } catch { /* workspace unavailable → skip */ }
     }
 &nbsp;
-<span class="cstat-no" title="statement not covered" >    return all.slice(0, this._maxResults);</span>
+    return all.slice(0, this._maxResults);
   }
 &nbsp;
 <span class="fstat-no" title="function not covered" >  getStats(): Record&lt;string, unknown&gt; {</span>
@@ -268,7 +268,7 @@ export class MemoryFederation {
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2026-06-05T14:27:17.875Z
+                at 2026-06-05T15:08:31.227Z
             </div>
         <script src="../../prettify.js"></script>
         <script>

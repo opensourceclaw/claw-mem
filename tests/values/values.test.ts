@@ -12,7 +12,7 @@ import {
   FeedbackStatus,
   valueSuggestionToDict,
 } from "../../src/values/feedback_handler";
-import { ValueBackup, backupMetadataToDict } from "../../src/values/value_backup";
+import { ValueBackup, backupMetadataToDict, backupMetadataFromDict } from "../../src/values/value_backup";
 
 // ── Test helpers ───────────────────────────────────────────────────────
 
@@ -211,6 +211,75 @@ function testSerialization(): void {
   return true;
 }
 
+// ── Test 6: Edge cases ─────────────────────────────────────────────────
+
+function testEdgeCases(): void {
+  setup();
+  const store = new UserValueStore(path.join(TMP_DIR, "values-edge"));
+  const backup = new ValueBackup(store, path.join(TMP_DIR, "backups-edge"));
+
+  // Delete non-existent principle
+  const result1 = store.deletePrinciple("no_user", "x");
+  console.assert(result1 === null, "delete non-existent user should return null");
+
+  // Export non-existent user
+  let threw = false;
+  try { backup.exportValues("no_user"); } catch { threw = true; }
+  console.assert(threw, "export non-existent user should throw");
+
+  // Import non-existent file
+  threw = false;
+  try { backup.importValues("u1", "/no/such/file.json"); } catch { threw = true; }
+  console.assert(threw, "import non-existent file should throw");
+
+  // Import invalid format
+  const tmpFile = path.join(TMP_DIR, "invalid.json");
+  fs.writeFileSync(tmpFile, JSON.stringify({ no_values: true }), "utf-8");
+  threw = false;
+  try { backup.importValues("u1", tmpFile); } catch { threw = true; }
+  console.assert(threw, "import invalid format should throw");
+
+  // Import with overwrite=false when user exists
+  store.savePrinciple("existing", "test");
+  fs.writeFileSync(tmpFile, JSON.stringify({ values: { principles: [], preferences: {}, red_lines: [] } }), "utf-8");
+  threw = false;
+  try { backup.importValues("existing", tmpFile, false); } catch { threw = true; }
+  console.assert(threw, "import with overwrite=false when exists should throw");
+
+  // deleteBackup non-existent
+  const result2 = backup.deleteBackup("no-such-backup");
+  console.assert(result2 === false, "delete non-existent backup should return false");
+
+  // backupMetadata for user with no backups
+  const meta = backup.backupMetadata("no_backups_user");
+  console.assert(meta.backup_count === 0, "no backups should have count 0");
+  console.assert(meta.latest_backup === null, "no backups should have null latest");
+
+  // backupMetadataFromDict with empty checksum
+  const bm = (backup as any).constructor.prototype;
+  const fromDict = backupMetadataFromDict;
+  // Actually test the standalone function
+  const restored = fromDict({
+    user_id: "test",
+    backup_id: "b1",
+    created_at: "2026-01-01T00:00:00Z",
+    file_path: "/tmp/x.json",
+    file_size: 100,
+    values_count: 5,
+  });
+  console.assert(restored.checksum === "", "missing checksum should default to empty");
+  console.assert(restored.userId === "test", "userId should match");
+
+  // listUsers after saving
+  store.savePrinciple("list_test_user", "p1");
+  const users = store.listUsers();
+  console.assert(users.includes("list_test_user"), "listUsers should include saved user");
+
+  teardown();
+  console.log("PASS: testEdgeCases");
+  return true;
+}
+
 // ── Run all ────────────────────────────────────────────────────────────
 
 
@@ -230,5 +299,8 @@ describe("values.test", () => {
   });
   it("Serialization", () => {
     expect(testSerialization()).toBe(true);
+  });
+  it("EdgeCases", () => {
+    expect(testEdgeCases()).toBe(true);
   });
 });

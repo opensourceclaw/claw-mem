@@ -159,6 +159,7 @@ export class TimeWeightCalculator {
         const parts = timestamp.slice(0, 10).split("-");
         if (parts.length === 3) {
           ts = new Date(`${parts[0]}-${parts[1]}-${parts[2]}T00:00:00Z`);
+          if (isNaN(ts.getTime())) return this.config.maxAgeDays;
         } else {
           return this.config.maxAgeDays;
         }
