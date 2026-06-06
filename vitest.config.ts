@@ -4,6 +4,13 @@ export default defineConfig({
   test: {
     globals: true,
     include: ["tests/**/*.test.ts"],
+    // Prevent hangs from too many concurrent claw-mem instances
+    pool: 'forks',
+    poolOptions: {
+      forks: {
+        singleFork: true,
+      },
+    },
     coverage: {
       provider: "v8",
       include: ["src/**/*.ts"],

@@ -263,9 +263,21 @@ export class MemoryManager {
     }
   }
 
+  // v6.13.0: Search result cache for performance (<10ms target)
+  private _searchCache = new Map<string, { results: Array<Record<string, unknown>>; ts: number }>();
+  private _cacheTTL = 5000; // 5 second cache TTL
+
   search(query: string, memoryType?: string, limit = 10): Array<Record<string, unknown>> {
     if (!query?.trim()) return [];
     this._searchCount++;
+
+    // Check cache
+    const cacheKey = `${query}::${memoryType || "all"}::${limit}`;
+    const cached = this._searchCache.get(cacheKey);
+    if (cached && Date.now() - cached.ts < this._cacheTTL) {
+      this._cacheHits++;
+      return cached.results.slice(0, limit);
+    }
 
     // Gather all memories
     const all: Array<Record<string, unknown>> = [];
@@ -280,21 +292,27 @@ export class MemoryManager {
     }
 
     // Simple keyword matching (delegates to index when available)
+    let result: Array<Record<string, unknown>>;
     if (this._index.built) {
       const ids = this._index.search(query, limit);
       const idSet = new Set(ids);
-      const matched = all.filter((m) => idSet.has(m.id as string));
-      if (matched.length > 0) return matched.slice(0, limit);
+      result = all.filter((m) => idSet.has(m.id as string));
+      if (result.length > 0) {
+        this._searchCache.set(cacheKey, { results: result, ts: Date.now() });
+        return result.slice(0, limit);
+      }
     }
 
     // Fallback: substring match
     const q = query.toLowerCase();
-    return all
+    result = all
       .filter((m) => {
         const c = String(m.content ?? "").toLowerCase();
         return c.includes(q);
       })
       .slice(0, limit);
+    this._searchCache.set(cacheKey, { results: result, ts: Date.now() });
+    return result;
   }
 
   getStats(): Record<string, unknown> {

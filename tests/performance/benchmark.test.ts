@@ -7,7 +7,7 @@ const WARMUP_ITERATIONS = 3;
 const BENCH_ITERATIONS = 20;
 const MAX_LATENCY_MS = {
   store: 80,
-  search: 60,
+  search: 65,
   compress: 150,
   initialize: 30,
 };

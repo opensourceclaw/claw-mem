@@ -1,69 +1,67 @@
 {
-  "project": "claw-mem",
-  "version": "6.6.0",
-  "next_version": "7.0.0",
-  "createdAt": "2026-05-25T00:37:00+08:00",
-  "phase": "active",
-  "specDir": "docs/v6.x/specs",
-  "planDir": "docs/v6.x/plans",
-  "mixMode": {
-    "planner": "friday",
-    "executor": "jarvis",
-    "validator": "friday",
-    "description": "Friday plans via inbox, Jarvis executes, Friday validates"
-  },
-  "harness": {
-    "mode": "plan",
-    "sandbox": true,
-    "selfTest": true,
-    "coverageThreshold": 80
-  },
-  "health": {
-    "vitestCoverage": true,
-    "performanceBench": true,
-    "typeCheck": true,
-    "lintCheck": false
-  },
-  "rsi": {
+  "name": "claw-mem",
+  "version": "6.12.0",
+  "sdlc": {
     "enabled": true,
-    "cycle": "per_version",
-    "metrics": ["test_coverage", "latency", "memory_usage"]
+    "stages": [
+      {
+        "name": "Plan",
+        "trigger": "manual",
+        "agentType": "devclaw",
+        "tools": ["health-check", "benchmark"],
+        "gates": ["L1", "L2"]
+      },
+      {
+        "name": "Code",
+        "trigger": "event",
+        "agentType": "jarvis",
+        "tools": ["code-gen", "lint"],
+        "gates": ["L1", "L2", "L3"]
+      },
+      {
+        "name": "Test",
+        "trigger": "event",
+        "agentType": "devclaw",
+        "tools": ["vitest", "coverage"],
+        "gates": ["L1", "L3"]
+      },
+      {
+        "name": "Review",
+        "trigger": "manual",
+        "agentType": "devclaw",
+        "tools": ["github-pr", "code-review"],
+        "gates": ["L2", "L3"]
+      },
+      {
+        "name": "Deploy",
+        "trigger": "manual",
+        "agentType": "devclaw",
+        "tools": ["npm-publish", "github-release"],
+        "gates": ["L1", "L2", "L3", "L4"]
+      },
+      {
+        "name": "Operate",
+        "trigger": "scheduled",
+        "agentType": "ops-agent",
+        "tools": ["health-monitor", "metrics"],
+        "gates": ["L5", "L6"]
+      },
+      {
+        "name": "Govern",
+        "trigger": "scheduled",
+        "agentType": "devclaw",
+        "tools": ["audit", "compliance"],
+        "gates": ["L1", "L2", "L3", "L4", "L5", "L6"]
+      }
+    ]
   },
-  "phases": {
-    "v6.1.0": {
-      "name": "LLM 驱动记忆压缩",
-      "status": "completed",
-      "spec": "docs/v6.x/specs/v610-llm-compressor.md",
-      "completedAt": "2026-06-05"
+  "integrations": {
+    "github": {
+      "owner": "opensourceclaw",
+      "repo": "claw-mem"
     },
-    "v6.2.0": {
-      "name": "压缩质量监控",
-      "status": "completed",
-      "spec": "docs/v6.x/specs/v620-quality-monitor.md",
-      "completedAt": "2026-06-05"
-    },
-    "v6.3.0": {
-      "name": "漂移感知记忆",
-      "status": "completed",
-      "spec": "docs/v6.x/specs/v630-drift-aware.md",
-      "completedAt": "2026-06-05"
-    },
-    "v6.4.0": {
-      "name": "渐进摘要管道",
-      "status": "completed",
-      "spec": "docs/v6.x/specs/v640-progressive-summarizer.md",
-      "completedAt": "2026-06-05"
-    },
-    "v6.6.0": {
-      "name": "性能基准+覆盖率修复+健康评分",
-      "status": "completed",
-      "spec": "docs/v6.x/specs/v660-perf-coverage-health.md",
-      "completedAt": "2026-06-05"
+    "openclaw": {
+      "plugins": ["memory", "context-engine"]
     }
-  },
-  "constraints": [
-    "Test coverage >= 80%",
-    "TypeScript strict mode",
-    "Performance P95 within latency budgets"
-  ]
+  }
 }
