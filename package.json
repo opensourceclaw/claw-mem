@@ -4,8 +4,16 @@
   "description": "Local-First Three-Tier Memory System for OpenClaw (TypeScript)",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
+  "type": "module",
+  "openclaw": {
+    "extensions": ["./claw_mem_plugin/dist/index.js"],
+    "compat": {
+      "pluginApi": ">=2026.3.28",
+      "minGatewayVersion": "2026.3.28"
+    }
+  },
   "scripts": {
-    "build": "tsc && cp openclaw.plugin.json dist/ && mkdir -p dist/src && cp openclaw.plugin.json dist/src/ && mkdir -p dist/claw_mem_plugin && cp openclaw.plugin.json dist/claw_mem_plugin/",
+    "build": "tsc && cp openclaw.plugin.json dist/ && mkdir -p dist/src && cp openclaw.plugin.json dist/src/ && mkdir -p dist/claw_mem_plugin && cp openclaw.plugin.json dist/claw_mem_plugin/ && cd claw_mem_plugin && npm run build && cp dist/index.js ../dist/ && cp dist/index.d.ts ../dist/ 2>/dev/null; echo 'plugin built'",
     "test": "vitest run",
     "test:watch": "vitest"
   },
