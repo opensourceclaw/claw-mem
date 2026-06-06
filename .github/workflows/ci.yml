@@ -18,7 +18,7 @@ jobs:
         with:
           node-version: "22"
           cache: "npm"
-      - run: npm ci
+      - run: npm install
       - run: npm run lint || true
       - name: Run ESLint
         run: npm run lint 2>/dev/null || echo "No lint script"
@@ -33,7 +33,7 @@ jobs:
         with:
           node-version: "22"
           cache: "npm"
-      - run: npm ci
+      - run: npm install
       - run: npm run test
       - name: Upload coverage
         uses: codecov/codecov-action@v4
@@ -52,7 +52,7 @@ jobs:
         with:
           node-version: "22"
           cache: "npm"
-      - run: npm ci
+      - run: npm install
       - run: npm run build
 
   # ========== STAGE 4: DEPLOY (Deploy to GitHub Packages) ==========
@@ -70,12 +70,12 @@ jobs:
         with:
           node-version: "22"
           registry-url: 'https://npm.pkg.github.com'
-      - run: npm ci
+      - run: npm install
       - run: npm run build
       - name: Build plugin
         working-directory: claw_mem_plugin
         run: |
-          npm ci
+          npm install
           npm run build
       - name: Publish to GitHub Packages
         working-directory: claw_mem_plugin
@@ -141,7 +141,7 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: "22"
-      - run: npm ci
+      - run: npm install
       - run: npm run build
       - name: Run benchmarks
         run: npm run benchmark || echo "No benchmark script"
