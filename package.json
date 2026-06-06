@@ -17,7 +17,8 @@
   "scripts": {
     "build": "tsc && cp openclaw.plugin.json dist/ && mkdir -p dist/src && cp openclaw.plugin.json dist/src/ && mkdir -p dist/claw_mem_plugin && cp openclaw.plugin.json dist/claw_mem_plugin/ && cd claw_mem_plugin && npm run build && cp dist/index.js ../dist/ && cp dist/index.d.ts ../dist/ 2>/dev/null; echo 'plugin built'",
     "test": "vitest run",
-    "test:watch": "vitest"
+    "test:watch": "vitest",
+    "benchmark": "vitest run tests/benchmarks --reporter=json > benchmark-results.json 2>&1 || true"
   },
   "dependencies": {
     "js-yaml": "^4.1.0",
