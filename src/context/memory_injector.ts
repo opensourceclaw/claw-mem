@@ -263,6 +263,9 @@ export class MemoryInjector {
       let isDup = false;
       for (const keptM of kept) {
         const keptContent = (keptM.content as string) ?? "";
+        const keptLen = keptContent.length;
+        // Fast length-based pre-filter for dedup performance
+        if (content.length > 0 && keptLen > 0 && Math.abs(content.length - keptLen) / Math.max(content.length, keptLen) > 0.5) continue;
         const sim = _jaccard_similarity(content, keptContent);
         if (sim >= this.diversity_threshold) {
           isDup = true;
