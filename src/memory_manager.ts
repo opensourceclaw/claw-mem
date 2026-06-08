@@ -263,20 +263,41 @@ export class MemoryManager {
     }
   }
 
-  // v6.13.0: Search result cache for performance (<10ms target)
-  private _searchCache = new Map<string, { results: Array<Record<string, unknown>>; ts: number }>();
-  private _cacheTTL = 5000; // 5 second cache TTL
+  // v6.15.0: Upgraded search cache with LRU eviction and configurable limits
+  private _searchCache = new Map<string, { results: Array<Record<string, unknown>>; ts: number; lastAccess: number }>();
+  private _cacheTTL = 5000;
+  private _cacheMaxSize = 500;
 
   search(query: string, memoryType?: string, limit = 10): Array<Record<string, unknown>> {
     if (!query?.trim()) return [];
     this._searchCount++;
 
-    // Check cache
+    // Check cache with access-time update for LRU tracking
     const cacheKey = `${query}::${memoryType || "all"}::${limit}`;
     const cached = this._searchCache.get(cacheKey);
     if (cached && Date.now() - cached.ts < this._cacheTTL) {
       this._cacheHits++;
+      cached.lastAccess = Date.now();
       return cached.results.slice(0, limit);
+    }
+
+    // Evict expired entries (lazy cleanup)
+    if (this._searchCache.size >= this._cacheMaxSize) {
+      const now = Date.now();
+      let oldestKey: string | null = null;
+      let oldestAccess = Infinity;
+      for (const [k, v] of this._searchCache) {
+        if (now - v.ts >= this._cacheTTL) {
+          this._searchCache.delete(k);
+        } else if (v.lastAccess < oldestAccess) {
+          oldestAccess = v.lastAccess;
+          oldestKey = k;
+        }
+      }
+      // If still at capacity, evict LRU entry
+      if (this._searchCache.size >= this._cacheMaxSize && oldestKey) {
+        this._searchCache.delete(oldestKey);
+      }
     }
 
     // Gather all memories
@@ -298,7 +319,8 @@ export class MemoryManager {
       const idSet = new Set(ids);
       result = all.filter((m) => idSet.has(m.id as string));
       if (result.length > 0) {
-        this._searchCache.set(cacheKey, { results: result, ts: Date.now() });
+        const t = Date.now();
+        this._searchCache.set(cacheKey, { results: result, ts: t, lastAccess: t });
         return result.slice(0, limit);
       }
     }
@@ -311,7 +333,8 @@ export class MemoryManager {
         return c.includes(q);
       })
       .slice(0, limit);
-    this._searchCache.set(cacheKey, { results: result, ts: Date.now() });
+    const now = Date.now();
+    this._searchCache.set(cacheKey, { results: result, ts: now, lastAccess: now });
     return result;
   }
 
@@ -329,6 +352,7 @@ export class MemoryManager {
       searches: this._searchCount,
       stores: this._storeCount,
       cacheHits: this._cacheHits,
+      cacheSize: this._searchCache.size,
       memoryMb: memMb,
       bm25DocCount: this._index.built ? this._index.bm25.doc_count : 0,
       indexDir: path.join(os.homedir(), ".claw-mem", "index"),
