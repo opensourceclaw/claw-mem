@@ -110,7 +110,10 @@ export class KeywordRetriever {
 
     // Primary: BM25 scoring
     const bm25Scores = this.bm25.getScores(queryTokens);
-    const scored: Array<{ id: string; score: number; ngramBoost: number }> = [];
+
+    // Pre-compute query n-grams once (not per document)
+    const queryGrams = extractNgrams(query);
+    const scored: Array<{ id: string; score: number }> = [];
 
     let idx = 0;
     for (const [docId] of this.documents) {
@@ -119,17 +122,14 @@ export class KeywordRetriever {
       // Secondary: n-gram Jaccard similarity for fuzzy matching
       const doc = this.documents.get(docId);
       let ngramScore = 0;
-      if (doc) {
-        const queryGrams = extractNgrams(query);
+      if (doc && doc.text) {
         const docGrams = extractNgrams(doc.text);
         ngramScore = jaccardSimilarity(queryGrams, docGrams);
       }
 
-      // Combined: BM25 primary, n-gram as boost
       const combinedScore = bm25Score + ngramScore * 0.3;
-
       if (combinedScore > minScore) {
-        scored.push({ id: docId, score: combinedScore, ngramBoost: ngramScore });
+        scored.push({ id: docId, score: combinedScore });
       }
       idx++;
     }
