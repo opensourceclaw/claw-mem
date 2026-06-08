@@ -16,8 +16,8 @@
  * Extraction module - knowledge triplet and skill extraction.
  */
 
-export { OpenIEExtractor } from "./openie_extractor";
-export type { Triplet, ExtractionMode } from "./openie_extractor";
-export { SkillExtractor } from "./skill_extractor";
-export type { Skill, SkillExtractionMode } from "./skill_extractor";
-export { SkillStore } from "./skill_store";
+export { OpenIEExtractor } from "./openie_extractor.js";
+export type { Triplet, ExtractionMode } from "./openie_extractor.js";
+export { SkillExtractor } from "./skill_extractor.js";
+export type { Skill, SkillExtractionMode } from "./skill_extractor.js";
+export { SkillStore } from "./skill_store.js";

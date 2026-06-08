@@ -26,9 +26,9 @@ export {
   InMemoryStorage,
   DiskStorage,
   VersionChain,
-} from "./write_time_gating";
+} from "./write_time_gating.js";
 
 export type {
   GatingResult,
   GatingFilterResult,
-} from "./write_time_gating";
+} from "./write_time_gating.js";

@@ -15,8 +15,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import { BM25 } from "./bm25";
-import type { RetrievalResult, RetrievalDocument } from "./base";
+import { BM25 } from "./bm25.js";
+import type { RetrievalResult, RetrievalDocument } from "./base.js";
 
 /**
  * Tokenize text into words (supports English + CJK character extraction).

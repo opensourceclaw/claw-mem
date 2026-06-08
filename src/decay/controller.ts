@@ -8,7 +8,7 @@
  * cleanup of expired edges in the MultiGraphMemory.
  */
 
-import { calculateWeight, type DecayConfig, DEFAULT_DECAY_CONFIG } from "./functions";
+import { calculateWeight, type DecayConfig, DEFAULT_DECAY_CONFIG } from "./functions.js";
 
 // ── External type stubs ────────────────────────────────────────────────
 

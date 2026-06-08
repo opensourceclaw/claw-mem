@@ -23,7 +23,7 @@ export {
   DEFAULT_DREAMING_CONFIG,
   validateDreamingConfig,
   type DreamingConfig,
-} from "./config";
+} from "./config.js";
 
 export {
   SignalIngestor,
@@ -31,14 +31,14 @@ export {
   signalToDict,
   type Signal,
   type MemoryManagerLike,
-} from "./light";
+} from "./light.js";
 
 export {
   CandidateScorer,
   createScoredCandidate,
   scoredCandidateToDict,
   type ScoredCandidate,
-} from "./deep";
+} from "./deep.js";
 
 export {
   PatternExtractor,
@@ -46,14 +46,14 @@ export {
   remResultToDict,
   type REMResult,
   type Triplet,
-} from "./rem";
+} from "./rem.js";
 
 export {
   DreamingPipeline,
   createDreamingResult,
   dreamingResultToDict,
   type DreamingResult,
-} from "./pipeline";
+} from "./pipeline.js";
 
 export {
   Promoter,
@@ -62,4 +62,4 @@ export {
   promotionResultToDict,
   type PromotionResult,
   type MemoryManagerWithStorage,
-} from "./promote";
+} from "./promote.js";

@@ -20,7 +20,7 @@
  * candidates for deep scoring.
  */
 
-import { DEFAULT_DREAMING_CONFIG, type DreamingConfig } from "./config";
+import { DEFAULT_DREAMING_CONFIG, type DreamingConfig } from "./config.js";
 
 // ── Signal dataclass ─────────────────────────────────────────────────────
 

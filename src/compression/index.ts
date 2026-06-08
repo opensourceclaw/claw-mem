@@ -28,7 +28,7 @@ export {
   resetCompressor as resetCompressorV1,
   compressMemory,
   type CompressionResult,
-} from "./memory_compression";
+} from "./memory_compression.js";
 
 // V2 compressor (recommended)
 export {
@@ -47,7 +47,7 @@ export {
   getCompressor,
   resetCompressor,
   type CompressionConfig,
-} from "./memory_compression_v2";
+} from "./memory_compression_v2.js";
 
 // F5 V2 compressor
 export {
@@ -60,7 +60,7 @@ export {
   resetUltraCompressor,
   compressV2,
   type CompressionResultV2,
-} from "./f5_v2";
+} from "./f5_v2.js";
 
 // LLM Compressor (v6.1.0)
 export {
@@ -70,7 +70,7 @@ export {
   type LLMCompressedMemory,
   type CompressionQuality,
   type CompressionConfig as LLMCompressionConfig,
-} from "./llm-compressor";
+} from "./llm-compressor.js";
 
 // Compression Quality Monitor (v6.2.0)
 export {
@@ -82,7 +82,7 @@ export {
   type QualityTrend,
   type Alert,
   type MonitorConfig,
-} from "./compression-quality-monitor";
+} from "./compression-quality-monitor.js";
 
 // Progressive Summarizer (v6.4.0)
 export {
@@ -91,7 +91,7 @@ export {
   type CompressionLevelKey,
   type ProgressiveLevel,
   type ProgressiveResult,
-} from "./progressive-summarizer";
+} from "./progressive-summarizer.js";
 
 // LLM Compressor V2 (v6.7.0)
 export {
@@ -100,7 +100,7 @@ export {
   type CompressionQualityMetrics,
   type CompressionResult as LLMCompressionResultV2,
   type AdaptiveConfig,
-} from "./llm-compressor-v2";
+} from "./llm-compressor-v2.js";
 
 // Compression spectrum
 export {
@@ -110,4 +110,4 @@ export {
   type PrincipleEntry,
   type CompressedMemory,
   type SpectrumMemoryManager,
-} from "./spectrum";
+} from "./spectrum.js";

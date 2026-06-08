@@ -27,8 +27,8 @@ export {
   ReflectionNode,
   ConceptNode,
   createNode,
-} from "./nodes";
-export type { NodeDict, AnyNode } from "./nodes";
+} from "./nodes.js";
+export type { NodeDict, AnyNode } from "./nodes.js";
 
 // Edges
 export {
@@ -41,15 +41,15 @@ export {
   HasConceptEdge,
   createEdge,
   isEdgeDirected,
-} from "./edges";
-export type { EdgeDict, AnyEdge } from "./edges";
+} from "./edges.js";
+export type { EdgeDict, AnyEdge } from "./edges.js";
 
 // Storage
 export {
   GraphStorage,
   InMemoryGraphStorage,
   FileGraphStorage,
-} from "./storage";
+} from "./storage.js";
 
 // Core
 export {
@@ -57,7 +57,7 @@ export {
   RetrievalResult,
   Embedder,
   DummyEmbedder,
-} from "./concept_graph";
+} from "./concept_graph.js";
 
 // Extractors
 export {
@@ -65,8 +65,8 @@ export {
   LLMExtractor,
   DummyExtractor,
   KeywordExtractor,
-} from "./extractors";
-export type { LLMClient } from "./extractors";
+} from "./extractors.js";
+export type { LLMClient } from "./extractors.js";
 
 // v2.14.0: MultiGraph + DualLayer
 export {
@@ -75,16 +75,16 @@ export {
   MultiGraphMemory,
   EDGE_TO_SUBGRAPH,
   SUBGRAPH_EXPANSION_WEIGHT,
-} from "./multi_graph";
-export type { GraphEdgeRecord } from "./multi_graph";
+} from "./multi_graph.js";
+export type { GraphEdgeRecord } from "./multi_graph.js";
 
 export {
   DualLayerMemory,
-} from "./dual_layer";
-export type { Event, Topic } from "./dual_layer";
+} from "./dual_layer.js";
+export type { Event, Topic } from "./dual_layer.js";
 
 // v4.10.0: Graph reasoning
 export {
   GraphReasoner,
-} from "./graph_reasoner";
-export type { PathResult, Triplet } from "./graph_reasoner";
+} from "./graph_reasoner.js";
+export type { PathResult, Triplet } from "./graph_reasoner.js";

@@ -22,10 +22,10 @@
 
 import * as fs from "fs";
 import * as path from "path";
-import { Edge, EdgeDict } from "./edges";
-import type { NodeDict } from "./nodes";
-import { NodeType } from "./nodes";
-import { AnyNode, Node, EpisodeNode, FactNode, ReflectionNode, ConceptNode } from "./nodes";
+import { Edge, EdgeDict } from "./edges.js";
+import type { NodeDict } from "./nodes.js";
+import { NodeType } from "./nodes.js";
+import { AnyNode, Node, EpisodeNode, FactNode, ReflectionNode, ConceptNode } from "./nodes.js";
 
 export abstract class GraphStorage {
   abstract saveNode(node: AnyNode): void;

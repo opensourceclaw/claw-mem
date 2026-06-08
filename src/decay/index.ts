@@ -22,7 +22,7 @@ export {
   LAMBDA,
   type DecayConfig,
   DEFAULT_DECAY_CONFIG,
-} from "./functions";
-export { DecayController } from "./controller";
-export { DecayScheduler } from "./scheduler";
-export { TieredDecayEngine, TierLevel } from "./tiered_decay";
+} from "./functions.js";
+export { DecayController } from "./controller.js";
+export { DecayScheduler } from "./scheduler.js";
+export { TieredDecayEngine, TierLevel } from "./tiered_decay.js";
