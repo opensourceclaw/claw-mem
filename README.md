@@ -210,7 +210,6 @@ We welcome contributions from the community!
 
 - **GitHub Issues**: Report bugs and request features
 - **Discussions**: Ask questions and share ideas
-- **Discord**: Join our community chat (link in README)
 
 ### Development Setup
 
