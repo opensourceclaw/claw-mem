@@ -17,8 +17,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import type { RetrievalResult } from "./base.js";
-import { tokenize } from "./keyword.js";
+import type { RetrievalResult } from "./base";
+import { tokenize } from "./keyword";
 
 /**
  * Memory layer identifiers.

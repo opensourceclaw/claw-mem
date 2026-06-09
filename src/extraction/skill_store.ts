@@ -20,7 +20,7 @@
  */
 
 import { randomUUID } from "crypto";
-import { Skill } from "./skill_extractor.js";
+import { Skill } from "./skill_extractor";
 
 export class SkillStore {
   private _skills: Map<string, Skill> = new Map(); // id -> Skill

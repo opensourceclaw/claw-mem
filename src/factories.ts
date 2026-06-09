@@ -5,8 +5,8 @@
  * claw-mem v5.0.0 — ComponentFactory (Dependency Injection | TS)
  */
 
-import { SynonymExpander } from "./retrieval/synonym.js";
-import { QueryCache } from "./retrieval/query_cache.js";
+import { SynonymExpander } from "./retrieval/synonym";
+import { QueryCache } from "./retrieval/query_cache";
 
 export interface FactoryConfig {
   maxCacheSize?: number;

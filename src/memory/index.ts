@@ -16,7 +16,7 @@
  * Memory module - cross-agent memory sharing.
  */
 
-export { MemoryPool } from "./pool.js";
-export { AgentAgnosticMemory } from "./agnostic.js";
-export type { MemoryRecord } from "./agnostic.js";
-export { CrossAgentSync } from "./sync.js";
+export { MemoryPool } from "./pool";
+export { AgentAgnosticMemory } from "./agnostic";
+export type { MemoryRecord } from "./agnostic";
+export { CrossAgentSync } from "./sync";

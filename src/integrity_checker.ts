@@ -12,10 +12,10 @@
 import * as fs from "fs";
 import * as path from "path";
 import * as crypto from "crypto";
-import { EpisodicStorage } from "./storage/episodic.js";
-import { SemanticStorage } from "./storage/semantic.js";
-import { ProceduralStorage } from "./storage/procedural.js";
-import { type InMemoryIndex } from "./storage/index.js";
+import { EpisodicStorage } from "./storage/episodic";
+import { SemanticStorage } from "./storage/semantic";
+import { ProceduralStorage } from "./storage/procedural";
+import { type InMemoryIndex } from "./storage/index";
 
 export interface IntegrityReport {
   status: "ok" | "degraded" | "failed";

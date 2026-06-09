@@ -14,7 +14,7 @@
  * Integrates with existing CompressionSpectrum.
  */
 
-import type { MemoryRecord } from "../types.js";
+import type { MemoryRecord } from "../types";
 
 // ── Types ─────────────────────────────────────────────────────────────────
 

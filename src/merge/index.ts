@@ -5,6 +5,6 @@
  * claw-mem merge module - Semantic memory merge pipeline (v4.7.0)
  */
 
-export { ConflictDetector } from "./conflict_detector.js";
-export type { ConflictReport, ConflictResolution } from "./conflict_detector.js";
-export { SemanticMergeScheduler, cosineSimilarity } from "./semantic_merger.js";
+export { ConflictDetector } from "./conflict_detector";
+export type { ConflictReport, ConflictResolution } from "./conflict_detector";
+export { SemanticMergeScheduler, cosineSimilarity } from "./semantic_merger";

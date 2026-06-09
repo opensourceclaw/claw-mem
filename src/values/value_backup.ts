@@ -9,7 +9,7 @@ import * as fs from "fs";
 import * as path from "path";
 import * as os from "os";
 import * as crypto from "crypto";
-import { UserValueStore, userValueToDict } from "./user_value_store.js";
+import { UserValueStore, userValueToDict } from "./user_value_store";
 
 // ── Backup metadata type ───────────────────────────────────────────────
 

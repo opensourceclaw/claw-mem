@@ -24,9 +24,9 @@
  * Built on top of existing graph module's Node/Edge primitives.
  */
 
-import { EdgeType } from "./edges.js";
-import { NodeType, createNode, EpisodeNode, FactNode, ReflectionNode, ConceptNode, Node } from "./nodes.js";
-import type { AnyNode, NodeDict } from "./nodes.js";
+import { EdgeType } from "./edges";
+import { NodeType, createNode, EpisodeNode, FactNode, ReflectionNode, ConceptNode, Node } from "./nodes";
+import type { AnyNode, NodeDict } from "./nodes";
 
 export enum SubGraphType {
   SEMANTIC = "semantic",

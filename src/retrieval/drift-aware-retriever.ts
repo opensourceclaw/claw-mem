@@ -8,7 +8,7 @@
  * claw-ctx DriftDetector. High drift → prioritize recency over frequency.
  */
 
-import type { RetrievalResult } from "./base.js";
+import type { RetrievalResult } from "./base";
 
 // ── Types ─────────────────────────────────────────────────────────────────
 

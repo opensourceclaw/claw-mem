@@ -16,7 +16,7 @@
  * Context control plane subpackage.
  */
 
-export { ConfidenceGate, ConfidenceLevel } from "./confidence_gate.js";
-export type { GateResult } from "./confidence_gate.js";
-export { MemoryInjector } from "./memory_injector.js";
-export type { InjectorResult } from "./memory_injector.js";
+export { ConfidenceGate, ConfidenceLevel } from "./confidence_gate";
+export type { GateResult } from "./confidence_gate";
+export { MemoryInjector } from "./memory_injector";
+export type { InjectorResult } from "./memory_injector";

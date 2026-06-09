@@ -20,7 +20,7 @@
  */
 
 import * as fs from "fs";
-import { AgentAgnosticMemory, MemoryRecord } from "./agnostic.js";
+import { AgentAgnosticMemory, MemoryRecord } from "./agnostic";
 
 export class MemoryPool {
   private _records: MemoryRecord[] = [];

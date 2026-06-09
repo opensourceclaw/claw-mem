@@ -1,12 +1,12 @@
 // claw-mem v5.0.0 — Public API (TypeScript)
-export { EpisodicStorage } from "./storage/episodic.js";
-export { SemanticStorage } from "./storage/semantic.js";
-export { ProceduralStorage } from "./storage/procedural.js";
-export { GroundTruthStore } from "./storage/ground_truth.js";
-export { InMemoryIndex } from "./storage/index.js";
-export { BaseStorage } from "./storage/base.js";
-export * from "./errors.js";
-export type { MemoryRecord, EpisodicEntry, SemanticEntry, ProceduralEntry, NGramIndex, BM25Params } from "./types.js";
+export { EpisodicStorage } from "./storage/episodic";
+export { SemanticStorage } from "./storage/semantic";
+export { ProceduralStorage } from "./storage/procedural";
+export { GroundTruthStore } from "./storage/ground_truth";
+export { InMemoryIndex } from "./storage/index";
+export { BaseStorage } from "./storage/base";
+export * from "./errors";
+export type { MemoryRecord, EpisodicEntry, SemanticEntry, ProceduralEntry, NGramIndex, BM25Params } from "./types";
 
 // Retrieval module
 export {
@@ -24,22 +24,22 @@ export {
   resetQueryCache,
   SynonymExpander,
   BUILTIN_SYNONYMS,
-} from "./retrieval/index.js";
-export type { RetrievalResult, RetrievalDocument, MemoryResult, LayerRetrievalContext } from "./retrieval/index.js";
+} from "./retrieval/index";
+export type { RetrievalResult, RetrievalDocument, MemoryResult, LayerRetrievalContext } from "./retrieval/index";
 
 // Core (beta.3)
-export { MemoryManager, getMemoryManager, resetMemoryManager } from "./memory_manager.js";
-export { ComponentFactory, getDefaultFactory, resetDefaultFactory } from "./factories.js";
-export type { FactoryConfig } from "./factories.js";
-export { MemoryConfig, ConfigManager, getConfig, reloadConfig } from "./config.js";
-export { ContextFormatter, ContextInjector, formatMemoryContext, injectMemoriesToPrompt } from "./context_injection.js";
-export type { InjectedContext } from "./context_injection.js";
-export { handleRequest, plugin } from "./bridge.js";
-export type { JsonRpcRequest, JsonRpcResponse } from "./bridge.js";
-export { DataPortability } from "./data_portability.js";
-export { ImportanceScorer } from "./importance.js";
-export type { ImportanceResult } from "./importance.js";
-export { extractSummary } from "./session_summary.js";
-export type { SessionSummary } from "./session_summary.js";
-export { DriftHistoryStore, DEFAULT_DRIFT_HISTORY_CONFIG, type DriftRecord, type DriftTrend, type DriftHistoryConfig, type DriftSummary } from "./drift-history-store.js";
-export { MemoryRelationshipEnhancer, EntityChaining, DecisionLineage, CausalGraph, type EntityNode, type EntityLink, type DecisionRecord, type LineageChain, type CausalEvent, type CausalLink } from "./memory-relationship-enhancer.js";
+export { MemoryManager, getMemoryManager, resetMemoryManager } from "./memory_manager";
+export { ComponentFactory, getDefaultFactory, resetDefaultFactory } from "./factories";
+export type { FactoryConfig } from "./factories";
+export { MemoryConfig, ConfigManager, getConfig, reloadConfig } from "./config";
+export { ContextFormatter, ContextInjector, formatMemoryContext, injectMemoriesToPrompt } from "./context_injection";
+export type { InjectedContext } from "./context_injection";
+export { handleRequest, plugin } from "./bridge";
+export type { JsonRpcRequest, JsonRpcResponse } from "./bridge";
+export { DataPortability } from "./data_portability";
+export { ImportanceScorer } from "./importance";
+export type { ImportanceResult } from "./importance";
+export { extractSummary } from "./session_summary";
+export type { SessionSummary } from "./session_summary";
+export { DriftHistoryStore, DEFAULT_DRIFT_HISTORY_CONFIG, type DriftRecord, type DriftTrend, type DriftHistoryConfig, type DriftSummary } from "./drift-history-store";
+export { MemoryRelationshipEnhancer, EntityChaining, DecisionLineage, CausalGraph, type EntityNode, type EntityLink, type DecisionRecord, type LineageChain, type CausalEvent, type CausalLink } from "./memory-relationship-enhancer";

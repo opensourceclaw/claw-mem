@@ -8,8 +8,8 @@
  * workspaces on the same machine.
  */
 
-import { EpisodicStorage } from "../storage/episodic.js";
-import { SemanticStorage } from "../storage/semantic.js";
+import { EpisodicStorage } from "../storage/episodic";
+import { SemanticStorage } from "../storage/semantic";
 
 export interface FederationConfig {
   workspaces: string[];

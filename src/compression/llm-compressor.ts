@@ -8,7 +8,7 @@
  * to rule-based compression when the LLM is unavailable or quality is insufficient.
  */
 
-import type { MemoryRecord } from "../types.js";
+import type { MemoryRecord } from "../types";
 
 // ── Types ─────────────────────────────────────────────────────────────────
 

@@ -11,24 +11,24 @@
 import * as fs from "fs";
 import * as os from "os";
 import * as path from "path";
-import { EpisodicStorage } from "./storage/episodic.js";
-import { SemanticStorage } from "./storage/semantic.js";
-import { ProceduralStorage } from "./storage/procedural.js";
-import { GroundTruthStore } from "./storage/ground_truth.js";
-import { InMemoryIndex } from "./storage/index.js";
+import { EpisodicStorage } from "./storage/episodic";
+import { SemanticStorage } from "./storage/semantic";
+import { ProceduralStorage } from "./storage/procedural";
+import { GroundTruthStore } from "./storage/ground_truth";
+import { InMemoryIndex } from "./storage/index";
 // MemoryEntry type for indexing
 interface MemoryEntry { id: string; content: string; }
-import { MemoryConfig } from "./config.js";
-import { ComponentFactory, getDefaultFactory } from "./factories.js";
-import { ConstitutionStore } from "./constitution.js";
+import { MemoryConfig } from "./config";
+import { ComponentFactory, getDefaultFactory } from "./factories";
+import { ConstitutionStore } from "./constitution";
 // Import types only to avoid circular deps
-import type { WriteTimeGating } from "./gating/write_time_gating.js";
-import type { ThreeTierRetriever } from "./retrieval/three_tier.js";
-import type { HybridRouter } from "./retrieval/hybrid_router.js";
-import type { TieredDecayEngine } from "./decay/tiered_decay.js";
-import type { ConceptMediatedGraph } from "./graph/concept_graph.js";
-import type { MemoryCompressorV2 } from "./compression/memory_compression_v2.js";
-import type { CompressionSpectrum } from "./compression/spectrum.js";
+import type { WriteTimeGating } from "./gating/write_time_gating";
+import type { ThreeTierRetriever } from "./retrieval/three_tier";
+import type { HybridRouter } from "./retrieval/hybrid_router";
+import type { TieredDecayEngine } from "./decay/tiered_decay";
+import type { ConceptMediatedGraph } from "./graph/concept_graph";
+import type { MemoryCompressorV2 } from "./compression/memory_compression_v2";
+import type { CompressionSpectrum } from "./compression/spectrum";
 
 let _silent = false;
 export function setSilent(v: boolean): void { _silent = v; }

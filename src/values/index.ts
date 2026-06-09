@@ -10,16 +10,16 @@ export {
   type UserValue,
   userValueToDict,
   userValueFromDict,
-} from "./user_value_store.js";
+} from "./user_value_store";
 export {
   FeedbackHandler,
   FeedbackStatus,
   type ValueSuggestion,
   valueSuggestionToDict,
-} from "./feedback_handler.js";
+} from "./feedback_handler";
 export {
   ValueBackup,
   type BackupMetadata,
   backupMetadataToDict,
   backupMetadataFromDict,
-} from "./value_backup.js";
+} from "./value_backup";

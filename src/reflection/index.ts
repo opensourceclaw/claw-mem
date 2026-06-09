@@ -16,9 +16,9 @@
  * Reflection module - observation to belief pipeline.
  */
 
-export { ReflectionOrchestrator } from "./orchestrator.js";
-export type { ReflectionResult } from "./orchestrator.js";
-export { BeliefSynthesizer } from "./synthesizer.js";
-export type { Observation, Belief, SynthesizerConfig } from "./synthesizer.js";
-export { BeliefTracker } from "./belief_tracker.js";
-export type { BeliefVersion, BeliefHistory } from "./belief_tracker.js";
+export { ReflectionOrchestrator } from "./orchestrator";
+export type { ReflectionResult } from "./orchestrator";
+export { BeliefSynthesizer } from "./synthesizer";
+export type { Observation, Belief, SynthesizerConfig } from "./synthesizer";
+export { BeliefTracker } from "./belief_tracker";
+export type { BeliefVersion, BeliefHistory } from "./belief_tracker";

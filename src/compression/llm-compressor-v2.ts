@@ -8,7 +8,7 @@
  * and reasoning chain preservation.
  */
 
-import type { MemoryRecord } from "../types.js";
+import type { MemoryRecord } from "../types";
 
 // ── Types ─────────────────────────────────────────────────────────────────
 

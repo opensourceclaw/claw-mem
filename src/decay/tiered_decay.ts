@@ -9,7 +9,7 @@
  * and importance.
  */
 
-import type { DecayConfig } from "./functions.js";
+import type { DecayConfig } from "./functions";
 
 // ── External type stubs ────────────────────────────────────────────────
 import * as fs from "fs";

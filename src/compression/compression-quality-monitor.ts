@@ -8,7 +8,7 @@
  * analysis, and fires alerts when quality drops below configured thresholds.
  */
 
-import type { LLMCompressedMemory } from "./llm-compressor.js";
+import type { LLMCompressedMemory } from "./llm-compressor";
 
 // ── Types ─────────────────────────────────────────────────────────────────
 

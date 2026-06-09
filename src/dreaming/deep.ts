@@ -19,8 +19,8 @@
  * Scores normalized to 0.0-1.0, weighted by DreamingConfig.
  */
 
-import { DEFAULT_DREAMING_CONFIG, type DreamingConfig } from "./config.js";
-import type { Signal } from "./light.js";
+import { DEFAULT_DREAMING_CONFIG, type DreamingConfig } from "./config";
+import type { Signal } from "./light";
 
 // ── ScoredCandidate ──────────────────────────────────────────────────────
 

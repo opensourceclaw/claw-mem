@@ -19,7 +19,7 @@
  * Supports three extraction modes: llm, rule, auto.
  */
 
-import { Triplet } from "./openie_extractor.js";
+import { Triplet } from "./openie_extractor";
 
 // ── Data class ────────────────────────────────────────────────────────
 

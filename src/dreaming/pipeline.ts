@@ -19,11 +19,11 @@
  * Supports dry_run mode (score-only, no persistence).
  */
 
-import { DEFAULT_DREAMING_CONFIG, type DreamingConfig } from "./config.js";
-import { SignalIngestor, type MemoryManagerLike, type Signal } from "./light.js";
-import { CandidateScorer, type ScoredCandidate } from "./deep.js";
-import { PatternExtractor, type REMResult } from "./rem.js";
-import { Promoter, type MemoryManagerWithStorage, type PromotionResult } from "./promote.js";
+import { DEFAULT_DREAMING_CONFIG, type DreamingConfig } from "./config";
+import { SignalIngestor, type MemoryManagerLike, type Signal } from "./light";
+import { CandidateScorer, type ScoredCandidate } from "./deep";
+import { PatternExtractor, type REMResult } from "./rem";
+import { Promoter, type MemoryManagerWithStorage, type PromotionResult } from "./promote";
 
 // ── DreamingResult ───────────────────────────────────────────────────────
 

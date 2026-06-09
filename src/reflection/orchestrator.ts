@@ -22,13 +22,13 @@
  *   4. Store results back to memory
  */
 
-import { BeliefTracker } from "./belief_tracker.js";
+import { BeliefTracker } from "./belief_tracker";
 import {
   BeliefSynthesizer,
   Belief,
   Observation,
   SynthesizerConfig,
-} from "./synthesizer.js";
+} from "./synthesizer";
 
 // ── ReflectionResult ──────────────────────────────────────────────────
 

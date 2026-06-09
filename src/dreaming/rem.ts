@@ -19,7 +19,7 @@
  * and groups results into topic summaries by tag.
  */
 
-import type { ScoredCandidate } from "./deep.js";
+import type { ScoredCandidate } from "./deep";
 
 // ── REMResult ────────────────────────────────────────────────────────────
 

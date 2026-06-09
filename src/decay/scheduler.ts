@@ -10,8 +10,8 @@
  *   - Manual: scheduleNow() for on-demand triggering.
  */
 
-import type { DecayController } from "./controller.js";
-import { type DecayConfig, DEFAULT_DECAY_CONFIG } from "./functions.js";
+import type { DecayController } from "./controller";
+import { type DecayConfig, DEFAULT_DECAY_CONFIG } from "./functions";
 
 export class DecayScheduler {
   private _timer: ReturnType<typeof setInterval> | null = null;
