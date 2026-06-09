@@ -6,7 +6,7 @@
  */
 
 import * as crypto from "crypto";
-import { UserValueStore } from "./user_value_store";
+import { UserValueStore } from "./user_value_store.js";
 
 // ── Enums & types ──────────────────────────────────────────────────────
 

@@ -8,7 +8,7 @@
  * by keeping the higher-confidence version with optional LLM arbitration.
  */
 
-import { cosineSimilarity } from "./semantic_merger";
+import { cosineSimilarity } from "./semantic_merger.js";
 
 // ── External type stubs ────────────────────────────────────────────────
 

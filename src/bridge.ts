@@ -8,7 +8,7 @@
  * to MemoryManager without subprocess. Replaces Python subprocess bridge.
  */
 
-import { MemoryManager, getMemoryManager } from "./memory_manager";
+import { MemoryManager, getMemoryManager } from "./memory_manager.js";
 
 export interface JsonRpcRequest {
   jsonrpc: "2.0";

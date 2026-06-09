@@ -14,21 +14,21 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-export type { RetrievalResult, RetrievalDocument } from "./base";
-export { BaseRetriever } from "./base";
+export type { RetrievalResult, RetrievalDocument } from "./base.js";
+export { BaseRetriever } from "./base.js";
 
-export { BM25 } from "./bm25";
+export { BM25 } from "./bm25.js";
 
-export { KeywordRetriever, tokenize } from "./keyword";
+export { KeywordRetriever, tokenize } from "./keyword.js";
 
-export { ThreeTierRetriever, MemoryLayer, detectIntent } from "./three_tier";
-export type { MemoryResult, LayerRetrievalContext } from "./three_tier";
+export { ThreeTierRetriever, MemoryLayer, detectIntent } from "./three_tier.js";
+export type { MemoryResult, LayerRetrievalContext } from "./three_tier.js";
 
-export { HybridRouter, QueryType } from "./hybrid_router";
+export { HybridRouter, QueryType } from "./hybrid_router.js";
 
-export { QueryCache, getQueryCache, resetQueryCache } from "./query_cache";
+export { QueryCache, getQueryCache, resetQueryCache } from "./query_cache.js";
 
-export { SynonymExpander, BUILTIN_SYNONYMS } from "./synonym";
+export { SynonymExpander, BUILTIN_SYNONYMS } from "./synonym.js";
 
 // Drift-aware retriever (v6.3.0)
 export {
@@ -40,4 +40,4 @@ export {
   type DriftMode,
   type DriftDetectorLike,
   type DriftAwareConfig,
-} from "./drift-aware-retriever";
+} from "./drift-aware-retriever.js";

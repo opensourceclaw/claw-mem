@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import type { MemoryRecord } from "../types";
+import type { MemoryRecord } from "../types.js";
 
 /**
  * A single retrieval result from any retriever.

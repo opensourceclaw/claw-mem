@@ -20,8 +20,8 @@
  */
 
 import { randomUUID } from "crypto";
-import { MemoryRecord } from "./agnostic";
-import { MemoryPool } from "./pool";
+import { MemoryRecord } from "./agnostic.js";
+import { MemoryPool } from "./pool.js";
 
 export class CrossAgentSync {
   pool?: MemoryPool;

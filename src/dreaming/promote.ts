@@ -22,8 +22,8 @@
  *   - skills -> SkillStore
  */
 
-import type { ScoredCandidate } from "./deep";
-import type { REMResult } from "./rem";
+import type { ScoredCandidate } from "./deep.js";
+import type { REMResult } from "./rem.js";
 
 // ── PromotionResult ──────────────────────────────────────────────────────
 

@@ -8,7 +8,7 @@
  * incremental index rebuilds for hot data.
  */
 
-import type { InMemoryIndex } from "../storage/index";
+import type { InMemoryIndex } from "../storage/index.js";
 interface MemoryEntry { id: string; content: string; }
 
 export interface EvolverConfig {

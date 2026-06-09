@@ -9,9 +9,9 @@
 
 import * as fs from "fs";
 import * as path from "path";
-import { EpisodicStorage } from "./storage/episodic";
-import { SemanticStorage } from "./storage/semantic";
-import { ProceduralStorage } from "./storage/procedural";
+import { EpisodicStorage } from "./storage/episodic.js";
+import { SemanticStorage } from "./storage/semantic.js";
+import { ProceduralStorage } from "./storage/procedural.js";
 
 export interface ExportOptions {
   format?: "json" | "markdown";
