@@ -17,7 +17,7 @@ jobs:
           cache: 'npm'
       - run: npm ci
       - run: npm run build
-      - run: npm run typecheck || true
+      - run: npm run typecheck
 
   test:
     runs-on: ubuntu-latest
