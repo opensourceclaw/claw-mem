@@ -16,6 +16,7 @@ jobs:
           node-version: "22"
           cache: 'npm'
       - run: npm ci
+      - run: npm run build
       - run: npm run typecheck
 
   test:
@@ -44,21 +45,3 @@ jobs:
           cache: 'npm'
       - run: npm ci
       - run: npm run build
-
-  coverage:
-    runs-on: ubuntu-latest
-    needs: test
-    steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
-        with:
-          node-version: "22"
-          cache: 'npm'
-      - run: npm ci
-      - run: npm test -- --coverage
-      - name: Upload coverage to Codecov
-        uses: codecov/codecov-action@v4
-        with:
-          files: ./coverage/lcov.info
-          flags: unittests
-          name: claw-mem
