@@ -16,7 +16,7 @@
   },
   "scripts": {
     "build": "tsc",
-    "typecheck": "tsc --noEmit",
+    "typecheck": "npm run build",
     "test": "vitest run",
     "test:watch": "vitest",
     "benchmark": "vitest run tests/benchmarks --reporter=json > benchmark-results.json 2>&1 || true"
