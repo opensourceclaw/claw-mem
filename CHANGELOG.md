@@ -5,6 +5,20 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [6.17.1] - 2026-06-10
+
+### Fixed
+- **`MemoryBenchmarkRunner`**: Fix `isMemoryManager` detection logic — use `fewShotLearn` instead of `delete` to distinguish MemoryManager from RunnerDeps
+- **`MemoryBenchmarkRunner`**: Add `buildIndex()` call after corpus pre-population to ensure FTS index reflects new data
+- **`MemoryBenchmarkRunner`**: Fix search adapter to use `"episodic"` memory type for better FTS search results
+
+### Changed
+- **`MemoryBenchmarkRunner`**: Pre-populate retrieval corpus with matching content for FTS-based retrieval evaluation
+
+### Tests
+- All 46 benchmark tests passing (7 test files)
+- 732/735 overall tests passing (3 pre-existing failures unrelated to benchmark)
+
 ## [6.5.0] - 2026-06-05
 
 ### Added

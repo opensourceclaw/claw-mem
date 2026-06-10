@@ -317,7 +317,7 @@ export class MemoryManager {
     if (this._index.built) {
       const ids = this._index.search(query, limit);
       const idSet = new Set(ids);
-      result = all.filter((m) => idSet.has(m.id as string));
+      result = all.filter((m: any) => idSet.has(m.id as string) || idSet.has(m.metadata?.id as string));
       if (result.length > 0) {
         const t = Date.now();
         this._searchCache.set(cacheKey, { results: result, ts: t, lastAccess: t });
