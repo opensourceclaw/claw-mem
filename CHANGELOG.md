@@ -5,6 +5,18 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [6.19.0] - 2026-06-10
+
+### Added
+- **`src/emergence/`** — New module for emergent memory detection across federated pool
+- **`PatternMiner`**: Frequency analysis, tag correlation (lift), cross-agent pattern discovery
+- **`EmergenceDetector`**: Scoring (novelty/utility/consensus), gating (emergent/borderline/noise), detection pipeline
+- **`TrendAnalyzer`**: Time-series trend tracking, rising/falling tag detection with linear regression slope
+
+### Tests
+- 17/17 emergence tests passing (4 test files)
+- EDITH acceptance: Conditional Pass ✅
+
 ## [6.18.0] - 2026-06-10
 
 ### Added
