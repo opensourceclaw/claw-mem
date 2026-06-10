@@ -106,9 +106,9 @@ describe("CrossAgentSync", () => {
     expect(unsubscribed).toBe(true);
 
     // Pull
-    const pulled = sync.pull("agent1", 0.0);
-    expect(pulled.length).toBe(1);
-    expect(pulled[0].content).toBe("Sync test data");
+    const pulled = sync.pull("agent1");
+    expect(pulled.records.length).toBe(1);
+    expect(pulled.records[0].content).toBe("Sync test data");
 
     // Stats
     const stats = sync.get_stats();

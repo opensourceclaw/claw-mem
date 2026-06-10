@@ -17,6 +17,16 @@
  */
 
 export { MemoryPool } from "./pool.js";
+export type { PoolFilters } from "./pool.js";
 export { AgentAgnosticMemory } from "./agnostic.js";
 export type { MemoryRecord } from "./agnostic.js";
 export { CrossAgentSync } from "./sync.js";
+export type { SyncBatch } from "./sync.js";
+export { FederationRegistry } from "./registry.js";
+export type { FederationMember } from "./registry.js";
+export { ConflictResolver } from "./conflict.js";
+export type { Conflict, ConflictStrategy } from "./conflict.js";
+export { PrivacyFilter } from "./privacy.js";
+export type { PrivacyLevel } from "./privacy.js";
+export { MemoryFederation } from "./federation.js";
+export type { FederationConfig } from "./federation.js";

@@ -22,12 +22,23 @@
 import { randomUUID } from "crypto";
 import { MemoryRecord } from "./agnostic.js";
 import { MemoryPool } from "./pool.js";
+import type { Conflict } from "./conflict.js";
+import { ConflictResolver } from "./conflict.js";
+
+export interface SyncBatch {
+  agentId: string;
+  records: MemoryRecord[];
+  version: number;
+  timestamp: number;
+}
 
 export class CrossAgentSync {
   pool?: MemoryPool;
   private _subscriptions: Map<string, Array<{ subId: string; callback: (record: MemoryRecord) => void }>> = new Map();
   private _pushCount = 0;
   private _pullCount = 0;
+  private _versions: Map<string, number> = new Map();
+  private _conflictResolver = new ConflictResolver();
 
   /**
    * Initialize sync with optional MemoryPool.
@@ -44,15 +55,27 @@ export class CrossAgentSync {
    * @param record - The MemoryRecord to push
    * @param targetAgents - List of target agent IDs
    * @param bus - Optional message bus for agent communication
+   * @param options - Optional sync options (incrementVersion defaults to true)
    * @returns True if push was successful
    */
   push(
     record: MemoryRecord,
     targetAgents: string[],
     bus?: any,
+    options?: { incrementVersion?: boolean },
   ): boolean {
     if (this.pool) {
       this.pool.store(record);
+    }
+
+    const incVersion = options?.incrementVersion ?? true;
+    if (incVersion) {
+      for (const agentId of targetAgents) {
+        const current = this._versions.get(agentId) ?? 0;
+        this._versions.set(agentId, current + 1);
+      }
+      const sourceVer = this._versions.get(record.agent_id) ?? 0;
+      this._versions.set(record.agent_id, sourceVer + 1);
     }
 
     for (const agentId of targetAgents) {
@@ -64,19 +87,59 @@ export class CrossAgentSync {
   }
 
   /**
-   * Pull updates from an agent since a timestamp.
+   * Pull updates from an agent since a version.
    *
    * @param agentId - The agent to pull from
-   * @param since - Unix timestamp to pull updates after
-   * @returns List of MemoryRecords newer than since
+   * @param sinceVersion - Version to pull updates after (default: 0)
+   * @returns SyncBatch with records since version
    */
-  pull(agentId: string, since: number = 0.0): MemoryRecord[] {
+  pull(agentId: string, sinceVersion: number = 0): SyncBatch {
     this._pullCount++;
 
+    const currentVersion = this._versions.get(agentId) ?? 0;
+    if (!this.pool) {
+      return { agentId, records: [], version: currentVersion, timestamp: Date.now() / 1000 };
+    }
+
+    const allRecords = this.pool.query({ agent_id: agentId });
+    const records = allRecords.filter((r) => r.timestamp >= sinceVersion);
+
+    return {
+      agentId,
+      records,
+      version: currentVersion,
+      timestamp: Date.now() / 1000,
+    };
+  }
+
+  /**
+   * Get current version for an agent.
+   *
+   * @param agentId - The agent ID
+   * @returns Current version number (default: 0)
+   */
+  getVersion(agentId: string): number {
+    return this._versions.get(agentId) ?? 0;
+  }
+
+  /**
+   * Detect conflicts between a sync batch and pool records.
+   *
+   * @param batch - SyncBatch to check for conflicts
+   * @returns List of detected Conflicts
+   */
+  detectConflicts(batch: SyncBatch): Conflict[] {
     if (!this.pool) return [];
 
-    const records = this.pool.query({ agent_id: agentId });
-    return records.filter((r) => r.timestamp >= since);
+    const conflicts: Conflict[] = [];
+    for (const record of batch.records) {
+      const existing = this.pool.query({ agent_id: batch.agentId });
+      for (const ex of existing) {
+        const conflict = this._conflictResolver.detect(record, ex);
+        if (conflict) conflicts.push(conflict);
+      }
+    }
+    return conflicts;
   }
 
   /**

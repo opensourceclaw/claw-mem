@@ -22,6 +22,15 @@
 import * as fs from "fs";
 import { AgentAgnosticMemory, MemoryRecord } from "./agnostic.js";
 
+export interface PoolFilters {
+  agentId?: string;
+  memoryType?: string;
+  tags?: string[];
+  since?: number;
+  until?: number;
+  minConfidence?: number;
+}
+
 export class MemoryPool {
   private _records: MemoryRecord[] = [];
   storage_path?: string;
@@ -161,7 +170,107 @@ export class MemoryPool {
     }
   }
 
+  /**
+   * Search records by substring matching on content + tags.
+   *
+   * @param query - Search query string
+   * @param limit - Maximum results to return (default: 10)
+   * @param filters - Optional PoolFilters
+   * @returns Ranked list of matching MemoryRecords
+   */
+  search(query: string, limit: number = 10, filters?: PoolFilters): MemoryRecord[] {
+    const q = query.toLowerCase();
+    let candidates = this._records.filter((r) => {
+      const inContent = r.content.toLowerCase().includes(q);
+      const inTags = r.tags.some((t) => t.toLowerCase().includes(q));
+      return inContent || inTags;
+    });
+
+    if (filters) {
+      candidates = candidates.filter((r) => this._matchesFilters(r, filters));
+    }
+
+    return this.rankByRelevance(candidates, query).slice(0, limit);
+  }
+
+  /**
+   * Rank records by relevance to a query string.
+   * Scores by term match count in content, boosted by confidence.
+   *
+   * @param results - List of candidate MemoryRecords
+   * @param query - The search query
+   * @returns Records sorted by relevance (descending)
+   */
+  rankByRelevance(results: MemoryRecord[], query: string): MemoryRecord[] {
+    const terms = query.toLowerCase().split(/\s+/);
+    const scored = results.map((r) => {
+      const contentLower = r.content.toLowerCase();
+      let score = 0;
+      for (const term of terms) {
+        let idx = -1;
+        while ((idx = contentLower.indexOf(term, idx + 1)) !== -1) {
+          score++;
+        }
+      }
+      for (const tag of r.tags) {
+        for (const term of terms) {
+          if (tag.toLowerCase().includes(term)) score++;
+        }
+      }
+      score += r.confidence;
+      return { record: r, score };
+    });
+
+    return scored.sort((a, b) => b.score - a.score).map((s) => s.record);
+  }
+
+  /**
+   * Get all records from a specific agent, optionally since a timestamp.
+   *
+   * @param agentId - The agent ID to query
+   * @param since - Optional timestamp filter
+   * @returns List of MemoryRecords
+   */
+  getByAgent(agentId: string, since?: number): MemoryRecord[] {
+    return this._records.filter((r) => {
+      if (r.agent_id !== agentId) return false;
+      if (since != null && r.timestamp < since) return false;
+      return true;
+    });
+  }
+
+  /**
+   * Get records matching specific tags.
+   *
+   * @param tags - List of tag strings
+   * @param matchAll - If true, require all tags; if false, any tag matches
+   * @returns List of matching MemoryRecords
+   */
+  getByTags(tags: string[], matchAll: boolean = false): MemoryRecord[] {
+    return this._records.filter((r) => {
+      if (matchAll) {
+        return tags.every((t) => r.tags.includes(t));
+      }
+      return tags.some((t) => r.tags.includes(t));
+    });
+  }
+
   // ── Private helpers ──────────────────────────────────────────────
+
+  private _matchesFilters(
+    record: MemoryRecord,
+    filters: PoolFilters,
+  ): boolean {
+    if (filters.agentId != null && record.agent_id !== filters.agentId) return false;
+    if (filters.memoryType != null && record.memory_type !== filters.memoryType) return false;
+    if (filters.tags?.length) {
+      if (!filters.tags.every((t) => record.tags.includes(t))) return false;
+    }
+    if (filters.since != null && record.timestamp < filters.since) return false;
+    if (filters.until != null && record.timestamp > filters.until) return false;
+    if (filters.minConfidence != null && record.confidence < filters.minConfidence) return false;
+    return true;
+  }
 
   private _matches(
     record: MemoryRecord,

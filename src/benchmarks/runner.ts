@@ -193,7 +193,7 @@ export class MemoryBenchmarkRunner {
         for (const task of ARENA_TASKS) {
           // Store expected knowledge as meaningful content for FTS matching
           for (const kw of task.expectedKnowledge) {
-            deps.store(`arena-${task.id}-kw`, `Knowledge: ${kw}`);
+            deps.store(`arena-${task.id}-${kw}`, `Knowledge: ${kw}`);
           }
         }
         // Rebuild index to ensure all stored data is searchable

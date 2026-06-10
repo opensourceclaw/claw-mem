@@ -434,6 +434,9 @@ export class MemoryManager {
   // ── build index ─────────────────────────────────────────────────
 
   buildIndex(): void {
+    // Force rebuild: reset index state before building
+    this._index.built = false;
+
     const entries: MemoryEntry[] = [];
     for (const m of this._episodic.getRecent(500)) {
       entries.push({ id: (m as any).id || (m as any).metadata?.id || m.timestamp || "0", content: m.content });

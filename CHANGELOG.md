@@ -5,6 +5,32 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [6.16.0] - 2026-06-10
+
+### Added
+- **`FederationRegistry`**: Dynamic member management — register/unregister/discover/heartbeat
+- **`ConflictResolver`**: 4 conflict resolution strategies — LWW / merge / keep-both / ask-human
+- **`PrivacyFilter`**: Privacy-preserving memory sharing — PII redaction + sensitivity scoring (local/shared/public levels)
+- **`MemoryPool.search()`**: Keyword search across shared pool with filters (agentId, tags, time range, confidence)
+- **`MemoryPool.rankByRelevance()`**: Relevance ranking by query term match count + confidence boost
+- **`MemoryPool.getByAgent()` / `getByTags()`**: Targeted queries by agent or tags
+- **`CrossAgentSync` version tracking**: Monotonically increasing version per agent, `SyncBatch` return type
+- **`CrossAgentSync.detectConflicts()`**: Batch conflict detection against pool
+- **`MemoryFederation`**: Rewritten to integrate all components — registry, pool, sync, conflict resolver, privacy filter
+
+### Changed
+- `src/memory/federation.ts` — Full rewrite with component integration
+- `src/memory/pool.ts` — Added search, rankByRelevance, getByAgent, getByTags
+- `src/memory/sync.ts` — Version tracking, SyncBatch return, detectConflicts
+- `src/memory/index.ts` — Export new classes and types
+
+### Tests
+- 34/34 memory module tests passing (7 test files)
+- FederationRegistry: lifecycle + discover + heartbeat
+- ConflictResolver: all 4 strategies
+- PrivacyFilter: PII redaction + sensitivity scoring
+- Integration: end-to-end federation flow
+
 ## [6.17.2] - 2026-06-10
 
 ### Performance
