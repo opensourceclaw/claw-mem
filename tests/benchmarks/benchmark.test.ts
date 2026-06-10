@@ -140,4 +140,17 @@ describe("MemoryBenchmarkRunner", () => {
     expect(report.memoryArena).not.toBeNull();
     expect(report.memBench.retrieval).toBeNull();
   });
+
+  it("auto-adapts MemoryManager-like object", () => {
+    const fakeMM = {
+      search: (q: string, _t?: string, l?: number) => [{ id: "r1", content: `Found: ${q}` }],
+      store: (_c: string, _t?: string, _tags?: string[], _m?: any) => {},
+      delete: (_k: string) => true,
+      getRecent: (_l?: number) => [{ content: "session-0: TypeScript knowledge" }],
+    };
+    const runner = new MemoryBenchmarkRunner();
+    const report = runner.runAll(fakeMM as any);
+    expect(report.memoryArena).not.toBeNull();
+    expect(report.overallScore).toBeGreaterThanOrEqual(0);
+  });
 });
