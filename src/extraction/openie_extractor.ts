@@ -167,10 +167,10 @@ export class OpenIEExtractor {
   // Chinese patterns: [regex, predicate, confidence]
   private static _CN_PATTERNS: Array<[RegExp, string | null, number]> = [
     [/(\S+)负责(\S+)/g, "负责", 0.8],
-    [/(\S+)是(\S+)/g, "是", 0.7],
-    [/(\S+)的(\S+)/g, "拥有", 0.6],
-    [/(\S+)在(\S+)/g, "位于", 0.6],
-    [/(\S+)(喜欢|讨厌|管理|开发|拥有|领导|主管)(\S+)/g, null, 0.5],
+    [/(\S+) is (\S+)/g, " is ", 0.7],
+    [/(\S+) of (\S+)/g, "拥 has ", 0.6],
+    [/(\S+) in (\S+)/g, "位于", 0.6],
+    [/(\S+)(喜欢|讨厌|管理|开发|拥 has |领导|主管)(\S+)/g, null, 0.5],
   ];
 
   // English patterns: [regex, predicate, confidence]

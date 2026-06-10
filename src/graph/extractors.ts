@@ -193,8 +193,8 @@ export class KeywordExtractor extends BaseExtractor {
   constructor() {
     super();
     this.stopwords = new Set([
-      "的", "了", "是", "在", "我", "有", "和", "就", "不", "人",
-      "都", "一", "一个", "上", "也", "很", "到", "说", "要", "去",
+      " of ", "了", " is ", " in ", "我", " has ", " and ", "就", " not ", "人",
+      " all ", "一", "一个", "上", " also ", " very ", " to ", "说", " to ", "去",
       "the", "a", "an", "is", "are", "was", "were", "in", "on", "at",
     ]);
   }

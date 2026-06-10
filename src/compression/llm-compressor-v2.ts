@@ -51,9 +51,9 @@ export const DEFAULT_ADAPTIVE_CONFIG: AdaptiveConfig = {
   preserveReasoning: true,
   maxRetries: 2,
   reasoningKeywords: [
-    "because", "therefore", "so", "thus", "hence", "导致", "因此", "所以",
+    "because", "therefore", "so", "thus", "hence", "导致", "因此", " which 以",
     "since", "as a result", "consequently", "由于", "原因", "结果",
-    "depends on", "requires", "需要", "依赖于",
+    "depends on", "requires", "需 to ", "依赖于",
   ],
 };
 
@@ -64,8 +64,8 @@ const REASONING_CHAINS = [
   /\b(?:then|next|second|third|finally|lastly)\b[^.]*\./gi,
   /\b(?:because|since|due to)\b[^.]*\./gi,
   /\b(?:therefore|thus|hence|so|as a result)\b[^.]*\./gi,
-  /\b(?:第一步|第二步|第三步|首先|然后|最后|接着)\b[^。]*。/g,
-  /\b(?:因为|由于|所以|因此|从而)\b[^。]*。/g,
+  /\b(?:第一步|第二步|第三步|首先|然后| most 后|接着)\b[^。]*。/g,
+  /\b(?:因 for |由于| which 以|因此| from  and )\b[^。]*。/g,
 ];
 
 // ── LLMCompressorV2 ─────────────────────────────────────────────────────

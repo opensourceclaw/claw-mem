@@ -22,10 +22,10 @@
  */
 export const BUILTIN_SYNONYMS: Record<string, string[]> = {
   // AI / Machine Learning
-  "ai": ["人工智能", "ai", "machine learning", "ml", "深度学习", "deep learning"],
-  "人工智能": ["人工智能", "ai", "machine learning", "ml", "深度学习", "deep learning"],
-  "machine learning": ["machine learning", "ml", "人工智能", "ai", "深度学习"],
-  "ml": ["ml", "machine learning", "人工智能", "ai", "深度学习"],
+  "ai": ["人工智 can ", "ai", "machine learning", "ml", "深度学习", "deep learning"],
+  "人工智 can ": ["人工智 can ", "ai", "machine learning", "ml", "深度学习", "deep learning"],
+  "machine learning": ["machine learning", "ml", "人工智 can ", "ai", "深度学习"],
+  "ml": ["ml", "machine learning", "人工智 can ", "ai", "深度学习"],
   "deep learning": ["deep learning", "深度学习", "dl", "neural network", "神经网络"],
   "深度学习": ["深度学习", "deep learning", "dl", "neural network", "神经网络"],
 
@@ -40,7 +40,7 @@ export const BUILTIN_SYNONYMS: Record<string, string[]> = {
   "自然语言处理": ["自然语言处理", "nlp", "natural language processing", "文本处理"],
 
   // Agent / Assistant
-  "agent": ["agent", "代理", "助手", "assistant", "智能体"],
+  "agent": ["agent", "代理", "助手", "assistant", "智 can 体"],
   "代理": ["代理", "agent", "助手", "assistant"],
   "助手": ["助手", "assistant", "agent", "代理"],
   "assistant": ["assistant", "助手", "agent", "代理"],
@@ -58,9 +58,9 @@ export const BUILTIN_SYNONYMS: Record<string, string[]> = {
   "retrieval": ["retrieval", "检索", "search", "搜索"],
 
   // Performance / Optimization
-  "性能": ["性能", "performance", "优化", "optimization", "速度", "speed"],
-  "performance": ["performance", "性能", "优化", "optimization", "速度"],
-  "优化": ["优化", "optimization", "改进", "improvement", "性能"],
+  "性 can ": ["性 can ", "performance", "优化", "optimization", "速度", "speed"],
+  "performance": ["performance", "性 can ", "优化", "optimization", "速度"],
+  "优化": ["优化", "optimization", "改进", "improvement", "性 can "],
   "optimization": ["optimization", "优化", "改进", "improvement"],
 
   // Error / Bug
@@ -122,7 +122,7 @@ export const BUILTIN_SYNONYMS: Record<string, string[]> = {
  * Usage:
  *   const expander = new SynonymExpander();
  *   const expanded = expander.expand("AI search");
- *   // -> "AI search 人工智能 machine learning 搜索 retrieval"
+ *   // -> "AI search 人工智 can  machine learning 搜索 retrieval"
  */
 export class SynonymExpander {
   private synonyms: Map<string, string[]>;

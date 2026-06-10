@@ -60,12 +60,12 @@ export class KeyInformationExtractor {
   ];
 
   private readonly _factPatterns: RegExp[] = [
-    /(事实|实际上|其实|已经|已知)/i,
+    /(事实|实际上| its 实| already 经| already 知)/i,
     /(fact|actually|known|already|confirmed)/i,
   ];
 
   private readonly _taskPatterns: RegExp[] = [
-    /(任务|目标|需要|完成|做|执行)/i,
+    /(任务|目标|需 to |完成|做|执行)/i,
     /(task|goal|need|complete|do|execute|action|next step)/i,
   ];
 

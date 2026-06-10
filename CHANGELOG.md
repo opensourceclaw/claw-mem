@@ -8,7 +8,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [6.5.0] - 2026-06-05
 
 ### Added
-- **`DriftHistoryStore`**: 漂移历史持久化存储
+- **`DriftHistoryStore`**: 漂移历史持久化storage
   - `record(drift)` + `recordBatch(drifts)`: 记录漂移事件
   - `getHistory(sessionId?)` / `getHistoryInRange(start, end)`: 查询
   - `getAverageDrift()` / `getAverageDriftForSession()`: 平均值
@@ -16,7 +16,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - `getSummary()`: 综合摘要
   - `isDriftIncreasing()`: 漂移上升判断
   - JSON 文件持久化 + retentionDays 自动清理
-- **集成**: 可供 DriftAwareRetriever 使用历史漂移数据
+- **integration**: 可供 DriftAwareRetriever 使用历史漂移数据
 
 ## [6.0.2] - 2026-06-05
 

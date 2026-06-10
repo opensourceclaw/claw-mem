@@ -31,9 +31,9 @@ export interface ProgressiveLevel {
 export const COMPRESSION_LEVELS: ProgressiveLevel[] = [
   { level: "L0",   ratio: 1.0, method: "raw",         description: "原始记忆" },
   { level: "L0.5", ratio: 0.7, method: "progressive",  description: "关键实体+决策提取" },
-  { level: "L1",   ratio: 0.5, method: "rule",         description: "规则压缩" },
+  { level: "L1",   ratio: 0.5, method: "rule",         description: "规 then 压缩" },
   { level: "L2",   ratio: 0.3, method: "llm",          description: "LLM 驱动压缩" },
-  { level: "L3",   ratio: 0.1, method: "principle",    description: "原则提取" },
+  { level: "L3",   ratio: 0.1, method: "principle",    description: "原 then 提取" },
 ];
 
 export interface ProgressiveResult {
@@ -217,7 +217,7 @@ export class ProgressiveSummarizer {
   private compressL3(input: ProgressiveResult): ProgressiveResult {
     const rules = this.extractRules(input.content);
     const summary = rules.length > 0
-      ? `原则: ${rules.join("；")}`
+      ? `原 then : ${rules.join("；")}`
       : input.content.slice(0, 50) + "...";
 
     return {
@@ -286,7 +286,7 @@ export class ProgressiveSummarizer {
       /必须(.+?)(?:[。！？.!?\n]|$)/g,
       /应该(.+?)(?:[。！？.!?\n]|$)/g,
       /始终(.+?)(?:[。！？.!?\n]|$)/g,
-      /原则[：:]\s*(.+?)(?:[。！？.!?\n]|$)/g,
+      /原 then [：:]\s*(.+?)(?:[。！？.!?\n]|$)/g,
     ];
 
     const rules: string[] = [];

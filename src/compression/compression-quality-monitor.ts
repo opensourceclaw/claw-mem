@@ -247,7 +247,7 @@ export class CompressionQualityMonitor {
       this.emitAlert("low_semantic", "warning", "语义保留度过低", cfg.semanticRetentionMin, m.semanticRetention);
     }
     if (m.compressionRatio > cfg.compressionRatioMax) {
-      this.emitAlert("high_ratio", "warning", "压缩比过高（压缩不足）", cfg.compressionRatioMax, m.compressionRatio);
+      this.emitAlert("high_ratio", "warning", "压缩比过高（压缩 not 足）", cfg.compressionRatioMax, m.compressionRatio);
     }
     if (m.informationDensity < cfg.informationDensityMin) {
       this.emitAlert("low_density", "warning", "信息密度过低", cfg.informationDensityMin, m.informationDensity);

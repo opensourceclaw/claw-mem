@@ -25,7 +25,7 @@ export enum QueryType {
 // ── Rule-based classification patterns ───────────────────────────────────────
 
 const FACT_PATTERNS_ZH = new Set([
-  "密码", "设置", "配置", "是谁", "在哪里", "什么时候", "多少个", "哪个",
+  "密码", "设置", "配置", " is 谁", " in 哪里", "什么时候", "多少个", "哪个",
   "什么", "谁", "哪里", "何时", "日期", "时间", "地址", "位置", "电话",
 ]);
 const FACT_PATTERNS_EN = new Set([
@@ -33,7 +33,7 @@ const FACT_PATTERNS_EN = new Set([
   "what is", "is the", "are the", "which",
 ]);
 const SEMANTIC_PATTERNS_ZH = new Set([
-  "怎么", "为什么", "解释", "讨论", "方案", "分析", "总结", "评估",
+  "怎么", " for 什么", "解释", "讨论", "方案", "分析", "总结", "评估",
   "如何", "怎么样", "探讨", "建议", "规划", "设计", "实现", "优化",
   "改进", "修复", "解决", "指南", "教程", "原理", "流程",
 ]);
@@ -44,8 +44,8 @@ const SEMANTIC_PATTERNS_EN = new Set([
   "strategy",
 ]);
 const RELATION_PATTERNS_ZH = new Set([
-  "关系", "关联", "区别", "比较", "vs", "联系", "和", "与",
-  "连接", "依赖", "影响", "对比",
+  "关系", "关联", "区别", "比较", "vs", "联系", " and ", " with ",
+  "连接", "依赖", "影响", " to 比",
 ]);
 const RELATION_PATTERNS_EN = new Set([
   "relation", "relationship", "link", "connection", "vs", "versus",

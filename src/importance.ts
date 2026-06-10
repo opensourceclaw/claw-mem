@@ -19,7 +19,7 @@ export class ImportanceScorer {
     const techKeywords = [
       "critical", "important", "urgent", "security", "bug", "fix",
       "deploy", "production", "breaking", "migration", "incident",
-      "必须", "重要", "紧急", "安全", "生产", "故障",
+      "必须", "重 to ", "紧急", "安全", "生产", "故障",
     ];
     const keywordHits = techKeywords.filter((kw) => content.toLowerCase().includes(kw)).length;
     factors.keywords = Math.min(keywordHits / 5, 1.0) * 0.3;

@@ -75,10 +75,10 @@ export class F5CompressorV2 {
 
   // Topic keywords
   private readonly _topicKeywords: Record<string, string[]> = {
-    meeting: ["meeting", "discuss", "schedule", "agenda", "会议", "讨论", "安排"],
+    meeting: ["meeting", "discuss", "schedule", "agenda", " will 议", "讨论", "安排"],
     project: ["project", "task", "milestone", "deadline", "项目", "任务", "里程碑"],
     decision: ["decided", "agreed", "approved", "decision", "决定", "同意", "批准"],
-    request: ["request", "ask", "need", "want", "would like", "请求", "需要", "想要"],
+    request: ["request", "ask", "need", "want", "would like", "请求", "需 to ", "想 to "],
     information: ["know", "learn", "remember", "information", "知道", "了解", "记得"],
     problem: ["issue", "bug", "error", "fix", "problem", "问题", "错误", "修复"],
     success: ["success", "complete", "finish", "done", "成功", "完成"],
@@ -221,7 +221,7 @@ export class F5CompressorV2 {
     const importantKeywords = [
       "decide", "agree", "approve", "reject", "important", "critical",
       "need", "must", "should", "will", "plan", "schedule",
-      "决定", "同意", "重要", "需要", "必须", "计划",
+      "决定", "同意", "重 to ", "需 to ", "必须", "计划",
       "bug", "fix", "error", "issue", "problem", "solve",
     ];
     for (const kw of importantKeywords) {
@@ -374,7 +374,7 @@ export class UltraCompressor {
     const verbs = [
       "decide", "agree", "create", "update", "delete",
       "send", "receive",
-      "决定", "同意", "创建", "更新", "发送", "接收",
+      "决定", "同意", "创建", " more  new ", "发送", "接收",
     ];
     return verbs.some((v) => sentence.toLowerCase().includes(v));
   }

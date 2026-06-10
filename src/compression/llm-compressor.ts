@@ -48,16 +48,16 @@ export interface CompressionQuality {
 
 // ── Prompt template ───────────────────────────────────────────────────────
 
-const COMPRESSION_PROMPT = `请将以下记忆压缩为简短摘要，保留核心信息：
+const COMPRESSION_PROMPT = `Please compress the following memories into a concise summary, preserving core information:
 
 {memories}
 
-要求：
-1. 保留核心事实和用户偏好
-2. 压缩为原始长度的 30% 左右
-3. 使用中文回复
+Requirements:
+1. Preserve core facts and user preferences
+2. Compress to approximately 30% of original length
+3. Reply in the same language as the input
 
-压缩后：`;
+Compressed:`;
 
 // ── LLMCompressor ─────────────────────────────────────────────────────────
 
@@ -183,7 +183,7 @@ export class LLMCompressor {
       body: JSON.stringify({
         model,
         messages: [
-          { role: "system", content: "你是一个专业的记忆压缩助手。" },
+          { role: "system", content: "You are a professional memory compression assistant." },
           { role: "user", content: prompt },
         ],
         max_tokens: Math.ceil(text.length * this.config.target_ratio * 0.5),

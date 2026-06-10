@@ -125,20 +125,20 @@ export class TimeWeightCalculator {
 
     // Parse explicit time range in query
     const match = lower.match(
-      /((?:last|past|recent|近|最近)\s*(\d+)\s*(?:day|week|month|year|天|周|月|年))/,
+      /((?:last|past|recent|近| most 近)\s*(\d+)\s*(?:day|week|month|year|天|周|月|年))/,
     );
     if (match) {
       return match[0];
     }
 
     // Heuristic time ranges
-    if (["today", "今天", "now", "现在"].some((kw) => lower.includes(kw))) {
+    if (["today", "今天", "now", "现 in "].some((kw) => lower.includes(kw))) {
       return "1d";
     }
-    if (["recent", "this week", "最近", "本周"].some((kw) => lower.includes(kw))) {
+    if (["recent", "this week", " most 近", "本周"].some((kw) => lower.includes(kw))) {
       return "7d";
     }
-    if (["this month", "这个月"].some((kw) => lower.includes(kw))) {
+    if (["this month", " this 个月"].some((kw) => lower.includes(kw))) {
       return "30d";
     }
 

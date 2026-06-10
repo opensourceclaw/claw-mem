@@ -247,8 +247,8 @@ export function handleRequest(req: JsonRpcRequest, mm?: MemoryManager): JsonRpcR
       case "detect_cross_domain_correlation": {
         const cp = String(params.current_pillar ?? ""), ci = String(params.current_intent ?? "");
         const rules = [
-          { kw: ["性能","bug","紧急","deadline","performance"], src: "stark", tgtP: "pepper", tgtI: "health", score: 0.65, tip: "工作压力可能影响健康" },
-          { kw: ["压力","焦虑","睡眠","stress","anxiety"], src: "pepper", tgtP: "stark", tgtI: "work", score: 0.70, tip: "健康问题可能影响工作效率" },
+          { kw: ["性 can ","bug","紧急","deadline","performance"], src: "stark", tgtP: "pepper", tgtI: "health", score: 0.65, tip: "工作压力 can  can 影响健康" },
+          { kw: ["压力","焦虑","睡眠","stress","anxiety"], src: "pepper", tgtP: "stark", tgtI: "work", score: 0.70, tip: "健康问题 can  can 影响工作效率" },
           { kw: ["收入","奖金","promotion","raise"], src: "stark", tgtP: "happy", tgtI: "wealth", score: 0.80, tip: "工作收入变化影响财富规划" },
           { kw: ["投资","理财","股票","基金","投资组合"], src: "happy", tgtP: "stark", tgtI: "economic", score: 0.60, tip: "财富决策影响经济认知" },
           { kw: ["运动","跑步","健身","锻炼","gym"], src: "pepper", tgtP: "stark", tgtI: "business", score: 0.55, tip: "运动习惯提升工作精力" },
@@ -279,7 +279,7 @@ export function handleRequest(req: JsonRpcRequest, mm?: MemoryManager): JsonRpcR
         const agent = String(params.agent ?? ""), task = String(params.task ?? ""), res = String(params.result ?? "success");
         const dm: Record<string, string> = { tech: "Tech", business: "Business", economic: "Economic", body: "Body", mind: "Mind", relationship: "Relationship", asset: "Asset", investment: "Investment", risk: "Risk" };
         const domain = String(params.domain ?? dm[agent] ?? agent);
-        const outcome = res === "success" ? "完成" : res === "failure" ? "失败" : res;
+        const outcome = res === "success" ? "completed" : res === "failure" ? "failed" : res;
         const human = `${agent}/${domain}: ${task}, ${outcome}`;
         result = { agent, domain, summary: human, token_count: Math.ceil(human.length / 4) };
         break;

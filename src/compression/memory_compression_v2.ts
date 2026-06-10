@@ -208,23 +208,23 @@ export function knowledgeEntryFromDict(
 
 export class KeyInformationExtractor {
   private readonly _decisionPatterns: RegExp[] = [
-    /(决定|决策|选择|确定|批准|同意|拒绝|否认|确定要)/i,
+    /(决定|决策|选择|确定|批准|同意|拒绝|否认|确定 to )/i,
     /(decided|decided to|agreed|accepted|rejected|chose|selected|will|should|must)/i,
   ];
 
   private readonly _factPatterns: RegExp[] = [
-    /(事实|实际上|其实|已经|已知|确认|证明)/i,
+    /(事实|实际上| its 实| already 经| already 知|确认|证明)/i,
     /(fact|actually|known|already|confirmed|proven|true|realized)/i,
   ];
 
   private readonly _taskPatterns: RegExp[] = [
-    /(任务|目标|需要|完成|做|执行|下一步|计划)/i,
+    /(任务|目标|需 to |完成|做|执行|下一步|计划)/i,
     /(task|goal|need|complete|do|execute|action|next step|plan|intend)/i,
   ];
 
   private readonly _prefPatterns: RegExp[] = [
     /(喜欢|偏爱|prefer|like|better|instead of|rather|enjoy)/i,
-    /(不喜欢|讨厌|dislike|hate|avoid|not fond of)/i,
+    /( not 喜欢|讨厌|dislike|hate|avoid|not fond of)/i,
   ];
 
   extract(text: string): Record<string, string[]> {
