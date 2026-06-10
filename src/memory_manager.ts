@@ -436,7 +436,7 @@ export class MemoryManager {
   buildIndex(): void {
     const entries: MemoryEntry[] = [];
     for (const m of this._episodic.getRecent(500)) {
-      entries.push({ id: m.timestamp || "0", content: m.content });
+      entries.push({ id: (m as any).id || (m as any).metadata?.id || m.timestamp || "0", content: m.content });
     }
     for (const m of this._semantic.getAll()) {
       entries.push({ id: (m as { id?: string }).id || m.timestamp || "0", content: m.content });

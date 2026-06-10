@@ -66,6 +66,9 @@ function jaccardSimilarity(a: Set<string>, b: Set<string>): number {
 export class KeywordRetriever {
   private bm25: BM25;
   private documents: Map<string, RetrievalDocument> = new Map();
+  /** Cache of pre-computed n-grams per document (lazy, computed on first search). */
+  private ngramCache: Map<string, Set<string>> = new Map();
+  private ngramCacheDirty = false;
 
   constructor(k1: number = 1.5, b: number = 0.75) {
     this.bm25 = new BM25(k1, b);
@@ -80,6 +83,7 @@ export class KeywordRetriever {
       const tokens = tokenize(doc.text);
       this.bm25.addDocument(doc.id, tokens);
     }
+    this.ngramCacheDirty = true;
   }
 
   /**
@@ -90,6 +94,19 @@ export class KeywordRetriever {
     this.documents.set(id, doc);
     const tokens = tokenize(text);
     this.bm25.addDocument(id, tokens);
+    this.ngramCacheDirty = true;
+  }
+
+  /** Ensure n-gram cache is populated for all documents. */
+  private ensureNgramCache(): void {
+    if (!this.ngramCacheDirty) return;
+    this.ngramCache.clear();
+    for (const [id, doc] of this.documents) {
+      if (doc?.text) {
+        this.ngramCache.set(id, extractNgrams(doc.text));
+      }
+    }
+    this.ngramCacheDirty = false;
   }
 
   /**
@@ -108,30 +125,42 @@ export class KeywordRetriever {
     const queryTokens = tokenize(query);
     if (queryTokens.length === 0) return [];
 
+    // Pre-compute query n-grams once (not per document)
+    const queryGrams = extractNgrams(query);
+
+    // Ensure n-gram cache is populated
+    this.ensureNgramCache();
+
     // Primary: BM25 scoring
     const bm25Scores = this.bm25.getScores(queryTokens);
 
-    // Pre-compute query n-grams once (not per document)
-    const queryGrams = extractNgrams(query);
-    const scored: Array<{ id: string; score: number }> = [];
+    // BM25 pre-filter: only score n-gram for top candidates
+    // Build scored candidates with BM25 first, then refine with n-gram
+    const BM25_PREFILTER_MULTIPLIER = 5;
+    const prefilterLimit = Math.min(limit * BM25_PREFILTER_MULTIPLIER, this.documents.size);
 
+    // Phase 1: Collect all BM25 scores, pre-filter to top candidates
+    const candidates: Array<{ id: string; bm25Score: number; idx: number }> = [];
     let idx = 0;
     for (const [docId] of this.documents) {
       const bm25Score = bm25Scores[idx] ?? 0;
-
-      // Secondary: n-gram Jaccard similarity for fuzzy matching
-      const doc = this.documents.get(docId);
-      let ngramScore = 0;
-      if (doc && doc.text) {
-        const docGrams = extractNgrams(doc.text);
-        ngramScore = jaccardSimilarity(queryGrams, docGrams);
-      }
-
-      const combinedScore = bm25Score + ngramScore * 0.3;
-      if (combinedScore > minScore) {
-        scored.push({ id: docId, score: combinedScore });
+      if (bm25Score > minScore) {
+        candidates.push({ id: docId, bm25Score, idx });
       }
       idx++;
+    }
+
+    // Sort by BM25 score descending, take top candidates for n-gram refinement
+    candidates.sort((a, b) => b.bm25Score - a.bm25Score);
+    const topCandidates = candidates.slice(0, prefilterLimit);
+
+    // Phase 2: n-gram refinement on top candidates only
+    const scored: Array<{ id: string; score: number }> = [];
+    for (const c of topCandidates) {
+      const docGrams = this.ngramCache.get(c.id);
+      const ngramScore = docGrams ? jaccardSimilarity(queryGrams, docGrams) : 0;
+      const combinedScore = c.bm25Score + ngramScore * 0.3;
+      scored.push({ id: c.id, score: combinedScore });
     }
 
     // Sort by combined score descending
@@ -185,6 +214,8 @@ export class KeywordRetriever {
   clear(): void {
     this.bm25.clear();
     this.documents.clear();
+    this.ngramCache.clear();
+    this.ngramCacheDirty = true;
   }
 
   /**

@@ -5,6 +5,29 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [6.17.2] - 2026-06-10
+
+### Performance
+- **`KeywordRetriever.search()`**: Add n-gram cache to avoid recomputing document n-grams on every search (12.8× faster at 2000 docs)
+- **`KeywordRetriever.search()`**: Add BM25 pre-filtering — only compute n-gram Jaccard on top BM25 candidates instead of all documents
+
+### Changed
+- **`KeywordRetriever`**: Add `ngramCache` (Map<string, Set<string>>) with dirty flag, rebuilt on index/addDocument/clear
+
+### Performance Results
+| Operation | Before | After | Improvement |
+|-----------|-------:|------:|:-----------:|
+| KeywordRetriever 500 docs | 16.65ms | 2.05ms | 8.1× |
+| KeywordRetriever 2000 docs | 51.90ms | 4.05ms | 12.8× |
+| KeywordRetriever 5000 docs | — | 4.55ms | < 10ms ✅ |
+| InMemoryIndex 5000 docs | — | 0.44ms | < 10ms ✅ |
+| BM25 scoring 5000 docs | — | 2.68ms | < 10ms ✅ |
+| EpisodicStorage store | — | 0.92ms | < 50ms ✅ |
+
+### Tests
+- All 46 benchmark tests passing (7 test files)
+- All retrieval tests passing (1 pre-existing failure unrelated)
+
 ## [6.17.1] - 2026-06-10
 
 ### Fixed

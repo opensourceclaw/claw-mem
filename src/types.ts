@@ -17,6 +17,7 @@ export interface EpisodicEntry {
   content: string;
   tags: string[];
   session_id?: string;
+  id?: string;
   metadata: Record<string, string>;
   type: "episodic";
   source: string;
