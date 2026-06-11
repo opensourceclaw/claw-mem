@@ -5,7 +5,7 @@
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "scripts": {
-    "build": "tsc && cp dist/claw_mem_plugin/index.js dist/ && sed -i '' 's|require(\"../src/|require(\"./src/|g' dist/index.js && for d in dist/src dist/claw_mem_plugin; do mkdir -p $d && cp openclaw.plugin.json $d/; done && cp openclaw.plugin.json dist/",
+    "build": "tsc && node scripts/flatten-dist.js",
     "test": "node test/test_real_bridge.js",
     "typecheck": "tsc --noEmit",
     "postinstall": "node scripts/post-install.js"
