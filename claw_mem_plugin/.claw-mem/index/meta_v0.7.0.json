@@ -1,9 +1,0 @@
-{
-  "version": "0.7.0",
-  "memory_count": 5,
-  "ngram_count": 21,
-  "created_at": "2026-05-25T18:30:23.978404",
-  "checksum": "2056d23b68f2b2f30eaafc82ea6a15f2",
-  "compressed": true,
-  "file_size": 432
-}
