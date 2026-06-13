@@ -92,6 +92,9 @@ docs/
 !CONTRIBUTING.md
 !GIT_COMMIT_RULES.md
 !RELEASE_NOTES.md
+!SECURITY.md
+!GOVERNANCE.md
+!NOTICES.md
 docs/
 
 # Audit log files
@@ -113,7 +116,5 @@ build/
 venv/
 
 # TypeScript
-src/storage/*.ts
-!src/types.ts
 *.tsbuildinfo
 node_modules/

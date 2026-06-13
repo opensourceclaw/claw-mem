@@ -5,6 +5,27 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [6.20.0] - 2026-06-13
+
+### Fixed
+- Restored `src/storage/` module from compiled artifacts (deleted by .gitignore rule)
+- Fixed 19 TypeScript build errors from missing storage module references
+
+### Added
+- `SECURITY.md` — vulnerability reporting process, response time commitments
+- `GOVERNANCE.md` — BDFL governance model, contributor promotion path
+- `NOTICES.md` — Apache 2.0 third-party license notices
+- `npm audit --production` added to CI lint job
+
+### Changed
+- Root directory report files migrated to `docs/dev/`
+- `CLAUDE.md` and `MEMORY.md` moved to `docs/internal/`
+- `.gitignore` — removed `src/storage/*.ts` exclusion rule
+- README version badge updated to v6.20.0
+
+### Removed
+- Deleted tracked temp files: `.DS_Store`, `.checkpoints/`, `.claw-mem/`, `htmlcov/`, `test-foo/`
+
 ## [6.19.0] - 2026-06-10
 
 ### Added
