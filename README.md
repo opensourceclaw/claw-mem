@@ -230,6 +230,12 @@ npm run build
 
 ---
 
+## Contributing
+
+We welcome contributions! See [CONTRIBUTING.md](./CONTRIBUTING.md) for development setup, coding standards, and PR guidelines. Also see [GOVERNANCE.md](./GOVERNANCE.md) for project governance and [MAINTAINERS.md](./MAINTAINERS.md) for current maintainers.
+
+---
+
 ## 📄 License
 
 claw-mem is licensed under the **Apache License 2.0**.

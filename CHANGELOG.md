@@ -5,6 +5,14 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [6.21.0] - 2026-06-13
+
+### Added
+- `MAINTAINERS.md` — A/B/C three-role maintainer list
+- `RELEASE_PROCESS.md` — release checklist, versioning rules, tag creation, GitHub Release steps
+- `sbom.json` — CycloneDX 1.5 SBOM (Software Bill of Materials)
+- README Contributing section with links to CONTRIBUTING/GOVERNANCE/MAINTAINERS
+
 ## [6.20.0] - 2026-06-13
 
 ### Fixed

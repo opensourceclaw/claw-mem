@@ -95,6 +95,9 @@ docs/
 !SECURITY.md
 !GOVERNANCE.md
 !NOTICES.md
+!MAINTAINERS.md
+!RELEASE_PROCESS.md
+!sbom.json
 docs/
 
 # Audit log files
@@ -118,3 +121,4 @@ venv/
 # TypeScript
 *.tsbuildinfo
 node_modules/
+.claw-mem/
