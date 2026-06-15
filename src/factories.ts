@@ -7,6 +7,7 @@
 
 import { SynonymExpander } from "./retrieval/synonym.js";
 import { QueryCache } from "./retrieval/query_cache.js";
+import { CacheManager } from "./cache/index.js";
 
 export interface FactoryConfig {
   maxCacheSize?: number;
@@ -45,6 +46,16 @@ export class ComponentFactory {
     const qc = new QueryCache(maxSize ?? 1000, ttlSeconds ?? 300);
     this._instances.set(key, qc);
     return qc;
+  }
+
+  // ── Cache Components ───────────────────────────────────────────
+
+  createCacheManager(config?: Record<string, unknown>): CacheManager {
+    const key = `cache_manager_${JSON.stringify(config ?? {})}`;
+    if (this._instances.has(key)) return this._instances.get(key) as CacheManager;
+    const cm = new CacheManager(config as Record<string, unknown>);
+    this._instances.set(key, cm);
+    return cm;
   }
 
   // ── Generic ───────────────────────────────────────────────────
