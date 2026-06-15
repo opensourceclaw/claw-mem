@@ -12,6 +12,8 @@ import * as fs from "fs";
 import * as path from "path";
 import type { CheckpointData, CheckpointOptions, SessionMessage, SessionState } from "./types.js";
 
+let checkpointCounter = 0;
+
 export class CheckpointManager {
   private checkpoints: Map<string, CheckpointData[]>;
   private options: Required<CheckpointOptions>;
@@ -31,10 +33,11 @@ export class CheckpointManager {
     if (!sessionId) throw new TypeError("sessionId cannot be empty");
 
     const now = new Date().toISOString();
+    checkpointCounter++;
     const existing = this.checkpoints.get(sessionId) ?? [];
 
     const checkpoint: CheckpointData = {
-      checkpointId: `cp_${sessionId}_${Date.now()}`,
+      checkpointId: `cp_${sessionId}_${Date.now()}_${checkpointCounter}`,
       sessionId,
       timestamp: now,
       status: "created",

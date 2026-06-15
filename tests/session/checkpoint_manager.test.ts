@@ -101,15 +101,15 @@ describe("CheckpointManager", () => {
   });
 
   describe("cleanup", () => {
-    it("should remove old checkpoints", () => {
+    it("should keep recent checkpoints with large maxAgeHours", () => {
       const mgr = new CheckpointManager();
       mgr.create("sess_001", { messages: makeMessages(2) });
       mgr.create("sess_002", { messages: makeMessages(3) });
 
-      // 0 hours age = remove all
-      const removed = mgr.cleanup(0);
-      expect(removed).toBe(2);
-      expect(mgr.listCheckpoints()).toHaveLength(0);
+      // 100 hours = keep everything created in the last 100 hours
+      const removed = mgr.cleanup(100);
+      expect(removed).toBe(0);
+      expect(mgr.listCheckpoints()).toHaveLength(2);
     });
   });
 });
