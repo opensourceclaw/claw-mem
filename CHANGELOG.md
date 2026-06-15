@@ -5,34 +5,37 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [6.23.0] - 2026-06-16
+
+### Added
+
+#### Session Continuity (隔夜会话连续性)
+- **SummaryExtractor** — LLM + rule-based extraction modes, custom templates
+- **CheckpointManager** — Message history + session state persistence, FIFO eviction
+- **TagManager** — Unified tag format, validation
+- **SessionRecovery** — Auto-recovery on Gateway startup, context injection
+
+### Testing
+- 23 session module tests (100% passing)
+- session module coverage: 76.95%
+
+---
+
 ## [6.22.0] - 2026-06-16
 
 ### Added
 
 #### Cache Optimization
-- **QueryCache** — TTL 86400s (1 day), smart key generation with normalized + keywords
-- **SemanticCache** — Jaccard approximate matching, keyword-based similarity
-- **MultiLevelCache** — L1→L2→L3 cascade query, promote on hit, event system
+- **QueryCache** — TTL 86400s (1 day), smart key generation
+- **SemanticCache** — Jaccard approximate matching
+- **MultiLevelCache** — L1→L2→L3 cascade
 - **CacheManager** — Facade pattern, unified API
-
-#### Session Continuity
-- **SummaryExtractor** — LLM + rule-based extraction modes
-- **CheckpointManager** — Message history + session state persistence
-- **TagManager** — Unified tag constants and validation
-- **SessionRecovery** — Auto-recovery on Gateway startup
 
 ### Testing
 - 47 cache module tests (100% passing)
-- 14 session module tests
 - cache module coverage: 84.86%
 
-### Added
-- `MAINTAINERS.md` — A/B/C three-role maintainer list
-- `RELEASE_PROCESS.md` — release checklist, versioning rules, tag creation, GitHub Release steps
-- `sbom.json` — CycloneDX 1.5 SBOM (Software Bill of Materials)
-- README Contributing section with links to CONTRIBUTING/GOVERNANCE/MAINTAINERS
-
-## [6.20.0] - 2026-06-13
+## [6.21.0] - 2026-06-13
 
 ### Fixed
 - Restored `src/storage/` module from compiled artifacts (deleted by .gitignore rule)
