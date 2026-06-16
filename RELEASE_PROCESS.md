@@ -27,7 +27,6 @@ claw-mem follows [Semantic Versioning](https://semver.org/):
 - [ ] CHANGELOG.md updated with all changes
 - [ ] README.md version badge updated
 - [ ] Version bumped in `package.json`
-- [ ] Version bumped in `claw_mem_plugin/package.json`
 - [ ] All new public APIs have TSDoc comments
 
 ### Tag Creation
