@@ -88,6 +88,7 @@ describe("Edge Cases", () => {
   it("federation: search finds content across workspace", () => {
     mm.store("Shared memory content", "semantic", ["shared"]);
     const fed = new MemoryFederation({ workspaces: [tmpDir] });
+    fed.share({ id: "test-1", agent_id: "test", memory_type: "semantic", content: "Shared memory content", tags: ["shared"], timestamp: Date.now() / 1000, confidence: 1.0, source: "local" });
     const results = fed.search("Shared");
     expect(results.length).toBeGreaterThanOrEqual(1);
   });

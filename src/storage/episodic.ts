@@ -31,6 +31,18 @@ export class EpisodicStorage {
     fs.renameSync(tmpPath, filePath);
   }
 
+  /** Batch store: append multiple records in a single file write. */
+  storeBatch(records: Array<Record<string, unknown>>): void {
+    if (records.length === 0) return;
+    const today = new Date().toISOString().slice(0, 10);
+    const filePath = path.join(this.memoryDir, `${today}.md`);
+    const existing = fs.existsSync(filePath) ? fs.readFileSync(filePath, "utf-8") : "";
+    const newContent = records.map((r) => this.formatMemory(r)).join("\n") + "\n";
+    const tmpPath = filePath + ".tmp." + Date.now();
+    fs.writeFileSync(tmpPath, existing + newContent, "utf-8");
+    fs.renameSync(tmpPath, filePath);
+  }
+
   /** Get all episodic memories across all files. */
   getAll(): EpisodicEntry[] {
     return this.readAllFiles();

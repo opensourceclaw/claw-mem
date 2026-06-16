@@ -5,6 +5,42 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [6.26.0] - 2026-06-17
+
+### Added
+- `storeBatch()` method for batch episodic memory writes with single file I/O
+- `_tokenCount` with CJK-aware token estimation for accurate `getStats()`
+
+### Fixed
+- Batch store 2000 entries: **45ms** (was 1416ms for 1000) — **24-88x faster**
+- Search without index now returns results via fallback scan (was 0 results)
+- Token stats now properly tracked and returned in `getStats()`
+
+### Changed
+- Fallback search limit increased from `limit*3` to 10000 when index not built
+- CJK keyword corruption fixes in synonym.ts, time_aware.ts, llm-compressor-v2.ts
+
+## [6.25.0] - 2026-06-16
+
+### Changed
+- **BREAKING**: Refactor plugin structure to root layout
+  - `claw_mem_plugin/` subdirectory removed
+  - `openclaw.plugin.json` now at project root
+  - Plugin entry moved from `claw_mem_plugin/index.ts` to `src/plugin.ts`
+  - Cleaned up 49706 stale tracked files (including node_modules)
+
+### Fixed
+- CJK synonym data corruption in `src/retrieval/synonym.ts` ("人工智能" / "性能" / "智能体")
+- CJK keyword corruption in `src/temporal/time_aware.ts` ("现在" / "最近" / "本月")
+- CJK keyword corruption in `src/compression/llm-compressor-v2.ts` (reasoning chain patterns)
+- Federation search test: share memory to pool before searching
+
+## [6.24.0] - 2026-06-16
+
+### Changed
+- Removed `session_summary` module (moved to claw-ctx)
+- Plugin kind updated to `memory` only (was `context-engine` + `memory`)
+
 ## [6.21.0] - 2026-06-13
 
 ### Added

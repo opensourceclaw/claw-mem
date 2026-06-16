@@ -140,9 +140,17 @@ export class MemoryManager {
   private _storeCount = 0;
   private _cacheHits = 0;
   private _bm25Ready = false;
+  private _tokenCount = 0;
+
+  private _estimateTokens(text: string): number {
+    const cjkChars = (text.match(/[\u4e00-\u9fff\u3400-\u4dbf]/g) || []).length;
+    const latinChars = text.length - cjkChars;
+    return Math.ceil(cjkChars / 1.5 + latinChars / 4);
+  }
 
   private _startAsyncBuild(): void {
     // Defer index build to next tick so constructor returns fast
+    // Fallback substring search works before index is built
     setTimeout(() => {
       try { this.buildIndex(); this._bm25Ready = true; }
       catch { /* best effort */ }
@@ -249,6 +257,7 @@ export class MemoryManager {
       }
       this._working.push(record);
       this._storeCount++;
+      this._tokenCount += this._estimateTokens(content);
 
       // Incremental index update
       try {
@@ -260,6 +269,37 @@ export class MemoryManager {
       return true;
     } catch {
       return false;
+    }
+  }
+
+  /** Batch store episodic memories with a single file write. */
+  storeBatch(contents: Array<{ content: string; tags?: string[]; metadata?: Record<string, unknown> }>): number {
+    if (contents.length === 0) return 0;
+
+    const records = contents.map((c) => ({
+      content: c.content,
+      tags: c.tags ?? [],
+      metadata: c.metadata ?? {},
+      id: `${Date.now().toString(36)}_${Math.random().toString(36).slice(2, 8)}`,
+      timestamp: new Date().toISOString(),
+      session_id: this.sessionId || undefined,
+    }));
+
+    try {
+      this._episodic.storeBatch(records);
+      for (const r of records) {
+        this._working.push(r);
+        this._storeCount++;
+        this._tokenCount += this._estimateTokens(r.content);
+        try {
+          if (this._index.built) {
+            this._index.addMemory(r.content, r.id, true);
+          }
+        } catch { /* best-effort */ }
+      }
+      return records.length;
+    } catch {
+      return 0;
     }
   }
 
@@ -302,8 +342,9 @@ export class MemoryManager {
 
     // Gather all memories
     const all: Array<Record<string, unknown>> = [];
+    const scanLimit = this._index.built ? limit * 3 : 10000;
     if (!memoryType || memoryType === "episodic") {
-      all.push(...this._episodic.getRecent(limit * 3) as unknown as Array<Record<string, unknown>>);
+      all.push(...this._episodic.getRecent(scanLimit) as unknown as Array<Record<string, unknown>>);
     }
     if (!memoryType || memoryType === "semantic") {
       all.push(...this._semantic.getAll() as unknown as Array<Record<string, unknown>>);
@@ -354,6 +395,7 @@ export class MemoryManager {
       cacheHits: this._cacheHits,
       cacheSize: this._searchCache.size,
       memoryMb: memMb,
+      tokenUsage: { total: this._tokenCount },
       bm25DocCount: this._index.built ? this._index.bm25.doc_count : 0,
       indexDir: path.join(os.homedir(), ".claw-mem", "index"),
     };
