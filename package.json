@@ -1,6 +1,6 @@
 {
   "name": "claw-mem",
-  "version": "6.21.0",
+  "version": "6.24.0",
   "description": "Local-First Three-Tier Memory System for OpenClaw (TypeScript)",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",

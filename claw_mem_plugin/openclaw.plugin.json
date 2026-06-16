@@ -1,9 +1,6 @@
 {
   "id": "claw-mem",
-  "kind": [
-    "memory",
-    "context-engine"
-  ],
+  "kind": ["memory"],
   "name": "Claw Memory System",
   "description": "Three-tier memory system with Context Engine support (Local-First)",
   "configSchema": {

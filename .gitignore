@@ -122,3 +122,4 @@ venv/
 *.tsbuildinfo
 node_modules/
 .claw-mem/
+coverage/

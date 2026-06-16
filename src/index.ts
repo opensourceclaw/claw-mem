@@ -39,8 +39,6 @@ export type { JsonRpcRequest, JsonRpcResponse } from "./bridge.js";
 export { DataPortability } from "./data_portability.js";
 export { ImportanceScorer } from "./importance.js";
 export type { ImportanceResult } from "./importance.js";
-export { extractSummary } from "./session_summary.js";
-export type { SessionSummary } from "./session_summary.js";
 export { DriftHistoryStore, DEFAULT_DRIFT_HISTORY_CONFIG, type DriftRecord, type DriftTrend, type DriftHistoryConfig, type DriftSummary } from "./drift-history-store.js";
 export { MemoryRelationshipEnhancer, EntityChaining, DecisionLineage, CausalGraph, type EntityNode, type EntityLink, type DecisionRecord, type LineageChain, type CausalEvent, type CausalLink } from "./memory-relationship-enhancer.js";
 
