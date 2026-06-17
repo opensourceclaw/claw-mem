@@ -77,23 +77,13 @@ export function handleRequest(req: JsonRpcRequest, mm?: MemoryManager): JsonRpcR
         };
         break;
       case "get":
-        result = { status: "not_implemented" };
+        result = { status: "deprecated", message: "Use 'search' method instead" };
         break;
       case "delete":
-        result = { status: "not_implemented" };
+        result = { status: "deprecated", message: "Not implemented. Use decay engine for cleanup" };
         break;
       case "build_context":
-        result = { context: "" };
-        break;
-      case "dreaming_run": {
-        result = { staged: 0, scored: 0, passed: 0, promoted: 0, duration_ms: 0 };
-        break;
-      }
-      case "dreaming_status":
-        result = { status: "no_run" };
-        break;
-      case "dreaming_dry_run":
-        result = { staged: 0, scored: 0, passed: 0, promoted: 0, duration_ms: 0, dry_run: true };
+        result = { status: "deprecated", message: "Use claw-ctx Context Engine instead" };
         break;
       case "system.health":
         result = manager.health();

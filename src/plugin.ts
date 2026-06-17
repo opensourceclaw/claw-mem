@@ -1,5 +1,5 @@
 /**
- * claw-mem v6.6.0 Plugin for OpenClaw
+ * claw-mem v6.26.0 Plugin for OpenClaw
  *
  * Architecture: Direct TypeScript (no Python subprocess)
  * - Plugin imports TS MemoryManager directly
@@ -160,9 +160,9 @@ interface PluginDefinition {
 
 const plugin: PluginDefinition = {
   id: "claw-mem",
-  name: "Claw Memory System (TS v6.6.0)",
+  name: "Claw Memory System (TS v6.26.0)",
   description: "Three-tier memory system for OpenClaw — direct TypeScript, no Python subprocess",
-  version: "6.6.0",
+  version: "6.26.0",
   kind: "memory",
 
   configSchema: {

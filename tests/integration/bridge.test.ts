@@ -59,15 +59,23 @@ describe("Bridge JSON-RPC", () => {
     expect(resp.error!.code).toBe(-32601);
   });
 
-  it("dreaming_run returns placeholder result", () => {
+  it("dreaming methods return error (removed)", () => {
     const resp = handleRequest(req("dreaming_run"), mm());
-    const r = resp.result as Record<string, unknown>;
-    expect(r.staged).toBe(0);
+    expect(resp.error).toBeDefined();
+    expect(resp.error!.code).toBe(-32601);
   });
 
   it("empty search returns empty results", () => {
     const resp = handleRequest(req("search", { query: "", limit: 10 }), mm());
     const results = (resp.result as Record<string, unknown>).results as unknown[];
     expect(results).toEqual([]);
+  });
+
+  it("deprecated methods return deprecated status", () => {
+    for (const method of ["get", "delete", "build_context"]) {
+      const resp = handleRequest(req(method), mm());
+      expect(resp.result).toBeDefined();
+      expect((resp.result as Record<string, unknown>).status).toBe("deprecated");
+    }
   });
 });

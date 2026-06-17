@@ -7,6 +7,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [6.26.0] - 2026-06-17
 
+### Removed
+- **Dream Engine**: Deleted `src/dreaming/` directory (4 files) — never instantiated or called
+- **bridge.ts**: Removed `dreaming_run`, `dreaming_status`, `dreaming_dry_run` RPC cases
+- **tests**: Deleted `tests/dreaming/` directory and `tests/test_dreaming.py`
+- **11 dead code directories**: `extraction/`, `temporal/`, `monitor/`, `benchmarks/`, `security/`, `merge/`, `multimodal/`, `context/`, `reflection/`, `links/`, `values/` — all never imported by any source file
+- **bridge.ts**: `get`, `delete`, `build_context` marked as deprecated with migration guidance
+- **Tests**: Removed 12 dead test files/directories for deleted modules
+
 ### Added
 - `storeBatch()` method for batch episodic memory writes with single file I/O
 - `_tokenCount` with CJK-aware token estimation for accurate `getStats()`

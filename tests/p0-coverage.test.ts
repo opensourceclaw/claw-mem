@@ -1,6 +1,5 @@
 import { describe, it, expect } from 'vitest';
 import { DummyExtractor, LLMExtractor } from '../src/graph/extractors';
-import { OpenIEExtractor } from '../src/extraction/openie_extractor';
 import { InMemoryGraphStorage } from '../src/graph/storage';
 import { Edge, EdgeType } from '../src/graph/edges';
 import { Node } from '../src/graph/nodes';
@@ -38,20 +37,6 @@ describe('LLMExtractor', () => {
     const bad = { generate: () => { throw new Error('fail'); } };
     expect(Array.isArray(new LLMExtractor(bad).extractFacts('Peter uses TS'))).toBe(true);
     expect(Array.isArray(new LLMExtractor(bad).extractConcepts('Docker'))).toBe(true);
-  });
-});
-
-// ── openie_extractor.ts ────────────────────────────────────────────
-
-describe('OpenIEExtractor', () => {
-  it('extracts from text', () => {
-    const t = new OpenIEExtractor().extract('Peter uses TypeScript for development');
-    expect(Array.isArray(t)).toBe(true);
-  });
-  it('handles empty', () => { expect(new OpenIEExtractor().extract('')).toEqual([]); });
-  it('handles short', () => { expect(new OpenIEExtractor().extract('hi')).toEqual([]); });
-  it('handles CJK', () => {
-    expect(Array.isArray(new OpenIEExtractor().extract('Peter喜欢TypeScript'))).toBe(true);
   });
 });
 

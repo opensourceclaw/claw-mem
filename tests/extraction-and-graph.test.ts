@@ -1,40 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { SkillExtractor } from '../src/extraction/skill_extractor';
 import { Node, EpisodeNode, FactNode, ReflectionNode, ConceptNode, createNode } from '../src/graph/nodes';
-
-describe('SkillExtractor', () => {
-  it('creates with default mode', () => {
-    const extractor = new SkillExtractor();
-    expect(extractor.mode).toBeDefined();
-  });
-
-  it('extract handles empty triplets', () => {
-    const extractor = new SkillExtractor();
-    const skills = extractor.extract([]);
-    expect(Array.isArray(skills)).toBe(true);
-  });
-
-  it('extract with skill triplets', () => {
-    const extractor = new SkillExtractor();
-    const skills = extractor.extract([
-      { subject: 'agent', predicate: 'implemented', object: 'TypeScript migration' },
-    ]);
-    expect(Array.isArray(skills)).toBe(true);
-  });
-
-  it('stores skills across extractions', () => {
-    const extractor = new SkillExtractor();
-    const r1 = extractor.extract([{ subject: 'agent', predicate: 'deployed', object: 'API' }]);
-    const r2 = extractor.extract([{ subject: 'agent', predicate: 'configured', object: 'CI' }]);
-    expect(Array.isArray(r1)).toBe(true);
-    expect(Array.isArray(r2)).toBe(true);
-  });
-
-  it('mode returns correct value', () => {
-    const extractor = new SkillExtractor();
-    expect(extractor.mode).toBeDefined();
-  });
-});
 
 describe('Graph Nodes', () => {
   it('Node creates with id, type, content', () => {

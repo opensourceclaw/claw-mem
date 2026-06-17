@@ -1,10 +1,5 @@
 import { describe, it, expect, beforeEach } from 'vitest';
 import { DualLayerMemory } from '../src/graph/dual_layer';
-import {
-  ConflictDetector,
-  conflictReportToDict,
-  conflictResolutionToDict,
-} from '../src/merge/conflict_detector';
 
 describe('DualLayerMemory', () => {
   let dlm: DualLayerMemory;
@@ -82,38 +77,5 @@ describe('DualLayerMemory', () => {
 
   it('getTopic returns undefined for unknown', () => {
     expect(dlm.getTopic('nonexistent')).toBeUndefined();
-  });
-});
-
-describe('ConflictDetector', () => {
-  it('creates with default config', () => {
-    expect(() => new ConflictDetector()).not.toThrow();
-  });
-
-  it('conflictReportToDict works with resolution', () => {
-    const d = conflictReportToDict({
-      conflictType: 'semantic',
-      memoryIdA: 'a1', memoryIdB: 'b1',
-      contentA: 'A is true', contentB: 'B is false',
-      description: 'Contradiction',
-      similarity: 0.92,
-      resolved: true,
-      resolution: { action: 'keep_a', winnerId: 'a1', mergedContent: '', reasoning: 'higher confidence' },
-    });
-    expect(d.conflict_type).toBe('semantic');
-    expect(d.resolved).toBe(true);
-    expect(d.resolution).not.toBeNull();
-  });
-
-  it('conflictResolutionToDict converts', () => {
-    const d = conflictResolutionToDict({
-      action: 'merge',
-      winnerId: 'merged-1',
-      mergedContent: 'combined text',
-      reasoning: 'complementary info',
-    });
-    expect(d.action).toBe('merge');
-    expect(d.winner_id).toBe('merged-1');
-    expect(d.merged_content).toBe('combined text');
   });
 });
