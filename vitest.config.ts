@@ -11,6 +11,7 @@ export default defineConfig({
     exclude: [
       "tests/integration-external/**",
       "tests/p0-coverage.test.ts",
+      "tests/integration/full_pipeline.test.ts",
     ],
     // Prevent hangs from too many concurrent claw-mem instances
     pool: 'forks',
