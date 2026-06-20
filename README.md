@@ -7,7 +7,7 @@
 *Make AI Agents Truly Remember*
 
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
-[![Version](https://img.shields.io/badge/Version-6.26.3-blue.svg)](https://github.com/opensourceclaw/claw-mem/releases/tag/v6.26.3)
+[![Version](https://img.shields.io/badge/Version-6.26.4-blue.svg)](https://github.com/opensourceclaw/claw-mem/releases/tag/v6.26.4)
 [![CI](https://github.com/opensourceclaw/claw-mem/actions/workflows/ci.yml/badge.svg)](https://github.com/opensourceclaw/claw-mem/actions/workflows/ci.yml)
 [![codecov](https://codecov.io/gh/opensourceclaw/claw-mem/branch/main/graph/badge.svg)](https://codecov.io/gh/opensourceclaw/claw-mem)
 

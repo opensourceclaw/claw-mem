@@ -18,8 +18,6 @@ import { ConstitutionStore } from "./constitution";
 
 interface ClawMemConfig {
   workspaceDir?: string;
-  autoRecall?: boolean;
-  autoCapture?: boolean;
   topK?: number;
   debug?: boolean;
 }
@@ -169,8 +167,6 @@ const plugin: PluginDefinition = {
     type: "object",
     properties: {
       workspaceDir: { type: "string", description: "Workspace directory" },
-      autoRecall: { type: "boolean", default: true },
-      autoCapture: { type: "boolean", default: true },
       topK: { type: "number", default: 10 },
       debug: { type: "boolean", default: false },
     },
@@ -179,8 +175,6 @@ const plugin: PluginDefinition = {
   register(api: OpenClawPluginApi) {
     const config: ClawMemConfig = {
       workspaceDir: (api.pluginConfig?.workspaceDir as string | undefined) || api.config?.workspaceDir,
-      autoRecall: (api.pluginConfig?.autoRecall as boolean | undefined) ?? true,
-      autoCapture: (api.pluginConfig?.autoCapture as boolean | undefined) ?? true,
       topK: (api.pluginConfig?.topK as number | undefined) ?? 10,
       debug: (api.pluginConfig?.debug as boolean | undefined) ?? false,
     };
@@ -349,89 +343,6 @@ const plugin: PluginDefinition = {
     // ========================================================================
 
     const bridgeReady: Promise<void> = bridge.start();
-
-    if (config.autoRecall) {
-      api.on("before_agent_start", async (event: any, ctx: any) => {
-        currentSessionId = ctx.sessionKey;
-        try { await bridgeReady; } catch { return; }
-        if (!bridge.isReady()) return;
-
-        try {
-          await bridge.call("start_session", { sessionId: ctx.sessionKey });
-        } catch (error) {
-          api.logger.warn("[claw-mem TS] Failed to start session:", error);
-        }
-
-        const query = extractQueryFromEvent(event);
-        let searchResults: any[] = [];
-        if (query && typeof query === "string" && query.trim()) {
-          try {
-            const result = await bridge.call("search", { query, limit: config.topK });
-            searchResults = result.memories || [];
-          } catch (error) {
-            api.logger.error("[claw-mem TS] Auto-recall error:", error);
-          }
-        }
-        if (searchResults.length > 0) {
-          const formatted = formatMemories(searchResults);
-          if (formatted) {
-            return { inject: [{ role: "system", content: formatted }] };
-          }
-        }
-      });
-    }
-
-    if (config.autoCapture) {
-      api.on("after_agent_turn", async (event: any, ctx: any) => {
-        try { await bridgeReady; } catch { return; }
-        if (!bridge.isReady()) return;
-        const messages: any[] = [];
-        if (event?.userMessage) messages.push(event.userMessage);
-        if (event?.assistantMessage) messages.push(event.assistantMessage);
-        if (messages.length === 0) return;
-        try {
-          const important = await bridge.call("extract_important_content", { messages });
-          if (important?.important && Array.isArray(important.important)) {
-            for (const item of important.important) {
-              if (item.importance && item.importance >= 0.5) {
-                await bridge.call("store", {
-                  text: item.content, memory_type: "episodic",
-                  metadata: { importance: item.importance, source: item.source,
-                    content_type: item.type, session_id: ctx.sessionKey },
-                });
-              }
-            }
-          }
-        } catch (error) {
-          api.logger.debug?.("[claw-mem TS] after_agent_turn capture skipped:", error);
-        }
-      });
-
-      api.on("agent_end", async (event: any, ctx: any) => {
-        try { await bridgeReady; } catch { return; }
-        if (!bridge.isReady()) return;
-
-        if (event?.messages && event.messages.length > 0) {
-          const recentMsgs = event.messages.slice(-50);
-          try {
-            const important = await bridge.call("extract_important_content", { messages: recentMsgs });
-            if (important?.important && Array.isArray(important.important)) {
-              for (const item of important.important) {
-                if (item.importance && item.importance >= 0.5) {
-                  await bridge.call("store", {
-                    text: item.content, memory_type: "episodic",
-                    metadata: { importance: item.importance, source: item.source,
-                      content_type: item.type, session_id: ctx.sessionKey },
-                  });
-                }
-              }
-            }
-          } catch (error) {
-            api.logger.warn("[claw-mem TS] extract_important_content failed:", error);
-          }
-        }
-      });
-    }
 
     bridgeReady.catch((err) => {
       api.logger.error("[claw-mem TS] Failed to start:", err);
