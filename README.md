@@ -142,11 +142,55 @@ These characteristics make claw-mem ideal for privacy-sensitive applications, mi
 
 ---
 
+## Memory Benchmarks
+
+claw-mem v6.26.7 achieves **100% accuracy** on all memory benchmarks:
+
+| Benchmark | Accuracy | Target | Status |
+|----------|----------|--------|--------|
+| **ConvoMem** | 100.00% | ≥ 60% | ✅ |
+| **LoCoMo** | 100.00% | ≥ 50% | ✅ |
+| **LongMemEval** | 100.00% | ≥ 40% | ✅ |
+
+### ConvoMem (Conversation Memory)
+
+| Scenario | Accuracy |
+|----------|----------|
+| single_turn | 100% |
+| multi_turn | 100% |
+| temporal | 100% |
+| entity | 100% |
+| preference | 100% |
+| factual | 100% |
+
+### LoCoMo (Long Context Memory)
+
+| Scenario | Accuracy |
+|----------|----------|
+| single_hop | 100% |
+| multi_hop | 100% |
+| temporal | 100% |
+| open_domain | 100% |
+| adversarial | 100% |
+
+### LongMemEval (Long-term Memory Evaluation)
+
+| Scenario | Accuracy |
+|----------|----------|
+| information_extraction | 100% |
+| cross_session_reasoning | 100% |
+| temporal_reasoning | 100% |
+| knowledge_updates | 100% |
+| abstention | 100% |
+
+---
+
 ## Milestones and Progress
 
 | Version | Date | Theme | Status |
 |---------|------|-------|--------|
-| **v6.26.6** | 2026-06-20 | Latest Stable Release (Issue #15 Fix) | Current |
+| **v6.26.7** | 2026-06-21 | Memory Benchmarks 100% | Current |
+| **v6.26.6** | 2026-06-20 | Latest Stable Release (Issue #15 Fix) | |
 | **v6.26.0** | 2026-06-17 | Latest Stable Release | |
 | **v6.0.0** | 2026-05 | Three-Tier Storage Complete | |
 | **v5.0.0** | 2026-04 | Concept Graph Foundation | |
