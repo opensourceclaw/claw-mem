@@ -49,7 +49,7 @@ describe("InMemoryIndex", () => {
       { id: "y", content: "More test content" },
     ]);
 
-    const jsonPath = path.join(tmpDir, "index_v5.0.0.json");
+    const jsonPath = path.join(tmpDir, ".claw-mem-index", "index_v5.0.0.json");
     expect(fs.existsSync(jsonPath)).toBe(true);
 
     // Reload

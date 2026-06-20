@@ -18,7 +18,8 @@ describe("EpisodicStorage", () => {
   });
 
   it("should create memory directory on init", () => {
-    expect(fs.existsSync(path.join(tmpDir, "memory"))).toBe(true);
+    // Memory directory is the workspace itself (workspace = memory directory)
+    expect(fs.existsSync(tmpDir)).toBe(true);
   });
 
   it("should store and retrieve memory", () => {

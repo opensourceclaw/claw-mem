@@ -29,7 +29,7 @@ describe("Data Persistence (Python compatibility)", () => {
 
     // Verify the file exists in memory/YYYY-MM-DD.md format
     const today = new Date().toISOString().slice(0, 10);
-    const fp = path.join(tmpDir, "memory", `${today}.md`);
+    const fp = path.join(tmpDir, `${today}.md`);
     expect(fs.existsSync(fp)).toBe(true);
 
     // Read raw content to verify Markdown format
@@ -57,7 +57,7 @@ describe("Data Persistence (Python compatibility)", () => {
     const proc = new ProceduralStorage(tmpDir);
     proc.store({ content: "Docker deploy steps", tags: ["docker", "procedural"], timestamp: "" });
 
-    const skillPath = path.join(tmpDir, "memory", "skills", "docker.md");
+    const skillPath = path.join(tmpDir, "skills", "docker.md");
     expect(fs.existsSync(skillPath)).toBe(true);
 
     const entries = proc.getSkill("docker");
