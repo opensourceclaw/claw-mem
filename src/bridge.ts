@@ -103,6 +103,18 @@ export function handleRequest(req: JsonRpcRequest, mm?: MemoryManager): JsonRpcR
           stats: manager.constitutionStore.getStats(),
         };
         break;
+      // v6.x: Alias for backward compatibility (critical_rules migrated to constitution)
+      case "get_critical_rules":
+        const allEntries = manager.constitutionStore.getAll();
+        const criticalEntries = allEntries.filter((e: any) => e.layer === 2 || e.tags?.includes("critical"));
+        result = {
+          rules: criticalEntries.map((e: any) => ({
+            id: e.id,
+            text: e.content,
+            layer: e.layer,
+          })),
+        };
+        break;
       case "scan_and_suggest_rule":
         result = {
           suggestions: manager.constitutionStore.scanAndSuggest(
