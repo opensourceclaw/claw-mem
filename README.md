@@ -7,7 +7,7 @@
 *Make AI Agents Truly Remember*
 
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
-[![Version](https://img.shields.io/badge/Version-6.26.4-blue.svg)](https://github.com/opensourceclaw/claw-mem/releases/tag/v6.26.4)
+[![Version](https://img.shields.io/badge/Version-6.26.6-blue.svg)](https://github.com/opensourceclaw/claw-mem/releases/tag/v6.26.6)
 [![CI](https://github.com/opensourceclaw/claw-mem/actions/workflows/ci.yml/badge.svg)](https://github.com/opensourceclaw/claw-mem/actions/workflows/ci.yml)
 [![codecov](https://codecov.io/gh/opensourceclaw/claw-mem/branch/main/graph/badge.svg)](https://codecov.io/gh/opensourceclaw/claw-mem)
 
@@ -146,7 +146,8 @@ These characteristics make claw-mem ideal for privacy-sensitive applications, mi
 
 | Version | Date | Theme | Status |
 |---------|------|-------|--------|
-| **v6.26.0** | 2026-06 | Latest Stable Release | Current |
+| **v6.26.6** | 2026-06-20 | Latest Stable Release (Issue #15 Fix) | Current |
+| **v6.26.0** | 2026-06-17 | Latest Stable Release | |
 | **v6.0.0** | 2026-05 | Three-Tier Storage Complete | |
 | **v5.0.0** | 2026-04 | Concept Graph Foundation | |
 | **v4.0.0** | 2026-03 | Write-Time Gating | |
