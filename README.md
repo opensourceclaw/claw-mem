@@ -2,9 +2,9 @@
 
 <div align="center">
 
-**Intelligent Memory System for AI Agents**
+**Intelligent Memory for OpenClaw**
 
-*Make AI Agents Truly Remember*
+*Make OpenClaw Truly Remember*
 
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
 [![Version](https://img.shields.io/badge/Version-6.26.6-blue.svg)](https://github.com/opensourceclaw/claw-mem/releases/tag/v6.26.6)
@@ -17,7 +17,7 @@
 
 ## Project Overview
 
-claw-mem is an **intelligent memory system** for AI agents. It enables AI agents to truly remember, learn, and evolve by providing a three-tier storage architecture with intelligent filtering and semantic connections.
+claw-mem is an **intelligent memory** for OpenClaw. It enables OpenClaw to truly remember, learn, and evolve by providing a three-tier storage architecture with intelligent filtering and semantic connections.
 
 ### Core Features
 
