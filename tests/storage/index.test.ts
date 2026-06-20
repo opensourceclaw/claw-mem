@@ -16,7 +16,7 @@ describe("InMemoryIndex", () => {
   });
 
   it("should build from memories", () => {
-    const idx = new InMemoryIndex(3, tmpDir, false);
+    const idx = new InMemoryIndex(tmpDir, 3, false);
     const entries = [
       { id: "m1", content: "Python async programming" },
       { id: "m2", content: "JavaScript event loop" },
@@ -29,7 +29,7 @@ describe("InMemoryIndex", () => {
   });
 
   it("should search and return relevant IDs", () => {
-    const idx = new InMemoryIndex(3, tmpDir, false);
+    const idx = new InMemoryIndex(tmpDir, 3, false);
     idx.loadOrBuild([
       { id: "a", content: "REST API endpoint design" },
       { id: "b", content: "Database indexing strategies" },
@@ -43,7 +43,7 @@ describe("InMemoryIndex", () => {
   });
 
   it("should save and load JSON index", () => {
-    const idx = new InMemoryIndex(3, tmpDir, true);
+    const idx = new InMemoryIndex(tmpDir, 3, true);
     idx.loadOrBuild([
       { id: "x", content: "Test content here" },
       { id: "y", content: "More test content" },
@@ -53,7 +53,7 @@ describe("InMemoryIndex", () => {
     expect(fs.existsSync(jsonPath)).toBe(true);
 
     // Reload
-    const idx2 = new InMemoryIndex(3, tmpDir, true);
+    const idx2 = new InMemoryIndex(tmpDir, 3, true);
     const loaded = idx2.loadOrBuild([]);
     expect(loaded).toBe(true);
     expect(idx2.built).toBe(true);
@@ -61,7 +61,7 @@ describe("InMemoryIndex", () => {
   });
 
   it("should add memory incrementally", () => {
-    const idx = new InMemoryIndex(3, tmpDir, false);
+    const idx = new InMemoryIndex(tmpDir, 3, false);
     idx.loadOrBuild([{ id: "init", content: "Initial memory" }]);
     idx.addMemory("New memory added", "new-id", false);
     expect(idx.bm25.doc_count).toBe(2);
@@ -70,12 +70,12 @@ describe("InMemoryIndex", () => {
   });
 
   it("should return empty when not built", () => {
-    const idx = new InMemoryIndex(3, tmpDir, false);
+    const idx = new InMemoryIndex(tmpDir, 3, false);
     expect(idx.search("anything").length).toBe(0);
   });
 
   it("should limit search results", () => {
-    const idx = new InMemoryIndex(3, tmpDir, false);
+    const idx = new InMemoryIndex(tmpDir, 3, false);
     const entries = Array.from({ length: 20 }, (_, i) => ({
       id: `m${i}`,
       content: `Python async programming patterns part ${i}`,

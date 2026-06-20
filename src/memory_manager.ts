@@ -94,7 +94,7 @@ export class MemoryManager {
     this.constitutionStore = new ConstitutionStore(this.workspace);
     this._migrateCriticalRulesToConstitution();
 
-    log(`claw-mem TS v6.6.0 initialized, workspace: ${this.workspace}`);
+    log(`claw-mem TS v6.26.6 initialized, workspace: ${this.workspace}`);
   }
 
   // v5.1.0: Constitution Store — 3-layer persistent identity

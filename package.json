@@ -21,7 +21,7 @@
     "benchmark": "vitest run tests/benchmarks --reporter=json > benchmark-results.json 2>&1 || true"
   },
   "dependencies": {
-    "js-yaml": "^4.1.0",
+    "js-yaml": "^4.2.0",
     "openai": "^6.42.0"
   },
   "devDependencies": {

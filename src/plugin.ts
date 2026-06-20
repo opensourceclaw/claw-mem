@@ -4,7 +4,7 @@
  * Architecture: Direct TypeScript (no Python subprocess)
  * - Plugin imports TS MemoryManager directly
  * - Zero network overhead, zero subprocess overhead
- * - ConstitutionStore, Stage 0 injection, all v6.6.0 features
+ * - ConstitutionStore, Stage 0 injection, all v6.26.6 features
  */
 
 import * as path from "path";
@@ -66,7 +66,7 @@ class TsBridge {
     this._manager = getMemoryManager({ workspace: ws, autoDetect: false });
     this._constitution = this._manager.constitutionStore;
     this._ready = true;
-    logger.info("[claw-mem TS] v6.6.0 initialized (no Python subprocess)");
+    logger.info("[claw-mem TS] v6.26.6 initialized (no Python subprocess)");
   }
 
   isReady(): boolean { return this._ready; }

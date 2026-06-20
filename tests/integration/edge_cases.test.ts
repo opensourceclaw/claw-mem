@@ -43,7 +43,7 @@ describe("Edge Cases", () => {
   });
 
   it("index: load empty then build on demand", () => {
-    const idx = new InMemoryIndex(3, tmpDir, false);
+    const idx = new InMemoryIndex(tmpDir, 3, false);
     expect(idx.built).toBe(false);
     idx.loadOrBuild([{ id: "test", content: "hello world" }]);
     expect(idx.built).toBe(true);
@@ -60,7 +60,7 @@ describe("Edge Cases", () => {
   });
 
   it("integrity_checker: index rebuild on corruption", () => {
-    const idx = new InMemoryIndex(3, tmpDir, false);
+    const idx = new InMemoryIndex(tmpDir, 3, false);
     const checker = new IntegrityChecker(tmpDir, idx);
     const report = checker.quickCheck();
     // Index was never built, so rebuilt flag should be true after quickCheck tries loadOrBuild
@@ -68,7 +68,7 @@ describe("Edge Cases", () => {
   });
 
   it("index_evolver: tracks access and write counts", () => {
-    const idx = new InMemoryIndex(3, tmpDir, false);
+    const idx = new InMemoryIndex(tmpDir, 3, false);
     idx.loadOrBuild([{ id: "x", content: "test" }]);
     const evolver = new IndexEvolver(idx, { accessThreshold: 99999, writeThreshold: 99999 });
     evolver.touchWrite(5);

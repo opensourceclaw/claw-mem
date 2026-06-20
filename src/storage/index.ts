@@ -24,6 +24,7 @@ export class InMemoryIndex {
   private entries: Map<string, string>;
   private indexDir: string;
   private version: string;
+  private enablePersistence: boolean;
 
   constructor(workspace: string, ngramSize: number = 3, enablePersistence: boolean = true) {
     this.ngramIndex = new Map();
@@ -33,6 +34,7 @@ export class InMemoryIndex {
     // Store index in workspace for consistency
     this.indexDir = path.join(workspace, ".claw-mem-index");
     this.version = "5.0.0";
+    this.enablePersistence = enablePersistence;
     if (enablePersistence) {
       fs.mkdirSync(this.indexDir, { recursive: true });
     }
@@ -65,7 +67,9 @@ export class InMemoryIndex {
     }
 
     this.buildFromMemories(memories);
-    this.saveToJson(jsonPath);
+    if (this.enablePersistence) {
+      this.saveToJson(jsonPath);
+    }
     return false;
   }
 
@@ -86,7 +90,7 @@ export class InMemoryIndex {
         ? this.bm25.doc_freq / this.bm25.doc_count
         : 0;
     this.built = true;
-    if (saveAsync) {
+    if (saveAsync && this.enablePersistence) {
       try {
         this.saveToJson(path.join(this.indexDir, "index_v5.0.0.json"));
       } catch { /* silent — persistence is best-effort */ }
