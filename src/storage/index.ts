@@ -25,12 +25,13 @@ export class InMemoryIndex {
   private indexDir: string;
   private version: string;
 
-  constructor(ngramSize: number = 3, indexDir?: string, enablePersistence: boolean = true) {
+  constructor(workspace: string, ngramSize: number = 3, enablePersistence: boolean = true) {
     this.ngramIndex = new Map();
     this.bm25 = { doc_freq: 0, doc_count: 0, avg_doc_len: 0 };
     this.built = false;
     this.entries = new Map();
-    this.indexDir = indexDir || path.join(os.homedir(), ".claw-mem", "index");
+    // Store index in workspace for consistency
+    this.indexDir = path.join(workspace, ".claw-mem-index");
     this.version = "5.0.0";
     if (enablePersistence) {
       fs.mkdirSync(this.indexDir, { recursive: true });

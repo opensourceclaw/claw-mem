@@ -15,7 +15,8 @@ export class EpisodicStorage {
   private ttlDays: number;
 
   constructor(workspace: string, ttlDays: number = 30) {
-    this.memoryDir = path.join(workspace, "memory");
+    // Use workspace directly as memory storage directory
+    this.memoryDir = workspace;
     this.ttlDays = ttlDays;
     fs.mkdirSync(this.memoryDir, { recursive: true });
   }

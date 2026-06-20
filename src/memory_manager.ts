@@ -79,7 +79,7 @@ export class MemoryManager {
     this._episodic = new EpisodicStorage(this.workspace);
     this._semantic = new SemanticStorage(this.workspace);
     this._procedural = new ProceduralStorage(this.workspace);
-    this._index = new InMemoryIndex(3, path.join(os.homedir(), ".claw-mem", "index"), true);
+    this._index = new InMemoryIndex(this.workspace);
 
     // Stats tracking
     this._searchCount = 0;
