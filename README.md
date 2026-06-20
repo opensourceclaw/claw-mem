@@ -165,12 +165,13 @@ claw-mem integrates with OpenClaw as the default memory plugin:
 {
   "plugins": {
     "slots": {
-      "memory": "claw-mem",
-      "contextEngine": "claw-mem"
+      "memory": "claw-mem"
     }
   }
 }
 ```
+
+Note: Context Engine functionality is provided by claw-ctx.
 
 ---
 
