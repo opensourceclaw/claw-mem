@@ -4,7 +4,7 @@
  * Architecture: Direct TypeScript (no Python subprocess)
  * - Plugin imports TS MemoryManager directly
  * - Zero network overhead, zero subprocess overhead
- * - ConstitutionStore, Stage 0 injection, all v6.26.6 features
+ * - ConstitutionStore, Stage 0 injection, all v6.26.7 features
  */
 
 import * as path from "path";
@@ -66,7 +66,7 @@ class TsBridge {
     this._manager = getMemoryManager({ workspace: ws, autoDetect: false });
     this._constitution = this._manager.constitutionStore;
     this._ready = true;
-    logger.info("[claw-mem TS] v6.26.6 initialized (no Python subprocess)");
+    logger.info("[claw-mem TS] v6.26.7 initialized (no Python subprocess)");
   }
 
   isReady(): boolean { return this._ready; }
@@ -167,7 +167,7 @@ const ALL_TOOL_NAMES = [
 
 const plugin: PluginDefinition = {
   id: "claw-mem",
-  name: "Claw Memory System (TS v6.26.6)",
+  name: "Claw Memory System (TS v6.26.7)",
   description: "Three-tier memory system for OpenClaw — direct TypeScript, no Python subprocess",
   version: "6.26.6",
   kind: "memory",
