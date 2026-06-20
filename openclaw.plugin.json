@@ -14,5 +14,21 @@
     }
   },
   "activation": { "onStartup": true },
-  "contracts": { "tools": ["memory_search", "memory_store", "memory_get", "memory_forget"] }
+  "contracts": {
+    "tools": [
+      "memory_search",
+      "memory_store",
+      "memory_get",
+      "memory_forget",
+      "memory_dispatch_store",
+      "memory_dispatch_query",
+      "memory_failure_classify",
+      "memory_cross_domain_store",
+      "memory_cross_domain_query",
+      "memory_cross_domain_correlate",
+      "memory_debt_store",
+      "memory_debt_query",
+      "memory_debt_update"
+    ]
+  }
 }
