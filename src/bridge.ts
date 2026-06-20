@@ -57,16 +57,18 @@ export function handleRequest(req: JsonRpcRequest, mm?: MemoryManager): JsonRpcR
         manager.sessionId = null;
         result = { status: "ended" };
         break;
-      case "store":
+      case "store": {
+        const storeContent = String(params.content || params.text || "");
         result = {
           success: manager.store(
-            String(params.content ?? ""),
+            storeContent,
             String(params.memory_type ?? "episodic"),
             (params.tags as string[]) ?? [],
             (params.metadata as Record<string, unknown>) ?? {},
           ),
         };
         break;
+      }
       case "search":
         result = {
           results: manager.search(

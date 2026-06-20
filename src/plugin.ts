@@ -152,16 +152,29 @@ interface PluginDefinition {
   description?: string;
   version?: string;
   kind?: "memory" | "context-engine";
+  contracts?: { tools?: string[] };
   configSchema?: any;
   register?: (api: OpenClawPluginApi) => void | Promise<void>;
 }
 
+const ALL_TOOL_NAMES = [
+  "memory_search", "memory_store", "memory_get", "memory_forget",
+  "memory_dispatch_store", "memory_dispatch_query",
+  "memory_failure_classify",
+  "memory_cross_domain_store", "memory_cross_domain_query", "memory_cross_domain_correlate",
+  "memory_debt_store", "memory_debt_query", "memory_debt_update",
+];
+
 const plugin: PluginDefinition = {
   id: "claw-mem",
-  name: "Claw Memory System (TS v6.26.0)",
+  name: "Claw Memory System (TS v6.26.6)",
   description: "Three-tier memory system for OpenClaw — direct TypeScript, no Python subprocess",
-  version: "6.26.0",
+  version: "6.26.6",
   kind: "memory",
+
+  contracts: {
+    tools: ALL_TOOL_NAMES,
+  },
 
   configSchema: {
     type: "object",
@@ -207,7 +220,8 @@ const plugin: PluginDefinition = {
           }
           return sections;
         } catch (error) {
-          api.logger.warn("[claw-mem TS] promptBuilder failed:", error);
+          const msg = error instanceof Error ? error.message : String(error);
+          api.logger.warn(`[claw-mem TS] promptBuilder failed: ${msg}`);
           return [];
         }
       },
