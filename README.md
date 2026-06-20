@@ -15,7 +15,7 @@
 
 ---
 
-## 🎯 Project Overview
+## Project Overview
 
 claw-mem is an **intelligent memory system** for AI agents. It enables AI agents to truly remember, learn, and evolve by providing a three-tier storage architecture with intelligent filtering and semantic connections.
 
@@ -40,15 +40,15 @@ Traditional AI agents have no persistent memory. Each conversation starts fresh.
 
 ---
 
-## 📈 Milestones & Progress
+## Milestones and Progress
 
 | Version | Date | Theme | Status |
 |---------|------|-------|--------|
-| **v6.26.0** | 2026-06 | Latest Stable Release | ✅ Current |
-| **v6.0.0** | 2026-05 | Three-Tier Storage Complete | ✅ |
-| **v5.0.0** | 2026-04 | Concept Graph Foundation | ✅ |
-| **v4.0.0** | 2026-03 | Write-Time Gating | ✅ |
-| **v3.0.0** | 2026-02 | Basic Memory System | ✅ |
+| **v6.26.0** | 2026-06 | Latest Stable Release | Current |
+| **v6.0.0** | 2026-05 | Three-Tier Storage Complete | |
+| **v5.0.0** | 2026-04 | Concept Graph Foundation | |
+| **v4.0.0** | 2026-03 | Write-Time Gating | |
+| **v3.0.0** | 2026-02 | Basic Memory System | |
 
 ### Upcoming (v7.0.0)
 
@@ -58,7 +58,7 @@ Traditional AI agents have no persistent memory. Each conversation starts fresh.
 
 ---
 
-## 🚀 Installation
+## Installation
 
 ### Prerequisites
 
@@ -81,17 +81,26 @@ npm run build
 
 ### As OpenClaw Plugin
 
-Add to your OpenClaw configuration:
+Install via ClawHub:
+
+```bash
+openclaw plugins install clawhub:opensourceclaw-claw-mem
+```
+
+Or add to your OpenClaw configuration:
 
 ```json
 {
   "plugins": {
+    "allow": ["opensourceclaw-claw-mem"],
     "slots": {
       "memory": "claw-mem"
     }
   }
 }
 ```
+
+Note: Context Engine functionality is provided by claw-ctx.
 
 ### Verify Installation
 
@@ -105,31 +114,31 @@ npm run --silent version
 
 ---
 
-## 🏗️ Architecture
+## Architecture
 
 ```
-┌─────────────────────────────────────────────────────────────┐
-│                      claw-mem                                │
-├─────────────────────────────────────────────────────────────┤
-│                                                              │
-│  ┌─────────────┐   ┌─────────────┐   ┌─────────────┐       │
-│  │    STM      │ → │    LTM      │ → │   Archive   │       │
-│  │ (Working)   │   │ (Persistent)│   │  (Long-term)│       │
-│  └─────────────┘   └─────────────┘   └─────────────┘       │
-│         ↓               ↓                 ↓                 │
-│  ┌─────────────────────────────────────────────────────┐   │
-│  │              Memory Manager                          │   │
-│  │  - Gating (Write-Time Filtering)                     │   │
-│  │  - Retrieval (Semantic Search)                       │   │
-│  │  - Graph (Concept Connections)                       │   │
-│  └─────────────────────────────────────────────────────┘   │
-│                                                              │
-└─────────────────────────────────────────────────────────────┘
++-------------------------------------------------------------+
+|                      claw-mem                                |
++-------------------------------------------------------------+
+|                                                              |
+|  +-------------+   +-------------+   +-------------+       |
+|  |    STM      | -> |    LTM      | -> |   Archive   |       |
+|  | (Working)   |   | (Persistent)|   |  (Long-term)|       |
+|  +-------------+   +-------------+   +-------------+       |
+|         |               |                 |                 |
+|  +-----------------------------------------------------+   |
+|  |              Memory Manager                          |   |
+|  |  - Gating (Write-Time Filtering)                     |   |
+|  |  - Retrieval (Semantic Search)                       |   |
+|  |  - Graph (Concept Connections)                     |   |
+|  +-----------------------------------------------------+   |
+|                                                              |
++-------------------------------------------------------------+
 ```
 
 ---
 
-## 📖 Usage
+## Usage
 
 ### Basic API
 
@@ -175,7 +184,7 @@ Note: Context Engine functionality is provided by claw-ctx.
 
 ---
 
-## 🧪 Testing
+## Testing
 
 ```bash
 # Run all tests
@@ -190,7 +199,7 @@ npm run test:unit
 
 ---
 
-## 🤝 Contributing
+## Contributing
 
 We welcome contributions from the community!
 
@@ -226,13 +235,11 @@ npm run build
 
 ---
 
-## Contributing
-
 We welcome contributions! See [CONTRIBUTING.md](./CONTRIBUTING.md) for development setup, coding standards, and PR guidelines. Also see [GOVERNANCE.md](./GOVERNANCE.md) for project governance and [MAINTAINERS.md](./MAINTAINERS.md) for current maintainers.
 
 ---
 
-## 📄 License
+## License
 
 claw-mem is licensed under the **Apache License 2.0**.
 
@@ -261,7 +268,7 @@ limitations under the License.
 
 ---
 
-## 📞 Support
+## Support
 
 - **Issue Tracker**: [github.com/opensourceclaw/claw-mem/issues](https://github.com/opensourceclaw/claw-mem/issues)
 - **Discussions**: [github.com/opensourceclaw/claw-mem/discussions](https://github.com/opensourceclaw/claw-mem/discussions)
@@ -271,6 +278,6 @@ limitations under the License.
 
 <div align="center">
 
-Made with ❤️ by the OpenSourceClaw Community
+Made with love by the OpenSourceClaw Community
 
 </div>
