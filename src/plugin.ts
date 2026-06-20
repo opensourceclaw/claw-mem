@@ -197,13 +197,15 @@ const plugin: PluginDefinition = {
         if (!bridge.isReady()) return [];
         try {
           const criticalResult = await bridge.call("get_critical_rules", {});
-          const result = await bridge.call("build_context", {
-            topK: config.topK,
+          const searchResult = await bridge.call("search", {
             query: "important recent context",
+            limit: config.topK,
           });
           const sections: string[] = [];
-          if (result?.context && Array.isArray(result.context)) {
-            sections.push(...(result.context as string[]));
+          if (searchResult?.results && Array.isArray(searchResult.results)) {
+            for (const r of searchResult.results) {
+              sections.push(`- ${r.content} (score: ${r.score?.toFixed(2) || "N/A"})`);
+            }
           }
           if (criticalResult?.rules && Array.isArray(criticalResult.rules) && criticalResult.rules.length > 0) {
             const rulesLines = criticalResult.rules.map((r: any) => `- **${r.id}**: ${r.text}`);
