@@ -44,7 +44,7 @@ Traditional AI agents have no persistent memory. Each conversation starts fresh.
 
 | Version | Date | Theme | Status |
 |---------|------|-------|--------|
-| **v6.13.0** | 2026-06 | Context Engine Integration | ✅ Current |
+| **v6.26.0** | 2026-06 | Latest Stable Release | ✅ Current |
 | **v6.0.0** | 2026-05 | Three-Tier Storage Complete | ✅ |
 | **v5.0.0** | 2026-04 | Concept Graph Foundation | ✅ |
 | **v4.0.0** | 2026-03 | Write-Time Gating | ✅ |
@@ -81,12 +81,7 @@ npm run build
 
 ### As OpenClaw Plugin
 
-```bash
-# Install via OpenClaw
-npx clawhub@latest install opensourceclaw-claw-mem
-```
-
-Or manually add to your OpenClaw configuration:
+Add to your OpenClaw configuration:
 
 ```json
 {
