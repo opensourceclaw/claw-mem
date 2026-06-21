@@ -53,6 +53,9 @@ export class PrivacyFilter {
   sensitivity(record: MemoryRecord): number {
     let score = 0.1;
 
+    // Limit input length to prevent ReDoS
+    const content = record.content.slice(0, 1000);
+
     const piiPatterns = [
       /[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}/,
       /\b\d{3}[-.]?\d{3}[-.]?\d{4}\b/,
@@ -61,13 +64,13 @@ export class PrivacyFilter {
     ];
 
     for (const p of piiPatterns) {
-      if (p.test(record.content)) {
+      if (p.test(content)) {
         score = Math.max(score, 0.8);
         break;
       }
     }
 
-    const lowered = record.content.toLowerCase();
+    const lowered = content.toLowerCase();
     for (const kw of HIGH_SENSITIVITY_KEYWORDS) {
       if (lowered.includes(kw)) {
         score = Math.max(score, 0.6);
