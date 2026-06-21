@@ -85,12 +85,11 @@ function cosineSimilarity(a: number[], b: number[]): number {
   return dot / (normA * normB || 1);
 }
 
+import { randomUUID } from 'crypto';
+
 function generateId(): string {
-  // uuid-like v4 random id
-  return "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx".replace(/[xy]/g, (c) => {
-    const r = (Math.random() * 16) | 0;
-    return (c === "x" ? r : (r & 0x3) | 0x8).toString(16);
-  });
+  // Use crypto.randomUUID for secure ID generation
+  return randomUUID();
 }
 
 export class ConceptMediatedGraph {
