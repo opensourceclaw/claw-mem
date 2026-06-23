@@ -7,7 +7,7 @@
 *Make OpenClaw Truly Remember*
 
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
-[![Version](https://img.shields.io/badge/Version-6.26.7-blue.svg)](https://github.com/opensourceclaw/claw-mem/releases/tag/v6.26.7)
+[![Version](https://img.shields.io/badge/Version-6.26.8-blue.svg)](https://github.com/opensourceclaw/claw-mem/releases/tag/v6.26.8)
 [![CI](https://github.com/opensourceclaw/claw-mem/actions/workflows/ci.yml/badge.svg)](https://github.com/opensourceclaw/claw-mem/actions/workflows/ci.yml)
 [![codecov](https://codecov.io/gh/opensourceclaw/claw-mem/branch/main/graph/badge.svg)](https://codecov.io/gh/opensourceclaw/claw-mem)
 
@@ -144,7 +144,7 @@ These characteristics make claw-mem ideal for privacy-sensitive applications, mi
 
 ## Memory Benchmarks
 
-claw-mem v6.26.7 achieves **100% accuracy** on all memory benchmarks:
+claw-mem v6.26.8 achieves **100% accuracy** on all memory benchmarks:
 
 | Benchmark | Accuracy | Target | Status |
 |----------|----------|--------|--------|
@@ -189,7 +189,7 @@ claw-mem v6.26.7 achieves **100% accuracy** on all memory benchmarks:
 
 | Version | Date | Theme | Status |
 |---------|------|-------|--------|
-| **v6.26.7** | 2026-06-21 | Memory Benchmarks 100% | Current |
+| **v6.26.8** | 2026-06-21 | Memory Benchmarks 100% | Current |
 | **v6.26.6** | 2026-06-20 | Latest Stable Release (Issue #15 Fix) | |
 | **v6.26.0** | 2026-06-17 | Latest Stable Release | |
 | **v6.0.0** | 2026-05 | Three-Tier Storage Complete | |
