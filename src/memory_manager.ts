@@ -29,6 +29,7 @@ import type { TieredDecayEngine } from "./decay/tiered_decay.js";
 import type { ConceptMediatedGraph } from "./graph/concept_graph.js";
 import type { MemoryCompressorV2 } from "./compression/memory_compression_v2.js";
 import type { CompressionSpectrum } from "./compression/spectrum.js";
+import type { SessionSnapshot } from "./session/snapshot-types.js";
 
 let _silent = false;
 export function setSilent(v: boolean): void { _silent = v; }
@@ -377,6 +378,13 @@ export class MemoryManager {
     const now = Date.now();
     this._searchCache.set(cacheKey, { results: result, ts: now, lastAccess: now });
     return result;
+  }
+
+  // ── session snapshot ─────────────────────────────────────────────
+
+  snapshotSession(snapshot: SessionSnapshot): import("./session/snapshot-types.js").SnapshotStoreResult {
+    const { SnapshotStore } = require("./session/snapshot-store.js");
+    return new SnapshotStore(this, {}).store(snapshot);
   }
 
   getStats(): Record<string, unknown> {

@@ -2,13 +2,15 @@
 // Licensed under the Apache License, Version 2.0
 
 /**
- * claw-mem v5.0.0 — Plugin Bridge (TypeScript)
+ * claw-mem v6.27.0 — Plugin Bridge (TypeScript)
  *
  * Direct JSON-RPC handler interface. Routes OpenClaw plugin calls
  * to MemoryManager without subprocess. Replaces Python subprocess bridge.
  */
 
 import { MemoryManager, getMemoryManager } from "./memory_manager.js";
+import type { SessionSnapshot } from "./session/snapshot-types.js";
+import { SnapshotStore } from "./session/snapshot-store.js";
 
 export interface JsonRpcRequest {
   jsonrpc: "2.0";
@@ -44,7 +46,7 @@ export function handleRequest(req: JsonRpcRequest, mm?: MemoryManager): JsonRpcR
 
     switch (method) {
       case "ping":
-        result = { version: "5.0.0", status: "ok" };
+        result = { version: "6.27.0", status: "ok" };
         break;
       case "status":
         result = manager.getStats();
@@ -392,6 +394,29 @@ export function handleRequest(req: JsonRpcRequest, mm?: MemoryManager): JsonRpcR
         break;
       }
 
+      // v6.27.0: Session Snapshot
+      case "session_snapshot": {
+        const snapshot = params.snapshot as SessionSnapshot;
+        const store = new SnapshotStore(manager);
+        result = store.store(snapshot);
+        break;
+      }
+      case "session_get_latest": {
+        const store = new SnapshotStore(manager);
+        result = store.getLatest(params.sessionId ? String(params.sessionId) : undefined);
+        break;
+      }
+      case "session_close": {
+        const store = new SnapshotStore(manager);
+        result = store.close(String(params.sessionId ?? ""));
+        break;
+      }
+      case "session_get_unclosed": {
+        const store = new SnapshotStore(manager);
+        result = { sessions: store.getUnclosed() };
+        break;
+      }
+
       default:
         return { jsonrpc: "2.0", id, error: { code: -32601, message: `Method '${method}' not found` } };
     }
@@ -406,9 +431,9 @@ export function handleRequest(req: JsonRpcRequest, mm?: MemoryManager): JsonRpcR
 /** OpenClaw plugin registration entry point. */
 export const plugin = {
   id: "claw-mem",
-  name: "Claw Memory System (TS v5.0.0)",
+  name: "Claw Memory System (TS v6.27.0)",
   description: "Local-First Three-Tier Memory System",
-  version: "5.0.0",
+  version: "6.27.0",
   register(api: ClawMemPluginApi) {
     const config = api.pluginConfig ?? {};
     void new MemoryManager({
@@ -418,7 +443,7 @@ export const plugin = {
       enableCompression: !!(config.enableCompression ?? true),
     });
 
-    api.logger?.info("[claw-mem TS] v5.0.0 initialized");
+    api.logger?.info("[claw-mem TS] v6.27.0 initialized");
 
     api.registerService({
       id: "claw-mem-ts",

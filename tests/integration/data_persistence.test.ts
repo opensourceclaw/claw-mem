@@ -29,7 +29,7 @@ describe("Data Persistence (Python compatibility)", () => {
 
     // Verify the file exists in memory/YYYY-MM-DD.md format
     const today = new Date().toISOString().slice(0, 10);
-    const fp = path.join(tmpDir, `${today}.md`);
+    const fp = path.join(tmpDir, "memory", `${today}.md`);
     expect(fs.existsSync(fp)).toBe(true);
 
     // Read raw content to verify Markdown format

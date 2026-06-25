@@ -30,7 +30,7 @@ describe("Bridge JSON-RPC", () => {
 
   it("ping returns version", () => {
     const resp = handleRequest(req("ping"), mm());
-    expect(resp.result).toEqual({ version: "5.0.0", status: "ok" });
+    expect(resp.result).toEqual({ version: "6.27.0", status: "ok" });
   });
 
   it("status returns stats", () => {
