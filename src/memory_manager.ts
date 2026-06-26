@@ -387,6 +387,30 @@ export class MemoryManager {
     return new SnapshotStore(this, {}).store(snapshot);
   }
 
+  // v6.27.0: Session snapshot API for CheckpointManager integration
+  sessionSnapshot(params: { snapshot: SessionSnapshot }): { stored: boolean; id: string } {
+    const result = this.snapshotSession(params.snapshot);
+    return result;
+  }
+
+  sessionGetLatest(params?: { sessionId?: string }): SessionSnapshot | null {
+    const { SnapshotStore } = require("./session/snapshot-store.js");
+    const store = new SnapshotStore(this, {});
+    return store.getLatest(params?.sessionId);
+  }
+
+  sessionClose(params: { sessionId: string }): { closed: boolean } {
+    const { SnapshotStore } = require("./session/snapshot-store.js");
+    const store = new SnapshotStore(this, {});
+    return store.close(params.sessionId);
+  }
+
+  sessionGetUnclosed(params?: Record<string, never>): { sessions: SessionSnapshot[] } {
+    const { SnapshotStore } = require("./session/snapshot-store.js");
+    const store = new SnapshotStore(this, {});
+    return { sessions: store.getUnclosed() };
+  }
+
   getStats(): Record<string, unknown> {
     const memMb = Math.round(process.memoryUsage().heapUsed / 1024 / 1024 * 100) / 100;
     return {
