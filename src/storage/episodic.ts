@@ -117,7 +117,8 @@ export class EpisodicStorage {
     }
     let lines = "";
     if (meta.length) lines += `<!-- ${meta.join("; ")} -->\n`;
-    lines += `[${timestamp}] ${content}`;
+    // v6.27.2: Timestamp moved to trailing HTML comment for cache stability
+    lines += `${content} <!-- ts:${timestamp} -->`;
     return lines;
   }
 
@@ -159,30 +160,43 @@ export class EpisodicStorage {
           }
           continue;
         }
-        if (line.startsWith("[")) {
+        // v6.27.2: Support both old and new timestamp formats
+        let timestamp = "";
+        let content = "";
+
+        // Try new format first: content <!-- ts:TIMESTAMP -->
+        const tsMatch = line.match(/^(.+?)\s*<!-- ts:([^>]+) -->$/);
+        if (tsMatch) {
+          content = tsMatch[1].trim();
+          timestamp = tsMatch[2];
+        } else if (line.startsWith("[")) {
+          // Fallback to old format: [TIMESTAMP] content
           const endIdx = line.indexOf("]");
           if (endIdx !== -1) {
-            const timestamp = line.slice(1, endIdx);
-            const content = line.slice(endIdx + 1).trim();
-            const sessionId = currentMeta["session"];
-            const tagsStr = currentMeta["tags"] || "";
-            const tags = tagsStr ? tagsStr.split(", ").filter(Boolean) : [];
-            const metadata: Record<string, string> = {};
-            for (const [k, v] of Object.entries(currentMeta)) {
-              if (k !== "tags" && k !== "session") metadata[k] = v;
-            }
-            entries.push({
-              timestamp,
-              content,
-              tags,
-              session_id: sessionId,
-              id: metadata["id"] || undefined,
-              metadata,
-              type: "episodic",
-              source: filePath,
-            });
-            currentMeta = {};
+            timestamp = line.slice(1, endIdx);
+            content = line.slice(endIdx + 1).trim();
           }
+        }
+
+        if (timestamp || content) {
+          const sessionId = currentMeta["session"];
+          const tagsStr = currentMeta["tags"] || "";
+          const tags = tagsStr ? tagsStr.split(", ").filter(Boolean) : [];
+          const metadata: Record<string, string> = {};
+          for (const [k, v] of Object.entries(currentMeta)) {
+            if (k !== "tags" && k !== "session") metadata[k] = v;
+          }
+          entries.push({
+            timestamp,
+            content,
+            tags,
+            session_id: sessionId,
+            id: metadata["id"] || undefined,
+            metadata,
+            type: "episodic",
+            source: filePath,
+          });
+          currentMeta = {};
         }
       }
     } catch { /* file read error → empty */ }

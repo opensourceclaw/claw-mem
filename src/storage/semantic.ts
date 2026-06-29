@@ -76,7 +76,8 @@ export class SemanticStorage {
     for (const [k, v] of Object.entries(metadata)) {
       meta.push(`${k}: ${v}`);
     }
-    return `<!-- ${meta.join("; ")} -->\n[${timestamp}] ${content}\n`;
+    // v6.27.2: Timestamp moved to trailing HTML comment for cache stability
+    return `<!-- ${meta.join("; ")} -->\n${content} <!-- ts:${timestamp} -->\n`;
   }
 
   private generateId(): string {
@@ -111,29 +112,42 @@ export class SemanticStorage {
           }
           continue;
         }
-        if (line.startsWith("[")) {
+        // v6.27.2: Support both old and new timestamp formats
+        let timestamp = "";
+        let content = "";
+
+        // Try new format first: content <!-- ts:TIMESTAMP -->
+        const tsMatch = line.match(/^(.+?)\s*<!-- ts:([^>]+) -->$/);
+        if (tsMatch) {
+          content = tsMatch[1].trim();
+          timestamp = tsMatch[2];
+        } else if (line.startsWith("[")) {
+          // Fallback to old format: [TIMESTAMP] content
           const endIdx = line.indexOf("]");
           if (endIdx !== -1) {
-            const timestamp = line.slice(1, endIdx);
-            const content = line.slice(endIdx + 1).trim();
-            const memoryId = currentMeta["id"];
-            const tagsStr = currentMeta["tags"] || "";
-            const tags = tagsStr ? tagsStr.split(", ").filter(Boolean) : [];
-            const metadata: Record<string, string> = {};
-            for (const [k, v] of Object.entries(currentMeta)) {
-              if (k !== "tags" && k !== "id") metadata[k] = v;
-            }
-            entries.push({
-              id: memoryId,
-              timestamp,
-              content,
-              tags,
-              metadata,
-              type: "semantic",
-              source: this.filePath,
-            });
-            currentMeta = {};
+            timestamp = line.slice(1, endIdx);
+            content = line.slice(endIdx + 1).trim();
           }
+        }
+
+        if (timestamp || content) {
+          const memoryId = currentMeta["id"];
+          const tagsStr = currentMeta["tags"] || "";
+          const tags = tagsStr ? tagsStr.split(", ").filter(Boolean) : [];
+          const metadata: Record<string, string> = {};
+          for (const [k, v] of Object.entries(currentMeta)) {
+            if (k !== "tags" && k !== "id") metadata[k] = v;
+          }
+          entries.push({
+            id: memoryId,
+            timestamp,
+            content,
+            tags,
+            metadata,
+            type: "semantic",
+            source: this.filePath,
+          });
+          currentMeta = {};
         }
       }
     } catch { /* read error → empty */ }
@@ -149,7 +163,8 @@ export class SemanticStorage {
       for (const [k, v] of Object.entries(m.metadata)) {
         meta.push(`${k}: ${v}`);
       }
-      content += `<!-- ${meta.join("; ")} -->\n[${m.timestamp}] ${m.content}\n\n`;
+      // v6.27.2: New format with trailing timestamp
+      content += `<!-- ${meta.join("; ")} -->\n${m.content} <!-- ts:${m.timestamp} -->\n\n`;
     }
     const tmpPath = this.filePath + ".tmp." + Date.now();
     fs.writeFileSync(tmpPath, content, "utf-8");

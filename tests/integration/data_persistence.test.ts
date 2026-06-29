@@ -34,7 +34,8 @@ describe("Data Persistence (Python compatibility)", () => {
 
     // Read raw content to verify Markdown format
     const raw = fs.readFileSync(fp, "utf-8");
-    expect(raw).toContain("[2026-05-30");
+    // v6.27.2: New format has trailing timestamp
+    expect(raw).toContain("<!-- ts:2026-05-30");
     expect(raw).toContain("Test entry");
   });
 
