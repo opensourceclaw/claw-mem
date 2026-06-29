@@ -11,6 +11,7 @@ import * as path from "path";
 import { handleRequest, type JsonRpcRequest } from "./bridge";
 import { getMemoryManager, type MemoryManager } from "./memory_manager";
 import { ConstitutionStore } from "./constitution";
+import { TranscriptStorage, type TranscriptConfig } from "./transcript/index.js";
 
 // ============================================================================
 // Type Definitions
@@ -20,6 +21,7 @@ interface ClawMemConfig {
   workspaceDir?: string;
   topK?: number;
   debug?: boolean;
+  transcript?: Partial<TranscriptConfig>;
 }
 
 interface OpenClawPluginApi {
@@ -59,6 +61,8 @@ class TsBridge {
   private _constitution: ConstitutionStore;
   private _ready: boolean;
   private _logger: OpenClawPluginApi["logger"];
+  private _transcriptStorage: TranscriptStorage | null = null;
+  private _currentSessionId: string | null = null;
 
   constructor(config: ClawMemConfig, logger: OpenClawPluginApi["logger"]) {
     this._logger = logger;
@@ -66,10 +70,25 @@ class TsBridge {
     this._manager = getMemoryManager({ workspace: ws, autoDetect: false });
     this._constitution = this._manager.constitutionStore;
     this._ready = true;
-    logger.info("[claw-mem TS] v6.27.0 initialized (no Python subprocess)");
+
+    // Initialize TranscriptStorage
+    if (config.transcript?.enabled !== false) {
+      this._transcriptStorage = new TranscriptStorage(ws, config.transcript);
+      // Clean up expired transcripts on startup
+      const deleted = this._transcriptStorage.cleanupExpired();
+      if (deleted > 0) {
+        logger.info(`[claw-mem TS] Cleaned up ${deleted} expired transcript directories`);
+      }
+    }
+
+    logger.info("[claw-mem TS] v6.28.0 initialized (no Python subprocess)");
   }
 
   isReady(): boolean { return this._ready; }
+
+  get transcriptStorage(): TranscriptStorage | null {
+    return this._transcriptStorage;
+  }
 
   async call(method: string, params?: any): Promise<any> {
     const req: JsonRpcRequest = {
@@ -165,11 +184,11 @@ const ALL_TOOL_NAMES = [
   "memory_debt_store", "memory_debt_query", "memory_debt_update",
 ];
 
-const plugin: PluginDefinition = {
+  const plugin: PluginDefinition = {
   id: "claw-mem",
-  name: "Claw Memory System (TS v6.27.0)",
+  name: "Claw Memory System (TS v6.28.0)",
   description: "Three-tier memory system for OpenClaw — direct TypeScript, no Python subprocess",
-  version: "6.27.0",
+  version: "6.28.0",
   kind: "memory",
 
   contracts: {
@@ -182,6 +201,14 @@ const plugin: PluginDefinition = {
       workspaceDir: { type: "string", description: "Workspace directory" },
       topK: { type: "number", default: 10 },
       debug: { type: "boolean", default: false },
+      transcript: {
+        type: "object",
+        properties: {
+          enabled: { type: "boolean", default: true },
+          ttlDays: { type: "number", default: 30 },
+          format: { type: "string", enum: ["markdown", "json"], default: "markdown" },
+        },
+      },
     },
   },
 
@@ -194,6 +221,50 @@ const plugin: PluginDefinition = {
 
     const bridge = new TsBridge(config, api.logger);
     let currentSessionId: string | undefined;
+
+    // ========================================================================
+    // Transcript Event Hooks (v6.28.0)
+    // ========================================================================
+
+    api.on("user_message", async (event: { content?: string; messages?: any[]; sessionId?: string }, ctx: any) => {
+      const ts = bridge.transcriptStorage;
+      if (!ts) return;
+
+      let content = "";
+      if (event.content) {
+        content = event.content;
+      } else if (event.messages && Array.isArray(event.messages)) {
+        const userMessages = event.messages.filter((m: any) => m.role === "user");
+        if (userMessages.length > 0) {
+          const lastMessage = userMessages[userMessages.length - 1];
+          const c = lastMessage.content;
+          if (typeof c === "string") content = c;
+          else if (Array.isArray(c)) content = c.map((x: any) => typeof x === "string" ? x : x?.text || "").join(" ");
+        }
+      }
+
+      if (content && currentSessionId) {
+        ts.appendMessage({
+          role: "user",
+          content,
+          timestamp: new Date().toISOString(),
+        });
+      }
+    });
+
+    api.on("assistant_message", async (event: { content?: string; sessionId?: string }, ctx: any) => {
+      const ts = bridge.transcriptStorage;
+      if (!ts || !currentSessionId) return;
+
+      const content = event.content || "";
+      if (content) {
+        ts.appendMessage({
+          role: "assistant",
+          content,
+          timestamp: new Date().toISOString(),
+        });
+      }
+    });
 
     // ========================================================================
     // Register Memory Capability (Plugin Slots)
@@ -233,6 +304,12 @@ const plugin: PluginDefinition = {
           }
           try {
             await bridge.call("start_session", { sessionId: params.agentId });
+            // Start transcript session
+            currentSessionId = params.agentId;
+            const ts = bridge.transcriptStorage;
+            if (ts) {
+              ts.startSession(params.agentId, "api");
+            }
           } catch (error) {
             api.logger.warn("[claw-mem TS] Failed to start memory session:", error);
           }
@@ -270,6 +347,12 @@ const plugin: PluginDefinition = {
             close: async () => {
               try {
                 await bridge.call("end_session", { sessionId: params.agentId });
+                // End transcript session
+                const ts = bridge.transcriptStorage;
+                if (ts) {
+                  ts.endSession();
+                }
+                currentSessionId = undefined;
               } catch (error) {
                 api.logger.warn("[claw-mem TS] Failed to end memory session:", error);
               }
@@ -282,7 +365,15 @@ const plugin: PluginDefinition = {
           ({ backend: "builtin" as const }),
 
         closeAllMemorySearchManagers: async () => {
-          try { await bridge.call("end_session", {}); }
+          try {
+            await bridge.call("end_session", {});
+            // End transcript session
+            const ts = bridge.transcriptStorage;
+            if (ts) {
+              ts.endSession();
+            }
+            currentSessionId = undefined;
+          }
           catch (error) { api.logger.warn("[claw-mem TS] Failed to close all memory sessions:", error); }
         },
       },

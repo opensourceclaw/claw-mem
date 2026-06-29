@@ -21,6 +21,7 @@ interface MemoryEntry { id: string; content: string; }
 import { MemoryConfig } from "./config.js";
 import { ComponentFactory, getDefaultFactory } from "./factories.js";
 import { ConstitutionStore } from "./constitution.js";
+import { TranscriptStorage, type TranscriptEntry, type TranscriptMatch, type TranscriptConfig } from "./transcript/index.js";
 // Import types only to avoid circular deps
 import type { WriteTimeGating } from "./gating/write_time_gating.js";
 import type { ThreeTierRetriever } from "./retrieval/three_tier.js";
@@ -57,6 +58,7 @@ export class MemoryManager {
   private _graph: ConceptMediatedGraph | null = null;
   private _compressor: MemoryCompressorV2 | null = null;
   private _compressionSpectrum: CompressionSpectrum | null = null;
+  private _transcript: TranscriptStorage | null = null;
   // Future: private _injector: ContextInjector | null = null;
   // Future: private _confidenceGate: ConfidenceGate | null = null;
 
@@ -95,7 +97,18 @@ export class MemoryManager {
     this.constitutionStore = new ConstitutionStore(this.workspace);
     this._migrateCriticalRulesToConstitution();
 
-    log(`claw-mem TS v6.26.7 initialized, workspace: ${this.workspace}`);
+    // v6.28.0: Transcript Storage
+    const transcriptConfig = (this.config as any).transcript as Partial<TranscriptConfig> | undefined;
+    if (transcriptConfig?.enabled !== false) {
+      this._transcript = new TranscriptStorage(this.workspace, transcriptConfig);
+      // Clean up expired transcripts on startup
+      const deleted = this._transcript.cleanupExpired();
+      if (deleted > 0) {
+        log(`Cleaned up ${deleted} expired transcript directories`);
+      }
+    }
+
+    log(`claw-mem TS v6.28.0 initialized, workspace: ${this.workspace}`);
   }
 
   // v5.1.0: Constitution Store — 3-layer persistent identity
@@ -524,6 +537,41 @@ export class MemoryManager {
   // ── factory ─────────────────────────────────────────────────────
 
   get factory(): ComponentFactory { return this._factory; }
+
+  // ── transcript API (v6.28.0) ─────────────────────────────────────
+
+  /** Get transcript storage instance */
+  get transcript(): TranscriptStorage | null { return this._transcript; }
+
+  /** Get transcript content by sessionId */
+  getTranscript(sessionId: string): string | null {
+    return this._transcript?.getTranscript(sessionId) ?? null;
+  }
+
+  /** Get transcript file path */
+  getTranscriptPath(sessionId: string, date?: string): string | null {
+    return this._transcript?.getTranscriptPath(sessionId, date) ?? null;
+  }
+
+  /** Search transcripts by keyword */
+  searchTranscripts(query: string, options?: { limit?: number }): TranscriptMatch[] {
+    return this._transcript?.searchTranscripts(query, options) ?? [];
+  }
+
+  /** Append message to current transcript session */
+  appendTranscriptMessage(entry: TranscriptEntry): void {
+    this._transcript?.appendMessage(entry);
+  }
+
+  /** Start a new transcript session */
+  startTranscriptSession(sessionId: string, channel?: string): void {
+    this._transcript?.startSession(sessionId, channel);
+  }
+
+  /** End current transcript session */
+  endTranscriptSession(): void {
+    this._transcript?.endSession();
+  }
 
   // ── private ─────────────────────────────────────────────────────
 

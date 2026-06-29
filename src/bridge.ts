@@ -2,7 +2,7 @@
 // Licensed under the Apache License, Version 2.0
 
 /**
- * claw-mem v6.27.0 — Plugin Bridge (TypeScript)
+ * claw-mem v6.28.0 — Plugin Bridge (TypeScript)
  *
  * Direct JSON-RPC handler interface. Routes OpenClaw plugin calls
  * to MemoryManager without subprocess. Replaces Python subprocess bridge.
@@ -46,7 +46,7 @@ export function handleRequest(req: JsonRpcRequest, mm?: MemoryManager): JsonRpcR
 
     switch (method) {
       case "ping":
-        result = { version: "6.27.0", status: "ok" };
+        result = { version: "6.28.0", status: "ok" };
         break;
       case "status":
         result = manager.getStats();
@@ -417,6 +417,49 @@ export function handleRequest(req: JsonRpcRequest, mm?: MemoryManager): JsonRpcR
         break;
       }
 
+      // v6.28.0: Transcript Storage
+      case "transcript_get": {
+        const sessionId = String(params.sessionId ?? "");
+        if (!sessionId) {
+          return { jsonrpc: "2.0", id, error: { code: -32602, message: "Missing sessionId" } };
+        }
+        const content = manager.getTranscript(sessionId);
+        result = { content, sessionId };
+        break;
+      }
+      case "transcript_get_path": {
+        const sessionId = String(params.sessionId ?? "");
+        if (!sessionId) {
+          return { jsonrpc: "2.0", id, error: { code: -32602, message: "Missing sessionId" } };
+        }
+        const filePath = manager.getTranscriptPath(sessionId, params.date as string | undefined);
+        result = { path: filePath, sessionId };
+        break;
+      }
+      case "transcript_search": {
+        const query = String(params.query ?? "");
+        if (!query) {
+          return { jsonrpc: "2.0", id, error: { code: -32602, message: "Missing query" } };
+        }
+        const results = manager.searchTranscripts(query, { limit: Number(params.limit ?? 10) });
+        result = { results, query };
+        break;
+      }
+      case "transcript_start": {
+        const sessionId = String(params.sessionId ?? "");
+        if (!sessionId) {
+          return { jsonrpc: "2.0", id, error: { code: -32602, message: "Missing sessionId" } };
+        }
+        manager.startTranscriptSession(sessionId, params.channel as string | undefined);
+        result = { ok: true, sessionId };
+        break;
+      }
+      case "transcript_end": {
+        manager.endTranscriptSession();
+        result = { ok: true };
+        break;
+      }
+
       default:
         return { jsonrpc: "2.0", id, error: { code: -32601, message: `Method '${method}' not found` } };
     }
@@ -431,9 +474,9 @@ export function handleRequest(req: JsonRpcRequest, mm?: MemoryManager): JsonRpcR
 /** OpenClaw plugin registration entry point. */
 export const plugin = {
   id: "claw-mem",
-  name: "Claw Memory System (TS v6.27.0)",
+  name: "Claw Memory System (TS v6.28.0)",
   description: "Local-First Three-Tier Memory System",
-  version: "6.27.0",
+  version: "6.28.0",
   register(api: ClawMemPluginApi) {
     const config = api.pluginConfig ?? {};
     void new MemoryManager({
@@ -443,7 +486,7 @@ export const plugin = {
       enableCompression: !!(config.enableCompression ?? true),
     });
 
-    api.logger?.info("[claw-mem TS] v6.27.0 initialized");
+    api.logger?.info("[claw-mem TS] v6.28.0 initialized");
 
     api.registerService({
       id: "claw-mem-ts",

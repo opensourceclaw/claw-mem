@@ -12,6 +12,15 @@ import * as path from "path";
 import * as os from "os";
 import * as yaml from "js-yaml";
 
+export interface TranscriptConfig {
+  /** Enable transcript storage (default: true) */
+  enabled: boolean;
+  /** Days to keep transcripts (default: 30) */
+  ttlDays: number;
+  /** Output format (default: 'markdown') */
+  format: "markdown" | "json";
+}
+
 export interface MemoryConfigOptions {
   workspace?: string;
   autoDetect?: boolean;
@@ -28,6 +37,7 @@ export interface MemoryConfigOptions {
   maxStaged?: number;
   topK?: number;
   enableSkillExtraction?: boolean;
+  transcript?: Partial<TranscriptConfig>;
 }
 
 export class MemoryConfig {
@@ -48,9 +58,22 @@ export class MemoryConfig {
   maxStaged = 500;
   topK = 10;
   enableSkillExtraction = true;
+  transcript: TranscriptConfig = {
+    enabled: true,
+    ttlDays: 30,
+    format: "markdown",
+  };
 
   constructor(opts: Partial<MemoryConfigOptions> = {}) {
     Object.assign(this, opts);
+    // Handle nested transcript config
+    if (opts.transcript) {
+      this.transcript = {
+        enabled: opts.transcript.enabled ?? true,
+        ttlDays: opts.transcript.ttlDays ?? 30,
+        format: opts.transcript.format ?? "markdown",
+      };
+    }
   }
 
   static default(): MemoryConfig { return new MemoryConfig(); }
