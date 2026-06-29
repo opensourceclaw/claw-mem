@@ -22,6 +22,7 @@ import { MemoryConfig } from "./config.js";
 import { ComponentFactory, getDefaultFactory } from "./factories.js";
 import { ConstitutionStore } from "./constitution.js";
 import { TranscriptStorage, type TranscriptEntry, type TranscriptMatch, type TranscriptConfig } from "./transcript/index.js";
+import { HybridRetriever, type HybridSearchOptions, type HybridSearchResult } from "./retrieval/hybrid-retriever.js";
 // Import types only to avoid circular deps
 import type { WriteTimeGating } from "./gating/write_time_gating.js";
 import type { ThreeTierRetriever } from "./retrieval/three_tier.js";
@@ -59,6 +60,7 @@ export class MemoryManager {
   private _compressor: MemoryCompressorV2 | null = null;
   private _compressionSpectrum: CompressionSpectrum | null = null;
   private _transcript: TranscriptStorage | null = null;
+  private _hybridRetriever: HybridRetriever | null = null;
   // Future: private _injector: ContextInjector | null = null;
   // Future: private _confidenceGate: ConfidenceGate | null = null;
 
@@ -108,7 +110,10 @@ export class MemoryManager {
       }
     }
 
-    log(`claw-mem TS v6.28.0 initialized, workspace: ${this.workspace}`);
+    // v6.29.0: Hybrid Retriever (lazy initialization)
+    this._hybridRetriever = null;
+
+    log(`claw-mem TS v6.29.0 initialized, workspace: ${this.workspace}`);
   }
 
   // v5.1.0: Constitution Store — 3-layer persistent identity
@@ -571,6 +576,99 @@ export class MemoryManager {
   /** End current transcript session */
   endTranscriptSession(): void {
     this._transcript?.endSession();
+  }
+
+  // ── hybrid search API (v6.29.0) ─────────────────────────────────────
+
+  /** Get hybrid retriever instance (lazy initialization) */
+  get hybridRetriever(): HybridRetriever | null {
+    if (!this._hybridRetriever) {
+      this._hybridRetriever = new HybridRetriever({
+        semanticSearchFn: (query: string, limit: number) => {
+          // Use existing search as semantic search
+          return this.search(query, undefined, limit).map((m: any) => ({
+            id: m.id ?? m.timestamp ?? String(Date.now()),
+            text: m.content ?? "",
+            score: m.score ?? 0.5,
+            metadata: m.metadata ?? {},
+            source: "semantic",
+            memory_type: m.type,
+            tags: m.tags,
+            timestamp: m.timestamp,
+          }));
+        },
+      });
+      // Index existing memories (lazy)
+      this._indexHybridRetriever();
+    }
+    return this._hybridRetriever;
+  }
+
+  /**
+   * Hybrid search: semantic + keyword + filter + fusion rerank.
+   * Returns results with completeness score.
+   */
+  hybridSearch(query: string, options?: HybridSearchOptions): HybridSearchResult {
+    if (!this._hybridRetriever) {
+      // Fallback to regular search
+      const results = this.search(query, undefined, options?.topK ?? 10);
+      return {
+        results: results.map((m: any) => ({
+          id: m.id ?? m.timestamp ?? String(Date.now()),
+          text: m.content ?? "",
+          score: m.score ?? 0.5,
+          metadata: m.metadata ?? {},
+          source: "semantic",
+          memory_type: m.type,
+          tags: m.tags,
+          timestamp: m.timestamp,
+        })),
+        completenessScore: undefined,
+        metadata: { semanticCount: results.length, keywordCount: 0, afterFilterCount: results.length, latencyMs: 0 },
+      };
+    }
+    return this._hybridRetriever.search(query, options);
+  }
+
+  /** Rebuild hybrid retriever index */
+  rebuildHybridIndex(): void {
+    this._indexHybridRetriever();
+  }
+
+  /** Index existing memories for hybrid retrieval */
+  private _indexHybridRetriever(): void {
+    if (!this._hybridRetriever) return;
+
+    const documents: Array<{ id: string; text: string; metadata?: Record<string, unknown> }> = [];
+
+    // Index episodic memories
+    for (const m of this._episodic.getRecent(10000)) {
+      documents.push({
+        id: (m as any).id ?? m.timestamp ?? String(Date.now()),
+        text: m.content ?? "",
+        metadata: { type: "episodic", tags: m.tags, timestamp: m.timestamp, session_id: m.session_id },
+      });
+    }
+
+    // Index semantic memories
+    for (const m of this._semantic.getAll()) {
+      documents.push({
+        id: (m as any).id ?? m.timestamp ?? String(Date.now()),
+        text: m.content ?? "",
+        metadata: { type: "semantic", tags: m.tags, timestamp: m.timestamp },
+      });
+    }
+
+    // Index procedural memories
+    for (const m of this._procedural.getAll()) {
+      documents.push({
+        id: (m as any).id ?? m.timestamp ?? String(Date.now()),
+        text: m.content ?? "",
+        metadata: { type: "procedural", tags: m.tags, timestamp: m.timestamp },
+      });
+    }
+
+    this._hybridRetriever.index(documents);
   }
 
   // ── private ─────────────────────────────────────────────────────

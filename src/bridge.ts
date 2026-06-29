@@ -2,7 +2,7 @@
 // Licensed under the Apache License, Version 2.0
 
 /**
- * claw-mem v6.28.0 — Plugin Bridge (TypeScript)
+ * claw-mem v6.29.0 — Plugin Bridge (TypeScript)
  *
  * Direct JSON-RPC handler interface. Routes OpenClaw plugin calls
  * to MemoryManager without subprocess. Replaces Python subprocess bridge.
@@ -46,7 +46,7 @@ export function handleRequest(req: JsonRpcRequest, mm?: MemoryManager): JsonRpcR
 
     switch (method) {
       case "ping":
-        result = { version: "6.28.0", status: "ok" };
+        result = { version: "6.29.0", status: "ok" };
         break;
       case "status":
         result = manager.getStats();
@@ -460,6 +460,29 @@ export function handleRequest(req: JsonRpcRequest, mm?: MemoryManager): JsonRpcR
         break;
       }
 
+      // v6.29.0: Hybrid Search
+      case "hybrid_search": {
+        const query = String(params.query ?? "");
+        if (!query) {
+          return { jsonrpc: "2.0", id, error: { code: -32602, message: "Missing query" } };
+        }
+
+        const hybridResult = manager.hybridSearch(query, {
+          topK: Number(params.topK ?? params.limit ?? 10),
+          minScore: Number(params.minScore ?? 0),
+          filters: params.filters as any,
+          fusion: params.fusion as any,
+          includeCompleteness: params.includeCompleteness !== false,
+        });
+
+        result = {
+          results: hybridResult.results,
+          completeness_score: hybridResult.completenessScore,
+          metadata: hybridResult.metadata,
+        };
+        break;
+      }
+
       default:
         return { jsonrpc: "2.0", id, error: { code: -32601, message: `Method '${method}' not found` } };
     }
@@ -474,9 +497,9 @@ export function handleRequest(req: JsonRpcRequest, mm?: MemoryManager): JsonRpcR
 /** OpenClaw plugin registration entry point. */
 export const plugin = {
   id: "claw-mem",
-  name: "Claw Memory System (TS v6.28.0)",
+  name: "Claw Memory System (TS v6.29.0)",
   description: "Local-First Three-Tier Memory System",
-  version: "6.28.0",
+  version: "6.29.0",
   register(api: ClawMemPluginApi) {
     const config = api.pluginConfig ?? {};
     void new MemoryManager({
