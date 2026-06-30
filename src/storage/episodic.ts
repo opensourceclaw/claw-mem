@@ -112,6 +112,8 @@ export class EpisodicStorage {
     const meta: string[] = [];
     if (tags.length) meta.push(`tags: ${tags.join(", ")}`);
     if (sessionId) meta.push(`session: ${sessionId}`);
+    // v6.31.0: Include id from record if provided
+    if (record.id) meta.push(`id: ${record.id}`);
     for (const [k, v] of Object.entries(metadata)) {
       meta.push(`${k}: ${v}`);
     }

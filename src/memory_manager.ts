@@ -2,7 +2,7 @@
 // Licensed under the Apache License, Version 2.0
 
 /**
- * claw-mem v5.0.0 — MemoryManager (TypeScript)
+ * claw-mem v6.31.0 — MemoryManager (TypeScript)
  *
  * Core orchestrator: storage, retrieval, gating, decay, graph, compression.
  * Lazy-loads subsystems on first access to keep startup fast.
@@ -27,6 +27,10 @@ import { EntityIndex } from "./entity/entity-index.js";
 import { EntityExtractor } from "./entity/entity-extractor.js";
 import { EntityResolver } from "./entity/entity-resolver.js";
 import type { EntityRecord, EntitySearchResult, ResolutionResult, EntityConfig, DEFAULT_ENTITY_CONFIG } from "./types.js";
+import { StrategyRegistry } from "./storage/strategy-registry.js";
+import { VersionChain } from "./storage/version-chain.js";
+import type { VersionEntry } from "./storage/version-chain.js";
+import { EpisodicStrategy, SessionSnapshotStrategy, FactStrategy, PreferenceStrategy, SemanticStrategy, ProceduralStrategy } from "./storage/strategies/index.js";
 // Import types only to avoid circular deps
 import type { WriteTimeGating } from "./gating/write_time_gating.js";
 import type { ThreeTierRetriever } from "./retrieval/three_tier.js";
@@ -66,6 +70,8 @@ export class MemoryManager {
   private _transcript: TranscriptStorage | null = null;
   private _hybridRetriever: HybridRetriever | null = null;
   private _entityIndex: EntityIndex | null = null;
+  private _strategyRegistry: StrategyRegistry | null = null;
+  private _versionChain: VersionChain | null = null;
   // Future: private _injector: ContextInjector | null = null;
   // Future: private _confidenceGate: ConfidenceGate | null = null;
 
@@ -130,9 +136,21 @@ export class MemoryManager {
           customAliases: entityConfig?.customAliases,
         }),
       });
+
+      // v6.31.0: Enable entity index persistence
+      const indexDir = path.join(this.workspace, ".claw-mem-index");
+      this._entityIndex.enablePersistence(indexDir);
+      this._entityIndex.load();
     }
 
-    log(`claw-mem TS v6.30.0 initialized, workspace: ${this.workspace}`);
+    // v6.31.0: Version Chain for preferences
+    this._versionChain = new VersionChain(this.workspace);
+
+    // v6.31.0: Strategy Registry
+    this._strategyRegistry = new StrategyRegistry(new EpisodicStrategy());
+    this._registerStrategies();
+
+    log(`claw-mem TS v6.31.0 initialized, workspace: ${this.workspace}`);
   }
 
   // v5.1.0: Constitution Store — 3-layer persistent identity
@@ -279,10 +297,54 @@ export class MemoryManager {
         tags: string[] = [], metadata: Record<string, unknown> = {}): boolean {
     if (!content?.trim()) return false;
 
+    const id = `${Date.now().toString(36)}_${Math.random().toString(36).slice(2, 8)}`;
+    const timestamp = new Date().toISOString();
+
+    // v6.31.0: Strategy-based dispatch
+    if (this._strategyRegistry) {
+      const record: import("./types.js").MemoryRecord = {
+        id,
+        text: content,
+        memory_type: memoryType as any,
+        created_at: timestamp,
+        metadata: { ...metadata, session_id: this.sessionId || undefined },
+        tags,
+      };
+
+      try {
+        const strategy = this._strategyRegistry.resolve(memoryType);
+        const context = this._buildStrategyContext();
+        const result = strategy.store(record, context);
+
+        // Incremental BM25 index update
+        if (this._index.built) {
+          this._index.addMemory(content, result.id, true);
+        }
+
+        // v6.30.0: Auto-index entities (for non-fact types; fact strategy handles this internally)
+        if (this._entityIndex && memoryType !== "fact") {
+          try {
+            this._entityIndex.index(content, result.id);
+          } catch {
+            // Non-blocking: entity indexing failure should not affect storage
+          }
+        }
+
+        this._storeCount++;
+        this._tokenCount += this._estimateTokens(content);
+
+        return true;
+      } catch (err) {
+        console.error(`[claw-mem] Strategy store failed:`, err);
+        return false;
+      }
+    }
+
+    // Fallback: Legacy store (should not reach here in normal operation)
     const record = {
       content, tags, metadata,
-      id: `${Date.now().toString(36)}_${Math.random().toString(36).slice(2, 8)}`,
-      timestamp: new Date().toISOString(),
+      id,
+      timestamp,
       session_id: this.sessionId || undefined,
     };
 
@@ -699,6 +761,28 @@ export class MemoryManager {
     this._hybridRetriever.index(documents);
   }
 
+  // ── strategy registry (v6.31.0) ─────────────────────────────────────
+
+  private _registerStrategies(): void {
+    if (!this._strategyRegistry) return;
+    this._strategyRegistry.register(new SessionSnapshotStrategy());
+    this._strategyRegistry.register(new FactStrategy());
+    this._strategyRegistry.register(new PreferenceStrategy());
+    this._strategyRegistry.register(new SemanticStrategy());
+    this._strategyRegistry.register(new ProceduralStrategy());
+  }
+
+  private _buildStrategyContext(): import("./storage/strategy-registry.js").StrategyContext {
+    return {
+      episodic: this._episodic,
+      semantic: this._semantic,
+      procedural: this._procedural,
+      entityIndex: this._entityIndex,
+      versionChain: this._versionChain!,
+      workspace: this.workspace,
+    };
+  }
+
   // ── entity API (v6.30.0) ─────────────────────────────────────
 
   /** Get entity index instance */
@@ -748,6 +832,41 @@ export class MemoryManager {
    */
   getEntityStats(): Record<string, unknown> {
     return this._entityIndex?.getStats() ?? { entityCount: 0, coocCount: 0, totalMemoryLinks: 0, avgCoocPerEntity: 0 };
+  }
+
+  // ── strategy API (v6.31.0) ─────────────────────────────────────
+
+  /** List all registered strategies */
+  listStrategies(): Array<{ name: string; memoryTypes: string[] }> {
+    return this._strategyRegistry?.list() ?? [];
+  }
+
+  /** Get store strategy name for a memory type */
+  getStoreStrategy(memoryType: string): string {
+    return this._strategyRegistry?.resolve(memoryType)?.name ?? "episodic";
+  }
+
+  /** Get preference history */
+  getPreferenceHistory(prefKey: string): VersionEntry[] {
+    return this._versionChain?.getHistory(prefKey) ?? [];
+  }
+
+  /** Get current preference value by pref_key */
+  getPreference(prefKey: string): { content: string; metadata?: Record<string, unknown> } | null {
+    const results = this._semantic.searchByTag(`pref:${prefKey}`);
+    if (results.length === 0) return null;
+    const r = results[0];
+    return { content: r.content, metadata: r.metadata };
+  }
+
+  /** Rollback preference to a previous version */
+  rollbackPreference(prefKey: string, version: number): VersionEntry | null {
+    if (!this._versionChain) return null;
+    try {
+      return this._versionChain.rollback(prefKey, version, { semantic: this._semantic });
+    } catch {
+      return null;
+    }
   }
 
   // ── private ─────────────────────────────────────────────────────

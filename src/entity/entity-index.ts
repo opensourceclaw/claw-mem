@@ -3,11 +3,21 @@
 import type { Entity, EntityRecord, CoocEntry, EntitySearchResult, ResolutionResult, EntityConfig } from "../types.js";
 import { EntityExtractor } from "./entity-extractor.js";
 import { EntityResolver } from "./entity-resolver.js";
+import * as fs from "fs";
+import * as path from "path";
 
 export interface EntityIndexOptions {
   extractor?: EntityExtractor;
   resolver?: EntityResolver;
   maxEntitiesPerMemory?: number;
+}
+
+/** Entity index persistence format */
+interface EntityIndexSnapshot {
+  version: string;
+  timestamp: number;
+  entityMap: Array<[string, EntityRecord]>;
+  coocGraph: Array<[string, CoocEntry]>;
 }
 
 /**
@@ -20,6 +30,8 @@ export class EntityIndex {
   private extractor: EntityExtractor;
   private resolver: EntityResolver;
   private maxEntitiesPerMemory: number;
+  private persistDir: string | null = null;
+  private autoSave: boolean = true;
 
   constructor(options?: EntityIndexOptions) {
     this.entityMap = new Map();
@@ -108,6 +120,11 @@ export class EntityIndex {
           });
         }
       }
+    }
+
+    // 5. Auto-save if persistence enabled (v6.31.0)
+    if (this.autoSave && this.persistDir) {
+      this.save();
     }
   }
 
@@ -224,6 +241,66 @@ export class EntityIndex {
   clear(): void {
     this.entityMap.clear();
     this.coocGraph.clear();
+  }
+
+  // ── Persistence (v6.31.0) ─────────────────────────────────────────
+
+  /**
+   * Enable persistence with directory path.
+   * @param dir - Directory to store entity index
+   */
+  enablePersistence(dir: string): void {
+    this.persistDir = dir;
+    fs.mkdirSync(dir, { recursive: true });
+  }
+
+  /**
+   * Save entity index to disk.
+   */
+  save(): void {
+    if (!this.persistDir) return;
+
+    const snapshot: EntityIndexSnapshot = {
+      version: "1.0.0",
+      timestamp: Date.now(),
+      entityMap: [...this.entityMap.entries()],
+      coocGraph: [...this.coocGraph.entries()],
+    };
+
+    const filePath = path.join(this.persistDir, "entity_index_v1.0.0.json");
+    const tmpPath = filePath + ".tmp." + Date.now();
+    fs.writeFileSync(tmpPath, JSON.stringify(snapshot, null, 2), "utf-8");
+    fs.renameSync(tmpPath, filePath);
+  }
+
+  /**
+   * Load entity index from disk.
+   * @returns true if loaded successfully, false otherwise
+   */
+  load(): boolean {
+    if (!this.persistDir) return false;
+
+    const filePath = path.join(this.persistDir, "entity_index_v1.0.0.json");
+    if (!fs.existsSync(filePath)) return false;
+
+    try {
+      const snapshot: EntityIndexSnapshot = JSON.parse(
+        fs.readFileSync(filePath, "utf-8")
+      );
+
+      this.entityMap = new Map(snapshot.entityMap);
+      this.coocGraph = new Map(snapshot.coocGraph);
+
+      // Register loaded entities as known
+      for (const name of this.entityMap.keys()) {
+        this.resolver.registerKnown(name);
+      }
+
+      return true;
+    } catch {
+      // Corrupted file, rebuild later
+      return false;
+    }
   }
 
   /**

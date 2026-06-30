@@ -1,10 +1,13 @@
 // claw-mem v5.0.0 — Global Type Definitions
 
+/** Memory types supported by storage strategies */
+export type MemoryType = "episodic" | "semantic" | "procedural" | "session_snapshot" | "fact" | "preference" | string;
+
 /** Memory record as stored in all backends. */
 export interface MemoryRecord {
   id: string;
   text: string;
-  memory_type: "episodic" | "semantic" | "procedural";
+  memory_type: MemoryType;
   created_at: string; // ISO-8601
   updated_at?: string;
   metadata: Record<string, unknown>;
