@@ -1,6 +1,6 @@
 {
   "name": "claw-mem",
-  "version": "6.31.0",
+  "version": "6.32.0",
   "description": "Local-First Three-Tier Memory System for OpenClaw (TypeScript)",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -18,7 +18,7 @@
     "typecheck": "tsc --noEmit",
     "test": "vitest run",
     "test:watch": "vitest",
-    "benchmark": "vitest run tests/benchmarks --reporter=json > benchmark-results.json 2>&1 || true"
+    "benchmark": "node dist/benchmarks/runner.js"
   },
   "dependencies": {
     "js-yaml": "^4.2.0",
@@ -28,6 +28,7 @@
     "@types/js-yaml": "^4.0.0",
     "@types/node": "^20.0.0",
     "@vitest/coverage-v8": "^4.1.6",
+    "ts-node": "^10.9.2",
     "typescript": "^5.0.0",
     "vitest": "^4.1.9"
   },

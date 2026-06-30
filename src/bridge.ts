@@ -2,7 +2,7 @@
 // Licensed under the Apache License, Version 2.0
 
 /**
- * claw-mem v6.31.0 — Plugin Bridge (TypeScript)
+ * claw-mem v6.32.0 — Plugin Bridge (TypeScript)
  *
  * Direct JSON-RPC handler interface. Routes OpenClaw plugin calls
  * to MemoryManager without subprocess. Replaces Python subprocess bridge.
@@ -11,6 +11,19 @@
 import { MemoryManager, getMemoryManager } from "./memory_manager.js";
 import type { SessionSnapshot } from "./session/snapshot-types.js";
 import { SnapshotStore } from "./session/snapshot-store.js";
+
+// Lazy import for benchmarks to avoid loading during tests
+let _runAll: ((opts: any) => Promise<any[]>) | null = null;
+let _getLastBenchmarkResults: (() => { results: any[] | null; timestamp: string | null }) | null = null;
+
+async function getBenchmarkFunctions() {
+  if (!_runAll) {
+    const benchmark = await import("../benchmarks/runner.js");
+    _runAll = benchmark.runAll;
+    _getLastBenchmarkResults = benchmark.getLastBenchmarkResults;
+  }
+  return { runAll: _runAll!, getLastBenchmarkResults: _getLastBenchmarkResults! };
+}
 
 export interface JsonRpcRequest {
   jsonrpc: "2.0";
@@ -35,7 +48,7 @@ export interface ClawMemPluginApi {
 }
 
 /** Handle a single JSON-RPC request. Returns response suitable for serialization. */
-export function handleRequest(req: JsonRpcRequest, mm?: MemoryManager): JsonRpcResponse {
+export async function handleRequest(req: JsonRpcRequest, mm?: MemoryManager): Promise<JsonRpcResponse> {
   const id = req.id;
   const params = req.params ?? {};
   const manager = mm ?? getMemoryManager();
@@ -46,7 +59,7 @@ export function handleRequest(req: JsonRpcRequest, mm?: MemoryManager): JsonRpcR
 
     switch (method) {
       case "ping":
-        result = { version: "6.31.0", status: "ok" };
+        result = { version: "6.32.0", status: "ok" };
         break;
       case "status":
         result = manager.getStats();
@@ -610,6 +623,35 @@ export function handleRequest(req: JsonRpcRequest, mm?: MemoryManager): JsonRpcR
         } else {
           result = { preference: rolledBack };
         }
+        break;
+      }
+
+      // v6.32.0: Run Benchmarks
+      case "benchmark_run": {
+        const { runAll } = await getBenchmarkFunctions();
+        const opts = {
+          name: params.name as string | undefined,
+          seed: params.seed as number | undefined,
+          format: (params.format as "json" | "markdown" | "both") || "json",
+          outputDir: params.outputDir as string | undefined,
+          factCount: params.factCount as number | undefined,
+          queryCount: params.queryCount as number | undefined,
+        };
+
+        // Run synchronously (async would require handleRequest to return Promise)
+        const results = await runAll(opts);
+        result = { results, count: results.length };
+        break;
+      }
+
+      // v6.32.0: Get Last Benchmark Results
+      case "benchmark_last": {
+        const { getLastBenchmarkResults } = await getBenchmarkFunctions();
+        const cached = getLastBenchmarkResults();
+        result = {
+          results: cached.results,
+          timestamp: cached.timestamp,
+        };
         break;
       }
 

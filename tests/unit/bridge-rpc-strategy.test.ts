@@ -29,9 +29,9 @@ describe("Bridge RPC Strategy", () => {
     return { jsonrpc: "2.0", method, params, id: 1 };
   }
 
-  it("store returns strategy used", () => {
+  it("store returns strategy used", async () => {
     const m = mm();
-    const resp = handleRequest(req("store", {
+    const resp = await handleRequest(req("store", {
       content: "Test content",
       memory_type: "episodic",
     }), m);
@@ -40,9 +40,9 @@ describe("Bridge RPC Strategy", () => {
     expect((resp.result as any).strategy).toBe("episodic");
   });
 
-  it("list_strategies returns all strategies", () => {
+  it("list_strategies returns all strategies", async () => {
     const m = mm();
-    const resp = handleRequest(req("list_strategies"), m);
+    const resp = await handleRequest(req("list_strategies"), m);
 
     expect(resp.error).toBeUndefined();
     const result = resp.result as any;
@@ -50,37 +50,37 @@ describe("Bridge RPC Strategy", () => {
     expect(result.strategies.find((s: any) => s.name === "fact")).toBeDefined();
   });
 
-  it("get_preference returns preference", () => {
+  it("get_preference returns preference", async () => {
     const m = mm();
     m.store("dark", "preference", [], { pref_key: "theme" });
 
-    const resp = handleRequest(req("get_preference", { pref_key: "theme" }), m);
+    const resp = await handleRequest(req("get_preference", { pref_key: "theme" }), m);
     expect(resp.error).toBeUndefined();
     expect((resp.result as any).preference).not.toBeNull();
   });
 
-  it("get_preference returns null for missing pref_key", () => {
+  it("get_preference returns null for missing pref_key", async () => {
     const m = mm();
-    const resp = handleRequest(req("get_preference", {}), m);
+    const resp = await handleRequest(req("get_preference", {}), m);
     expect(resp.error?.code).toBe(-32602);
   });
 
-  it("get_preference_history returns version chain", () => {
+  it("get_preference_history returns version chain", async () => {
     const m = mm();
     m.store("light", "preference", [], { pref_key: "theme" });
     m.store("dark", "preference", [], { pref_key: "theme" });
 
-    const resp = handleRequest(req("get_preference_history", { pref_key: "theme" }), m);
+    const resp = await handleRequest(req("get_preference_history", { pref_key: "theme" }), m);
     expect(resp.error).toBeUndefined();
     expect((resp.result as any).versions.length).toBe(2);
   });
 
-  it("rollback_preference rolls back to previous version", () => {
+  it("rollback_preference rolls back to previous version", async () => {
     const m = mm();
     m.store("light", "preference", [], { pref_key: "theme" });
     m.store("dark", "preference", [], { pref_key: "theme" });
 
-    const resp = handleRequest(req("rollback_preference", {
+    const resp = await handleRequest(req("rollback_preference", {
       pref_key: "theme",
       version: 1,
     }), m);

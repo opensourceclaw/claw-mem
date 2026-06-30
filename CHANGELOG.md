@@ -5,6 +5,19 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [6.32.0] - 2026-06-30
+
+### Added
+- **Built-in Benchmark Suite**: 6 benchmarks measuring memory quality across factual-recall, temporal-reasoning, long-horizon, update-robustness, retrieval-fidelity, and operational-cost dimensions
+- **SeededRandom**: Deterministic RNG (mulberry32) for reproducible benchmarks
+- **DataGenerator**: 80 embedded templates for synthetic test data generation
+- **CLI Runner**: `npm run benchmark` with --name, --seed, --format, --output options
+- **Bridge RPC**: `benchmark_run` and `benchmark_last` endpoints (lazy import)
+- **Result Reporter**: JSON + Markdown output with comparison support
+
+### Changed
+- `handleRequest` now async to support benchmark RPC (all tests updated)
+
 ## [6.26.8] - 2026-06-24
 
 ### Fixed

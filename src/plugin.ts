@@ -97,7 +97,7 @@ class TsBridge {
       params: params ?? {},
       id: 1,
     };
-    const resp = handleRequest(req, this._manager);
+    const resp = await handleRequest(req, this._manager);
     if (resp.error) throw new Error(resp.error.message);
     return resp.result;
   }
