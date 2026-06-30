@@ -2,7 +2,7 @@
 // Licensed under the Apache License, Version 2.0
 
 /**
- * claw-mem v6.29.0 — Plugin Bridge (TypeScript)
+ * claw-mem v6.30.0 — Plugin Bridge (TypeScript)
  *
  * Direct JSON-RPC handler interface. Routes OpenClaw plugin calls
  * to MemoryManager without subprocess. Replaces Python subprocess bridge.
@@ -46,7 +46,7 @@ export function handleRequest(req: JsonRpcRequest, mm?: MemoryManager): JsonRpcR
 
     switch (method) {
       case "ping":
-        result = { version: "6.29.0", status: "ok" };
+        result = { version: "6.30.0", status: "ok" };
         break;
       case "status":
         result = manager.getStats();
@@ -483,6 +483,80 @@ export function handleRequest(req: JsonRpcRequest, mm?: MemoryManager): JsonRpcR
         break;
       }
 
+      // v6.30.0: Entity Search
+      case "entity_search": {
+        const name = String(params.name ?? "");
+        if (!name) {
+          return { jsonrpc: "2.0", id, error: { code: -32602, message: "Missing name" } };
+        }
+
+        const entityResult = manager.entitySearch(name);
+        if (!entityResult) {
+          result = null;
+          break;
+        }
+
+        result = {
+          entity: {
+            name: entityResult.entity.name,
+            type: entityResult.entity.type,
+            memory_ids: entityResult.entity.memoryIds,
+            occurrence_count: entityResult.entity.occurrenceCount,
+            first_seen: entityResult.entity.firstSeen,
+            last_seen: entityResult.entity.lastSeen,
+          },
+          related_entities: entityResult.related,
+        };
+        break;
+      }
+
+      // v6.30.0: Entity Resolve
+      case "entity_resolve": {
+        const name = String(params.name ?? "");
+        if (!name) {
+          return { jsonrpc: "2.0", id, error: { code: -32602, message: "Missing name" } };
+        }
+
+        const resolveResult = manager.entityResolve(name);
+        if (!resolveResult) {
+          result = null;
+          break;
+        }
+
+        result = {
+          canonical: resolveResult.canonical,
+          alternatives: resolveResult.alternatives,
+          is_new: resolveResult.isNew,
+        };
+        break;
+      }
+
+      // v6.30.0: Entity List
+      case "entity_list": {
+        const limit = Number(params.limit ?? 100);
+        const offset = Number(params.offset ?? 0);
+        const entities = manager.listEntities(limit, offset);
+        const total = manager.getEntityCount();
+        result = {
+          entities: entities.map(e => ({
+            name: e.name,
+            type: e.type,
+            memory_count: e.memoryIds.length,
+            occurrence_count: e.occurrenceCount,
+          })),
+          total,
+          limit,
+          offset,
+        };
+        break;
+      }
+
+      // v6.30.0: Entity Stats
+      case "entity_stats": {
+        result = manager.getEntityStats();
+        break;
+      }
+
       default:
         return { jsonrpc: "2.0", id, error: { code: -32601, message: `Method '${method}' not found` } };
     }
@@ -497,9 +571,9 @@ export function handleRequest(req: JsonRpcRequest, mm?: MemoryManager): JsonRpcR
 /** OpenClaw plugin registration entry point. */
 export const plugin = {
   id: "claw-mem",
-  name: "Claw Memory System (TS v6.29.0)",
+  name: "Claw Memory System (TS v6.30.0)",
   description: "Local-First Three-Tier Memory System",
-  version: "6.29.0",
+  version: "6.30.0",
   register(api: ClawMemPluginApi) {
     const config = api.pluginConfig ?? {};
     void new MemoryManager({
@@ -509,7 +583,7 @@ export const plugin = {
       enableCompression: !!(config.enableCompression ?? true),
     });
 
-    api.logger?.info("[claw-mem TS] v6.28.0 initialized");
+    api.logger?.info("[claw-mem TS] v6.30.0 initialized");
 
     api.registerService({
       id: "claw-mem-ts",

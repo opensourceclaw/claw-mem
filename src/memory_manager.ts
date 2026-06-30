@@ -23,6 +23,10 @@ import { ComponentFactory, getDefaultFactory } from "./factories.js";
 import { ConstitutionStore } from "./constitution.js";
 import { TranscriptStorage, type TranscriptEntry, type TranscriptMatch, type TranscriptConfig } from "./transcript/index.js";
 import { HybridRetriever, type HybridSearchOptions, type HybridSearchResult } from "./retrieval/hybrid-retriever.js";
+import { EntityIndex } from "./entity/entity-index.js";
+import { EntityExtractor } from "./entity/entity-extractor.js";
+import { EntityResolver } from "./entity/entity-resolver.js";
+import type { EntityRecord, EntitySearchResult, ResolutionResult, EntityConfig, DEFAULT_ENTITY_CONFIG } from "./types.js";
 // Import types only to avoid circular deps
 import type { WriteTimeGating } from "./gating/write_time_gating.js";
 import type { ThreeTierRetriever } from "./retrieval/three_tier.js";
@@ -61,6 +65,7 @@ export class MemoryManager {
   private _compressionSpectrum: CompressionSpectrum | null = null;
   private _transcript: TranscriptStorage | null = null;
   private _hybridRetriever: HybridRetriever | null = null;
+  private _entityIndex: EntityIndex | null = null;
   // Future: private _injector: ContextInjector | null = null;
   // Future: private _confidenceGate: ConfidenceGate | null = null;
 
@@ -113,7 +118,21 @@ export class MemoryManager {
     // v6.29.0: Hybrid Retriever (lazy initialization)
     this._hybridRetriever = null;
 
-    log(`claw-mem TS v6.29.0 initialized, workspace: ${this.workspace}`);
+    // v6.30.0: Entity Index (lazy initialization)
+    const entityConfig = (this.config as any).entityIndex as Partial<EntityConfig> | undefined;
+    if (entityConfig?.enabled !== false) {
+      this._entityIndex = new EntityIndex({
+        extractor: new EntityExtractor({
+          customRules: entityConfig?.customRules,
+          customStopwords: entityConfig?.customStopwords,
+        }),
+        resolver: new EntityResolver({
+          customAliases: entityConfig?.customAliases,
+        }),
+      });
+    }
+
+    log(`claw-mem TS v6.30.0 initialized, workspace: ${this.workspace}`);
   }
 
   // v5.1.0: Constitution Store — 3-layer persistent identity
@@ -284,6 +303,15 @@ export class MemoryManager {
           this._index.addMemory(content, record.id, true);
         }
       } catch { /* index update is best-effort */ }
+
+      // v6.30.0: Auto-index entities
+      if (this._entityIndex) {
+        try {
+          this._entityIndex.index(content, record.id);
+        } catch {
+          // Non-blocking: entity indexing failure should not affect storage
+        }
+      }
 
       return true;
     } catch {
@@ -669,6 +697,57 @@ export class MemoryManager {
     }
 
     this._hybridRetriever.index(documents);
+  }
+
+  // ── entity API (v6.30.0) ─────────────────────────────────────
+
+  /** Get entity index instance */
+  get entityIndex(): EntityIndex | null { return this._entityIndex; }
+
+  /**
+   * Search memories by entity name.
+   * @param name - Entity name to search
+   * @returns Entity search result with related entities
+   */
+  entitySearch(name: string): EntitySearchResult | null {
+    return this._entityIndex?.search(name) ?? null;
+  }
+
+  /**
+   * Resolve entity name to canonical form.
+   * @param name - Entity name to resolve
+   * @returns Resolution result with canonical name and alternatives
+   */
+  entityResolve(name: string): ResolutionResult | null {
+    if (!this._entityIndex) return null;
+    return this._entityIndex.resolve(name);
+  }
+
+  /**
+   * List all entities in the index.
+   * @param limit - Maximum number of entities to return (default: 100)
+   * @param offset - Number of entities to skip (default: 0)
+   * @returns Array of entity records
+   */
+  listEntities(limit: number = 100, offset: number = 0): EntityRecord[] {
+    const all = this._entityIndex?.listAll() ?? [];
+    return all.slice(offset, offset + limit);
+  }
+
+  /**
+   * Get total entity count.
+   * @returns Total number of entities
+   */
+  getEntityCount(): number {
+    return this._entityIndex?.listAll().length ?? 0;
+  }
+
+  /**
+   * Get entity index statistics.
+   * @returns Entity stats or empty stats if disabled
+   */
+  getEntityStats(): Record<string, unknown> {
+    return this._entityIndex?.getStats() ?? { entityCount: 0, coocCount: 0, totalMemoryLinks: 0, avgCoocPerEntity: 0 };
   }
 
   // ── private ─────────────────────────────────────────────────────
