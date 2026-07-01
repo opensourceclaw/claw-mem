@@ -231,31 +231,28 @@ const ALL_TOOL_NAMES = [
     let currentSessionId: string | undefined;
 
     // ========================================================================
-    // Transcript Event Hooks (v6.32.4 - Fixed event names)
+    // Transcript Event Hooks (v6.32.5 - Correct plugin hook names)
     // ========================================================================
 
-    // Track session ID from turn_start for transcript correlation
-    let turnSessionId: string | undefined;
+    // Track runId to correlate user/assistant messages in the same turn
+    let currentRunId: string | undefined;
 
-    api.on("turn_start", async (event: any, ctx: any) => {
-      // Capture session ID at turn start for transcript correlation
-      turnSessionId = event.sessionId || event.sessionKey || ctx?.sessionId;
-    });
-
-    api.on("message_end", async (event: { message?: any }, ctx: any) => {
+    // Hook 1: message_received - Capture user messages
+    api.on("message_received", async (event: { content?: string; sessionKey?: string; runId?: string; from?: string }, ctx: any) => {
       const ts = bridge.transcriptStorage;
-      if (!ts || !event.message) return;
+      if (!ts) return;
 
-      const message = event.message;
-      const role = message.role;
+      const content = event.content;
+      if (!content) return;
 
-      // Only capture user and assistant messages (skip toolResult, system, etc.)
-      if (role !== "user" && role !== "assistant") return;
+      // Track runId for correlation with llm_output
+      if (event.runId) {
+        currentRunId = event.runId;
+      }
 
-      // === Session identification ===
-      // Use turn-level session ID or fallback to timestamp-based session
+      // Session identification
       const channel = ctx?.channel || "api";
-      const sessionId = turnSessionId || ctx?.sessionId || `session-${new Date().toISOString().slice(0, 10)}`;
+      const sessionId = event.sessionKey || ctx?.sessionId || `session-${new Date().toISOString().slice(0, 10)}`;
 
       // Start session if not already active
       if (sessionId !== currentSessionId) {
@@ -265,33 +262,46 @@ const ALL_TOOL_NAMES = [
         api.logger.info?.(`[claw-mem TS] Started transcript session: ${sanitizedId}`);
       }
 
-      // === Extract content from AgentMessage format ===
-      let content = "";
-      const msgContent = message.content;
+      // Append user message to transcript
+      ts.appendMessage({
+        role: "user",
+        content,
+        timestamp: new Date().toISOString(),
+      });
+      api.logger.debug?.(`[claw-mem TS] Captured user message (${content.length} chars)`);
+    });
 
-      if (typeof msgContent === "string") {
-        content = msgContent;
-      } else if (Array.isArray(msgContent)) {
-        // Array of content blocks - extract text blocks only
-        const textParts: string[] = [];
-        for (const block of msgContent) {
-          if (block.type === "text" && block.text) {
-            textParts.push(block.text);
-          }
-          // Skip thinking, toolCall, image, etc.
-        }
-        content = textParts.join("\n");
+    // Hook 2: llm_output - Capture assistant responses
+    api.on("llm_output", async (event: { assistantTexts?: string[]; runId?: string; sessionId?: string; prompt?: string }, ctx: any) => {
+      const ts = bridge.transcriptStorage;
+      if (!ts) return;
+
+      const assistantTexts = event.assistantTexts;
+      if (!assistantTexts || assistantTexts.length === 0) return;
+
+      // Join all text blocks (filter empty strings)
+      const content = assistantTexts.filter(t => t && t.trim()).join("\n");
+      if (!content) return;
+
+      // Session identification - prefer sessionId from llm_output
+      const channel = ctx?.channel || "api";
+      const sessionId = event.sessionId || currentSessionId || `session-${new Date().toISOString().slice(0, 10)}`;
+
+      // Start session if not already active
+      if (sessionId !== currentSessionId) {
+        const sanitizedId = sanitizeSessionKey(sessionId);
+        ts.startSession(sanitizedId, channel);
+        currentSessionId = sanitizedId;
+        api.logger.info?.(`[claw-mem TS] Started transcript session: ${sanitizedId}`);
       }
 
-      // === Append to transcript ===
-      if (content && currentSessionId) {
-        ts.appendMessage({
-          role: role as "user" | "assistant",
-          content,
-          timestamp: new Date().toISOString(),
-        });
-        api.logger.debug?.(`[claw-mem TS] Captured ${role} message (${content.length} chars)`);
-      }
+      // Append assistant message to transcript
+      ts.appendMessage({
+        role: "assistant",
+        content,
+        timestamp: new Date().toISOString(),
+      });
+      api.logger.debug?.(`[claw-mem TS] Captured assistant message (${content.length} chars)`);
     });
 
     // ========================================================================

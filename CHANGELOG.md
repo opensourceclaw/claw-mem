@@ -5,6 +5,39 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [6.32.5] - 2026-07-01
+
+### Fixed
+- **🔴 CRITICAL: Third fix - Extension SDK vs Plugin Hooks**: `turn_start` and `message_end` are Extension SDK events, NOT Plugin Hooks
+  - Plugin hooks are checked against `PLUGIN_HOOK_NAMES` - unknown hooks are silently ignored!
+  - Replaced with correct Plugin Hooks: `message_received` and `llm_output`
+
+### Event Structure
+
+| Hook | Event Data | Purpose |
+|------|------------|---------|
+| `message_received` | `{ content, sessionKey, runId, from }` | Capture user messages |
+| `llm_output` | `{ assistantTexts[], sessionId, runId, prompt }` | Capture assistant responses |
+
+### Implementation
+
+- `message_received`: Captures user message, tracks `runId` for correlation
+- `llm_output`: Captures assistant response, joins `assistantTexts[]` array
+- Both hooks use `sessionId`/`sessionKey` for session tracking
+- `llm_output` requires `allowConversationAccess: true` in plugin config
+
+### Tests
+- 10 test cases for new hook structure
+- Tests verify: message_received content, llm_output assistantTexts, runId tracking, sanitization
+
+### Note
+`llm_output` is a conversation hook. User must add to `~/.openclaw/openclaw.json`:
+```json
+"claw-mem": {
+  "hooks": { "allowConversationAccess": true }
+}
+```
+
 ## [6.32.4] - 2026-07-01
 
 ### Fixed

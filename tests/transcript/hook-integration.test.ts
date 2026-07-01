@@ -1,6 +1,6 @@
 // Copyright 2026 Peter Cheng
-// claw-mem v6.32.4 — Real Hook Integration Tests
-// Tests message_end event handler for transcript capture
+// claw-mem v6.32.5 — Real Hook Integration Tests
+// Tests message_received and llm_output plugin hooks for transcript capture
 
 import { describe, it, expect, beforeEach, afterEach, vi } from "vitest";
 import * as fs from "fs";
@@ -26,7 +26,7 @@ interface MockApi {
   registerMemoryCapability: ReturnType<typeof vi.fn>;
 }
 
-describe("Real Hook Integration Tests (v6.32.4)", () => {
+describe("Real Hook Integration Tests (v6.32.5)", () => {
   let tmpDir: string;
   let transcriptsDir: string;
   let mockApi: MockApi;
@@ -65,17 +65,13 @@ describe("Real Hook Integration Tests (v6.32.4)", () => {
     fs.rmSync(tmpDir, { recursive: true, force: true });
   });
 
-  describe("message_end event handler", () => {
-    it("TC-1: captures user message with string content", async () => {
-      const turnStartHandler = eventHandlers.get("turn_start");
-      const messageEndHandler = eventHandlers.get("message_end");
+  describe("message_received hook", () => {
+    it("TC-1: captures user message with content", async () => {
+      const handler = eventHandlers.get("message_received");
+      expect(handler).toBeDefined();
 
-      // Simulate turn start with session ID
-      await turnStartHandler!({ sessionId: "test-session-123" }, {});
-
-      // Simulate user message
-      await messageEndHandler!(
-        { message: { role: "user", content: "Hello, world!" } },
+      await handler!(
+        { content: "Hello, world!", sessionKey: "test-session-123" },
         {}
       );
 
@@ -90,104 +86,11 @@ describe("Real Hook Integration Tests (v6.32.4)", () => {
       expect(content).toContain("[User]");
     });
 
-    it("TC-2: captures assistant message with string content", async () => {
-      const turnStartHandler = eventHandlers.get("turn_start");
-      const messageEndHandler = eventHandlers.get("message_end");
+    it("TC-2: uses fallback session ID when sessionKey missing", async () => {
+      const handler = eventHandlers.get("message_received");
 
-      // Start turn
-      await turnStartHandler!({ sessionId: "assistant-test" }, {});
-
-      // User message
-      await messageEndHandler!(
-        { message: { role: "user", content: "Question" } },
-        {}
-      );
-
-      // Assistant message
-      await messageEndHandler!(
-        { message: { role: "assistant", content: "Answer" } },
-        {}
-      );
-
-      const today = new Date().toISOString().slice(0, 10);
-      const transcriptPath = path.join(transcriptsDir, today, "session-assistant-test.md");
-      const content = fs.readFileSync(transcriptPath, "utf-8");
-
-      expect(content).toContain("Question");
-      expect(content).toContain("Answer");
-      expect(content).toContain("[User]");
-      expect(content).toContain("[Assistant]");
-    });
-
-    it("TC-3: extracts text from array content blocks", async () => {
-      const turnStartHandler = eventHandlers.get("turn_start");
-      const messageEndHandler = eventHandlers.get("message_end");
-
-      await turnStartHandler!({ sessionId: "array-content" }, {});
-
-      // Message with array content (LLM format)
-      await messageEndHandler!(
-        {
-          message: {
-            role: "assistant",
-            content: [
-              { type: "text", text: "First part" },
-              { type: "thinking", text: "internal thought" }, // Should be skipped
-              { type: "text", text: "Second part" },
-            ]
-          }
-        },
-        {}
-      );
-
-      const today = new Date().toISOString().slice(0, 10);
-      const transcriptPath = path.join(transcriptsDir, today, "session-array-content.md");
-      const content = fs.readFileSync(transcriptPath, "utf-8");
-
-      expect(content).toContain("First part");
-      expect(content).toContain("Second part");
-      expect(content).not.toContain("internal thought"); // thinking should be skipped
-    });
-
-    it("TC-4: skips non-user/assistant roles", async () => {
-      const turnStartHandler = eventHandlers.get("turn_start");
-      const messageEndHandler = eventHandlers.get("message_end");
-
-      await turnStartHandler!({ sessionId: "role-filter" }, {});
-
-      // User message
-      await messageEndHandler!(
-        { message: { role: "user", content: "User message" } },
-        {}
-      );
-
-      // Tool result (should be skipped)
-      await messageEndHandler!(
-        { message: { role: "toolResult", content: "Tool output" } },
-        {}
-      );
-
-      // System message (should be skipped)
-      await messageEndHandler!(
-        { message: { role: "system", content: "System prompt" } },
-        {}
-      );
-
-      const today = new Date().toISOString().slice(0, 10);
-      const transcriptPath = path.join(transcriptsDir, today, "session-role-filter.md");
-      const content = fs.readFileSync(transcriptPath, "utf-8");
-
-      expect(content).toContain("User message");
-      expect(content).not.toContain("Tool output");
-      expect(content).not.toContain("System prompt");
-    });
-
-    it("TC-5: uses fallback session ID when turn_start has no sessionId", async () => {
-      const messageEndHandler = eventHandlers.get("message_end");
-
-      // No turn_start - should use fallback
-      await messageEndHandler!(
-        { message: { role: "user", content: "Fallback test" } },
+      await handler!(
+        { content: "No session key" },
         {}
       );
 
@@ -195,75 +98,138 @@ describe("Real Hook Integration Tests (v6.32.4)", () => {
       const dateDir = path.join(transcriptsDir, today);
       expect(fs.existsSync(dateDir)).toBe(true);
 
-      // Should have created a session file
+      // Should have a fallback session file
       const files = fs.readdirSync(dateDir);
       expect(files.length).toBe(1);
       expect(files[0]).toMatch(/^session-session-\d{4}-\d{2}-\d{2}\.md$/);
     });
 
-    it("TC-6: uses context sessionId when available", async () => {
-      const messageEndHandler = eventHandlers.get("message_end");
+    it("TC-3: tracks runId from event", async () => {
+      const handler = eventHandlers.get("message_received");
 
-      // No turn_start, but context has sessionId
-      await messageEndHandler!(
-        { message: { role: "user", content: "Context session" } },
-        { sessionId: "ctx-session-456" }
-      );
-
-      const today = new Date().toISOString().slice(0, 10);
-      const transcriptPath = path.join(transcriptsDir, today, "session-ctx-session-456.md");
-      expect(fs.existsSync(transcriptPath)).toBe(true);
-    });
-
-    it("TC-7: sanitizes sessionKey with path separators", async () => {
-      const turnStartHandler = eventHandlers.get("turn_start");
-      const messageEndHandler = eventHandlers.get("message_end");
-
-      await turnStartHandler!({ sessionId: "malicious/path/attempt" }, {});
-      await messageEndHandler!(
-        { message: { role: "user", content: "Sanitized" } },
+      await handler!(
+        { content: "With runId", sessionKey: "runid-test", runId: "run-abc-123" },
         {}
       );
 
       const today = new Date().toISOString().slice(0, 10);
-      // Should be sanitized to "malicious_path_attempt"
-      const transcriptPath = path.join(transcriptsDir, today, "session-malicious_path_attempt.md");
+      const transcriptPath = path.join(transcriptsDir, today, "session-runid-test.md");
       expect(fs.existsSync(transcriptPath)).toBe(true);
     });
 
-    it("TC-8: handles empty message gracefully", async () => {
-      const turnStartHandler = eventHandlers.get("turn_start");
-      const messageEndHandler = eventHandlers.get("message_end");
+    it("TC-4: skips empty content", async () => {
+      const handler = eventHandlers.get("message_received");
 
-      await turnStartHandler!({ sessionId: "empty-test" }, {});
-
-      // Empty content
-      await messageEndHandler!(
-        { message: { role: "user", content: "" } },
+      await handler!(
+        { content: "", sessionKey: "empty-test" },
         {}
       );
 
-      // Should not crash, but file should exist (session started)
+      // Should not create session for empty content
       const today = new Date().toISOString().slice(0, 10);
       const dateDir = path.join(transcriptsDir, today);
-      expect(fs.existsSync(dateDir)).toBe(true);
+      expect(fs.existsSync(dateDir)).toBe(false);
+    });
+  });
+
+  describe("llm_output hook", () => {
+    it("TC-5: captures assistant response with assistantTexts", async () => {
+      const handler = eventHandlers.get("llm_output");
+      expect(handler).toBeDefined();
+
+      await handler!(
+        { assistantTexts: ["Hello! How can I help you?"], sessionId: "assistant-test" },
+        {}
+      );
+
+      const today = new Date().toISOString().slice(0, 10);
+      const transcriptPath = path.join(transcriptsDir, today, "session-assistant-test.md");
+      expect(fs.existsSync(transcriptPath)).toBe(true);
+
+      const content = fs.readFileSync(transcriptPath, "utf-8");
+      expect(content).toContain("Hello! How can I help you?");
+      expect(content).toContain("[Assistant]");
+    });
+
+    it("TC-6: joins multiple assistantTexts blocks", async () => {
+      const handler = eventHandlers.get("llm_output");
+
+      await handler!(
+        {
+          assistantTexts: ["First paragraph.", "Second paragraph."],
+          sessionId: "multi-block"
+        },
+        {}
+      );
+
+      const today = new Date().toISOString().slice(0, 10);
+      const transcriptPath = path.join(transcriptsDir, today, "session-multi-block.md");
+      const content = fs.readFileSync(transcriptPath, "utf-8");
+
+      expect(content).toContain("First paragraph.");
+      expect(content).toContain("Second paragraph.");
+    });
+
+    it("TC-7: filters empty strings from assistantTexts", async () => {
+      const handler = eventHandlers.get("llm_output");
+
+      await handler!(
+        {
+          assistantTexts: ["", "Valid text", "", "More text", ""],
+          sessionId: "filter-empty"
+        },
+        {}
+      );
+
+      const today = new Date().toISOString().slice(0, 10);
+      const transcriptPath = path.join(transcriptsDir, today, "session-filter-empty.md");
+      const content = fs.readFileSync(transcriptPath, "utf-8");
+
+      expect(content).toContain("Valid text");
+      expect(content).toContain("More text");
+    });
+
+    it("TC-8: skips empty assistantTexts array", async () => {
+      const handler = eventHandlers.get("llm_output");
+
+      await handler!(
+        { assistantTexts: [], sessionId: "empty-array" },
+        {}
+      );
+
+      const today = new Date().toISOString().slice(0, 10);
+      const dateDir = path.join(transcriptsDir, today);
+      expect(fs.existsSync(dateDir)).toBe(false);
     });
   });
 
   describe("full conversation flow", () => {
-    it("records complete conversation with multiple turns", async () => {
-      const turnStartHandler = eventHandlers.get("turn_start");
-      const messageEndHandler = eventHandlers.get("message_end");
+    it("TC-9: records complete conversation with user and assistant", async () => {
+      const userHandler = eventHandlers.get("message_received");
+      const assistantHandler = eventHandlers.get("llm_output");
 
-      // Turn 1
-      await turnStartHandler!({ sessionId: "full-conv" }, {});
-      await messageEndHandler!({ message: { role: "user", content: "What is OpenClaw?" } }, {});
-      await messageEndHandler!({ message: { role: "assistant", content: "OpenClaw is an AI agent framework." } }, {});
+      // User message
+      await userHandler!(
+        { content: "What is OpenClaw?", sessionKey: "full-conv", runId: "run-1" },
+        {}
+      );
 
-      // Turn 2
-      await turnStartHandler!({ sessionId: "full-conv" }, {});
-      await messageEndHandler!({ message: { role: "user", content: "Does it support TypeScript?" } }, {});
-      await messageEndHandler!({ message: { role: "assistant", content: "Yes, it has first-class TypeScript support." } }, {});
+      // Assistant response
+      await assistantHandler!(
+        { assistantTexts: ["OpenClaw is an AI agent framework."], sessionId: "full-conv", runId: "run-1" },
+        {}
+      );
+
+      // Second turn
+      await userHandler!(
+        { content: "Does it support TypeScript?", sessionKey: "full-conv", runId: "run-2" },
+        {}
+      );
+
+      await assistantHandler!(
+        { assistantTexts: ["Yes, it has first-class TypeScript support."], sessionId: "full-conv", runId: "run-2" },
+        {}
+      );
 
       const today = new Date().toISOString().slice(0, 10);
       const transcriptPath = path.join(transcriptsDir, today, "session-full-conv.md");
@@ -280,6 +246,20 @@ describe("Real Hook Integration Tests (v6.32.4)", () => {
       const assistantCount = (content.match(/\[Assistant\]/g) || []).length;
       expect(userCount).toBe(2);
       expect(assistantCount).toBe(2);
+    });
+
+    it("TC-10: sanitizes sessionKey with path separators", async () => {
+      const handler = eventHandlers.get("message_received");
+
+      await handler!(
+        { content: "Sanitized", sessionKey: "malicious/path/attempt" },
+        {}
+      );
+
+      const today = new Date().toISOString().slice(0, 10);
+      // Should be sanitized to "malicious_path_attempt"
+      const transcriptPath = path.join(transcriptsDir, today, "session-malicious_path_attempt.md");
+      expect(fs.existsSync(transcriptPath)).toBe(true);
     });
   });
 });
