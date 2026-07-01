@@ -73,12 +73,20 @@ class TsBridge {
 
     // Initialize TranscriptStorage
     if (config.transcript?.enabled !== false) {
-      this._transcriptStorage = new TranscriptStorage(ws, config.transcript);
-      // Clean up expired transcripts on startup
-      const deleted = this._transcriptStorage.cleanupExpired();
-      if (deleted > 0) {
-        logger.info(`[claw-mem TS] Cleaned up ${deleted} expired transcript directories`);
+      try {
+        this._transcriptStorage = new TranscriptStorage(ws, config.transcript, logger);
+        // Clean up expired transcripts on startup
+        const deleted = this._transcriptStorage.cleanupExpired();
+        if (deleted > 0) {
+          logger.info(`[claw-mem TS] Cleaned up ${deleted} expired transcript directories`);
+        }
+        logger.info(`[claw-mem TS] ✅ TranscriptStorage initialized, workspace: ${ws}`);
+      } catch (err) {
+        logger.error(`[claw-mem TS] ❌ TranscriptStorage initialization failed: ${err}`);
+        this._transcriptStorage = null;
       }
+    } else {
+      logger.warn("[claw-mem TS] ⚠️ TranscriptStorage disabled by config");
     }
 
     logger.info("[claw-mem TS] v6.28.0 initialized (no Python subprocess)");
@@ -239,69 +247,92 @@ const ALL_TOOL_NAMES = [
 
     // Hook 1: message_received - Capture user messages
     api.on("message_received", async (event: { content?: string; sessionKey?: string; runId?: string; from?: string }, ctx: any) => {
-      const ts = bridge.transcriptStorage;
-      if (!ts) return;
+      try {
+        const ts = bridge.transcriptStorage;
+        if (!ts) {
+          api.logger.warn?.("[claw-mem TS] ⚠️ message_received: TranscriptStorage not initialized");
+          return;
+        }
 
-      const content = event.content;
-      if (!content) return;
+        const content = event.content;
+        if (!content) {
+          api.logger.debug?.("[claw-mem TS] message_received: No content in event");
+          return;
+        }
 
-      // Track runId for correlation with llm_output
-      if (event.runId) {
-        currentRunId = event.runId;
+        // Track runId for correlation with llm_output
+        if (event.runId) {
+          currentRunId = event.runId;
+        }
+
+        // Session identification
+        const channel = ctx?.channel || "api";
+        const sessionId = event.sessionKey || ctx?.sessionId || `session-${new Date().toISOString().slice(0, 10)}`;
+
+        // Start session if not already active
+        if (sessionId !== currentSessionId) {
+          const sanitizedId = sanitizeSessionKey(sessionId);
+          ts.startSession(sanitizedId, channel);
+          currentSessionId = sanitizedId;
+          api.logger.info?.(`[claw-mem TS] ✅ Started transcript session: ${sanitizedId}`);
+        }
+
+        // Append user message to transcript
+        ts.appendMessage({
+          role: "user",
+          content,
+          timestamp: new Date().toISOString(),
+        });
+        api.logger.info?.(`[claw-mem TS] ✅ Wrote user message to session ${currentSessionId} (${content.length} chars)`);
+      } catch (err) {
+        api.logger.error?.(`[claw-mem TS] ❌ message_received handler error: ${err}`);
       }
-
-      // Session identification
-      const channel = ctx?.channel || "api";
-      const sessionId = event.sessionKey || ctx?.sessionId || `session-${new Date().toISOString().slice(0, 10)}`;
-
-      // Start session if not already active
-      if (sessionId !== currentSessionId) {
-        const sanitizedId = sanitizeSessionKey(sessionId);
-        ts.startSession(sanitizedId, channel);
-        currentSessionId = sanitizedId;
-        api.logger.info?.(`[claw-mem TS] Started transcript session: ${sanitizedId}`);
-      }
-
-      // Append user message to transcript
-      ts.appendMessage({
-        role: "user",
-        content,
-        timestamp: new Date().toISOString(),
-      });
-      api.logger.debug?.(`[claw-mem TS] Captured user message (${content.length} chars)`);
     });
 
     // Hook 2: llm_output - Capture assistant responses
     api.on("llm_output", async (event: { assistantTexts?: string[]; runId?: string; sessionId?: string; prompt?: string }, ctx: any) => {
-      const ts = bridge.transcriptStorage;
-      if (!ts) return;
+      try {
+        const ts = bridge.transcriptStorage;
+        if (!ts) {
+          api.logger.warn?.("[claw-mem TS] ⚠️ llm_output: TranscriptStorage not initialized");
+          return;
+        }
 
-      const assistantTexts = event.assistantTexts;
-      if (!assistantTexts || assistantTexts.length === 0) return;
+        const assistantTexts = event.assistantTexts;
+        if (!assistantTexts || assistantTexts.length === 0) {
+          api.logger.debug?.("[claw-mem TS] llm_output: No assistantTexts in event");
+          return;
+        }
 
-      // Join all text blocks (filter empty strings)
-      const content = assistantTexts.filter(t => t && t.trim()).join("\n");
-      if (!content) return;
+        // Join all text blocks (filter empty strings)
+        const content = assistantTexts.filter(t => t && t.trim()).join("\n");
+        if (!content) {
+          api.logger.debug?.("[claw-mem TS] llm_output: No content after filtering empty strings");
+          return;
+        }
 
-      // Session identification - prefer sessionId from llm_output
-      const channel = ctx?.channel || "api";
-      const sessionId = event.sessionId || currentSessionId || `session-${new Date().toISOString().slice(0, 10)}`;
+        // Session identification - prefer sessionId from llm_output
+        const channel = ctx?.channel || "api";
+        const sessionId = event.sessionId || currentSessionId || `session-${new Date().toISOString().slice(0, 10)}`;
 
-      // Start session if not already active
-      if (sessionId !== currentSessionId) {
-        const sanitizedId = sanitizeSessionKey(sessionId);
-        ts.startSession(sanitizedId, channel);
-        currentSessionId = sanitizedId;
-        api.logger.info?.(`[claw-mem TS] Started transcript session: ${sanitizedId}`);
+        // Start session if not already active
+        if (sessionId !== currentSessionId) {
+          const sanitizedId = sanitizeSessionKey(sessionId);
+          ts.startSession(sanitizedId, channel);
+          currentSessionId = sanitizedId;
+          api.logger.info?.(`[claw-mem TS] ✅ Started transcript session: ${sanitizedId}`);
+        }
+
+        // Append assistant message to transcript
+        ts.appendMessage({
+          role: "assistant",
+          content,
+          timestamp: new Date().toISOString(),
+        });
+        api.logger.info?.(`[claw-mem TS] ✅ Wrote assistant message to session ${currentSessionId} (${content.length} chars)`);
+      } catch (err) {
+        api.logger.error?.(`[claw-mem TS] ❌ llm_output handler error: ${err}`);
       }
-
-      // Append assistant message to transcript
-      ts.appendMessage({
-        role: "assistant",
-        content,
-        timestamp: new Date().toISOString(),
-      });
-      api.logger.debug?.(`[claw-mem TS] Captured assistant message (${content.length} chars)`);
     });
 
     // ========================================================================

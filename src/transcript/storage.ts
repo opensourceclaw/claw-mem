@@ -18,6 +18,13 @@ export interface TranscriptMatch {
   score: number;
 }
 
+export interface TranscriptLogger {
+  info?: (msg: string) => void;
+  warn?: (msg: string) => void;
+  error?: (msg: string) => void;
+  debug?: (msg: string) => void;
+}
+
 const DEFAULT_CONFIG: TranscriptConfig = {
   enabled: true,
   ttlDays: 30,
@@ -28,20 +35,23 @@ export class TranscriptStorage {
   private workspace: string;
   private config: TranscriptConfig;
   private formatter: TranscriptFormatter;
+  private logger?: TranscriptLogger;
   private currentSession: string | null = null;
   private currentFile: string | null = null;
   private currentMetadata: TranscriptMetadata | null = null;
   private entries: TranscriptEntry[] = [];
 
-  constructor(workspace: string, config?: Partial<TranscriptConfig>) {
+  constructor(workspace: string, config?: Partial<TranscriptConfig>, logger?: TranscriptLogger) {
     this.workspace = workspace;
     this.config = { ...DEFAULT_CONFIG, ...config };
     this.formatter = new TranscriptFormatter();
+    this.logger = logger;
 
     // Ensure transcripts directory exists
     const transcriptsDir = path.join(workspace, 'transcripts');
     if (!fs.existsSync(transcriptsDir)) {
       fs.mkdirSync(transcriptsDir, { recursive: true });
+      this.logger?.debug?.(`[TranscriptStorage] Created transcripts directory: ${transcriptsDir}`);
     }
   }
 
@@ -49,43 +59,64 @@ export class TranscriptStorage {
    * Start a new transcript session.
    */
   startSession(sessionId: string, channel: string = 'api'): void {
-    if (!this.config.enabled) return;
-
-    this.currentSession = sessionId;
-    this.entries = [];
-    this.currentMetadata = {
-      session: sessionId,
-      started: new Date().toISOString(),
-      channel,
-    };
-
-    // Create date directory and file path
-    const today = new Date().toISOString().slice(0, 10);
-    const dateDir = path.join(this.workspace, 'transcripts', today);
-    if (!fs.existsSync(dateDir)) {
-      fs.mkdirSync(dateDir, { recursive: true });
+    if (!this.config.enabled) {
+      this.logger?.warn?.('[TranscriptStorage] startSession called but disabled');
+      return;
     }
 
-    this.currentFile = path.join(dateDir, `session-${sessionId}.md`);
+    try {
+      this.currentSession = sessionId;
+      this.entries = [];
+      this.currentMetadata = {
+        session: sessionId,
+        started: new Date().toISOString(),
+        channel,
+      };
 
-    // Write initial header
-    const header = this.formatter.buildHeader(this.currentMetadata);
-    fs.writeFileSync(this.currentFile, header, 'utf-8');
+      // Create date directory and file path
+      const today = new Date().toISOString().slice(0, 10);
+      const dateDir = path.join(this.workspace, 'transcripts', today);
+      if (!fs.existsSync(dateDir)) {
+        fs.mkdirSync(dateDir, { recursive: true });
+      }
+
+      this.currentFile = path.join(dateDir, `session-${sessionId}.md`);
+
+      // Write initial header
+      const header = this.formatter.buildHeader(this.currentMetadata);
+      fs.writeFileSync(this.currentFile, header, 'utf-8');
+      this.logger?.debug?.(`[TranscriptStorage] Started session ${sessionId}, file: ${this.currentFile}`);
+    } catch (err) {
+      this.logger?.error?.(`[TranscriptStorage] startSession error: ${err}`);
+      this.currentFile = null;
+      this.currentSession = null;
+    }
   }
 
   /**
    * Append a message to the current transcript.
    */
   appendMessage(entry: TranscriptEntry): void {
-    if (!this.config.enabled || !this.currentFile || !this.currentSession) {
+    if (!this.config.enabled) {
+      this.logger?.warn?.('[TranscriptStorage] appendMessage called but disabled');
       return;
     }
 
-    this.entries.push(entry);
+    if (!this.currentFile || !this.currentSession) {
+      this.logger?.warn?.('[TranscriptStorage] appendMessage called but no active session');
+      return;
+    }
 
-    // Append to file
-    const formatted = this.formatter.formatMessage(entry);
-    fs.appendFileSync(this.currentFile, formatted + '\n', 'utf-8');
+    try {
+      this.entries.push(entry);
+
+      // Append to file
+      const formatted = this.formatter.formatMessage(entry);
+      fs.appendFileSync(this.currentFile, formatted + '\n', 'utf-8');
+      this.logger?.debug?.(`[TranscriptStorage] Appended ${entry.role} message to ${this.currentFile}`);
+    } catch (err) {
+      this.logger?.error?.(`[TranscriptStorage] appendMessage error: ${err}`);
+    }
   }
 
   /**

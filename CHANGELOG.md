@@ -5,6 +5,33 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [6.32.6] - 2026-07-01
+
+### Fixed
+- **🔴 CRITICAL: Handler internal logic diagnostics**: Hooks were firing but transcripts still not written
+  - Added comprehensive try-catch with error logging in both handlers
+  - Added diagnostic logging at key decision points
+
+### Added
+- **TranscriptStorage initialization logging**:
+  - Logs success/failure of TranscriptStorage creation
+  - Logs warning if disabled by config
+- **Handler diagnostic logging**:
+  - `message_received`: Logs if TranscriptStorage not initialized, no content, session started, message written
+  - `llm_output`: Logs if TranscriptStorage not initialized, no assistantTexts, no content after filtering
+- **TranscriptStorage internal logging**:
+  - Added `TranscriptLogger` interface
+  - Logs session start, file path, message append
+  - Logs errors in startSession/appendMessage
+
+### Logging Levels
+| Level | When |
+|-------|------|
+| info | Successful writes, session starts |
+| warn | Disabled, no session, no content |
+| error | Exceptions, filesystem errors |
+| debug | Detailed operation info |
+
 ## [6.32.5] - 2026-07-01
 
 ### Fixed
