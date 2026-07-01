@@ -5,6 +5,30 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [6.32.4] - 2026-07-01
+
+### Fixed
+- **🔴 CRITICAL: Event name mismatch - transcript never worked**: `user_message` and `assistant_message` events DO NOT EXIST in OpenClaw Plugin SDK
+  - Replaced with correct event: `message_end`
+  - Added `turn_start` handler for session ID capture
+  - Single `message_end` handler routes by `event.message.role` (user/assistant)
+  - Skips non-conversation roles: toolResult, system, etc.
+
+### Changed
+- **Content extraction**: Now handles AgentMessage format:
+  - String content: used directly
+  - Array content: extracts only `type: "text"` blocks (skips thinking, toolCall, image)
+- **Session identification**: Uses `turn_start` sessionId → ctx.sessionId → fallback
+
+### Removed
+- Dead helper functions: `generateFallbackSessionId()`, `extractSessionKey()`
+- Verbose diagnostic logging for non-existent event fields
+
+### Tests
+- Rewrote all tests for `message_end` event structure
+- 10 test cases for new implementation
+- Tests verify: string content, array content, role filtering, session fallback, sanitization
+
 ## [6.32.3] - 2026-07-01
 
 ### Fixed
