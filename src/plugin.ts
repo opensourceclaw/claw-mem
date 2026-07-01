@@ -115,6 +115,14 @@ class TsBridge {
 // Helper Functions
 // ============================================================================
 
+/**
+ * Sanitize sessionKey to prevent path traversal and limit length.
+ * Removes path separators and truncates to 64 characters.
+ */
+function sanitizeSessionKey(key: string): string {
+  return key.replace(/[/\\]/g, '_').slice(0, 64);
+}
+
 function extractQueryFromEvent(event: any): string {
   if (event?.messages && Array.isArray(event.messages)) {
     const userMessages = event.messages.filter((m: any) => m.role === "user");
@@ -226,13 +234,27 @@ const ALL_TOOL_NAMES = [
     // Transcript Event Hooks (v6.28.0)
     // ========================================================================
 
-    api.on("user_message", async (event: { content?: string; messages?: any[]; sessionId?: string }, ctx: any) => {
+    api.on("user_message", async (event: { content?: string; messages?: any[]; sessionId?: string; sessionKey?: string; channel?: string; text?: string; message?: { content?: string } }, ctx: any) => {
       const ts = bridge.transcriptStorage;
       if (!ts) return;
 
+      // === Lazy session detection: start session when sessionKey changes ===
+      const rawSessionKey = event.sessionKey || event.sessionId;
+      if (rawSessionKey && rawSessionKey !== currentSessionId) {
+        const sessionKey = sanitizeSessionKey(rawSessionKey);
+        const channel = event.channel || "api";
+        ts.startSession(sessionKey, channel);
+        currentSessionId = sessionKey;
+        api.logger.debug?.(`[claw-mem TS] Started transcript session: ${sessionKey}`);
+      }
+
+      // === Extract content from event (multiple format support) ===
       let content = "";
       if (event.content) {
         content = event.content;
+      } else if (event.text) {
+        // Fallback: some gateways use 'text' instead of 'content'
+        content = event.text;
       } else if (event.messages && Array.isArray(event.messages)) {
         const userMessages = event.messages.filter((m: any) => m.role === "user");
         if (userMessages.length > 0) {
@@ -241,8 +263,12 @@ const ALL_TOOL_NAMES = [
           if (typeof c === "string") content = c;
           else if (Array.isArray(c)) content = c.map((x: any) => typeof x === "string" ? x : x?.text || "").join(" ");
         }
+      } else if (typeof event.message?.content === "string") {
+        // Fallback: nested message.content
+        content = event.message.content;
       }
 
+      // === Append message if we have content and an active session ===
       if (content && currentSessionId) {
         ts.appendMessage({
           role: "user",
@@ -252,11 +278,23 @@ const ALL_TOOL_NAMES = [
       }
     });
 
-    api.on("assistant_message", async (event: { content?: string; sessionId?: string }, ctx: any) => {
+    api.on("assistant_message", async (event: { content?: string; sessionId?: string; sessionKey?: string; text?: string }, ctx: any) => {
       const ts = bridge.transcriptStorage;
-      if (!ts || !currentSessionId) return;
+      if (!ts) return;
 
-      const content = event.content || "";
+      // === Defensive session check ===
+      // Normally session is started by user_message, but handle edge case where assistant_message fires first
+      const rawSessionKey = event.sessionKey || event.sessionId;
+      if (rawSessionKey && rawSessionKey !== currentSessionId) {
+        const sessionKey = sanitizeSessionKey(rawSessionKey);
+        ts.startSession(sessionKey, "api");
+        currentSessionId = sessionKey;
+        api.logger.debug?.(`[claw-mem TS] Started transcript session (from assistant): ${sessionKey}`);
+      }
+
+      if (!currentSessionId) return;
+
+      const content = event.content || event.text || "";
       if (content) {
         ts.appendMessage({
           role: "assistant",
@@ -304,12 +342,6 @@ const ALL_TOOL_NAMES = [
           }
           try {
             await bridge.call("start_session", { sessionId: params.agentId });
-            // Start transcript session
-            currentSessionId = params.agentId;
-            const ts = bridge.transcriptStorage;
-            if (ts) {
-              ts.startSession(params.agentId, "api");
-            }
           } catch (error) {
             api.logger.warn("[claw-mem TS] Failed to start memory session:", error);
           }
@@ -347,12 +379,6 @@ const ALL_TOOL_NAMES = [
             close: async () => {
               try {
                 await bridge.call("end_session", { sessionId: params.agentId });
-                // End transcript session
-                const ts = bridge.transcriptStorage;
-                if (ts) {
-                  ts.endSession();
-                }
-                currentSessionId = undefined;
               } catch (error) {
                 api.logger.warn("[claw-mem TS] Failed to end memory session:", error);
               }
@@ -367,12 +393,6 @@ const ALL_TOOL_NAMES = [
         closeAllMemorySearchManagers: async () => {
           try {
             await bridge.call("end_session", {});
-            // End transcript session
-            const ts = bridge.transcriptStorage;
-            if (ts) {
-              ts.endSession();
-            }
-            currentSessionId = undefined;
           }
           catch (error) { api.logger.warn("[claw-mem TS] Failed to close all memory sessions:", error); }
         },

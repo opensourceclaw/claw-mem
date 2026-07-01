@@ -18,7 +18,18 @@ let _getLastBenchmarkResults: (() => { results: any[] | null; timestamp: string 
 
 async function getBenchmarkFunctions() {
   if (!_runAll) {
-    const benchmark = await import("../benchmarks/runner.js");
+    // Use dynamic require for CommonJS compatibility
+    // Try dist path first (production), then source path (development)
+    const path = require('path');
+    const distPath = path.join(__dirname, 'benchmarks', 'runner.js');
+    const srcPath = path.join(__dirname, '..', 'benchmarks', 'runner.js');
+
+    let benchmark: any;
+    try {
+      benchmark = require(distPath);
+    } catch {
+      benchmark = require(srcPath);
+    }
     _runAll = benchmark.runAll;
     _getLastBenchmarkResults = benchmark.getLastBenchmarkResults;
   }

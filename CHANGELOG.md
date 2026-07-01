@@ -5,6 +5,16 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [6.32.1] - 2026-07-01
+
+### Fixed
+- **Transcript storage never worked since v6.28.0**: Root cause was OpenClaw framework bypassing plugin's `getMemorySearchManager` when `backend === "builtin"`, so `currentSessionId` was never set and message hooks silently dropped all messages
+  - Implemented lazy session detection: `user_message` hook now detects `sessionKey` changes and calls `ts.startSession()`
+  - Added `sanitizeSessionKey()` to prevent path traversal and limit key length to 64 chars
+  - Added defensive session start in `assistant_message` hook for edge cases
+  - Removed dead transcript lifecycle code from `getMemorySearchManager` (lines that were never executed)
+  - Added content extraction fallbacks: `event.text`, `event.message?.content`
+
 ## [6.32.0] - 2026-06-30
 
 ### Added
