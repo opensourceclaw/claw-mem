@@ -123,6 +123,36 @@ function sanitizeSessionKey(key: string): string {
   return key.replace(/[/\\]/g, '_').slice(0, 64);
 }
 
+/**
+ * Generate a fallback session ID when no sessionKey/sessionId provided.
+ * Format: fb-{channel}-{date}-{random6}
+ * Example: fb-webchat-20260701-a3x9k2
+ */
+function generateFallbackSessionId(channel: string): string {
+  const date = new Date().toISOString().slice(0, 10).replace(/-/g, '');
+  const random = Math.random().toString(36).slice(2, 8);
+  return `fb-${channel}-${date}-${random}`;
+}
+
+/**
+ * Extract session key from event with multi-source fallback.
+ * Priority: sessionKey > sessionId > conversationId
+ *
+ * @returns { key: string, source: string } or null if all sources empty
+ */
+function extractSessionKey(event: any): { key: string; source: string } | null {
+  if (event.sessionKey) {
+    return { key: event.sessionKey, source: 'sessionKey' };
+  }
+  if (event.sessionId) {
+    return { key: event.sessionId, source: 'sessionId' };
+  }
+  if (event.conversationId) {
+    return { key: event.conversationId, source: 'conversationId' };
+  }
+  return null;
+}
+
 function extractQueryFromEvent(event: any): string {
   if (event?.messages && Array.isArray(event.messages)) {
     const userMessages = event.messages.filter((m: any) => m.role === "user");
@@ -234,18 +264,50 @@ const ALL_TOOL_NAMES = [
     // Transcript Event Hooks (v6.28.0)
     // ========================================================================
 
-    api.on("user_message", async (event: { content?: string; messages?: any[]; sessionId?: string; sessionKey?: string; channel?: string; text?: string; message?: { content?: string } }, ctx: any) => {
+    api.on("user_message", async (event: { content?: string; messages?: any[]; sessionId?: string; sessionKey?: string; channel?: string; text?: string; message?: { content?: string }; conversationId?: string }, ctx: any) => {
       const ts = bridge.transcriptStorage;
       if (!ts) return;
 
-      // === Lazy session detection: start session when sessionKey changes ===
-      const rawSessionKey = event.sessionKey || event.sessionId;
-      if (rawSessionKey && rawSessionKey !== currentSessionId) {
-        const sessionKey = sanitizeSessionKey(rawSessionKey);
-        const channel = event.channel || "api";
+      const channel = event.channel || "api";
+
+      // === DIAGNOSTIC: Log event structure (v6.32.3) ===
+      api.logger.info?.("[claw-mem TS] user_message event received:", {
+        hasSessionKey: !!event.sessionKey,
+        hasSessionId: !!event.sessionId,
+        hasConversationId: !!event.conversationId,
+        hasContent: !!(event.content || event.text || event.messages || event.message?.content),
+        channel,
+        eventKeys: Object.keys(event).sort().join(","),
+      });
+
+      // === Hybrid session detection with fallback (v6.32.3) ===
+      const extracted = extractSessionKey(event);
+      let sessionKey: string | null = null;
+      let sessionSource: string | null = null;
+
+      if (extracted) {
+        sessionKey = sanitizeSessionKey(extracted.key);
+        sessionSource = extracted.source;
+      }
+
+      // Start new session if:
+      // 1. Got a real sessionKey different from current, OR
+      // 2. No sessionKey AND no current session (need fallback)
+      if (sessionKey && sessionKey !== currentSessionId) {
+        // Real sessionKey from event - start new session
         ts.startSession(sessionKey, channel);
         currentSessionId = sessionKey;
-        api.logger.debug?.(`[claw-mem TS] Started transcript session: ${sessionKey}`);
+        api.logger.info?.(`[claw-mem TS] ✅ Started transcript session: ${sessionKey} (source: ${sessionSource})`);
+      } else if (!sessionKey && !currentSessionId) {
+        // No sessionKey and no active session - generate fallback
+        const fallbackId = generateFallbackSessionId(channel);
+        const sanitizedFallback = sanitizeSessionKey(fallbackId);
+        ts.startSession(sanitizedFallback, channel);
+        currentSessionId = sanitizedFallback;
+        api.logger.warn?.(`[claw-mem TS] ⚠️ No sessionKey in event, generated fallback: ${sanitizedFallback}`);
+      } else if (!sessionKey && currentSessionId) {
+        // No sessionKey but have active session - reuse (fallback consistency)
+        api.logger.debug?.(`[claw-mem TS] Reusing session: ${currentSessionId} (no sessionKey in event)`);
       }
 
       // === Extract content from event (multiple format support) ===
@@ -275,32 +337,75 @@ const ALL_TOOL_NAMES = [
           content,
           timestamp: new Date().toISOString(),
         });
+      } else if (!content) {
+        api.logger.warn?.("[claw-mem TS] ⚠️ No content extracted from user_message event");
       }
     });
 
-    api.on("assistant_message", async (event: { content?: string; sessionId?: string; sessionKey?: string; text?: string }, ctx: any) => {
+    api.on("assistant_message", async (event: { content?: string; sessionId?: string; sessionKey?: string; text?: string; message?: { content?: string }; messages?: any[]; channel?: string; conversationId?: string }, ctx: any) => {
       const ts = bridge.transcriptStorage;
       if (!ts) return;
 
-      // === Defensive session check ===
-      // Normally session is started by user_message, but handle edge case where assistant_message fires first
-      const rawSessionKey = event.sessionKey || event.sessionId;
-      if (rawSessionKey && rawSessionKey !== currentSessionId) {
-        const sessionKey = sanitizeSessionKey(rawSessionKey);
-        ts.startSession(sessionKey, "api");
-        currentSessionId = sessionKey;
-        api.logger.debug?.(`[claw-mem TS] Started transcript session (from assistant): ${sessionKey}`);
+      const channel = event.channel || "api";
+
+      // === DIAGNOSTIC: Log event structure (v6.32.3) ===
+      api.logger.info?.("[claw-mem TS] assistant_message event received:", {
+        hasSessionKey: !!event.sessionKey,
+        hasSessionId: !!event.sessionId,
+        hasConversationId: !!event.conversationId,
+        hasContent: !!(event.content || event.text || event.messages || event.message?.content),
+        channel,
+        eventKeys: Object.keys(event).sort().join(","),
+      });
+
+      // === Hybrid session detection with fallback (v6.32.3) ===
+      const extracted = extractSessionKey(event);
+      let sessionKey: string | null = null;
+
+      if (extracted) {
+        sessionKey = sanitizeSessionKey(extracted.key);
       }
 
-      if (!currentSessionId) return;
+      if (sessionKey && sessionKey !== currentSessionId) {
+        ts.startSession(sessionKey, channel);
+        currentSessionId = sessionKey;
+        api.logger.info?.(`[claw-mem TS] ✅ Started transcript session (from assistant): ${sessionKey} (source: ${extracted!.source})`);
+      } else if (!sessionKey && !currentSessionId) {
+        const fallbackId = generateFallbackSessionId(channel);
+        const sanitizedFallback = sanitizeSessionKey(fallbackId);
+        ts.startSession(sanitizedFallback, channel);
+        currentSessionId = sanitizedFallback;
+        api.logger.warn?.(`[claw-mem TS] ⚠️ No sessionKey, generated fallback: ${sanitizedFallback}`);
+      }
 
-      const content = event.content || event.text || "";
-      if (content) {
+      // === Extract content from event (aligned with user_message, v6.32.3) ===
+      let content = "";
+      if (event.content) {
+        content = event.content;
+      } else if (event.text) {
+        content = event.text;
+      } else if (event.messages && Array.isArray(event.messages)) {
+        // Support messages array format
+        const assistantMessages = event.messages.filter((m: any) => m.role === "assistant");
+        if (assistantMessages.length > 0) {
+          const lastMessage = assistantMessages[assistantMessages.length - 1];
+          const c = lastMessage.content;
+          if (typeof c === "string") content = c;
+          else if (Array.isArray(c)) content = c.map((x: any) => typeof x === "string" ? x : x?.text || "").join(" ");
+        }
+      } else if (typeof event.message?.content === "string") {
+        // Support nested message.content
+        content = event.message.content;
+      }
+
+      if (content && currentSessionId) {
         ts.appendMessage({
           role: "assistant",
           content,
           timestamp: new Date().toISOString(),
         });
+      } else if (!content) {
+        api.logger.warn?.("[claw-mem TS] ⚠️ No content extracted from assistant_message event");
       }
     });
 

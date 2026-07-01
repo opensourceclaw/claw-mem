@@ -5,6 +5,23 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [6.32.3] - 2026-07-01
+
+### Fixed
+- **Transcript storage silent failure when sessionKey missing**: Events from WebChat channel without sessionKey/sessionId were silently dropped
+  - Added hybrid session detection: sessionKey → sessionId → conversationId → fallback ID
+  - Added `generateFallbackSessionId()`: format `fb-{channel}-{date}-{random6}`
+  - Fallback ID reused for consecutive events without sessionKey (same conversation)
+  - Added diagnostic logging: event structure, session source, fallback generation
+
+### Added
+- **Diagnostic logging in hooks**: Entry-level logging shows `hasSessionKey`, `hasSessionId`, `hasConversationId`, `hasContent`, `channel`, `eventKeys`
+- **Enhanced content extraction in assistant_message**: Added support for `event.messages` array and `event.message?.content` (aligned with user_message)
+
+### Tests
+- Added 8 new test cases for hybrid session detection (TC-D1 ~ TC-D8)
+- Total tests: 22 in hook-integration.test.ts
+
 ## [6.32.1] - 2026-07-01
 
 ### Fixed

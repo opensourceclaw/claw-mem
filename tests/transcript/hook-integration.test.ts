@@ -148,7 +148,7 @@ describe("Real Hook Integration Tests", () => {
       expect(contentB).toContain("Session B content");
     });
 
-    it("TC-4: missing sessionKey does not create transcript file", async () => {
+    it("TC-4: missing sessionKey generates fallback ID (v6.32.3 behavior)", async () => {
       const handler = eventHandlers.get("user_message");
 
       await handler!(
@@ -156,11 +156,15 @@ describe("Real Hook Integration Tests", () => {
         {}
       );
 
-      // transcripts directory exists (created by TsBridge constructor)
-      // but no date subdirectory should be created
+      // v6.32.3: Now generates fallback ID when no sessionKey
       const today = new Date().toISOString().slice(0, 10);
       const dateDir = path.join(transcriptsDir, today);
-      expect(fs.existsSync(dateDir)).toBe(false);
+      expect(fs.existsSync(dateDir)).toBe(true);
+
+      // Should have a fallback session file
+      const files = fs.readdirSync(dateDir);
+      expect(files.length).toBe(1);
+      expect(files[0]).toMatch(/^session-fb-api-\d{8}-[a-z0-9]{6}\.md$/);
     });
 
     it("TC-5: uses sessionId as fallback when sessionKey missing", async () => {
@@ -301,7 +305,7 @@ describe("Real Hook Integration Tests", () => {
       expect(content).toContain("First response");
     });
 
-    it("does nothing without sessionKey and no active session", async () => {
+    it("generates fallback session when no sessionKey and no active session (v6.32.3 behavior)", async () => {
       const assistantHandler = eventHandlers.get("assistant_message");
 
       await assistantHandler!(
@@ -309,11 +313,15 @@ describe("Real Hook Integration Tests", () => {
         {}
       );
 
-      // transcripts directory exists (created by TsBridge constructor)
-      // but no date subdirectory should be created
+      // v6.32.3: Now generates fallback ID when no sessionKey
       const today = new Date().toISOString().slice(0, 10);
       const dateDir = path.join(transcriptsDir, today);
-      expect(fs.existsSync(dateDir)).toBe(false);
+      expect(fs.existsSync(dateDir)).toBe(true);
+
+      // Should have a fallback session file
+      const files = fs.readdirSync(dateDir);
+      expect(files.length).toBe(1);
+      expect(files[0]).toMatch(/^session-fb-api-\d{8}-[a-z0-9]{6}\.md$/);
     });
   });
 
@@ -345,6 +353,109 @@ describe("Real Hook Integration Tests", () => {
       const assistantCount = (content.match(/\[Assistant\]/g) || []).length;
       expect(userCount).toBe(2);
       expect(assistantCount).toBe(2);
+    });
+  });
+
+  describe("Hybrid session detection (v6.32.3)", () => {
+    it("TC-D1: uses sessionKey when present", async () => {
+      const handler = eventHandlers.get("user_message");
+      await handler!({ content: "Test", sessionKey: "real-key" }, {});
+
+      const today = new Date().toISOString().slice(0, 10);
+      const transcriptPath = path.join(transcriptsDir, today, "session-real-key.md");
+      expect(fs.existsSync(transcriptPath)).toBe(true);
+      expect(mockApi.logger.info).toHaveBeenCalledWith(
+        expect.stringContaining("Started transcript session: real-key (source: sessionKey)")
+      );
+    });
+
+    it("TC-D2: uses sessionId when sessionKey missing", async () => {
+      const handler = eventHandlers.get("user_message");
+      await handler!({ content: "Test", sessionId: "sid-123" }, {});
+
+      const today = new Date().toISOString().slice(0, 10);
+      const transcriptPath = path.join(transcriptsDir, today, "session-sid-123.md");
+      expect(fs.existsSync(transcriptPath)).toBe(true);
+    });
+
+    it("TC-D3: uses conversationId when sessionKey/sessionId missing", async () => {
+      const handler = eventHandlers.get("user_message");
+      await handler!({ content: "Test", conversationId: "conv-456" }, {});
+
+      const today = new Date().toISOString().slice(0, 10);
+      const transcriptPath = path.join(transcriptsDir, today, "session-conv-456.md");
+      expect(fs.existsSync(transcriptPath)).toBe(true);
+    });
+
+    it("TC-D4: generates fallback ID when no ID fields present", async () => {
+      const handler = eventHandlers.get("user_message");
+      await handler!({ content: "Test", channel: "webchat" }, {});
+
+      const today = new Date().toISOString().slice(0, 10);
+      const dateDir = path.join(transcriptsDir, today);
+      expect(fs.existsSync(dateDir)).toBe(true);
+
+      // Should have exactly one session file with fallback ID
+      const files = fs.readdirSync(dateDir);
+      expect(files.length).toBe(1);
+      expect(files[0]).toMatch(/^session-fb-webchat-\d{8}-[a-z0-9]{6}\.md$/);
+      expect(mockApi.logger.warn).toHaveBeenCalledWith(
+        expect.stringContaining("generated fallback")
+      );
+    });
+
+    it("TC-D5: reuses fallback ID for consecutive events without ID", async () => {
+      const handler = eventHandlers.get("user_message");
+
+      // First event - generates fallback
+      await handler!({ content: "First", channel: "webchat" }, {});
+
+      // Second event - should reuse
+      await handler!({ content: "Second", channel: "webchat" }, {});
+
+      const today = new Date().toISOString().slice(0, 10);
+      const dateDir = path.join(transcriptsDir, today);
+      const files = fs.readdirSync(dateDir);
+
+      // Should still have only ONE session file (reused)
+      expect(files.length).toBe(1);
+
+      const content = fs.readFileSync(path.join(dateDir, files[0]), "utf-8");
+      expect(content).toContain("First");
+      expect(content).toContain("Second");
+    });
+
+    it("TC-D6: extracts content from nested message.content", async () => {
+      const handler = eventHandlers.get("user_message");
+      await handler!({ message: { content: "Nested content" }, sessionKey: "nested-test" }, {});
+
+      const today = new Date().toISOString().slice(0, 10);
+      const transcriptPath = path.join(transcriptsDir, today, "session-nested-test.md");
+      const content = fs.readFileSync(transcriptPath, "utf-8");
+      expect(content).toContain("Nested content");
+    });
+
+    it("TC-D7: extracts content from text field", async () => {
+      const handler = eventHandlers.get("user_message");
+      await handler!({ text: "Text field content", sessionKey: "text-test" }, {});
+
+      const today = new Date().toISOString().slice(0, 10);
+      const transcriptPath = path.join(transcriptsDir, today, "session-text-test.md");
+      const content = fs.readFileSync(transcriptPath, "utf-8");
+      expect(content).toContain("Text field content");
+    });
+
+    it("TC-D8: assistant_message generates fallback when no session active", async () => {
+      const handler = eventHandlers.get("assistant_message");
+      await handler!({ content: "Assistant response", channel: "webchat" }, {});
+
+      const today = new Date().toISOString().slice(0, 10);
+      const dateDir = path.join(transcriptsDir, today);
+      expect(fs.existsSync(dateDir)).toBe(true);
+
+      const files = fs.readdirSync(dateDir);
+      expect(files.length).toBe(1);
+      expect(files[0]).toMatch(/^session-fb-webchat-\d{8}-[a-z0-9]{6}\.md$/);
     });
   });
 });
