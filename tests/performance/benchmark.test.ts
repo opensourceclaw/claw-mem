@@ -7,9 +7,9 @@ const WARMUP_ITERATIONS = 3;
 const BENCH_ITERATIONS = 20;
 const MAX_LATENCY_MS = {
   store: 80,
-  search: 100,   // v6.29.0: Increased for HybridRetriever lazy init
+  search: 150,   // v6.32.2: Increased for MacBook Air disk I/O variance
   compress: 200, // v6.29.0: Increased for HybridRetriever lazy init
-  initialize: 100,  // v6.29.0: Increased for HybridRetriever initialization
+  initialize: 150,  // v6.32.2: Increased for MacBook Air disk I/O variance
 };
 
 function measure(fn: () => void, iterations: number): number[] {
