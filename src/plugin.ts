@@ -12,6 +12,7 @@ import { handleRequest, type JsonRpcRequest } from "./bridge";
 import { getMemoryManager, type MemoryManager } from "./memory_manager";
 import { ConstitutionStore } from "./constitution";
 import { TranscriptStorage, type TranscriptConfig } from "./transcript/index.js";
+import { RecapGenerator, type Recap } from "./transcript/recap-generator.js";
 
 // ============================================================================
 // Type Definitions
@@ -62,6 +63,7 @@ class TsBridge {
   private _ready: boolean;
   private _logger: OpenClawPluginApi["logger"];
   private _transcriptStorage: TranscriptStorage | null = null;
+  private _recapGenerator: RecapGenerator | null = null;
   private _currentSessionId: string | null = null;
 
   constructor(config: ClawMemConfig, logger: OpenClawPluginApi["logger"]) {
@@ -75,6 +77,7 @@ class TsBridge {
     if (config.transcript?.enabled !== false) {
       try {
         this._transcriptStorage = new TranscriptStorage(ws, config.transcript, logger);
+        this._recapGenerator = new RecapGenerator();
         // Clean up expired transcripts on startup
         const deleted = this._transcriptStorage.cleanupExpired();
         if (deleted > 0) {
@@ -84,12 +87,13 @@ class TsBridge {
       } catch (err) {
         logger.error(`[claw-mem TS] ❌ TranscriptStorage initialization failed: ${err}`);
         this._transcriptStorage = null;
+        this._recapGenerator = null;
       }
     } else {
       logger.warn("[claw-mem TS] ⚠️ TranscriptStorage disabled by config");
     }
 
-    logger.info("[claw-mem TS] v6.28.0 initialized (no Python subprocess)");
+    logger.info("[claw-mem TS] v6.33.0 initialized (no Python subprocess)");
   }
 
   isReady(): boolean { return this._ready; }
@@ -99,6 +103,24 @@ class TsBridge {
   }
 
   async call(method: string, params?: any): Promise<any> {
+    // v6.33.0: Handle end_session with recap generation
+    if (method === "end_session") {
+      // Generate recap before ending session
+      if (this._transcriptStorage && this._recapGenerator) {
+        const recap = this._transcriptStorage.endSession(this._recapGenerator);
+        if (recap) {
+          this._logger?.info?.(`[claw-mem TS] Generated recap: ${recap.whatWereWeDoing.substring(0, 50)}...`);
+          // Store recap as session_recap memory
+          this._manager.store(
+            `Session Recap: ${recap.whatWereWeDoing}\n\nNext: ${recap.whatIsNext}`,
+            "session_recap",
+            ["session_recap"],
+            { session_id: recap.sessionId }
+          );
+        }
+      }
+    }
+
     const req: JsonRpcRequest = {
       jsonrpc: "2.0",
       method,

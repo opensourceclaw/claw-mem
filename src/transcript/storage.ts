@@ -4,6 +4,7 @@
 import * as fs from 'fs';
 import * as path from 'path';
 import { TranscriptFormatter, type TranscriptEntry, type TranscriptMetadata } from './formatter.js';
+import type { Recap, RecapGenerator } from './recap-generator.js';
 
 export interface TranscriptConfig {
   enabled: boolean;           // Default: true
@@ -121,12 +122,43 @@ export class TranscriptStorage {
 
   /**
    * End the current transcript session.
+   * v6.33.0: Optionally generate recap before ending.
    */
-  endSession(): void {
+  endSession(recapGenerator?: RecapGenerator): Recap | null {
+    let recap: Recap | null = null;
+
+    // Generate recap if generator provided and we have entries
+    if (recapGenerator && this.currentSession && this.entries.length > 0) {
+      try {
+        recap = recapGenerator.generateSync(this.currentSession, this.entries);
+        this.logger?.info?.(`[TranscriptStorage] Generated recap for session ${this.currentSession}`);
+      } catch (err) {
+        this.logger?.error?.(`[TranscriptStorage] Recap generation failed: ${err}`);
+      }
+    }
+
     this.currentSession = null;
     this.currentFile = null;
     this.currentMetadata = null;
     this.entries = [];
+
+    return recap;
+  }
+
+  /**
+   * Get current session entries (for recap generation).
+   * v6.33.0: Added for recap generation support.
+   */
+  getEntries(): TranscriptEntry[] {
+    return [...this.entries];
+  }
+
+  /**
+   * Get current session ID.
+   * v6.33.0: Added for recap generation support.
+   */
+  getCurrentSessionId(): string | null {
+    return this.currentSession;
   }
 
   /**

@@ -46,6 +46,14 @@ export class RecapGenerator {
    * Generate a recap from transcript entries
    */
   async generate(sessionId: string, entries: TranscriptEntry[]): Promise<Recap> {
+    return this.generateSync(sessionId, entries);
+  }
+
+  /**
+   * Generate a recap synchronously from transcript entries
+   * v6.33.0: Added for use in synchronous contexts like endSession.
+   */
+  generateSync(sessionId: string, entries: TranscriptEntry[]): Recap {
     if (entries.length === 0) {
       return {
         whatWereWeDoing: "No activity in this session",
