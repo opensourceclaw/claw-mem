@@ -5,6 +5,24 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [6.33.0] - 2026-07-05
+
+### Added
+- **RecapGenerator** (`src/transcript/recap-generator.ts`)
+  - Generates user-friendly 40-word session summaries
+  - Extracts "what we were doing" from recent user messages
+  - Extracts "what is next" from assistant messages
+  - Configurable max words and message count
+
+- **RecapStrategy** (`src/storage/strategies/recap.ts`)
+  - Storage strategy for session_recap memory type
+  - Keeps latest recap per session for quick recovery
+  - Supports overwrite for idempotency
+
+### Changed
+- Export RecapGenerator from `src/transcript/index.ts`
+- Export RecapStrategy from `src/storage/strategies/index.ts`
+
 ## [6.32.6] - 2026-07-01
 
 ### Fixed
