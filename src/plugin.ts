@@ -103,20 +103,32 @@ class TsBridge {
   }
 
   async call(method: string, params?: any): Promise<any> {
-    // v6.33.0: Handle end_session with recap generation
+    // v6.33.0/v6.34.0: Handle end_session with recap generation
     if (method === "end_session") {
+      // Get current session ID before ending
+      const currentSessionId = this._transcriptStorage?.getCurrentSessionId();
+
       // Generate recap before ending session
-      if (this._transcriptStorage && this._recapGenerator) {
+      if (this._transcriptStorage && this._recapGenerator && currentSessionId) {
         const recap = this._transcriptStorage.endSession(this._recapGenerator);
         if (recap) {
-          this._logger?.info?.(`[claw-mem TS] Generated recap: ${recap.whatWereWeDoing.substring(0, 50)}...`);
+          // Ensure session_id is set correctly
+          recap.sessionId = currentSessionId;
+
+          this._logger?.info?.(`[claw-mem TS] Generated recap for session ${currentSessionId}: ${recap.whatWereWeDoing.substring(0, 50)}...`);
+
           // Store recap as session_recap memory
           this._manager.store(
             `Session Recap: ${recap.whatWereWeDoing}\n\nNext: ${recap.whatIsNext}`,
             "session_recap",
             ["session_recap"],
-            { session_id: recap.sessionId }
+            { session_id: currentSessionId, timestamp: recap.timestamp }
           );
+        }
+      } else {
+        // No session to recap, just end
+        if (this._transcriptStorage) {
+          this._transcriptStorage.endSession();
         }
       }
     }

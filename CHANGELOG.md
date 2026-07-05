@@ -5,6 +5,14 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [6.34.0] - 2026-07-05
+
+### Fixed
+- **Recap session_id not set correctly**: When storing recap in end_session hook, session_id was undefined because session had already ended
+  - Capture currentSessionId BEFORE calling endSession()
+  - Explicitly set recap.sessionId to currentSessionId
+  - Pass session_id in metadata when storing recap memory
+
 ## [6.33.0] - 2026-07-05
 
 ### Added
