@@ -774,6 +774,84 @@ export async function handleRequest(req: JsonRpcRequest, mm?: MemoryManager): Pr
         break;
       }
 
+      // v6.35.0: Structure Optimizer
+      case "optimizer_assess": {
+        const { StructureOptimizer } = await import("./optimizer/index.js");
+        const optimizer = new StructureOptimizer();
+        const report = await optimizer.assess(Boolean(params.refresh ?? false));
+
+        result = {
+          healthReport: {
+            overallScore: report.overallScore,
+            indexStats: report.indexStats.map((s) => ({
+              name: s.name,
+              type: s.type,
+              hitRate: s.hitRate,
+              avgLatency: s.avgLatency,
+              size: s.size,
+              queryCount: s.queryCount,
+            })),
+            unusedIndexes: report.unusedIndexes,
+            missingIndexes: report.missingIndexes.map((m) => ({
+              id: m.id,
+              type: m.type,
+              reason: m.reason,
+              confidence: m.confidence,
+            })),
+            degradedQueries: report.degradedQueries,
+          },
+          metadata: report.metadata,
+        };
+        break;
+      }
+
+      case "optimizer_suggest": {
+        const { StructureOptimizer } = await import("./optimizer/index.js");
+        const optimizer = new StructureOptimizer();
+        const suggestions = await optimizer.suggest();
+
+        const limit = Number(params.limit ?? 20);
+        const filtered = suggestions.slice(0, limit);
+
+        result = {
+          suggestions: filtered.map((s) => ({
+            id: s.id,
+            type: s.type,
+            targetIndex: s.targetIndex,
+            description: s.description,
+            estimatedBenefit: s.estimatedBenefit,
+            confidence: s.confidence,
+          })),
+          totalCount: suggestions.length,
+        };
+        break;
+      }
+
+      case "optimizer_history": {
+        const { StructureOptimizer } = await import("./optimizer/index.js");
+        const optimizer = new StructureOptimizer();
+        const records = await optimizer.getHistory(Number(params.limit ?? 10));
+
+        result = {
+          records: records.map((r) => ({
+            id: r.id,
+            timestamp: r.timestamp,
+            result: r.result,
+            duration: r.duration,
+            healthBefore: r.healthBefore,
+          })),
+          totalCount: records.length,
+        };
+        break;
+      }
+
+      case "optimizer_stats": {
+        const { StructureOptimizer } = await import("./optimizer/index.js");
+        const optimizer = new StructureOptimizer();
+        result = optimizer.getStats();
+        break;
+      }
+
       default:
         return { jsonrpc: "2.0", id, error: { code: -32601, message: `Method '${method}' not found` } };
     }

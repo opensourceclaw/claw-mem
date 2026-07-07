@@ -5,6 +5,28 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [6.35.0] - 2026-07-08
+
+### Added
+- **StructureOptimizer** (`src/optimizer/`) - Memory structure optimization
+  - Index health assessment (hit rate, latency, coverage)
+  - Unused index detection
+  - Optimization suggestions (create/delete indexes)
+  - RPC endpoints: `optimizer_assess`, `optimizer_suggest`, `optimizer_history`, `optimizer_stats`
+
+### Modules
+- `src/optimizer/types.ts` - Type definitions for optimizer operations
+- `src/optimizer/structure-optimizer.ts` - Main StructureOptimizer orchestrator
+- `src/optimizer/health-reporter.ts` - Health score calculation
+- `src/optimizer/index-evolver.ts` - Index evolution detection
+- `src/optimizer/index.ts` - Module exports
+
+### RPC API
+- `optimizer_assess` - Assess index health status
+- `optimizer_suggest` - Get optimization suggestions
+- `optimizer_history` - Get optimization history
+- `optimizer_stats` - Get optimizer statistics
+
 ## [6.34.0] - 2026-07-08
 
 ### Added
