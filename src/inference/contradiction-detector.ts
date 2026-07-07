@@ -229,6 +229,26 @@ export class ContradictionDetector {
       });
     }
 
+    // Pattern 5: "Person works as X"
+    const worksAsPattern = /(\w+)\s+works\s+as\s+(?:a\s+)?(\w+)/gi;
+    while ((match = worksAsPattern.exec(content)) !== null) {
+      attributes.push({
+        subject: match[1],
+        attribute: "profession",
+        value: match[2],
+      });
+    }
+
+    // Pattern 6: "Person is a/an [profession]" (developer, engineer, designer, etc.)
+    const isProfessionPattern = /(\w+)\s+is\s+(?:a\s+|an\s+)?(\w+(?:er|or|ist|ant|ian|designer|developer|engineer|manager|analyst|consultant|architect))/gi;
+    while ((match = isProfessionPattern.exec(content)) !== null) {
+      attributes.push({
+        subject: match[1],
+        attribute: "profession",
+        value: match[2],
+      });
+    }
+
     return attributes;
   }
 

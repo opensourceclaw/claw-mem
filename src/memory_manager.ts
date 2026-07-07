@@ -2,7 +2,7 @@
 // Licensed under the Apache License, Version 2.0
 
 /**
- * claw-mem v6.31.0 — MemoryManager (TypeScript)
+ * claw-mem 6.33.0 — MemoryManager (TypeScript)
  *
  * Core orchestrator: storage, retrieval, gating, decay, graph, compression.
  * Lazy-loads subsystems on first access to keep startup fast.
@@ -137,20 +137,20 @@ export class MemoryManager {
         }),
       });
 
-      // v6.31.0: Enable entity index persistence
+      // 6.33.0: Enable entity index persistence
       const indexDir = path.join(this.workspace, ".claw-mem-index");
       this._entityIndex.enablePersistence(indexDir);
       this._entityIndex.load();
     }
 
-    // v6.31.0: Version Chain for preferences
+    // 6.33.0: Version Chain for preferences
     this._versionChain = new VersionChain(this.workspace);
 
-    // v6.31.0: Strategy Registry
+    // 6.33.0: Strategy Registry
     this._strategyRegistry = new StrategyRegistry(new EpisodicStrategy());
     this._registerStrategies();
 
-    log(`claw-mem TS v6.31.0 initialized, workspace: ${this.workspace}`);
+    log(`claw-mem TS 6.33.0 initialized, workspace: ${this.workspace}`);
   }
 
   // v5.1.0: Constitution Store — 3-layer persistent identity
@@ -300,7 +300,7 @@ export class MemoryManager {
     const id = `${Date.now().toString(36)}_${Math.random().toString(36).slice(2, 8)}`;
     const timestamp = new Date().toISOString();
 
-    // v6.31.0: Strategy-based dispatch
+    // 6.33.0: Strategy-based dispatch
     if (this._strategyRegistry) {
       const record: import("./types.js").MemoryRecord = {
         id,
@@ -761,7 +761,7 @@ export class MemoryManager {
     this._hybridRetriever.index(documents);
   }
 
-  // ── strategy registry (v6.31.0) ─────────────────────────────────────
+  // ── strategy registry (6.33.0) ─────────────────────────────────────
 
   private _registerStrategies(): void {
     if (!this._strategyRegistry) return;
@@ -834,7 +834,7 @@ export class MemoryManager {
     return this._entityIndex?.getStats() ?? { entityCount: 0, coocCount: 0, totalMemoryLinks: 0, avgCoocPerEntity: 0 };
   }
 
-  // ── strategy API (v6.31.0) ─────────────────────────────────────
+  // ── strategy API (6.33.0) ─────────────────────────────────────
 
   /** List all registered strategies */
   listStrategies(): Array<{ name: string; memoryTypes: string[] }> {

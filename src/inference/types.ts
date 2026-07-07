@@ -190,7 +190,7 @@ export interface ContradictionOptions {
 /** Default contradiction options */
 export const DEFAULT_CONTRADICTION_OPTIONS: Required<Omit<ContradictionOptions, "entityId">> = {
   types: [ContradictionType.DIRECT],
-  minConfidence: 0.7,
+  minConfidence: 0.5,
   includeSuggestions: true,
   maxResults: 50,
 };

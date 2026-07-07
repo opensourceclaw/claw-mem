@@ -210,6 +210,54 @@ describe("ContradictionDetector", () => {
       expect(suggestions.some((s) => s.type === "ask_user")).toBe(true);
     });
   });
+
+  describe("profession patterns", () => {
+    it("should detect contradiction for 'works as' pattern", () => {
+      const memories: MemoryForInference[] = [
+        { id: "m1", content: "Peter works as Engineer", confidence: 0.9 },
+        { id: "m2", content: "Peter works as Designer", confidence: 0.9 },
+      ];
+
+      const result = detector.detectDirect(memories);
+
+      expect(result.length).toBeGreaterThan(0);
+      expect(result[0].type).toBe(ContradictionType.DIRECT);
+      expect(result[0].description).toContain("profession");
+    });
+
+    it("should detect contradiction for 'is a [profession]' pattern", () => {
+      const memories: MemoryForInference[] = [
+        { id: "m1", content: "Alice is a Developer", confidence: 0.9 },
+        { id: "m2", content: "Alice is a Designer", confidence: 0.9 },
+      ];
+
+      const result = detector.detectDirect(memories);
+
+      expect(result.length).toBeGreaterThan(0);
+      expect(result[0].description).toContain("profession");
+    });
+
+    it("should detect contradiction for 'is Developer' pattern", () => {
+      const memories: MemoryForInference[] = [
+        { id: "m1", content: "Alice is Developer", confidence: 0.9 },
+        { id: "m2", content: "Alice is Designer", confidence: 0.9 },
+      ];
+
+      const result = detector.detectDirect(memories);
+
+      expect(result.length).toBeGreaterThan(0);
+    });
+
+    it("should not detect contradiction for same profession", () => {
+      const memories: MemoryForInference[] = [
+        { id: "m1", content: "Peter works as Engineer" },
+        { id: "m2", content: "Peter works as Engineer" },
+      ];
+
+      const result = detector.detectDirect(memories);
+      expect(result).toHaveLength(0);
+    });
+  });
 });
 
 describe("ChainVisualizer", () => {
