@@ -5,7 +5,27 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [6.34.0] - 2026-07-05
+## [6.34.0] - 2026-07-08
+
+### Added
+- **InferenceEngine** (`src/inference/`) - Knowledge inference from memories
+  - Transitive derivation: A → B, B → C ⇒ A → C
+  - Direct contradiction detection
+  - Chain visualization (text/JSON/Mermaid)
+  - RPC endpoints: `inference_derive`, `inference_detect_contradictions`, `inference_stats`
+
+### Modules
+- `src/inference/types.ts` - Type definitions for inference operations
+- `src/inference/engine.ts` - Main InferenceEngine orchestrator
+- `src/inference/knowledge-deriver.ts` - Transitive derivation rules
+- `src/inference/contradiction-detector.ts` - Direct contradiction detection
+- `src/inference/chain-visualizer.ts` - Chain rendering to multiple formats
+- `src/inference/index.ts` - Module exports
+
+### RPC API
+- `inference_derive` - Derive new knowledge from memories
+- `inference_detect_contradictions` - Detect contradictions in memories
+- `inference_stats` - Get inference engine statistics
 
 ### Fixed
 - **Recap session_id not set correctly**: When storing recap in end_session hook, session_id was undefined because session had already ended

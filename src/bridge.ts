@@ -584,7 +584,7 @@ export async function handleRequest(req: JsonRpcRequest, mm?: MemoryManager): Pr
         break;
       }
 
-      // v6.31.0: List Strategies
+      // 6.33.0: List Strategies
       case "list_strategies": {
         result = {
           strategies: manager.listStrategies(),
@@ -592,7 +592,7 @@ export async function handleRequest(req: JsonRpcRequest, mm?: MemoryManager): Pr
         break;
       }
 
-      // v6.31.0: Get Preference
+      // 6.33.0: Get Preference
       case "get_preference": {
         const prefKey = String(params.pref_key ?? "");
         if (!prefKey) {
@@ -604,7 +604,7 @@ export async function handleRequest(req: JsonRpcRequest, mm?: MemoryManager): Pr
         break;
       }
 
-      // v6.31.0: Get Preference History
+      // 6.33.0: Get Preference History
       case "get_preference_history": {
         const prefKey = String(params.pref_key ?? "");
         if (!prefKey) {
@@ -616,7 +616,7 @@ export async function handleRequest(req: JsonRpcRequest, mm?: MemoryManager): Pr
         break;
       }
 
-      // v6.31.0: Rollback Preference
+      // 6.33.0: Rollback Preference
       case "rollback_preference": {
         const prefKey = String(params.pref_key ?? "");
         const version = Number(params.version ?? 0);
@@ -666,6 +666,114 @@ export async function handleRequest(req: JsonRpcRequest, mm?: MemoryManager): Pr
         break;
       }
 
+      // v6.34.0: Inference Engine
+      case "inference_derive": {
+        const { InferenceEngine } = await import("./inference/index.js");
+
+        // Create engine with search function bound to MemoryManager
+        const engine = new InferenceEngine({
+          searchFn: (query: string, limit: number) => {
+            const raw = manager.search(query, undefined, limit);
+            return (Array.isArray(raw) ? raw : []).map((r: any) => ({
+              id: r.id || String(r.timestamp),
+              content: r.content || r.text || "",
+              metadata: r.metadata,
+              timestamp: r.timestamp ? new Date(r.timestamp).getTime() : Date.now(),
+              confidence: 0.8,
+            }));
+          },
+        });
+
+        const deriveResult = await engine.derive(
+          String(params.query ?? ""),
+          {
+            maxSteps: params.maxSteps as number | undefined,
+            confidenceThreshold: params.confidenceThreshold as number | undefined,
+            maxMemories: params.maxMemories as number | undefined,
+            visualize: Boolean(params.visualize),
+          }
+        );
+
+        result = {
+          knowledge: deriveResult.knowledge.map((k) => ({
+            id: k.id,
+            type: k.type,
+            subject: k.subject,
+            predicate: k.predicate,
+            object: k.object,
+            confidence: k.confidence,
+            sourceMemoryIds: k.sourceMemoryIds,
+          })),
+          chain: deriveResult.chain,
+          confidence: deriveResult.confidence,
+          cacheHit: deriveResult.cacheHit,
+          processingTimeMs: deriveResult.processingTimeMs,
+          visualization: deriveResult.visualization,
+        };
+        break;
+      }
+
+      case "inference_detect_contradictions": {
+        const { InferenceEngine } = await import("./inference/index.js");
+
+        // Get memories to check
+        let memories: Array<{
+          id: string;
+          content: string;
+          metadata?: Record<string, unknown>;
+          timestamp?: number;
+          confidence?: number;
+        }> = [];
+
+        if (params.memoryIds) {
+          // Check specific memories
+          const ids = params.memoryIds as string[];
+          for (const id of ids) {
+            const raw = manager.search(id, undefined, 1);
+            if (Array.isArray(raw) && raw.length > 0) {
+              const r = raw[0] as any;
+              memories.push({
+                id: (r.id as string) || id,
+                content: (r.content as string) || (r.text as string) || "",
+                metadata: r.metadata as Record<string, unknown> | undefined,
+                timestamp: r.timestamp ? new Date(r.timestamp as string).getTime() : Date.now(),
+                confidence: 0.8,
+              });
+            }
+          }
+        } else {
+          // Check all memories (limited)
+          const raw = manager.search("", undefined, (params.limit as number) ?? 100);
+          memories = (Array.isArray(raw) ? raw : []).map((r: any) => ({
+            id: (r.id as string) || String(r.timestamp),
+            content: (r.content as string) || (r.text as string) || "",
+            metadata: r.metadata,
+            timestamp: r.timestamp ? new Date(r.timestamp).getTime() : Date.now(),
+            confidence: 0.8,
+          }));
+        }
+
+        const engine = new InferenceEngine();
+        const reports = await engine.detectContradictions(memories, {
+          minConfidence: params.minConfidence as number | undefined,
+          includeSuggestions: Boolean(params.includeSuggestions ?? true),
+          maxResults: params.maxResults as number | undefined,
+        });
+
+        result = {
+          contradictions: reports,
+          count: reports.length,
+        };
+        break;
+      }
+
+      case "inference_stats": {
+        const { InferenceEngine } = await import("./inference/index.js");
+        const engine = new InferenceEngine();
+        result = engine.getStats();
+        break;
+      }
+
       default:
         return { jsonrpc: "2.0", id, error: { code: -32601, message: `Method '${method}' not found` } };
     }
@@ -680,7 +788,7 @@ export async function handleRequest(req: JsonRpcRequest, mm?: MemoryManager): Pr
 /** OpenClaw plugin registration entry point. */
 export const plugin = {
   id: "claw-mem",
-  name: "Claw Memory System (TS v6.31.0)",
+  name: "Claw Memory System (TS 6.33.0)",
   description: "Local-First Three-Tier Memory System",
   version: "6.31.0",
   register(api: ClawMemPluginApi) {
@@ -692,7 +800,7 @@ export const plugin = {
       enableCompression: !!(config.enableCompression ?? true),
     });
 
-    api.logger?.info("[claw-mem TS] v6.31.0 initialized");
+    api.logger?.info("[claw-mem TS] 6.33.0 initialized");
 
     api.registerService({
       id: "claw-mem-ts",
