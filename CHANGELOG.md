@@ -5,6 +5,22 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [6.37.0] - 2026-07-13
+
+### Added
+- **Memory Leak Regression Tests** (`tests/memory/`)
+  - `pool.test.ts` - MemoryPool capacity limit + LRU eviction tests
+  - `transcript-buffer.test.ts` - TranscriptStorage buffer limit tests
+  - `query-cache.test.ts` - QueryCache session-level cleanup tests
+  - `working-memory.test.ts` - MemoryManager `_working` LRU eviction tests
+  - `stress.test.ts` - Memory stability under load tests
+  - `monitoring.test.ts` - Memory monitoring methods tests
+
+### Testing
+- All 6 new test files cover v6.36.0 memory leak fixes
+- Stress tests verify memory remains bounded under high load
+- Monitoring tests validate `getSize()`, `getUsage()`, `getBufferSize()`, `clearBuffer()`, `flush()`
+
 ## [6.36.0] - 2026-07-12
 
 ### Fixed
