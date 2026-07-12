@@ -42,6 +42,9 @@ export class TranscriptStorage {
   private currentMetadata: TranscriptMetadata | null = null;
   private entries: TranscriptEntry[] = [];
 
+  /** v6.36.0: Maximum entries to keep in memory buffer */
+  private static readonly MAX_ENTRIES_BUFFER = 500;
+
   constructor(workspace: string, config?: Partial<TranscriptConfig>, logger?: TranscriptLogger) {
     this.workspace = workspace;
     this.config = { ...DEFAULT_CONFIG, ...config };
@@ -96,6 +99,7 @@ export class TranscriptStorage {
 
   /**
    * Append a message to the current transcript.
+   * v6.36.0: Limits in-memory buffer to MAX_ENTRIES_BUFFER.
    */
   appendMessage(entry: TranscriptEntry): void {
     if (!this.config.enabled) {
@@ -110,6 +114,12 @@ export class TranscriptStorage {
 
     try {
       this.entries.push(entry);
+
+      // v6.36.0: Trim buffer if exceeds limit (keep most recent)
+      if (this.entries.length > TranscriptStorage.MAX_ENTRIES_BUFFER) {
+        this.entries = this.entries.slice(-TranscriptStorage.MAX_ENTRIES_BUFFER);
+        this.logger?.debug?.(`[TranscriptStorage] Trimmed entries buffer to ${TranscriptStorage.MAX_ENTRIES_BUFFER}`);
+      }
 
       // Append to file
       const formatted = this.formatter.formatMessage(entry);
@@ -301,5 +311,37 @@ export class TranscriptStorage {
    */
   isEnabled(): boolean {
     return this.config.enabled;
+  }
+
+  /**
+   * Clear the in-memory entries buffer.
+   * v6.36.0: Memory leak prevention - call after file write.
+   */
+  clearBuffer(): void {
+    this.entries = [];
+    this.logger?.debug?.('[TranscriptStorage] Cleared entries buffer');
+  }
+
+  /**
+   * Get current buffer size (for monitoring).
+   * v6.36.0: Memory monitoring support.
+   */
+  getBufferSize(): number {
+    return this.entries.length;
+  }
+
+  /**
+   * Flush current entries to file and optionally clear buffer.
+   * v6.36.0: Memory leak prevention - periodic flush support.
+   */
+  flush(clearBuffer: boolean = false): void {
+    if (!this.currentFile || this.entries.length === 0) return;
+
+    // Entries are already written to file via appendFileSync in appendMessage
+    // This method exists for explicit control
+    if (clearBuffer) {
+      this.clearBuffer();
+    }
+    this.logger?.debug?.('[TranscriptStorage] Flush completed');
   }
 }

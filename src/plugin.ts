@@ -13,6 +13,7 @@ import { getMemoryManager, type MemoryManager } from "./memory_manager";
 import { ConstitutionStore } from "./constitution";
 import { TranscriptStorage, type TranscriptConfig } from "./transcript/index.js";
 import { RecapGenerator, type Recap } from "./transcript/recap-generator.js";
+import { clearGlobalQueryCache } from "./retrieval/query_cache.js";
 
 // ============================================================================
 // Type Definitions
@@ -62,8 +63,7 @@ class TsBridge {
   private _constitution: ConstitutionStore;
   private _ready: boolean;
   private _logger: OpenClawPluginApi["logger"];
-  private _transcriptStorage: TranscriptStorage | null = null;
-  private _recapGenerator: RecapGenerator | null = null;
+  // v6.36.0: Removed duplicate TranscriptStorage - use _manager.transcript instead
   private _currentSessionId: string | null = null;
 
   constructor(config: ClawMemConfig, logger: OpenClawPluginApi["logger"]) {
@@ -73,44 +73,38 @@ class TsBridge {
     this._constitution = this._manager.constitutionStore;
     this._ready = true;
 
-    // Initialize TranscriptStorage
-    if (config.transcript?.enabled !== false) {
-      try {
-        this._transcriptStorage = new TranscriptStorage(ws, config.transcript, logger);
-        this._recapGenerator = new RecapGenerator();
-        // Clean up expired transcripts on startup
-        const deleted = this._transcriptStorage.cleanupExpired();
-        if (deleted > 0) {
-          logger.info(`[claw-mem TS] Cleaned up ${deleted} expired transcript directories`);
-        }
-        logger.info(`[claw-mem TS] ✅ TranscriptStorage initialized, workspace: ${ws}`);
-      } catch (err) {
-        logger.error(`[claw-mem TS] ❌ TranscriptStorage initialization failed: ${err}`);
-        this._transcriptStorage = null;
-        this._recapGenerator = null;
-      }
+    // v6.36.0: TranscriptStorage is now managed by MemoryManager
+    // Removed duplicate instantiation to prevent memory leak
+    if (this._manager.transcript) {
+      logger.info(`[claw-mem TS] ✅ TranscriptStorage available via MemoryManager, workspace: ${ws}`);
     } else {
-      logger.warn("[claw-mem TS] ⚠️ TranscriptStorage disabled by config");
+      logger.warn("[claw-mem TS] ⚠️ TranscriptStorage not initialized");
     }
 
-    logger.info("[claw-mem TS] v6.33.0 initialized (no Python subprocess)");
+    logger.info("[claw-mem TS] v6.36.0 initialized (no duplicate TranscriptStorage)");
   }
 
   isReady(): boolean { return this._ready; }
 
+  /** v6.36.0: Expose manager for direct access */
+  get manager(): MemoryManager { return this._manager; }
+
+  /** v6.36.0: Delegate to MemoryManager.transcript to avoid duplicate instance */
   get transcriptStorage(): TranscriptStorage | null {
-    return this._transcriptStorage;
+    return this._manager.transcript;
   }
 
   async call(method: string, params?: any): Promise<any> {
-    // v6.33.0/v6.34.0: Handle end_session with recap generation
+    // v6.36.0: Handle end_session with recap generation (using MemoryManager.transcript)
     if (method === "end_session") {
+      const ts = this._manager.transcript;
       // Get current session ID before ending
-      const currentSessionId = this._transcriptStorage?.getCurrentSessionId();
+      const currentSessionId = ts?.getCurrentSessionId();
 
       // Generate recap before ending session
-      if (this._transcriptStorage && this._recapGenerator && currentSessionId) {
-        const recap = this._transcriptStorage.endSession(this._recapGenerator);
+      if (ts && currentSessionId) {
+        const recapGenerator = new RecapGenerator();
+        const recap = ts.endSession(recapGenerator);
         if (recap) {
           // Ensure session_id is set correctly
           recap.sessionId = currentSessionId;
@@ -125,12 +119,14 @@ class TsBridge {
             { session_id: currentSessionId, timestamp: recap.timestamp }
           );
         }
-      } else {
+      } else if (ts) {
         // No session to recap, just end
-        if (this._transcriptStorage) {
-          this._transcriptStorage.endSession();
-        }
+        ts.endSession();
       }
+
+      // v6.36.0: Clear global query cache on session end to prevent memory leak
+      clearGlobalQueryCache();
+      this._logger?.debug?.("[claw-mem TS] Cleared global query cache on session end");
     }
 
     const req: JsonRpcRequest = {

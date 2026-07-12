@@ -156,13 +156,25 @@ export class QueryCache {
       ttlSeconds: this.ttlSeconds,
     };
   }
+
+  /**
+   * Clear all cache entries.
+   * v6.36.0: Session-level cache management.
+   */
+  clear(): void {
+    this.cache.clear();
+    this.hits = 0;
+    this.misses = 0;
+  }
 }
 
-// Global cache instance
+// Global cache instance (deprecated, use createQueryCache for session-level)
 let globalCache: QueryCache | undefined;
 
 /**
  * Get or create the global QueryCache singleton.
+ * v6.36.0: Deprecated - use createQueryCache() for session-level cache.
+ * @deprecated Use createQueryCache() for better memory management
  */
 export function getQueryCache(maxSize: number = 1000, ttlSeconds: number = 300): QueryCache {
   if (!globalCache) {
@@ -172,8 +184,26 @@ export function getQueryCache(maxSize: number = 1000, ttlSeconds: number = 300):
 }
 
 /**
+ * Create a new session-level QueryCache instance.
+ * v6.36.0: Preferred way to create cache - avoids global singleton memory leak.
+ */
+export function createQueryCache(maxSize: number = 1000, ttlSeconds: number = 300): QueryCache {
+  return new QueryCache(maxSize, ttlSeconds);
+}
+
+/**
  * Reset the global query cache instance (for testing).
  */
 export function resetQueryCache(): void {
   globalCache = undefined;
+}
+
+/**
+ * Clear the global query cache.
+ * v6.36.0: Memory leak prevention - call on session end.
+ */
+export function clearGlobalQueryCache(): void {
+  if (globalCache) {
+    globalCache.clear();
+  }
 }

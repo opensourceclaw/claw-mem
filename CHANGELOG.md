@@ -5,6 +5,20 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [6.36.0] - 2026-07-12
+
+### Fixed
+- **MemoryPool**: Added `_maxSize` cap (default 10,000) with LRU eviction to prevent unbounded memory growth
+- **TranscriptStorage**: Added `MAX_ENTRIES_BUFFER` limit (500 entries) to prevent in-memory buffer from growing indefinitely
+- **TranscriptStorage**: Removed duplicate instance in `TsBridge` — now delegated to `MemoryManager.transcript` to avoid double memory footprint
+- **QueryCache**: Added `clearGlobalQueryCache()` called on session end to release cached queries
+- **MemoryManager**: Added LRU eviction for `_working` memory (cap 500), limit full scan to 500 entries, and prefer index-first search strategy
+- **Monitoring**: Added `getSize()`, `getUsage()`, `getBufferSize()`, `clearBuffer()`, `flush()` methods for memory observability
+
+### Changed
+- **QueryCache**: `getQueryCache()` marked deprecated; prefer `createQueryCache()` for session-level cache
+- **MemoryPool.cleanup()**: Signature changed to accept `{ maxAgeDays?, maxRecords? }` options object
+
 ## [6.35.1] - 2026-07-08
 
 ### Fixed

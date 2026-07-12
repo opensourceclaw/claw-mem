@@ -31,17 +31,23 @@ export interface PoolFilters {
   minConfidence?: number;
 }
 
+/** v6.36.0: Default maximum pool size to prevent unbounded memory growth */
+const DEFAULT_MAX_POOL_SIZE = 10000;
+
 export class MemoryPool {
   private _records: MemoryRecord[] = [];
+  private _maxSize: number;
   storage_path?: string;
 
   /**
    * Initialize pool with optional file-backed storage.
    *
    * @param storagePath - Path to JSON file for persistence
+   * @param maxSize - Maximum number of records (default: 10000, prevents memory leak)
    */
-  constructor(storagePath?: string) {
+  constructor(storagePath?: string, maxSize: number = DEFAULT_MAX_POOL_SIZE) {
     this.storage_path = storagePath;
+    this._maxSize = maxSize;
 
     if (storagePath) {
       try {
@@ -54,8 +60,35 @@ export class MemoryPool {
     }
   }
 
+  // ── v6.36.0: Monitoring methods ─────────────────────────────────────
+
+  /**
+   * Get current number of records in the pool.
+   * v6.36.0: Memory monitoring support.
+   *
+   * @returns Current record count
+   */
+  getSize(): number {
+    return this._records.length;
+  }
+
+  /**
+   * Get pool usage statistics.
+   * v6.36.0: Memory monitoring support.
+   *
+   * @returns Object with current, max, and percentage usage
+   */
+  getUsage(): { current: number; max: number; percent: number } {
+    return {
+      current: this._records.length,
+      max: this._maxSize,
+      percent: Math.round((this._records.length / this._maxSize) * 100 * 100) / 100,
+    };
+  }
+
   /**
    * Store a record to the shared pool. Auto-filters PII.
+   * v6.36.0: LRU eviction when _records exceeds maxSize.
    *
    * @param record - The MemoryRecord to store
    * @returns The record ID
@@ -63,6 +96,11 @@ export class MemoryPool {
   store(record: MemoryRecord): string {
     if (record.source === "local") {
       record.content = AgentAgnosticMemory._strip_pii(record.content);
+    }
+
+    // v6.36.0: LRU eviction - remove oldest when at capacity
+    if (this._records.length >= this._maxSize) {
+      this._records.shift();
     }
 
     this._records.push(record);
@@ -141,15 +179,27 @@ export class MemoryPool {
   }
 
   /**
-   * Remove records older than maxAgeDays.
+   * Remove records older than maxAgeDays or limit to maxRecords.
+   * v6.36.0: Enhanced with maxRecords parameter for flexible cleanup.
    *
-   * @param maxAgeDays - Remove records older than this many days
+   * @param maxAgeDays - Remove records older than this many days (optional)
+   * @param maxRecords - Maximum records to keep (optional)
    * @returns Number of records removed
    */
-  cleanup(maxAgeDays: number = 30): number {
-    const cutoff = Date.now() / 1000 - maxAgeDays * 86400;
+  cleanup(options?: { maxAgeDays?: number; maxRecords?: number }): number {
     const before = this._records.length;
-    this._records = this._records.filter((r) => r.timestamp > cutoff);
+
+    // Age-based cleanup
+    if (options?.maxAgeDays) {
+      const cutoff = Date.now() / 1000 - options.maxAgeDays * 86400;
+      this._records = this._records.filter((r) => r.timestamp > cutoff);
+    }
+
+    // Count-based cleanup (keep newest)
+    if (options?.maxRecords && this._records.length > options.maxRecords) {
+      this._records = this._records.slice(-options.maxRecords);
+    }
+
     const removed = before - this._records.length;
 
     if (removed > 0 && this.storage_path) {

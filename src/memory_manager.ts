@@ -19,6 +19,9 @@ import { InMemoryIndex } from "./storage/index.js";
 // MemoryEntry type for indexing
 interface MemoryEntry { id: string; content: string; }
 import { MemoryConfig } from "./config.js";
+
+/** v6.36.0: Maximum working memory size to prevent unbounded growth */
+const WORKING_MAX_SIZE = 500;
 import { ComponentFactory, getDefaultFactory } from "./factories.js";
 import { ConstitutionStore } from "./constitution.js";
 import { TranscriptStorage, type TranscriptEntry, type TranscriptMatch, type TranscriptConfig } from "./transcript/index.js";
@@ -356,6 +359,10 @@ export class MemoryManager {
         default: return false;
       }
       this._working.push(record);
+      // v6.36.0: LRU eviction for working memory
+      if (this._working.length > WORKING_MAX_SIZE) {
+        this._working = this._working.slice(-WORKING_MAX_SIZE);
+      }
       this._storeCount++;
       this._tokenCount += this._estimateTokens(content);
 
@@ -406,6 +413,10 @@ export class MemoryManager {
           }
         } catch { /* best-effort */ }
       }
+      // v6.36.0: LRU eviction for working memory
+      if (this._working.length > WORKING_MAX_SIZE) {
+        this._working = this._working.slice(-WORKING_MAX_SIZE);
+      }
       return records.length;
     } catch {
       return 0;
@@ -430,7 +441,30 @@ export class MemoryManager {
       return cached.results.slice(0, limit);
     }
 
-    // Evict expired entries (lazy cleanup)
+    // v6.36.0: Index-first strategy - use index when available, avoid full scan
+    if (this._index.built) {
+      const ids = this._index.search(query, limit * 3);
+      const idSet = new Set(ids);
+
+      // Load by IDs from episodic (most recent first)
+      const recent = this._episodic.getRecent(ids.length * 2);
+      const indexedResults: Array<Record<string, unknown>> = [];
+      for (const m of recent) {
+        const recordId = (m as any).id || (m as any).metadata?.id;
+        if (recordId && idSet.has(recordId)) {
+          indexedResults.push(m as unknown as Record<string, unknown>);
+        }
+      }
+
+      // If we found results via index, cache and return
+      if (indexedResults.length > 0) {
+        const t = Date.now();
+        this._searchCache.set(cacheKey, { results: indexedResults, ts: t, lastAccess: t });
+        return indexedResults.slice(0, limit);
+      }
+    }
+
+    // Cache eviction (lazy cleanup)
     if (this._searchCache.size >= this._cacheMaxSize) {
       const now = Date.now();
       let oldestKey: string | null = null;
@@ -443,15 +477,15 @@ export class MemoryManager {
           oldestKey = k;
         }
       }
-      // If still at capacity, evict LRU entry
       if (this._searchCache.size >= this._cacheMaxSize && oldestKey) {
         this._searchCache.delete(oldestKey);
       }
     }
 
-    // Gather all memories
+    // Fallback: Full scan (only when index not available or returned empty)
     const all: Array<Record<string, unknown>> = [];
-    const scanLimit = this._index.built ? limit * 3 : 10000;
+    // v6.36.0: Limit scan to prevent memory pressure
+    const scanLimit = 500;
     if (!memoryType || memoryType === "episodic") {
       all.push(...this._episodic.getRecent(scanLimit) as unknown as Array<Record<string, unknown>>);
     }
@@ -462,22 +496,9 @@ export class MemoryManager {
       all.push(...this._procedural.getAll() as unknown as Array<Record<string, unknown>>);
     }
 
-    // Simple keyword matching (delegates to index when available)
-    let result: Array<Record<string, unknown>>;
-    if (this._index.built) {
-      const ids = this._index.search(query, limit);
-      const idSet = new Set(ids);
-      result = all.filter((m: any) => idSet.has(m.id as string) || idSet.has(m.metadata?.id as string));
-      if (result.length > 0) {
-        const t = Date.now();
-        this._searchCache.set(cacheKey, { results: result, ts: t, lastAccess: t });
-        return result.slice(0, limit);
-      }
-    }
-
-    // Fallback: substring match
+    // Substring match fallback
     const q = query.toLowerCase();
-    result = all
+    const result = all
       .filter((m) => {
         const c = String(m.content ?? "").toLowerCase();
         return c.includes(q);
