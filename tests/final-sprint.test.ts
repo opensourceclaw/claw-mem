@@ -1,7 +1,7 @@
 import { describe, it, expect, beforeEach } from 'vitest';
-import { MultiGraphMemory } from '../src/graph/multi_graph';
-import { GraphReasoner } from '../src/graph/graph_reasoner';
-import { EdgeType } from '../src/graph/edges';
+import { MultiGraphMemory } from '../src/deprecated/graph/multi_graph';
+import { GraphReasoner } from '../src/deprecated/graph/graph_reasoner';
+import { EdgeType } from '../src/deprecated/graph/edges';
 
 // ── Graph Modules ──────────────────────────────────────────────────
 

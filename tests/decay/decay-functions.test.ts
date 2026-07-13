@@ -6,7 +6,7 @@ import {
   HALF_LIFE,
   LAMBDA,
   DEFAULT_DECAY_CONFIG,
-} from '../../src/decay/functions';
+} from '../../src/deprecated/decay/functions';
 
 describe('Decay Functions', () => {
   it('exponentialDecay returns base when daysElapsed <= 0', () => {

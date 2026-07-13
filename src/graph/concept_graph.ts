@@ -24,13 +24,13 @@
  * 4. Hybrid retrieval
  */
 
-import { EdgeType, createEdge } from "./edges.js";
-import type { Edge } from "./edges.js";
-import { BaseExtractor, DummyExtractor } from "./extractors.js";
-import { NodeType } from "./nodes.js";
-import type { AnyNode } from "./nodes.js";
-import { EpisodeNode, FactNode, ConceptNode, ReflectionNode } from "./nodes.js";
-import { GraphStorage, InMemoryGraphStorage } from "./storage.js";
+import { EdgeType, createEdge } from "../deprecated/graph/edges.js";
+import type { Edge } from "../deprecated/graph/edges.js";
+import { BaseExtractor, DummyExtractor } from "../deprecated/graph/extractors.js";
+import { NodeType } from "../deprecated/graph/nodes.js";
+import type { AnyNode } from "../deprecated/graph/nodes.js";
+import { EpisodeNode, FactNode, ConceptNode, ReflectionNode } from "../deprecated/graph/nodes.js";
+import { GraphStorage, InMemoryGraphStorage } from "../deprecated/graph/storage.js";
 
 export interface RetrievalResult {
   node: AnyNode;

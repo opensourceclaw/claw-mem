@@ -2,12 +2,13 @@
 // Licensed under the Apache License, Version 2.0
 
 /**
- * claw-mem v6.32.0 — Plugin Bridge (TypeScript)
+ * claw-mem — Plugin Bridge (TypeScript)
  *
  * Direct JSON-RPC handler interface. Routes OpenClaw plugin calls
  * to MemoryManager without subprocess. Replaces Python subprocess bridge.
  */
 
+import { VERSION } from "./version";
 import { MemoryManager, getMemoryManager } from "./memory_manager.js";
 import type { SessionSnapshot } from "./session/snapshot-types.js";
 import { SnapshotStore } from "./session/snapshot-store.js";
@@ -70,7 +71,7 @@ export async function handleRequest(req: JsonRpcRequest, mm?: MemoryManager): Pr
 
     switch (method) {
       case "ping":
-        result = { version: "6.32.0", status: "ok" };
+        result = { version: VERSION, status: "ok" };
         break;
       case "status":
         result = manager.getStats();
@@ -866,9 +867,9 @@ export async function handleRequest(req: JsonRpcRequest, mm?: MemoryManager): Pr
 /** OpenClaw plugin registration entry point. */
 export const plugin = {
   id: "claw-mem",
-  name: "Claw Memory System (TS 6.33.0)",
+  name: `Claw Memory System (TS ${VERSION})`,
   description: "Local-First Three-Tier Memory System",
-  version: "6.31.0",
+  version: VERSION,
   register(api: ClawMemPluginApi) {
     const config = api.pluginConfig ?? {};
     void new MemoryManager({
@@ -878,7 +879,7 @@ export const plugin = {
       enableCompression: !!(config.enableCompression ?? true),
     });
 
-    api.logger?.info("[claw-mem TS] 6.33.0 initialized");
+    api.logger?.info(`[claw-mem TS] ${VERSION} initialized`);
 
     api.registerService({
       id: "claw-mem-ts",

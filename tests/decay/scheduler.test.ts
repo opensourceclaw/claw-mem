@@ -1,7 +1,7 @@
 import { describe, it, expect, beforeEach, vi, afterEach } from "vitest";
-import { DecayScheduler } from "../../src/decay/scheduler";
-import { DecayController } from "../../src/decay/controller";
-import { DEFAULT_DECAY_CONFIG } from "../../src/decay/functions";
+import { DecayScheduler } from "../../src/deprecated/decay/scheduler";
+import { DecayController } from "../../src/deprecated/decay/controller";
+import { DEFAULT_DECAY_CONFIG } from "../../src/deprecated/decay/functions";
 
 // ── Mock controller ─────────────────────────────────────────────────────
 

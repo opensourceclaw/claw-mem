@@ -38,7 +38,7 @@ import { EpisodicStrategy, SessionSnapshotStrategy, FactStrategy, PreferenceStra
 import type { WriteTimeGating } from "./gating/write_time_gating.js";
 import type { ThreeTierRetriever } from "./retrieval/three_tier.js";
 import type { HybridRouter } from "./retrieval/hybrid_router.js";
-import type { TieredDecayEngine } from "./decay/tiered_decay.js";
+import type { TieredDecayEngine } from "./deprecated/decay/tiered_decay.js";
 import type { ConceptMediatedGraph } from "./graph/concept_graph.js";
 import type { MemoryCompressorV2 } from "./compression/memory_compression_v2.js";
 import type { CompressionSpectrum } from "./compression/spectrum.js";
@@ -245,7 +245,7 @@ export class MemoryManager {
   get decayEngine(): TieredDecayEngine | null {
     if (!this.config.enableDecay) return null;
     if (!this._decayEngine) {
-      const { TieredDecayEngine } = require("./decay/tiered_decay");
+      const { TieredDecayEngine } = require("./deprecated/decay/tiered_decay");
       this._decayEngine = new TieredDecayEngine(this.config);
     }
     return this._decayEngine;

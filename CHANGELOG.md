@@ -5,6 +5,28 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [6.38.0] - 2026-07-13
+
+### Fixed
+- Unified version numbers across all files (previously 7 inconsistencies)
+
+### Removed
+- Memory Federation code (v6.16.0 cancelled feature) — ~1150 lines
+- Dead code (index_evolver, snapshot-injector) — ~95 lines
+- neoclaw-specific tools (memory_dispatch_*, memory_cross_domain_*, memory_debt_*)
+
+### Deprecated
+- Moved emergence/, graph/ (except concept_graph), decay/ to src/deprecated/
+  - Will be removed in v7.0.0 if not reactivated
+
+### Added
+- Exposed 11 new RPC methods as tools:
+  - Constitution: get_constitution, promote_constitution_rule, delete_constitution_rule
+  - Transcript: transcript_get, transcript_search
+  - Session: session_snapshot, session_get_latest
+  - Entity: entity_search, entity_list
+  - Preference: get_preference, rollback_preference
+
 ## [6.37.0] - 2026-07-13
 
 ### Added

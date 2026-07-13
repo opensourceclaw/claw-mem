@@ -57,7 +57,7 @@ export {
   RetrievalResult,
   Embedder,
   DummyEmbedder,
-} from "./concept_graph.js";
+} from "../../graph/concept_graph.js";
 
 // Extractors
 export {

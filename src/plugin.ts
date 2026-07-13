@@ -1,13 +1,14 @@
 /**
- * claw-mem v6.27.0 Plugin for OpenClaw
+ * claw-mem Plugin for OpenClaw
  *
  * Architecture: Direct TypeScript (no Python subprocess)
  * - Plugin imports TS MemoryManager directly
  * - Zero network overhead, zero subprocess overhead
- * - ConstitutionStore, Stage 0 injection, all v6.27.0 features
+ * - ConstitutionStore, Stage 0 injection
  */
 
 import * as path from "path";
+import { VERSION } from "./version";
 import { handleRequest, type JsonRpcRequest } from "./bridge";
 import { getMemoryManager, type MemoryManager } from "./memory_manager";
 import { ConstitutionStore } from "./constitution";
@@ -81,7 +82,7 @@ class TsBridge {
       logger.warn("[claw-mem TS] ⚠️ TranscriptStorage not initialized");
     }
 
-    logger.info("[claw-mem TS] v6.36.0 initialized (no duplicate TranscriptStorage)");
+    logger.info(`[claw-mem TS] v${VERSION} initialized (no duplicate TranscriptStorage)`);
   }
 
   isReady(): boolean { return this._ready; }
@@ -224,17 +225,19 @@ interface PluginDefinition {
 
 const ALL_TOOL_NAMES = [
   "memory_search", "memory_store", "memory_get", "memory_forget",
-  "memory_dispatch_store", "memory_dispatch_query",
   "memory_failure_classify",
-  "memory_cross_domain_store", "memory_cross_domain_query", "memory_cross_domain_correlate",
-  "memory_debt_store", "memory_debt_query", "memory_debt_update",
+  "memory_get_constitution", "memory_promote_constitution_rule", "memory_delete_constitution_rule",
+  "memory_transcript_get", "memory_transcript_search",
+  "memory_session_snapshot", "memory_session_get_latest",
+  "memory_entity_search", "memory_entity_list",
+  "memory_get_preference", "memory_rollback_preference",
 ];
 
   const plugin: PluginDefinition = {
   id: "claw-mem",
-  name: "Claw Memory System (TS v6.28.0)",
+  name: `Claw Memory System (TS v${VERSION})`,
   description: "Three-tier memory system for OpenClaw — direct TypeScript, no Python subprocess",
-  version: "6.28.0",
+  version: VERSION,
   kind: "memory",
 
   contracts: {
@@ -524,62 +527,6 @@ const ALL_TOOL_NAMES = [
         ({ error: "Delete not supported." }),
     }), { names: ["memory_forget"] });
 
-    // ========================================================================
-    // Hooks
-    // ========================================================================
-
-    const bridgeReady: Promise<void> = bridge.start();
-
-    bridgeReady.catch((err) => {
-      api.logger.error("[claw-mem TS] Failed to start:", err);
-    });
-
-    // v5.3.0: Dispatch History tools for neoclaw perception loop
-    api.registerTool((_ctx: any) => ({
-      name: "memory_dispatch_store",
-      description: "Store agent dispatch history record (for neoclaw perception loop)",
-      parameters: {
-        type: "object",
-        properties: {
-          agent: { type: "string", description: "Target agent (stark/pepper/happy)" },
-          intent_type: { type: "string", description: "Intent type (tech/business/economic/body/mind/relationship/asset/investment/risk)" },
-          task: { type: "string", description: "Task description" },
-          result: { type: "string", description: "Result (success/failure/timeout/rejected)" },
-          latency_ms: { type: "number", description: "Latency in milliseconds" },
-          confidence: { type: "number", description: "Confidence 0-1" },
-          metadata: { type: "object", description: "Additional metadata" },
-        },
-        required: ["agent", "intent_type", "task", "result"],
-      },
-      execute: async (_id: string, params: any) => {
-        if (!bridge.isReady()) return { error: "Bridge not initialized" };
-        try { return await bridge.call("store_dispatch_history", params); }
-        catch (error) { return { error: (error as Error).message }; }
-      },
-    }), { names: ["memory_dispatch_store"] });
-
-    api.registerTool((_ctx: any) => ({
-      name: "memory_dispatch_query",
-      description: "Query dispatch history with filters and statistics",
-      parameters: {
-        type: "object",
-        properties: {
-          agent: { type: "string", description: "Filter by agent" },
-          intent_type: { type: "string", description: "Filter by intent type" },
-          result: { type: "string", description: "Filter by result" },
-          stats: { type: "boolean", description: "Return aggregated statistics instead of raw records" },
-          limit: { type: "number", description: "Max records", default: 100 },
-        },
-      },
-      execute: async (_id: string, params: any) => {
-        if (!bridge.isReady()) return { error: "Bridge not initialized" };
-        try {
-          if (params.stats) return await bridge.call("get_dispatch_stats", params);
-          return await bridge.call("get_dispatch_history", params);
-        } catch (error) { return { error: (error as Error).message }; }
-      },
-    }), { names: ["memory_dispatch_query"] });
-
     api.registerTool((_ctx: any) => ({
       name: "memory_failure_classify",
       description: "Classify a failure signal for typed feedback collection",
@@ -598,140 +545,206 @@ const ALL_TOOL_NAMES = [
       },
     }), { names: ["memory_failure_classify"] });
 
-    // v5.4.0: Cross-Domain Signal tools for neoclaw v5.1.0
+    // ========================================================================
+    // Hooks
+    // ========================================================================
+
+    const bridgeReady: Promise<void> = bridge.start();
+
+    bridgeReady.catch((err) => {
+      api.logger.error("[claw-mem TS] Failed to start:", err);
+    });
+
+    // ========================================================================
+    // Constitution Tools (v6.38.0)
+    // ========================================================================
+
     api.registerTool((_ctx: any) => ({
-      name: "memory_cross_domain_store",
-      description: "Store cross-domain signal for inter-pillar correlation detection",
+      name: "memory_get_constitution",
+      description: "Get all constitution rules",
+      parameters: { type: "object", properties: {} },
+      execute: async (_id: string, _params: any) => {
+        if (!bridge.isReady()) return { error: "Bridge not initialized" };
+        try { return await bridge.call("get_constitution", {}); }
+        catch (error) { return { error: (error as Error).message }; }
+      },
+    }), { names: ["memory_get_constitution"] });
+
+    api.registerTool((_ctx: any) => ({
+      name: "memory_promote_constitution_rule",
+      description: "Promote a rule to constitution",
       parameters: {
         type: "object",
         properties: {
-          pillar: { type: "string", description: "Pillar (stark/pepper/happy)" },
-          agent: { type: "string", description: "Agent name" },
-          signal_type: { type: "string", description: "Signal type (task_start/task_complete/alert/insight)" },
-          summary: { type: "string", description: "Human-readable summary" },
-          impact_score: { type: "number", description: "Impact score 0-1" },
-          related_domains: { type: "array", items: { type: "string" } },
-          metadata: { type: "object" },
-          ttl: { type: "number", description: "TTL in seconds (optional)" },
+          content: { type: "string", description: "Rule content" },
+          tags: { type: "array", items: { type: "string" } },
         },
-        required: ["pillar", "agent", "signal_type", "summary"],
+        required: ["content"],
       },
       execute: async (_id: string, params: any) => {
         if (!bridge.isReady()) return { error: "Bridge not initialized" };
-        try { return await bridge.call("store_cross_domain_signal", params); }
+        try { return await bridge.call("promote_constitution_rule", params); }
         catch (error) { return { error: (error as Error).message }; }
       },
-    }), { names: ["memory_cross_domain_store"] });
+    }), { names: ["memory_promote_constitution_rule"] });
 
     api.registerTool((_ctx: any) => ({
-      name: "memory_cross_domain_query",
-      description: "Query cross-domain signals with pillar/time/impact filters",
+      name: "memory_delete_constitution_rule",
+      description: "Delete a constitution rule",
+      parameters: {
+        type: "object",
+        properties: { entryId: { type: "string", description: "Rule ID to delete" } },
+        required: ["entryId"],
+      },
+      execute: async (_id: string, params: any) => {
+        if (!bridge.isReady()) return { error: "Bridge not initialized" };
+        try { return await bridge.call("delete_constitution_rule", params); }
+        catch (error) { return { error: (error as Error).message }; }
+      },
+    }), { names: ["memory_delete_constitution_rule"] });
+
+    // ========================================================================
+    // Transcript Tools (v6.38.0)
+    // ========================================================================
+
+    api.registerTool((_ctx: any) => ({
+      name: "memory_transcript_get",
+      description: "Get transcript for a session",
+      parameters: {
+        type: "object",
+        properties: { sessionId: { type: "string", description: "Session ID" } },
+        required: ["sessionId"],
+      },
+      execute: async (_id: string, params: any) => {
+        if (!bridge.isReady()) return { error: "Bridge not initialized" };
+        try { return await bridge.call("transcript_get", params); }
+        catch (error) { return { error: (error as Error).message }; }
+      },
+    }), { names: ["memory_transcript_get"] });
+
+    api.registerTool((_ctx: any) => ({
+      name: "memory_transcript_search",
+      description: "Search across transcripts",
       parameters: {
         type: "object",
         properties: {
-          pillars: { type: "array", items: { type: "string" } },
-          min_impact: { type: "number", description: "Minimum impact score" },
+          query: { type: "string", description: "Search query" },
+          limit: { type: "number", description: "Max results", default: 10 },
+        },
+        required: ["query"],
+      },
+      execute: async (_id: string, params: any) => {
+        if (!bridge.isReady()) return { error: "Bridge not initialized" };
+        try { return await bridge.call("transcript_search", params); }
+        catch (error) { return { error: (error as Error).message }; }
+      },
+    }), { names: ["memory_transcript_search"] });
+
+    // ========================================================================
+    // Session Snapshot Tools (v6.38.0)
+    // ========================================================================
+
+    api.registerTool((_ctx: any) => ({
+      name: "memory_session_snapshot",
+      description: "Create a session snapshot",
+      parameters: {
+        type: "object",
+        properties: { snapshot: { type: "object", description: "Session snapshot data" } },
+        required: ["snapshot"],
+      },
+      execute: async (_id: string, params: any) => {
+        if (!bridge.isReady()) return { error: "Bridge not initialized" };
+        try { return await bridge.call("session_snapshot", params); }
+        catch (error) { return { error: (error as Error).message }; }
+      },
+    }), { names: ["memory_session_snapshot"] });
+
+    api.registerTool((_ctx: any) => ({
+      name: "memory_session_get_latest",
+      description: "Get latest session snapshot",
+      parameters: {
+        type: "object",
+        properties: { sessionId: { type: "string", description: "Optional session ID" } },
+      },
+      execute: async (_id: string, params: any) => {
+        if (!bridge.isReady()) return { error: "Bridge not initialized" };
+        try { return await bridge.call("session_get_latest", params); }
+        catch (error) { return { error: (error as Error).message }; }
+      },
+    }), { names: ["memory_session_get_latest"] });
+
+    // ========================================================================
+    // Entity Tools (v6.38.0)
+    // ========================================================================
+
+    api.registerTool((_ctx: any) => ({
+      name: "memory_entity_search",
+      description: "Search entities",
+      parameters: {
+        type: "object",
+        properties: { name: { type: "string", description: "Entity name to search" } },
+        required: ["name"],
+      },
+      execute: async (_id: string, params: any) => {
+        if (!bridge.isReady()) return { error: "Bridge not initialized" };
+        try { return await bridge.call("entity_search", params); }
+        catch (error) { return { error: (error as Error).message }; }
+      },
+    }), { names: ["memory_entity_search"] });
+
+    api.registerTool((_ctx: any) => ({
+      name: "memory_entity_list",
+      description: "List all entities",
+      parameters: {
+        type: "object",
+        properties: {
           limit: { type: "number", default: 100 },
+          offset: { type: "number", default: 0 },
         },
       },
       execute: async (_id: string, params: any) => {
         if (!bridge.isReady()) return { error: "Bridge not initialized" };
-        try { return await bridge.call("get_cross_domain_signals", params); }
+        try { return await bridge.call("entity_list", params); }
         catch (error) { return { error: (error as Error).message }; }
       },
-    }), { names: ["memory_cross_domain_query"] });
+    }), { names: ["memory_entity_list"] });
+
+    // ========================================================================
+    // Preference Tools (v6.38.0)
+    // ========================================================================
 
     api.registerTool((_ctx: any) => ({
-      name: "memory_cross_domain_correlate",
-      description: "Detect cross-domain correlations between current intent and other pillar signals",
+      name: "memory_get_preference",
+      description: "Get user preference",
       parameters: {
         type: "object",
-        properties: {
-          current_pillar: { type: "string" },
-          current_intent: { type: "string" },
-          time_range: { type: "string", default: "6h" },
-          threshold: { type: "number", default: 0.5 },
-        },
-        required: ["current_pillar", "current_intent"],
+        properties: { pref_key: { type: "string", description: "Preference key" } },
+        required: ["pref_key"],
       },
       execute: async (_id: string, params: any) => {
         if (!bridge.isReady()) return { error: "Bridge not initialized" };
-        try { return await bridge.call("detect_cross_domain_correlation", params); }
+        try { return await bridge.call("get_preference", params); }
         catch (error) { return { error: (error as Error).message }; }
       },
-    }), { names: ["memory_cross_domain_correlate"] });
+    }), { names: ["memory_get_preference"] });
 
-    // v5.5.0: Tech Debt Tracking tools for devclaw v4.0.0
     api.registerTool((_ctx: any) => ({
-      name: "memory_debt_store",
-      description: "Store technical debt record for project tracking",
+      name: "memory_rollback_preference",
+      description: "Rollback preference to previous version",
       parameters: {
         type: "object",
         properties: {
-          project: { type: "string", description: "Project name" },
-          debt_type: { type: "string", description: "Debt type (code_smell/architecture/dependency/documentation/test_coverage/security/performance/compatibility)" },
-          location: { type: "string", description: "Location (file:line or module)" },
-          description: { type: "string", description: "Description" },
-          severity: { type: "string", description: "Severity (critical/high/medium/low)" },
-          impact_score: { type: "number", description: "Impact score 0-1" },
-          priority: { type: "string", description: "Priority (auto-inferred if omitted)" },
-          assigned_to: { type: "string" },
-          metadata: { type: "object" },
+          pref_key: { type: "string", description: "Preference key" },
+          version: { type: "number", description: "Target version number" },
         },
-        required: ["project", "debt_type", "location", "description", "severity"],
+        required: ["pref_key", "version"],
       },
       execute: async (_id: string, params: any) => {
         if (!bridge.isReady()) return { error: "Bridge not initialized" };
-        try { return await bridge.call("store_tech_debt", params); }
+        try { return await bridge.call("rollback_preference", params); }
         catch (error) { return { error: (error as Error).message }; }
       },
-    }), { names: ["memory_debt_store"] });
-
-    api.registerTool((_ctx: any) => ({
-      name: "memory_debt_query",
-      description: "Query technical debts with filters and get statistics",
-      parameters: {
-        type: "object",
-        properties: {
-          project: { type: "string" },
-          severities: { type: "array", items: { type: "string" } },
-          status: { type: "string" },
-          stats: { type: "boolean", description: "Return aggregated statistics" },
-          limit: { type: "number", default: 100 },
-        },
-      },
-      execute: async (_id: string, params: any) => {
-        if (!bridge.isReady()) return { error: "Bridge not initialized" };
-        try {
-          if (params.stats) return await bridge.call("get_debt_stats", params);
-          return await bridge.call("get_tech_debts", params);
-        } catch (error) { return { error: (error as Error).message }; }
-      },
-    }), { names: ["memory_debt_query"] });
-
-    api.registerTool((_ctx: any) => ({
-      name: "memory_debt_update",
-      description: "Update tech debt status or priority",
-      parameters: {
-        type: "object",
-        properties: {
-          debt_id: { type: "string" },
-          status: { type: "string", description: "New status (open/in_progress/resolved/wont_fix)" },
-          priority: { type: "string", description: "New priority (urgent/high/normal/low)" },
-          resolution: { type: "string", description: "Resolution description (required for resolved)" },
-          reason: { type: "string", description: "Update reason" },
-        },
-        required: ["debt_id"],
-      },
-      execute: async (_id: string, params: any) => {
-        if (!bridge.isReady()) return { error: "Bridge not initialized" };
-        try {
-          if (params.status) return await bridge.call("update_debt_status", params);
-          if (params.priority) return await bridge.call("update_debt_priority", params);
-          return { error: "Must provide status or priority" };
-        } catch (error) { return { error: (error as Error).message }; }
-      },
-    }), { names: ["memory_debt_update"] });
+    }), { names: ["memory_rollback_preference"] });
 
     api.registerService({
       id: "claw-mem",

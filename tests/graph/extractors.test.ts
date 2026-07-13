@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest";
-import { DummyExtractor, LLMExtractor, KeywordExtractor } from "../../src/graph/extractors";
+import { DummyExtractor, LLMExtractor, KeywordExtractor } from "../../src/deprecated/graph/extractors";
 
 describe("DummyExtractor", () => {
   it("extracts no facts", () => {

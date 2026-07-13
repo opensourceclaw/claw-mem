@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest";
-import { DualLayerMemory } from "../../src/graph/dual_layer";
+import { DualLayerMemory } from "../../src/deprecated/graph/dual_layer";
 
 describe("DualLayerMemory", () => {
   // ── Layer 1: Event Progression Graph ──

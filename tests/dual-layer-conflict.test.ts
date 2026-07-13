@@ -1,5 +1,5 @@
 import { describe, it, expect, beforeEach } from 'vitest';
-import { DualLayerMemory } from '../src/graph/dual_layer';
+import { DualLayerMemory } from '../src/deprecated/graph/dual_layer';
 
 describe('DualLayerMemory', () => {
   let dlm: DualLayerMemory;

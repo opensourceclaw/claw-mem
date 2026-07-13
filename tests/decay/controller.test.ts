@@ -1,6 +1,6 @@
 import { describe, it, expect, beforeEach } from "vitest";
-import { DecayController } from "../../src/decay/controller";
-import { DEFAULT_DECAY_CONFIG } from "../../src/decay/functions";
+import { DecayController } from "../../src/deprecated/decay/controller";
+import { DEFAULT_DECAY_CONFIG } from "../../src/deprecated/decay/functions";
 
 // ── Mock graph ──────────────────────────────────────────────────────────
 

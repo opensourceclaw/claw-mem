@@ -6,10 +6,10 @@ import {
   HALF_LIFE,
   LAMBDA,
   DEFAULT_DECAY_CONFIG,
-} from "../../src/decay/functions";
-import { TieredDecayEngine, TierLevel } from "../../src/decay/tiered_decay";
-import { DecayController } from "../../src/decay/controller";
-import { DecayScheduler } from "../../src/decay/scheduler";
+} from "../../src/deprecated/decay/functions";
+import { TieredDecayEngine, TierLevel } from "../../src/deprecated/decay/tiered_decay";
+import { DecayController } from "../../src/deprecated/decay/controller";
+import { DecayScheduler } from "../../src/deprecated/decay/scheduler";
 
 // ── Test 1: exponentialDecay produces correct values ───────────────────
 

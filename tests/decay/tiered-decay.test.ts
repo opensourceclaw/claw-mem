@@ -4,7 +4,7 @@ import {
   TierLevel,
   type StorageBackend,
   type LLMProvider,
-} from "../../src/decay/tiered_decay";
+} from "../../src/deprecated/decay/tiered_decay";
 
 // ── Mock storage ────────────────────────────────────────────────────────
 

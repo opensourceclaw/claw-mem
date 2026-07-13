@@ -26,7 +26,7 @@ import {
   SubGraph,
   SubGraphType,
   GraphReasoner,
-} from "../../src/graph";
+} from "../../src/deprecated/graph";
 
 // ---------------------------------------------------------------------------
 // 1. Node creation and serialization

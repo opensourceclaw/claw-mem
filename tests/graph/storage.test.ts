@@ -1,7 +1,7 @@
 import { describe, it, expect, beforeEach, afterAll } from "vitest";
-import { InMemoryGraphStorage, FileGraphStorage, GraphStorage } from "../../src/graph/storage";
-import { EpisodeNode, FactNode, ConceptNode, ReflectionNode } from "../../src/graph/nodes";
-import { Edge, EdgeType } from "../../src/graph/edges";
+import { InMemoryGraphStorage, FileGraphStorage, GraphStorage } from "../../src/deprecated/graph/storage";
+import { EpisodeNode, FactNode, ConceptNode, ReflectionNode } from "../../src/deprecated/graph/nodes";
+import { Edge, EdgeType } from "../../src/deprecated/graph/edges";
 
 const createEdge = (sourceId: string, targetId: string, weight = 1.0) => 
   new Edge(sourceId, targetId, EdgeType.RELATED_TO, weight);

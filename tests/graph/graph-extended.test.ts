@@ -16,7 +16,7 @@ import {
   SubGraph,
   SubGraphType,
   GraphReasoner,
-} from "../../src/graph";
+} from "../../src/deprecated/graph";
 
 // ── GraphReasoner 补充测试 ─────────────────────────────────────────────
 

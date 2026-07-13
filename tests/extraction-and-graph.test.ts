@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { Node, EpisodeNode, FactNode, ReflectionNode, ConceptNode, createNode } from '../src/graph/nodes';
+import { Node, EpisodeNode, FactNode, ReflectionNode, ConceptNode, createNode } from '../src/deprecated/graph/nodes';
 
 describe('Graph Nodes', () => {
   it('Node creates with id, type, content', () => {
