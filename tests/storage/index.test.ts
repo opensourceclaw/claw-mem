@@ -52,10 +52,11 @@ describe("InMemoryIndex", () => {
     const jsonPath = path.join(tmpDir, ".claw-mem-index", "index_v5.0.0.json");
     expect(fs.existsSync(jsonPath)).toBe(true);
 
-    // Reload
+    // Reload — v6.39.0: lazy loading, call preload() to trigger
     const idx2 = new InMemoryIndex(tmpDir, 3, true);
     const loaded = idx2.loadOrBuild([]);
-    expect(loaded).toBe(true);
+    expect(loaded).toBe(false); // lazy: not loaded yet
+    idx2.preload();
     expect(idx2.built).toBe(true);
     expect(idx2.ngramIndex.size).toBeGreaterThan(0);
   });
