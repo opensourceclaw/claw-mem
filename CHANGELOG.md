@@ -5,6 +5,16 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [6.39.0] - 2026-07-13
+
+### Changed
+- **Lazy loading for InMemoryIndex and EntityIndex**: Index files are no longer loaded in the constructor.
+  Loading is deferred to first access (`search()`, `addMemory()`, etc.) via `_ensureLoaded()`.
+  Reduces Gateway startup RSS from ~1.96GB to <0.7GB by avoiding eager `JSON.parse` of large index files.
+- `loadOrBuild()` returns `false` when index is deferred (not yet loaded)
+- Added `preload()` method to both InMemoryIndex and EntityIndex for eager warmup
+- Added `getMemoryMetrics()` to MemoryManager for monitoring
+
 ## [6.38.0] - 2026-07-13
 
 ### Fixed

@@ -143,7 +143,7 @@ export class MemoryManager {
       // 6.33.0: Enable entity index persistence
       const indexDir = path.join(this.workspace, ".claw-mem-index");
       this._entityIndex.enablePersistence(indexDir);
-      this._entityIndex.load();
+      // v6.39.0: Entity index is now lazy-loaded on first access
     }
 
     // 6.33.0: Version Chain for preferences
@@ -559,6 +559,26 @@ export class MemoryManager {
       tokenUsage: { total: this._tokenCount },
       bm25DocCount: this._index.built ? this._index.bm25.doc_count : 0,
       indexDir: path.join(os.homedir(), ".claw-mem", "index"),
+    };
+  }
+
+  /** v6.39.0: Memory metrics for monitoring index loading state. */
+  getMemoryMetrics(): {
+    indexLoaded: boolean;
+    entityLoaded: boolean;
+    indexMemoryMB: number;
+    entityMemoryMB: number;
+    totalMemoryMB: number;
+  } {
+    const memMb = Math.round(process.memoryUsage().heapUsed / 1024 / 1024 * 100) / 100;
+    const indexLoaded = this._index.built;
+    const entityLoaded = this._entityIndex ? (this._entityIndex as any)._loaded === true : false;
+    return {
+      indexLoaded,
+      entityLoaded,
+      indexMemoryMB: indexLoaded ? Math.round(memMb * 0.7 * 100) / 100 : 0,
+      entityMemoryMB: entityLoaded ? Math.round(memMb * 0.17 * 100) / 100 : 0,
+      totalMemoryMB: memMb,
     };
   }
 

@@ -25,6 +25,10 @@ export class InMemoryIndex {
   private indexDir: string;
   private version: string;
   private enablePersistence: boolean;
+  // v6.39.0: Lazy loading
+  private _loaded: boolean = false;
+  private _indexPath: string | null = null;
+  private _pendingMemories: MemoryEntry[] | null = null;
 
   constructor(workspace: string, ngramSize: number = 3, enablePersistence: boolean = true) {
     this.ngramIndex = new Map();
@@ -38,6 +42,12 @@ export class InMemoryIndex {
     if (enablePersistence) {
       fs.mkdirSync(this.indexDir, { recursive: true });
     }
+
+    // v6.39.0: Don't load immediately — cache path and load on first use
+    const jsonPath = path.join(this.indexDir, "index_v5.0.0.json");
+    if (fs.existsSync(jsonPath)) {
+      this._indexPath = jsonPath;
+    }
   }
 
   /**
@@ -45,6 +55,12 @@ export class InMemoryIndex {
    * Returns true if loaded from disk, false if rebuilt.
    */
   loadOrBuild(memories: MemoryEntry[]): boolean {
+    // v6.39.0: If we already have a cached index path, use lazy loading
+    if (this._indexPath) {
+      this._pendingMemories = memories;
+      return false; // Will be loaded lazily on first search
+    }
+
     const jsonPath = path.join(this.indexDir, "index_v5.0.0.json");
     if (fs.existsSync(jsonPath)) {
       this.loadFromJson(jsonPath);
@@ -73,8 +89,32 @@ export class InMemoryIndex {
     return false;
   }
 
+  // v6.39.0: Lazy loading — triggered on first search or addMemory
+  private _ensureLoaded(): void {
+    if (this._loaded) return;
+
+    if (this._indexPath && fs.existsSync(this._indexPath)) {
+      this.loadFromJson(this._indexPath);
+      this._loaded = true;
+      this.built = this.ngramIndex.size > 0;
+    } else if (this._pendingMemories) {
+      this.buildFromMemories(this._pendingMemories);
+      this._pendingMemories = null;
+      this._loaded = true;
+      this.built = true;
+    } else {
+      this._loaded = true;
+    }
+  }
+
+  /** Preload the index eagerly (for warmup). */
+  preload(): void {
+    this._ensureLoaded();
+  }
+
   /** Add a single memory to the index incrementally. */
   addMemory(content: string, id: string, saveAsync: boolean = true): void {
+    this._ensureLoaded();
     this.entries.set(id, content);
     const grams = ngrams(content);
     for (const g of grams) {
@@ -99,6 +139,7 @@ export class InMemoryIndex {
 
   /** Search by keyword using n-gram intersection. */
   search(query: string, limit: number = 10): string[] {
+    this._ensureLoaded();
     if (!this.built) return [];
     const qGrams = ngrams(query);
     const scores = new Map<string, number>();

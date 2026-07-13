@@ -32,6 +32,9 @@ export class EntityIndex {
   private maxEntitiesPerMemory: number;
   private persistDir: string | null = null;
   private autoSave: boolean = true;
+  // v6.39.0: Lazy loading
+  private _loaded: boolean = false;
+  private _indexPath: string | null = null;
 
   constructor(options?: EntityIndexOptions) {
     this.entityMap = new Map();
@@ -41,12 +44,30 @@ export class EntityIndex {
     this.maxEntitiesPerMemory = options?.maxEntitiesPerMemory ?? 50;
   }
 
+  // v6.39.0: Lazy loading — triggered on first access
+  private _ensureLoaded(): void {
+    if (this._loaded) return;
+
+    if (this._indexPath && fs.existsSync(this._indexPath)) {
+      this.loadFromFile(this._indexPath);
+      this._loaded = true;
+    } else {
+      this._loaded = true;
+    }
+  }
+
+  /** Preload the entity index eagerly (for warmup). */
+  preload(): void {
+    this._ensureLoaded();
+  }
+
   /**
    * Index entities from a memory entry.
    * @param text - Memory text to extract entities from
    * @param memoryId - Memory ID to associate entities with
    */
   index(text: string, memoryId: string): void {
+    this._ensureLoaded();
     if (!text) return;
 
     // 1. Extract entities
@@ -134,6 +155,7 @@ export class EntityIndex {
    * @returns Entity search result or null if not found
    */
   search(name: string): EntitySearchResult | null {
+    this._ensureLoaded();
     // 1. Resolve name to canonical
     const canonical = this.resolver.canonicalize(name);
 
@@ -153,6 +175,7 @@ export class EntityIndex {
    * @returns Resolution result
    */
   resolve(name: string): ResolutionResult {
+    this._ensureLoaded();
     return this.resolver.resolve(name);
   }
 
@@ -161,6 +184,7 @@ export class EntityIndex {
    * @returns Array of all entity records
    */
   listAll(): EntityRecord[] {
+    this._ensureLoaded();
     return [...this.entityMap.values()];
   }
 
@@ -171,6 +195,7 @@ export class EntityIndex {
    * @returns Array of co-occurring entity names sorted by count
    */
   getCooccurrences(name: string, limit: number = 10): string[] {
+    this._ensureLoaded();
     const canonical = this.resolver.canonicalize(name);
     const related: Array<{ name: string; count: number }> = [];
 
@@ -192,6 +217,7 @@ export class EntityIndex {
    * @param memoryId - Memory ID to remove
    */
   removeMemory(memoryId: string): void {
+    this._ensureLoaded();
     // Collect entities that had this memoryId before removal
     const affectedEntities: string[] = [];
     for (const [name, record] of this.entityMap) {
@@ -252,6 +278,12 @@ export class EntityIndex {
   enablePersistence(dir: string): void {
     this.persistDir = dir;
     fs.mkdirSync(dir, { recursive: true });
+
+    // v6.39.0: Don't load immediately — cache path and load on first use
+    const filePath = path.join(dir, "entity_index_v1.0.0.json");
+    if (fs.existsSync(filePath)) {
+      this._indexPath = filePath;
+    }
   }
 
   /**
@@ -278,11 +310,11 @@ export class EntityIndex {
    * @returns true if loaded successfully, false otherwise
    */
   load(): boolean {
-    if (!this.persistDir) return false;
+    this._ensureLoaded();
+    return this._loaded && this.entityMap.size > 0;
+  }
 
-    const filePath = path.join(this.persistDir, "entity_index_v1.0.0.json");
-    if (!fs.existsSync(filePath)) return false;
-
+  private loadFromFile(filePath: string): void {
     try {
       const snapshot: EntityIndexSnapshot = JSON.parse(
         fs.readFileSync(filePath, "utf-8")
@@ -295,11 +327,8 @@ export class EntityIndex {
       for (const name of this.entityMap.keys()) {
         this.resolver.registerKnown(name);
       }
-
-      return true;
     } catch {
-      // Corrupted file, rebuild later
-      return false;
+      // Corrupted file, start fresh
     }
   }
 
