@@ -1,6 +1,6 @@
 {
   "name": "claw-mem",
-  "version": "6.39.0",
+  "version": "6.40.0",
   "description": "Local-First Three-Tier Memory System for OpenClaw (TypeScript)",
   "main": "dist/src/index.js",
   "types": "dist/src/index.d.ts",
@@ -21,6 +21,7 @@
     "benchmark": "node dist/benchmarks/runner.js"
   },
   "dependencies": {
+    "claw-gov": "file:../claw-gov",
     "js-yaml": "^4.2.0",
     "openai": "^6.42.0"
   },

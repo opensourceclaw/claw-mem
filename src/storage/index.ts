@@ -90,18 +90,31 @@ export class InMemoryIndex {
   }
 
   // v6.39.0: Lazy loading — triggered on first search or addMemory
+  // v6.40.0: Fixed to prefer cached index over empty pendingMemories
   private _ensureLoaded(): void {
     if (this._loaded) return;
 
-    if (this._indexPath && fs.existsSync(this._indexPath)) {
-      this.loadFromJson(this._indexPath);
-      this._loaded = true;
-      this.built = this.ngramIndex.size > 0;
-    } else if (this._pendingMemories) {
+    // Priority: non-empty pending memories > cached index path > empty pending
+    if (this._pendingMemories && this._pendingMemories.length > 0) {
       this.buildFromMemories(this._pendingMemories);
       this._pendingMemories = null;
       this._loaded = true;
       this.built = true;
+      if (this.enablePersistence) {
+        try {
+          this.saveToJson(path.join(this.indexDir, "index_v5.0.0.json"));
+        } catch { /* silent */ }
+      }
+    } else if (this._indexPath && fs.existsSync(this._indexPath)) {
+      // Load from cached file (when pending is empty or null)
+      this.loadFromJson(this._indexPath);
+      this._loaded = true;
+      this.built = this.ngramIndex.size > 0;
+      this._pendingMemories = null; // Clear stale pending
+    } else if (this._pendingMemories) {
+      // Empty pending, no cached file → nothing to load
+      this._loaded = true;
+      this._pendingMemories = null;
     } else {
       this._loaded = true;
     }

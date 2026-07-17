@@ -1,7 +1,8 @@
-// claw-mem v6.34.0 — ContradictionDetector (TypeScript)
+// claw-mem v6.40.0 — ContradictionDetector (TypeScript)
 //
 // Detects contradictions in stored memories.
 // MVP: Direct contradiction detection only.
+// v6.40.0: Integrated with claw-gov SelfReflection for behavior tracking.
 //
 // Licensed under the Apache License, Version 2.0
 
@@ -14,6 +15,7 @@ import {
   ContradictionSuggestion,
 } from "./types.js";
 import type { MemoryForInference, MemoryId } from "./engine.js";
+import { SelfReflection, createAction, type ReflectionMetrics } from "claw-gov";
 
 /** Attribute value extracted from memory */
 interface AttributeValue {
@@ -27,8 +29,32 @@ interface AttributeValue {
 
 /**
  * ContradictionDetector — detects contradictions in memories.
+ * v6.40.0: Supports SelfReflection for behavior tracking.
  */
 export class ContradictionDetector {
+  private _selfReflection: SelfReflection | null = null;
+
+  /**
+   * Enable self-reflection for contradiction analysis.
+   */
+  enableSelfReflection(): void {
+    this._selfReflection = new SelfReflection();
+  }
+
+  /**
+   * Disable self-reflection.
+   */
+  disableSelfReflection(): void {
+    this._selfReflection = null;
+  }
+
+  /**
+   * Get self-reflection metrics.
+   */
+  getReflectionMetrics(): ReflectionMetrics | null {
+    return this._selfReflection?.getReflectionMetrics() ?? null;
+  }
+
   /**
    * Detect direct contradictions.
    * A direct contradiction occurs when two memories claim different values
@@ -285,5 +311,35 @@ export class ContradictionDetector {
     if (confidence >= 0.9) return ContradictionSeverity.HIGH;
     if (confidence >= 0.75) return ContradictionSeverity.MEDIUM;
     return ContradictionSeverity.LOW;
+  }
+
+  /**
+   * v6.40.0: Detect contradictions with self-reflection tracking.
+   * Records contradiction findings in SelfReflection behavior log.
+   * @param memories - Memories to analyze
+   * @returns Array of contradiction reports
+   */
+  detectWithReflection(memories: MemoryForInference[]): ContradictionReport[] {
+    const reports = this.detectDirect(memories);
+
+    // Track in self-reflection if enabled
+    if (this._selfReflection && reports.length > 0) {
+      for (const report of reports) {
+        // createAction signature: (target: string, type?: ActionType, ctx?: Record)
+        const action = createAction(
+          report.id,  // target
+          "query",    // type (valid ActionType)
+          { severity: report.severity, conflicts: report.conflicts.length, type: "contradiction_detected" }
+        );
+        this._selfReflection.monitorBehavior(
+          action,
+          `Found ${report.conflicts.length} conflicting memories for '${report.description}'`,
+          true, // success
+          0     // latency
+        );
+      }
+    }
+
+    return reports;
   }
 }

@@ -34,6 +34,7 @@ import { StrategyRegistry } from "./storage/strategy-registry.js";
 import { VersionChain } from "./storage/version-chain.js";
 import type { VersionEntry } from "./storage/version-chain.js";
 import { EpisodicStrategy, SessionSnapshotStrategy, FactStrategy, PreferenceStrategy, SemanticStrategy, ProceduralStrategy } from "./storage/strategies/index.js";
+import { MemoryGovernance } from "./memory/governance.js";
 // Import types only to avoid circular deps
 import type { WriteTimeGating } from "./gating/write_time_gating.js";
 import type { ThreeTierRetriever } from "./retrieval/three_tier.js";
@@ -75,6 +76,16 @@ export class MemoryManager {
   private _entityIndex: EntityIndex | null = null;
   private _strategyRegistry: StrategyRegistry | null = null;
   private _versionChain: VersionChain | null = null;
+  // v6.40.0: MemoryGovernance for self-organizing memory
+  private _governance: MemoryGovernance | null = null;
+  // v6.40.0: Progressive loading state
+  private _progressiveLoadState: {
+    episodic: boolean;
+    semantic: boolean;
+    procedural: boolean;
+    index: boolean;
+  } = { episodic: false, semantic: false, procedural: false, index: false };
+  private _backgroundLoadPromise: Promise<void> | null = null;
   // Future: private _injector: ContextInjector | null = null;
   // Future: private _confidenceGate: ConfidenceGate | null = null;
 
@@ -82,6 +93,7 @@ export class MemoryManager {
     workspace?: string; config?: MemoryConfig; autoDetect?: boolean;
     enableGating?: boolean; enableDecay?: boolean; enableGraph?: boolean;
     enableCompression?: boolean; factory?: ComponentFactory;
+    enableProgressiveLoading?: boolean;  // v6.40.0: Progressive loading option
   }>) {
     this._factory = opts?.factory ?? getDefaultFactory();
     this.config = opts?.config ?? new MemoryConfig(opts);
@@ -94,11 +106,24 @@ export class MemoryManager {
     // Ensure workspace exists
     fs.mkdirSync(this.workspace, { recursive: true });
 
-    // Eager-init core storage + index
-    this._episodic = new EpisodicStorage(this.workspace);
-    this._semantic = new SemanticStorage(this.workspace);
-    this._procedural = new ProceduralStorage(this.workspace);
-    this._index = new InMemoryIndex(this.workspace);
+    // v6.40.0: Support progressive loading for memory optimization
+    const useProgressiveLoading = opts?.enableProgressiveLoading ?? false;
+
+    if (useProgressiveLoading) {
+      // Defer storage initialization to background
+      this._episodic = null as any;
+      this._semantic = null as any;
+      this._procedural = null as any;
+      this._index = null as any;
+      this._startBackgroundPrefetch();
+    } else {
+      // Legacy eager-init (backward compatible)
+      this._episodic = new EpisodicStorage(this.workspace);
+      this._semantic = new SemanticStorage(this.workspace);
+      this._procedural = new ProceduralStorage(this.workspace);
+      this._index = new InMemoryIndex(this.workspace);
+      this._progressiveLoadState = { episodic: true, semantic: true, procedural: true, index: false };
+    }
 
     // Stats tracking
     this._searchCount = 0;
@@ -107,7 +132,9 @@ export class MemoryManager {
 
     // Async BM25 warmup (non-blocking)
     this._bm25Ready = false;
-    this._startAsyncBuild();
+    if (!useProgressiveLoading) {
+      this._startAsyncBuild();
+    }
 
     // v6.0.2: Constitution Store
     this.constitutionStore = new ConstitutionStore(this.workspace);
@@ -211,21 +238,110 @@ export class MemoryManager {
     // Defer index build to next tick so constructor returns fast
     // Fallback substring search works before index is built
     setTimeout(() => {
-      try { this.buildIndex(); this._bm25Ready = true; }
+      try { this.buildIndex(); this._bm25Ready = true; this._progressiveLoadState.index = true; }
       catch { /* best effort */ }
     }, 10);
   }
 
+  // v6.40.0: Background prefetch for progressive loading
+  private _startBackgroundPrefetch(): void {
+    this._backgroundLoadPromise = (async () => {
+      try {
+        // Phase 1: Load episodic (most used)
+        if (!this._progressiveLoadState.episodic) {
+          this._episodic = new EpisodicStorage(this.workspace);
+          this._progressiveLoadState.episodic = true;
+        }
+
+        // Phase 2: Initialize index and build
+        await new Promise(resolve => setTimeout(resolve, 50));
+        this._index = new InMemoryIndex(this.workspace);
+
+        // Build index (requires episodic and semantic)
+        if (this._episodic) {
+          this.buildIndex();
+          this._bm25Ready = true;
+        }
+
+        // Phase 3: Semantic/procedural stay lazy (on demand via getters)
+      } catch (err) {
+        console.error("[claw-mem] Background prefetch failed:", err);
+      }
+    })();
+  }
+
+  /**
+   * v6.40.0: Wait for background loading to complete.
+   * Use this to ensure critical subsystems are ready before operations.
+   */
+  async waitForReady(): Promise<void> {
+    if (this._backgroundLoadPromise) {
+      await this._backgroundLoadPromise;
+    }
+  }
+
+  /**
+   * v6.40.0: Check if critical subsystems are ready.
+   */
+  isReady(): boolean {
+    // Ready if episodic storage is loaded and index exists
+    const episodicReady = this._episodic != null || this._progressiveLoadState.episodic;
+    const indexReady = this._index != null;
+    return episodicReady && indexReady;
+  }
+
+  /**
+   * v6.40.0: Get progressive loading state.
+   */
+  getLoadState(): { episodic: boolean; semantic: boolean; procedural: boolean; index: boolean } {
+    return { ...this._progressiveLoadState };
+  }
+
   // ── storage accessors ──────────────────────────────────────────
 
-  get episodic(): EpisodicStorage { return this._episodic; }
-  get semantic(): SemanticStorage { return this._semantic; }
-  get procedural(): ProceduralStorage { return this._procedural; }
+  get episodic(): EpisodicStorage {
+    if (!this._progressiveLoadState.episodic) {
+      this._episodic = new EpisodicStorage(this.workspace);
+      this._progressiveLoadState.episodic = true;
+    }
+    return this._episodic;
+  }
+
+  get semantic(): SemanticStorage {
+    if (!this._progressiveLoadState.semantic) {
+      this._semantic = new SemanticStorage(this.workspace);
+      this._progressiveLoadState.semantic = true;
+    }
+    return this._semantic;
+  }
+
+  get procedural(): ProceduralStorage {
+    if (!this._progressiveLoadState.procedural) {
+      this._procedural = new ProceduralStorage(this.workspace);
+      this._progressiveLoadState.procedural = true;
+    }
+    return this._procedural;
+  }
+
   get groundTruth(): GroundTruthStore {
     if (!this._gt) this._gt = new GroundTruthStore();
     return this._gt;
   }
-  get index(): InMemoryIndex { return this._index; }
+
+  get index(): InMemoryIndex {
+    // In legacy mode, _index is already initialized in constructor
+    // Just return it if already set
+    if (this._index) {
+      return this._index;
+    }
+    // In progressive mode, initialize on first access
+    if (!this._progressiveLoadState.index) {
+      this._index = new InMemoryIndex(this.workspace);
+      this._progressiveLoadState.index = true;
+    }
+    return this._index;
+  }
+
   get workingMemory(): unknown[] { return this._working; }
 
   // ── feature accessors (lazy via require() for fast startup) ────
@@ -294,7 +410,36 @@ export class MemoryManager {
     return this._compressionSpectrum;
   }
 
+  // v6.40.0: MemoryGovernance getter
+  get governance(): MemoryGovernance {
+    if (!this._governance) {
+      this._governance = new MemoryGovernance();
+    }
+    return this._governance;
+  }
+
   // ── core operations ─────────────────────────────────────────────
+
+  /**
+   * v6.40.0: Store with governance check.
+   * @param content - Memory content
+   * @param importance - Intrinsic importance (0-1)
+   * @param relevance - Relevance to context (0-1)
+   * @returns true if stored, false if rejected by governance
+   */
+  storeWithGovernance(
+    content: string,
+    importance: number,
+    relevance: number,
+    memoryType: string = "episodic",
+    tags: string[] = [],
+    metadata: Record<string, unknown> = {}
+  ): boolean {
+    if (!this.governance.select(importance, relevance)) {
+      return false;
+    }
+    return this.store(content, memoryType, tags, metadata);
+  }
 
   store(content: string, memoryType: string = "episodic",
         tags: string[] = [], metadata: Record<string, unknown> = {}): boolean {
@@ -661,13 +806,20 @@ export class MemoryManager {
     this._index.built = false;
 
     const entries: MemoryEntry[] = [];
-    for (const m of this._episodic.getRecent(500)) {
-      entries.push({ id: (m as any).id || (m as any).metadata?.id || m.timestamp || "0", content: m.content });
+
+    // Use getters to ensure storage is loaded (progressive loading support)
+    if (this._episodic) {
+      for (const m of this._episodic.getRecent(500)) {
+        entries.push({ id: (m as any).id || (m as any).metadata?.id || m.timestamp || "0", content: m.content });
+      }
     }
-    for (const m of this._semantic.getAll()) {
-      entries.push({ id: (m as { id?: string }).id || m.timestamp || "0", content: m.content });
+    if (this._semantic) {
+      for (const m of this._semantic.getAll()) {
+        entries.push({ id: (m as { id?: string }).id || m.timestamp || "0", content: m.content });
+      }
     }
     this._index.loadOrBuild(entries);
+    this._progressiveLoadState.index = true;
   }
 
   // ── factory ─────────────────────────────────────────────────────

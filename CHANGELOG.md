@@ -5,6 +5,30 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [6.40.0] - 2026-07-18
+
+### Added
+- **MemoryGovernance**: Self-organizing memory decisions via `select()` and `maintain()` methods
+  - `select(importance, relevance)`: Decide whether to store a memory
+  - `maintain(age, accessCount)`: Decide keep/refresh/forget for existing memories
+  - Integrated with MemoryManager via `governance` getter and `storeWithGovernance()` method
+- **claw-gov integration**: Audit trail and consistency checking capabilities
+  - `MemoryEntityManager`: Entity management with deletion propagation and audit trail
+  - `MemoryConsistencyChecker`: Memory integrity validation with built-in rules
+  - `ContradictionDetector.enableSelfReflection()`: Track contradiction findings in SelfReflection
+- **Progressive loading**: Optional memory optimization for startup
+  - `enableProgressiveLoading` option to defer storage initialization
+  - `waitForReady()` and `isReady()` API for background loading status
+  - `getLoadState()` to track component loading status
+
+### Fixed
+- **InMemoryIndex ngram save/load bug**: Fixed `_ensureLoaded()` to prefer cached index over empty pendingMemories
+  - Previously, `loadOrBuild([])` followed by `preload()` would build empty index instead of loading from cache
+
+### Changed
+- Storage getters (`episodic`, `semantic`, `procedural`, `index`) now support lazy initialization
+- Added claw-gov as dependency for governance capabilities
+
 ## [6.39.0] - 2026-07-13
 
 ### Changed
