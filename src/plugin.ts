@@ -373,14 +373,14 @@ const ALL_TOOL_NAMES = [
     // ========================================================================
 
     (api as any).registerMemoryCapability({
-      // v6.40.1: flushPlanResolver for token compression
-      // Thresholds adjusted for better memory management:
-      // - softThresholdTokens: 60k (trigger at 30% of 200k context)
+      // v6.40.2: flushPlanResolver for token compression
+      // Thresholds adjusted for balanced memory management:
+      // - softThresholdTokens: 100k (trigger at 50% of 200k context)
       // - forceFlushTranscriptBytes: 300KB (earlier compaction)
       flushPlanResolver: (_params: { cfg?: any; nowMs?: number }) => {
         const ts = new Date().toISOString().replace(/[:.]/g, '-').slice(0, 19);
         return {
-          softThresholdTokens: 60000,
+          softThresholdTokens: 100000,
           forceFlushTranscriptBytes: 300000,
           reserveTokensFloor: 20000,
           prompt: 'Below is a conversation transcript. Summarize it concisely, preserving key context, decisions, user preferences, and action items. Remove redundancy while retaining all essential information.',
