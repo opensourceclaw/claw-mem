@@ -8,6 +8,20 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [6.41.0] - 2026-07-29
 
 ### Added
+
+## [6.44.0] - 2026-07-29
+
+### Added
+- **Unified Memory Monitor** — Context overflow prevention system
+  - `MemoryMonitor` class: Scan memory files and collect metrics
+  - `MemoryMetrics` interface: Track file size, token estimate, MECW utilization
+  - `context_overflow_risk`: 0-1 risk score
+  - `mecw_utilization_ratio`: Token estimate / MECW limit ratio
+  - Compression event tracking and history
+
+### Changed
+- v6.43.0: MemoryContextBridge integrated with compression strategies
+
 - **Memory Governance API** — Policy-based memory lifecycle management
   - `MemoryGovernanceManager`: Policy chain evaluation
   - `GovernancePolicy` interface: `select()`, `maintain()`, `forget()` methods

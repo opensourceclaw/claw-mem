@@ -55,3 +55,7 @@ export type { MemoryContextReport, CompressionRecommendation, CompressionResult 
 export { type MemoryBridgeConfig, DEFAULT_MEMORY_BRIDGE_CONFIG } from "./config/MemoryBridgeConfig.js";
 export { TruncateStrategy, SummarizeStrategy } from "./compression/CompressionStrategy.js";
 export type { CompressionStrategy } from "./compression/CompressionStrategy.js";
+
+// v6.44.0: Unified Memory Monitor
+export { MemoryMonitor, DEFAULT_MEMORY_MONITOR_CONFIG } from "./monitoring/index.js";
+export type { MemoryMetrics, MemoryMonitorConfig } from "./monitoring/index.js";
