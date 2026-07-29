@@ -17,14 +17,13 @@
     "design-review-gate": "passed",
     "code-review-gate": "passed",
     "test-gate": "passed",
-    "release-gate": "pending"
+    "release-gate": "passed"
   },
   "subTasks": {
     "detailed-design": "completed",
     "design-review": "completed",
     "implementation": "completed",
     "code-review": "completed",
-    "internal-verify": "completed",
     "unit-test": "completed"
   },
   "status": "coding",

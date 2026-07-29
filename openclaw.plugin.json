@@ -1,5 +1,6 @@
 {
   "id": "claw-mem",
+  "version": "6.41.0",
   "kind": "memory",
   "name": "Claw Memory System",
   "description": "Three-tier memory system for OpenClaw (Local-First)",
@@ -26,7 +27,10 @@
       "memory_cross_domain_correlate",
       "memory_debt_store",
       "memory_debt_query",
-      "memory_debt_update"
+      "memory_debt_update",
+      "memory_entity_list",
+      "memory_get_preference",
+      "memory_rollback_preference"
     ]
   }
 }

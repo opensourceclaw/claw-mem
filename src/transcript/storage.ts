@@ -5,6 +5,7 @@ import * as fs from 'fs';
 import * as path from 'path';
 import { TranscriptFormatter, type TranscriptEntry, type TranscriptMetadata } from './formatter.js';
 import type { Recap, RecapGenerator } from './recap-generator.js';
+import { type TranscriptStorageConfig, DEFAULT_TRANSCRIPT_STORAGE_CONFIG } from '../config/TranscriptStorageConfig.js';
 
 export interface TranscriptConfig {
   enabled: boolean;           // Default: true
@@ -120,6 +121,9 @@ export class TranscriptStorage {
         this.entries = this.entries.slice(-TranscriptStorage.MAX_ENTRIES_BUFFER);
         this.logger?.debug?.(`[TranscriptStorage] Trimmed entries buffer to ${TranscriptStorage.MAX_ENTRIES_BUFFER}`);
       }
+
+      // v6.42.0: Check file size before appending
+      this.checkFileSizeAndRotate();
 
       // Append to file
       const formatted = this.formatter.formatMessage(entry);
@@ -343,5 +347,32 @@ export class TranscriptStorage {
       this.clearBuffer();
     }
     this.logger?.debug?.('[TranscriptStorage] Flush completed');
+  }
+
+  // ── v6.42.0 File Size Limit ──────────────────────────────────
+
+  private storageConfig: TranscriptStorageConfig = { ...DEFAULT_TRANSCRIPT_STORAGE_CONFIG };
+
+  private checkFileSizeAndRotate(): void {
+    if (!this.currentFile || !this.storageConfig.autoRotate) return;
+    try {
+      const stats = fs.statSync(this.currentFile);
+      const ratio = stats.size / this.storageConfig.maxFileSize;
+      if (ratio >= this.storageConfig.warningThreshold) {
+        this.logger?.warn?.(`[TranscriptStorage] ${Math.round(ratio*100)}% of limit`);
+      }
+      if (stats.size >= this.storageConfig.maxFileSize) this.rotateFile();
+    } catch { /* file may not exist yet */ }
+  }
+
+  private rotateFile(): void {
+    if (!this.currentFile) return;
+    const oldFile = this.currentFile;
+    const newFile = oldFile.replace('.md', `-${Date.now()}.md`);
+    fs.renameSync(oldFile, newFile);
+    this.logger?.info?.(`[TranscriptStorage] Rotated: ${oldFile} -> ${newFile}`);
+    if (this.currentSession && this.currentMetadata) {
+      fs.writeFileSync(this.currentFile!, this.formatter.buildHeader(this.currentMetadata), 'utf-8');
+    }
   }
 }
