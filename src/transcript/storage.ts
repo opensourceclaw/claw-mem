@@ -6,6 +6,8 @@ import * as path from 'path';
 import { TranscriptFormatter, type TranscriptEntry, type TranscriptMetadata } from './formatter.js';
 import type { Recap, RecapGenerator } from './recap-generator.js';
 import { type TranscriptStorageConfig, DEFAULT_TRANSCRIPT_STORAGE_CONFIG } from '../config/TranscriptStorageConfig.js';
+import { MemoryContextBridge } from '../bridge/MemoryContextBridge.js';
+import { type MemoryBridgeConfig, DEFAULT_MEMORY_BRIDGE_CONFIG } from '../config/MemoryBridgeConfig.js';
 
 export interface TranscriptConfig {
   enabled: boolean;           // Default: true
@@ -45,6 +47,10 @@ export class TranscriptStorage {
 
   /** v6.36.0: Maximum entries to keep in memory buffer */
   private static readonly MAX_ENTRIES_BUFFER = 500;
+
+  /** v6.43.0: Optional bridge for context-aware memory management */
+  private bridge: MemoryContextBridge | null = null;
+  private bridgeConfig: MemoryBridgeConfig = { ...DEFAULT_MEMORY_BRIDGE_CONFIG };
 
   constructor(workspace: string, config?: Partial<TranscriptConfig>, logger?: TranscriptLogger) {
     this.workspace = workspace;
@@ -129,6 +135,18 @@ export class TranscriptStorage {
       const formatted = this.formatter.formatMessage(entry);
       fs.appendFileSync(this.currentFile, formatted + '\n', 'utf-8');
       this.logger?.debug?.(`[TranscriptStorage] Appended ${entry.role} message to ${this.currentFile}`);
+
+      // v6.43.0: Report to bridge (non-blocking, error-tolerant)
+      if (this.bridge && this.bridgeConfig.enabled && this.currentSession) {
+        try {
+          const report = this.bridge.reportMemorySize(this.currentSession, this.currentFile);
+          if (report.compressionRecommendation?.shouldCompact && this.bridgeConfig.autoCompact) {
+            this.logger?.warn?.(`[TranscriptStorage] Compression recommended: ${report.compressionRecommendation.reason}`);
+          }
+        } catch (err) {
+          this.logger?.error?.(`[TranscriptStorage] Bridge report failed: ${err}`);
+        }
+      }
     } catch (err) {
       this.logger?.error?.(`[TranscriptStorage] appendMessage error: ${err}`);
     }
@@ -338,6 +356,16 @@ export class TranscriptStorage {
    * Flush current entries to file and optionally clear buffer.
    * v6.36.0: Memory leak prevention - periodic flush support.
    */
+  /**
+   * v6.43.0: Set MemoryContextBridge for context-aware memory management.
+   */
+  setBridge(bridge: MemoryContextBridge | null): void {
+    this.bridge = bridge;
+    this.logger?.info?.(`[TranscriptStorage] Bridge ${bridge ? 'enabled' : 'disabled'}`);
+  }
+
+  getBridge(): MemoryContextBridge | null { return this.bridge; }
+
   flush(clearBuffer: boolean = false): void {
     if (!this.currentFile || this.entries.length === 0) return;
 

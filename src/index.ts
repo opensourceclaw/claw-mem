@@ -49,3 +49,9 @@ export { DeletionPropagator, EntityRelationshipGraph } from "./governance/deleti
 export type { CascadeOptions, DeletionResult } from "./governance/deletion-propagator.js";
 export { AuditTrail } from "./governance/audit-trail.js";
 export type { AuditEntry, AuditQuery } from "./governance/audit-trail.js";
+// v6.43.0: MemoryContextBridge
+export { MemoryContextBridge } from "./bridge/MemoryContextBridge.js";
+export type { MemoryContextReport, CompressionRecommendation, CompressionResult } from "./bridge/types.js";
+export { type MemoryBridgeConfig, DEFAULT_MEMORY_BRIDGE_CONFIG } from "./config/MemoryBridgeConfig.js";
+export { TruncateStrategy, SummarizeStrategy } from "./compression/CompressionStrategy.js";
+export type { CompressionStrategy } from "./compression/CompressionStrategy.js";
