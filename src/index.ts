@@ -42,3 +42,10 @@ export type { ImportanceResult } from "./importance.js";
 export { DriftHistoryStore, DEFAULT_DRIFT_HISTORY_CONFIG, type DriftRecord, type DriftTrend, type DriftHistoryConfig, type DriftSummary } from "./drift-history-store.js";
 export { MemoryRelationshipEnhancer, EntityChaining, DecisionLineage, CausalGraph, type EntityNode, type EntityLink, type DecisionRecord, type LineageChain, type CausalEvent, type CausalLink } from "./memory-relationship-enhancer.js";
 export { MemoryGovernance, DEFAULT_GOVERNANCE_CONFIG, type MemoryGovernanceConfig, type MaintainDecision, type GovernanceMetrics } from "./memory/governance.js";
+// v6.41.0 Governance API
+export { MemoryGovernanceManager, DefaultGovernancePolicy } from "./governance/memory-governance.js";
+export type { GovernedEntry, PolicyDecision, GovernancePolicy } from "./governance/memory-governance.js";
+export { DeletionPropagator, EntityRelationshipGraph } from "./governance/deletion-propagator.js";
+export type { CascadeOptions, DeletionResult } from "./governance/deletion-propagator.js";
+export { AuditTrail } from "./governance/audit-trail.js";
+export type { AuditEntry, AuditQuery } from "./governance/audit-trail.js";

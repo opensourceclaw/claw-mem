@@ -5,6 +5,28 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [6.41.0] - 2026-07-29
+
+### Added
+- **Memory Governance API** — Policy-based memory lifecycle management
+  - `MemoryGovernanceManager`: Policy chain evaluation
+  - `GovernancePolicy` interface: `select()`, `maintain()`, `forget()` methods
+  - `DefaultGovernancePolicy`: Paper §6.2 thresholds implementation
+  - `GovernedEntry` interface: Memory entry with governance metadata
+- **Deletion Propagation** — Cascade delete with relationship graph
+  - `EntityRelationshipGraph`: Entity relationship tracking
+  - `DeletionPropagator`: Cascade deletion with cycle detection
+  - `CascadeOptions`: maxDepth, dryRun, audit flags
+- **Audit Trail** — Immutable audit logging
+  - `AuditTrail`: Ring buffer with query API
+  - `AuditEntry`: Timestamp, operation, entity, source, reason
+  - Export to JSON/CSV
+
+### Changed
+- Exposed 9 new governance exports in `src/index.ts`
+
+---
+
 ## [6.40.3] - 2026-07-27
 
 ### Fixed

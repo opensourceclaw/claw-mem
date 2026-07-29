@@ -1,0 +1,33 @@
+{
+  "pipelineId": "pipeline-20260729-v6410",
+  "version": "6.41.0",
+  "project": "claw-mem",
+  "projectPath": "/Users/liantian/workspace/osprojects/claw-mem",
+  "currentStage": "RELEASE",
+  "startedAt": "2026-07-29T06:55:00.000Z",
+  "stages": [
+    "PLAN",
+    "CODE",
+    "BUILD",
+    "TEST",
+    "RELEASE"
+  ],
+  "gates": {
+    "plan-approval-gate": "passed",
+    "design-review-gate": "passed",
+    "code-review-gate": "passed",
+    "test-gate": "passed",
+    "release-gate": "pending"
+  },
+  "subTasks": {
+    "detailed-design": "completed",
+    "design-review": "completed",
+    "implementation": "completed",
+    "code-review": "completed",
+    "internal-verify": "completed",
+    "unit-test": "completed"
+  },
+  "status": "coding",
+  "objective": "Memory Self-Organization + Governance Enhancement",
+  "planDocument": "docs/roadmaps/v6.41.0-plan.md"
+}
