@@ -9,6 +9,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+## [7.0.0] - 2026-08-01
+
+### Added
+- **Capability Layer** — `IMemoryCapability` interface for OpenClaw Runtime
+  - `store()` / `search()` / `getContext()` / `getStats()` / `dispose()`
+- **MemoryCapability** class wrapping MemoryManager singleton
+
+### Changed
+- All v6.44.0 public API remains backward-compatible
+
 ## [6.44.0] - 2026-07-29
 
 ### Added

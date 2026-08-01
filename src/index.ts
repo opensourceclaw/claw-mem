@@ -59,3 +59,11 @@ export type { CompressionStrategy } from "./compression/CompressionStrategy.js";
 // v6.44.0: Unified Memory Monitor
 export { MemoryMonitor, DEFAULT_MEMORY_MONITOR_CONFIG } from "./monitoring/index.js";
 export type { MemoryMetrics, MemoryMonitorConfig } from "./monitoring/index.js";
+
+// v7.0.0: Capability Layer
+export { MemoryCapability } from "./capability/index.js";
+export type {
+  IMemoryCapability,
+  MemorySearchOptions, MemorySearchResult,
+  MemoryContextResult, MemoryStatsResult,
+} from "./capability/index.js";
