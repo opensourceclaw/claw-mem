@@ -7,6 +7,7 @@
  * - ConstitutionStore, Stage 0 injection
  */
 
+import * as fs from "fs";
 import * as path from "path";
 import { VERSION } from "./version";
 import { handleRequest, type JsonRpcRequest } from "./bridge";
@@ -219,6 +220,9 @@ interface PluginDefinition {
   version?: string;
   kind?: "memory" | "context-engine";
   contracts?: { tools?: string[] };
+  publicArtifacts?: {
+    listArtifacts: (params: { cfg: any }) => Promise<{ artifacts: Array<{ type: string; path: string; relPath: string; content?: string }> }>;
+  };
   configSchema?: any;
   register?: (api: OpenClawPluginApi) => void | Promise<void>;
 }
@@ -239,6 +243,53 @@ const ALL_TOOL_NAMES = [
   description: "Three-tier memory system for OpenClaw — direct TypeScript, no Python subprocess",
   version: VERSION,
   kind: "memory",
+
+  publicArtifacts: {
+    listArtifacts: async (params: { cfg: any }) => {
+      const root = (params?.cfg?.workspaceDir as string) || process.cwd();
+      const artifacts: Array<{ type: string; path: string; relPath: string; content?: string }> = [];
+
+      // memory-root: MEMORY.md
+      const memoryMd = path.join(root, "MEMORY.md");
+      if (fs.existsSync(memoryMd)) {
+        artifacts.push({ type: "memory-root", path: memoryMd, relPath: "MEMORY.md" });
+      }
+
+      // daily-note: memory/*.md
+      const memoryDir = path.join(root, "memory");
+      if (fs.existsSync(memoryDir)) {
+        try {
+          for (const entry of fs.readdirSync(memoryDir, { withFileTypes: true })) {
+            if (entry.isFile() && entry.name.endsWith(".md") && !entry.name.startsWith(".")) {
+              const fullPath = path.join(memoryDir, entry.name);
+              artifacts.push({ type: "daily-note", path: fullPath, relPath: `memory/${entry.name}` });
+            }
+          }
+        } catch { /* skip unreadable */ }
+      }
+
+      // dream-report: memory/dreaming/*.md
+      const dreamDir = path.join(root, "memory", "dreaming");
+      if (fs.existsSync(dreamDir)) {
+        try {
+          for (const entry of fs.readdirSync(dreamDir, { withFileTypes: true })) {
+            if (entry.isFile() && entry.name.endsWith(".md")) {
+              const fullPath = path.join(dreamDir, entry.name);
+              artifacts.push({ type: "dream-report", path: fullPath, relPath: `memory/dreaming/${entry.name}` });
+            }
+          }
+        } catch { /* skip unreadable */ }
+      }
+
+      // event-log: memory/.event-log.json
+      const eventLog = path.join(root, "memory", ".event-log.json");
+      if (fs.existsSync(eventLog)) {
+        artifacts.push({ type: "event-log", path: eventLog, relPath: "memory/.event-log.json" });
+      }
+
+      return { artifacts };
+    },
+  },
 
   contracts: {
     tools: ALL_TOOL_NAMES,

@@ -1,11 +1,10 @@
 {
-  "pipelineId": "pipeline-20260729-v6430",
-  "version": "6.43.0",
+  "pipelineId": "pipeline-20260802-v710",
+  "version": "7.1.0",
   "project": "claw-mem",
   "projectPath": "/Users/liantian/workspace/osprojects/claw-mem",
   "currentStage": "RELEASE",
-  "startedAt": "2026-07-29T04:03:00.000Z",
-  "completedAt": "2026-08-02T04:48:00.000Z",
+  "startedAt": "2026-08-02T04:52:00.000Z",
   "stages": [
     "PLAN",
     "CODE",
@@ -18,7 +17,7 @@
     "design-review-gate": "passed",
     "code-review-gate": "passed",
     "test-gate": "passed",
-    "release-gate": "passed"
+    "release-gate": "in_progress"
   },
   "subTasks": {
     "detailed-design": "completed",
@@ -27,12 +26,11 @@
     "code-review": "completed",
     "unit-test": "completed",
     "test": "completed",
-    "release": "completed"
+    "release": "in_progress"
+    "release": "pending"
   },
-  "status": "completed",
-  "objective": "MemoryContextBridge + Task Detection Integration",
-  "planDocument": "docs/roadmaps/v6.43.0-plan.md",
-  "dependencies": {
-    "claw-ctx": "^5.17.0"
-  }
+  "status": "releasing",
+  "objective": "publicArtifacts 接口实现",
+  "planDocument": "docs/roadmaps/ITERATION_PLAN_v7.1.0.md",
+  "dependencies": {}
 }
