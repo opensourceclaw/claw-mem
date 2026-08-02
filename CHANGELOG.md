@@ -5,6 +5,14 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [7.2.0] - 2026-08-03
+
+### Added
+- **OpenClaw Plugin Interface** — `openclaw.plugin.json` + `openclaw_plugin/index.ts`
+  - `MemoryPlugin` class implementing `OpenClawPlugin` interface
+  - Plugin capability declarations: memory-store, memory-retrieve, memory-search, memory-manage
+  - Type exports: `OpenClawPlugin`, `PluginConfig`, `MemoryEntry`, `SearchResult`, `ManageAction`
+
 ## [6.41.0] - 2026-07-29
 
 ### Added

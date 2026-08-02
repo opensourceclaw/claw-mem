@@ -1,36 +1,42 @@
 {
   "id": "claw-mem",
-  "version": "6.41.0",
+  "version": "7.2.0",
   "kind": "memory",
   "name": "Claw Memory System",
-  "description": "Three-tier memory system for OpenClaw (Local-First)",
-  "configSchema": {
-    "type": "object",
-    "properties": {
-      "workspaceDir": { "type": "string" },
-      "topK": { "type": "number", "default": 10 },
-      "debug": { "type": "boolean", "default": false }
-    }
+  "description": "Persistent memory storage and retrieval for AI agents",
+  "author": "OpenClaw Team",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/opensourceclaw/claw-mem"
   },
-  "activation": { "onStartup": true },
-  "contracts": {
-    "tools": [
-      "memory_search",
-      "memory_store",
-      "memory_get",
-      "memory_forget",
-      "memory_dispatch_store",
-      "memory_dispatch_query",
-      "memory_failure_classify",
-      "memory_cross_domain_store",
-      "memory_cross_domain_query",
-      "memory_cross_domain_correlate",
-      "memory_debt_store",
-      "memory_debt_query",
-      "memory_debt_update",
-      "memory_entity_list",
-      "memory_get_preference",
-      "memory_rollback_preference"
-    ]
+  "capabilities": [
+    "memory-store",
+    "memory-retrieve",
+    "memory-search",
+    "memory-manage"
+  ],
+  "entry": "./openclaw_plugin/index.ts",
+  "exports": {
+    ".": "./openclaw_plugin/index.ts",
+    "./plugin": "./src/plugin.ts",
+    "./types": "./src/types.ts"
+  },
+  "configuration": {
+    "storagePath": {
+      "type": "string",
+      "default": "~/.openclaw/memory",
+      "description": "Memory storage directory path"
+    },
+    "maxFileSize": {
+      "type": "string",
+      "default": "10MB",
+      "description": "Maximum memory file size"
+    },
+    "compression": {
+      "type": "boolean",
+      "default": true,
+      "description": "Enable memory compression"
+    }
   }
 }
