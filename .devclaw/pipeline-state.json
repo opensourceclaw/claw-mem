@@ -17,7 +17,7 @@
     "design-review-gate": "passed",
     "code-review-gate": "passed",
     "test-gate": "passed",
-    "release-gate": "in_progress"
+    "release-gate": "passed"
   },
   "subTasks": {
     "detailed-design": "completed",
@@ -29,7 +29,7 @@
     "release": "in_progress"
     "release": "pending"
   },
-  "status": "releasing",
+  "status": "completed",
   "objective": "publicArtifacts 接口实现",
   "planDocument": "docs/roadmaps/ITERATION_PLAN_v7.1.0.md",
   "dependencies": {}
