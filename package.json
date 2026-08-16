@@ -21,9 +21,9 @@
     "benchmark": "node dist/benchmarks/runner.js"
   },
   "dependencies": {
-    "@opensourceclaw/claw-ctx": "^5.17.0",
+    "@opensourceclaw/claw-ctx": "file:../claw-ctx",
     "claw-gov": "file:../claw-gov",
-    "js-yaml": "^4.2.0",
+    "js-yaml": "^4.3.1",
     "openai": "^6.42.0"
   },
   "devDependencies": {
@@ -41,5 +41,8 @@
     "openclaw"
   ],
   "author": "Peter Cheng",
-  "license": "Apache-2.0"
+  "license": "Apache-2.0",
+  "overrides": {
+    "vite": "^8.2.1"
+  }
 }

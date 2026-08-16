@@ -1,42 +1,44 @@
 {
-  "pipelineId": "pipeline-20260803-v720",
-  "version": "7.2.0",
+  "pipelineId": "pipeline-20260816-mem730",
+  "version": "7.3.0",
   "project": "claw-mem",
   "projectPath": "/Users/liantian/workspace/osprojects/claw-mem",
-  "currentStage": "RELEASE",
-  "startedAt": "2026-08-02T19:12:00.000Z",
-  "completedAt": "2026-08-02T20:00:00.000Z",
+  "currentStage": "PLAN",
+  "startedAt": "2026-08-16T14:00:00.000Z",
   "stages": [
     "PLAN",
     "CODE",
     "BUILD",
     "TEST",
-    "RELEASE"
+    "RELEASE",
+    "DEPLOY",
+    "OPERATE",
+    "OBSERVE",
+    "GOVERN"
   ],
   "gates": {
-    "plan-approval-gate": "passed",
-    "design-review-gate": "passed",
-    "code-review-gate": "passed",
-    "test-gate": "passed",
-    "release-gate": "passed"
+    "plan-approval-gate": "in_progress",
+    "design-review-gate": "pending",
+    "code-review-gate": "pending",
+    "build-gate": "pending",
+    "test-gate": "pending",
+    "release-gate": "pending"
   },
   "subTasks": {
-    "detailed-design": "completed",
-    "design-review": "completed",
-    "implementation": "completed",
-    "code-review": "completed",
-    "unit-test": "completed",
-    "test": "completed",
-    "release": "completed"
+    "requirements": "in_progress",
+    "architecture": "in_progress",
+    "iteration-planning": "completed",
+    "detailed-design": "pending",
+    "design-review": "pending",
+    "implementation": "pending",
+    "code-review": "pending",
+    "unit-test": "pending",
+    "build-compile": "pending",
+    "test-acceptance": "pending",
+    "release": "pending"
   },
-  "status": "completed",
-  "objective": "OpenClaw Plugin 标准化改造",
-  "planDocument": "docs/roadmaps/ITERATION_PLAN_v7.2.0.md",
-  "dependencies": {},
-  "release": {
-    "commit": "d47bf9a3",
-    "tag": "v7.2.0",
-    "pushedTo": "origin/main",
-    "pushedAt": "2026-08-03T03:59:00Z"
-  }
+  "status": "in_progress",
+  "objective": "v7.3.0: 流程升级(5→9 stage + inbox v4.1) + 依赖漏洞修复(js-yaml/vite/postcss)",
+  "planDocument": "docs/roadmaps/ITERATION_PLAN_v7.3.0.md",
+  "dependencies": {}
 }
