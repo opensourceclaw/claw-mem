@@ -5,6 +5,7 @@
   "projectPath": "/Users/liantian/workspace/osprojects/claw-mem",
   "currentStage": "RELEASE",
   "startedAt": "2026-08-02T19:12:00.000Z",
+  "completedAt": "2026-08-02T20:00:00.000Z",
   "stages": [
     "PLAN",
     "CODE",
@@ -17,7 +18,7 @@
     "design-review-gate": "passed",
     "code-review-gate": "passed",
     "test-gate": "passed",
-    "release-gate": "pending"
+    "release-gate": "passed"
   },
   "subTasks": {
     "detailed-design": "completed",
@@ -26,10 +27,16 @@
     "code-review": "completed",
     "unit-test": "completed",
     "test": "completed",
-    "release": "in_progress"
+    "release": "completed"
   },
-  "status": "in_progress",
+  "status": "completed",
   "objective": "OpenClaw Plugin 标准化改造",
   "planDocument": "docs/roadmaps/ITERATION_PLAN_v7.2.0.md",
-  "dependencies": {}
+  "dependencies": {},
+  "release": {
+    "commit": "d47bf9a3",
+    "tag": "v7.2.0",
+    "pushedTo": "origin/main",
+    "pushedAt": "2026-08-03T03:59:00Z"
+  }
 }

@@ -22,21 +22,24 @@
     "./plugin": "./src/plugin.ts",
     "./types": "./src/types.ts"
   },
-  "configuration": {
-    "storagePath": {
-      "type": "string",
-      "default": "~/.openclaw/memory",
-      "description": "Memory storage directory path"
-    },
-    "maxFileSize": {
-      "type": "string",
-      "default": "10MB",
-      "description": "Maximum memory file size"
-    },
-    "compression": {
-      "type": "boolean",
-      "default": true,
-      "description": "Enable memory compression"
+  "configSchema": {
+    "type": "object",
+    "properties": {
+      "storagePath": {
+        "type": "string",
+        "default": "~/.openclaw/memory",
+        "description": "Memory storage directory path"
+      },
+      "maxFileSize": {
+        "type": "string",
+        "default": "10MB",
+        "description": "Maximum memory file size"
+      },
+      "compression": {
+        "type": "boolean",
+        "default": true,
+        "description": "Enable memory compression"
+      }
     }
   }
 }
