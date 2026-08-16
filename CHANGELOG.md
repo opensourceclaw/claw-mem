@@ -5,6 +5,18 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [7.3.0] - 2026-08-16
+
+### Security
+
+- **Dependency advisories cleared (4 Dependabot alerts → 0)**: `js-yaml` 4.2.0 → 4.3.1 (2 high)；`vite` 8.0.16 → 8.2.1 (override，顺带 `postcss` 8.5.15 → 8.5.26，1 high + 1 med)
+- **claw-ctx 依赖声明修复**: registry `^5.17.0` → `file:../claw-ctx`（修复 pre-existing 坏 install）
+
+### Changed
+
+- Version: 7.2.0 → 7.3.0
+- 流程升级：5-stage → 9-stage + inbox 协议 v4.1 对齐（inbox 目录收敛 + pipeline-state 迁移）
+
 ## [7.2.0] - 2026-08-03
 
 ### Added
@@ -590,4 +602,3 @@ If using Context Engine, install claw-ctx and configure:
 
 - **Performance benchmark thresholds**: Increased search latency budget from 100ms to 150ms and initialize budget from 100ms to 150ms. These are environment-sensitive flaky benchmarks (MacBook Air disk I/O variance) — not production issues.
 - **Tests**: 786/787 passed (1 pre-existing ConvoMem timeout, unrelated).
-
