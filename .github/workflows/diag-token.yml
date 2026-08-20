@@ -1,0 +1,20 @@
+name: diag-token
+
+on:
+  workflow_dispatch:
+
+jobs:
+  diag:
+    runs-on: ubuntu-latest
+    env:
+      NODE_AUTH_TOKEN: ${{ secrets.PACKAGES_TOKEN }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          registry-url: https://npm.pkg.github.com
+      - run: echo "token length: ${#NODE_AUTH_TOKEN}"
+      - run: curl -s -o /dev/null -w "tarball status: %{http_code}\n" -H "Authorization: Bearer $NODE_AUTH_TOKEN" "https://npm.pkg.github.com/download/@opensourceclaw/claw-gov/7.5.0/37307d103b4e870603da254943973e2619cd63b3"
+      - run: cat $NPM_CONFIG_USERCONFIG | sed 's/:_authToken=.*/:_authToken=<redacted>/'
