@@ -18,7 +18,7 @@ jobs:
         with:
           node-version: "22"
           cache: 'npm'
-      - name: Provide claw-gov stub (file: dep absent in CI)
+      - name: Provide claw-gov stub for file dependency
         run: |
           mkdir -p ../claw-gov
           cp -r ci/stubs/claw-gov/. ../claw-gov/
@@ -38,7 +38,7 @@ jobs:
         with:
           node-version: '${{ matrix.node-version }}'
           cache: 'npm'
-      - name: Provide claw-gov stub (file: dep absent in CI)
+      - name: Provide claw-gov stub for file dependency
         run: |
           mkdir -p ../claw-gov
           cp -r ci/stubs/claw-gov/. ../claw-gov/
@@ -54,7 +54,7 @@ jobs:
         with:
           node-version: "22"
           cache: 'npm'
-      - name: Provide claw-gov stub (file: dep absent in CI)
+      - name: Provide claw-gov stub for file dependency
         run: |
           mkdir -p ../claw-gov
           cp -r ci/stubs/claw-gov/. ../claw-gov/
