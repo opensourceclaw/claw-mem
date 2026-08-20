@@ -1,5 +1,5 @@
 {
-  "name": "claw-mem",
+  "name": "@opensourceclaw/claw-mem",
   "version": "7.3.0",
   "description": "Local-First Three-Tier Memory System for OpenClaw (TypeScript)",
   "main": "dist/src/index.js",
@@ -21,8 +21,8 @@
     "benchmark": "node dist/benchmarks/runner.js"
   },
   "dependencies": {
-    "@opensourceclaw/claw-ctx": "file:../claw-ctx",
-    "claw-gov": "file:../claw-gov",
+    "@opensourceclaw/claw-ctx": "^6.6.1",
+    "claw-gov": "npm:@opensourceclaw/claw-gov@^7.5.0",
     "js-yaml": "^4.3.1",
     "openai": "^6.42.0"
   },
@@ -44,5 +44,9 @@
   "license": "Apache-2.0",
   "overrides": {
     "vite": "^8.2.1"
+  },
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com",
+    "access": "restricted"
   }
 }
