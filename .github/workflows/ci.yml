@@ -43,6 +43,7 @@ jobs:
           mkdir -p ../claw-gov
           cp -r ci/stubs/claw-gov/. ../claw-gov/
       - run: npm ci
+      - run: npm run build
       - run: npm test
 
   build:

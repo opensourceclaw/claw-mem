@@ -37,7 +37,9 @@ export class SnapshotStore {
   close(sessionId: string): { closed: boolean } {
     const latest = this.getLatest(sessionId);
     if (!latest) return { closed: false };
-    this.store({ ...latest, isClosed: true, lastActiveAt: Date.now() });
+    // Monotonic lastActiveAt: same-ms writes would otherwise keep the
+    // unclosed snapshot as "latest" (getLatest picks strictly greater).
+    this.store({ ...latest, isClosed: true, lastActiveAt: Math.max(Date.now(), latest.lastActiveAt + 1) });
     return { closed: true };
   }
 
