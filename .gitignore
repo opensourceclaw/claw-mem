@@ -124,3 +124,9 @@ node_modules/
 .claw-mem/
 coverage/
 results/
+!AGENTS.md
+!SOUL.md
+!USER.md
+!TOOLS.md
+!IDENTITY.md
+!MEMORY.md
