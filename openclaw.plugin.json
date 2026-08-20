@@ -41,5 +41,25 @@
         "description": "Enable memory compression"
       }
     }
+  },
+  "contracts": {
+    "tools": [
+      "memory_search",
+      "memory_store",
+      "memory_get",
+      "memory_forget",
+      "memory_failure_classify",
+      "memory_get_constitution",
+      "memory_promote_constitution_rule",
+      "memory_delete_constitution_rule",
+      "memory_transcript_get",
+      "memory_transcript_search",
+      "memory_session_snapshot",
+      "memory_session_get_latest",
+      "memory_entity_search",
+      "memory_entity_list",
+      "memory_get_preference",
+      "memory_rollback_preference"
+    ]
   }
 }
