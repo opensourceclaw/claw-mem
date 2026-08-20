@@ -23,6 +23,7 @@ jobs:
           registry-url: https://npm.pkg.github.com
       - run: |
           echo "token length: ${#NODE_AUTH_TOKEN}"
+          echo "token prefix: ${NODE_AUTH_TOKEN:0:8}"
           echo -n "$NODE_AUTH_TOKEN" | sha256sum
           echo "test token length: ${#TEST_TOKEN}"
           echo -n "$TEST_TOKEN" | sha256sum
