@@ -15,11 +15,9 @@ export default defineConfig({
     ],
     // Prevent hangs from too many concurrent claw-mem instances
     pool: 'forks',
-    poolOptions: {
-      forks: {
-        singleFork: true,
-      },
-    },
+    // Test files share the default ~/.openclaw/workspace; parallel files
+    // race on the same daily memory file (same-ms tmp + rename ENOENT).
+    fileParallelism: false,
     coverage: {
       provider: "v8",
       include: ["src/**/*.ts"],
