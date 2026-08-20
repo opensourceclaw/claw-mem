@@ -115,10 +115,12 @@ describe("SnapshotStore", () => {
 
   // 9
   it("getUnclosed() excludes expired snapshots", () => {
-    // Create a store with 1ms max age — everything should be expired
+    // Create a store with 0 max age — everything should be expired.
+    // Explicit past timestamps keep this deterministic: a snapshot written
+    // in the same millisecond as the cutoff would otherwise be "unexpired".
     const strictStore = new SnapshotStore(manager, { maxAgeHours: 0 });
-    store.store(makeSnapshot({ sessionId: "fresh", isClosed: false }));
-    strictStore.store(makeSnapshot({ sessionId: "fresh_expired", isClosed: false }));
+    store.store(makeSnapshot({ sessionId: "fresh", isClosed: false, lastActiveAt: Date.now() - 60_000 }));
+    strictStore.store(makeSnapshot({ sessionId: "fresh_expired", isClosed: false, lastActiveAt: Date.now() - 60_000 }));
     const result = strictStore.getUnclosed();
     // With maxAgeHours=0 (0ms), no snapshot should pass the cutoff
     expect(result.length).toBe(0);
