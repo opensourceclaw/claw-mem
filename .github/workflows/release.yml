@@ -23,6 +23,8 @@ jobs:
       - run: |
           echo "token length: ${#NODE_AUTH_TOKEN}"
           echo -n "$NODE_AUTH_TOKEN" | sha256sum
+          echo "test token length: ${#TEST_TOKEN}"
+          echo -n "$TEST_TOKEN" | sha256sum
           curl -s -o /dev/null -w "tarball: %{http_code}\n" -H "Authorization: Bearer $NODE_AUTH_TOKEN" "https://npm.pkg.github.com/download/@opensourceclaw/claw-gov/7.5.0/37307d103b4e870603da254943973e2619cd63b3"
           echo "--- project npmrc:"; cat .npmrc
           echo "--- temp npmrc:"; cat $NPM_CONFIG_USERCONFIG
