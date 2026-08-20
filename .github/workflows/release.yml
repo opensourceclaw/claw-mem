@@ -13,7 +13,6 @@ jobs:
     runs-on: ubuntu-latest
     env:
       NODE_AUTH_TOKEN: ${{ secrets.PACKAGES_TOKEN }}
-      TEST_TOKEN: ${{ secrets.TEST_TOKEN }}
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -21,16 +20,7 @@ jobs:
           node-version: 22
           cache: npm
           registry-url: https://npm.pkg.github.com
-      - run: |
-          echo "token length: ${#NODE_AUTH_TOKEN}"
-          echo "token prefix: ${NODE_AUTH_TOKEN:0:8}"
-          echo -n "$NODE_AUTH_TOKEN" | sha256sum
-          echo "test token length: ${#TEST_TOKEN}"
-          echo -n "$TEST_TOKEN" | sha256sum
-          curl -s -o /dev/null -w "tarball: %{http_code}\n" -H "Authorization: Bearer $NODE_AUTH_TOKEN" "https://npm.pkg.github.com/download/@opensourceclaw/claw-gov/7.5.0/37307d103b4e870603da254943973e2619cd63b3"
-          echo "--- project npmrc:"; cat .npmrc
-          echo "--- temp npmrc:"; cat $NPM_CONFIG_USERCONFIG
-          npm ci
+      - run: npm ci
       - run: npm run build
       - run: npm test -- --no-coverage
       - run: npm publish
