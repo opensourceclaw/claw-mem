@@ -14,6 +14,6 @@
     "moduleResolution": "node10",
     "sourceMap": true
   },
-  "include": ["src/**/*.ts", "benchmarks/**/*.ts", "openclaw_plugin/**/*.ts"],
+  "include": ["src/**/*.ts", "benchmarks/**/*.ts", "openclaw_plugin/**/*.ts", "pi_plugin/**/*.ts"],
   "exclude": ["node_modules", "dist", "tests"]
 }
