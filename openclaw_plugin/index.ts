@@ -1,5 +1,5 @@
 /**
- * claw-mem v7.3.0 — OpenClaw Plugin Entry Point
+ * claw-mem v7.4.0 — OpenClaw Plugin Entry Point
  *
  * Standardized OpenClaw Plugin interface for the Memory System.
  * Wraps existing MemoryManager for storage, search, and retrieval.
@@ -46,7 +46,7 @@ export type ManageAction =
 
 export class MemoryPlugin implements OpenClawPlugin {
   readonly id = "claw-mem";
-  readonly version = "7.3.0";
+  readonly version = "7.4.0";
   readonly kind = "memory";
 
   private config: PluginConfig = {};

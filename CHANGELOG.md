@@ -5,6 +5,23 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [7.4.0] - 2026-08-21
+
+### Added
+
+- `pi_plugin/` adapter for pi agent runtime — 16 memory tools available as `import { memoryTools } from "@opensourceclaw/claw-mem/pi"`
+- `package.json` exports `./pi` entry point
+
+### Fixed
+
+- Include `pi_plugin` in tsconfig type checking
+- Remove invalid `promptSnippet` fields from `pi_plugin` tools
+
+### Changed
+
+- peerDependencies: add `@earendil-works/pi-agent-core >= 0.84.2`
+- devDependencies: add `@sinclair/typebox ^0.34.52`
+
 ## [7.3.0] - 2026-08-16
 
 ### Security
