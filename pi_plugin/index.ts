@@ -1,5 +1,5 @@
 /**
- * claw-mem v7.3.0 — pi agent Runtime Plugin Entry
+ * claw-mem v7.4.0 — pi agent Runtime Plugin Entry
  *
  * Wraps the 16 memory tools as pi agent AgentTool definitions.
  * Executes via the shared JSON-RPC handleRequest bridge (src/bridge.ts),
@@ -179,3 +179,6 @@ export const memTools: AgentTool[] = [
 ];
 
 export default memTools;
+
+// memoryTools 别名 — 文档/CHANGELOG 约定名（兼容 memTools 已有使用者）
+export const memoryTools = memTools;
