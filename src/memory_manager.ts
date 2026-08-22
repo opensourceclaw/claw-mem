@@ -11,6 +11,7 @@
 import * as fs from "fs";
 import * as os from "os";
 import * as path from "path";
+import { VERSION } from "./version.js";
 import { EpisodicStorage } from "./storage/episodic.js";
 import { SemanticStorage } from "./storage/semantic.js";
 import { ProceduralStorage } from "./storage/procedural.js";
@@ -180,7 +181,7 @@ export class MemoryManager {
     this._strategyRegistry = new StrategyRegistry(new EpisodicStrategy());
     this._registerStrategies();
 
-    log(`claw-mem TS 6.33.0 initialized, workspace: ${this.workspace}`);
+    log(`claw-mem TS ${VERSION} initialized, workspace: ${this.workspace}`);
   }
 
   // v5.1.0: Constitution Store — 3-layer persistent identity

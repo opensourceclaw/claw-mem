@@ -4,6 +4,7 @@ import * as fs from "fs";
 import * as path from "path";
 import * as os from "os";
 import { handleRequest, type JsonRpcRequest } from "../../src/bridge";
+import { VERSION } from "../../src/version";
 import { MemoryManager, resetMemoryManager } from "../../src/memory_manager";
 
 describe("Bridge JSON-RPC", () => {
@@ -30,7 +31,7 @@ describe("Bridge JSON-RPC", () => {
 
   it("ping returns version", async () => {
     const resp = await handleRequest(req("ping"), mm());
-    expect(resp.result).toEqual({ version: "7.1.0", status: "ok" });
+    expect(resp.result).toEqual({ version: VERSION, status: "ok" });
   });
 
   it("status returns stats", async () => {
