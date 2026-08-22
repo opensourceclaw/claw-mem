@@ -130,3 +130,6 @@ results/
 !TOOLS.md
 !IDENTITY.md
 !MEMORY.md
+
+# Internal pipeline state (do not commit to public repo)
+.devclaw/
