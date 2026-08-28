@@ -133,3 +133,7 @@ results/
 
 # Internal pipeline state (do not commit to public repo)
 .devclaw/
+
+# Runtime artifacts (do not commit to public repo)
+src/transcript/MEMORY.md
+test_run_validation/
