@@ -1,7 +1,7 @@
 {
   "compilerOptions": {
     "target": "ES2022",
-    "module": "commonjs",
+    "module": "NodeNext",
     "lib": ["ES2022"],
     "outDir": "./dist",
     "rootDir": ".",
@@ -11,9 +11,9 @@
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true,
     "resolveJsonModule": true,
-    "moduleResolution": "node10",
+    "moduleResolution": "NodeNext",
     "sourceMap": true
   },
-  "include": ["src/**/*.ts", "benchmarks/**/*.ts", "openclaw_plugin/**/*.ts", "pi_plugin/**/*.ts"],
+  "include": ["src/**/*.ts", "benchmarks/**/*.ts", "pi_plugin/**/*.ts"],
   "exclude": ["node_modules", "dist", "tests"]
 }

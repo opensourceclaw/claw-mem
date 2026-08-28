@@ -9,6 +9,8 @@
 
 import * as fs from "fs";
 import * as path from "path";
+import { Type } from "@sinclair/typebox";
+import { definePluginEntry } from "openclaw/plugin-sdk/plugin-entry";
 import { VERSION } from "./version";
 import { handleRequest, type JsonRpcRequest } from "./bridge";
 import { getMemoryManager, type MemoryManager } from "./memory_manager";
@@ -28,23 +30,11 @@ interface ClawMemConfig {
   transcript?: Partial<TranscriptConfig>;
 }
 
-interface OpenClawPluginApi {
-  id: string;
-  config: any;
-  pluginConfig?: Record<string, unknown>;
-  logger: {
-    info: (...args: any[]) => void;
-    error: (...args: any[]) => void;
-    warn: (...args: any[]) => void;
-    debug?: (...args: any[]) => void;
-  };
-  registerTool(factory: (ctx: any) => any, opts?: { names: string[] }): void;
-  on(eventName: string, handler: (event: any, ctx: any) => Promise<any | void>): void;
-  registerService(service: {
-    id: string;
-    start: () => Promise<void>;
-    stop: () => Promise<void>;
-  }): void;
+interface Logger {
+  info: (...args: any[]) => void;
+  error: (...args: any[]) => void;
+  warn: (...args: any[]) => void;
+  debug?: (...args: any[]) => void;
 }
 
 interface MemorySearchResult {
@@ -64,11 +54,11 @@ class TsBridge {
   private _manager: MemoryManager;
   private _constitution: ConstitutionStore;
   private _ready: boolean;
-  private _logger: OpenClawPluginApi["logger"];
+  private _logger: Logger;
   // v6.36.0: Removed duplicate TranscriptStorage - use _manager.transcript instead
   private _currentSessionId: string | null = null;
 
-  constructor(config: ClawMemConfig, logger: OpenClawPluginApi["logger"]) {
+  constructor(config: ClawMemConfig, logger: Logger) {
     this._logger = logger;
     const ws = config.workspaceDir || process.cwd();
     this._manager = getMemoryManager({ workspace: ws, autoDetect: false });
@@ -213,106 +203,13 @@ function extractFactsFromEvent(event: any): { text: string; type: string }[] {
 // Plugin Entry
 // ============================================================================
 
-interface PluginDefinition {
-  id?: string;
-  name?: string;
-  description?: string;
-  version?: string;
-  kind?: "memory" | "context-engine";
-  contracts?: { tools?: string[] };
-  publicArtifacts?: {
-    listArtifacts: (params: { cfg: any }) => Promise<{ artifacts: Array<{ type: string; path: string; relPath: string; content?: string }> }>;
-  };
-  configSchema?: any;
-  register?: (api: OpenClawPluginApi) => void | Promise<void>;
-}
 
-const ALL_TOOL_NAMES = [
-  "memory_search", "memory_store", "memory_get", "memory_forget",
-  "memory_failure_classify",
-  "memory_get_constitution", "memory_promote_constitution_rule", "memory_delete_constitution_rule",
-  "memory_transcript_get", "memory_transcript_search",
-  "memory_session_snapshot", "memory_session_get_latest",
-  "memory_entity_search", "memory_entity_list",
-  "memory_get_preference", "memory_rollback_preference",
-];
-
-  const plugin: PluginDefinition = {
+export default definePluginEntry({
   id: "claw-mem",
   name: `Claw Memory System (TS v${VERSION})`,
   description: "Three-tier memory system for OpenClaw — direct TypeScript, no Python subprocess",
-  version: VERSION,
-  kind: "memory",
 
-  publicArtifacts: {
-    listArtifacts: async (params: { cfg: any }) => {
-      const root = (params?.cfg?.workspaceDir as string) || process.cwd();
-      const artifacts: Array<{ type: string; path: string; relPath: string; content?: string }> = [];
-
-      // memory-root: MEMORY.md
-      const memoryMd = path.join(root, "MEMORY.md");
-      if (fs.existsSync(memoryMd)) {
-        artifacts.push({ type: "memory-root", path: memoryMd, relPath: "MEMORY.md" });
-      }
-
-      // daily-note: memory/*.md
-      const memoryDir = path.join(root, "memory");
-      if (fs.existsSync(memoryDir)) {
-        try {
-          for (const entry of fs.readdirSync(memoryDir, { withFileTypes: true })) {
-            if (entry.isFile() && entry.name.endsWith(".md") && !entry.name.startsWith(".")) {
-              const fullPath = path.join(memoryDir, entry.name);
-              artifacts.push({ type: "daily-note", path: fullPath, relPath: `memory/${entry.name}` });
-            }
-          }
-        } catch { /* skip unreadable */ }
-      }
-
-      // dream-report: memory/dreaming/*.md
-      const dreamDir = path.join(root, "memory", "dreaming");
-      if (fs.existsSync(dreamDir)) {
-        try {
-          for (const entry of fs.readdirSync(dreamDir, { withFileTypes: true })) {
-            if (entry.isFile() && entry.name.endsWith(".md")) {
-              const fullPath = path.join(dreamDir, entry.name);
-              artifacts.push({ type: "dream-report", path: fullPath, relPath: `memory/dreaming/${entry.name}` });
-            }
-          }
-        } catch { /* skip unreadable */ }
-      }
-
-      // event-log: memory/.event-log.json
-      const eventLog = path.join(root, "memory", ".event-log.json");
-      if (fs.existsSync(eventLog)) {
-        artifacts.push({ type: "event-log", path: eventLog, relPath: "memory/.event-log.json" });
-      }
-
-      return { artifacts };
-    },
-  },
-
-  contracts: {
-    tools: ALL_TOOL_NAMES,
-  },
-
-  configSchema: {
-    type: "object",
-    properties: {
-      workspaceDir: { type: "string", description: "Workspace directory" },
-      topK: { type: "number", default: 10 },
-      debug: { type: "boolean", default: false },
-      transcript: {
-        type: "object",
-        properties: {
-          enabled: { type: "boolean", default: true },
-          ttlDays: { type: "number", default: 30 },
-          format: { type: "string", enum: ["markdown", "json"], default: "markdown" },
-        },
-      },
-    },
-  },
-
-  register(api: OpenClawPluginApi) {
+  register(api: any) {
     const config: ClawMemConfig = {
       workspaceDir: (api.pluginConfig?.workspaceDir as string | undefined) || api.config?.workspaceDir,
       topK: (api.pluginConfig?.topK as number | undefined) ?? 10,
@@ -533,84 +430,70 @@ const ALL_TOOL_NAMES = [
     // Register Tools
     // ========================================================================
 
-    api.registerTool((_ctx: any) => ({
+    api.registerTool({
       name: "memory_search",
       description: "Search through memories stored in claw-mem.",
-      parameters: {
-        type: "object",
-        properties: {
-          query: { type: "string", description: "Search query" },
-          limit: { type: "number", description: "Max results", default: config.topK },
-        },
-        required: ["query"],
-      },
-      execute: async (_id: string, params: any) => {
+      parameters: Type.Object({
+        query: Type.String({ description: "Search query" }),
+        limit: Type.Optional(Type.Number({ description: "Max results", default: config.topK })),
+      }),
+      async execute(_id: string, params: any) {
         if (!bridge.isReady()) return { error: "Bridge not initialized" };
         try { return await bridge.call("search", params); }
         catch (error) { return { error: (error as Error).message }; }
       },
-    }), { names: ["memory_search"] });
+      });
 
-    api.registerTool((_ctx: any) => ({
+    api.registerTool({
       name: "memory_store",
       description: "Store important information in claw-mem.",
-      parameters: {
-        type: "object",
-        properties: {
-          text: { type: "string", description: "Information to remember" },
-          metadata: { type: "object" },
-          memory_type: { type: "string", default: "episodic" },
-        },
-        required: ["text"],
-      },
-      execute: async (_id: string, params: any) => {
+      parameters: Type.Object({
+        text: Type.String({ description: "Information to remember" }),
+        metadata: Type.Optional(Type.Object({})),
+        memory_type: Type.Optional(Type.String({ default: "episodic" })),
+      }),
+      async execute(_id: string, params: any) {
         if (!bridge.isReady()) return { error: "Bridge not initialized" };
         try { return await bridge.call("store", params); }
         catch (error) { return { error: (error as Error).message }; }
       },
-    }), { names: ["memory_store"] });
+      });
 
-    api.registerTool((_ctx: any) => ({
+    api.registerTool({
       name: "memory_get",
       description: "Get a specific memory by ID (limited support).",
-      parameters: {
-        type: "object",
-        properties: { id: { type: "string", description: "Memory ID" } },
-        required: ["id"],
+      parameters: Type.Object({
+        id: Type.String({ description: "Memory ID" }),
+      }),
+      async execute(_id: string, _params: any) {
+        return { error: "Use memory_search instead." };
       },
-      execute: async (_id: string, _params: any) =>
-        ({ error: "Use memory_search instead." }),
-    }), { names: ["memory_get"] });
+      });
 
-    api.registerTool((_ctx: any) => ({
+    api.registerTool({
       name: "memory_forget",
       description: "Delete a memory by ID (limited support).",
-      parameters: {
-        type: "object",
-        properties: { id: { type: "string", description: "Memory ID to delete" } },
-        required: ["id"],
+      parameters: Type.Object({
+        id: Type.String({ description: "Memory ID to delete" }),
+      }),
+      async execute(_id: string, _params: any) {
+        return { error: "Delete not supported." };
       },
-      execute: async (_id: string, _params: any) =>
-        ({ error: "Delete not supported." }),
-    }), { names: ["memory_forget"] });
+      });
 
-    api.registerTool((_ctx: any) => ({
+    api.registerTool({
       name: "memory_failure_classify",
       description: "Classify a failure signal for typed feedback collection",
-      parameters: {
-        type: "object",
-        properties: {
-          error_message: { type: "string", description: "Error message to classify" },
-          context: { type: "object", description: "Error context (agent, task, etc.)" },
-        },
-        required: ["error_message"],
-      },
-      execute: async (_id: string, params: any) => {
+      parameters: Type.Object({
+        error_message: Type.String({ description: "Error message to classify" }),
+        context: Type.Optional(Type.Object({}, { description: "Error context (agent, task, etc.)" })),
+      }),
+      async execute(_id: string, params: any) {
         if (!bridge.isReady()) return { error: "Bridge not initialized" };
         try { return await bridge.call("classify_failure_signal", params); }
         catch (error) { return { error: (error as Error).message }; }
       },
-    }), { names: ["memory_failure_classify"] });
+      });
 
     // ========================================================================
     // Hooks
@@ -626,192 +509,166 @@ const ALL_TOOL_NAMES = [
     // Constitution Tools (v6.38.0)
     // ========================================================================
 
-    api.registerTool((_ctx: any) => ({
+    api.registerTool({
       name: "memory_get_constitution",
       description: "Get all constitution rules",
-      parameters: { type: "object", properties: {} },
-      execute: async (_id: string, _params: any) => {
+      parameters: Type.Object({}),
+      async execute(_id: string, _params: any) {
         if (!bridge.isReady()) return { error: "Bridge not initialized" };
         try { return await bridge.call("get_constitution", {}); }
         catch (error) { return { error: (error as Error).message }; }
       },
-    }), { names: ["memory_get_constitution"] });
+      });
 
-    api.registerTool((_ctx: any) => ({
+    api.registerTool({
       name: "memory_promote_constitution_rule",
       description: "Promote a rule to constitution",
-      parameters: {
-        type: "object",
-        properties: {
-          content: { type: "string", description: "Rule content" },
-          tags: { type: "array", items: { type: "string" } },
-        },
-        required: ["content"],
-      },
-      execute: async (_id: string, params: any) => {
+      parameters: Type.Object({
+        content: Type.String({ description: "Rule content" }),
+        tags: Type.Optional(Type.Array(Type.String())),
+      }),
+      async execute(_id: string, params: any) {
         if (!bridge.isReady()) return { error: "Bridge not initialized" };
         try { return await bridge.call("promote_constitution_rule", params); }
         catch (error) { return { error: (error as Error).message }; }
       },
-    }), { names: ["memory_promote_constitution_rule"] });
+      });
 
-    api.registerTool((_ctx: any) => ({
+    api.registerTool({
       name: "memory_delete_constitution_rule",
       description: "Delete a constitution rule",
-      parameters: {
-        type: "object",
-        properties: { entryId: { type: "string", description: "Rule ID to delete" } },
-        required: ["entryId"],
-      },
-      execute: async (_id: string, params: any) => {
+      parameters: Type.Object({
+        entryId: Type.String({ description: "Rule ID to delete" }),
+      }),
+      async execute(_id: string, params: any) {
         if (!bridge.isReady()) return { error: "Bridge not initialized" };
         try { return await bridge.call("delete_constitution_rule", params); }
         catch (error) { return { error: (error as Error).message }; }
       },
-    }), { names: ["memory_delete_constitution_rule"] });
+      });
 
     // ========================================================================
     // Transcript Tools (v6.38.0)
     // ========================================================================
 
-    api.registerTool((_ctx: any) => ({
+    api.registerTool({
       name: "memory_transcript_get",
       description: "Get transcript for a session",
-      parameters: {
-        type: "object",
-        properties: { sessionId: { type: "string", description: "Session ID" } },
-        required: ["sessionId"],
-      },
-      execute: async (_id: string, params: any) => {
+      parameters: Type.Object({
+        sessionId: Type.String({ description: "Session ID" }),
+      }),
+      async execute(_id: string, params: any) {
         if (!bridge.isReady()) return { error: "Bridge not initialized" };
         try { return await bridge.call("transcript_get", params); }
         catch (error) { return { error: (error as Error).message }; }
       },
-    }), { names: ["memory_transcript_get"] });
+      });
 
-    api.registerTool((_ctx: any) => ({
+    api.registerTool({
       name: "memory_transcript_search",
       description: "Search across transcripts",
-      parameters: {
-        type: "object",
-        properties: {
-          query: { type: "string", description: "Search query" },
-          limit: { type: "number", description: "Max results", default: 10 },
-        },
-        required: ["query"],
-      },
-      execute: async (_id: string, params: any) => {
+      parameters: Type.Object({
+        query: Type.String({ description: "Search query" }),
+        limit: Type.Optional(Type.Number({ description: "Max results", default: 10 })),
+      }),
+      async execute(_id: string, params: any) {
         if (!bridge.isReady()) return { error: "Bridge not initialized" };
         try { return await bridge.call("transcript_search", params); }
         catch (error) { return { error: (error as Error).message }; }
       },
-    }), { names: ["memory_transcript_search"] });
+      });
 
     // ========================================================================
     // Session Snapshot Tools (v6.38.0)
     // ========================================================================
 
-    api.registerTool((_ctx: any) => ({
+    api.registerTool({
       name: "memory_session_snapshot",
       description: "Create a session snapshot",
-      parameters: {
-        type: "object",
-        properties: { snapshot: { type: "object", description: "Session snapshot data" } },
-        required: ["snapshot"],
-      },
-      execute: async (_id: string, params: any) => {
+      parameters: Type.Object({
+        snapshot: Type.Object({}, { description: "Session snapshot data" }),
+      }),
+      async execute(_id: string, params: any) {
         if (!bridge.isReady()) return { error: "Bridge not initialized" };
         try { return await bridge.call("session_snapshot", params); }
         catch (error) { return { error: (error as Error).message }; }
       },
-    }), { names: ["memory_session_snapshot"] });
+      });
 
-    api.registerTool((_ctx: any) => ({
+    api.registerTool({
       name: "memory_session_get_latest",
       description: "Get latest session snapshot",
-      parameters: {
-        type: "object",
-        properties: { sessionId: { type: "string", description: "Optional session ID" } },
-      },
-      execute: async (_id: string, params: any) => {
+      parameters: Type.Object({
+        sessionId: Type.Optional(Type.String({ description: "Optional session ID" })),
+      }),
+      async execute(_id: string, params: any) {
         if (!bridge.isReady()) return { error: "Bridge not initialized" };
         try { return await bridge.call("session_get_latest", params); }
         catch (error) { return { error: (error as Error).message }; }
       },
-    }), { names: ["memory_session_get_latest"] });
+      });
 
     // ========================================================================
     // Entity Tools (v6.38.0)
     // ========================================================================
 
-    api.registerTool((_ctx: any) => ({
+    api.registerTool({
       name: "memory_entity_search",
       description: "Search entities",
-      parameters: {
-        type: "object",
-        properties: { name: { type: "string", description: "Entity name to search" } },
-        required: ["name"],
-      },
-      execute: async (_id: string, params: any) => {
+      parameters: Type.Object({
+        name: Type.String({ description: "Entity name to search" }),
+      }),
+      async execute(_id: string, params: any) {
         if (!bridge.isReady()) return { error: "Bridge not initialized" };
         try { return await bridge.call("entity_search", params); }
         catch (error) { return { error: (error as Error).message }; }
       },
-    }), { names: ["memory_entity_search"] });
+      });
 
-    api.registerTool((_ctx: any) => ({
+    api.registerTool({
       name: "memory_entity_list",
       description: "List all entities",
-      parameters: {
-        type: "object",
-        properties: {
-          limit: { type: "number", default: 100 },
-          offset: { type: "number", default: 0 },
-        },
-      },
-      execute: async (_id: string, params: any) => {
+      parameters: Type.Object({
+        limit: Type.Optional(Type.Number({ default: 100 })),
+        offset: Type.Optional(Type.Number({ default: 0 })),
+      }),
+      async execute(_id: string, params: any) {
         if (!bridge.isReady()) return { error: "Bridge not initialized" };
         try { return await bridge.call("entity_list", params); }
         catch (error) { return { error: (error as Error).message }; }
       },
-    }), { names: ["memory_entity_list"] });
+      });
 
     // ========================================================================
     // Preference Tools (v6.38.0)
     // ========================================================================
 
-    api.registerTool((_ctx: any) => ({
+    api.registerTool({
       name: "memory_get_preference",
       description: "Get user preference",
-      parameters: {
-        type: "object",
-        properties: { pref_key: { type: "string", description: "Preference key" } },
-        required: ["pref_key"],
-      },
-      execute: async (_id: string, params: any) => {
+      parameters: Type.Object({
+        pref_key: Type.String({ description: "Preference key" }),
+      }),
+      async execute(_id: string, params: any) {
         if (!bridge.isReady()) return { error: "Bridge not initialized" };
         try { return await bridge.call("get_preference", params); }
         catch (error) { return { error: (error as Error).message }; }
       },
-    }), { names: ["memory_get_preference"] });
+      });
 
-    api.registerTool((_ctx: any) => ({
+    api.registerTool({
       name: "memory_rollback_preference",
       description: "Rollback preference to previous version",
-      parameters: {
-        type: "object",
-        properties: {
-          pref_key: { type: "string", description: "Preference key" },
-          version: { type: "number", description: "Target version number" },
-        },
-        required: ["pref_key", "version"],
-      },
-      execute: async (_id: string, params: any) => {
+      parameters: Type.Object({
+        pref_key: Type.String({ description: "Preference key" }),
+        version: Type.Number({ description: "Target version number" }),
+      }),
+      async execute(_id: string, params: any) {
         if (!bridge.isReady()) return { error: "Bridge not initialized" };
         try { return await bridge.call("rollback_preference", params); }
         catch (error) { return { error: (error as Error).message }; }
       },
-    }), { names: ["memory_rollback_preference"] });
+      });
 
     api.registerService({
       id: "claw-mem",
@@ -822,6 +679,4 @@ const ALL_TOOL_NAMES = [
       },
     });
   },
-};
-
-export default plugin;
+});

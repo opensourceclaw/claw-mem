@@ -1,4 +1,4 @@
-// Copyright 2026 Peter Cheng
+// Copyright 2026 OpenSourceClaw Contributors
 import { describe, it, expect, beforeEach } from "vitest";
 import { StructuredFilter, type FilterCriteria } from "../../src/retrieval/structured-filter";
 import { FusionReranker, DEFAULT_FUSION_CONFIG, type ScoredResult } from "../../src/retrieval/fusion-reranker";

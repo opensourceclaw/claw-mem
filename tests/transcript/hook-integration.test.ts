@@ -1,4 +1,4 @@
-// Copyright 2026 Peter Cheng
+// Copyright 2026 OpenSourceClaw Contributors
 // claw-mem v6.32.5 — Real Hook Integration Tests
 // Tests message_received and llm_output plugin hooks for transcript capture
 

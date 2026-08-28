@@ -1,4 +1,4 @@
-// Copyright 2026 Peter Cheng
+// Copyright 2026 OpenSourceClaw Contributors
 // Licensed under the Apache License, Version 2.0
 
 import { describe, it, expect, beforeEach, afterEach } from "vitest";

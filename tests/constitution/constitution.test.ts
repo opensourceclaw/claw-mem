@@ -1,4 +1,4 @@
-// Copyright 2026 Peter Cheng
+// Copyright 2026 OpenSourceClaw Contributors
 // v5.1.0 ConstitutionStore tests
 
 import { describe, it, expect, beforeEach, afterEach } from "vitest";

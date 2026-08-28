@@ -1,4 +1,4 @@
-// Copyright 2026 Peter Cheng
+// Copyright 2026 OpenSourceClaw Contributors
 // v5.0.0 Bridge Connectivity Verification (with Mocks)
 
 import { describe, it, expect, vi } from "vitest";

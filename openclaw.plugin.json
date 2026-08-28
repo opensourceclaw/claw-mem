@@ -1,11 +1,11 @@
 {
   "id": "claw-mem",
-  "version": "7.4.0",
+  "version": "7.4.1",
   "kind": "memory",
   "name": "Claw Memory System",
   "description": "Persistent memory storage and retrieval for AI agents",
   "author": "OpenClaw Team",
-  "license": "MIT",
+  "license": "Apache-2.0",
   "repository": {
     "type": "git",
     "url": "https://github.com/opensourceclaw/claw-mem"
@@ -16,9 +16,9 @@
     "memory-search",
     "memory-manage"
   ],
-  "entry": "./openclaw_plugin/index.ts",
+  "entry": "./src/plugin.ts",
   "exports": {
-    ".": "./openclaw_plugin/index.ts",
+    ".": "./src/plugin.ts",
     "./plugin": "./src/plugin.ts",
     "./types": "./src/types.ts"
   },

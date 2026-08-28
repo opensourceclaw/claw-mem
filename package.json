@@ -56,6 +56,7 @@
     "access": "restricted"
   },
   "peerDependencies": {
-    "@earendil-works/pi-agent-core": "^0.84.2"
+    "@earendil-works/pi-agent-core": "^0.84.2",
+    "openclaw": ">=2026.3.28"
   }
 }
