@@ -4,7 +4,7 @@
 
 **Intelligent Memory for OpenClaw**
 
-*Make OpenClaw Truly Remember*
+*Make Agent Truly Remember*
 
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
 [![Version](https://img.shields.io/badge/Version-6.33.0-blue.svg)](https://github.com/opensourceclaw/claw-mem/releases/tag/v6.33.0)
