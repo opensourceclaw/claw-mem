@@ -17,7 +17,7 @@
 
 ## Project Overview
 
-claw-mem is an **intelligent memory** for OpenClaw. It enables OpenClaw to truly remember, learn, and evolve by providing a three-tier storage architecture with intelligent filtering and semantic connections.
+claw-mem is an **intelligent memory** for Agent. It enables Agent like OpenClaw, Pi Agent to truly remember, learn, and evolve by providing a three-tier storage architecture with intelligent filtering and semantic connections.
 
 ### Core Features
 
