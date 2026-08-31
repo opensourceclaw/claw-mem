@@ -1,6 +1,6 @@
 {
   "id": "claw-mem",
-  "version": "7.4.2",
+  "version": "7.5.0",
   "kind": "memory",
   "name": "Claw Memory System",
   "description": "Persistent memory storage and retrieval for AI agents",
