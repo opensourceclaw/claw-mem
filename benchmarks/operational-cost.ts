@@ -26,9 +26,10 @@ export class OperationalCostBenchmark extends BenchmarkCore {
   }
 
   protected generateData(): BenchmarkData {
+    const facts = this.generator.generateFacts(this.config.factCount, this.config.memoryTypes);
     return {
-      facts: this.generator.generateFacts(this.config.factCount, this.config.memoryTypes),
-      queries: this.generator.generateQueries([], this.config.queryCount),
+      facts,
+      queries: this.generator.generateQueries(facts, this.config.queryCount),
     };
   }
 
