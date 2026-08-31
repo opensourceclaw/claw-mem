@@ -38,6 +38,13 @@ export interface MemoryConfigOptions {
   topK?: number;
   enableSkillExtraction?: boolean;
   transcript?: Partial<TranscriptConfig>;
+  // v7.5.0: Usage-based retention scoring (ADR-002)
+  retentionEnabled?: boolean;
+  retentionRho?: number;
+  retentionMaxStreak?: number;
+  retentionSelectedBoost?: number;
+  retentionSuccessScore?: number;
+  retentionFailureScore?: number;
 }
 
 export class MemoryConfig {
@@ -63,6 +70,13 @@ export class MemoryConfig {
     ttlDays: 30,
     format: "markdown",
   };
+  // v7.5.0: Usage-based retention scoring (ADR-002)
+  retentionEnabled = true;
+  retentionRho = 0.85;
+  retentionMaxStreak = 5;
+  retentionSelectedBoost = 0.1;
+  retentionSuccessScore = 0.75;
+  retentionFailureScore = 0.30;
 
   constructor(opts: Partial<MemoryConfigOptions> = {}) {
     Object.assign(this, opts);

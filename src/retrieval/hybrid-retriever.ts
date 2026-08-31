@@ -64,15 +64,25 @@ export class HybridRetriever {
   /** Callback to get semantic search results */
   private semanticSearchFn?: (query: string, limit: number) => RetrievalResult[];
 
+  /** v7.5.0 (ADR-002): retention score provider (provided by MemoryManager) */
+  private getRetentionScore?: (id: string) => number | undefined;
+
+  /** v7.5.0: selection event sink (selected records / candidate-missed records) */
+  private onEvents?: (selected: RetrievalResult[], missed: RetrievalResult[]) => void;
+
   constructor(options?: {
     fusion?: Partial<FusionConfig>;
     semanticSearchFn?: (query: string, limit: number) => RetrievalResult[];
+    getRetentionScore?: (id: string) => number | undefined;
+    onEvents?: (selected: RetrievalResult[], missed: RetrievalResult[]) => void;
   }) {
     this.keywordRetriever = new KeywordRetriever();
     this.fusionReranker = new FusionReranker(options?.fusion);
     this.structuredFilter = new StructuredFilter();
     this.completenessScorer = new CompletenessScorer();
     this.semanticSearchFn = options?.semanticSearchFn;
+    this.getRetentionScore = options?.getRetentionScore;
+    this.onEvents = options?.onEvents;
   }
 
   /**
@@ -120,20 +130,37 @@ export class HybridRetriever {
     // 3. Apply structured filters
     const filtered = this.structuredFilter.apply(merged, options?.filters);
 
-    // 4. Fusion reranking
-    const reranked = this.fusionReranker.rerank(filtered, query, options?.fusion);
+    // 4. v7.5.0 (ADR-002): carry retention scores on results for fusion
+    const withRetention = this.getRetentionScore
+      ? filtered.map((r) => {
+          const retention = this.getRetentionScore!(r.id);
+          return retention === undefined ? r : { ...r, retention };
+        })
+      : filtered;
 
-    // 5. Apply minScore filter
+    // 5. Fusion reranking (three-way: semantic + keyword + retention)
+    const reranked = this.fusionReranker.rerank(withRetention, query, options?.fusion);
+
+    // 6. Apply minScore filter
     const minScore = options?.minScore ?? 0;
     const scored = reranked.filter((r) => r.fusedScore >= minScore);
 
-    // 6. Completeness scoring
+    // 7. v7.5.0: record selection events from the candidate pool
+    // (mergeAndDedupe output = candidate pool; selected = topK actually returned)
+    if (this.onEvents) {
+      const selectedRecords = scored.slice(0, topK);
+      const selectedIds = new Set(selectedRecords.map((r) => r.id));
+      const missedRecords = filtered.filter((r) => !selectedIds.has(r.id));
+      this.onEvents(selectedRecords, missedRecords);
+    }
+
+    // 8. Completeness scoring
     const completenessScore =
       options?.includeCompleteness !== false
         ? this.completenessScorer.score(scored.slice(0, topK), query)
         : undefined;
 
-    // 7. Return topK
+    // 9. Return topK
     const results = scored.slice(0, topK);
 
     return {

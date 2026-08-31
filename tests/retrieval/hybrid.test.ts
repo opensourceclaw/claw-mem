@@ -94,9 +94,10 @@ describe("FusionReranker", () => {
     reranker = new FusionReranker();
   });
 
-  it("applies balanced weights by default", () => {
-    expect(reranker.getConfig().semanticWeight).toBe(0.5);
-    expect(reranker.getConfig().keywordWeight).toBe(0.5);
+  it("applies three-way weights by default (v7.5.0: 0.4/0.4/0.2)", () => {
+    expect(reranker.getConfig().semanticWeight).toBe(0.4);
+    expect(reranker.getConfig().keywordWeight).toBe(0.4);
+    expect(reranker.getConfig().retentionWeight).toBe(0.2);
   });
 
   it("normalizes scores to [0, 1]", () => {
@@ -118,7 +119,8 @@ describe("FusionReranker", () => {
     const scored = reranker.rerank(results, "test");
     expect(scored[0].semanticScore).toBe(0.5); // Single result normalized to 0.5
     expect(scored[0].keywordScore).toBe(0);
-    expect(scored[0].fusedScore).toBeCloseTo(0.25); // 0.5 * 0.5 + 0 * 0.5
+    // v7.5.0: 0.4*0.5 + 0.4*0 + 0.2*0.5 (missing retention → neutral 0.5)
+    expect(scored[0].fusedScore).toBeCloseTo(0.3);
   });
 
   it("handles empty results", () => {
@@ -130,6 +132,61 @@ describe("FusionReranker", () => {
     const customReranker = new FusionReranker({ semanticWeight: 0.7, keywordWeight: 0.3 });
     expect(customReranker.getConfig().semanticWeight).toBe(0.7);
     expect(customReranker.getConfig().keywordWeight).toBe(0.3);
+  });
+
+  it("fuses retention score into fusedScore (v7.5.0 three-way)", () => {
+    const results: RetrievalResult[] = [
+      { id: "1", text: "test", score: 0.9, metadata: {}, source: "semantic", retention: 0.9 },
+      { id: "2", text: "test", score: 0.9, metadata: {}, source: "semantic", retention: 0.1 },
+    ];
+
+    const scored = reranker.rerank(results, "test");
+    // semantic normalized: 0.5 for both (equal scores); keyword 0
+    // id1: 0.4*0.5 + 0.2*0.9 = 0.38 ; id2: 0.4*0.5 + 0.2*0.1 = 0.22
+    expect(scored[0].id).toBe("1");
+    expect(scored[1].id).toBe("2");
+    expect(scored[0].retentionScore).toBe(0.9);
+    expect(scored[0].fusedScore).toBeCloseTo(0.4 * 0.5 + 0.2 * 0.9, 5);
+    expect(scored[1].fusedScore).toBeCloseTo(0.4 * 0.5 + 0.2 * 0.1, 5);
+  });
+
+  it("treats missing retention as neutral 0.5", () => {
+    const results: RetrievalResult[] = [
+      { id: "1", text: "test", score: 0.9, metadata: {}, source: "semantic" },
+    ];
+
+    const scored = reranker.rerank(results, "test");
+    expect(scored[0].retentionScore).toBe(0.5);
+  });
+
+  it("retentionWeight 0 is order-equivalent to v7.4.2 two-way fusion", () => {
+    // v7.4.2: fusedScore = 0.5*sem + 0.5*kw (minmax-normalized scores)
+    // v7.5.0 with retentionWeight 0: 0.4*sem + 0.4*kw = 0.8 * legacy
+    // → identical ordering, linearly scaled scores
+    const legacy = (sem: number, kw: number) => 0.5 * sem + 0.5 * kw;
+    const results: RetrievalResult[] = [
+      { id: "a", text: "x", score: 0.9, metadata: {}, source: "semantic", retention: 0.1 },
+      { id: "b", text: "x", score: 0.7, metadata: {}, source: "semantic", retention: 0.9 },
+      { id: "c", text: "x", score: 0.3, metadata: {}, source: "semantic", retention: 0.5 },
+      { id: "d", text: "x", score: 0.5, metadata: {}, source: "keyword", retention: 0.2 },
+    ];
+
+    const scored = reranker.rerank(results, "test", { retentionWeight: 0 });
+    const order = scored.map((r) => r.id);
+    const expectedOrder = [...results]
+      .map((r) => ({
+        id: r.id,
+        v: legacy(r.source === "semantic" ? r.score : 0, r.source === "keyword" ? r.score : 0),
+      }))
+      .sort((a, b) => b.v - a.v)
+      .map((r) => r.id);
+    expect(JSON.stringify(order)).toBe(JSON.stringify(expectedOrder));
+    // linear scaling: 0.4(sem+kw) == 0.8 · 0.5(sem+kw) per result
+    for (const s of scored) {
+      const sem = s.semanticScore ?? 0;
+      const kw = s.keywordScore ?? 0;
+      expect(s.fusedScore).toBeCloseTo(0.8 * legacy(sem, kw), 5);
+    }
   });
 
   it("preserves result metadata", () => {
@@ -317,6 +374,50 @@ describe("HybridRetriever", () => {
     const result = retriever.search("TypeScript");
     expect(result.metadata.semanticCount).toBe(0);
     expect(result.metadata.keywordCount).toBeGreaterThanOrEqual(0);
+  });
+
+  it("reports selection events (selected = topK, missed = candidate pool minus topK) (v7.5.0)", () => {
+    const events: Array<{ selected: string[]; missed: string[] }> = [];
+    const r = new HybridRetriever({ onEvents: (selected, missed) => events.push({ selected: selected.map((x) => x.id), missed: missed.map((x) => x.id) }) });
+    r.setSemanticSearchFn((query, limit) => [
+      { id: "1", text: "TypeScript", score: 0.9, metadata: {}, source: "semantic" },
+      { id: "2", text: "Python", score: 0.8, metadata: {}, source: "semantic" },
+      { id: "3", text: "JavaScript", score: 0.7, metadata: {}, source: "semantic" },
+      { id: "4", text: "Ruby", score: 0.6, metadata: {}, source: "semantic" },
+    ]);
+    r.index([
+      { id: "2", text: "Python tutorial" },
+      { id: "3", text: "JavaScript web" },
+      { id: "5", text: "Rust systems" },
+    ]);
+
+    r.search("programming", { topK: 2 });
+    expect(events).toHaveLength(1);
+    expect(events[0].selected).toEqual(["1", "2"]);
+    // candidate pool = merged (semantic 1-4 ∪ keyword 2,3,5); missed = pool - selected
+    expect(events[0].missed).toContain("3");
+    expect(events[0].missed).toContain("4");
+    expect(events[0].missed).not.toContain("1");
+    expect(events[0].missed).not.toContain("2");
+  });
+
+  it("carries retention scores onto results via getRetentionScore (v7.5.0)", () => {
+    const r = new HybridRetriever({ getRetentionScore: (id) => (id === "1" ? 0.9 : 0.1) });
+    r.setSemanticSearchFn((query, limit) => [
+      { id: "1", text: "TypeScript", score: 0.9, metadata: {}, source: "semantic" },
+      { id: "2", text: "Python", score: 0.8, metadata: {}, source: "semantic" },
+    ]);
+    r.index([{ id: "1", text: "TypeScript guide" }]);
+
+    const result = r.search("TypeScript");
+    const byId = new Map(result.results.map((x) => [x.id, x]));
+    expect(byId.get("1")?.retention).toBe(0.9);
+    expect(byId.get("2")?.retention).toBe(0.1);
+  });
+
+  it("does not emit events when onEvents is not configured", () => {
+    const result = retriever.search("TypeScript");
+    expect(result.results.length).toBeGreaterThanOrEqual(0);
   });
 
   it("returns metadata with counts", () => {

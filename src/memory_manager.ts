@@ -20,6 +20,7 @@ import { InMemoryIndex } from "./storage/index.js";
 // MemoryEntry type for indexing
 interface MemoryEntry { id: string; content: string; }
 import { MemoryConfig } from "./config.js";
+import { RetentionScoreEngine, type RetentionState } from "./retention/retention-engine.js";
 
 /** v6.36.0: Maximum working memory size to prevent unbounded growth */
 const WORKING_MAX_SIZE = 500;
@@ -77,6 +78,11 @@ export class MemoryManager {
   private _entityIndex: EntityIndex | null = null;
   private _strategyRegistry: StrategyRegistry | null = null;
   private _versionChain: VersionChain | null = null;
+  // v7.5.0 (ADR-002): Usage-based retention scoring
+  private _retention: RetentionScoreEngine | null = null;
+  // v7.5.0: suppress search() events while running the hybrid semantic leg
+  // (partial candidates there are not final selections; hybrid reports once)
+  private _retentionSuppressSearch = false;
   // v6.40.0: MemoryGovernance for self-organizing memory
   private _governance: MemoryGovernance | null = null;
   // v6.40.0: Progressive loading state
@@ -181,6 +187,15 @@ export class MemoryManager {
     this._strategyRegistry = new StrategyRegistry(new EpisodicStrategy());
     this._registerStrategies();
 
+    // v7.5.0 (ADR-002): Retention score engine (params from config)
+    this._retention = new RetentionScoreEngine({
+      rho: this.config.retentionRho,
+      maxStreak: this.config.retentionMaxStreak,
+      selectedBoost: this.config.retentionSelectedBoost,
+      successScore: this.config.retentionSuccessScore,
+      failureScore: this.config.retentionFailureScore,
+    });
+
     log(`claw-mem TS ${VERSION} initialized, workspace: ${this.workspace}`);
   }
 
@@ -228,6 +243,51 @@ export class MemoryManager {
   private _cacheHits = 0;
   private _bm25Ready = false;
   private _tokenCount = 0;
+
+  // ── retention helpers (v7.5.0, ADR-002) ──────────────────────
+
+  private _retentionEnabled(): boolean {
+    return this.config.retentionEnabled === true && this._retention !== null;
+  }
+
+  /** Read persisted retention state from record metadata (JSON string or object). */
+  private _readRetention(meta: Record<string, unknown> | undefined): RetentionState | null {
+    if (!meta) return null;
+    let raw: unknown = meta.retention;
+    if (typeof raw === "string") {
+      try { raw = JSON.parse(raw); } catch { return null; }
+    }
+    if (!raw || typeof raw !== "object") return null;
+    const s = raw as Partial<RetentionState>;
+    if (typeof s.score !== "number" || typeof s.missedStreak !== "number") return null;
+    return {
+      score: s.score,
+      missedStreak: s.missedStreak,
+      lastSelected: typeof s.lastSelected === "string" ? s.lastSelected : "",
+      initializedAt: typeof s.initializedAt === "string" ? s.initializedAt : new Date().toISOString(),
+    };
+  }
+
+  /**
+   * Apply a selection/miss event to a record: lazy-hydrate from persisted
+   * metadata, update the engine, write back (JSON string for storage compat).
+   */
+  private _retentionEvent(
+    record: { id?: string; metadata?: Record<string, unknown> } | null | undefined,
+    event: "selected" | "missed",
+  ): void {
+    if (!this._retentionEnabled()) return;
+    const id = record?.id;
+    if (!id) return;
+    if (this._retention!.getState(id) === null) {
+      const persisted = this._readRetention(record?.metadata);
+      if (persisted) this._retention!.setState(id, persisted);
+    }
+    const state = event === "selected"
+      ? this._retention!.onSelected(id)
+      : this._retention!.onCandidateMissed(id);
+    if (record?.metadata) record.metadata.retention = JSON.stringify(state);
+  }
 
   private _estimateTokens(text: string): number {
     const cjkChars = (text.match(/[\u4e00-\u9fff\u3400-\u4dbf]/g) || []).length;
@@ -465,6 +525,17 @@ export class MemoryManager {
         const context = this._buildStrategyContext();
         const result = strategy.store(record, context);
 
+        // v7.5.0 (ADR-002): initialize retention from write-time outcome
+        // (success 0.75 / failure 0.30 / absent 0.5); persisted via the
+        // same record object the strategy just stored (metadata reference)
+        if (this._retentionEnabled()) {
+          const outcome = metadata.outcome === "success" || metadata.outcome === "failure"
+            ? (metadata.outcome as "success" | "failure")
+            : undefined;
+          const state = this._retention!.initialize(result.id, outcome);
+          if (record.metadata) record.metadata.retention = JSON.stringify(state);
+        }
+
         // Incremental BM25 index update
         if (this._index.built) {
           this._index.addMemory(content, result.id, true);
@@ -503,6 +574,14 @@ export class MemoryManager {
         case "semantic": this._semantic.store(record); break;
         case "procedural": this._procedural.store(record); break;
         default: return false;
+      }
+      // v7.5.0 (ADR-002): legacy fallback path — same retention init
+      if (this._retentionEnabled()) {
+        const outcome = metadata.outcome === "success" || metadata.outcome === "failure"
+          ? (metadata.outcome as "success" | "failure")
+          : undefined;
+        const state = this._retention!.initialize(id, outcome);
+        if (record.metadata) record.metadata.retention = JSON.stringify(state);
       }
       this._working.push(record);
       // v6.36.0: LRU eviction for working memory
@@ -581,9 +660,16 @@ export class MemoryManager {
     // Check cache with access-time update for LRU tracking
     const cacheKey = `${query}::${memoryType || "all"}::${limit}`;
     const cached = this._searchCache.get(cacheKey);
+
+    // v7.5.0 (ADR-002): selection events BEFORE the cache check so cache
+    // hits still update retention (PRD §6 risk table item 3). Cached results
+    // were the selected topK when cached — boost them on every hit.
     if (cached && Date.now() - cached.ts < this._cacheTTL) {
       this._cacheHits++;
       cached.lastAccess = Date.now();
+      if (!this._retentionSuppressSearch) {
+        for (const m of cached.results) this._retentionEvent(m as Record<string, unknown>, "selected");
+      }
       return cached.results.slice(0, limit);
     }
 
@@ -604,6 +690,13 @@ export class MemoryManager {
 
       // If we found results via index, cache and return
       if (indexedResults.length > 0) {
+        // v7.5.0 (ADR-002): candidate pool = index hits present in storage;
+        // selected = actual topK returned, rest = candidate missed
+        if (!this._retentionSuppressSearch) {
+          const selected = indexedResults.slice(0, limit);
+          for (const m of selected) this._retentionEvent(m as Record<string, unknown>, "selected");
+          for (const m of indexedResults.slice(limit)) this._retentionEvent(m as Record<string, unknown>, "missed");
+        }
         const t = Date.now();
         this._searchCache.set(cacheKey, { results: indexedResults, ts: t, lastAccess: t });
         return indexedResults.slice(0, limit);
@@ -644,12 +737,17 @@ export class MemoryManager {
 
     // Substring match fallback
     const q = query.toLowerCase();
-    const result = all
-      .filter((m) => {
-        const c = String(m.content ?? "").toLowerCase();
-        return c.includes(q);
-      })
-      .slice(0, limit);
+    const matched = all.filter((m) => {
+      const c = String(m.content ?? "").toLowerCase();
+      return c.includes(q);
+    });
+    // v7.5.0 (ADR-002): candidate pool = all substring hits; selected = topK
+    if (!this._retentionSuppressSearch) {
+      const selected = matched.slice(0, limit);
+      for (const m of selected) this._retentionEvent(m as Record<string, unknown>, "selected");
+      for (const m of matched.slice(limit)) this._retentionEvent(m as Record<string, unknown>, "missed");
+    }
+    const result = matched.slice(0, limit);
     const now = Date.now();
     this._searchCache.set(cacheKey, { results: result, ts: now, lastAccess: now });
     return result;
@@ -688,6 +786,8 @@ export class MemoryManager {
 
   getStats(): Record<string, unknown> {
     const memMb = Math.round(process.memoryUsage().heapUsed / 1024 / 1024 * 100) / 100;
+    // v7.5.0 (ADR-002): retention distribution for memory_stats
+    const retentionStats = this._retention ? this._retention.getStats() : { count: 0, mean: 0, median: 0, belowThreshold: 0, threshold: 0.3 };
     return {
       workspace: this.workspace,
       sessionId: this.sessionId,
@@ -705,6 +805,7 @@ export class MemoryManager {
       tokenUsage: { total: this._tokenCount },
       bm25DocCount: this._index.built ? this._index.bm25.doc_count : 0,
       indexDir: path.join(os.homedir(), ".claw-mem", "index"),
+      retention: retentionStats,
     };
   }
 
@@ -881,6 +982,18 @@ export class MemoryManager {
             timestamp: m.timestamp,
           }));
         },
+        // v7.5.0 (ADR-002): retention provider for three-way fusion
+        getRetentionScore: (id: string) => {
+          if (!this._retentionEnabled()) return undefined;
+          return this._retention!.getRetentionScore(id);
+        },
+        // v7.5.0 (ADR-002): selection events from the hybrid candidate pool
+        // (mergeAndDedupe output, before topK/minScore truncation)
+        onEvents: (selected, missed) => {
+          if (!this._retentionEnabled()) return;
+          for (const r of selected) this._retentionEvent(r as unknown as Record<string, unknown>, "selected");
+          for (const r of missed) this._retentionEvent(r as unknown as Record<string, unknown>, "missed");
+        },
       });
       // Index existing memories (lazy)
       this._indexHybridRetriever();
@@ -894,7 +1007,7 @@ export class MemoryManager {
    */
   hybridSearch(query: string, options?: HybridSearchOptions): HybridSearchResult {
     if (!this._hybridRetriever) {
-      // Fallback to regular search
+      // Fallback to regular search (normal retention events apply)
       const results = this.search(query, undefined, options?.topK ?? 10);
       return {
         results: results.map((m: any) => ({
@@ -911,7 +1024,15 @@ export class MemoryManager {
         metadata: { semanticCount: results.length, keywordCount: 0, afterFilterCount: results.length, latencyMs: 0 },
       };
     }
-    return this._hybridRetriever.search(query, options);
+    // v7.5.0 (ADR-002): suppress search() events during the semantic leg —
+    // those are partial candidates (limit = 2×topK), not final selections;
+    // the hybrid retriever reports selected/missed once from the full pool
+    this._retentionSuppressSearch = true;
+    try {
+      return this._hybridRetriever.search(query, options);
+    } finally {
+      this._retentionSuppressSearch = false;
+    }
   }
 
   /** Rebuild hybrid retriever index */

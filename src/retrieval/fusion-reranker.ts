@@ -11,20 +11,23 @@ import type { RetrievalResult } from "./base.js";
  * Fusion configuration.
  */
 export interface FusionConfig {
-  /** Weight for semantic search results (default: 0.5) */
+  /** Weight for semantic search results (default: 0.4, v7.5.0) */
   semanticWeight: number;
-  /** Weight for keyword search results (default: 0.5) */
+  /** Weight for keyword search results (default: 0.4, v7.5.0) */
   keywordWeight: number;
+  /** Weight for retention score (default: 0.2, v7.5.0; 0 = rollback to two-way fusion) */
+  retentionWeight: number;
   /** Score normalization method (default: 'minmax') */
   normalization: "minmax" | "softmax" | "none";
 }
 
 /**
- * Default fusion configuration (balanced).
+ * Default fusion configuration (three-way: semantic + keyword + retention).
  */
 export const DEFAULT_FUSION_CONFIG: FusionConfig = {
-  semanticWeight: 0.5,
-  keywordWeight: 0.5,
+  semanticWeight: 0.4,
+  keywordWeight: 0.4,
+  retentionWeight: 0.2,
   normalization: "minmax",
 };
 
@@ -34,6 +37,8 @@ export const DEFAULT_FUSION_CONFIG: FusionConfig = {
 export interface ScoredResult extends RetrievalResult {
   semanticScore?: number;
   keywordScore?: number;
+  /** Retention score used in fusion (v7.5.0) */
+  retentionScore?: number;
   fusedScore: number;
 }
 
@@ -79,15 +84,21 @@ export class FusionReranker {
     const scored: ScoredResult[] = results.map((r) => {
       const semScore = semanticNorm.get(r.id) ?? 0;
       const kwScore = keywordNorm.get(r.id) ?? 0;
+      // v7.5.0 (ADR-002): retention carried on the result by HybridRetriever;
+      // missing → neutral 0.5 so ranking is unaffected by uninitialized memories
+      const retentionScore = typeof r.retention === "number" ? r.retention : 0.5;
 
-      // Balanced fusion: weight_semantic * semantic + weight_keyword * keyword
+      // Three-way fusion: semantic + keyword + retention
       const fusedScore =
-        cfg.semanticWeight * semScore + cfg.keywordWeight * kwScore;
+        cfg.semanticWeight * semScore +
+        cfg.keywordWeight * kwScore +
+        cfg.retentionWeight * retentionScore;
 
       return {
         ...r,
         semanticScore: semScore,
         keywordScore: kwScore,
+        retentionScore,
         fusedScore,
       };
     });

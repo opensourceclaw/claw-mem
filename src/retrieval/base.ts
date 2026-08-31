@@ -26,6 +26,8 @@ export interface RetrievalResult {
   memory_type?: string;
   tags?: string[];
   timestamp?: string;
+  /** v7.5.0 (ADR-002): retention score carried for three-way fusion */
+  retention?: number;
 }
 
 /**
