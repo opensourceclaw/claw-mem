@@ -5,6 +5,24 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [7.5.0] - 2026-08-31
+
+### Added
+
+- **Usage-based retention scoring (ADR-002)**: memories are now scored by selection events instead of wall-clock age - selected memories gain a boost (+0.1) and reset their miss streak; candidate-missed memories decay geometrically (`score * rho^min(m,M)`, rho=0.85, M=5). Elapsed time alone no longer lowers a memory's score.
+- `RetentionScoreEngine` (`src/retention/`) with per-memory state (`{score, missedStreak}`), event initialization from write-time outcome (success 0.75 / failure 0.30 / neutral 0.5), and lazy hydration from persisted `metadata.retention` (backward compatible - legacy data reads as neutral 0.5).
+- Three-way fusion ranking (`semantic 0.4 + keyword 0.4 + retention 0.2`); `retentionWeight: 0` restores v7.4.2 two-way ranking byte-for-byte (rollback switch). Selection events fire before the search LRU cache check, so cache hits still update retention.
+- `memory_stats` now reports a retention distribution (count / mean / median / belowThreshold).
+- Config knobs: `retentionEnabled` (default true), `retentionRho`, `retentionMaxStreak`, `retentionSelectedBoost`, `retentionSuccessScore`, `retentionFailureScore`.
+
+### Reference
+
+- Design: arXiv 2608.20631 (Weighted Memory Tree) - selection-based decay + utility-aware context construction; claw-mem adaptation documented in ADR-002.
+
+### Tests
+
+- 862 -> 898 (+36): retention engine state machine (25), behavioral verification incl. cross-session persistence and legacy-data compatibility (5+), hybrid three-way fusion (6). Benchmarks 6/6 PASS, factual-recall and long-horizon metrics unchanged vs baseline.
+
 ## [7.4.1] - 2026-08-21
 
 ### Fixed

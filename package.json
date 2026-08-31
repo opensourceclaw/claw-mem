@@ -1,6 +1,6 @@
 {
   "name": "@opensourceclaw/claw-mem",
-  "version": "7.4.2",
+  "version": "7.5.0",
   "description": "Local-First Three-Tier Memory System for OpenClaw (TypeScript)",
   "main": "dist/src/index.js",
   "types": "dist/src/index.d.ts",
