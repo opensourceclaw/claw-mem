@@ -66,6 +66,11 @@ describe("ChainVisualizer mermaid escaping (v7.5.1, CodeQL incomplete-sanitizati
     expect(queryLabel(`a[b]c`)).toBe(`Q["a\\[b\\]c"]`);
   });
 
+  it("injection attempt with quote + comment is neutralized", () => {
+    // task requirement case: `"; inject #"` must not break out of the label
+    expect(queryLabel(`"; inject #"`)).toBe(`Q["'\\; inject \\#'"]`);
+  });
+
   it("full adversarial payload: every metacharacter fully escaped in label", () => {
     const label = queryLabel(`a\\b#[x];"c"\n`);
     const inner = label.slice(3, -2); // strip Q[" and "]"
