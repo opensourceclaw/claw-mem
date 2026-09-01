@@ -7,7 +7,7 @@
 *Make Agent Truly Remember*
 
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
-[![Version](https://img.shields.io/badge/Version-6.33.0-blue.svg)](https://github.com/opensourceclaw/claw-mem/releases/tag/v6.33.0)
+[![Version](https://img.shields.io/badge/Version-7.5.1-blue.svg)](https://github.com/opensourceclaw/claw-mem/releases/tag/v7.5.1)
 [![CI](https://github.com/opensourceclaw/claw-mem/actions/workflows/ci.yml/badge.svg)](https://github.com/opensourceclaw/claw-mem/actions/workflows/ci.yml)
 [![codecov](https://codecov.io/gh/opensourceclaw/claw-mem/branch/main/graph/badge.svg)](https://codecov.io/gh/opensourceclaw/claw-mem)
 
@@ -189,7 +189,14 @@ claw-mem v6.26.8 achieves **100% accuracy** on all memory benchmarks:
 
 | Version | Date | Theme | Status |
 |---------|------|-------|--------|
-| **v6.26.8** | 2026-06-21 | Memory Benchmarks 100% | Current |
+| **v7.5.1** | 2026-09-01 | Security Closure (deps + CodeQL sanitization, all security panels to zero) | Current |
+| v7.5.0 | 2026-08-31 | Usage-Based Retention Scoring (ADR-002, three-way fusion ranking) | |
+| v7.4.0 | 2026-08-21 | OpenClaw Runtime Integration Hardening | |
+| v7.3.0 | 2026-08-31 | Dependency Advisories Cleared + 9-Stage Pipeline (inbox protocol v4.1) | |
+| v7.2.0 | 2026-08-16 | First-Class OpenClaw Plugin Interface | |
+| v7.1.0 | 2026-08-16 | Plugin Tool Surface Expansion | |
+| v7.0.0 | 2026-08-01 | Capability Layer (IMemoryCapability for OpenClaw Runtime) | |
+| v6.26.8 | 2026-06-21 | Memory Benchmarks 100% | |
 | **v6.26.6** | 2026-06-20 | Latest Stable Release (Issue #15 Fix) | |
 | **v6.26.0** | 2026-06-17 | Latest Stable Release | |
 | **v6.0.0** | 2026-05 | Three-Tier Storage Complete | |
@@ -197,11 +204,12 @@ claw-mem v6.26.8 achieves **100% accuracy** on all memory benchmarks:
 | **v4.0.0** | 2026-03 | Write-Time Gating | |
 | **v3.0.0** | 2026-02 | Basic Memory System | |
 
-### Upcoming (v7.0.0)
+### Upcoming
 
 - Cross-agent memory sharing
 - Encrypted memory storage
 - Enhanced semantic search
+- Mermaid rendering golden tests for chain visualization (follow-up of v7.5.1 sanitization)
 
 ---
 
