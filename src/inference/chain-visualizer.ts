@@ -209,7 +209,13 @@ export class ChainVisualizer {
   }
 
   private escapeMermaid(text: string): string {
+    // v7.5.1 (CodeQL js/incomplete-sanitization): 反斜杠必须最先转义，否则后续插入
+    // 的 \[ 等转义符可被用户输入的反斜杠绕过（incomplete-sanitization）；同时处理
+    // #（Mermaid 注释符）与 ;（语句分隔符），阻断图表注入面。
     return text
+      .replace(/\\/g, "\\\\")
+      .replace(/#/g, "\\#")
+      .replace(/;/g, "\\;")
       .replace(/"/g, "'")
       .replace(/\n/g, "<br/>")
       .replace(/\[/g, "\\[")
