@@ -251,6 +251,23 @@ add to your OpenClaw configuration:
 
 Note: Context Engine functionality is provided by claw-ctx.
 
+### As Pi Agent Plugin
+
+claw-mem also ships as a **pi agent** plugin (`pi_plugin/`, since v7.4.0). The full memory tool surface is wrapped as pi agent `AgentTool` definitions and executes through the same shared JSON-RPC bridge (`src/bridge.ts`) that the OpenClaw plugin uses — so behavior is identical across both runtimes.
+
+```json
+{
+  "plugins": {
+    "allow": ["opensourceclaw-claw-mem"],
+    "memory": "claw-mem"
+  }
+}
+```
+
+- **Entry**: `pi_plugin/index.ts`, exported as `./pi` from the package.
+- **Peer dependency**: `@earendil-works/pi-agent-core >= 0.84.2`.
+- **Tools**: 16 memory tools, including `memory_search`, `memory_store`, `memory_get`, `memory_forget`, `memory_transcript_search`, `memory_session_snapshot`, and `memory_get_preference` (parameters mirror the OpenClaw plugin JSON Schema).
+
 ### Verify Installation
 
 ```bash
