@@ -57,6 +57,35 @@ export class SemanticStorage {
     return false;
   }
 
+  /**
+   * v7.6.0 (ADR-003): full-record update by ID — content and/or tags and/or
+   * metadata (merge), stamps updated_at. Used by the error-pattern-card
+   * strategy whose structured face lives in metadata (content-only `update`
+   * would drop it). Rewrites the whole file.
+   */
+  updateRecord(
+    memoryId: string,
+    changes: { content?: string; tags?: string[]; metadata?: Record<string, string> },
+  ): boolean {
+    const memories = this.getAll();
+    for (let i = 0; i < memories.length; i++) {
+      if (memories[i].id === memoryId) {
+        if (changes.content !== undefined) memories[i].content = changes.content;
+        if (changes.tags !== undefined) memories[i].tags = changes.tags;
+        if (changes.metadata !== undefined) {
+          memories[i].metadata = { ...memories[i].metadata, ...changes.metadata };
+        }
+        memories[i].metadata = {
+          ...memories[i].metadata,
+          updated_at: new Date().toISOString(),
+        };
+        this.rewriteFile(memories);
+        return true;
+      }
+    }
+    return false;
+  }
+
   /** Count memories. */
   count(): number {
     return this.getAll().length;

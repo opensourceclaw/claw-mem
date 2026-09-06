@@ -1,7 +1,85 @@
 // claw-mem v5.0.0 — Global Type Definitions
 
 /** Memory types supported by storage strategies */
-export type MemoryType = "episodic" | "semantic" | "procedural" | "session_snapshot" | "fact" | "preference" | string;
+export type MemoryType = "episodic" | "semantic" | "procedural" | "session_snapshot" | "fact" | "preference" | "error_pattern_card" | string;
+
+// ============================================================================
+// Error Pattern Card Types (v7.6.0, ADR-003/004)
+// ============================================================================
+
+/**
+ * Dominant component attribution for an error pattern card (ADR-004).
+ * Semantics mapped from Recuris E/W/rho/C (arXiv 2608.24876 v1) onto the
+ * claw-mem operation surface — the layer the fix must touch:
+ *   skill-defect        (E): card/resolution content wrong or missing → fix card content
+ *   state-defect        (W): runtime state not recorded/updated → fix state records
+ *   invocation-timing   (rho): card exists but recall timing/condition misfires → fix recall rules
+ *   transition-judgment (C): completion/verification predicate wrong → fix verification standard
+ * One card carries ONE dominant category; multi-cause failures explain the rest
+ * in the narrative and enumerate the main fix target.
+ * Alignment note: claw-rsi's card contract (T3) is not finalized — claw-mem is
+ * the source of truth; the stub alignment test locks both sides against drift.
+ */
+export type RootCauseCategory =
+  | "skill-defect"
+  | "state-defect"
+  | "invocation-timing"
+  | "transition-judgment"
+  | (string & {}); // tolerant future extension, same convention as MemoryType
+
+export function isRootCauseCategory(v: unknown): v is RootCauseCategory {
+  return (
+    typeof v === "string" &&
+    (v === "skill-defect" ||
+      v === "state-defect" ||
+      v === "invocation-timing" ||
+      v === "transition-judgment")
+  );
+}
+
+/** Trigger/symptom signature: when the card should be recalled, and how the error looks. */
+export interface ErrorSignature {
+  trigger: string; // 触发条件(何时该想起这张卡)
+  symptom: string; // 表象(错误的可观察特征)
+}
+
+/** Card effectiveness evidence (ADR-005). System-writable only; never caller-set. */
+export interface CardEffectiveness {
+  hitCount: number;
+  avoidedCount: number;
+  lastHitAt?: string; // ISO-8601
+  inactive: boolean; // demotion flag — never deleted
+  inactivatedAt?: string; // ISO-8601
+}
+
+export const DEFAULT_CARD_EFFECTIVENESS: CardEffectiveness = {
+  hitCount: 0,
+  avoidedCount: 0,
+  inactive: false,
+};
+
+/** Structured error pattern card (full schema, ADR-003). */
+export interface ErrorPatternCard {
+  cardId: string; // stable id = version-chain primary key (semantic slug `epc:...`)
+  errorSignature: ErrorSignature;
+  rootCauseCategory: RootCauseCategory;
+  resolution: string; // correct-resolution essentials (human readable)
+  verification?: string; // optional associated verification command/assertion
+  effectiveness: CardEffectiveness;
+  provenance: { source: string; author?: string };
+  createdAt: string; // ISO-8601
+  updatedAt?: string; // ISO-8601
+}
+
+/** Write input for storeErrorPatternCard (effectiveness/createdAt are server-side). */
+export interface ErrorPatternCardInput {
+  cardId?: string; // semantic slug; system-generated (`epc:...`) when omitted
+  errorSignature: ErrorSignature;
+  rootCauseCategory: RootCauseCategory;
+  resolution: string;
+  verification?: string;
+  provenance: { source: string; author?: string };
+}
 
 /** Memory record as stored in all backends. */
 export interface MemoryRecord {

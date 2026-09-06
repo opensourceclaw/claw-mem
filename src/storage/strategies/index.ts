@@ -7,3 +7,4 @@ export { PreferenceStrategy } from "./preference.js";
 export { SemanticStrategy } from "./semantic.js";
 export { ProceduralStrategy } from "./procedural.js";
 export { RecapStrategy } from "./recap.js";
+export { ErrorPatternCardStrategy } from "./error-pattern-card.js";

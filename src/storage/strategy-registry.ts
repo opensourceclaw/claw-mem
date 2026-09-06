@@ -14,6 +14,8 @@ export interface StrategyContext {
   procedural: ProceduralStorage;
   entityIndex: EntityIndex | null;
   versionChain: VersionChain;
+  /** v7.6.0 (ADR-003): per-domain version chain for error pattern cards */
+  errorPatternVersionChain?: VersionChain;
   workspace: string;
 }
 

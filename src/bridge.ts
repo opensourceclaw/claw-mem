@@ -108,6 +108,24 @@ export async function handleRequest(req: JsonRpcRequest, mm?: MemoryManager): Pr
           ),
         };
         break;
+      // v7.6.0 (ADR-003): error pattern card queries
+      case "query_error_pattern_cards":
+        result = {
+          cards: manager.queryErrorPatternCards({
+            category: typeof params.category === "string" ? params.category : undefined,
+            includeInactive: params.include_inactive === true,
+            limit: params.limit != null ? Number(params.limit) : undefined,
+          }),
+        };
+        break;
+      case "match_error_pattern":
+        result = {
+          cards: manager.matchErrorPattern(
+            String(params.query ?? ""),
+            params.top_k != null ? Number(params.top_k) : 5,
+          ),
+        };
+        break;
       case "get":
         result = { status: "deprecated", message: "Use 'search' method instead" };
         break;

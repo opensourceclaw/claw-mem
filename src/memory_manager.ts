@@ -32,10 +32,12 @@ import { EntityIndex } from "./entity/entity-index.js";
 import { EntityExtractor } from "./entity/entity-extractor.js";
 import { EntityResolver } from "./entity/entity-resolver.js";
 import type { EntityRecord, EntitySearchResult, ResolutionResult, EntityConfig, DEFAULT_ENTITY_CONFIG } from "./types.js";
+import { isRootCauseCategory, DEFAULT_CARD_EFFECTIVENESS } from "./types.js";
 import { StrategyRegistry } from "./storage/strategy-registry.js";
 import { VersionChain } from "./storage/version-chain.js";
 import type { VersionEntry } from "./storage/version-chain.js";
-import { EpisodicStrategy, SessionSnapshotStrategy, FactStrategy, PreferenceStrategy, SemanticStrategy, ProceduralStrategy } from "./storage/strategies/index.js";
+import { EpisodicStrategy, SessionSnapshotStrategy, FactStrategy, PreferenceStrategy, SemanticStrategy, ProceduralStrategy, ErrorPatternCardStrategy } from "./storage/strategies/index.js";
+import { decodeErrorPatternCard, ERROR_PATTERN_TAG, encodeCardMetadata } from "./storage/strategies/error-pattern-card.js";
 import { MemoryGovernance } from "./memory/governance.js";
 // Import types only to avoid circular deps
 import type { WriteTimeGating } from "./gating/write_time_gating.js";
@@ -78,6 +80,8 @@ export class MemoryManager {
   private _entityIndex: EntityIndex | null = null;
   private _strategyRegistry: StrategyRegistry | null = null;
   private _versionChain: VersionChain | null = null;
+  // v7.6.0 (ADR-003): per-domain version chain for error pattern cards
+  private _errorPatternChain: VersionChain | null = null;
   // v7.5.0 (ADR-002): Usage-based retention scoring
   private _retention: RetentionScoreEngine | null = null;
   // v7.5.0: suppress search() events while running the hybrid semantic leg
@@ -182,6 +186,9 @@ export class MemoryManager {
 
     // 6.33.0: Version Chain for preferences
     this._versionChain = new VersionChain(this.workspace);
+
+    // v7.6.0 (ADR-003): independent version chain for error pattern cards
+    this._errorPatternChain = new VersionChain(this.workspace, "error-pattern-cards");
 
     // 6.33.0: Strategy Registry
     this._strategyRegistry = new StrategyRegistry(new EpisodicStrategy());
@@ -511,6 +518,14 @@ export class MemoryManager {
 
     // 6.33.0: Strategy-based dispatch
     if (this._strategyRegistry) {
+      // v7.6.0 (ADR-003/006): cards are strongly schema'd — route through the
+      // dedicated storeErrorPatternCard entry; refuse here before registry
+      // resolution so the default fallback never silently swallows a card.
+      // (Rejection tracing: full jsonl log lands with the ADR-006 gate.)
+      if (memoryType === "error_pattern_card") {
+        console.warn("[claw-mem] error_pattern_card must be stored via storeErrorPatternCard; generic store refused");
+        return false;
+      }
       const record: import("./types.js").MemoryRecord = {
         id,
         text: content,
@@ -611,6 +626,113 @@ export class MemoryManager {
     } catch {
       return false;
     }
+  }
+
+  // ── error pattern cards (v7.6.0, ADR-003) ──────────────────────────
+
+  /**
+   * Store (create or edit) an error pattern card. Same cardId = edit —
+   * archived and re-stored through the card version chain
+   * (`memory/error-pattern-cards/{cardId}.json`). effectiveness/createdAt are
+   * server-side only. Basic schema guards live here; the full V1-V3 gate with
+   * rejection tracing (ADR-006) lands on this same entry.
+   */
+  storeErrorPatternCard(
+    input: import("./types.js").ErrorPatternCardInput,
+  ):
+    | { ok: true; cardId: string; version: number; edited: boolean }
+    | { ok: false; reason: string } {
+    const sig = input?.errorSignature;
+    if (
+      !sig ||
+      typeof sig.trigger !== "string" || !sig.trigger.trim() ||
+      typeof sig.symptom !== "string" || !sig.symptom.trim()
+    ) {
+      return { ok: false, reason: "errorSignature.trigger and errorSignature.symptom must be non-empty strings" };
+    }
+    if (!isRootCauseCategory(input.rootCauseCategory)) {
+      return { ok: false, reason: `invalid rootCauseCategory: ${String(input.rootCauseCategory)}` };
+    }
+    if (typeof input.resolution !== "string" || !input.resolution.trim()) {
+      return { ok: false, reason: "resolution must be a non-empty string" };
+    }
+    if (!input.provenance || typeof input.provenance.source !== "string" || !input.provenance.source.trim()) {
+      return { ok: false, reason: "provenance.source is required" };
+    }
+
+    const cardId =
+      input.cardId && input.cardId.trim()
+        ? input.cardId.trim()
+        : `epc:${Date.now().toString(36)}${Math.random().toString(36).slice(2, 8)}`;
+    const now = new Date().toISOString();
+    const record: import("./types.js").MemoryRecord = {
+      id: `card_${Date.now().toString(36)}_${Math.random().toString(36).slice(2, 8)}`,
+      text: input.resolution.trim(),
+      memory_type: "error_pattern_card",
+      created_at: now,
+      metadata: encodeCardMetadata({
+        cardId,
+        errorSignature: { trigger: sig.trigger.trim(), symptom: sig.symptom.trim() },
+        rootCauseCategory: input.rootCauseCategory,
+        verification: input.verification?.trim() || undefined,
+        provenance: input.provenance,
+        effectiveness: { ...DEFAULT_CARD_EFFECTIVENESS },
+      }),
+      tags: [ERROR_PATTERN_TAG, `category:${input.rootCauseCategory}`, `card:${cardId}`],
+    };
+
+    try {
+      const result = this._strategyRegistry!.resolve("error_pattern_card").store(
+        record,
+        this._buildStrategyContext(),
+      );
+      if (this._index.built) {
+        this._index.addMemory(record.text, result.id, true);
+      }
+      return { ok: true, cardId, version: result.version ?? 1, edited: Boolean(result.previousId) };
+    } catch (err) {
+      return { ok: false, reason: err instanceof Error ? err.message : String(err) };
+    }
+  }
+
+  /** Structured card query — category filter, active-only by default. */
+  queryErrorPatternCards(
+    filter: { category?: string; includeInactive?: boolean; limit?: number } = {},
+  ): Array<import("./types.js").ErrorPatternCard> {
+    const limit = filter.limit ?? 20;
+    let cards = this._semantic.getAll()
+      .filter((e) => e.tags?.includes(ERROR_PATTERN_TAG))
+      .map((e) => decodeErrorPatternCard(e))
+      .filter((c): c is import("./types.js").ErrorPatternCard => c !== null);
+    if (filter.category) cards = cards.filter((c) => c.rootCauseCategory === filter.category);
+    if (!filter.includeInactive) cards = cards.filter((c) => !c.effectiveness.inactive);
+    cards.sort((a, b) => {
+      const at = a.effectiveness.lastHitAt ?? "";
+      const bt = b.effectiveness.lastHitAt ?? "";
+      return bt.localeCompare(at); // most recent hit first, never-hit last
+    });
+    return cards.slice(0, limit);
+  }
+
+  /** Signature matching — symptom/trigger substring hits first, text fallback. */
+  matchErrorPattern(symptomQuery: string, topK = 5): Array<import("./types.js").ErrorPatternCard> {
+    const q = symptomQuery.trim().toLowerCase();
+    if (!q) return [];
+    const scored: Array<{ card: import("./types.js").ErrorPatternCard; score: number }> = [];
+    for (const e of this._semantic.getAll()) {
+      if (!e.tags?.includes(ERROR_PATTERN_TAG)) continue;
+      const card = decodeErrorPatternCard(e);
+      if (!card) continue;
+      let score = 0;
+      const symptom = card.errorSignature.symptom.toLowerCase();
+      const trigger = card.errorSignature.trigger.toLowerCase();
+      if (symptom.includes(q)) score += 2;
+      else if (trigger.includes(q)) score += 2;
+      else if (card.resolution.toLowerCase().includes(q)) score += 1;
+      if (score > 0) scored.push({ card, score });
+    }
+    scored.sort((a, b) => b.score - a.score);
+    return scored.slice(0, topK).map((s) => s.card);
   }
 
   /** Batch store episodic memories with a single file write. */
@@ -1085,6 +1207,7 @@ export class MemoryManager {
     this._strategyRegistry.register(new PreferenceStrategy());
     this._strategyRegistry.register(new SemanticStrategy());
     this._strategyRegistry.register(new ProceduralStrategy());
+    this._strategyRegistry.register(new ErrorPatternCardStrategy());
   }
 
   private _buildStrategyContext(): import("./storage/strategy-registry.js").StrategyContext {
@@ -1094,6 +1217,7 @@ export class MemoryManager {
       procedural: this._procedural,
       entityIndex: this._entityIndex,
       versionChain: this._versionChain!,
+      errorPatternVersionChain: this._errorPatternChain!,
       workspace: this.workspace,
     };
   }

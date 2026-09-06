@@ -1,4 +1,4 @@
-// Version Chain - Preference version history storage (v6.31.0)
+// Version Chain - version history storage (v6.31.0; v7.6.0 directory parameterization)
 
 import type { MemoryRecord } from "../types.js";
 import type { SemanticStorage } from "./semantic.js";
@@ -19,13 +19,17 @@ interface VersionChainFile {
   versions: VersionEntry[];
 }
 
-/** Version chain store for preferences */
+/**
+ * Version chain store for preferences (and, since v7.6.0 ADR-003, for
+ * error-pattern-card versions via the dirName parameter — each domain keeps
+ * its own directory so histories never share a chain).
+ */
 export class VersionChain {
-  private preferencesDir: string;
+  private chainDir: string;
 
-  constructor(workspace: string) {
-    this.preferencesDir = path.join(workspace, "memory", "preferences");
-    fs.mkdirSync(this.preferencesDir, { recursive: true });
+  constructor(workspace: string, dirName: string = "preferences") {
+    this.chainDir = path.join(workspace, "memory", dirName);
+    fs.mkdirSync(this.chainDir, { recursive: true });
   }
 
   /** Archive an old version of a preference */
@@ -139,7 +143,7 @@ export class VersionChain {
   private getFilePath(prefKey: string): string {
     // Sanitize pref_key to prevent path traversal
     const sanitized = prefKey.replace(/[^a-zA-Z0-9_-]/g, "_");
-    return path.join(this.preferencesDir, `${sanitized}.json`);
+    return path.join(this.chainDir, `${sanitized}.json`);
   }
 
   /** Atomic write using temp + rename */
