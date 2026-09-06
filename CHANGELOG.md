@@ -5,6 +5,34 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [7.6.0] - 2026-09-06
+
+### Added
+
+- **错误模式卡 `error_pattern_card`(ADR-003/004/005/006)**:沉淀「不再犯的错」的新记忆卡类型——结构化错误签名(trigger/symptom)+ 四组件归因枚举(`skill-defect`/`state-defect`/`invocation-timing`/`transition-judgment`,claw-rsi 侧以其为事实源,字面 stub 对齐测试锁漂移)+ 解决方案(可空 verification)。
+- **版本化卡存储**:新策略 `ErrorPatternCardStrategy`(registry 8→9),独立版本链目录 `memory/error-pattern-cards/{cardId}.json`(VersionChain 构造器子目录参数化,preferences 默认不变);同 cardId 再写 = 编辑(archive 旧版 → 存新版);MEMORY.md 落点 = L3 curated 面。
+- **效果闭环(ADR-005)**:`effectiveness` 顶层对象(hitCount/avoidedCount/lastHitAt/inactive/inactivatedAt,初始恒零——本版无真实数据,不做伪校准);`recordErrorPatternHit` 两态计数,每次 hit 走 archive→store 同一版本链路径;惰性降级(连续 5 次未避免 hit 或 30 天零命中,常量标待校准);首个避免 hit 自动复活;查询默认排除 inactive + `includeInactive`;签名匹配同分时 inactive 降权。
+- **写入验证门(ADR-006)**:V1 完整性 / V2 provenance(createdAt 服务端写)/ V3a trigger 相似(定死重叠系数 bigram 算法,阈值 0.8 常量集中,不自动拒——提示编辑旧卡)/ V3b resolution ≥ 20 字符 / V3c 枚举运行时校验;拒/警告均留痕 `memory/error-pattern-card-rejections/{ts}.jsonl`(append-only),`listErrorPatternRejections` 查询(since/action/limit,默认 50)。
+- **remember 意图识别**:`错误模式卡` / `error pattern` 前缀 → 结构化 JSON 抽取(缺字段引导补全,绝不静默丢弃);cardId 缺省时按 trigger 生成语义 slug(同错再犯 → 编辑旧卡);新工具 `memory_error_pattern_card_store`(工具面 16→17,只增不改);桥新 case `store_error_pattern_card` / `list_error_pattern_rejections`。
+
+### Fixed
+
+- 通用 `store` 对 `error_pattern_card` 显式拒绝并留痕(防强 schema 绕行静默落 default)。
+
+### Reference
+
+- 设计输入:SWE-Milestone(arXiv 2603.13428 v4,Logic Error 跨 milestone 复现机制)与 Recuris(arXiv 2608.24876 v1,四组件归因 E/W/ρ/C + 写入验证门);claw-mem 映射定稿于 ADR-003~006。
+
+### Tests
+
+- Full suite 961 passing / 78 files;新增 error-pattern 测试面:卡 CRUD/检索/编辑版本链(14)、效果闭环两态计数/降级/复活/连续 hit 链完整性(9)、验证门 V1-V3 全用例 + 留痕查询(12)、相似度算法字面锁定(6)、意图解析 + 桥 RPC(12)、枚举 stub 对齐。
+
+## [7.5.1] - 2026-09-01
+
+### Fixed
+
+- OpenClaw 2026.8.1 依赖升级,关闭 8 个 Dependabot 告警(CodeQL 反斜杠优先消毒修复)。
+
 ## [7.5.0] - 2026-08-31
 
 ### Added

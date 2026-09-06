@@ -13,6 +13,7 @@ import { Type } from "@sinclair/typebox";
 import { definePluginEntry } from "openclaw/plugin-sdk/plugin-entry";
 import { VERSION } from "./version";
 import { handleRequest, type JsonRpcRequest } from "./bridge";
+import { CARD_INTENT_PREFIX } from "./storage/error-pattern-card/parse.js";
 import { getMemoryManager, type MemoryManager } from "./memory_manager";
 import { ConstitutionStore } from "./constitution";
 import { TranscriptStorage, type TranscriptConfig } from "./transcript/index.js";
@@ -454,7 +455,35 @@ export default definePluginEntry({
       }),
       async execute(_id: string, params: any) {
         if (!bridge.isReady()) return { error: "Bridge not initialized" };
+        // v7.6.0 (ADR-003/006): a 错误模式卡 / error pattern prefix marks card
+        // intent — route to the card write face (structured or guided back)
+        const text = String(params.text ?? params.content ?? "");
+        if (text.trim() && CARD_INTENT_PREFIX.test(text.trim())) {
+          try { return await bridge.call("store_error_pattern_card", { text }); }
+          catch (error) { return { error: (error as Error).message }; }
+        }
         try { return await bridge.call("store", params); }
+        catch (error) { return { error: (error as Error).message }; }
+      },
+      });
+
+    api.registerTool({
+      name: "memory_error_pattern_card_store",
+      description: "Store an error pattern card (structured). Fields: trigger (when the error risks happening), symptom, root_cause_category (skill-defect | state-defect | invocation-timing | transition-judgment), resolution (>= 20 chars), optional verification, card_id (defaults to an epc: slug of the trigger). Alternatively pass text = '错误模式卡: {json}' / 'error pattern: {json}'.",
+      parameters: Type.Object({
+        text: Type.Optional(Type.String({ description: "Intent text: `错误模式卡: {...}` or `error pattern: {...}` (JSON object)" })),
+        card_id: Type.Optional(Type.String({ description: "Stable card id (epc:...); defaults to a trigger slug" })),
+        trigger: Type.Optional(Type.String({ description: "Trigger: when this error pattern recurs" })),
+        symptom: Type.Optional(Type.String({ description: "Symptom: what goes wrong" })),
+        root_cause_category: Type.Optional(Type.String({ description: "One of skill-defect, state-defect, invocation-timing, transition-judgment" })),
+        resolution: Type.Optional(Type.String({ description: "The fix to apply when the trigger fires (>= 20 chars)" })),
+        verification: Type.Optional(Type.String({ description: "Optional verification command" })),
+        source: Type.Optional(Type.String({ description: "Provenance source; default remember, rsi passes rsi:analyze" })),
+        author: Type.Optional(Type.String({ description: "Optional author" })),
+      }),
+      async execute(_id: string, params: any) {
+        if (!bridge.isReady()) return { error: "Bridge not initialized" };
+        try { return await bridge.call("store_error_pattern_card", params); }
         catch (error) { return { error: (error as Error).message }; }
       },
       });

@@ -7,7 +7,7 @@
 *Make Agent Truly Remember*
 
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
-[![Version](https://img.shields.io/badge/Version-7.5.1-blue.svg)](https://github.com/opensourceclaw/claw-mem/releases/tag/v7.5.1)
+[![Version](https://img.shields.io/badge/Version-7.6.0-blue.svg)](https://github.com/opensourceclaw/claw-mem/releases/tag/v7.6.0)
 [![CI](https://github.com/opensourceclaw/claw-mem/actions/workflows/ci.yml/badge.svg)](https://github.com/opensourceclaw/claw-mem/actions/workflows/ci.yml)
 [![codecov](https://codecov.io/gh/opensourceclaw/claw-mem/branch/main/graph/badge.svg)](https://codecov.io/gh/opensourceclaw/claw-mem)
 
@@ -26,8 +26,13 @@ claw-mem is an **intelligent memory** for Agent. It enables Agent like OpenClaw,
 | **Write-Time Gating** | Store only high-value memories, filter noise at write time |
 | **Concept-Mediated Graph** | Semantic connections between memories, transcending keyword search |
 | **Three-Tier Storage** | STM / LTM / Archive layered management |
+| **Error Pattern Cards** | Curated "never-repeat-this-mistake" cards with attribution, effectiveness tracking, and validation gates |
 | **High Performance** | <1ms startup, <10ms retrieval, <1MB memory footprint |
 | **Local-First** | No external dependencies, data stored locally |
+
+### Error Pattern Cards (v7.6.0)
+
+Memories that encode "how to not repeat a mistake", in the L3 curated layer alongside preferences: a structured card (`trigger` → `symptom` → `rootCauseCategory` → `resolution`) with four-component attribution (`skill-defect` / `state-defect` / `invocation-timing` / `transition-judgment`, aligned with claw-rsi), an effectiveness closed loop (hit counting, demotion, auto-revive), and an ADR-006 write-time validation gate with an append-only rejection trail for auditing. Author cards via `memory_error_pattern_card_store`, or prefix text with `错误模式卡` / `error pattern` + JSON through `memory_store`; recall at failure time via `match_error_pattern` signature matching.
 
 ### Why claw-mem?
 
@@ -189,7 +194,8 @@ claw-mem v6.26.8 achieves **100% accuracy** on all memory benchmarks:
 
 | Version | Date | Theme | Status |
 |---------|------|-------|--------|
-| **v7.5.1** | 2026-09-01 | Security Closure (deps + CodeQL sanitization, all security panels to zero) | Current |
+| **v7.6.0** | 2026-09-06 | Error Pattern Cards (ADR-003~006: attribution, effectiveness closed loop, validation gate) | Current |
+| v7.5.1 | 2026-09-01 | Security Closure (deps + CodeQL sanitization, all security panels to zero) | |
 | v7.5.0 | 2026-08-31 | Usage-Based Retention Scoring (ADR-002, three-way fusion ranking) | |
 | v7.4.0 | 2026-08-21 | OpenClaw Runtime Integration Hardening | |
 | v7.3.0 | 2026-08-31 | Dependency Advisories Cleared + 9-Stage Pipeline (inbox protocol v4.1) | |

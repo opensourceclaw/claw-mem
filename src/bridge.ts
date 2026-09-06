@@ -9,6 +9,7 @@
  */
 
 import { VERSION } from "./version";
+import { parseCardIntentText, buildCardInputFromParams } from "./storage/error-pattern-card/parse.js";
 import { MemoryManager, getMemoryManager } from "./memory_manager.js";
 import type { SessionSnapshot } from "./session/snapshot-types.js";
 import { SnapshotStore } from "./session/snapshot-store.js";
@@ -97,6 +98,32 @@ export async function handleRequest(req: JsonRpcRequest, mm?: MemoryManager): Pr
           success,
           strategy: manager.getStoreStrategy(memoryType),
         };
+        break;
+      }
+      // v7.6.0 (ADR-003/006): card write face — structured params (rsi/remember
+      // tool) or intent text (`错误模式卡` / `error pattern` prefix + JSON).
+      case "store_error_pattern_card": {
+        let parsed = typeof params.text === "string" && params.text.trim()
+          ? parseCardIntentText(params.text)
+          : null;
+        if (parsed?.kind === "other") {
+          result = { ok: false, reason: "text lacks the card intent prefix (错误模式卡 / error pattern)" };
+          break;
+        }
+        let input: import("./types.js").ErrorPatternCardInput | undefined;
+        let missing: string[] = [];
+        if (parsed?.kind === "card") input = parsed.input;
+        else if (parsed?.kind === "card-incomplete") missing = parsed.missing;
+        else {
+          const built = buildCardInputFromParams(params);
+          if ("missing" in built) missing = built.missing;
+          else input = built.input;
+        }
+        if (!input) {
+          result = { ok: false, reason: "missing required card fields", missing };
+          break;
+        }
+        result = manager.storeErrorPatternCard(input);
         break;
       }
       case "search":
