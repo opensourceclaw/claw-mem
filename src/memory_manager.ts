@@ -38,7 +38,8 @@ import { VersionChain } from "./storage/version-chain.js";
 import type { VersionEntry } from "./storage/version-chain.js";
 import { EpisodicStrategy, SessionSnapshotStrategy, FactStrategy, PreferenceStrategy, SemanticStrategy, ProceduralStrategy, ErrorPatternCardStrategy } from "./storage/strategies/index.js";
 import { decodeErrorPatternCard, ERROR_PATTERN_TAG, encodeCardMetadata } from "./storage/strategies/error-pattern-card.js";
-import { GRACE_PERIOD_DAYS, HIT_WINDOW } from "./storage/error-pattern-card/constants.js";
+import { GRACE_PERIOD_DAYS, HIT_WINDOW, RESOLUTION_MIN_CHARS, SIMILARITY_THRESHOLD } from "./storage/error-pattern-card/constants.js";
+import { triggerSimilarity } from "./storage/error-pattern-card/similarity.js";
 import { MemoryGovernance } from "./memory/governance.js";
 // Import types only to avoid circular deps
 import type { WriteTimeGating } from "./gating/write_time_gating.js";
@@ -525,6 +526,13 @@ export class MemoryManager {
       // (Rejection tracing: full jsonl log lands with the ADR-006 gate.)
       if (memoryType === "error_pattern_card") {
         console.warn("[claw-mem] error_pattern_card must be stored via storeErrorPatternCard; generic store refused");
+        this._traceCardGate({
+          action: "reject",
+          ruleId: "generic-store-refusal",
+          reason: "error_pattern_card must be stored via storeErrorPatternCard",
+          input: { contentPreview: content.slice(0, 120), tags },
+          caller: "unknown",
+        });
         return false;
       }
       const record: import("./types.js").MemoryRecord = {
@@ -635,30 +643,46 @@ export class MemoryManager {
    * Store (create or edit) an error pattern card. Same cardId = edit —
    * archived and re-stored through the card version chain
    * (`memory/error-pattern-cards/{cardId}.json`). effectiveness/createdAt are
-   * server-side only. Basic schema guards live here; the full V1-V3 gate with
-   * rejection tracing (ADR-006) lands on this same entry.
+   * server-side only (V2). ADR-006 validation gate runs before the commit:
+   * V1 completeness / V3c enum / V3b resolution floor reject + trace; V3a
+   * trigger-similarity warns (suggestUpdate) on create against active cards —
+   * never rejects. All reject/warn events land in
+   * `memory/error-pattern-card-rejections/` (append-only jsonl).
    */
   storeErrorPatternCard(
     input: import("./types.js").ErrorPatternCardInput,
   ):
-    | { ok: true; cardId: string; version: number; edited: boolean }
-    | { ok: false; reason: string } {
+    | {
+        ok: true; cardId: string; version: number; edited: boolean;
+        warning?: { ruleId: string; similarCardId: string; similarity: number };
+      }
+    | { ok: false; reason: string; ruleId?: string } {
     const sig = input?.errorSignature;
     if (
       !sig ||
       typeof sig.trigger !== "string" || !sig.trigger.trim() ||
       typeof sig.symptom !== "string" || !sig.symptom.trim()
     ) {
-      return { ok: false, reason: "errorSignature.trigger and errorSignature.symptom must be non-empty strings" };
+      return this._rejectCardGate("V1", "errorSignature.trigger and errorSignature.symptom must be non-empty strings", input);
     }
     if (!isRootCauseCategory(input.rootCauseCategory)) {
-      return { ok: false, reason: `invalid rootCauseCategory: ${String(input.rootCauseCategory)}` };
+      return this._rejectCardGate("V3c", `invalid rootCauseCategory: ${String(input.rootCauseCategory)}`, input);
     }
     if (typeof input.resolution !== "string" || !input.resolution.trim()) {
-      return { ok: false, reason: "resolution must be a non-empty string" };
+      return this._rejectCardGate("V1", "resolution must be a non-empty string", input);
+    }
+    if (input.resolution.trim().length < RESOLUTION_MIN_CHARS) {
+      return this._rejectCardGate("V3b", `resolution must be at least ${RESOLUTION_MIN_CHARS} characters`, input);
     }
     if (!input.provenance || typeof input.provenance.source !== "string" || !input.provenance.source.trim()) {
-      return { ok: false, reason: "provenance.source is required" };
+      return this._rejectCardGate("V2", "provenance.source is required", input);
+    }
+    const effIn = (input as unknown as Record<string, unknown>).effectiveness as
+      { hitCount?: number; avoidedCount?: number } | undefined;
+    if (effIn && typeof effIn === "object" &&
+      ((typeof effIn.hitCount === "number" && effIn.hitCount < 0) ||
+       (typeof effIn.avoidedCount === "number" && effIn.avoidedCount < 0))) {
+      return this._rejectCardGate("V1", "effectiveness counts must be >= 0 (server-owned field)", input);
     }
 
     const cardId =
@@ -675,11 +699,125 @@ export class MemoryManager {
       provenance: input.provenance,
       createdAt: new Date().toISOString(),
     };
+
+    // V3a: on create, a trigger ~duplicate of an active card means the author
+    // should edit the existing card instead — advisory only, never reject.
+    const isNew = !this._semantic.searchByTag(`card:${cardId}`)[0];
+    let warning: { ruleId: string; similarCardId: string; similarity: number } | undefined;
+    if (isNew) {
+      let best: { similarCardId: string; similarity: number } | undefined;
+      for (const e of this._semantic.getAll()) {
+        if (!e.tags?.includes(ERROR_PATTERN_TAG)) continue;
+        const existing = decodeErrorPatternCard(e);
+        if (!existing || existing.cardId === cardId || existing.effectiveness.inactive) continue;
+        const sim = triggerSimilarity(card.errorSignature.trigger, existing.errorSignature.trigger);
+        if (!best || sim > best.similarity) best = { similarCardId: existing.cardId, similarity: sim };
+      }
+      if (best && best.similarity >= SIMILARITY_THRESHOLD) {
+        warning = { ruleId: "V3a-trigger-similarity", similarCardId: best.similarCardId, similarity: best.similarity };
+        this._traceCardGate({
+          action: "warn",
+          ruleId: "V3a-trigger-similarity",
+          reason: `trigger ~duplicates active card ${best.similarCardId} (similarity ${best.similarity.toFixed(3)}) — prefer editing that cardId`,
+          input: { cardId, trigger: card.errorSignature.trigger, symptom: card.errorSignature.symptom },
+          caller: card.provenance.source,
+        });
+      }
+    }
+
     const committed = this._commitCard(card);
     if (!committed.ok) {
-      return { ok: false, reason: committed.reason };
+      return { ok: false, reason: committed.reason, ruleId: "V1" };
     }
-    return { ok: true, cardId, version: committed.version, edited: committed.edited };
+    return { ok: true, cardId, version: committed.version, edited: committed.edited, ...(warning ? { warning } : {}) };
+  }
+
+  /**
+   * ADR-006 reject: trace the gate event, return the failure. Every reject is
+   * persisted (never silent) before the caller sees it.
+   */
+  private _rejectCardGate(
+    ruleId: string,
+    reason: string,
+    input: import("./types.js").ErrorPatternCardInput,
+  ): { ok: false; reason: string; ruleId: string } {
+    const sig = input?.errorSignature as { trigger?: string; symptom?: string } | undefined;
+    this._traceCardGate({
+      action: "reject",
+      ruleId,
+      reason,
+      input: {
+        cardId: typeof input?.cardId === "string" ? input.cardId : undefined,
+        trigger: sig?.trigger,
+        symptom: sig?.symptom,
+        rootCauseCategory: input?.rootCauseCategory,
+        resolutionLen: typeof input?.resolution === "string" ? input.resolution.length : undefined,
+        provenanceSource: input?.provenance?.source,
+      },
+      caller: input?.provenance?.source?.trim() || "unknown",
+    });
+    return { ok: false, reason, ruleId };
+  }
+
+  /**
+   * Query the ADR-006 gate trail: `memory/error-pattern-card-rejections/*.jsonl`
+   * (append-only, one event per file). Newest first; since (ISO, inclusive) and
+   * action filters; default limit 50.
+   */
+  listErrorPatternRejections(
+    filter: { since?: string; action?: "reject" | "warn"; limit?: number } = {},
+  ): Array<{
+    ts: string; action: "reject" | "warn"; ruleId: string; reason: string;
+    input: Record<string, unknown>; caller: string;
+  }> {
+    const dir = this._cardGateDir();
+    let events: Array<{ ts: string; action: "reject" | "warn"; ruleId: string; reason: string; input: Record<string, unknown>; caller: string }> = [];
+    if (fs.existsSync(dir)) {
+      for (const file of fs.readdirSync(dir)) {
+        if (!file.endsWith(".jsonl")) continue;
+        let text = "";
+        try {
+          text = fs.readFileSync(path.join(dir, file), "utf-8");
+        } catch {
+          continue;
+        }
+        for (const line of text.split("\n")) {
+          if (!line.trim()) continue;
+          try {
+            events.push(JSON.parse(line));
+          } catch {
+            // skip corrupt lines — the trail must never break reads
+          }
+        }
+      }
+    }
+    events = events.filter((e) => {
+      if (filter.action && e.action !== filter.action) return false;
+      if (filter.since && e.ts < filter.since) return false;
+      return true;
+    });
+    events.sort((a, b) => b.ts.localeCompare(a.ts));
+    return events.slice(0, filter.limit ?? 50);
+  }
+
+  private _cardGateDir(): string {
+    return path.join(this.workspace, "memory", "error-pattern-card-rejections");
+  }
+
+  /** Append-only gate event: one jsonl file per event, never rewritten. */
+  private _traceCardGate(entry: {
+    action: "reject" | "warn"; ruleId: string; reason: string;
+    input: Record<string, unknown>; caller: string;
+  }): void {
+    try {
+      const dir = this._cardGateDir();
+      fs.mkdirSync(dir, { recursive: true });
+      const ts = new Date().toISOString();
+      const file = path.join(dir, `${ts.replace(/[:.]/g, "-")}-${Math.random().toString(36).slice(2, 6)}.jsonl`);
+      fs.appendFileSync(file, JSON.stringify({ ts, ...entry }) + "\n", "utf-8");
+    } catch (err) {
+      console.warn(`[claw-mem] card gate trace failed: ${err instanceof Error ? err.message : String(err)}`);
+    }
   }
 
   /**

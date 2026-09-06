@@ -133,6 +133,16 @@ export async function handleRequest(req: JsonRpcRequest, mm?: MemoryManager): Pr
           at: typeof params.at === "string" ? params.at : undefined,
         });
         break;
+      // v7.6.0 (ADR-006): validation gate trail
+      case "list_error_pattern_rejections":
+        result = {
+          rejections: manager.listErrorPatternRejections({
+            since: typeof params.since === "string" ? params.since : undefined,
+            action: params.action === "reject" || params.action === "warn" ? params.action : undefined,
+            limit: params.limit != null ? Number(params.limit) : undefined,
+          }),
+        };
+        break;
       case "get":
         result = { status: "deprecated", message: "Use 'search' method instead" };
         break;
