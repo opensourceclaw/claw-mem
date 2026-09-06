@@ -126,6 +126,13 @@ export async function handleRequest(req: JsonRpcRequest, mm?: MemoryManager): Pr
           ),
         };
         break;
+      // v7.6.0 (ADR-005): effectiveness hit recording
+      case "record_error_pattern_hit":
+        result = manager.recordErrorPatternHit(String(params.card_id ?? ""), {
+          avoided: params.avoided === true,
+          at: typeof params.at === "string" ? params.at : undefined,
+        });
+        break;
       case "get":
         result = { status: "deprecated", message: "Use 'search' method instead" };
         break;

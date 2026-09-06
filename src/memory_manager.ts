@@ -38,6 +38,7 @@ import { VersionChain } from "./storage/version-chain.js";
 import type { VersionEntry } from "./storage/version-chain.js";
 import { EpisodicStrategy, SessionSnapshotStrategy, FactStrategy, PreferenceStrategy, SemanticStrategy, ProceduralStrategy, ErrorPatternCardStrategy } from "./storage/strategies/index.js";
 import { decodeErrorPatternCard, ERROR_PATTERN_TAG, encodeCardMetadata } from "./storage/strategies/error-pattern-card.js";
+import { GRACE_PERIOD_DAYS, HIT_WINDOW } from "./storage/error-pattern-card/constants.js";
 import { MemoryGovernance } from "./memory/governance.js";
 // Import types only to avoid circular deps
 import type { WriteTimeGating } from "./gating/write_time_gating.js";
@@ -664,35 +665,74 @@ export class MemoryManager {
       input.cardId && input.cardId.trim()
         ? input.cardId.trim()
         : `epc:${Date.now().toString(36)}${Math.random().toString(36).slice(2, 8)}`;
-    const now = new Date().toISOString();
-    const record: import("./types.js").MemoryRecord = {
-      id: `card_${Date.now().toString(36)}_${Math.random().toString(36).slice(2, 8)}`,
-      text: input.resolution.trim(),
-      memory_type: "error_pattern_card",
-      created_at: now,
-      metadata: encodeCardMetadata({
-        cardId,
-        errorSignature: { trigger: sig.trigger.trim(), symptom: sig.symptom.trim() },
-        rootCauseCategory: input.rootCauseCategory,
-        verification: input.verification?.trim() || undefined,
-        provenance: input.provenance,
-        effectiveness: { ...DEFAULT_CARD_EFFECTIVENESS },
-      }),
-      tags: [ERROR_PATTERN_TAG, `category:${input.rootCauseCategory}`, `card:${cardId}`],
+    const card: import("./types.js").ErrorPatternCard = {
+      cardId,
+      errorSignature: { trigger: sig.trigger.trim(), symptom: sig.symptom.trim() },
+      rootCauseCategory: input.rootCauseCategory,
+      resolution: input.resolution.trim(),
+      verification: input.verification?.trim() || undefined,
+      effectiveness: { ...DEFAULT_CARD_EFFECTIVENESS },
+      provenance: input.provenance,
+      createdAt: new Date().toISOString(),
     };
-
-    try {
-      const result = this._strategyRegistry!.resolve("error_pattern_card").store(
-        record,
-        this._buildStrategyContext(),
-      );
-      if (this._index.built) {
-        this._index.addMemory(record.text, result.id, true);
-      }
-      return { ok: true, cardId, version: result.version ?? 1, edited: Boolean(result.previousId) };
-    } catch (err) {
-      return { ok: false, reason: err instanceof Error ? err.message : String(err) };
+    const committed = this._commitCard(card);
+    if (!committed.ok) {
+      return { ok: false, reason: committed.reason };
     }
+    return { ok: true, cardId, version: committed.version, edited: committed.edited };
+  }
+
+  /**
+   * Record an error pattern card hit (ADR-005). The update goes through the
+   * same archive->store version-chain path as an edit — every hit appends a
+   * chain version carrying the updated effectiveness, so the last
+   * HIT_WINDOW consecutive hits are auditable from the chain tail.
+   * avoided=true revives an inactive card; a run of HIT_WINDOW non-avoided
+   * hits demotes the card (inactive — never deleted).
+   */
+  recordErrorPatternHit(
+    cardId: string,
+    opts: { avoided: boolean; at?: string } = { avoided: false },
+  ):
+    | { ok: true; cardId: string; hitCount: number; avoidedCount: number; inactive: boolean; version: number }
+    | { ok: false; reason: string } {
+    if (!cardId) return { ok: false, reason: "cardId required" };
+    const entry = this._semantic.searchByTag(`card:${cardId}`)[0];
+    const card = entry ? decodeErrorPatternCard(entry) : null;
+    if (!card) return { ok: false, reason: "not-found" };
+
+    const now = opts.at ?? new Date().toISOString();
+    const prevEff = card.effectiveness;
+    const eff = { ...prevEff, hitCount: prevEff.hitCount + 1, lastHitAt: now };
+
+    if (opts.avoided) {
+      eff.avoidedCount += 1;
+      if (prevEff.inactive) {
+        // auto-revive on the first avoided hit after demotion
+        eff.inactive = false;
+        eff.inactivatedAt = undefined;
+      }
+    } else if (!prevEff.inactive) {
+      // Non-avoided run = archived hit versions on the chain (commit of the
+      // previous hit not yet archived lives in the entry state) + this hit.
+      const run = this._effectiveNonAvoidedRun(cardId, prevEff) + 1;
+      if (run >= HIT_WINDOW) {
+        eff.inactive = true;
+        eff.inactivatedAt = now;
+      }
+    }
+
+    const updated: import("./types.js").ErrorPatternCard = { ...card, effectiveness: eff, updatedAt: now };
+    const committed = this._commitCard(updated);
+    if (!committed.ok) return { ok: false, reason: committed.reason };
+    return {
+      ok: true,
+      cardId,
+      hitCount: eff.hitCount,
+      avoidedCount: eff.avoidedCount,
+      inactive: eff.inactive,
+      version: committed.version,
+    };
   }
 
   /** Structured card query — category filter, active-only by default. */
@@ -703,7 +743,8 @@ export class MemoryManager {
     let cards = this._semantic.getAll()
       .filter((e) => e.tags?.includes(ERROR_PATTERN_TAG))
       .map((e) => decodeErrorPatternCard(e))
-      .filter((c): c is import("./types.js").ErrorPatternCard => c !== null);
+      .filter((c): c is import("./types.js").ErrorPatternCard => c !== null)
+      .map((c) => this._demoteIfIdle(c)); // lazy never-hit demotion on read
     if (filter.category) cards = cards.filter((c) => c.rootCauseCategory === filter.category);
     if (!filter.includeInactive) cards = cards.filter((c) => !c.effectiveness.inactive);
     cards.sort((a, b) => {
@@ -714,7 +755,7 @@ export class MemoryManager {
     return cards.slice(0, limit);
   }
 
-  /** Signature matching — symptom/trigger substring hits first, text fallback. */
+  /** Signature matching — symptom/trigger substring hits first, text fallback; inactive downranked. */
   matchErrorPattern(symptomQuery: string, topK = 5): Array<import("./types.js").ErrorPatternCard> {
     const q = symptomQuery.trim().toLowerCase();
     if (!q) return [];
@@ -731,8 +772,114 @@ export class MemoryManager {
       else if (card.resolution.toLowerCase().includes(q)) score += 1;
       if (score > 0) scored.push({ card, score });
     }
-    scored.sort((a, b) => b.score - a.score);
+    scored.sort((a, b) => {
+      const byScore = b.score - a.score;
+      if (byScore !== 0) return byScore;
+      // inactive cards rank after active ones at equal score (ADR-005)
+      return Number(a.card.effectiveness.inactive) - Number(b.card.effectiveness.inactive);
+    });
     return scored.slice(0, topK).map((s) => s.card);
+  }
+
+  // ── error pattern card internals (v7.6.0, ADR-003/005) ───────────
+
+  /** Serialize a card into the storage-face MemoryRecord (single source for create/edit/hit/demotion). */
+  private _cardToRecord(card: import("./types.js").ErrorPatternCard): import("./types.js").MemoryRecord {
+    return {
+      id: `card_${Date.now().toString(36)}_${Math.random().toString(36).slice(2, 8)}`,
+      text: card.resolution,
+      memory_type: "error_pattern_card",
+      created_at: card.createdAt,
+      metadata: encodeCardMetadata(card),
+      tags: [ERROR_PATTERN_TAG, `category:${card.rootCauseCategory}`, `card:${card.cardId}`],
+    };
+  }
+
+  /** Commit a card through the strategy (archive old version when editing). */
+  private _commitCard(card: import("./types.js").ErrorPatternCard): {
+    ok: boolean; reason: string; version: number; edited: boolean;
+  } {
+    const record = this._cardToRecord(card);
+    try {
+      const result = this._strategyRegistry!.resolve("error_pattern_card").store(
+        record,
+        this._buildStrategyContext(),
+      );
+      if (this._index.built) {
+        this._index.addMemory(record.text, result.id, true);
+      }
+      return {
+        ok: true,
+        reason: "",
+        version: result.version ?? 1,
+        edited: Boolean(result.previousId),
+      };
+    } catch (err) {
+      return { ok: false, reason: err instanceof Error ? err.message : String(err), version: 0, edited: false };
+    }
+  }
+
+  /** Lazy never-hit demotion on read: created > GRACE_PERIOD_DAYS ago with no hits. */
+  private _demoteIfIdle(card: import("./types.js").ErrorPatternCard): import("./types.js").ErrorPatternCard {
+    const eff = card.effectiveness;
+    if (eff.inactive || eff.hitCount > 0) return card;
+    const created = Date.parse(card.createdAt);
+    if (Number.isNaN(created)) return card;
+    if (Date.now() - created <= GRACE_PERIOD_DAYS * 86_400_000) return card;
+    const now = new Date().toISOString();
+    const demoted: import("./types.js").ErrorPatternCard = {
+      ...card,
+      effectiveness: { ...eff, inactive: true, inactivatedAt: now },
+      updatedAt: now,
+    };
+    const committed = this._commitCard(demoted);
+    if (!committed.ok) {
+      console.warn(`[claw-mem] idle card demotion persist failed for ${card.cardId}: ${committed.reason}`);
+    }
+    return demoted;
+  }
+
+  /**
+   * Consecutive non-avoided hit run over completed hits (newest first): the
+   * entry state — the completion of the most recent hit, archived only by
+   * the *next* commit — followed by archived hit completions from the chain
+   * tail. A completed hit is non-avoided iff its avoidedCount equals its
+   * older neighbor's (creation baseline avoidedCount = 0); an avoided hit
+   * terminates the run and is not counted.
+   *
+   * @param entryState effectiveness BEFORE the hit being judged was applied
+   */
+  private _effectiveNonAvoidedRun(
+    cardId: string,
+    entryState: import("./types.js").CardEffectiveness,
+  ): number {
+    const history = this._errorPatternChain?.getHistory(cardId) ?? [];
+    const hits: import("./types.js").CardEffectiveness[] = [];
+    if (entryState.hitCount > 0) hits.push(entryState);
+    let lastSeenHit = entryState.hitCount;
+    for (let i = history.length - 1; i >= 0; i--) {
+      const raw = history[i].metadata?.effectiveness;
+      if (typeof raw !== "string") continue;
+      let eff: import("./types.js").CardEffectiveness;
+      try {
+        eff = JSON.parse(raw);
+      } catch {
+        continue;
+      }
+      if (!Number.isInteger(eff.hitCount) || !Number.isInteger(eff.avoidedCount)) continue;
+      if (eff.hitCount <= 0) continue; // creation baselines — compare against, never count
+      if (eff.hitCount >= lastSeenHit) continue; // duplicates (edit versions / entry state)
+      lastSeenHit = eff.hitCount;
+      hits.push(eff);
+    }
+
+    let run = 0;
+    for (let i = 0; i < hits.length; i++) {
+      const olderAvoided = i + 1 < hits.length ? hits[i + 1].avoidedCount : 0;
+      if (hits[i].avoidedCount === olderAvoided) run += 1;
+      else break; // avoided hit ends the run
+    }
+    return run;
   }
 
   /** Batch store episodic memories with a single file write. */
