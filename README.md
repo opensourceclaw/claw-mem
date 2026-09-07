@@ -30,10 +30,6 @@ claw-mem is an **intelligent memory** for Agent. It enables Agent like OpenClaw,
 | **High Performance** | <1ms startup, <10ms retrieval, <1MB memory footprint |
 | **Local-First** | No external dependencies, data stored locally |
 
-### Error Pattern Cards (v7.6.0)
-
-Memories that encode "how to not repeat a mistake", in the L3 curated layer alongside preferences: a structured card (`trigger` → `symptom` → `rootCauseCategory` → `resolution`) with four-component attribution (`skill-defect` / `state-defect` / `invocation-timing` / `transition-judgment`, aligned with claw-rsi), an effectiveness closed loop (hit counting, demotion, auto-revive), and an ADR-006 write-time validation gate with an append-only rejection trail for auditing. Author cards via `memory_error_pattern_card_store`, or prefix text with `错误模式卡` / `error pattern` + JSON through `memory_store`; recall at failure time via `match_error_pattern` signature matching.
-
 ### Why claw-mem?
 
 Traditional AI agents have no persistent memory. Each conversation starts fresh. claw-mem solves this by providing:
