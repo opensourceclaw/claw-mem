@@ -194,21 +194,23 @@ claw-mem v6.26.8 achieves **100% accuracy** on all memory benchmarks:
 
 | Version | Date | Theme | Status |
 |---------|------|-------|--------|
-| **v7.6.0** | 2026-09-06 | Error Pattern Cards (ADR-003~006: attribution, effectiveness closed loop, validation gate) | Current |
+| v7.6.0 | 2026-09-06 | Error Pattern Cards (ADR-003~006: attribution, effectiveness closed loop, validation gate) | Current |
 | v7.5.1 | 2026-09-01 | Security Closure (deps + CodeQL sanitization, all security panels to zero) | |
 | v7.5.0 | 2026-08-31 | Usage-Based Retention Scoring (ADR-002, three-way fusion ranking) | |
+| v7.4.2 | 2026-08-29 | Patch Release | |
+| v7.4.1 | 2026-08-21 | Patch Release | |
 | v7.4.0 | 2026-08-21 | OpenClaw Runtime Integration Hardening | |
 | v7.3.0 | 2026-08-31 | Dependency Advisories Cleared + 9-Stage Pipeline (inbox protocol v4.1) | |
 | v7.2.0 | 2026-08-16 | First-Class OpenClaw Plugin Interface | |
 | v7.1.0 | 2026-08-16 | Plugin Tool Surface Expansion | |
 | v7.0.0 | 2026-08-01 | Capability Layer (IMemoryCapability for OpenClaw Runtime) | |
 | v6.26.8 | 2026-06-21 | Memory Benchmarks 100% | |
-| **v6.26.6** | 2026-06-20 | Latest Stable Release (Issue #15 Fix) | |
-| **v6.26.0** | 2026-06-17 | Latest Stable Release | |
-| **v6.0.0** | 2026-05 | Three-Tier Storage Complete | |
-| **v5.0.0** | 2026-04 | Concept Graph Foundation | |
-| **v4.0.0** | 2026-03 | Write-Time Gating | |
-| **v3.0.0** | 2026-02 | Basic Memory System | |
+| v6.26.6 | 2026-06-20 | Stable Release (Issue #15 Fix) | |
+| v6.26.0 | 2026-06-17 | Stable Release | |
+| v6.0.0 | 2026-05 | Three-Tier Storage Complete | |
+| v5.0.0 | 2026-04 | Concept Graph Foundation | |
+| v4.0.0 | 2026-03 | Write-Time Gating | |
+| v3.0.0 | 2026-02 | Basic Memory System | |
 
 ### Upcoming
 
@@ -247,7 +249,6 @@ add to your OpenClaw configuration:
 ```json
 {
   "plugins": {
-    "allow": ["opensourceclaw-claw-mem"],
     "slots": {
       "memory": "claw-mem"
     }
@@ -264,7 +265,6 @@ claw-mem also ships as a **pi agent** plugin (`pi_plugin/`, since v7.4.0). The f
 ```json
 {
   "plugins": {
-    "allow": ["opensourceclaw-claw-mem"],
     "memory": "claw-mem"
   }
 }
@@ -315,7 +315,7 @@ npm run --silent version
 ### Basic API
 
 ```typescript
-import { MemoryManager } from './dist/index.js';
+import { MemoryManager } from 'claw-mem';
 
 const memory = new MemoryManager({
   storagePath: './memory',
