@@ -108,11 +108,17 @@ export function parseCardIntentText(text: string): ParseCardResult {
 
 /** Semantic cardId suggestion: epc:{trigger slug}, stable for edit-on-recur. */
 export function suggestCardId(trigger: string): string | undefined {
-  const slug = String(trigger ?? "")
+  let slug = String(trigger ?? "")
     .toLowerCase()
-    .replace(/[^a-z0-9\u4e00-\u9fff]+/g, "-")
-    .replace(/^-+|-+$/g, "")
-    .slice(0, 40);
+    .replace(/[^a-z0-9\u4e00-\u9fff]+/g, "-");
+  // Trim leading/trailing hyphens with a linear scan instead of /^-+|-+$/
+  // (CodeQL js/polynomial-redos: the anchored alternation can backtrack
+  // quadratically on long unmatching input).
+  let start = 0;
+  let end = slug.length;
+  while (start < end && slug.charCodeAt(start) === 45) start++;
+  while (end > start && slug.charCodeAt(end - 1) === 45) end--;
+  slug = slug.slice(start, end).slice(0, 40);
   return slug ? `epc:${slug}` : undefined;
 }
 

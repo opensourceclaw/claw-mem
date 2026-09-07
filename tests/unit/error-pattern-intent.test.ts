@@ -83,6 +83,28 @@ describe("suggestCardId (epc: trigger slug)", () => {
     expect(suggestCardId("")).toBeUndefined();
     expect(suggestCardId("!!!")).toBeUndefined();
   });
+
+  it("handles mixed CJK/ASCII triggers and multiple separator runs", () => {
+    expect(suggestCardId("部署时     schema 变更!! 导致 启动失败")).toBe("epc:部署时-schema-变更-导致-启动失败");
+    expect(suggestCardId("a--b___c...d")).toBe("epc:a-b-c-d");
+    // CJK chars are preserved verbatim; mixed CJK + digit boundary keeps runs
+    expect(suggestCardId("接口 404 返回 err-2")).toBe("epc:接口-404-返回-err-2");
+  });
+
+  it("returns undefined when only separators remain (all-hyphen input)", () => {
+    expect(suggestCardId("----")).toBeUndefined();
+    expect(suggestCardId("- - - -")).toBeUndefined();
+    expect(suggestCardId("    ")).toBeUndefined();
+    expect(suggestCardId("--abc--")).toBe("epc:abc");
+  });
+
+  it("handles 100KB unmatching input in linear time (no polynomial backtracking)", () => {
+    const huge = "a".repeat(100_000); // no hyphen at all — the /-+$/ worst case
+    const start = Date.now();
+    const slug = suggestCardId(huge);
+    expect(Date.now() - start).toBeLessThan(1000);
+    expect(slug).toBe("epc:" + "a".repeat(40));
+  });
 });
 
 describe("buildCardInputFromParams (flat RPC params)", () => {
