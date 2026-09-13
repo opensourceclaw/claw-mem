@@ -919,6 +919,82 @@ export class MemoryManager {
     return scored.slice(0, topK).map((s) => s.card);
   }
 
+  // ── injection path (v7.7.0, joint design §2 — thin adapter over v7.6.0) ──
+
+  /**
+   * Injection-grade card query (v7.7.0, contract §1): trigger similarity
+   * against `card.errorSignature.trigger` (same `triggerSimilarity` and, by
+   * default, the same SIMILARITY_THRESHOLD as ADR-006 V3a — one definition of
+   * "similar" across dedup and recall) ∪ exact category filter. Active cards
+   * only — a demoted card never enters the injection face. No triggerQuery →
+   * category/recency path (queryErrorPatternCards semantics). No hit → []
+   * (honest empty; nothing synthesized).
+   */
+  findCardsForInjection(
+    query: {
+      triggerQuery?: string;
+      triggerThreshold?: number;
+      category?: import("./types.js").RootCauseCategory;
+      limit?: number;
+    } = {},
+  ): Array<import("./types.js").ErrorPatternCard> {
+    const threshold = query.triggerThreshold ?? SIMILARITY_THRESHOLD;
+    const limit = query.limit ?? 3;
+    let cards = this._semantic.getAll()
+      .filter((e) => e.tags?.includes(ERROR_PATTERN_TAG))
+      .map((e) => decodeErrorPatternCard(e))
+      .filter((c): c is import("./types.js").ErrorPatternCard => c !== null)
+      .map((c) => this._demoteIfIdle(c))
+      .filter((c) => !c.effectiveness.inactive);
+    if (query.category) cards = cards.filter((c) => c.rootCauseCategory === query.category);
+    const triggerQuery = query.triggerQuery?.trim();
+    if (triggerQuery) {
+      const scored = cards
+        .map((card) => ({ card, sim: triggerSimilarity(triggerQuery, card.errorSignature.trigger) }))
+        .filter((s) => s.sim >= threshold);
+      scored.sort((a, b) => {
+        const bySim = b.sim - a.sim;
+        if (bySim !== 0) return bySim;
+        return (b.card.effectiveness.lastHitAt ?? "").localeCompare(a.card.effectiveness.lastHitAt ?? "");
+      });
+      return scored.slice(0, limit).map((s) => s.card);
+    }
+    cards.sort((a, b) => (b.effectiveness.lastHitAt ?? "").localeCompare(a.effectiveness.lastHitAt ?? ""));
+    return cards.slice(0, limit);
+  }
+
+  /**
+   * Card list → injection reminder text block (v7.7.0, contract §2 — the ONLY
+   * producer of the `[Error Pattern Cards]` format). Pure: fresh string, input
+   * untouched. Empty list → "" (honest empty, no bare header). Truncation
+   * drops WHOLE cards (a half warning is noise) and appends a
+   * `(+N more suppressed)` trailer; without maxChars nothing is truncated.
+   */
+  formatCardsAsReminder(
+    cards: readonly import("./types.js").ErrorPatternCard[],
+    opts?: { maxChars?: number },
+  ): string {
+    if (!cards || cards.length === 0) return "";
+    const firstSentence = (s: string): string => {
+      const m = s.match(/^[\s\S]*?[.!?。！？](?:\s|$)/);
+      return (m ? m[0] : s).trim();
+    };
+    const lines: string[] = ["[Error Pattern Cards]"];
+    let suppressed = 0;
+    for (const card of cards) {
+      const line =
+        `- ⚠️ [${card.cardId} | root: ${card.rootCauseCategory} | from: ${card.provenance?.source ?? "unknown"}] ` +
+        `${card.errorSignature.trigger} → ${firstSentence(card.resolution)}`;
+      if (opts?.maxChars !== undefined && lines.join("\n").length + line.length + 1 > opts.maxChars) {
+        suppressed = cards.length - (lines.length - 1);
+        break;
+      }
+      lines.push(line);
+    }
+    if (suppressed > 0) lines.push(`(+${suppressed} more suppressed)`);
+    return lines.join("\n");
+  }
+
   // ── error pattern card internals (v7.6.0, ADR-003/005) ───────────
 
   /** Serialize a card into the storage-face MemoryRecord (single source for create/edit/hit/demotion). */

@@ -67,3 +67,7 @@ export type {
   MemorySearchOptions, MemorySearchResult,
   MemoryContextResult, MemoryStatsResult,
 } from "./capability/index.js";
+
+// v7.7.0: error-pattern-card injection path (contract: docs/contracts/error-card-injection-contract.md)
+export { triggerSimilarity } from "./storage/error-pattern-card/similarity.js";
+export { SIMILARITY_THRESHOLD } from "./storage/error-pattern-card/constants.js";
