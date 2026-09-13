@@ -1,0 +1,14 @@
+{
+  "_note": "Vendored snapshot of claw-rsi's RootCauseCategoryLiteral. The cross-repo source file is unreachable in CI (single-repo checkout), so tests assert against this snapshot instead. Sync responsibility: when claw-rsi changes the enumeration, re-vendor this snapshot (literals + sourceVersion + capturedFromCommit) and update tests/unit/error-pattern-enum-alignment.test.ts accordingly.",
+  "source": "claw-rsi/src/analyzer.ts",
+  "sourceSymbol": "RootCauseCategoryLiteral",
+  "sourceVersion": "5.6.0",
+  "capturedFromCommit": "730acfd",
+  "capturedAt": "2026-09-13",
+  "literals": [
+    "skill-defect",
+    "state-defect",
+    "invocation-timing",
+    "transition-judgment"
+  ]
+}

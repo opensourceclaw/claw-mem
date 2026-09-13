@@ -9,7 +9,7 @@ import * as path from "path";
 import * as os from "os";
 import { MemoryManager, resetMemoryManager } from "../../src/memory_manager.js";
 import { triggerSimilarity, SIMILARITY_THRESHOLD } from "../../src/index.js";
-import type { ErrorPatternCardInput } from "../../src/types.js";
+import { isRootCauseCategory, type ErrorPatternCardInput } from "../../src/types.js";
 
 describe("findCardsForInjection (v7.7.0)", () => {
   let tmpDir: string;
@@ -229,15 +229,17 @@ describe("frozen-surface regression (v7.6.0 semantics unchanged)", () => {
     expect(revive.inactive).toBe(false);
   });
 
-  it("#15 enum stub alignment: mem literals == rsi literals (source-lock against drift)", () => {
-    // mem 是 source of truth（types.ts 注释）；本测试从 claw-rsi 原件提取字面量比对
-    const rsiSrc = fs.readFileSync(
-      path.join(__dirname, "../../../claw-rsi/src/analyzer.ts"), "utf-8"
+  it("#15 enum source-lock: mem runtime enum == vendored rsi snapshot (drift guard)", () => {
+    // 跨仓原件在 CI 单仓 checkout 下不可达 → 快照 vendored 至 tests/fixtures/（同步责任见 fixture _note）
+    const snapshot = JSON.parse(
+      fs.readFileSync(path.join(__dirname, "../fixtures/root-cause-categories.snapshot.json"), "utf-8")
     );
-    const m = rsiSrc.match(/RootCauseCategoryLiteral\s*=\s*([\s\S]*?);/);
-    expect(m).not.toBeNull();
-    const literals = [...(m![1].match(/"([a-z-]+)"/g) ?? [])].map((s) => s.slice(1, -1)).sort();
+    expect(snapshot.source).toBe("claw-rsi/src/analyzer.ts");
+    const literals = [...snapshot.literals].sort();
     expect(literals).toEqual(["invocation-timing", "skill-defect", "state-defect", "transition-judgment"]);
+    // 漂移锁：mem 运行时枚举与快照一致（rsi 侧增删字面量并 re-vendor 后，mem 未跟进则本断言转红）
+    for (const lit of literals) expect(isRootCauseCategory(lit)).toBe(true);
+    expect(isRootCauseCategory("not-a-category")).toBe(false);
     // triggerSimilarity 导出面可用（裁决 #1 公开）
     expect(typeof triggerSimilarity).toBe("function");
     expect(triggerSimilarity("abc", "abc")).toBe(1);
