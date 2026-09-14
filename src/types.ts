@@ -50,6 +50,12 @@ export interface CardEffectiveness {
   lastHitAt?: string; // ISO-8601
   inactive: boolean; // demotion flag — never deleted
   inactivatedAt?: string; // ISO-8601
+  /** v7.8.0 additive lifecycle stats (host writeback, contract §3; system-written, never caller-set). */
+  lifecycle?: {
+    stableRuns?: number; // 纵向稳定性：注入后未再触发同类问题的连续 run 数
+    backwardRetention?: number; // 向后保留：跨版本仍被召回的证据计数
+    pathAttribution?: string; // 路径归因：该卡被采纳的最近 run 标识（宿主供给透传）
+  };
 }
 
 export const DEFAULT_CARD_EFFECTIVENESS: CardEffectiveness = {
@@ -58,7 +64,22 @@ export const DEFAULT_CARD_EFFECTIVENESS: CardEffectiveness = {
   inactive: false,
 };
 
-/** Structured error pattern card (full schema, ADR-003). */
+/** v7.8.0 card discriminator — absent = "error-pattern" (v7.6.0 cards, zero migration). */
+export type CardType = "error-pattern" | "success-strategy";
+
+/** v7.8.0 success-side subtypes (procedural / strategic / tool-usage). */
+export type SuccessStrategySubtype = "procedural" | "strategic" | "tool-usage";
+
+/** v7.8.0 success-side payload — required iff cardType = "success-strategy" (V1' 双向校验). */
+export interface SuccessStrategyPayload {
+  subtype: SuccessStrategySubtype;
+  /** 触发场景——复用 ErrorSignature.trigger 槽（errorSignature 语义按 cardType 切换）。 */
+  applicableWhen: string;
+  /** 策略步骤（程序性）或决策要点（策略性/工具）；≥1 条。 */
+  steps: string[];
+}
+
+/** Structured error pattern card (full schema, ADR-003; v7.8.0 additive: cardType/successStrategy). */
 export interface ErrorPatternCard {
   cardId: string; // stable id = version-chain primary key (semantic slug `epc:...`)
   errorSignature: ErrorSignature;
@@ -69,6 +90,10 @@ export interface ErrorPatternCard {
   provenance: { source: string; author?: string };
   createdAt: string; // ISO-8601
   updatedAt?: string; // ISO-8601
+  /** v7.8.0 卡判别：缺省 "error-pattern"（v7.6.0 卡零迁移）；成功卡显式 "success-strategy"。 */
+  cardType?: CardType;
+  /** cardType = "success-strategy" 时必填（写入校验 V1'）。 */
+  successStrategy?: SuccessStrategyPayload;
 }
 
 /** Write input for storeErrorPatternCard (effectiveness/createdAt are server-side). */
@@ -79,6 +104,9 @@ export interface ErrorPatternCardInput {
   resolution: string;
   verification?: string;
   provenance: { source: string; author?: string };
+  /** v7.8.0 additive（M1：与 ErrorPatternCard 同步，V1' 覆盖 Input 侧双向校验）。 */
+  cardType?: CardType;
+  successStrategy?: SuccessStrategyPayload;
 }
 
 /** Memory record as stored in all backends. */

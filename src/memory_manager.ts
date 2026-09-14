@@ -677,6 +677,29 @@ export class MemoryManager {
     if (!input.provenance || typeof input.provenance.source !== "string" || !input.provenance.source.trim()) {
       return this._rejectCardGate("V2", "provenance.source is required", input);
     }
+    // V1' (v7.8.0 additive): dual-state guard — success-strategy requires a
+    // well-formed payload; error-pattern (the absent default) must NOT carry one.
+    if (input.cardType !== undefined && input.cardType !== "error-pattern" && input.cardType !== "success-strategy") {
+      return this._rejectCardGate("V1'", `invalid cardType: ${String(input.cardType)}`, input);
+    }
+    if (input.cardType === "success-strategy") {
+      const ss = input.successStrategy;
+      if (!ss || typeof ss !== "object") {
+        return this._rejectCardGate("V1'", 'cardType "success-strategy" requires a successStrategy payload', input);
+      }
+      if (ss.subtype !== "procedural" && ss.subtype !== "strategic" && ss.subtype !== "tool-usage") {
+        return this._rejectCardGate("V1'", `invalid successStrategy.subtype: ${String(ss.subtype)}`, input);
+      }
+      if (typeof ss.applicableWhen !== "string" || !ss.applicableWhen.trim()) {
+        return this._rejectCardGate("V1'", "successStrategy.applicableWhen must be a non-empty string", input);
+      }
+      if (!Array.isArray(ss.steps) || ss.steps.length < 1 ||
+          !ss.steps.every((s) => typeof s === "string" && s.trim())) {
+        return this._rejectCardGate("V1'", "successStrategy.steps must be a non-empty array of non-empty strings", input);
+      }
+    } else if (input.successStrategy) {
+      return this._rejectCardGate("V1'", 'successStrategy is only valid with cardType "success-strategy" (dual-state guard)', input);
+    }
     const effIn = (input as unknown as Record<string, unknown>).effectiveness as
       { hitCount?: number; avoidedCount?: number } | undefined;
     if (effIn && typeof effIn === "object" &&
@@ -699,6 +722,17 @@ export class MemoryManager {
       provenance: input.provenance,
       createdAt: new Date().toISOString(),
     };
+    // v7.8.0: normalise cardType — absent/`"error-pattern"` stays absent (v7.6/v7.7
+    // metadata byte-identical); success cards carry the discriminated payload.
+    if (input.cardType === "success-strategy") {
+      const ss = input.successStrategy!;
+      card.cardType = "success-strategy";
+      card.successStrategy = {
+        subtype: ss.subtype,
+        applicableWhen: ss.applicableWhen.trim(),
+        steps: ss.steps.map((s) => s.trim()),
+      };
+    }
 
     // V3a: on create, a trigger ~duplicate of an active card means the author
     // should edit the existing card instead — advisory only, never reject.
@@ -753,6 +787,7 @@ export class MemoryManager {
         rootCauseCategory: input?.rootCauseCategory,
         resolutionLen: typeof input?.resolution === "string" ? input.resolution.length : undefined,
         provenanceSource: input?.provenance?.source,
+        cardType: input?.cardType,
       },
       caller: input?.provenance?.source?.trim() || "unknown",
     });
@@ -830,7 +865,12 @@ export class MemoryManager {
    */
   recordErrorPatternHit(
     cardId: string,
-    opts: { avoided: boolean; at?: string } = { avoided: false },
+    opts: {
+      avoided: boolean;
+      at?: string;
+      /** v7.8.0: host-supplied lifecycle stats (contract §6.3) — merged only when present; absent keys are never fabricated. */
+      lifecycle?: { stableRuns?: number; backwardRetention?: number; pathAttribution?: string };
+    } = { avoided: false },
   ):
     | { ok: true; cardId: string; hitCount: number; avoidedCount: number; inactive: boolean; version: number }
     | { ok: false; reason: string } {
@@ -842,6 +882,7 @@ export class MemoryManager {
     const now = opts.at ?? new Date().toISOString();
     const prevEff = card.effectiveness;
     const eff = { ...prevEff, hitCount: prevEff.hitCount + 1, lastHitAt: now };
+    if (opts.lifecycle) eff.lifecycle = { ...prevEff.lifecycle, ...opts.lifecycle };
 
     if (opts.avoided) {
       eff.avoidedCount += 1;
@@ -875,7 +916,13 @@ export class MemoryManager {
 
   /** Structured card query — category filter, active-only by default. */
   queryErrorPatternCards(
-    filter: { category?: string; includeInactive?: boolean; limit?: number } = {},
+    filter: {
+      category?: string;
+      includeInactive?: boolean;
+      limit?: number;
+      /** v7.8.0 additive; absent = both types (audit-face semantics). */
+      cardType?: import("./types.js").CardType;
+    } = {},
   ): Array<import("./types.js").ErrorPatternCard> {
     const limit = filter.limit ?? 20;
     let cards = this._semantic.getAll()
@@ -884,6 +931,9 @@ export class MemoryManager {
       .filter((c): c is import("./types.js").ErrorPatternCard => c !== null)
       .map((c) => this._demoteIfIdle(c)); // lazy never-hit demotion on read
     if (filter.category) cards = cards.filter((c) => c.rootCauseCategory === filter.category);
+    if (filter.cardType) {
+      cards = cards.filter((c) => (c.cardType ?? "error-pattern") === filter.cardType);
+    }
     if (!filter.includeInactive) cards = cards.filter((c) => !c.effectiveness.inactive);
     cards.sort((a, b) => {
       const at = a.effectiveness.lastHitAt ?? "";
@@ -935,17 +985,27 @@ export class MemoryManager {
       triggerQuery?: string;
       triggerThreshold?: number;
       category?: import("./types.js").RootCauseCategory;
+      /** v7.8.0 additive; absent = "error-pattern" (v7.7.0 behaviour byte-identical). */
+      cardType?: import("./types.js").CardType;
+      /**
+       * v7.8.0 T2 placeholder: accepted but NOT weighted yet — the caller passes
+       * the ctx `statusSignalKey` product, ranking stays untouched this version
+       * (weighting waits for ctx consumption data; plan §3).
+       */
+      statusKey?: string;
       limit?: number;
     } = {},
   ): Array<import("./types.js").ErrorPatternCard> {
     const threshold = query.triggerThreshold ?? SIMILARITY_THRESHOLD;
     const limit = query.limit ?? 3;
+    const wantType = query.cardType ?? "error-pattern";
     let cards = this._semantic.getAll()
       .filter((e) => e.tags?.includes(ERROR_PATTERN_TAG))
       .map((e) => decodeErrorPatternCard(e))
       .filter((c): c is import("./types.js").ErrorPatternCard => c !== null)
       .map((c) => this._demoteIfIdle(c))
-      .filter((c) => !c.effectiveness.inactive);
+      .filter((c) => !c.effectiveness.inactive)
+      .filter((c) => (c.cardType ?? "error-pattern") === wantType);
     if (query.category) cards = cards.filter((c) => c.rootCauseCategory === query.category);
     const triggerQuery = query.triggerQuery?.trim();
     if (triggerQuery) {
@@ -979,12 +1039,16 @@ export class MemoryManager {
       const m = s.match(/^[\s\S]*?[.!?。！？](?:\s|$)/);
       return (m ? m[0] : s).trim();
     };
-    const lines: string[] = ["[Error Pattern Cards]"];
+    // v7.8.0 块头双态：纯错误卡输出逐字不变（[Error Pattern Cards]）；含策略卡时
+    // 双侧统一头 [Experience Cards]（纯策略卡亦用此头）。
+    const hasSuccess = cards.some((c) => c.cardType === "success-strategy");
+    const lines: string[] = [hasSuccess ? "[Experience Cards]" : "[Error Pattern Cards]"];
     let suppressed = 0;
     for (const card of cards) {
-      const line =
-        `- ⚠️ [${card.cardId} | root: ${card.rootCauseCategory} | from: ${card.provenance?.source ?? "unknown"}] ` +
-        `${card.errorSignature.trigger} → ${firstSentence(card.resolution)}`;
+      const line = card.cardType === "success-strategy"
+        ? this._formatSuccessCardLine(card)
+        : `- ⚠️ [${card.cardId} | root: ${card.rootCauseCategory} | from: ${card.provenance?.source ?? "unknown"}] ` +
+          `${card.errorSignature.trigger} → ${firstSentence(card.resolution)}`;
       if (opts?.maxChars !== undefined && lines.join("\n").length + line.length + 1 > opts.maxChars) {
         suppressed = cards.length - (lines.length - 1);
         break;
@@ -993,6 +1057,16 @@ export class MemoryManager {
     }
     if (suppressed > 0) lines.push(`(+${suppressed} more suppressed)`);
     return lines.join("\n");
+  }
+
+  /** v7.8.0 ✅ 行：`- ✅ [cardId | strategy: <subtype> | from: <source>] applicableWhen → steps[0]…` */
+  private _formatSuccessCardLine(card: import("./types.js").ErrorPatternCard): string {
+    const ss = card.successStrategy;
+    const when = ss?.applicableWhen ?? card.errorSignature.trigger;
+    const step = ss?.steps?.[0] ?? card.resolution;
+    const more = (ss?.steps?.length ?? 0) > 1;
+    return `- ✅ [${card.cardId} | strategy: ${ss?.subtype ?? "unknown"} | from: ${card.provenance?.source ?? "unknown"}] ` +
+      `${when} → ${step}${more ? "…" : ""}`;
   }
 
   // ── error pattern card internals (v7.6.0, ADR-003/005) ───────────

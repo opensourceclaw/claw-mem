@@ -1,0 +1,27 @@
+{
+  "_note": "Vendored snapshot of claw-rsi's MEM_LIFECYCLE_ALIGNED_FIELDS (v5.7.0, discipline.ts) — the BIDIRECTIONAL source-lock half that lands with mem v7.8.0 (rsi discipline.ts:58-70 states the lock explicitly). mem's CardEffectiveness.lifecycle field names must equal the alignment values; mem's own source is the other half of the lock (test asserts src/types.ts matches). Sync responsibility: when either side renames a field, re-vendor this snapshot AND update the renaming side (protocol v4.3.2 variant — cross-repo docs are unreachable in mem's single-repo CI checkout).",
+  "source": "claw-rsi/src/diagnostics/discipline.ts",
+  "sourceVersion": "5.7.0",
+  "capturedAt": "2026-09-14",
+  "capturedLines": "58-70 (comment + MEM_LIFECYCLE_ALIGNED_FIELDS)",
+  "verbatimLines": [
+    "/**",
+    " * Cross-repo field alignment (design-review supplemental #2 — BIDIRECTIONAL",
+    " * source lock): these rsi checklist dimensions correspond to mem v7.8.0's",
+    " * `CardEffectiveness.lifecycle` fields by SAME NAME. The rsi-side lock lives",
+    " * in tests (asserts the mem design document names them); the mem-side lock",
+    " * lands with mem v7.8.0 implementation — either side renaming turns both CIs",
+    " * red.",
+    " */",
+    "export const MEM_LIFECYCLE_ALIGNED_FIELDS = {",
+    "  longitudinalStability: \"stableRuns\",",
+    "  backwardRetention: \"backwardRetention\",",
+    "  pathAttribution: \"pathAttribution\",",
+    "} as const;"
+  ],
+  "alignment": {
+    "longitudinalStability": "stableRuns",
+    "backwardRetention": "backwardRetention",
+    "pathAttribution": "pathAttribution"
+  }
+}

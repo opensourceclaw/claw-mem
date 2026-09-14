@@ -2,7 +2,7 @@
 
 import type { StorageStrategy, StrategyContext, StoreResult, RetrieveOptions, StrategyStats } from "../strategy-registry.js";
 import type { MemoryRecord } from "../../types.js";
-import type { ErrorPatternCard, ErrorSignature, CardEffectiveness } from "../../types.js";
+import type { ErrorPatternCard, ErrorSignature, CardEffectiveness, CardType, SuccessStrategyPayload } from "../../types.js";
 
 /** Fixed tags on every card entry (findByCardId anchor, category filter) */
 export const ERROR_PATTERN_TAG = "error_pattern_card";
@@ -14,7 +14,7 @@ export const CARD_SCHEMA_VERSION = "1";
 // break the comment splitter — same accepted limitation as retention.
 export function encodeCardMetadata(
   card: Pick<ErrorPatternCard, "errorSignature" | "rootCauseCategory" | "verification" | "provenance" | "effectiveness"> &
-    { cardId: string },
+    { cardId: string; cardType?: CardType; successStrategy?: SuccessStrategyPayload },
 ): Record<string, string> {
   const meta: Record<string, string> = {
     card_id: card.cardId,
@@ -25,6 +25,10 @@ export function encodeCardMetadata(
     effectiveness: JSON.stringify(card.effectiveness),
   };
   if (card.verification) meta.verification = card.verification;
+  // v7.8.0 additive — keys written ONLY for success cards so v7.6/v7.7 error-card
+  // metadata stays byte-identical (absent card_type = "error-pattern").
+  if (card.cardType === "success-strategy") meta.card_type = card.cardType;
+  if (card.successStrategy) meta.success_strategy = JSON.stringify(card.successStrategy);
   return meta;
 }
 
@@ -52,7 +56,7 @@ export function decodeErrorPatternCard(
     avoidedCount: 0,
     inactive: false,
   };
-  return {
+  const card: ErrorPatternCard = {
     cardId,
     errorSignature: signature,
     rootCauseCategory: category,
@@ -63,6 +67,13 @@ export function decodeErrorPatternCard(
     createdAt: entry.timestamp,
     updatedAt: meta["updated_at"],
   };
+  // v7.8.0 additive decode (tolerant): absent = "error-pattern", field omitted so
+  // v7.6/v7.7 cards round-trip unchanged.
+  const cardType = meta["card_type"];
+  if (cardType === "success-strategy" || cardType === "error-pattern") card.cardType = cardType;
+  const successStrategy = decodeMeta<SuccessStrategyPayload>(meta["success_strategy"]);
+  if (successStrategy) card.successStrategy = successStrategy;
+  return card;
 }
 
 /**

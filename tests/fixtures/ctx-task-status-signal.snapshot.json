@@ -1,0 +1,19 @@
+{
+  "_note": "Vendored snapshot of claw-ctx's TaskStatusSignal / statusSignalKey (v6.10.0, engine.ts) — the shape that claw-mem's findCardsForInjection statusKey placeholder accepts (design §3, T2). The cross-repo source is unreachable in claw-mem's single-repo CI checkout, so the shape lock asserts against this snapshot. Sync responsibility: when claw-ctx/src/engine.ts changes TaskStatusSignal or statusSignalKey, re-vendor this snapshot (verbatim lines + sourceVersion + capturedFromCommit).",
+  "source": "claw-ctx/src/engine.ts",
+  "sourceVersion": "6.10.0",
+  "capturedFromCommit": "0362065",
+  "capturedAt": "2026-09-14",
+  "capturedLines": "211-218 (interface), 221 (signature)",
+  "interfaceLines": [
+    "export interface TaskStatusSignal {",
+    "  /** Task type; falls back to the existing _taskTypeDetector detection when absent. */",
+    "  taskType?: string;",
+    "  /** Task stage label (host-supplied, pass-through). */",
+    "  stage?: string;",
+    "  /** Recent error event identifiers (opaque, ≤5 kept). */",
+    "  recentErrorIds?: string[];",
+    "}"
+  ],
+  "functionSignature": "export function statusSignalKey(signal: TaskStatusSignal | undefined, fallbackTaskType?: string): string {"
+}

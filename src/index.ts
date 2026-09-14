@@ -70,4 +70,32 @@ export type {
 
 // v7.7.0: error-pattern-card injection path (contract: docs/contracts/error-card-injection-contract.md)
 export { triggerSimilarity } from "./storage/error-pattern-card/similarity.js";
+
+// Card contract + policy composition (v7.8.0)
+export type {
+  ErrorPatternCard,
+  ErrorPatternCardInput,
+  CardEffectiveness,
+  ErrorSignature,
+  RootCauseCategory,
+  CardType,
+  SuccessStrategySubtype,
+  SuccessStrategyPayload,
+} from "./types.js";
+export { isRootCauseCategory } from "./types.js";
+export { IMPORTANCE_WEIGHTS } from "./importance.js";
+export {
+  describeActivePolicies,
+  apply,
+  appendExperimentRecord,
+  listExperimentRecords,
+  emptyRunSample,
+  POLICY_COMPOSITION_FILE,
+} from "./policy/composition.js";
+export type {
+  PolicyDimension,
+  MemoryPolicySlot,
+  PolicyComposition,
+  PolicyExperimentRecord,
+} from "./policy/composition.js";
 export { SIMILARITY_THRESHOLD } from "./storage/error-pattern-card/constants.js";
