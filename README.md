@@ -2,7 +2,7 @@
 
 <div align="center">
 
-**Intelligent Memory for OpenClaw**
+**Intelligent Memory for Agent**
 
 *Make Agent Truly Remember*
 
