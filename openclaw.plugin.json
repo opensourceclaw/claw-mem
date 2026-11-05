@@ -16,11 +16,11 @@
     "memory-search",
     "memory-manage"
   ],
-  "entry": "./src/plugin.ts",
+  "entry": "./dist/src/plugin.js",
   "exports": {
-    ".": "./src/plugin.ts",
-    "./plugin": "./src/plugin.ts",
-    "./types": "./src/types.ts"
+    ".": "./dist/src/plugin.js",
+    "./plugin": "./dist/src/plugin.js",
+    "./types": "./dist/src/types.d.ts"
   },
   "configSchema": {
     "type": "object",
