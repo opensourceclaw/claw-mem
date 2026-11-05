@@ -580,6 +580,8 @@ export class MemoryManager {
 
         this._storeCount++;
         this._tokenCount += this._estimateTokens(content);
+        // A cached miss must not survive a successful write (F-1).
+        this._searchCache.clear();
 
         return true;
       } catch (err) {
@@ -618,6 +620,8 @@ export class MemoryManager {
       }
       this._storeCount++;
       this._tokenCount += this._estimateTokens(content);
+      // A cached miss must not survive a successful write (F-1).
+      this._searchCache.clear();
 
       // Incremental index update
       try {
@@ -1498,8 +1502,16 @@ export class MemoryManager {
         entries.push({ id: (m as { id?: string }).id || m.timestamp || "0", content: m.content });
       }
     }
+    if (this._procedural) {
+      for (const m of this._procedural.getAll()) {
+        entries.push({ id: (m as { id?: string }).id || m.timestamp || "0", content: m.content });
+      }
+    }
     this._index.loadOrBuild(entries);
     this._progressiveLoadState.index = true;
+    // A miss cached while the index was still building must not outlive the
+    // build (F-1: symptom persisted up to the 5s TTL on the startup path).
+    this._searchCache.clear();
   }
 
   // ── factory ─────────────────────────────────────────────────────

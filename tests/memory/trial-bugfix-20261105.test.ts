@@ -87,8 +87,40 @@ describe("v7.8.0 trial findings", () => {
       fs.readFileSync(path.join(REPO_ROOT, "openclaw.plugin.json"), "utf-8"),
     ) as { entry: string; exports: Record<string, string> };
     expect(manifest.entry).toMatch(/^\.\/dist\//);
+    expect(fs.existsSync(path.join(REPO_ROOT, manifest.entry))).toBe(true);
     for (const target of Object.values(manifest.exports)) {
       expect(target).toMatch(/^\.\/dist\//);
+      expect(fs.existsSync(path.join(REPO_ROOT, target))).toBe(true);
     }
+  });
+
+  it("F-1: a startup-window miss does not outlive the index build", async () => {
+    const mm = new MemoryManager({ workspace: tmpDir });
+    mm.store("Peter 的猫叫 Mochi，是一只三岁的橘猫", "episodic", ["pet"]);
+    mm.search("Peter 家里养的动物", undefined, 3); // may miss and be cached
+    await settle();
+    const after = mm.search("Peter 家里养的动物", undefined, 3);
+    expect(after.length).toBeGreaterThan(0);
+    expect(String(after[0].content)).toContain("Mochi");
+  });
+
+  it("F-1: store invalidates a cached miss (write-after-read)", async () => {
+    const mm = new MemoryManager({ workspace: tmpDir });
+    await settle();
+    const before = mm.search("舰队有谁", undefined, 3);
+    expect(before).toEqual([]);
+    mm.store("舰队成员：Vision 是舰队统领", "episodic", ["team"]);
+    const after = mm.search("舰队有谁", undefined, 3);
+    expect(after.length).toBeGreaterThan(0);
+  });
+
+  it("F-2: procedural records written before the index build are searchable", async () => {
+    const mm = new MemoryManager({ workspace: tmpDir });
+    mm.store("舰队成员：Vision 是舰队统领", "procedural", ["team"]);
+    await settle();
+    expect(mm.getStats().indexBuilt).toBe(true);
+    const results = mm.search("舰队有谁", undefined, 3);
+    expect(results.length).toBeGreaterThan(0);
+    expect(String(results[0].content)).toContain("舰队成员");
   });
 });
