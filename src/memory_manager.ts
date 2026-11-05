@@ -28,6 +28,7 @@ import { ComponentFactory, getDefaultFactory } from "./factories.js";
 import { ConstitutionStore } from "./constitution.js";
 import { TranscriptStorage, type TranscriptEntry, type TranscriptMatch, type TranscriptConfig } from "./transcript/index.js";
 import { HybridRetriever, type HybridSearchOptions, type HybridSearchResult } from "./retrieval/hybrid-retriever.js";
+import { SynonymExpander } from "./retrieval/synonym.js";
 import { EntityIndex } from "./entity/entity-index.js";
 import { EntityExtractor } from "./entity/entity-extractor.js";
 import { EntityResolver } from "./entity/entity-resolver.js";
@@ -79,6 +80,7 @@ export class MemoryManager {
   private _compressionSpectrum: CompressionSpectrum | null = null;
   private _transcript: TranscriptStorage | null = null;
   private _hybridRetriever: HybridRetriever | null = null;
+  private _synonymExpander = new SynonymExpander();
   private _entityIndex: EntityIndex | null = null;
   private _strategyRegistry: StrategyRegistry | null = null;
   private _versionChain: VersionChain | null = null;
@@ -103,18 +105,20 @@ export class MemoryManager {
   // Future: private _confidenceGate: ConfidenceGate | null = null;
 
   constructor(opts?: Partial<{
-    workspace?: string; config?: MemoryConfig; autoDetect?: boolean;
+    workspace?: string; storagePath?: string; config?: MemoryConfig; autoDetect?: boolean;
     enableGating?: boolean; enableDecay?: boolean; enableGraph?: boolean;
     enableCompression?: boolean; factory?: ComponentFactory;
     enableProgressiveLoading?: boolean;  // v6.40.0: Progressive loading option
   }>) {
     this._factory = opts?.factory ?? getDefaultFactory();
     this.config = opts?.config ?? new MemoryConfig(opts);
+    // storagePath is the pre-existing README alias for workspace
+    const requestedWorkspace = this.config.workspace || opts?.storagePath;
 
     if (this.config.autoDetect) {
-      this.workspace = this.config.workspace || this._detectWorkspace();
+      this.workspace = requestedWorkspace || this._detectWorkspace();
     } else {
-      this.workspace = this.config.workspace || path.join(os.homedir(), ".openclaw", "workspace");
+      this.workspace = requestedWorkspace || path.join(os.homedir(), ".openclaw", "workspace");
     }
     // Ensure workspace exists
     fs.mkdirSync(this.workspace, { recursive: true });
@@ -309,7 +313,7 @@ export class MemoryManager {
     // Fallback substring search works before index is built
     setTimeout(() => {
       try { this.buildIndex(); this._bm25Ready = true; this._progressiveLoadState.index = true; }
-      catch { /* best effort */ }
+      catch (err) { console.warn("[claw-mem] async index build failed:", err); }
     }, 10);
   }
 
@@ -1232,18 +1236,35 @@ export class MemoryManager {
 
     // v6.36.0: Index-first strategy - use index when available, avoid full scan
     if (this._index.built) {
-      const ids = this._index.search(query, limit * 3);
+      // Synonym expansion feeds the BM25 index only; the substring fallback
+      // below stays on the original query to avoid false positives.
+      const ids = this._index.search(this._synonymExpander.expand(query), limit * 3);
       const idSet = new Set(ids);
 
-      // Load by IDs from episodic (most recent first)
-      const recent = this._episodic.getRecent(ids.length * 2);
-      const indexedResults: Array<Record<string, unknown>> = [];
-      for (const m of recent) {
-        const recordId = (m as any).id || (m as any).metadata?.id;
-        if (recordId && idSet.has(recordId)) {
-          indexedResults.push(m as unknown as Record<string, unknown>);
+      // Load hits across all requested tiers, then order by index score.
+      // Loading episodic only dropped semantic/procedural hits entirely.
+      const byId = new Map<string, Record<string, unknown>>();
+      const collect = (records: unknown[]) => {
+        for (const m of records) {
+          const rec = m as Record<string, unknown>;
+          const recordId = (rec as any).id || (rec as any).metadata?.id;
+          if (recordId && idSet.has(recordId) && !byId.has(recordId)) {
+            byId.set(recordId, rec);
+          }
         }
+      };
+      if (!memoryType || memoryType === "episodic") {
+        collect(this._episodic.getRecent(500));
       }
+      if (!memoryType || memoryType === "semantic") {
+        collect(this._semantic.getAll());
+      }
+      if (!memoryType || memoryType === "procedural") {
+        collect(this._procedural.getAll());
+      }
+      const indexedResults: Array<Record<string, unknown>> = ids
+        .map((id) => byId.get(id))
+        .filter((m): m is Record<string, unknown> => m !== undefined);
 
       // If we found results via index, cache and return
       if (indexedResults.length > 0) {
@@ -1526,19 +1547,8 @@ export class MemoryManager {
   get hybridRetriever(): HybridRetriever | null {
     if (!this._hybridRetriever) {
       this._hybridRetriever = new HybridRetriever({
-        semanticSearchFn: (query: string, limit: number) => {
-          // Use existing search as semantic search
-          return this.search(query, undefined, limit).map((m: any) => ({
-            id: m.id ?? m.timestamp ?? String(Date.now()),
-            text: m.content ?? "",
-            score: m.score ?? 0.5,
-            metadata: m.metadata ?? {},
-            source: "semantic",
-            memory_type: m.type,
-            tags: m.tags,
-            timestamp: m.timestamp,
-          }));
-        },
+        // No embedding provider is configured out of the box; the semantic leg
+        // stays disabled and reports that explicitly in result metadata.
         // v7.5.0 (ADR-002): retention provider for three-way fusion
         getRetentionScore: (id: string) => {
           if (!this._retentionEnabled()) return undefined;
@@ -1563,30 +1573,15 @@ export class MemoryManager {
    * Returns results with completeness score.
    */
   hybridSearch(query: string, options?: HybridSearchOptions): HybridSearchResult {
-    if (!this._hybridRetriever) {
-      // Fallback to regular search (normal retention events apply)
-      const results = this.search(query, undefined, options?.topK ?? 10);
-      return {
-        results: results.map((m: any) => ({
-          id: m.id ?? m.timestamp ?? String(Date.now()),
-          text: m.content ?? "",
-          score: m.score ?? 0.5,
-          metadata: m.metadata ?? {},
-          source: "semantic",
-          memory_type: m.type,
-          tags: m.tags,
-          timestamp: m.timestamp,
-        })),
-        completenessScore: undefined,
-        metadata: { semanticCount: results.length, keywordCount: 0, afterFilterCount: results.length, latencyMs: 0 },
-      };
-    }
+    // Initialize + index on first use. The old fallback to search() reported
+    // keywordCount=0 forever because the retriever was never constructed.
+    const retriever = this.hybridRetriever!;
     // v7.5.0 (ADR-002): suppress search() events during the semantic leg —
     // those are partial candidates (limit = 2×topK), not final selections;
     // the hybrid retriever reports selected/missed once from the full pool
     this._retentionSuppressSearch = true;
     try {
-      return this._hybridRetriever.search(query, options);
+      return retriever.search(query, options);
     } finally {
       this._retentionSuppressSearch = false;
     }

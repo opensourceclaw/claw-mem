@@ -52,13 +52,19 @@ describe("InMemoryIndex", () => {
     const jsonPath = path.join(tmpDir, ".claw-mem-index", "index_v5.0.0.json");
     expect(fs.existsSync(jsonPath)).toBe(true);
 
-    // Reload — v6.39.0: lazy loading, call preload() to trigger
+    // Reload loads the persisted index eagerly (BUG-1: the old lazy path left
+    // built=false forever because callers guard on built before searching).
     const idx2 = new InMemoryIndex(tmpDir, 3, true);
     const loaded = idx2.loadOrBuild([]);
-    expect(loaded).toBe(false); // lazy: not loaded yet
-    idx2.preload();
+    expect(loaded).toBe(true);
     expect(idx2.built).toBe(true);
     expect(idx2.ngramIndex.size).toBeGreaterThan(0);
+  });
+
+  it("matches two-character Chinese words via CJK bigrams", () => {
+    const idx = new InMemoryIndex(tmpDir, 3, false);
+    idx.loadOrBuild([{ id: "fleet", content: "舰队成员：Vision 是舰队统领" }]);
+    expect(idx.search("舰队有谁")).toContain("fleet");
   });
 
   it("should add memory incrementally", () => {

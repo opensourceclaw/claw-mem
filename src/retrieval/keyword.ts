@@ -37,15 +37,23 @@ export function tokenize(text: string): string[] {
 }
 
 const NGRAM_SIZE = 3;
+const CJK_RUN = /[\u3400-\u4dbf\u4e00-\u9fff]+/g;
 
 /**
- * Extract n-grams from text for fuzzy matching.
+ * Extract n-grams from text for fuzzy matching. CJK runs also get bigrams:
+ * two-character words (e.g. "舰队") never form a 3-gram and would otherwise
+ * be unmatchable.
  */
 function extractNgrams(text: string, n: number = NGRAM_SIZE): Set<string> {
   const lower = text.toLowerCase();
   const grams = new Set<string>();
   for (let i = 0; i <= lower.length - n; i++) {
     grams.add(lower.slice(i, i + n));
+  }
+  for (const run of lower.match(CJK_RUN) ?? []) {
+    for (let i = 0; i + 1 < run.length; i++) {
+      grams.add(run.slice(i, i + 2));
+    }
   }
   return grams;
 }

@@ -12,6 +12,8 @@ export class SemanticStrategy implements StorageStrategy {
 
   store(record: MemoryRecord, context: StrategyContext): StoreResult {
     context.semantic.store({
+      id: record.id,
+      timestamp: record.created_at,
       content: record.text,
       tags: record.tags,
       metadata: record.metadata,

@@ -42,6 +42,8 @@ export interface HybridSearchResult {
     keywordCount: number;
     afterFilterCount: number;
     latencyMs: number;
+    /** Set when the semantic leg is unavailable (e.g. no embedding config). */
+    semanticDisabled?: string;
   };
 }
 
@@ -171,6 +173,7 @@ export class HybridRetriever {
         keywordCount: keywordResults.length,
         afterFilterCount: filtered.length,
         latencyMs: Date.now() - startTime,
+        ...(this.semanticSearchFn ? {} : { semanticDisabled: "no embedding config" }),
       },
     };
   }

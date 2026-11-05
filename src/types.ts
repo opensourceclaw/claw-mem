@@ -145,6 +145,7 @@ export interface SemanticEntry {
 
 /** Procedural memory dict (read from Markdown file). */
 export interface ProceduralEntry {
+  id?: string;
   timestamp: string;
   content: string;
   tags: string[];

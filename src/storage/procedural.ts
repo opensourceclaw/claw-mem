@@ -94,9 +94,11 @@ export class ProceduralStorage {
     const timestamp = record.timestamp || new Date().toISOString();
     const content = record.content || "";
     const tags = (record.tags as string[]) || [];
+    const memoryId = (record.id as string) || "";
     const metadata = (record.metadata as Record<string, unknown>) || {};
     const meta: string[] = [];
     if (tags.length) meta.push(`tags: ${tags.join(", ")}`);
+    if (memoryId) meta.push(`id: ${memoryId}`);
     for (const [k, v] of Object.entries(metadata)) {
       meta.push(`${k}: ${v}`);
     }
@@ -143,9 +145,10 @@ export class ProceduralStorage {
             const tags = tagsStr ? tagsStr.split(", ").filter(Boolean) : [];
             const metadata: Record<string, string> = {};
             for (const [k, v] of Object.entries(currentMeta)) {
-              if (k !== "tags") metadata[k] = v;
+              if (k !== "tags" && k !== "id") metadata[k] = v;
             }
             entries.push({
+              id: currentMeta["id"],
               timestamp, content, tags, metadata,
               type: "procedural",
               source: filePath,

@@ -19,6 +19,8 @@ export class PreferenceStrategy implements StorageStrategy {
       // No pref_key, fall back to append with warning
       console.warn("[PreferenceStrategy] No pref_key provided, falling back to append");
       context.semantic.store({
+        id: record.id,
+        timestamp: record.created_at,
         content: record.text,
         tags: [...(record.tags || []), "preference"],
         metadata: record.metadata,
@@ -55,6 +57,8 @@ export class PreferenceStrategy implements StorageStrategy {
 
     // New preference
     context.semantic.store({
+      id: record.id,
+      timestamp: record.created_at,
       content: record.text,
       tags: [...(record.tags || []), "preference", `pref:${prefKey}`],
       metadata: { ...record.metadata, pref_key: prefKey },
