@@ -55,7 +55,7 @@ We compare claw-mem against the top 3 open-source AI agent memory solutions in t
 | **Gating Strategy** | Write-time filtering | Retrieval-time filtering | User-defined | Retrieval-time filtering |
 | **Semantic Layer** | Concept-mediated graph | Entity extraction graph | Limited | Temporal knowledge graph |
 | **Token Budget** | Bisection-based allocation | User-defined | Token limits | Token limits |
-| **Confidence Scoring** | Native (0-1) | Via retrieval score | Via embedding | Via graph reasoning |
+| **Confidence Scoring** | Retention score in `metadata.retention` (JSON string); no `score`/`confidence` field on results | Via retrieval score | Via embedding | Via graph reasoning |
 | **Multi-agent Support** | Yes (fork/isolate modes) | Yes (scopes) | Yes (agent runtime) | Yes |
 | **Subagent Lifecycle** | Yes (memory merge on completion) | Limited | Yes | Limited |
 | **Startup Time** | <1ms | Depends on cloud | 2-5s (Docker) | Depends on cloud |
@@ -81,7 +81,7 @@ We compare claw-mem against the top 3 open-source AI agent memory solutions in t
 | Aspect | claw-mem | Mem0 | Letta | Zep |
 |--------|-----------|------|-------|-----|
 | Write-time gating | Yes | No | No | No |
-| Confidence-based filtering | Native | Retrieval score | User-defined | Graph-based |
+| Confidence-based filtering | Retention-based (`metadata.retention`) | Retrieval score | User-defined | Graph-based |
 | Drift detection | Yes | No | No | Yes |
 
 **Analysis**: claw-mem uniquely implements write-time gating, filtering noise before storage. This reduces storage overhead and improves retrieval quality.
@@ -240,6 +240,8 @@ npm run build
 
 ### As OpenClaw Plugin
 
+**The plugin entry (`openclaw.plugin.json`) points at `dist/` — run `npm run build` first. A bare git clone without a build cannot be loaded.**
+
 add to your OpenClaw configuration:
 
 ```json
@@ -277,7 +279,7 @@ claw-mem also ships as a **pi agent** plugin (`pi_plugin/`, since v7.4.0). The f
 npm test
 
 # Check version
-npm run --silent version
+node -p "require('./package.json').version"
 ```
 
 ---
@@ -313,26 +315,36 @@ npm run --silent version
 ```typescript
 import { MemoryManager } from 'claw-mem';
 
+// `storagePath` is accepted as an alias for `workspace`.
+// `maxTokens` is not consumed by the constructor today — working-memory
+// trimming is bounded separately (`maxStaged`, WORKING_MAX_SIZE).
 const memory = new MemoryManager({
-  storagePath: './memory',
-  maxTokens: 100000,
+  workspace: './memory',
 });
 
-// Store a memory
-await memory.store({
-  content: 'User prefers dark mode UI',
-  salience: 0.8,
-  tags: ['preference', 'ui'],
-});
+// Store a memory: store(content, memoryType = 'episodic', tags = [], metadata = {})
+memory.store('User prefers dark mode UI', 'episodic', ['preference', 'ui']);
 
-// Retrieve memories
-const results = await memory.search('UI preferences', {
-  limit: 5,
-  minScore: 0.3,
-});
+// Retrieve memories: search(query, memoryType?, limit = 10)
+const results = memory.search('UI preferences', 'episodic', 5);
 
 console.log(results);
 ```
+
+`search()` returns the original memory records — there is no `score` or
+`confidence` field on them. Usage-based retention scores live in
+`metadata.retention` as a JSON string (see Confidence Scoring below).
+
+### Hybrid Search
+
+```typescript
+const { results, metadata } = memory.hybridSearch('UI preferences', { topK: 5 });
+```
+
+The keyword leg works out of the box with no external configuration. The
+semantic leg requires an embedding provider; when none is configured,
+`metadata.semanticDisabled` is set to `"no embedding config"` instead of
+silently returning zero results.
 
 ### OpenClaw Integration
 
