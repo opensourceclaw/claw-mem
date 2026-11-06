@@ -48,6 +48,20 @@ interface MemorySearchResult {
 }
 
 // ============================================================================
+// MCP tool-result envelope
+// ============================================================================
+
+/**
+ * OpenClaw validates tool results as MCP content blocks: `result.content`
+ * must be an array. Every execute() path (success, error, early return) goes
+ * through this helper; it is also the single hook point for future per-tool
+ * latency logging.
+ */
+export const toToolResult = (payload: unknown) => ({
+  content: [{ type: "text" as const, text: JSON.stringify(payload ?? {}) }],
+});
+
+// ============================================================================
 // TS Bridge — direct MemoryManager wrapper (replaces Python subprocess)
 // ============================================================================
 
@@ -439,9 +453,9 @@ export default definePluginEntry({
         limit: Type.Optional(Type.Number({ description: "Max results", default: config.topK })),
       }),
       async execute(_id: string, params: any) {
-        if (!bridge.isReady()) return { error: "Bridge not initialized" };
-        try { return await bridge.call("search", params); }
-        catch (error) { return { error: (error as Error).message }; }
+        if (!bridge.isReady()) return toToolResult({ error: "Bridge not initialized" });
+        try { return toToolResult(await bridge.call("search", params)); }
+        catch (error) { return toToolResult({ error: (error as Error).message }); }
       },
       });
 
@@ -454,16 +468,16 @@ export default definePluginEntry({
         memory_type: Type.Optional(Type.String({ default: "episodic" })),
       }),
       async execute(_id: string, params: any) {
-        if (!bridge.isReady()) return { error: "Bridge not initialized" };
+        if (!bridge.isReady()) return toToolResult({ error: "Bridge not initialized" });
         // v7.6.0 (ADR-003/006): a 错误模式卡 / error pattern prefix marks card
         // intent — route to the card write face (structured or guided back)
         const text = String(params.text ?? params.content ?? "");
         if (text.trim() && CARD_INTENT_PREFIX.test(text.trim())) {
-          try { return await bridge.call("store_error_pattern_card", { text }); }
-          catch (error) { return { error: (error as Error).message }; }
+          try { return toToolResult(await bridge.call("store_error_pattern_card", { text })); }
+          catch (error) { return toToolResult({ error: (error as Error).message }); }
         }
-        try { return await bridge.call("store", params); }
-        catch (error) { return { error: (error as Error).message }; }
+        try { return toToolResult(await bridge.call("store", params)); }
+        catch (error) { return toToolResult({ error: (error as Error).message }); }
       },
       });
 
@@ -482,9 +496,9 @@ export default definePluginEntry({
         author: Type.Optional(Type.String({ description: "Optional author" })),
       }),
       async execute(_id: string, params: any) {
-        if (!bridge.isReady()) return { error: "Bridge not initialized" };
-        try { return await bridge.call("store_error_pattern_card", params); }
-        catch (error) { return { error: (error as Error).message }; }
+        if (!bridge.isReady()) return toToolResult({ error: "Bridge not initialized" });
+        try { return toToolResult(await bridge.call("store_error_pattern_card", params)); }
+        catch (error) { return toToolResult({ error: (error as Error).message }); }
       },
       });
 
@@ -495,7 +509,7 @@ export default definePluginEntry({
         id: Type.String({ description: "Memory ID" }),
       }),
       async execute(_id: string, _params: any) {
-        return { error: "Use memory_search instead." };
+        return toToolResult({ error: "Use memory_search instead." });
       },
       });
 
@@ -506,7 +520,7 @@ export default definePluginEntry({
         id: Type.String({ description: "Memory ID to delete" }),
       }),
       async execute(_id: string, _params: any) {
-        return { error: "Delete not supported." };
+        return toToolResult({ error: "Delete not supported." });
       },
       });
 
@@ -518,9 +532,9 @@ export default definePluginEntry({
         context: Type.Optional(Type.Object({}, { description: "Error context (agent, task, etc.)" })),
       }),
       async execute(_id: string, params: any) {
-        if (!bridge.isReady()) return { error: "Bridge not initialized" };
-        try { return await bridge.call("classify_failure_signal", params); }
-        catch (error) { return { error: (error as Error).message }; }
+        if (!bridge.isReady()) return toToolResult({ error: "Bridge not initialized" });
+        try { return toToolResult(await bridge.call("classify_failure_signal", params)); }
+        catch (error) { return toToolResult({ error: (error as Error).message }); }
       },
       });
 
@@ -543,9 +557,9 @@ export default definePluginEntry({
       description: "Get all constitution rules",
       parameters: Type.Object({}),
       async execute(_id: string, _params: any) {
-        if (!bridge.isReady()) return { error: "Bridge not initialized" };
-        try { return await bridge.call("get_constitution", {}); }
-        catch (error) { return { error: (error as Error).message }; }
+        if (!bridge.isReady()) return toToolResult({ error: "Bridge not initialized" });
+        try { return toToolResult(await bridge.call("get_constitution", {})); }
+        catch (error) { return toToolResult({ error: (error as Error).message }); }
       },
       });
 
@@ -557,9 +571,9 @@ export default definePluginEntry({
         tags: Type.Optional(Type.Array(Type.String())),
       }),
       async execute(_id: string, params: any) {
-        if (!bridge.isReady()) return { error: "Bridge not initialized" };
-        try { return await bridge.call("promote_constitution_rule", params); }
-        catch (error) { return { error: (error as Error).message }; }
+        if (!bridge.isReady()) return toToolResult({ error: "Bridge not initialized" });
+        try { return toToolResult(await bridge.call("promote_constitution_rule", params)); }
+        catch (error) { return toToolResult({ error: (error as Error).message }); }
       },
       });
 
@@ -570,9 +584,9 @@ export default definePluginEntry({
         entryId: Type.String({ description: "Rule ID to delete" }),
       }),
       async execute(_id: string, params: any) {
-        if (!bridge.isReady()) return { error: "Bridge not initialized" };
-        try { return await bridge.call("delete_constitution_rule", params); }
-        catch (error) { return { error: (error as Error).message }; }
+        if (!bridge.isReady()) return toToolResult({ error: "Bridge not initialized" });
+        try { return toToolResult(await bridge.call("delete_constitution_rule", params)); }
+        catch (error) { return toToolResult({ error: (error as Error).message }); }
       },
       });
 
@@ -587,9 +601,9 @@ export default definePluginEntry({
         sessionId: Type.String({ description: "Session ID" }),
       }),
       async execute(_id: string, params: any) {
-        if (!bridge.isReady()) return { error: "Bridge not initialized" };
-        try { return await bridge.call("transcript_get", params); }
-        catch (error) { return { error: (error as Error).message }; }
+        if (!bridge.isReady()) return toToolResult({ error: "Bridge not initialized" });
+        try { return toToolResult(await bridge.call("transcript_get", params)); }
+        catch (error) { return toToolResult({ error: (error as Error).message }); }
       },
       });
 
@@ -601,9 +615,9 @@ export default definePluginEntry({
         limit: Type.Optional(Type.Number({ description: "Max results", default: 10 })),
       }),
       async execute(_id: string, params: any) {
-        if (!bridge.isReady()) return { error: "Bridge not initialized" };
-        try { return await bridge.call("transcript_search", params); }
-        catch (error) { return { error: (error as Error).message }; }
+        if (!bridge.isReady()) return toToolResult({ error: "Bridge not initialized" });
+        try { return toToolResult(await bridge.call("transcript_search", params)); }
+        catch (error) { return toToolResult({ error: (error as Error).message }); }
       },
       });
 
@@ -618,9 +632,9 @@ export default definePluginEntry({
         snapshot: Type.Object({}, { description: "Session snapshot data" }),
       }),
       async execute(_id: string, params: any) {
-        if (!bridge.isReady()) return { error: "Bridge not initialized" };
-        try { return await bridge.call("session_snapshot", params); }
-        catch (error) { return { error: (error as Error).message }; }
+        if (!bridge.isReady()) return toToolResult({ error: "Bridge not initialized" });
+        try { return toToolResult(await bridge.call("session_snapshot", params)); }
+        catch (error) { return toToolResult({ error: (error as Error).message }); }
       },
       });
 
@@ -631,9 +645,9 @@ export default definePluginEntry({
         sessionId: Type.Optional(Type.String({ description: "Optional session ID" })),
       }),
       async execute(_id: string, params: any) {
-        if (!bridge.isReady()) return { error: "Bridge not initialized" };
-        try { return await bridge.call("session_get_latest", params); }
-        catch (error) { return { error: (error as Error).message }; }
+        if (!bridge.isReady()) return toToolResult({ error: "Bridge not initialized" });
+        try { return toToolResult(await bridge.call("session_get_latest", params)); }
+        catch (error) { return toToolResult({ error: (error as Error).message }); }
       },
       });
 
@@ -648,9 +662,9 @@ export default definePluginEntry({
         name: Type.String({ description: "Entity name to search" }),
       }),
       async execute(_id: string, params: any) {
-        if (!bridge.isReady()) return { error: "Bridge not initialized" };
-        try { return await bridge.call("entity_search", params); }
-        catch (error) { return { error: (error as Error).message }; }
+        if (!bridge.isReady()) return toToolResult({ error: "Bridge not initialized" });
+        try { return toToolResult(await bridge.call("entity_search", params)); }
+        catch (error) { return toToolResult({ error: (error as Error).message }); }
       },
       });
 
@@ -662,9 +676,9 @@ export default definePluginEntry({
         offset: Type.Optional(Type.Number({ default: 0 })),
       }),
       async execute(_id: string, params: any) {
-        if (!bridge.isReady()) return { error: "Bridge not initialized" };
-        try { return await bridge.call("entity_list", params); }
-        catch (error) { return { error: (error as Error).message }; }
+        if (!bridge.isReady()) return toToolResult({ error: "Bridge not initialized" });
+        try { return toToolResult(await bridge.call("entity_list", params)); }
+        catch (error) { return toToolResult({ error: (error as Error).message }); }
       },
       });
 
@@ -679,9 +693,9 @@ export default definePluginEntry({
         pref_key: Type.String({ description: "Preference key" }),
       }),
       async execute(_id: string, params: any) {
-        if (!bridge.isReady()) return { error: "Bridge not initialized" };
-        try { return await bridge.call("get_preference", params); }
-        catch (error) { return { error: (error as Error).message }; }
+        if (!bridge.isReady()) return toToolResult({ error: "Bridge not initialized" });
+        try { return toToolResult(await bridge.call("get_preference", params)); }
+        catch (error) { return toToolResult({ error: (error as Error).message }); }
       },
       });
 
@@ -693,9 +707,9 @@ export default definePluginEntry({
         version: Type.Number({ description: "Target version number" }),
       }),
       async execute(_id: string, params: any) {
-        if (!bridge.isReady()) return { error: "Bridge not initialized" };
-        try { return await bridge.call("rollback_preference", params); }
-        catch (error) { return { error: (error as Error).message }; }
+        if (!bridge.isReady()) return toToolResult({ error: "Bridge not initialized" });
+        try { return toToolResult(await bridge.call("rollback_preference", params)); }
+        catch (error) { return toToolResult({ error: (error as Error).message }); }
       },
       });
 
