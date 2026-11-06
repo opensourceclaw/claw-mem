@@ -1,0 +1,32 @@
+#!/bin/sh
+# publish-scope hygiene (rule 2026-11-06, Peter):
+# PUBLIC repo: inbox/ 与 docs/ 不纳入版本管控,不得提交/推送到 GitHub。
+# PRIVATE repo: inbox/ 与 docs/ 纳入版本管控,可推送。
+# Non-GitHub / unknown visibility: skip (fail-open) — 归属不明不由本钩子拦。
+set -u
+
+ROOT=$(git rev-parse --show-toplevel 2>/dev/null) || exit 0
+VIS=$(gh repo view --json visibility -q .visibility 2>/dev/null) || VIS=""
+
+case "$VIS" in
+  PUBLIC) ;;
+  *) exit 0 ;;   # PRIVATE / 空(非 GitHub 仓): 本规则不适用
+esac
+
+TRACKED=$(git ls-files -- 'inbox/*' 'docs/*' 'inbox/**/*' 'docs/**/*' 2>/dev/null | sort -u)
+if [ -n "$TRACKED" ]; then
+  echo "[publish-scope] PUSH REJECTED: PUBLIC repo 不得跟踪 inbox/ 或 docs/（Peter 规则 2026-11-06）。先 untrack:" >&2
+  echo "$TRACKED" | head -20 >&2
+  echo "  fix: git rm -r --cached inbox docs && git commit -m 'chore: untrack inbox/docs (public repo)'" >&2
+  exit 1
+fi
+
+# 已跟踪为空后,再确认 gitignore 有兜底,防止新增文件再次混入
+for d in inbox docs; do
+  if [ -d "$ROOT/$d" ] && ! git check-ignore -q "$ROOT/$d" 2>/dev/null; then
+    echo "[publish-scope] PUSH REJECTED: PUBLIC repo 的 $d/ 未被 .gitignore 覆盖，可能混入后续提交。" >&2
+    exit 1
+  fi
+done
+
+exit 0

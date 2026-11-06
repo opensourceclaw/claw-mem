@@ -138,3 +138,6 @@ results/
 # Runtime artifacts (do not commit to public repo)
 src/transcript/MEMORY.md
 test_run_validation/
+
+# publish-scope (Peter rule 2026-11-06): public repo — inbox not versioned
+inbox/
