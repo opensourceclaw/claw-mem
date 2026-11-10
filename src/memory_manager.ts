@@ -164,7 +164,7 @@ export class MemoryManager {
       // Clean up expired transcripts on startup
       const deleted = this._transcript.cleanupExpired();
       if (deleted > 0) {
-        log(`Cleaned up ${deleted} expired transcript directories`);
+        log(`Archived ${deleted} expired transcript directories to _archive/`);
       }
     }
 
