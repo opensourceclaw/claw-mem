@@ -311,10 +311,25 @@ export class MemoryManager {
   private _startAsyncBuild(): void {
     // Defer index build to next tick so constructor returns fast
     // Fallback substring search works before index is built
-    setTimeout(() => {
-      try { this.buildIndex(); this._bm25Ready = true; this._progressiveLoadState.index = true; }
-      catch (err) { console.warn("[claw-mem] async index build failed:", err); }
+    //
+    // CI flake fix (2026-11-10, run 42831455554): the deferred build used to
+    // log via console.warn when the workspace had already been removed by a
+    // finished test, and that log raced worker teardown → EnvironmentTeardownError
+    // ("Closing rpc while \"onUserConsoleLog\" was pending"). A workspace that no
+    // longer exists is not an error worth reporting: skip silently. The timer is
+    // also unref'd so it never keeps the process alive.
+    const timer = setTimeout(() => {
+      try {
+        if (!fs.existsSync(this.workspace)) return; // torn-down test workspace
+        this.buildIndex();
+        this._bm25Ready = true;
+        this._progressiveLoadState.index = true;
+      } catch (err) {
+        if (!fs.existsSync(this.workspace)) return; // raced with teardown
+        console.warn("[claw-mem] async index build failed:", err);
+      }
     }, 10);
+    if (typeof timer.unref === "function") timer.unref();
   }
 
   // v6.40.0: Background prefetch for progressive loading
@@ -339,7 +354,11 @@ export class MemoryManager {
 
         // Phase 3: Semantic/procedural stay lazy (on demand via getters)
       } catch (err) {
-        console.error("[claw-mem] Background prefetch failed:", err);
+        // Same CI-teardown guard as _startAsyncBuild: a removed workspace is not
+        // an error, and logging after teardown races worker RPC shutdown.
+        if (fs.existsSync(this.workspace)) {
+          console.error("[claw-mem] Background prefetch failed:", err);
+        }
       }
     })();
   }
