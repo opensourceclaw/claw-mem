@@ -297,7 +297,10 @@ export class TranscriptStorage {
   }
 
   /**
-   * Clean up expired transcripts.
+   * Soft-delete expired transcripts: move date directories to
+   * `transcripts/_archive/` instead of removing them. Transcripts are the
+   * immutable (append-only) layer, so TTL expiry must keep history
+   * recoverable (Exo storage contract). Returns count of archived dirs.
    */
   cleanupExpired(): number {
     if (!this.config.enabled) return 0;
@@ -308,7 +311,8 @@ export class TranscriptStorage {
     const transcriptsDir = path.join(this.workspace, 'transcripts');
     if (!fs.existsSync(transcriptsDir)) return 0;
 
-    let deletedCount = 0;
+    const archiveDir = path.join(transcriptsDir, '_archive');
+    let archivedCount = 0;
     const dateDirs = fs.readdirSync(transcriptsDir);
 
     for (const dateDir of dateDirs) {
@@ -317,15 +321,18 @@ export class TranscriptStorage {
         const dirDate = new Date(year, month - 1, day);
 
         if (dirDate < cutoff) {
-          fs.rmSync(path.join(transcriptsDir, dateDir), { recursive: true, force: true });
-          deletedCount++;
+          fs.mkdirSync(archiveDir, { recursive: true });
+          let dest = path.join(archiveDir, dateDir);
+          if (fs.existsSync(dest)) dest = path.join(archiveDir, `${dateDir}.${Date.now()}`);
+          fs.renameSync(path.join(transcriptsDir, dateDir), dest);
+          archivedCount++;
         }
       } catch {
-        // Skip directories that don't match date format
+        // Skip entries that don't match the date-directory format
       }
     }
 
-    return deletedCount;
+    return archivedCount;
   }
 
   /**

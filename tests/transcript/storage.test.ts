@@ -268,7 +268,7 @@ describe("TranscriptStorage", () => {
   });
 
   describe("cleanup", () => {
-    it("removes expired directories", () => {
+    it("archives expired directories instead of removing them (soft delete)", () => {
       storage = new TranscriptStorage(tmpDir, { ttlDays: 7 });
 
       // Create an old directory
@@ -279,9 +279,17 @@ describe("TranscriptStorage", () => {
       fs.mkdirSync(oldDir, { recursive: true });
       fs.writeFileSync(path.join(oldDir, "session-old.md"), "old content");
 
-      const deleted = storage.cleanupExpired();
-      expect(deleted).toBe(1);
+      const archived = storage.cleanupExpired();
+      expect(archived).toBe(1);
+      // Active path is gone…
       expect(fs.existsSync(oldDir)).toBe(false);
+      // …but the transcript bytes survive in _archive and are still readable.
+      const archivedFile = path.join(tmpDir, "transcripts", "_archive", oldDateStr, "session-old.md");
+      expect(fs.existsSync(archivedFile)).toBe(true);
+      expect(fs.readFileSync(archivedFile, "utf-8")).toBe("old content");
+      // Archived data does not resurface through the live lookup path.
+      expect(storage.getTranscript("old")).toBeNull();
+      expect(storage.searchTranscripts("old content")).toEqual([]);
     });
 
     it("keeps directories within TTL", () => {

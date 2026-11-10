@@ -73,23 +73,34 @@ export class EpisodicStorage {
     return this.readFile(filePath);
   }
 
-  /** Clean up files older than ttlDays. Returns count of deleted files. */
+  /**
+   * Soft-delete files older than ttlDays: move them to `memory/_archive/`
+   * instead of unlinking. Daily notes are the immutable (append-only) layer,
+   * so expiry must never destroy history (Exo storage contract).
+   * Returns count of archived files.
+   */
   cleanupExpired(): number {
     const cutoff = new Date();
     cutoff.setDate(cutoff.getDate() - this.ttlDays);
-    let deleted = 0;
+    const archiveDir = path.join(this.memoryDir, "_archive");
+    let archived = 0;
     for (const fname of this.globMdFiles()) {
       try {
         const dateStr = fname.replace(".md", "");
         const [y, m, d] = dateStr.split("-").map(Number);
         const fileDate = new Date(y, m - 1, d);
         if (fileDate < cutoff) {
-          fs.unlinkSync(path.join(this.memoryDir, fname));
-          deleted++;
+          fs.mkdirSync(archiveDir, { recursive: true });
+          let dest = path.join(archiveDir, fname);
+          if (fs.existsSync(dest)) {
+            dest = path.join(archiveDir, fname.replace(/\.md$/, `.${Date.now()}.md`));
+          }
+          fs.renameSync(path.join(this.memoryDir, fname), dest);
+          archived++;
         }
       } catch { continue; }
     }
-    return deleted;
+    return archived;
   }
 
   /** Count total memory records. */

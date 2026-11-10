@@ -306,6 +306,20 @@ node -p "require('./package.json').version"
 +-------------------------------------------------------------+
 ```
 
+### Memory Mutability Boundary
+
+claw-mem declares two storage layers:
+
+| Layer | What | Mutation rules |
+|-------|------|----------------|
+| **Mutable (curated)** | `MEMORY.md`, preference current values, constitution L1/L2 | May be edited, folded, or deleted |
+| **Immutable (append/history)** | `memory/YYYY-MM-DD.md` (daily notes), `transcripts/YYYY-MM-DD/` (session transcripts), preference/error-pattern version chains, constitution L0 | Append-only. Entries are never overwritten or physically deleted; expiry and removal are soft-deletes that move data under the layer's `_archive/` directory. |
+
+Curation passes (dreaming-style consolidation) may read the immutable layer,
+but their output belongs to the mutable or derived (index/cache) layers.
+Indexes and caches are rebuildable derived state and are not governed by this
+contract.
+
 ---
 
 ## Usage
