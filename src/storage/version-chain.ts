@@ -131,12 +131,26 @@ export class VersionChain {
     return newVersionEntry;
   }
 
-  /** Clear version history for a preference */
+  /**
+   * Archive (soft-delete) the version chain for a preference key.
+   *
+   * The version chain is part of the immutable (append-only) layer, so removal
+   * must never destroy history (Exo storage contract / README Memory Mutability
+   * Boundary). The chain file is moved to `<chainDir>/_archive/` instead of
+   * being unlinked; live readers of the key see no chain, archived bytes stay
+   * recoverable. (OBS-3: previously unlink() here, contradicting the contract.)
+   */
   clearHistory(prefKey: string): void {
     const filePath = this.getFilePath(prefKey);
-    if (fs.existsSync(filePath)) {
-      fs.unlinkSync(filePath);
+    if (!fs.existsSync(filePath)) return;
+    const archiveDir = path.join(this.chainDir, "_archive");
+    fs.mkdirSync(archiveDir, { recursive: true });
+    const base = path.basename(filePath);
+    let dest = path.join(archiveDir, base);
+    if (fs.existsSync(dest)) {
+      dest = path.join(archiveDir, base.replace(/\.json$/, `.${Date.now()}.json`));
     }
+    fs.renameSync(filePath, dest);
   }
 
   /** Get file path for a preference key (sanitized) */

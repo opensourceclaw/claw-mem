@@ -137,4 +137,23 @@ describe("VersionChain", () => {
     const prefs = semanticStorage.searchByTag("pref:theme");
     expect(prefs[0]?.content).toBe("light");
   });
+  // OBS-3 (Edith QA 2026-11-10): version chains are immutable-layer data —
+  // clearHistory must archive, never unlink.
+  it("clearHistory archives the chain instead of destroying it", () => {
+    versionChain.archive("theme", { id: "pref_1", text: "dark", memory_type: "preference" });
+    const chainFile = path.join(tmpDir, "memory", "preferences", "theme.json");
+    const before = fs.readFileSync(chainFile, "utf-8");
+
+    versionChain.clearHistory("theme");
+
+    expect(fs.existsSync(chainFile)).toBe(false); // live chain gone
+    const archiveDir = path.join(tmpDir, "memory", "preferences", "_archive");
+    const archived = fs.readdirSync(archiveDir).filter((f) => f.startsWith("theme"));
+    expect(archived).toHaveLength(1);
+    expect(fs.readFileSync(path.join(archiveDir, archived[0]), "utf-8")).toBe(before);
+  });
+
+  it("clearHistory is a no-op when the key has no chain", () => {
+    expect(() => versionChain.clearHistory("no-such-key")).not.toThrow();
+  });
 });
