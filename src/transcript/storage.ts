@@ -20,6 +20,8 @@ export interface TranscriptMatch {
   date: string;
   snippet: string;
   score: number;
+  /** v7.10.0 (ADR-007): full transcript text for id-based retrieval (search hits keep snippet only). */
+  content?: string;
 }
 
 export interface TranscriptLogger {
@@ -237,6 +239,85 @@ export class TranscriptStorage {
       }
     }
 
+    return null;
+  }
+
+  /**
+   * v7.10.0 (ADR-007): retrieve transcripts by session id (no search).
+   * Live date directories are searched first, then the soft-delete archive
+   * (`transcripts/_archive/<date>/`). Unknown ids are skipped, duplicates are
+   * collapsed, and a missing/unreadable transcript never throws.
+   */
+  getTranscriptByIds(ids: string[]): TranscriptMatch[] {
+    if (!this.config.enabled || !Array.isArray(ids)) return [];
+
+    const results: TranscriptMatch[] = [];
+    const seen = new Set<string>();
+    for (const rawId of ids) {
+      const id = typeof rawId === "string" ? rawId.trim() : "";
+      // Session ids are single path components; refuse separators/traversal.
+      if (!id || id === "." || id === ".." || /[/\\\0]/.test(id) || seen.has(id)) continue;
+      seen.add(id);
+
+      const found = this.findTranscriptFile(id);
+      if (!found) continue;
+      try {
+        const content = fs.readFileSync(found.filePath, "utf-8");
+        results.push({
+          sessionId: id,
+          date: found.date,
+          snippet: content.slice(0, 200),
+          score: 1,
+          content,
+        });
+      } catch {
+        // Unreadable file → treat as missing, never throw.
+      }
+    }
+    return results;
+  }
+
+  /** Locate `session-<id>.md` in live date dirs first, then `_archive/`. */
+  private findTranscriptFile(sessionId: string): { filePath: string; date: string } | null {
+    const transcriptsDir = path.join(this.workspace, "transcripts");
+    if (!fs.existsSync(transcriptsDir)) return null;
+
+    const live = this.scanTranscriptDirs(transcriptsDir, sessionId, "_archive");
+    if (live) return live;
+
+    const archiveDir = path.join(transcriptsDir, "_archive");
+    if (!fs.existsSync(archiveDir)) return null;
+    return this.scanTranscriptDirs(archiveDir, sessionId);
+  }
+
+  private scanTranscriptDirs(
+    rootDir: string,
+    sessionId: string,
+    excludeDir?: string,
+  ): { filePath: string; date: string } | null {
+    let dirs: string[];
+    try {
+      dirs = fs
+        .readdirSync(rootDir)
+        .filter((name) => {
+          if (name.startsWith(".") || name === excludeDir) return false;
+          try {
+            return fs.statSync(path.join(rootDir, name)).isDirectory();
+          } catch {
+            return false;
+          }
+        })
+        .sort()
+        .reverse();
+    } catch {
+      return null;
+    }
+
+    const fileName = `session-${sessionId}.md`;
+    for (const dateDir of dirs) {
+      const filePath = path.join(rootDir, dateDir, fileName);
+      if (fs.existsSync(filePath)) return { filePath, date: dateDir };
+    }
     return null;
   }
 

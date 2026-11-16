@@ -109,6 +109,27 @@ export interface ErrorPatternCardInput {
   successStrategy?: SuccessStrategyPayload;
 }
 
+// ============================================================================
+// Evidence pointers + event time (v7.10.0, ADR-007)
+// ============================================================================
+
+/**
+ * Span-level evidence pointer tying a record assertion back to its raw source
+ * (transcript id preferred, or daily-note/file path). All fields are additive:
+ * records without evidence keep the pre-v7.10 behavior byte-for-byte.
+ *
+ * `span` is a stable substring of the record text (preferred over offsets,
+ * which are fragile after edits). `offset` is an optional aid for locating the
+ * span. `eventTime` keeps the source precision (YYYY / YYYY-MM /
+ * YYYY-MM-DD).
+ */
+export interface MemoryEvidence {
+  span: string;
+  offset?: number;
+  eventTime?: string;
+  sourceRefs: string[];
+}
+
 /** Memory record as stored in all backends. */
 export interface MemoryRecord {
   id: string;
@@ -118,6 +139,13 @@ export interface MemoryRecord {
   updated_at?: string;
   metadata: Record<string, unknown>;
   tags: string[];
+  /** v7.10.0 (ADR-007): optional span-level evidence pointers. Absent = legacy record. */
+  evidence?: MemoryEvidence[];
+  /**
+   * v7.10.0 (ADR-007): when the event happened (≠ created_at, when it was
+   * recorded). Original precision preserved; absent = fall back to created_at.
+   */
+  eventTime?: string;
 }
 
 /** Episodic memory dict (read from Markdown file). */

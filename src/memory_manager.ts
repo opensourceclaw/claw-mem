@@ -11,6 +11,7 @@
 import * as fs from "fs";
 import * as os from "os";
 import * as path from "path";
+import { createHash } from "crypto";
 import { VERSION } from "./version.js";
 import { EpisodicStorage } from "./storage/episodic.js";
 import { SemanticStorage } from "./storage/semantic.js";
@@ -24,6 +25,120 @@ import { RetentionScoreEngine, type RetentionState } from "./retention/retention
 
 /** v6.36.0: Maximum working memory size to prevent unbounded growth */
 const WORKING_MAX_SIZE = 500;
+
+// ── v7.10.0 (ADR-007): evidence pointers + event time ────────────────────
+// Evidence is persisted inside the existing metadata comment so no storage
+// format change is needed. The JSON is base64-encoded because the metadata
+// comment parser splits on ";" and evidence spans may contain any character.
+const EVIDENCE_META_KEY = "_clawmem_evidence";
+const EVENT_TIME_META_KEY = "_clawmem_event_time";
+const EVENT_TIME_RE = /^\d{4}(?:-\d{2}(?:-\d{2}(?:T[\d:.+-]+)?)?)?$/;
+
+// ADR-008 hard caps: bounded read-only navigation.
+const SOURCE_MAX_REFS = 10;
+const SOURCE_MAX_CHARS = 2048;
+
+/** Optional write extras for evidence pointers / event time (ADR-007). */
+export interface MemoryStoreExtras {
+  evidence?: import("./types.js").MemoryEvidence[];
+  eventTime?: string;
+}
+
+/** Optional time semantics for retrieval (ADR-007 §3). */
+export interface MemorySearchOptions {
+  /** Inclusive lower bound on `eventTime ?? created_at`. */
+  since?: string;
+  /** Inclusive upper bound on `eventTime ?? created_at`. */
+  until?: string;
+  /** `relevance` (default) keeps score order; `time` sorts newest effective time first. */
+  orderBy?: "relevance" | "time";
+}
+
+// ── v7.10.0 (ADR-008): read-only navigation surface ─────────────────────
+
+/** Metadata-only list row (never carries full text). */
+export interface MemoryListItem {
+  id: string;
+  title: string;
+  time?: string;
+  tags: string[];
+  layer: "episodic" | "semantic" | "procedural" | "preference";
+}
+
+/** Single-record read result; `lines` is a 1-based inclusive range. */
+export interface MemoryGetResult {
+  id: string;
+  title: string;
+  text: string;
+  memory_type: string;
+  created_at?: string;
+  time?: string;
+  tags: string[];
+  evidence?: MemoryEvidence[];
+  eventTime?: string;
+  lineRange?: [number, number];
+  totalLines: number;
+}
+
+export interface MemoryLinkOut {
+  ref: string;
+  type: "transcript" | "path" | "unknown";
+}
+
+export interface MemoryBacklink {
+  id: string;
+  title: string;
+  time?: string;
+}
+
+export interface MemoryLinksResult {
+  id: string;
+  direction: "out" | "in" | "both";
+  out: MemoryLinkOut[];
+  in: MemoryBacklink[];
+}
+
+export interface MemorySource {
+  ref: string;
+  type: "transcript" | "path" | "unknown";
+  found: boolean;
+  text?: string;
+  truncated?: boolean;
+  sessionId?: string;
+  date?: string;
+}
+
+export interface MemorySourcesResult {
+  sources: MemorySource[];
+  requested: number;
+  returned: number;
+  maxRefsPerCall: number;
+  maxCharsPerItem: number;
+}
+
+interface MemoryRecordView {
+  id: string;
+  title: string;
+  text: string;
+  layer: "episodic" | "semantic" | "procedural";
+  created_at?: string;
+  tags: string[];
+  metadata?: Record<string, unknown>;
+}
+
+function encodeEvidenceMetadata(evidence: MemoryEvidence[]): string {
+  return Buffer.from(JSON.stringify(evidence), "utf-8").toString("base64");
+}
+
+function decodeEvidenceMetadata(raw: unknown): MemoryEvidence[] | undefined {
+  if (typeof raw !== "string" || raw === "") return undefined;
+  try {
+    const parsed = JSON.parse(Buffer.from(raw, "base64").toString("utf-8"));
+    return Array.isArray(parsed) ? (parsed as MemoryEvidence[]) : undefined;
+  } catch {
+    return undefined; // corrupt/legacy payload → behave as no evidence
+  }
+}
 import { ComponentFactory, getDefaultFactory } from "./factories.js";
 import { ConstitutionStore } from "./constitution.js";
 import { TranscriptStorage, type TranscriptEntry, type TranscriptMatch, type TranscriptConfig } from "./transcript/index.js";
@@ -32,7 +147,7 @@ import { SynonymExpander } from "./retrieval/synonym.js";
 import { EntityIndex } from "./entity/entity-index.js";
 import { EntityExtractor } from "./entity/entity-extractor.js";
 import { EntityResolver } from "./entity/entity-resolver.js";
-import type { EntityRecord, EntitySearchResult, ResolutionResult, EntityConfig, DEFAULT_ENTITY_CONFIG } from "./types.js";
+import type { EntityRecord, EntitySearchResult, ResolutionResult, EntityConfig, DEFAULT_ENTITY_CONFIG, MemoryEvidence } from "./types.js";
 import { isRootCauseCategory, DEFAULT_CARD_EFFECTIVENESS } from "./types.js";
 import { StrategyRegistry } from "./storage/strategy-registry.js";
 import { VersionChain } from "./storage/version-chain.js";
@@ -535,8 +650,39 @@ export class MemoryManager {
   }
 
   store(content: string, memoryType: string = "episodic",
-        tags: string[] = [], metadata: Record<string, unknown> = {}): boolean {
+        tags: string[] = [], metadata: Record<string, unknown> = {},
+        extras: MemoryStoreExtras = {}): boolean {
     if (!content?.trim()) return false;
+
+    // v7.10.0 (ADR-007): V-ref write gate. Evidence is optional; when present,
+    // every sourceRef must resolve and every span must be a substring of the
+    // record text. Rejections are traced (append-only) before returning false.
+    const gate = this._validateEvidence(content, extras, metadata);
+    if (!gate.ok) {
+      const rawEvidence = extras.evidence ?? metadata.evidence;
+      const rawEventTime = extras.eventTime ?? metadata.eventTime;
+      this._traceEvidenceGate({
+        action: "reject",
+        ruleId: gate.ruleId,
+        reason: gate.reason,
+        input: {
+          contentPreview: content.slice(0, 120),
+          evidenceCount: Array.isArray(rawEvidence) ? rawEvidence.length : undefined,
+          eventTime: typeof rawEventTime === "string" ? rawEventTime : undefined,
+        },
+        caller: "store",
+      });
+      return false;
+    }
+
+    // Persist evidence/time in reserved metadata keys; strip the convenience
+    // top-level metadata keys so they never reach storage in raw form.
+    const cleanMetadata: Record<string, unknown> = { ...metadata };
+    delete cleanMetadata.evidence;
+    delete cleanMetadata.eventTime;
+    if (gate.evidence) cleanMetadata[EVIDENCE_META_KEY] = encodeEvidenceMetadata(gate.evidence);
+    if (gate.eventTime) cleanMetadata[EVENT_TIME_META_KEY] = gate.eventTime;
+    metadata = cleanMetadata;
 
     const id = `${Date.now().toString(36)}_${Math.random().toString(36).slice(2, 8)}`;
     const timestamp = new Date().toISOString();
@@ -879,6 +1025,274 @@ export class MemoryManager {
       fs.appendFileSync(file, JSON.stringify({ ts, ...entry }) + "\n", "utf-8");
     } catch (err) {
       console.warn(`[claw-mem] card gate trace failed: ${err instanceof Error ? err.message : String(err)}`);
+    }
+  }
+
+  // ── v7.10.0 (ADR-007): V-ref evidence gate + event time ──────────────
+
+  /** Validate optional evidence against the record text and resolvable refs. */
+  private _validateEvidence(
+    content: string,
+    extras: MemoryStoreExtras,
+    metadata: Record<string, unknown>,
+  ):
+    | { ok: true; evidence?: MemoryEvidence[]; eventTime?: string }
+    | { ok: false; ruleId: string; reason: string } {
+    const rawEvidence = extras.evidence ?? metadata.evidence;
+    const rawEventTime = extras.eventTime ?? metadata.eventTime;
+
+    let eventTime: string | undefined;
+    if (rawEventTime !== undefined) {
+      if (typeof rawEventTime !== "string" || !EVENT_TIME_RE.test(rawEventTime)) {
+        return {
+          ok: false,
+          ruleId: "event-time-format",
+          reason: `eventTime must be ISO-8601 (YYYY / YYYY-MM / YYYY-MM-DD): ${JSON.stringify(rawEventTime)}`,
+        };
+      }
+      eventTime = rawEventTime;
+    }
+
+    if (rawEvidence === undefined) return { ok: true, ...(eventTime ? { eventTime } : {}) };
+    if (!Array.isArray(rawEvidence)) {
+      return { ok: false, ruleId: "v-ref-malformed", reason: "evidence must be an array" };
+    }
+
+    const evidence: MemoryEvidence[] = [];
+    for (let i = 0; i < rawEvidence.length; i++) {
+      const entry = rawEvidence[i] as Partial<MemoryEvidence> | null | undefined;
+      if (!entry || typeof entry !== "object" || Array.isArray(entry)) {
+        return { ok: false, ruleId: "v-ref-malformed", reason: `evidence[${i}] must be an object` };
+      }
+      const span = typeof entry.span === "string" ? entry.span : "";
+      if (!span.trim()) {
+        return { ok: false, ruleId: "v-ref-span-missing", reason: `evidence[${i}].span must be a non-empty string` };
+      }
+      if (!content.includes(span)) {
+        return {
+          ok: false,
+          ruleId: "v-ref-span-not-substring",
+          reason: `evidence[${i}].span is not a substring of the record text`,
+        };
+      }
+      if (!Array.isArray(entry.sourceRefs) || entry.sourceRefs.some((ref) => typeof ref !== "string")) {
+        return {
+          ok: false,
+          ruleId: "v-ref-refs-missing",
+          reason: `evidence[${i}].sourceRefs must be a string array`,
+        };
+      }
+      if (
+        entry.offset !== undefined &&
+        (typeof entry.offset !== "number" || !Number.isInteger(entry.offset) || entry.offset < 0)
+      ) {
+        return {
+          ok: false,
+          ruleId: "v-ref-offset-invalid",
+          reason: `evidence[${i}].offset must be a non-negative integer`,
+        };
+      }
+      if (entry.eventTime !== undefined && (typeof entry.eventTime !== "string" || !EVENT_TIME_RE.test(entry.eventTime))) {
+        return {
+          ok: false,
+          ruleId: "event-time-format",
+          reason: `evidence[${i}].eventTime must be ISO-8601 (YYYY / YYYY-MM / YYYY-MM-DD)`,
+        };
+      }
+      // ADR-007: refs are checked only when non-empty; an empty array is legal.
+      for (const rawRef of entry.sourceRefs) {
+        const ref = rawRef.trim();
+        if (!ref || !this._isResolvableSourceRef(ref)) {
+          return {
+            ok: false,
+            ruleId: "v-ref-unresolvable",
+            reason: `evidence[${i}].sourceRefs cannot resolve ${JSON.stringify(ref)}`,
+          };
+        }
+      }
+      evidence.push({
+        span,
+        ...(entry.offset !== undefined ? { offset: entry.offset } : {}),
+        ...(entry.eventTime !== undefined ? { eventTime: entry.eventTime } : {}),
+        sourceRefs: [...entry.sourceRefs],
+      });
+    }
+
+    return { ok: true, evidence, ...(eventTime ? { eventTime } : {}) };
+  }
+
+  /**
+   * A ref is a transcript id unless it looks like a path. Paths must stay
+   * inside the workspace (or resolve to a soft-deleted daily note); transcript
+   * ids resolve through TranscriptStorage (including `_archive/`).
+   */
+  private _isResolvableSourceRef(ref: string): boolean {
+    const cleaned = ref.replace(/^`+|`+$/g, "");
+    const looksLikePath = /[\\/]/.test(cleaned) || /\.md$/i.test(cleaned);
+    if (!looksLikePath) {
+      return (this._transcript?.getTranscriptByIds([cleaned]).length ?? 0) > 0;
+    }
+    const root = path.resolve(this.workspace);
+    const abs = path.isAbsolute(cleaned) ? path.resolve(cleaned) : path.resolve(root, cleaned);
+    if (abs !== root && !abs.startsWith(root + path.sep)) return false;
+    if (fs.existsSync(abs)) return true;
+    // Daily notes soft-delete into memory/_archive/<file>.
+    return fs.existsSync(path.join(root, "memory", "_archive", path.basename(cleaned)));
+  }
+
+  /** Read the reserved evidence/time keys back out of record metadata. */
+  private _decodeEvidenceFields(metadata: unknown): { evidence?: MemoryEvidence[]; eventTime?: string } {
+    if (!metadata || typeof metadata !== "object") return {};
+    const meta = metadata as Record<string, unknown>;
+    const evidence = decodeEvidenceMetadata(meta[EVIDENCE_META_KEY]);
+    const eventTime = typeof meta[EVENT_TIME_META_KEY] === "string" && meta[EVENT_TIME_META_KEY]
+      ? meta[EVENT_TIME_META_KEY]
+      : undefined;
+    return {
+      ...(evidence ? { evidence } : {}),
+      ...(eventTime ? { eventTime } : {}),
+    };
+  }
+
+  /** ADR-007 §3: the time axis is eventTime when present, else created_at. */
+  private _effectiveTimeOf(record: {
+    eventTime?: unknown;
+    timestamp?: unknown;
+    created_at?: unknown;
+    metadata?: unknown;
+  }): string | undefined {
+    const decoded = this._decodeEvidenceFields(record.metadata);
+    const candidates = [record.eventTime, decoded.eventTime, record.created_at, record.timestamp];
+    for (const c of candidates) {
+      if (typeof c === "string" && c.trim()) return c;
+    }
+    return undefined;
+  }
+
+  /** ADR-007 §4: evidence/eventTime coverage over the current record sample. */
+  private _evidenceCoverageStats(): {
+    sampleSize: number; withEvidence: number; withEventTime: number; coverage: number;
+  } {
+    const sample = [
+      ...this._episodic.getRecent(1000),
+      ...this._semantic.getAll().slice(0, 1000),
+      ...this._procedural.getAll().slice(0, 1000),
+    ] as Array<{ metadata?: unknown }>;
+    let withEvidence = 0;
+    let withEventTime = 0;
+    for (const record of sample) {
+      const decoded = this._decodeEvidenceFields(record.metadata);
+      if (decoded.evidence?.length) withEvidence++;
+      if (decoded.eventTime) withEventTime++;
+    }
+    return {
+      sampleSize: sample.length,
+      withEvidence,
+      withEventTime,
+      coverage: sample.length > 0 ? withEvidence / sample.length : 0,
+    };
+  }
+
+  /**
+   * Decorate results with evidence/eventTime and apply ADR-007 time semantics.
+   * Decoration is additive (keys appear only when the record carries them);
+   * filtering/sorting use `eventTime ?? created_at`.
+   */
+  private _applyTimeOptions<T extends Record<string, unknown>>(
+    results: T[],
+    options?: MemorySearchOptions,
+  ): T[] {
+    const wantsRange = Boolean(options?.since || options?.until);
+    const wantsSort = options?.orderBy === "time";
+    const decorated = results.map((record) => {
+      const decoded = this._decodeEvidenceFields(record.metadata);
+      const out: Record<string, unknown> = { ...record };
+      if (decoded.evidence) out.evidence = decoded.evidence;
+      if (decoded.eventTime) out.eventTime = decoded.eventTime;
+      return { record: out as T, effectiveTime: this._effectiveTimeOf(record) };
+    });
+
+    if (!wantsRange && !wantsSort) return decorated.map((d) => d.record);
+
+    let selected = decorated;
+    if (wantsRange) {
+      const since = options?.since ? Date.parse(options.since) : NaN;
+      const until = options?.until ? Date.parse(options.until) : NaN;
+      selected = selected.filter(({ effectiveTime }) => {
+        const t = effectiveTime ? Date.parse(effectiveTime) : NaN;
+        if (Number.isNaN(t)) return false; // no usable time → cannot prove it is in range
+        if (!Number.isNaN(since) && t < since) return false;
+        if (!Number.isNaN(until) && t > until) return false;
+        return true;
+      });
+    }
+    if (wantsSort) {
+      selected = [...selected].sort((a, b) => {
+        const at = a.effectiveTime ? Date.parse(a.effectiveTime) : NaN;
+        const bt = b.effectiveTime ? Date.parse(b.effectiveTime) : NaN;
+        return (Number.isNaN(bt) ? 0 : bt) - (Number.isNaN(at) ? 0 : at);
+      });
+    }
+    return selected.map((d) => d.record);
+  }
+
+  /**
+   * Query the ADR-007 evidence-gate trail:
+   * `memory/evidence-rejections/*.jsonl` (append-only, one event per file).
+   */
+  listEvidenceRejections(
+    filter: { since?: string; ruleId?: string; limit?: number } = {},
+  ): Array<{
+    ts: string; action: "reject"; ruleId: string; reason: string;
+    input: Record<string, unknown>; caller: string;
+  }> {
+    const dir = this._evidenceGateDir();
+    let events: Array<{ ts: string; action: "reject"; ruleId: string; reason: string; input: Record<string, unknown>; caller: string }> = [];
+    if (fs.existsSync(dir)) {
+      for (const file of fs.readdirSync(dir)) {
+        if (!file.endsWith(".jsonl")) continue;
+        let text = "";
+        try {
+          text = fs.readFileSync(path.join(dir, file), "utf-8");
+        } catch {
+          continue;
+        }
+        for (const line of text.split("\n")) {
+          if (!line.trim()) continue;
+          try {
+            events.push(JSON.parse(line));
+          } catch {
+            // skip corrupt lines — the trail must never break reads
+          }
+        }
+      }
+    }
+    events = events.filter((e) => {
+      if (filter.ruleId && e.ruleId !== filter.ruleId) return false;
+      if (filter.since && e.ts < filter.since) return false;
+      return true;
+    });
+    events.sort((a, b) => b.ts.localeCompare(a.ts));
+    return events.slice(0, filter.limit ?? 50);
+  }
+
+  private _evidenceGateDir(): string {
+    return path.join(this.workspace, "memory", "evidence-rejections");
+  }
+
+  /** Append-only gate event: one jsonl file per event, never rewritten. */
+  private _traceEvidenceGate(entry: {
+    action: "reject"; ruleId: string; reason: string;
+    input: Record<string, unknown>; caller: string;
+  }): void {
+    try {
+      const dir = this._evidenceGateDir();
+      fs.mkdirSync(dir, { recursive: true });
+      const ts = new Date().toISOString();
+      const file = path.join(dir, `${ts.replace(/[:.]/g, "-")}-${Math.random().toString(36).slice(2, 6)}.jsonl`);
+      fs.appendFileSync(file, JSON.stringify({ ts, ...entry }) + "\n", "utf-8");
+    } catch (err) {
+      console.warn(`[claw-mem] evidence gate trace failed: ${err instanceof Error ? err.message : String(err)}`);
     }
   }
 
@@ -1237,12 +1651,19 @@ export class MemoryManager {
   private _cacheTTL = 5000;
   private _cacheMaxSize = 500;
 
-  search(query: string, memoryType?: string, limit = 10): Array<Record<string, unknown>> {
+  search(
+    query: string,
+    memoryType?: string,
+    limit = 10,
+    options?: MemorySearchOptions,
+  ): Array<Record<string, unknown>> {
     if (!query?.trim()) return [];
     this._searchCount++;
 
     // Check cache with access-time update for LRU tracking
-    const cacheKey = `${query}::${memoryType || "all"}::${limit}`;
+    const cacheKey =
+      `${query}::${memoryType || "all"}::${limit}` +
+      `::${options?.since ?? ""}::${options?.until ?? ""}::${options?.orderBy ?? ""}`;
     const cached = this._searchCache.get(cacheKey);
 
     // v7.5.0 (ADR-002): selection events BEFORE the cache check so cache
@@ -1254,7 +1675,7 @@ export class MemoryManager {
       if (!this._retentionSuppressSearch) {
         for (const m of cached.results) this._retentionEvent(m as Record<string, unknown>, "selected");
       }
-      return cached.results.slice(0, limit);
+      return this._applyTimeOptions(cached.results, options).slice(0, limit);
     }
 
     // v6.36.0: Index-first strategy - use index when available, avoid full scan
@@ -1300,7 +1721,7 @@ export class MemoryManager {
         }
         const t = Date.now();
         this._searchCache.set(cacheKey, { results: indexedResults, ts: t, lastAccess: t });
-        return indexedResults.slice(0, limit);
+        return this._applyTimeOptions(indexedResults, options).slice(0, limit);
       }
     }
 
@@ -1348,10 +1769,11 @@ export class MemoryManager {
       for (const m of selected) this._retentionEvent(m as Record<string, unknown>, "selected");
       for (const m of matched.slice(limit)) this._retentionEvent(m as Record<string, unknown>, "missed");
     }
-    const result = matched.slice(0, limit);
     const now = Date.now();
-    this._searchCache.set(cacheKey, { results: result, ts: now, lastAccess: now });
-    return result;
+    // Cache the full candidate pool so a later time-ordered query can sort
+    // before truncation; the default (relevance) path slices identically.
+    this._searchCache.set(cacheKey, { results: matched, ts: now, lastAccess: now });
+    return this._applyTimeOptions(matched, options).slice(0, limit);
   }
 
   // ── session snapshot ─────────────────────────────────────────────
@@ -1407,6 +1829,8 @@ export class MemoryManager {
       bm25DocCount: this._index.built ? this._index.bm25.doc_count : 0,
       indexDir: path.join(os.homedir(), ".claw-mem", "index"),
       retention: retentionStats,
+      // v7.10.0 (ADR-007 §4): optional evidence coverage report.
+      evidence: this._evidenceCoverageStats(),
     };
   }
 
@@ -1572,6 +1996,290 @@ export class MemoryManager {
     this._transcript?.endSession();
   }
 
+  // ── v7.10.0 (ADR-008): read-only navigation API ─────────────────────
+
+  /**
+   * Enumerate record metadata without returning full text. Layers: episodic,
+   * semantic, procedural, preference (version-chain keys). Newest first.
+   */
+  listMemories(options: { layer?: string; prefix?: string; limit?: number } = {}): MemoryListItem[] {
+    const layer = options.layer?.trim();
+    const prefix = options.prefix?.trim() ?? "";
+    const limit = Math.min(Math.max(Math.floor(options.limit ?? 50), 1), 200);
+    const items: MemoryListItem[] = [];
+
+    if (!layer || layer === "all" || layer === "episodic" || layer === "semantic" || layer === "procedural") {
+      for (const view of this._recordViews()) {
+        if (layer && layer !== "all" && view.layer !== layer) continue;
+        if (prefix && !view.id.startsWith(prefix) && !view.title.startsWith(prefix)) continue;
+        items.push({
+          id: view.id,
+          title: view.title,
+          time: this._effectiveTimeOf(view),
+          tags: view.tags,
+          layer: view.layer,
+        });
+      }
+    }
+
+    if (!layer || layer === "all" || layer === "preference") {
+      for (const pref of this._preferenceIndex()) {
+        const key = pref.id.slice("pref:".length);
+        if (prefix && !pref.id.startsWith(prefix) && !key.startsWith(prefix)) continue;
+        items.push({ id: pref.id, title: pref.title, time: pref.time, tags: ["preference"], layer: "preference" });
+      }
+    }
+
+    items.sort((a, b) => (b.time ?? "").localeCompare(a.time ?? ""));
+    return items.slice(0, limit);
+  }
+
+  /**
+   * Fetch one record by id (ADR-008 decision 3). `lines` is a 1-based
+   * inclusive range; absent = full text. Preferences are addressable as
+   * `pref:<key>`.
+   */
+  getMemoryById(id: string, lines?: [number, number]): MemoryGetResult | null {
+    const wanted = typeof id === "string" ? id.trim() : "";
+    if (!wanted) return null;
+
+    const view = this._recordViews().find((v) => v.id === wanted);
+    if (view) return this._toGetResult(view, lines);
+
+    if (wanted.startsWith("pref:")) {
+      const pref = this.getPreference(wanted.slice("pref:".length));
+      if (!pref) return null;
+      return this._toGetResult({
+        id: wanted,
+        title: wanted.slice("pref:".length),
+        text: pref.content,
+        layer: "semantic",
+        tags: ["preference"],
+        metadata: pref.metadata,
+      }, lines);
+    }
+    return null;
+  }
+
+  /**
+   * Derive outgoing/incoming links from evidence source refs at read time
+   * (ADR-008 decision 2). Out = refs cited by this record. In = records citing
+   * this record's id or sharing at least one source ref. No evidence → out [].
+   */
+  memoryLinks(id: string, direction: "out" | "in" | "both" = "both"): MemoryLinksResult | null {
+    const wanted = typeof id === "string" ? id.trim() : "";
+    if (!wanted) return null;
+
+    const views = this._recordViews();
+    const target = views.find((v) => v.id === wanted);
+    if (!target) return null;
+
+    const targetRefs = this._evidenceRefs(target.metadata);
+    const refSet = new Set(targetRefs);
+    const out: MemoryLinkOut[] = direction !== "in"
+      ? targetRefs.map((ref) => ({ ref, type: this._refType(ref) }))
+      : [];
+
+    const backlinks: MemoryBacklink[] = [];
+    if (direction !== "out") {
+      for (const other of views) {
+        if (other.id === target.id) continue;
+        const otherRefs = this._evidenceRefs(other.metadata);
+        const citesTarget = otherRefs.includes(target.id);
+        const sharesSource = otherRefs.some((ref) => refSet.has(ref));
+        if (!citesTarget && !sharesSource) continue;
+        const time = this._effectiveTimeOf(other);
+        backlinks.push({ id: other.id, title: other.title, ...(time ? { time } : {}) });
+      }
+    }
+
+    return { id: target.id, direction, out, in: backlinks };
+  }
+
+  /**
+   * Read original evidence text by transcript id or workspace path.
+   * ADR-008 hard caps: ≤10 refs per call, ≤2KB (2048 chars) per item.
+   */
+  getSources(refs: string[]): MemorySourcesResult {
+    const requested = Array.isArray(refs) ? refs.length : 0;
+    const selected = Array.isArray(refs) ? refs.slice(0, SOURCE_MAX_REFS) : [];
+    const sources = selected.map((ref) => this._resolveSource(ref));
+    return {
+      sources,
+      requested,
+      returned: sources.length,
+      maxRefsPerCall: SOURCE_MAX_REFS,
+      maxCharsPerItem: SOURCE_MAX_CHARS,
+    };
+  }
+
+  /** All record views across the three opaque storage layers. */
+  private _recordViews(): MemoryRecordView[] {
+    const views: MemoryRecordView[] = [];
+    const push = (
+      layer: MemoryRecordView["layer"],
+      entries: Array<{
+        id?: string;
+        content?: string;
+        timestamp?: string;
+        tags?: string[];
+        metadata?: Record<string, unknown>;
+      }>,
+    ): void => {
+      for (const entry of entries) {
+        const text = entry.content ?? "";
+        const id = entry.id && entry.id.trim()
+          ? entry.id
+          : this._syntheticLegacyId(layer, entry.timestamp ?? "", text);
+        views.push({
+          id,
+          title: text.split(/\r?\n/)[0].trim().slice(0, 80),
+          text,
+          layer,
+          created_at: entry.timestamp,
+          tags: entry.tags ?? [],
+          metadata: entry.metadata,
+        });
+      }
+    };
+
+    push("episodic", this._episodic.getAll());
+    push("semantic", this._semantic.getAll());
+    push("procedural", this._procedural.getAll());
+    return views;
+  }
+
+  /** Stable id for legacy records written before ids were mandatory. */
+  private _syntheticLegacyId(layer: string, timestamp: string, text: string): string {
+    const hash = createHash("sha1")
+      .update(`${layer}\u0000${timestamp}\u0000${text}`)
+      .digest("hex")
+      .slice(0, 16);
+    return `legacy-${hash}`;
+  }
+
+  /** Enumerate preference keys from the version-chain directory. */
+  private _preferenceIndex(): Array<{ id: string; title: string; time?: string }> {
+    const dir = path.join(this.workspace, "memory", "preferences");
+    if (!fs.existsSync(dir)) return [];
+    const out: Array<{ id: string; title: string; time?: string }> = [];
+    for (const file of fs.readdirSync(dir)) {
+      if (!file.endsWith(".json")) continue;
+      try {
+        const data = JSON.parse(fs.readFileSync(path.join(dir, file), "utf-8")) as {
+          pref_key?: string;
+          versions?: Array<{ timestamp?: string }>;
+        };
+        const key = String(data.pref_key ?? file.replace(/\.json$/, ""));
+        const last = data.versions?.[data.versions.length - 1];
+        out.push({ id: `pref:${key}`, title: key, time: last?.timestamp });
+      } catch {
+        continue; // corrupt chain file → skip, never break enumeration
+      }
+    }
+    return out;
+  }
+
+  private _toGetResult(view: MemoryRecordView, lines?: [number, number]): MemoryGetResult {
+    const decoded = this._decodeEvidenceFields(view.metadata);
+    const allLines = view.text.split(/\r?\n/);
+    const totalLines = allLines.length;
+    let text = view.text;
+    let lineRange: [number, number] | undefined;
+
+    if (lines && Array.isArray(lines) && lines.length >= 2) {
+      const requestedStart = Math.floor(Number(lines[0]));
+      const requestedEnd = Math.floor(Number(lines[1]));
+      const start = Number.isFinite(requestedStart) ? Math.max(1, requestedStart) : 1;
+      const end = Number.isFinite(requestedEnd) ? Math.min(totalLines, requestedEnd) : totalLines;
+      if (end >= start) {
+        text = allLines.slice(start - 1, end).join("\n");
+        lineRange = [start, end];
+      } else {
+        text = "";
+        lineRange = [start, start];
+      }
+    }
+
+    const time = this._effectiveTimeOf(view);
+    return {
+      id: view.id,
+      title: view.title,
+      text,
+      memory_type: view.layer,
+      ...(view.created_at ? { created_at: view.created_at } : {}),
+      ...(time ? { time } : {}),
+      tags: view.tags,
+      ...(decoded.evidence ? { evidence: decoded.evidence } : {}),
+      ...(decoded.eventTime ? { eventTime: decoded.eventTime } : {}),
+      ...(lineRange ? { lineRange } : {}),
+      totalLines,
+    };
+  }
+
+  private _evidenceRefs(metadata: unknown): string[] {
+    const decoded = this._decodeEvidenceFields(metadata);
+    const refs = new Set<string>();
+    for (const entry of decoded.evidence ?? []) {
+      for (const ref of entry.sourceRefs) {
+        const trimmed = ref.trim();
+        if (trimmed) refs.add(trimmed);
+      }
+    }
+    return [...refs];
+  }
+
+  private _refType(ref: string): "transcript" | "path" | "unknown" {
+    const cleaned = ref.replace(/^`+|`+$/g, "");
+    if (!cleaned) return "unknown";
+    return /[\\/]/.test(cleaned) || /\.md$/i.test(cleaned) ? "path" : "transcript";
+  }
+
+  private _resolveSource(rawRef: unknown): MemorySource {
+    const ref = typeof rawRef === "string" ? rawRef.trim() : "";
+    if (!ref) return { ref, type: "unknown", found: false };
+
+    const type = this._refType(ref);
+    if (type === "transcript") {
+      const match = this._transcript?.getTranscriptByIds([ref])[0];
+      if (!match) return { ref, type, found: false };
+      return this._capSource({
+        ref,
+        type,
+        found: true,
+        text: match.content ?? match.snippet,
+        sessionId: match.sessionId,
+        date: match.date,
+      });
+    }
+
+    if (type === "path") {
+      const root = path.resolve(this.workspace);
+      const abs = path.isAbsolute(ref) ? path.resolve(ref) : path.resolve(root, ref);
+      if (abs !== root && !abs.startsWith(root + path.sep)) return { ref, type, found: false };
+      let target = abs;
+      if (!fs.existsSync(target)) {
+        const archived = path.join(root, "memory", "_archive", path.basename(ref));
+        if (!fs.existsSync(archived)) return { ref, type, found: false };
+        target = archived;
+      }
+      try {
+        return this._capSource({ ref, type, found: true, text: fs.readFileSync(target, "utf-8") });
+      } catch {
+        return { ref, type, found: false };
+      }
+    }
+
+    return { ref, type: "unknown", found: false };
+  }
+
+  private _capSource(source: MemorySource): MemorySource {
+    if (typeof source.text === "string" && source.text.length > SOURCE_MAX_CHARS) {
+      return { ...source, text: source.text.slice(0, SOURCE_MAX_CHARS), truncated: true };
+    }
+    return source;
+  }
+
   // ── hybrid search API (v6.29.0) ─────────────────────────────────────
 
   /** Get hybrid retriever instance (lazy initialization) */
@@ -1607,15 +2315,70 @@ export class MemoryManager {
     // Initialize + index on first use. The old fallback to search() reported
     // keywordCount=0 forever because the retriever was never constructed.
     const retriever = this.hybridRetriever!;
+    // ADR-007 §3: timeRange must use eventTime ?? created_at. The retriever's
+    // structured filter only sees created_at, so strip the range there and
+    // apply the effective-time range to the final result set here.
+    const timeRange = options?.filters?.timeRange;
+    const retrieverOptions = timeRange && options?.filters
+      ? { ...options, filters: { ...options.filters, timeRange: undefined } }
+      : options;
     // v7.5.0 (ADR-002): suppress search() events during the semantic leg —
     // those are partial candidates (limit = 2×topK), not final selections;
     // the hybrid retriever reports selected/missed once from the full pool
     this._retentionSuppressSearch = true;
     try {
-      return retriever.search(query, options);
+      const result = retriever.search(query, retrieverOptions);
+      return timeRange
+        ? { ...result, results: this._applyTimeRangeToHybrid(result.results, timeRange) }
+        : this._decorateHybridResults(result);
     } finally {
       this._retentionSuppressSearch = false;
     }
+  }
+
+  /** Additive evidence/eventTime decoration for hybrid results (ADR-007). */
+  private _decorateHybridResults(result: HybridSearchResult): HybridSearchResult {
+    return {
+      ...result,
+      results: result.results.map((r) => {
+        const decoded = this._decodeEvidenceFields(r.metadata);
+        return {
+          ...r,
+          ...(decoded.eventTime ? { eventTime: decoded.eventTime } : {}),
+          ...(decoded.evidence ? { evidence: decoded.evidence } : {}),
+        };
+      }),
+    };
+  }
+
+  /** Apply `eventTime ?? created_at` range filtering to hybrid results. */
+  private _applyTimeRangeToHybrid(
+    results: HybridSearchResult["results"],
+    range: { start?: string; end?: string },
+  ): HybridSearchResult["results"] {
+    const since = range.start ? Date.parse(range.start) : NaN;
+    const until = range.end ? Date.parse(range.end) : NaN;
+    const decorated = results.map((r) => {
+      const decoded = this._decodeEvidenceFields(r.metadata);
+      const timestamp = typeof r.metadata?.timestamp === "string" ? r.metadata.timestamp : r.timestamp;
+      return {
+        out: {
+          ...r,
+          ...(decoded.eventTime ? { eventTime: decoded.eventTime } : {}),
+          ...(decoded.evidence ? { evidence: decoded.evidence } : {}),
+        },
+        effectiveTime: decoded.eventTime ?? timestamp,
+      };
+    });
+    return decorated
+      .filter(({ effectiveTime }) => {
+        const t = effectiveTime ? Date.parse(effectiveTime) : NaN;
+        if (Number.isNaN(t)) return false; // no usable time → cannot prove it is in range
+        if (!Number.isNaN(since) && t < since) return false;
+        if (!Number.isNaN(until) && t > until) return false;
+        return true;
+      })
+      .map((d) => d.out);
   }
 
   /** Rebuild hybrid retriever index */
@@ -1631,28 +2394,43 @@ export class MemoryManager {
 
     // Index episodic memories
     for (const m of this._episodic.getRecent(10000)) {
+      const decoded = this._decodeEvidenceFields(m.metadata);
       documents.push({
         id: (m as any).id ?? m.timestamp ?? String(Date.now()),
         text: m.content ?? "",
-        metadata: { type: "episodic", tags: m.tags, timestamp: m.timestamp, session_id: m.session_id },
+        metadata: {
+          type: "episodic", tags: m.tags, timestamp: m.timestamp, session_id: m.session_id,
+          ...(decoded.eventTime ? { [EVENT_TIME_META_KEY]: decoded.eventTime } : {}),
+          ...(decoded.evidence ? { [EVIDENCE_META_KEY]: encodeEvidenceMetadata(decoded.evidence) } : {}),
+        },
       });
     }
 
     // Index semantic memories
     for (const m of this._semantic.getAll()) {
+      const decoded = this._decodeEvidenceFields(m.metadata);
       documents.push({
         id: (m as any).id ?? m.timestamp ?? String(Date.now()),
         text: m.content ?? "",
-        metadata: { type: "semantic", tags: m.tags, timestamp: m.timestamp },
+        metadata: {
+          type: "semantic", tags: m.tags, timestamp: m.timestamp,
+          ...(decoded.eventTime ? { [EVENT_TIME_META_KEY]: decoded.eventTime } : {}),
+          ...(decoded.evidence ? { [EVIDENCE_META_KEY]: encodeEvidenceMetadata(decoded.evidence) } : {}),
+        },
       });
     }
 
     // Index procedural memories
     for (const m of this._procedural.getAll()) {
+      const decoded = this._decodeEvidenceFields(m.metadata);
       documents.push({
         id: (m as any).id ?? m.timestamp ?? String(Date.now()),
         text: m.content ?? "",
-        metadata: { type: "procedural", tags: m.tags, timestamp: m.timestamp },
+        metadata: {
+          type: "procedural", tags: m.tags, timestamp: m.timestamp,
+          ...(decoded.eventTime ? { [EVENT_TIME_META_KEY]: decoded.eventTime } : {}),
+          ...(decoded.evidence ? { [EVIDENCE_META_KEY]: encodeEvidenceMetadata(decoded.evidence) } : {}),
+        },
       });
     }
 
