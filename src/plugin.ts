@@ -29,6 +29,8 @@ interface ClawMemConfig {
   topK?: number;
   debug?: boolean;
   transcript?: Partial<TranscriptConfig>;
+  /** v7.10.0 (ADR-008): read-only navigation tools (default: enabled). */
+  tools?: { navigation?: boolean };
 }
 
 interface Logger {
@@ -229,7 +231,18 @@ export default definePluginEntry({
       workspaceDir: (api.pluginConfig?.workspaceDir as string | undefined) || api.config?.workspaceDir,
       topK: (api.pluginConfig?.topK as number | undefined) ?? 10,
       debug: (api.pluginConfig?.debug as boolean | undefined) ?? false,
+      tools: api.pluginConfig?.tools as { navigation?: boolean } | undefined,
     };
+    // v7.10.0 (ADR-008): new navigation tools can be switched off without
+    // touching the pre-existing 17-tool surface.
+    const navigationEnabled = config.tools?.navigation ?? true;
+    const linesSchema = Type.Optional(
+      Type.Array(Type.Number(), {
+        minItems: 2,
+        maxItems: 2,
+        description: "1-based inclusive [start, end] line range",
+      }),
+    );
 
     const bridge = new TsBridge(config, api.logger);
     let currentSessionId: string | undefined;
@@ -504,12 +517,18 @@ export default definePluginEntry({
 
     api.registerTool({
       name: "memory_get",
-      description: "Get a specific memory by ID (limited support).",
+      description: "Get a memory by ID. Optionally return only a 1-based inclusive line range via lines=[start,end].",
       parameters: Type.Object({
         id: Type.String({ description: "Memory ID" }),
+        lines: linesSchema,
       }),
-      async execute(_id: string, _params: any) {
-        return toToolResult({ error: "Use memory_search instead." });
+      async execute(_id: string, params: any) {
+        const record = bridge.manager.getMemoryById(
+          String(params?.id ?? ""),
+          Array.isArray(params?.lines) ? params.lines as [number, number] : undefined,
+        );
+        if (!record) return toToolResult({ error: `memory not found: ${params?.id ?? ""}` });
+        return toToolResult(record);
       },
       });
 
@@ -523,6 +542,74 @@ export default definePluginEntry({
         return toToolResult({ error: "Delete not supported." });
       },
       });
+
+    if (navigationEnabled) {
+      // ── v7.10.0 (ADR-008): read-only navigation tools ────────────────
+      api.registerTool({
+        name: "memory_list",
+        description: "Enumerate memory ids/titles/times/tags without returning full text. Filter by layer, id/title prefix, and limit.",
+        parameters: Type.Object({
+          layer: Type.Optional(Type.String({
+            description: "episodic | semantic | procedural | preference | all",
+            default: "all",
+          })),
+          prefix: Type.Optional(Type.String({ description: "ID or title prefix" })),
+          limit: Type.Optional(Type.Number({ description: "Max rows (1-200)", default: 50 })),
+        }),
+        async execute(_id: string, params: any) {
+          return toToolResult({ items: bridge.manager.listMemories(params ?? {}) });
+        },
+      });
+
+      api.registerTool({
+        name: "memory_links",
+        description: "Derive outgoing evidence refs and incoming backlinks for a memory record from evidence[].sourceRefs.",
+        parameters: Type.Object({
+          id: Type.String({ description: "Memory ID" }),
+          direction: Type.Optional(Type.Union([
+            Type.Literal("out"),
+            Type.Literal("in"),
+            Type.Literal("both"),
+          ], { default: "both" })),
+        }),
+        async execute(_id: string, params: any) {
+          const result = bridge.manager.memoryLinks(
+            String(params?.id ?? ""),
+            params?.direction === "out" || params?.direction === "in" ? params.direction : "both",
+          );
+          if (!result) return toToolResult({ error: `memory not found: ${params?.id ?? ""}` });
+          return toToolResult(result);
+        },
+      });
+
+      api.registerTool({
+        name: "memory_read",
+        description: "Read a memory by ID, optionally a 1-based inclusive line range [start, end].",
+        parameters: Type.Object({
+          id: Type.String({ description: "Memory ID" }),
+          lines: linesSchema,
+        }),
+        async execute(_id: string, params: any) {
+          const record = bridge.manager.getMemoryById(
+            String(params?.id ?? ""),
+            Array.isArray(params?.lines) ? params.lines as [number, number] : undefined,
+          );
+          if (!record) return toToolResult({ error: `memory not found: ${params?.id ?? ""}` });
+          return toToolResult(record);
+        },
+      });
+
+      api.registerTool({
+        name: "memory_source",
+        description: "Read original evidence text by transcript id or workspace path. Caps: 10 refs per call, 2048 chars per item.",
+        parameters: Type.Object({
+          refs: Type.Array(Type.String(), { description: "Transcript ids or workspace paths (max 10 per call)" }),
+        }),
+        async execute(_id: string, params: any) {
+          return toToolResult(bridge.manager.getSources(params?.refs ?? []));
+        },
+      });
+    }
 
     api.registerTool({
       name: "memory_failure_classify",
