@@ -5,6 +5,26 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [7.10.0] - 2026-11-16
+
+### Added
+
+- **ADR-007 — 记录级证据指针与事件时间**：
+  - `MemoryRecord.evidence[]`：`span`（正文子串）/ `offset?` / `eventTime?` / `sourceRefs[]`，记录级 `eventTime` 与 `created_at`（写入时间）分离；全字段可选，旧数据零迁移。
+  - `TranscriptStorage.getTranscriptByIds(ids)`：按 id 取回（无搜索），含路径穿越防护、重复 id 去重、软删归档 `_archive/` 回退；`TranscriptMatch.content` 提供原文。
+  - V-ref 写入门（ADR-006 扩展）：span 必须是正文子串、sourceRefs 必须可解析、证据结构缺失、非法 eventTime 均拒收；拒收事件 append-only 落 `memory/evidence-rejections/*.jsonl`，可用 `listEvidenceRejections()` 查询。
+  - `memory_stats` 恒返回 `evidence` 覆盖率块（`sampleSize` / `withEvidence` / `withEventTime` / `coverage`；全零表示尚无覆盖）。
+- **ADR-008 — 多轮检索只读工具面（17 → 21）**：
+  - `memory_list { layer?, prefix?, limit? }`：枚举 id + 标题 + 时间（`eventTime ?? created_at`）+ 标签，不返回全文。
+  - `memory_links { id, direction }`：由 `evidence[].sourceRefs` 读时派生 out 边与 backlinks（共享证据源），无 evidence 返回空。
+  - `memory_read` / `memory_get` 行范围：新增 `lines: [start, end]`（1-based inclusive，越界 clamp；缺省全文）。
+  - `memory_source { refs }`：按 transcript id / 工作区路径取原文；单次 ≤10 条、单条 ≤2048 字符。
+  - 插件配置 `tools.navigation`（默认 `true`）；`false` 时四个新增工具不注册，原 17 工具面与既有语义不变。
+
+### Changed
+
+- **README**：补充 per-clone push gate 接线说明——`core.hooksPath` 是每克隆本地配置，新克隆须执行 `git config core.hooksPath scripts/git-hooks` 才能激活 `pre-push` 门（bcb6bee）。
+
 ## [7.6.0] - 2026-09-06
 
 ### Added
