@@ -238,6 +238,22 @@ npm install
 npm run build
 ```
 
+### Push Gate Wiring (required per clone)
+
+Since v7.9.0 this repo ships release gates in `scripts/git-hooks/pre-push` (push-dispatch gate + publish-scope hygiene, Peter ruling 2026-11-06). **Git does not activate them by default** — `core.hooksPath` is per-clone local config, so every fresh clone must wire it once:
+
+```bash
+git config core.hooksPath scripts/git-hooks
+```
+
+Verify (expects a push-dispatch REJECTED message, exit 1):
+
+```bash
+git commit --allow-empty -m "gate-probe" && git push --dry-run origin main; rc=$?; git reset --hard HEAD~1
+```
+
+Without this, pushing from the clone silently bypasses both gates. See `docs/protocol/UNIFIED-RELEASE-PROCESS.md` in the devclaw repo for the family-wide release protocol.
+
 ### As OpenClaw Plugin
 
 **The plugin entry (`openclaw.plugin.json`) points at `dist/` — run `npm run build` first. A bare git clone without a build cannot be loaded.**
