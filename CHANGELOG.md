@@ -5,6 +5,18 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [7.10.1] - 2026-11-17
+
+### Fixed
+
+- **preference 双源不一致（F2，Edith ADR-008 验收发现）**：
+  - `_preferenceIndex` 改读 semantic `pref:<key>` 标签（与 `getPreference` 同源）；preference 更新归档**新值**（原归档旧值是每次更新后双源分叉的根因）；chain-only key 不再出现在 list。
+  - 文档化边界：`memoryLinks('pref:<key>')` 返回 null（设计如此）；rollback 无 semantic 记录时仅追加历史。
+
+### Test & Quality
+
+- 新增 8 例双源一致性测试（内容相等断言：写→改→三路径读回同值）；全量 93 文件/1078 用例。
+
 ## [7.10.0] - 2026-11-16
 
 ### Added
