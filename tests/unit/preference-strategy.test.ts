@@ -63,6 +63,8 @@ describe("PreferenceStrategy", () => {
 
     const history = versionChain.getHistory("theme");
     expect(history.length).toBe(2);
+    // R2-T1/F2: the latest version must carry the NEW value, not the old one.
+    expect(history.map((v) => v.content)).toEqual(["light", "dark"]);
   });
 
   it("retrieves preference by pref_key", () => {

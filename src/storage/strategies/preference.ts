@@ -32,15 +32,11 @@ export class PreferenceStrategy implements StorageStrategy {
     const existing = this.findByPrefKey(prefKey, context);
 
     if (existing) {
-      // Archive old version to version chain
-      context.versionChain.archive(prefKey, {
-        id: existing.id,
-        text: existing.text,
-        memory_type: "preference",
-        created_at: existing.created_at,
-        metadata: existing.metadata,
-        tags: existing.tags,
-      });
+      // R2-T1/F2: archive the NEW value, not the old one. The chain's latest
+      // entry must equal the semantic current value; archiving `existing`
+      // (the previous value) made the two sources diverge on every update.
+      // The previous value is already the prior version in the chain.
+      context.versionChain.archive(prefKey, record);
 
       // Update in semantic storage
       context.semantic.update(existing.id, record.text);

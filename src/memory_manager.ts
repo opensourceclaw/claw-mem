@@ -2065,6 +2065,11 @@ export class MemoryManager {
    * Derive outgoing/incoming links from evidence source refs at read time
    * (ADR-008 decision 2). Out = refs cited by this record. In = records citing
    * this record's id or sharing at least one source ref. No evidence → out [].
+   *
+   * Explicit exclusion (R2-T1/F2): synthetic `pref:<key>` ids are outside the
+   * link graph — preferences carry no evidence sourceRefs, so
+   * `memoryLinks('pref:<key>')` returns null by design (documented semantics,
+   * not an implicit empty state).
    */
   memoryLinks(id: string, direction: "out" | "in" | "both" = "both"): MemoryLinksResult | null {
     const wanted = typeof id === "string" ? id.trim() : "";
@@ -2158,24 +2163,28 @@ export class MemoryManager {
     return `legacy-${hash}`;
   }
 
-  /** Enumerate preference keys from the version-chain directory. */
+  /**
+   * Enumerate preference keys from the SAME authority as `getPreference()`:
+   * the semantic `pref:<key>` tag (MEMORY.md). R2-T1/F2 fixed the dual-source
+   * split — the version-chain directory is append-only history and is no
+   * longer a live read source. Every listed `pref:<key>` is therefore readable
+   * through `getMemoryById`, and every semantic preference is listed.
+   */
   private _preferenceIndex(): Array<{ id: string; title: string; time?: string }> {
-    const dir = path.join(this.workspace, "memory", "preferences");
-    if (!fs.existsSync(dir)) return [];
     const out: Array<{ id: string; title: string; time?: string }> = [];
-    for (const file of fs.readdirSync(dir)) {
-      if (!file.endsWith(".json")) continue;
-      try {
-        const data = JSON.parse(fs.readFileSync(path.join(dir, file), "utf-8")) as {
-          pref_key?: string;
-          versions?: Array<{ timestamp?: string }>;
-        };
-        const key = String(data.pref_key ?? file.replace(/\.json$/, ""));
-        const last = data.versions?.[data.versions.length - 1];
-        out.push({ id: `pref:${key}`, title: key, time: last?.timestamp });
-      } catch {
-        continue; // corrupt chain file → skip, never break enumeration
-      }
+    const seen = new Set<string>();
+    for (const entry of this._semantic.getAll()) {
+      const prefTag = entry.tags.find((tag) => tag.startsWith("pref:"));
+      if (!prefTag) continue;
+      const key = prefTag.slice("pref:".length);
+      if (!key || seen.has(key)) continue;
+      seen.add(key);
+      out.push({
+        id: `pref:${key}`,
+        title: key,
+        // Prefer the update stamp so "newest first" reflects the last write.
+        time: entry.metadata?.updated_at ?? entry.timestamp,
+      });
     }
     return out;
   }
@@ -2537,7 +2546,14 @@ export class MemoryManager {
     return { content: r.content, metadata: r.metadata };
   }
 
-  /** Rollback preference to a previous version */
+  /**
+   * Rollback preference to a previous version.
+   *
+   * Known boundary (R2-T1/F2): when semantic has no record for `prefKey`, the
+   * rollback only appends the version-chain entry — the live authority stays
+   * absent (no semantic update). Split legacy data is not migrated; this ticket
+   * only guarantees consistency for new writes/updates.
+   */
   rollbackPreference(prefKey: string, version: number): VersionEntry | null {
     if (!this._versionChain) return null;
     try {
