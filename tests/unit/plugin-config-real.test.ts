@@ -45,6 +45,14 @@ function registerRealPlugin(workspaceDir: string): Map<string, RegisteredTool> {
   return tools;
 }
 
+/**
+ * Explicit reconciliation exemptions. Every entry must be an EXPERIMENTAL or
+ * INTERNAL tool that is registered at runtime but intentionally absent from
+ * the published contract; the receipt must justify each one. Empty today:
+ * all 21 registered tools are expected public surface.
+ */
+const INTERNAL_TOOL_EXEMPTIONS: readonly string[] = [];
+
 describe("real plugin config — openclaw.plugin.json (fixture-free)", () => {
   const tmp = fs.mkdtempSync(path.join(os.tmpdir(), "claw-mem-realcfg-"));
 
@@ -87,18 +95,28 @@ describe("real plugin config — openclaw.plugin.json (fixture-free)", () => {
     });
   });
 
-  it("every tool declared in contracts.tools is registered by the real plugin", () => {
+  it("declared tools ∪ explicit exemptions reconcile with the runtime surface", () => {
     const registered = registerRealPlugin(tmp);
-    expect(manifest.contracts.tools.length).toBeGreaterThan(0);
-    for (const name of manifest.contracts.tools) {
-      expect(registered.has(name), `declared tool not registered: ${name}`).toBe(true);
+    const declared = manifest.contracts.tools;
+
+    // No duplicate declarations, no double classification.
+    expect(new Set(declared).size, "declared tools must be unique").toBe(declared.length);
+    expect(new Set(INTERNAL_TOOL_EXEMPTIONS).size).toBe(INTERNAL_TOOL_EXEMPTIONS.length);
+    for (const name of INTERNAL_TOOL_EXEMPTIONS) {
+      expect(declared, `exempted tool must not also be declared: ${name}`).not.toContain(name);
     }
-    // The runtime surface is additive beyond the frozen contract (navigation
-    // tools + error-pattern-card store). This assertion locks the current
-    // surface; the additive set is reported as a config-drift observation.
+
+    // Reconciliation (not a one-way subset): every declared/registered tool is
+    // accounted for on exactly one side.
+    expect([...declared, ...INTERNAL_TOOL_EXEMPTIONS].sort()).toEqual([...registered.keys()].sort());
     expect(registered.size).toBe(21);
-    for (const name of ["memory_list", "memory_links", "memory_read", "memory_source"]) {
-      expect(registered.has(name), name).toBe(true);
-    }
+  });
+
+  it("the reconciliation is not vacuous (dropping a declaration breaks it)", () => {
+    const registered = registerRealPlugin(tmp);
+    const declaredMinusOne = manifest.contracts.tools.slice(1);
+    expect([...declaredMinusOne, ...INTERNAL_TOOL_EXEMPTIONS].sort()).not.toEqual(
+      [...registered.keys()].sort(),
+    );
   });
 });
