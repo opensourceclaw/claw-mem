@@ -874,7 +874,16 @@ export class MemoryManager {
       return this._rejectCardGate("V1'", 'successStrategy is only valid with cardType "success-strategy" (dual-state guard)', input);
     }
     const effIn = (input as unknown as Record<string, unknown>).effectiveness as
-      { hitCount?: number; avoidedCount?: number } | undefined;
+      { hitCount?: number; avoidedCount?: number; attempts?: unknown } | undefined;
+    // v7.11 (SIM): attempts are host-written only — reject caller-supplied
+    // attempt ledgers (forgery guard, acceptance-discipline §5 mirror).
+    if (effIn && typeof effIn === "object" && "attempts" in effIn) {
+      return this._rejectCardGate(
+        "V1",
+        "effectiveness.attempts is host-written only (recordCardAttempt/backfillCardAttempt); caller cannot set it",
+        input,
+      );
+    }
     if (effIn && typeof effIn === "object" &&
       ((typeof effIn.hitCount === "number" && effIn.hitCount < 0) ||
        (typeof effIn.avoidedCount === "number" && effIn.avoidedCount < 0))) {
@@ -1353,6 +1362,187 @@ export class MemoryManager {
       inactive: eff.inactive,
       version: committed.version,
     };
+  }
+
+  // ── v7.11 (SIM, arXiv 2611.18856): predicted → fixed/missed attempts ─────
+
+  /**
+   * Register a prediction BEFORE adopting/using a card. Host write-back only.
+   * The attempt starts unbackfilled and is excluded from effectiveness stats
+   * until backfillCardAttempt() completes it.
+   */
+  recordCardAttempt(
+    cardId: string,
+    opts: { runId: string; predictedIssueIds: string[]; at?: string },
+  ):
+    | { ok: true; cardId: string; runId: string; attempts: number; version: number }
+    | { ok: false; reason: string } {
+    if (!cardId) return { ok: false, reason: "cardId required" };
+    if (!opts || typeof opts.runId !== "string" || opts.runId.trim() === "") {
+      return { ok: false, reason: "runId required" };
+    }
+    const predicted = this._normalizeIssueIds(opts.predictedIssueIds, false);
+    if (!predicted.ok) return { ok: false, reason: predicted.reason };
+
+    const entry = this._semantic.searchByTag(`card:${cardId}`)[0];
+    const card = entry ? decodeErrorPatternCard(entry) : null;
+    if (!card) return { ok: false, reason: "not-found" };
+
+    const attempts = [...(card.effectiveness.attempts ?? [])];
+    const runId = opts.runId.trim();
+    if (attempts.some((attempt) => attempt.runId === runId)) {
+      return { ok: false, reason: `attempt already exists for runId ${runId}` };
+    }
+
+    const now = opts.at ?? new Date().toISOString();
+    attempts.push({
+      runId,
+      predictedIssueIds: predicted.ids,
+      fixedIds: [],
+      missedIds: [],
+      backfilled: false,
+      observedAt: now,
+    });
+    const updated: import("./types.js").ErrorPatternCard = {
+      ...card,
+      effectiveness: { ...card.effectiveness, attempts },
+      updatedAt: now,
+    };
+    const committed = this._commitCard(updated);
+    if (!committed.ok) return { ok: false, reason: committed.reason };
+    return { ok: true, cardId, runId, attempts: attempts.length, version: committed.version };
+  }
+
+  /**
+   * Backfill fixed/missed for a registered attempt. The partition must exactly
+   * cover predictedIssueIds: fixed ∪ missed = predicted, and fixed ∩ missed = ∅.
+   * A completed attempt is immutable — a second backfill is rejected.
+   */
+  backfillCardAttempt(
+    cardId: string,
+    runId: string,
+    opts: { fixedIds: string[]; missedIds: string[]; at?: string },
+  ):
+    | { ok: true; cardId: string; runId: string; fixed: number; missed: number; version: number }
+    | { ok: false; reason: string } {
+    if (!cardId) return { ok: false, reason: "cardId required" };
+    if (!runId || !runId.trim()) return { ok: false, reason: "runId required" };
+    const entry = this._semantic.searchByTag(`card:${cardId}`)[0];
+    const card = entry ? decodeErrorPatternCard(entry) : null;
+    if (!card) return { ok: false, reason: "not-found" };
+
+    const attempts = [...(card.effectiveness.attempts ?? [])];
+    const index = attempts.findIndex((attempt) => attempt.runId === runId.trim());
+    if (index < 0) return { ok: false, reason: `attempt not found for runId ${runId.trim()}` };
+    const attempt = attempts[index];
+    if (attempt.backfilled) {
+      return { ok: false, reason: `attempt ${runId.trim()} is already backfilled` };
+    }
+
+    const fixed = this._normalizeIssueIds(opts?.fixedIds, true);
+    if (!fixed.ok) return { ok: false, reason: fixed.reason };
+    const missed = this._normalizeIssueIds(opts?.missedIds, true);
+    if (!missed.ok) return { ok: false, reason: missed.reason };
+
+    const predictedSet = new Set(attempt.predictedIssueIds);
+    const fixedSet = new Set(fixed.ids);
+    const missedSet = new Set(missed.ids);
+    for (const id of fixedSet) {
+      if (!predictedSet.has(id)) return { ok: false, reason: `fixedId ${id} is not in predictedIssueIds` };
+    }
+    for (const id of missedSet) {
+      if (!predictedSet.has(id)) return { ok: false, reason: `missedId ${id} is not in predictedIssueIds` };
+    }
+    for (const id of fixedSet) {
+      if (missedSet.has(id)) return { ok: false, reason: `issue ${id} cannot be both fixed and missed` };
+    }
+    const union = new Set([...fixedSet, ...missedSet]);
+    if (union.size !== predictedSet.size) {
+      const missing = [...predictedSet].filter((id) => !union.has(id));
+      return {
+        ok: false,
+        reason: `backfill incomplete — unclassified predicted ids: ${missing.join(", ")}`,
+      };
+    }
+
+    const now = opts?.at ?? new Date().toISOString();
+    attempts[index] = { ...attempt, fixedIds: fixed.ids, missedIds: missed.ids, backfilled: true };
+    const updated: import("./types.js").ErrorPatternCard = {
+      ...card,
+      effectiveness: { ...card.effectiveness, attempts },
+      updatedAt: now,
+    };
+    const committed = this._commitCard(updated);
+    if (!committed.ok) return { ok: false, reason: committed.reason };
+    return {
+      ok: true,
+      cardId,
+      runId: attempt.runId,
+      fixed: fixed.ids.length,
+      missed: missed.ids.length,
+      version: committed.version,
+    };
+  }
+
+  /**
+   * Effectiveness stats over BACKFILLED attempts only. Non-backfilled attempts
+   * are excluded (honest-backfill rule); zero denominator ⇒ null, never 0.
+   */
+  getCardAttemptStats(cardId: string):
+    | {
+        ok: true;
+        attempts: number;
+        backfilled: number;
+        predicted: number;
+        fixed: number;
+        missed: number;
+        fixedRate: number | null;
+      }
+    | { ok: false; reason: string } {
+    if (!cardId) return { ok: false, reason: "cardId required" };
+    const entry = this._semantic.searchByTag(`card:${cardId}`)[0];
+    const card = entry ? decodeErrorPatternCard(entry) : null;
+    if (!card) return { ok: false, reason: "not-found" };
+
+    const all = card.effectiveness.attempts ?? [];
+    const completed = all.filter((attempt) => attempt.backfilled === true);
+    let predicted = 0;
+    let fixed = 0;
+    let missed = 0;
+    for (const attempt of completed) {
+      predicted += attempt.predictedIssueIds.length;
+      fixed += attempt.fixedIds.length;
+      missed += attempt.missedIds.length;
+    }
+    return {
+      ok: true,
+      attempts: all.length,
+      backfilled: completed.length,
+      predicted,
+      fixed,
+      missed,
+      fixedRate: predicted > 0 ? fixed / predicted : null,
+    };
+  }
+
+  /** Normalize an id list: array of non-empty strings, de-duplicated, order kept. */
+  private _normalizeIssueIds(
+    value: unknown,
+    allowEmpty: boolean,
+  ): { ok: true; ids: string[] } | { ok: false; reason: string } {
+    if (!Array.isArray(value)) return { ok: false, reason: "issue ids must be an array" };
+    const ids: string[] = [];
+    for (const entry of value) {
+      if (typeof entry !== "string" || entry.trim() === "") {
+        return { ok: false, reason: "issue ids must be non-empty strings" };
+      }
+      const id = entry.trim();
+      if (!ids.includes(id)) ids.push(id);
+    }
+    if (!allowEmpty && ids.length === 0) {
+      return { ok: false, reason: "predictedIssueIds must be non-empty" };
+    }
+    return { ok: true, ids };
   }
 
   /** Structured card query — category filter, active-only by default. */
