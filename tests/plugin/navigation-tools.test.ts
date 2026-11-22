@@ -11,6 +11,7 @@ import { getMemoryManager, resetMemoryManager, type MemoryManager } from "../../
 
 interface RegisteredTool {
   name: string;
+  parameters?: any;
   execute: (id: string, params: any) => Promise<any>;
 }
 
@@ -80,6 +81,23 @@ describe("ADR-008 navigation tool surface", () => {
     expect(tools.size).toBe(21);
     for (const name of ORIGINAL_TOOLS) expect(tools.has(name), name).toBe(true);
     for (const name of NAVIGATION_TOOLS) expect(tools.has(name), name).toBe(true);
+  });
+
+  it("manifest contracts.tools matches the registered surface exactly", () => {
+    const manifest = JSON.parse(
+      fs.readFileSync(path.resolve(__dirname, "../../openclaw.plugin.json"), "utf-8")
+    ) as { contracts: { tools: string[] } };
+    expect([...tools.keys()].sort()).toEqual([...manifest.contracts.tools].sort());
+  });
+
+  it("empty object parameters are explicitly opened or closed", () => {
+    const params = (name: string): any => tools.get(name)!.parameters;
+    // Data-carrying objects must not be closed by strict providers.
+    expect(params("memory_store").properties.metadata.additionalProperties).toBe(true);
+    expect(params("memory_failure_classify").properties.context.additionalProperties).toBe(true);
+    expect(params("memory_session_snapshot").properties.snapshot.additionalProperties).toBe(true);
+    // A no-argument tool is intentionally closed.
+    expect(params("memory_get_constitution").additionalProperties).toBe(false);
   });
 
   it("tools.navigation=false keeps the original 17-tool surface", () => {

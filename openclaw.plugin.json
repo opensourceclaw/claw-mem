@@ -59,7 +59,12 @@
       "memory_entity_search",
       "memory_entity_list",
       "memory_get_preference",
-      "memory_rollback_preference"
+      "memory_rollback_preference",
+      "memory_list",
+      "memory_links",
+      "memory_read",
+      "memory_source",
+      "memory_error_pattern_card_store"
     ]
   }
 }

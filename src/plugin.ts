@@ -477,7 +477,7 @@ export default definePluginEntry({
       description: "Store important information in claw-mem.",
       parameters: Type.Object({
         text: Type.String({ description: "Information to remember" }),
-        metadata: Type.Optional(Type.Object({})),
+        metadata: Type.Optional(Type.Object({}, { additionalProperties: true, description: "Arbitrary caller metadata" })),
         memory_type: Type.Optional(Type.String({ default: "episodic" })),
       }),
       async execute(_id: string, params: any) {
@@ -616,7 +616,7 @@ export default definePluginEntry({
       description: "Classify a failure signal for typed feedback collection",
       parameters: Type.Object({
         error_message: Type.String({ description: "Error message to classify" }),
-        context: Type.Optional(Type.Object({}, { description: "Error context (agent, task, etc.)" })),
+        context: Type.Optional(Type.Object({}, { additionalProperties: true, description: "Error context (agent, task, etc.)" })),
       }),
       async execute(_id: string, params: any) {
         if (!bridge.isReady()) return toToolResult({ error: "Bridge not initialized" });
@@ -642,7 +642,7 @@ export default definePluginEntry({
     api.registerTool({
       name: "memory_get_constitution",
       description: "Get all constitution rules",
-      parameters: Type.Object({}),
+      parameters: Type.Object({}, { additionalProperties: false }),
       async execute(_id: string, _params: any) {
         if (!bridge.isReady()) return toToolResult({ error: "Bridge not initialized" });
         try { return toToolResult(await bridge.call("get_constitution", {})); }
@@ -716,7 +716,7 @@ export default definePluginEntry({
       name: "memory_session_snapshot",
       description: "Create a session snapshot",
       parameters: Type.Object({
-        snapshot: Type.Object({}, { description: "Session snapshot data" }),
+        snapshot: Type.Object({}, { additionalProperties: true, description: "Session snapshot data" }),
       }),
       async execute(_id: string, params: any) {
         if (!bridge.isReady()) return toToolResult({ error: "Bridge not initialized" });
