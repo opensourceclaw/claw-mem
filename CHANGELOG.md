@@ -5,6 +5,27 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [7.11.0] - 2026-11-23
+
+### Added
+
+- **Card prediction/backfill triplet** (`ae00cc70`): `CardEffectiveness.attempts[]` with `recordCardAttempt` (pre-adoption registration; duplicate `runId` rejected), backfill via `fixedIds` / `missedIds` / `backfilled`, and `getCardAttemptStats` (counts `backfilled=true` only; `fixedRate` is `null` on a zero denominator — no fabrication). Host writeback is system-only and never caller-set (anti-forgery). Additive schema, zero migration.
+
+### Changed
+
+- **Manifest contract alignment** (`18285de9`): `contracts.tools` 16 → 21, declaring `error_pattern_card_store` plus the five navigation tools. The reconciliation test is now bidirectional — `declared ∪ explicit exemptions = registered` — with an empty-exemption guard and a built-in anti-whitelist mutation check.
+- **Performance benchmarks split out of the default test path** (`b04641af`): `vitest.bench.config.ts` + `npm run bench` host the 8 benchmark tests; default `npm test` is deterministic (1084 tests). CI performance coverage now requires an explicit `npm run bench`.
+- **Dependencies** (`d7fb35dd`, `09fd1738`): claw-ctx 6.6.1 → 6.16.0 (cost/cache annotation ledger, persisted usage fallback, idempotent `commitTurn`, release CJK preflight); `@hono/node-server` overridden 2.1.3 → 2.1.11 (GHSA-qv5m-9pm6-hqp3, GHSA-jpvv-r467-5p4w).
+
+### Fixed
+
+- **Plugin manifest declares the real tool surface** (`9c6520cc`, closes #19): `contracts.tools` 16 → 21; data-carrying empty objects declare `additionalProperties: true` while `get_constitution` top-level params are closed. Tests lock manifest-vs-registered parity (21 exact) and forbid bare `Type.Object({})`.
+
+### Tests
+
+- **Real-config sweep** (`687dab92`): plugin-config tests read the real `openclaw.plugin.json`; V-ref tests walk real rejection JSONL records (5 rule IDs).
+- Full suite: **93 files / 1086 passed / 0 failed** (default path); `tsc --noEmit` 0 error.
+
 ## [7.10.1] - 2026-11-17
 
 ### Fixed

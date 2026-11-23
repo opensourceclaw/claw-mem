@@ -1,0 +1,41 @@
+{
+  "version": 3,
+  "human": {
+    "Peter": {
+      "authority": "contract"
+    }
+  },
+  "agents": {
+    "Jarvis": "ProductAgent",
+    "Friday": "DevAgent",
+    "Edith": "ReleaseAgent",
+    "Karen": "TestAgent",
+    "Vision": "AdvisoryAgent"
+  },
+  "legacyToCanonical": {
+    "Peter": "Peter",
+    "Jarvis": "Jarvis",
+    "Friday": "Friday",
+    "Karen": "Karen",
+    "Edith": "Edith",
+    "Vision": "Vision",
+    "CodeAgent": "DevAgent",
+    "AdversaryAgent": "AdvisoryAgent",
+    "ArchitectAgent": "Jarvis",
+    "ProductOwner": "Peter",
+    "GovernanceAgent": "GovernAgent"
+  },
+  "protocolVersion": "4.5.2",
+  "agentRoles": {
+    "ArchitectAgent": "Jarvis",
+    "ObserveAgent": "Jarvis",
+    "GovernAgent": "Jarvis",
+    "CodeAgent": "Friday",
+    "BuildAgent": "Friday",
+    "TestAgent": "Karen",
+    "ReleaseAgent": "Edith",
+    "DeployAgent": "Edith",
+    "OpsAgent": "Edith",
+    "ProductOwner": "Peter"
+  }
+}

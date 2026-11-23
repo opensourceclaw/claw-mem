@@ -3,12 +3,14 @@
 # gate.mjs; stdin carries the complete refs list).
 #
 # 1) push-dispatch (Peter ruling 2026-11-06): pushing to a remote is a release
-#    action executed by Karen — Friday only commits. Every main push needs an
+#    action executed by the current ReleaseAgent persona (per
+#    configs/role-mapping.json); Friday only commits. Every main push needs an
 #    inbox/inbox-release/ record with 'Approver: Peter' + 'APPROVED' +
-#    'Dispatcher: Karen' (To: Karen / Assignee: Karen accepted) inside the
-#    batch window. The same file may carry the Peter approval — never force two
-#    files. Checked BEFORE visibility: PRIVATE / unknown-visibility repos are
-#    bound as well; only a non-git directory is skipped.
+#    a Dispatcher/To/Assignee line naming that persona inside the batch window.
+#    The same file may carry the Peter approval — never force two files. Checked
+#    BEFORE visibility: PRIVATE / unknown-visibility repos are bound as well;
+#    only a non-git directory is skipped. Persona resolution is fail-closed: an
+#    unreadable/empty mapping rejects the push (no legacy literal fallback).
 # 2) publish-scope hygiene (rule 2026-11-06, Peter):
 #    PUBLIC repo: inbox/ 与 docs/ 不纳入版本管控,不得提交/推送到 GitHub。
 #    PRIVATE repo: inbox/ 与 docs/ 纳入版本管控,可推送。
@@ -46,12 +48,29 @@ while read -r local_ref local_sha remote_ref remote_sha; do
   fi
   case "$wstart" in ''|*[!0-9]*) wstart=0 ;; esac
 
+  # GA seat-binding hardening: resolve the CURRENT ReleaseAgent persona from the
+  # single authority (configs/role-mapping.json). No literal fallback: an
+  # unreadable/empty mapping rejects the push (fail-closed).
+  RELEASE_PERSONA=$(node -e '
+    const fs = require("fs");
+    try {
+      const m = JSON.parse(fs.readFileSync(process.argv[1] + "/configs/role-mapping.json", "utf-8"));
+      const hit = Object.keys(m.agents || {}).find((k) => m.agents[k] === "ReleaseAgent");
+      process.stdout.write(hit || "");
+    } catch {}
+  ' "$ROOT")
+  if [ -z "$RELEASE_PERSONA" ]; then
+    echo "[push-dispatch] PUSH REJECTED: cannot resolve current ReleaseAgent persona from configs/role-mapping.json (fail-closed, no literal fallback)." >&2
+    dispatch_rc=1
+    continue
+  fi
+
   dispatch_ok=0
   for f in "$ROOT/inbox/inbox-release"/*.md; do
     [ -e "$f" ] || continue
     if grep -qE 'Approver.*Peter' "$f" 2>/dev/null \
       && grep -q 'APPROVED' "$f" 2>/dev/null \
-      && grep -qE '(Dispatcher|To|Assignee)[^:]*:.*Karen' "$f" 2>/dev/null; then
+      && grep -qE "(Dispatcher|To|Assignee)[^:]*:.*${RELEASE_PERSONA}" "$f" 2>/dev/null; then
       if [ "$(mtime_of "$f")" -ge "$wstart" ]; then
         dispatch_ok=1
         break
@@ -60,8 +79,8 @@ while read -r local_ref local_sha remote_ref remote_sha; do
   done
 
   if [ "$dispatch_ok" -ne 1 ]; then
-    echo "[push-dispatch] PUSH REJECTED: push to refs/heads/main is a release action owned by Karen (Peter ruling 2026-11-06)." >&2
-    echo "  - missing: inbox/inbox-release/ record with 'Approver: Peter' + 'APPROVED' + 'Dispatcher: Karen' (or To: Karen / Assignee: Karen) newer than batch start" >&2
+    echo "[push-dispatch] PUSH REJECTED: push to refs/heads/main is a release action owned by ${RELEASE_PERSONA} (Peter ruling 2026-11-06; seat per configs/role-mapping.json)." >&2
+    echo "  - missing: inbox/inbox-release/ record with 'Approver: Peter' + 'APPROVED' + 'Dispatcher: ${RELEASE_PERSONA}' (or To/Assignee: ${RELEASE_PERSONA}) newer than batch start" >&2
     echo "  - fix: add the dispatch record (the same file may carry the Peter approval) and retry" >&2
     dispatch_rc=1
   fi
