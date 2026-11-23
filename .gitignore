@@ -93,6 +93,8 @@ docs/
 !GIT_COMMIT_RULES.md
 !RELEASE_NOTES.md
 !RELEASE_NOTES_*.md
+!release-notes/
+!release-notes/*.md
 !SECURITY.md
 !GOVERNANCE.md
 !NOTICES.md
