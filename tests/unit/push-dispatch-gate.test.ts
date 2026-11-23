@@ -1,6 +1,8 @@
 // push-dispatch gate (Peter ruling 2026-11-06): every main push must carry an
-// inbox/inbox-release/ record with Peter APPROVED + "Dispatcher: Karen".
-// Checked before the PUBLIC-only publish-scope rule.
+// inbox/inbox-release/ record with Peter APPROVED + a Dispatcher/To/Assignee
+// line naming the CURRENT ReleaseAgent persona (resolved from
+// configs/role-mapping.json — seat-based since v11.1.0; fail-closed, no
+// literal fallback). Checked before the PUBLIC-only publish-scope rule.
 
 import { describe, it, expect, beforeEach, afterEach } from "vitest";
 import { spawnSync } from "child_process";
@@ -11,6 +13,15 @@ import * as path from "path";
 const REPO_ROOT = path.resolve(import.meta.dirname, "../..");
 const HOOK = path.join(REPO_ROOT, "scripts/git-hooks/pre-push");
 const ZERO = "0".repeat(40);
+
+// Fixtures follow the config, never a literal persona name.
+const ROLE_CONFIG = JSON.parse(
+  fs.readFileSync(path.join(REPO_ROOT, "configs/role-mapping.json"), "utf-8"),
+) as { agents: Record<string, string> };
+const personaFor = (role: string): string =>
+  Object.keys(ROLE_CONFIG.agents).find((name) => ROLE_CONFIG.agents[name] === role)!;
+const RELEASE_PERSONA = personaFor("ReleaseAgent");
+const TEST_PERSONA = personaFor("TestAgent");
 
 describe("push-dispatch gate (claw-mem repo pre-push)", () => {
   let dir: string;
@@ -41,6 +52,12 @@ describe("push-dispatch gate (claw-mem repo pre-push)", () => {
     git(["add", "README.md"]);
     git(["commit", "-qm", "init"]);
     head = git(["rev-parse", "HEAD"]).stdout.trim();
+    // The gate resolves the ReleaseAgent persona from the repo config.
+    fs.mkdirSync(path.join(dir, "configs"), { recursive: true });
+    fs.copyFileSync(
+      path.join(REPO_ROOT, "configs/role-mapping.json"),
+      path.join(dir, "configs/role-mapping.json"),
+    );
   });
 
   afterEach(() => fs.rmSync(dir, { recursive: true, force: true }));
@@ -60,26 +77,55 @@ describe("push-dispatch gate (claw-mem repo pre-push)", () => {
     return { code: r.status, out: `${r.stdout ?? ""}${r.stderr ?? ""}` };
   }
 
-  it("APPROVED + Dispatcher: Karen → push allowed", () => {
+  it(`APPROVED + Dispatcher: ${RELEASE_PERSONA} → push allowed`, () => {
     writeRelease(
-      "# Release approval\n\n**Approver**: Peter\n**Decision**: APPROVED\n**Dispatcher**: Karen\n",
+      `# Release approval\n\n**Approver**: Peter\n**Decision**: APPROVED\n**Dispatcher**: ${RELEASE_PERSONA}\n`,
     );
     const r = run();
     expect(r.code).toBe(0);
     expect(r.out).not.toContain("push-dispatch");
   });
 
-  it("APPROVED without Karen → rejected", () => {
+  it(`APPROVED + To: ${RELEASE_PERSONA} → push allowed`, () => {
+    writeRelease(
+      `# Release approval\n\n**Approver**: Peter\n**Decision**: APPROVED\n**To**: ${RELEASE_PERSONA}\n`,
+    );
+    const r = run();
+    expect(r.code).toBe(0);
+  });
+
+  it(`legacy Dispatcher: ${TEST_PERSONA} → rejected (only the current ReleaseAgent resolves)`, () => {
+    writeRelease(
+      `# Release approval\n\n**Approver**: Peter\n**Decision**: APPROVED\n**Dispatcher**: ${TEST_PERSONA}\n`,
+    );
+    const r = run();
+    expect(r.code).toBe(1);
+    expect(r.out).toContain("[push-dispatch] PUSH REJECTED");
+    expect(r.out).toContain(`owned by ${RELEASE_PERSONA}`);
+  });
+
+  it("APPROVED without a dispatcher line → rejected, naming the current persona", () => {
     writeRelease("# Release approval\n\n**Approver**: Peter\n**Decision**: APPROVED\n");
     const r = run();
     expect(r.code).toBe(1);
     expect(r.out).toContain("[push-dispatch] PUSH REJECTED");
-    expect(r.out).toContain("Dispatcher: Karen");
+    expect(r.out).toContain(`Dispatcher: ${RELEASE_PERSONA}`);
   });
 
   it("no release record → rejected", () => {
     const r = run();
     expect(r.code).toBe(1);
     expect(r.out).toContain("[push-dispatch] PUSH REJECTED");
+  });
+
+  it("unreadable role-mapping → fail-closed reject (no literal fallback)", () => {
+    fs.rmSync(path.join(dir, "configs/role-mapping.json"));
+    writeRelease(
+      `# Release approval\n\n**Approver**: Peter\n**Decision**: APPROVED\n**Dispatcher**: ${RELEASE_PERSONA}\n`,
+    );
+    const r = run();
+    expect(r.code).toBe(1);
+    expect(r.out).toContain("cannot resolve current ReleaseAgent persona");
+    expect(r.out).not.toContain("owned by Karen");
   });
 });
