@@ -12,6 +12,9 @@ export default defineConfig({
       "tests/integration-external/**",
       "tests/p0-coverage.test.ts",
       "tests/integration/full_pipeline.test.ts",
+      // v7.11: performance benchmarks run via `npm run bench`
+      // (vitest.bench.config.ts) — keep the default suite deterministic.
+      "tests/performance/**",
     ],
     // Prevent hangs from too many concurrent claw-mem instances
     pool: 'forks',

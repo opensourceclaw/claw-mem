@@ -106,31 +106,70 @@ describe("ADR-007 V-ref evidence gate", () => {
     expect(manager.store("some text", "episodic", [], {}, {
       evidence: [{ span: "some text", sourceRefs: ["../outside.md"] }],
     })).toBe(false);
-    expect(manager.listEvidenceRejections({ ruleId: "v-ref-unresolvable" })).toHaveLength(1);
+    const trail = manager.listEvidenceRejections({ ruleId: "v-ref-unresolvable" });
+    expect(trail).toHaveLength(1);
+    expect(trail[0].reason).toContain("../outside.md");
+    expect(trail[0].input.contentPreview).toBe("some text");
   });
 
   it("rejects malformed evidence payloads (non-array, missing fields)", () => {
     expect(manager.store("some text", "episodic", [], {}, { evidence: "nope" as any })).toBe(false);
-    expect(manager.listEvidenceRejections({ ruleId: "v-ref-malformed" })).toHaveLength(1);
+    const malformed = manager.listEvidenceRejections({ ruleId: "v-ref-malformed" });
+    expect(malformed).toHaveLength(1);
+    expect(malformed[0].reason).toContain("evidence must be an array");
 
     expect(manager.store("some text", "episodic", [], {}, {
       evidence: [{ sourceRefs: [] } as any],
     })).toBe(false);
-    expect(manager.listEvidenceRejections({ ruleId: "v-ref-span-missing" })).toHaveLength(1);
+    const spanMissing = manager.listEvidenceRejections({ ruleId: "v-ref-span-missing" });
+    expect(spanMissing).toHaveLength(1);
+    expect(spanMissing[0].reason).toContain("span must be a non-empty string");
 
     expect(manager.store("some text", "episodic", [], {}, {
       evidence: [{ span: "some" } as any],
     })).toBe(false);
-    expect(manager.listEvidenceRejections({ ruleId: "v-ref-refs-missing" })).toHaveLength(1);
+    const refsMissing = manager.listEvidenceRejections({ ruleId: "v-ref-refs-missing" });
+    expect(refsMissing).toHaveLength(1);
+    expect(refsMissing[0].reason).toContain("sourceRefs must be a string array");
   });
 
   it("rejects invalid eventTime and negative offsets", () => {
     expect(manager.store("some text", "episodic", [], {}, { eventTime: "16/11/2026" })).toBe(false);
-    expect(manager.listEvidenceRejections({ ruleId: "event-time-format" })).toHaveLength(1);
+    const badTime = manager.listEvidenceRejections({ ruleId: "event-time-format" });
+    expect(badTime).toHaveLength(1);
+    expect(badTime[0].reason).toContain("ISO-8601");
 
     expect(manager.store("some text", "episodic", [], {}, {
       evidence: [{ span: "some", offset: -1, sourceRefs: [] }],
     })).toBe(false);
-    expect(manager.listEvidenceRejections({ ruleId: "v-ref-offset-invalid" })).toHaveLength(1);
+    const badOffset = manager.listEvidenceRejections({ ruleId: "v-ref-offset-invalid" });
+    expect(badOffset).toHaveLength(1);
+    expect(badOffset[0].reason).toContain("non-negative integer");
+  });
+
+  it("the real rejection JSONL artifact carries the structured record", () => {
+    expect(manager.store("the actual text", "episodic", [], {}, {
+      evidence: [{ span: "missing fragment", sourceRefs: [] }],
+    })).toBe(false);
+
+    const dir = path.join(tmpDir, "memory", "evidence-rejections");
+    const file = fs.readdirSync(dir).find((name) => name.endsWith(".jsonl"));
+    expect(file, "rejection JSONL must exist on disk").toBeDefined();
+
+    const lines = fs.readFileSync(path.join(dir, file!), "utf-8").trim().split("\n");
+    const record = JSON.parse(lines[lines.length - 1]) as {
+      ts: string;
+      action: string;
+      ruleId: string;
+      reason: string;
+      caller: string;
+      input: Record<string, unknown>;
+    };
+    expect(record.action).toBe("reject");
+    expect(record.ruleId).toBe("v-ref-span-not-substring");
+    expect(record.reason).toContain("not a substring");
+    expect(record.caller).toBe("store");
+    expect(record.input.contentPreview).toBe("the actual text");
+    expect(typeof record.ts).toBe("string");
   });
 });

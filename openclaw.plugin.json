@@ -46,6 +46,7 @@
     "tools": [
       "memory_search",
       "memory_store",
+      "memory_error_pattern_card_store",
       "memory_get",
       "memory_forget",
       "memory_failure_classify",
@@ -63,8 +64,7 @@
       "memory_list",
       "memory_links",
       "memory_read",
-      "memory_source",
-      "memory_error_pattern_card_store"
+      "memory_source"
     ]
   }
 }

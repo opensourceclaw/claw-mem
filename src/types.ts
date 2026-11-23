@@ -43,6 +43,26 @@ export interface ErrorSignature {
   symptom: string; // 表象(错误的可观察特征)
 }
 
+/**
+ * v7.11 additive (SIM, arXiv 2611.18856): one predicted → fixed/missed attempt.
+ * Host write-back only — callers cannot supply attempts (forgery guard, the
+ * memory-layer mirror of the acceptance-discipline §5).
+ */
+export interface CardAttempt {
+  /** Triggering run id. */
+  runId: string;
+  /** Issues the card predicted it would resolve before adoption. */
+  predictedIssueIds: string[];
+  /** Post-hoc backfill: issues actually fixed. */
+  fixedIds: string[];
+  /** Post-hoc backfill: predicted issues that were missed. */
+  missedIds: string[];
+  /** Honest backfill flag. false attempts never enter effectiveness stats. */
+  backfilled: boolean;
+  /** ISO-8601 event time (ADR-007 semantics). */
+  observedAt: string;
+}
+
 /** Card effectiveness evidence (ADR-005). System-writable only; never caller-set. */
 export interface CardEffectiveness {
   hitCount: number;
@@ -56,6 +76,13 @@ export interface CardEffectiveness {
     backwardRetention?: number; // 向后保留：跨版本仍被召回的证据计数
     pathAttribution?: string; // 路径归因：该卡被采纳的最近 run 标识（宿主供给透传）
   };
+  /**
+   * v7.11 additive: predicted → fixed/missed attempt ledger. Host-written only
+   * (recordCardAttempt / backfillCardAttempt); caller-supplied attempts are
+   * rejected. Absent = legacy card (zero migration). Non-backfilled attempts
+   * are excluded from getCardAttemptStats.
+   */
+  attempts?: CardAttempt[];
 }
 
 export const DEFAULT_CARD_EFFECTIVENESS: CardEffectiveness = {
