@@ -76,6 +76,7 @@ export type {
   ErrorPatternCard,
   ErrorPatternCardInput,
   CardEffectiveness,
+  CardAttempt,
   ErrorSignature,
   RootCauseCategory,
   CardType,

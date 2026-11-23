@@ -23,6 +23,7 @@
     "typecheck": "tsc --noEmit",
     "test": "vitest run",
     "test:watch": "vitest",
+    "bench": "vitest run --config vitest.bench.config.ts",
     "benchmark": "node dist/benchmarks/runner.js"
   },
   "dependencies": {
@@ -53,7 +54,7 @@
   "overrides": {
     "vite": "^8.3.6",
     "@modelcontextprotocol/sdk": ">=1.32.0",
-    "@hono/node-server": "2.1.3",
+    "@hono/node-server": "2.1.11",
     "body-parser": "2.4.0",
     "brace-expansion": "5.0.12",
     "fast-uri": "3.1.9",

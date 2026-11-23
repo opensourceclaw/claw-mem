@@ -171,10 +171,13 @@ describe('Memory Benchmarks', () => {
       }
       
       await runner.cleanup();
-      
-      // Expect at least 60% accuracy
+
+      // v7.11: validate the benchmark output on the dedicated bench path —
+      // printing alone is not a check. 60% is the threshold documented above.
+      expect(result.total).toBeGreaterThan(0);
+      expect(result.accuracy).toBeGreaterThanOrEqual(60);
       console.log(`[ConvoMem] Accuracy: ${result.accuracy}%`); // Actual accuracy;
-    }, 60000);
+    }, 300000);
   });
   
   describe('LoCoMo Benchmark', () => {
@@ -200,7 +203,7 @@ describe('Memory Benchmarks', () => {
       
       // Expect at least 50% accuracy
       console.log(`[LoCoMo] Actual accuracy: ${result.accuracy}%`);
-    }, 60000);
+    }, 300000);
   });
   
   describe('LongMemEval Benchmark', () => {
@@ -226,6 +229,6 @@ describe('Memory Benchmarks', () => {
       
       // Expect at least 40% accuracy (longer context is harder)
       console.log(`[LongMemEval] Actual accuracy: ${result.accuracy}%`);
-    }, 60000);
+    }, 300000);
   });
 });
